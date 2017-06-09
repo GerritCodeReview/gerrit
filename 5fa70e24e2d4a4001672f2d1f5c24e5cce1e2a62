@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e08f11ef_a892f212",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T20:48:41Z",
+      "side": 1,
+      "message": "I was dealing with assertion errors like this:\n\n  java.lang.AssertionError: Not true that [\n  TO: reviewerByEmail@example.com\n  CC: ccByEmail@example.com\n  BCC:\n  ] (\u003ccom.google.gerrit.testutil.FakeEmailSender@ea3491d\u003e) notifies \u003c]\n  TO: \n  com.google.gerrit.acceptance.server.mail.AbandonedSenderIT_abandonReviewableChangeByOwner_owner@example.com\n  ]\u003e\n\nI added this logic as a quick and dirty hack to restore it to a simple \"TO: owner\". Now that I\u0027m coming back to it with a clearer head, I realize I can just do this with the account\u0027s fullName and an email-\u003eaccount resolution step.",
+      "parentUuid": "7fb296fd_35105849",
+      "revId": "5fa70e24e2d4a4001672f2d1f5c24e5cce1e2a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2aac6a8_7043ab3e",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 15

@@ -46,6 +46,30 @@
       "revId": "b5b44b776f4697a05a0251bdd88cf31338d83ab6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f821354e_d48e3603",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbandonedSenderIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T01:15:53Z",
+      "side": 1,
+      "message": "I\u0027ve added .noOneElse() and subscribed watchers to all watch types in https://gerrit-review.googlesource.com/c/109251/",
+      "parentUuid": "823199cc_3811df30",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "b5b44b776f4697a05a0251bdd88cf31338d83ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

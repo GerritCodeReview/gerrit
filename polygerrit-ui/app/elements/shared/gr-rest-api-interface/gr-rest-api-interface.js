@@ -63,6 +63,23 @@
 
     fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_opts) {
+      if (GrGapiOauth.isRequired) {
+        return new GrGapiOauth().getAccessToken().then(token => {
+          const opts = Object.assign({}, opt_opts);
+          opts.headers = Object.assign({}, opts.headers, {
+            Authorization: `Bearer ${token}`,
+          });
+          return this._fetch(url, opt_errFn, opt_cancelCondition, opt_params,
+              opts);
+        });
+      } else {
+        return this._fetch(url, opt_errFn, opt_cancelCondition, opt_params,
+            opt_opts);
+      }
+    },
+
+    _fetch(url, opt_errFn, opt_cancelCondition, opt_params,
+        opt_opts) {
       opt_opts = opt_opts || {};
       // Issue 5715, This can be reverted back once
       // iOS 10.3 and mac os 10.12.4 has the fetch api fix.

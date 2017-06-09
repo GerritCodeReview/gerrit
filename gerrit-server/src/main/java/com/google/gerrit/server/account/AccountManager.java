@@ -30,6 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -43,6 +44,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +71,7 @@ public class AccountManager {
   @Inject
   AccountManager(
       SchemaFactory<ReviewDb> schema,
+      @GerritServerConfig Config cfg,
       Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
@@ -90,7 +93,8 @@ public class AccountManager {
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
-    this.awaitsFirstAccountCheck = new AtomicBoolean(true);
+    this.awaitsFirstAccountCheck =
+        new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;

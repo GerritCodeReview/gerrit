@@ -67,7 +67,8 @@ public class MailMetadataIT extends AbstractDaemonTest {
 
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
-    expectedHeaders.put("Gerrit-Change-Id", newChange.getChangeId());
+    expectedHeaders.put(
+        "Gerrit-Change-Number", String.valueOf(newChange.getChange().getId().get()));
     expectedHeaders.put("Gerrit-MessageType", "newchange");
     expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
     expectedHeaders.put("Gerrit-ChangeURL", changeURL);
@@ -102,7 +103,8 @@ public class MailMetadataIT extends AbstractDaemonTest {
     String changeURL = "<" + canonicalWebUrl.get() + newChange.getChange().getId().get() + ">";
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
-    expectedHeaders.put("Gerrit-Change-Id", newChange.getChangeId());
+    expectedHeaders.put(
+        "Gerrit-Change-Number", String.valueOf(newChange.getChange().getId().get()));
     expectedHeaders.put("Gerrit-MessageType", "comment");
     expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
     expectedHeaders.put("Gerrit-ChangeURL", changeURL);

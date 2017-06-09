@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail;
 
 public final class MetadataName {
-  public static final String CHANGE_ID = "Gerrit-Change-Id";
+  public static final String CHANGE_NUMBER = "Gerrit-Change-Number";
   public static final String PATCH_SET = "Gerrit-PatchSet";
   public static final String MESSAGE_TYPE = "Gerrit-MessageType";
   public static final String TIMESTAMP = "Gerrit-Comment-Date";

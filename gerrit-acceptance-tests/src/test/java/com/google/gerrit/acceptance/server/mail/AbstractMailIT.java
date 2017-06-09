@@ -132,9 +132,9 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + "> \n";
   }
 
-  protected static String textFooterForChange(String changeId, String timestamp) {
-    return "Gerrit-Change-Id: "
-        + changeId
+  protected static String textFooterForChange(int changeNumber, String timestamp) {
+    return "Gerrit-Change-Number: "
+        + changeNumber
         + "\n"
         + "Gerrit-PatchSet: 1\n"
         + "Gerrit-MessageType: comment\n"

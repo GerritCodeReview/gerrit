@@ -22,6 +22,30 @@
       "revId": "afc7e587900027f08e76c323039d5d0106964783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934d9533_3ba2edbd",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-09T16:28:41Z",
+      "side": 1,
+      "message": "What will the difference be between the debug and non debug traces? We would still have a stack trace available in the devtools in either case wouldn\u0027t we?",
+      "parentUuid": "37b385e1_3032c5bb",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "afc7e587900027f08e76c323039d5d0106964783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

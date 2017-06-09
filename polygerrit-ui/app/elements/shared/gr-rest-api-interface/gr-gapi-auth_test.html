@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-gapi-auth</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<script src="gr-gapi-auth.js"></script>
+
+<script>
+  suite('gr-rest-api-interface tests', () => {
+    let auth;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      auth = new GrGapiAuth();
+      window.gapi = {
+        load: sandbox.stub().callsArg(1),
+        config: {
+          update: sandbox.stub(),
+        },
+        auth: {
+          init: sandbox.stub().callsArg(0),
+          authorize: sandbox.stub(),
+        },
+      };
+      sandbox.stub(window, 'fetch').returns(Promise.resolve());
+    });
+
+    teardown(() => {
+      delete window.gapi;
+      sandbox.restore();
+    });
+
+    test('exists', () => {
+      assert.isOk(auth);
+    });
+
+    test('fetch signed in', () => {
+      sandbox.stub(auth, '_getAccessToken').returns(Promise.resolve('foo'));
+      return auth.fetch('/url', {bar: 'bar'}).then(() => {
+        assert.isTrue(auth._getAccessToken.called);
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/a/url');
+        assert.equal(options.bar, 'bar');
+        assert.equal(options.headers.get('Authorization'), 'Bearer foo');
+      });
+    });
+
+    test('fetch not signed in', () => {
+      sandbox.stub(auth, '_getAccessToken').returns(Promise.resolve());
+      return auth.fetch('/url', {bar: 'bar'}).then(() => {
+        assert.isTrue(auth._getAccessToken.called);
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/url');
+        assert.equal(options.bar, 'bar');
+        assert.isUndefined(options.headers);
+      });
+    });
+
+    test('_getAccessToken returns valid shared token', () => {
+      GrGapiAuth._sharedAuthToken = {access_token: 'foo'};
+      sandbox.stub(auth, '_isTokenValid').returns(true);
+      return auth._getAccessToken().then(token => {
+        assert.equal(token, 'foo');
+      });
+    });
+
+    test('_getAccessToken refreshes token', () => {
+      const token = {access_token: 'foo'};
+      sandbox.stub(auth, '_loadGapi').returns(Promise.resolve());
+      sandbox.stub(auth, '_configureOAuthLibrary').returns(Promise.resolve());
+      sandbox.stub(auth, '_refreshToken').returns(Promise.resolve(token));
+      sandbox.stub(auth, '_isTokenValid').returns(true)
+          .onFirstCall().returns(false);
+      return auth._getAccessToken().then(token => {
+        assert.isTrue(auth._loadGapi.called);
+        assert.isTrue(auth._configureOAuthLibrary.called);
+        assert.isTrue(auth._refreshToken.called);
+        assert.equal(token, 'foo');
+      });
+    });
+
+    test('_isTokenValid', () => {
+      assert.isFalse(auth._isTokenValid());
+      assert.isFalse(auth._isTokenValid({}));
+      assert.isFalse(auth._isTokenValid({access_token: 'foo'}));
+      assert.isFalse(auth._isTokenValid({
+        access_token: 'foo',
+        expires_at: Date.now()/1000 - 1,
+      }));
+      assert.isTrue(auth._isTokenValid({
+        access_token: 'foo',
+        expires_at: Date.now()/1000 + 1,
+      }));
+    });
+
+    test('_configureOAuthLibrary', () => {
+      sandbox.stub(auth, '_getOAuthConfig').returns({
+        auth_url: 'some_auth_url',
+        proxy_url: 'some_proxy_url',
+        client_id: 'some_client_id',
+        email: 'some_email',
+      });
+      return auth._configureOAuthLibrary().then(() => {
+        assert.isTrue(gapi.load.calledWith('config_min'));
+        assert.isTrue(auth._getOAuthConfig.called);
+        assert.isTrue(gapi.config.update.calledWith(
+            'oauth-flow/authUrl', 'some_auth_url'));
+        assert.isTrue(gapi.config.update.calledWith(
+            'oauth-flow/proxyUrl', 'some_proxy_url'));
+        assert.equal(GrGapiAuth._oauthClientId, 'some_client_id');
+        assert.equal(GrGapiAuth._oauthEmail, 'some_email');
+        assert.isTrue(gapi.auth.init.called);
+        assert.isTrue(gapi.load.calledWith('auth'));
+      });
+    });
+
+    test('_refreshToken no token', () => {
+      gapi.auth.authorize.callsArgWith(1, null);
+      return auth._refreshToken().catch(reason => {
+        assert.equal(reason, 'No token returned');
+      });
+    });
+
+    test('_refreshToken error', () => {
+      gapi.auth.authorize.callsArgWith(1, {error: 'some error'});
+      return auth._refreshToken().catch(reason => {
+        assert.equal(reason, 'some error');
+      });
+    });
+
+    test('_refreshToken', () => {
+      const token = {};
+      gapi.auth.authorize.callsArgWith(1, token);
+      return auth._refreshToken().then(t => {
+        assert.strictEqual(token, t);
+      });
+    });
+
+    test('_getOAuthConfig', () => {
+      const config = {};
+      fetch.returns(Promise.resolve({ok: true}));
+      sandbox.stub(auth, '_getResponseObject').returns(config);
+      return auth._getOAuthConfig().then(c => {
+        const [url, options] = fetch.lastCall.args;
+        assert.equal(url, '/accounts/self/oauthconfig');
+        assert.equal(options.credentials, 'same-origin');
+        assert.equal(options.headers.get('Accept'), 'application/json');
+        assert.strictEqual(c, config);
+      });
+    });
+  });
+</script>

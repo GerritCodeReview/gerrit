@@ -14,8 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
@@ -41,14 +40,14 @@ limitations under the License.
           <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="readOnly topHeader">Read only</th>
         </tr>
-        <tr id="loading" class$="loadingMsg [[_computeLoadingClass(_loading)]]">
+        <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
         <template is="dom-repeat" items="[[_shownProjects]]"
-            class$="[[_computeLoadingClass(_loading)]]">
+            class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
-              <a href$="[[_getUrl(item.name)]]">[[item.name]]</a>
+              <a href$="[[getUrl(path, item.name)]]">[[item.name]]</a>
             </td>
             <td class="description">[[item.description]]</td>
             <td class="repositoryBrowser">

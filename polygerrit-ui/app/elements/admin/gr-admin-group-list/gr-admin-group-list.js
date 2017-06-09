@@ -30,7 +30,11 @@
        * Offset of currently visible query results.
        */
       _offset: Number,
-
+      _path: {
+        type: String,
+        readOnly: true,
+        value: '/admin/groups/',
+      },
       _groups: Array,
 
       /**
@@ -39,7 +43,7 @@
        * */
       _shownGroups: {
         type: Array,
-        computed: '_computeShownGroups(_groups)',
+        computed: 'computeShownItems(_groups)',
       },
 
       _groupsPerPage: {
@@ -55,8 +59,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
+      Gerrit.ListViewBehavior,
     ],
 
     listeners: {
@@ -64,18 +67,11 @@
       'previous-page': '_handlePreviousPage',
     },
 
-    _paramsChanged(value) {
+    _paramsChanged(params) {
       this._loading = true;
+      this._filter = this.getFilterValue(params);
+      this._offset = this.getOffsetValue(params);
 
-      if (value) {
-        this._filter = value.filter || null;
-      }
-
-      if (value && value.offset) {
-        this._offset = value.offset;
-      } else {
-        this._offset = 0;
-      }
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
     },
@@ -97,21 +93,8 @@
           });
     },
 
-    _computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    },
-
     _visibleToAll(item) {
       return item.options.visible_to_all === true ? 'Y' : 'N';
-    },
-
-    _getUrl(item) {
-      return this.getBaseUrl() + '/admin/groups/' +
-          this.encodeURL(item, true);
-    },
-
-    _computeShownGroups(groups) {
-      return groups.slice(0, 25);
     },
   });
 })();

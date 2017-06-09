@@ -970,10 +970,10 @@ Default is the number of CPUs.
 [[capability.administrateServer]]capability.administrateServer::
 +
 Names of groups of users that are allowed to exercise the
-administrateServer capability, in addition to those listed in
+`administrateServer` capability, in addition to those listed in
 All-Projects. Configuring this option can be a useful fail-safe
 to recover a server in the event an administrator removed all
-groups from the administrateServer capability, or to ensure that
+groups from the `administrateServer` capability, or to ensure that
 specific groups always have administration capabilities.
 +
 ----
@@ -987,7 +987,16 @@ name. If a group cannot be found for the configured name a warning
 is logged and the server will continue normal startup.
 +
 If not specified (default), only the groups listed by All-Projects
-may use the administrateServer capability.
+may use the `administrateServer` capability.
+
+[[capability.makeFirstUserAdmin]]capability.makeFirstUserAdmin::
++
+Whether the first user that logs in to the Gerrit server should
+automatically be added to the administrator group and hence get the
+`administrateServer` capability assigned. This is useful to bootstrap
+the authentication database.
++
+Default is true.
 
 
 [[change]]

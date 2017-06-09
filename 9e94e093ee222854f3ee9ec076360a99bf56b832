@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "def1dfb1_a8bfa3af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-09T11:41:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca86857_3705582e",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f216cf76_7527afc5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "writtenOn": "2017-05-23T14:25:35Z",
       "side": 1,
       "message": "Optional: firstNonNull",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "032036f3_a2681d22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-09T11:41:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f216cf76_7527afc5",
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +157,24 @@
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb3874b8_634f0faa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-09T11:41:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cd51cac_56d40cbf",
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -192,6 +246,30 @@
       "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3f487f1_72332c2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-09T11:41:55Z",
+      "side": 1,
+      "message": "I added Javadoc descriptions to the methods indicating my assumptions and mentioning necessary steps to support arbitrary commits.",
+      "parentUuid": "568d1699_342ba7be",
+      "range": {
+        "startLine": 218,
+        "startChar": 9,
+        "endLine": 218,
+        "endChar": 46
+      },
+      "revId": "9e94e093ee222854f3ee9ec076360a99bf56b832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

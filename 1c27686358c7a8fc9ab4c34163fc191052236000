@@ -16,6 +16,24 @@
       "revId": "1c27686358c7a8fc9ab4c34163fc191052236000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1feebd_67a47b23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-09T11:41:55Z",
+      "side": 1,
+      "message": "Thanks for mentioning it. I marked that issue as a duplicate of 217.",
+      "parentUuid": "8b468dd0_8ea10e9a",
+      "revId": "1c27686358c7a8fc9ab4c34163fc191052236000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

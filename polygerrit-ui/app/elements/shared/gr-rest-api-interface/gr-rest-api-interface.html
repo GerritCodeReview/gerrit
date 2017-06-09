@@ -17,10 +17,13 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<!-- NB: es6-promise Needed for IE11 and fetch polyfill support, see Issue 4308 -->
 <script src="../../../bower_components/es6-promise/dist/es6-promise.min.js"></script>
 <script src="../../../bower_components/fetch/fetch.js"></script>
 
 <dom-module id="gr-rest-api-interface">
-  <script src="gr-rest-api-interface.js"></script>
+  <!-- NB: Order is important, because of namespaced classes. -->
+  <script src="gr-gerrit-auth.js"></script>
   <script src="gr-reviewer-updates-parser.js"></script>
+  <script src="gr-rest-api-interface.js"></script>
 </dom-module>

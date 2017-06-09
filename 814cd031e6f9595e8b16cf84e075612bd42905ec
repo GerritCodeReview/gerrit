@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "490dcf41_64094921",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-09T21:18:14Z",
+      "side": 1,
+      "message": "private? I think it\u0027s unlikely we\u0027ll want willynilly urls.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c61133aa_66cc1d3d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-09T21:18:14Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned how separated the url generation and parsing is. The page(/regex/, ...) is pretty separate from url generation.\n\nI think comprehensive router tests will help:\nGerrit.Nav.navigateToChange(123)\nexpect(params).toEqual({view: \u0027gr-change-view\u0027, changeNum: 123, ...})",
+      "range": {
+        "startLine": 44,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d360354_4f86f2ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-09T21:18:14Z",
+      "side": 1,
+      "message": "I like how this is lazily computed.",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a370f432_79f12e73",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-09T21:18:14Z",
+      "side": 1,
+      "message": "each one of these blocks might have some required params. should each one be validated upon generation?",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8839015d_5af14df5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-09T21:18:14Z",
+      "side": 1,
+      "message": "`page.show.bind(page)`?",
+      "range": {
+        "startLine": 92,
+        "startChar": 21,
+        "endLine": 92,
+        "endChar": 47
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

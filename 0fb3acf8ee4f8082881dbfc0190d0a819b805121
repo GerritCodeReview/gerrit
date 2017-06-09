@@ -22,6 +22,29 @@
       "revId": "0fb3acf8ee4f8082881dbfc0190d0a819b805121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f916bd2_d0ce94a0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-09T21:55:43Z",
+      "side": 1,
+      "message": "Dosen\u0027t this need a getBaseUrl()?",
+      "range": {
+        "startLine": 36,
+        "startChar": 15,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "0fb3acf8ee4f8082881dbfc0190d0a819b805121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

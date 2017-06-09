@@ -26,6 +26,8 @@
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
+  let auth = null;
+
   Polymer({
     is: 'gr-rest-api-interface',
 
@@ -61,20 +63,14 @@
       },
     },
 
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params,
-        opt_opts) {
-      opt_opts = opt_opts || {};
-      // Issue 5715, This can be reverted back once
-      // iOS 10.3 and mac os 10.12.4 has the fetch api fix.
-      const fetchOptions = {
-        credentials: 'same-origin',
-      };
-      if (opt_opts.headers !== undefined) {
-        fetchOptions['headers'] = opt_opts.headers;
-      }
+    created() {
+      // TODO (viktard): Add more auth handlers.
+      auth = new GrGerritAuth();
+    },
 
+    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params) {
       const urlWithParams = this._urlWithParams(url, opt_params);
-      return fetch(urlWithParams, fetchOptions).then(response => {
+      return auth.fetch(urlWithParams).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
@@ -699,22 +695,17 @@
     },
 
     send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
-      const headers = new Headers({
-        'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
-      });
-      const options = {
-        method,
-        headers,
-        credentials: 'same-origin',
-      };
+      const options = {method};
       if (opt_body) {
-        headers.append('Content-Type', opt_contentType || 'application/json');
+        options.headers = new Headers({
+          'Content-Type': opt_contentType || 'application/json',
+        });
         if (typeof opt_body !== 'string') {
           opt_body = JSON.stringify(opt_body);
         }
         options.body = opt_body;
       }
-      return fetch(this.getBaseUrl() + url, options).then(response => {
+      return auth.fetch(this.getBaseUrl() + url, options).then(response => {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -884,21 +875,6 @@
       });
     },
 
-    _getCookie(name) {
-      const key = name + '=';
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        let c = cookies[i];
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-        }
-        if (c.startsWith(key)) {
-          return c.substring(key.length, c.length);
-        }
-      }
-      return '';
-    },
-
     getCommitInfo(project, commit) {
       return this.fetchJSON(
           '/projects/' + encodeURIComponent(project) +
@@ -906,7 +882,7 @@
     },
 
     _fetchB64File(url) {
-      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'})
+      return auth.fetch(this.getBaseUrl() + url)
           .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
             const type = response.headers.get('X-FYI-Content-Type');

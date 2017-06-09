@@ -46,6 +46,30 @@
       "revId": "afc7e587900027f08e76c323039d5d0106964783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a641967_a31824c1",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-09T16:32:21Z",
+      "side": 1,
+      "message": "No.  In non-debug mode, you won\u0027t get console output since goog.DEBUG is false, so your indicator that something happened will be innocuous values like zClosurez showing up in the DOM.",
+      "parentUuid": "934d9533_3ba2edbd",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "afc7e587900027f08e76c323039d5d0106964783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -136,6 +136,47 @@ public class ExternalIdsUpdate {
   }
 
   /**
+   * Factory to create an ExternalIdsUpdate instance for updating external IDs by the Gerrit server.
+   *
+   * <p>Using this class no reindex will be performed for the affected accounts and they will also
+   * not be evicted from the account cache.
+   *
+   * <p>The Gerrit server identity will be used as author and committer for all commits that update
+   * the external IDs.
+   */
+  @Singleton
+  public static class ServerNoReindex {
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsersName;
+    private final MetricMaker metricMaker;
+    private final ExternalIds externalIds;
+    private final ExternalIdCache externalIdCache;
+    private final Provider<PersonIdent> serverIdent;
+
+    @Inject
+    public ServerNoReindex(
+        GitRepositoryManager repoManager,
+        AllUsersName allUsersName,
+        MetricMaker metricMaker,
+        ExternalIds externalIds,
+        ExternalIdCache externalIdCache,
+        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
+      this.metricMaker = metricMaker;
+      this.externalIds = externalIds;
+      this.externalIdCache = externalIdCache;
+      this.serverIdent = serverIdent;
+    }
+
+    public ExternalIdsUpdate create() {
+      PersonIdent i = serverIdent.get();
+      return new ExternalIdsUpdate(
+          repoManager, null, allUsersName, metricMaker, externalIds, externalIdCache, i, i);
+    }
+  }
+
+  /**
    * Factory to create an ExternalIdsUpdate instance for updating external IDs by the current user.
    *
    * <p>The identity of the current user will be used as author for all commits that update the
@@ -204,7 +245,7 @@ public class ExternalIdsUpdate {
   private static final Retryer<RefsMetaExternalIdsUpdate> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
-  private final AccountCache accountCache;
+  @Nullable private final AccountCache accountCache;
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final ExternalIdCache externalIdCache;
@@ -216,7 +257,7 @@ public class ExternalIdsUpdate {
 
   private ExternalIdsUpdate(
       GitRepositoryManager repoManager,
-      AccountCache accountCache,
+      @Nullable AccountCache accountCache,
       AllUsersName allUsersName,
       MetricMaker metricMaker,
       ExternalIds externalIds,
@@ -239,7 +280,7 @@ public class ExternalIdsUpdate {
   @VisibleForTesting
   public ExternalIdsUpdate(
       GitRepositoryManager repoManager,
-      AccountCache accountCache,
+      @Nullable AccountCache accountCache,
       AllUsersName allUsersName,
       MetricMaker metricMaker,
       ExternalIds externalIds,
@@ -375,7 +416,7 @@ public class ExternalIdsUpdate {
               }
             });
     externalIdCache.onRemoveByKeys(u.oldRev(), u.newRev(), accountId, extIdKeys);
-    accountCache.evict(accountId);
+    evictAccount(accountId);
   }
 
   /**
@@ -434,7 +475,7 @@ public class ExternalIdsUpdate {
               }
             });
     externalIdCache.onReplaceByKeys(u.oldRev(), u.newRev(), accountId, toDelete, toAdd);
-    accountCache.evict(accountId);
+    evictAccount(accountId);
   }
 
   /**
@@ -726,7 +767,17 @@ public class ExternalIdsUpdate {
     return ins.insert(OBJ_TREE, new byte[] {});
   }
 
+  private void evictAccount(Account.Id accountId) throws IOException {
+    if (accountCache != null) {
+      accountCache.evict(accountId);
+    }
+  }
+
   private void evictAccounts(Collection<ExternalId> extIds) throws IOException {
+    if (accountCache == null) {
+      return;
+    }
+
     for (Account.Id id : extIds.stream().map(ExternalId::accountId).collect(toSet())) {
       accountCache.evict(id);
     }

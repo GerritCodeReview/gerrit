@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40651038_e7232a00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AddReviewerSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:29:00Z",
+      "side": 1,
+      "message": "Looks like this needs google-java-format",
+      "revId": "562e85548462173b2ed97242476588a19b646582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c816ef06_51f02909",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AddReviewerSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:29:00Z",
+      "side": 1,
+      "message": "Seems like these can go in the private methods?\n\nIn the original arrangement, it made sense to call assume() once per test method rather than inside the lambda. But here if you put it in the private method, it is still calling it once per test method, and also avoids some duplication.",
+      "revId": "562e85548462173b2ed97242476588a19b646582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

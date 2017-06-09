@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a61ed3_03016087",
+        "filename": "polygerrit-ui/app/behaviors/gr-list-view-behavior/gr-list-view-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-09T23:51:50Z",
+      "side": 1,
+      "message": "@viktar - one reason to use a behavior is it is able to use the other behaviors here. I\u0027m not sure if a non-behavior option  would be able to dk that.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "e5f30f2ba7c1ddc52f8a25288af2e3212707b2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

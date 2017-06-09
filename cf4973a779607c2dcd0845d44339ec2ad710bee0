@@ -70,6 +70,24 @@
       "revId": "cf4973a779607c2dcd0845d44339ec2ad710bee0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea175e8_7ff94637",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AddReviewerSenderIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-09T13:15:15Z",
+      "side": 1,
+      "message": "Sorry, I was confused when I saw you hadn\u0027t unrolled them manually in this change, I see it\u0027s now in a followup. It\u0027s fine to be in the suboptimal state in this change.\n\nFWIW I personally think manual unrolling is a good solution and we don\u0027t need to do anything cleverer. It\u0027s certainly more boilerplate, but still very small compared to the total amount of work you\u0027re doing to write tests in this series.",
+      "parentUuid": "39621151_616b1974",
+      "revId": "cf4973a779607c2dcd0845d44339ec2ad710bee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

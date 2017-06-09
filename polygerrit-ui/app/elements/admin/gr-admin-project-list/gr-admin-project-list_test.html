@@ -87,7 +87,7 @@ limitations under the License.
       });
     });
 
-    suite('test with less then 25 projects', () => {
+    suite('list with less then 25 projects', () => {
       setup(done => {
         projects = _.times(25, projectGenerator);
 
@@ -119,6 +119,21 @@ limitations under the License.
               .calledWithExactly('test', 25, 25));
           done();
         });
+      });
+    });
+
+    suite('loading', () => {
+      test('correct contents are displayed', () => {
+        assert.isTrue(element._loading);
+        assert.equal(element._computeLoadingClass(element._loading), 'loading');
+        assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+        element._loading = false;
+        element._projects = _.times(25, projectGenerator);
+
+        flushAsynchronousOperations();
+        assert.equal(element._computeLoadingClass(element._loading), '');
+        assert.equal(getComputedStyle(element.$.loading).display, 'none');
       });
     });
   });

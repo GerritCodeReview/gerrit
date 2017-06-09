@@ -51,6 +51,11 @@ limitations under the License.
         display: flex;
         flex-direction: column;
       }
+
+      ::content .loading {
+        display: none;
+      }
+
       ::content #list {
         border-collapse: collapse;
         width: 100%;
@@ -79,9 +84,13 @@ limitations under the License.
       ::content #list .description {
         width: 70%;
       }
-      ::content #list .loading {
+      ::content #list .loadingMsg {
         color: #666;
+        display: block;
         padding: 1em var(--default-horizontal-margin);
+      }
+      ::content #list .loadingMsg:not(.loading) {
+        display: none;
       }
     </style>
     <div id="filterContainer">

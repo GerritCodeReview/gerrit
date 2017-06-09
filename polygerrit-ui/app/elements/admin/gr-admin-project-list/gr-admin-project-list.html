@@ -41,8 +41,11 @@ limitations under the License.
           <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="readOnly topHeader">Read only</th>
         </tr>
-        <tr class="loading" hidden$="[[!_loading]]" hidden><td>Loading...</td></tr>
-        <template is="dom-repeat" items="[[_shownProjects]]" hidden$="[[_loading]]" hidden>
+        <tr id="loading" class$="loadingMsg [[_computeLoadingClass(_loading)]]">
+          <td>Loading...</td>
+        </tr>
+        <template is="dom-repeat" items="[[_shownProjects]]"
+            class$="[[_computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
               <a href$="[[_getUrl(item.name)]]">[[item.name]]</a>
@@ -51,7 +54,10 @@ limitations under the License.
             <td class="repositoryBrowser">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">
-                <a href$="[[link.url]]" class="webLink" rel="noopener" target="_blank">
+                <a href$="[[link.url]]"
+                    class="webLink"
+                    rel="noopener"
+                    target="_blank">
                   ([[link.name]])
                 </a>
               </template>

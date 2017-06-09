@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7630490f_892d2741",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T20:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcdd0d77_c7ef286d",
+      "range": {
+        "startLine": 376,
+        "startChar": 32,
+        "endLine": 376,
+        "endChar": 63
+      },
+      "revId": "fed48aebd9b03eea326897976b00edc0f7747035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4298ce_a86d55b7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/DeleteReviewerSenderIT.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "fed48aebd9b03eea326897976b00edc0f7747035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356354c5_eeaf3968",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/DeleteReviewerSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-09T20:47:43Z",
+      "side": 1,
+      "message": "Oops, this was a temporary shim before I removed NotifyType... from the abstract class\u0027s methods.",
+      "parentUuid": "4d4298ce_a86d55b7",
+      "revId": "fed48aebd9b03eea326897976b00edc0f7747035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

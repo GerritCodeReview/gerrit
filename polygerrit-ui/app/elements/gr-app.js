@@ -91,11 +91,11 @@
     ready() {
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
-      });
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
+      });
+      this.$.restAPI.getAccount().then(account => {
+        this._account = account;
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;

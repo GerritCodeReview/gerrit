@@ -70,6 +70,24 @@
       "revId": "b4d56412cebbef0cb335a0ecbe6d9e3cc3767f09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d340e158_fab78d57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-09T21:50:06Z",
+      "side": 1,
+      "message": "Thanks a lot!",
+      "parentUuid": "80de7c74_da0f0c8d",
+      "revId": "b4d56412cebbef0cb335a0ecbe6d9e3cc3767f09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

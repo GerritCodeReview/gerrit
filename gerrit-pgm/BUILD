@@ -156,6 +156,7 @@ junit_tests(
     name = "pgm_tests",
     srcs = glob(["src/test/java/**/*.java"]),
     deps = [
+        ":http-jetty",
         ":init",
         ":init-api",
         ":pgm",
@@ -163,6 +164,7 @@ junit_tests(
         "//gerrit-server:server",
         "//lib:guava",
         "//lib:junit",
+        "//lib:truth",
         "//lib/easymock",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

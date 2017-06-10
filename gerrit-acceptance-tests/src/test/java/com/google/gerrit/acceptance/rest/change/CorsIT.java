@@ -33,10 +33,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.testutil.ConfigSuite;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.stream.Stream;
 import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -45,6 +53,7 @@ public class CorsIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config allowExampleDotCom() {
     Config cfg = new Config();
+    cfg.setString("auth", null, "type", "DEVELOPMENT_BECOME_ANY_ACCOUNT");
     cfg.setStringList(
         "site",
         null,
@@ -134,6 +143,50 @@ public class CorsIT extends AbstractDaemonTest {
     adminRestSession.execute(req).assertBadRequest();
   }
 
+  @Test
+  public void xdPutTopic() throws Exception {
+    Result change = createChange();
+    BasicCookieStore cookies = new BasicCookieStore();
+    Executor http = Executor.newInstance().cookieStore(cookies);
+
+    Request req = Request.Get(canonicalWebUrl.get() + "/login/?account_id=" + admin.id.get());
+    HttpResponse r = http.execute(req).returnResponse();
+    String auth = null;
+    for (Cookie c : cookies.getCookies()) {
+      if ("GerritAccount".equals(c.getName())) {
+        auth = c.getValue();
+      }
+    }
+    assertThat(auth).named("GerritAccount cookie").isNotNull();
+    cookies.clear();
+
+    UrlEncoded url =
+        new UrlEncoded(canonicalWebUrl.get() + "/changes/" + change.getChangeId() + "/topic");
+    url.put("$m", "PUT");
+    url.put("$ct", "application/json; charset=US-ASCII");
+    url.put("access_token", auth);
+
+    String origin = "http://example.com";
+    req = Request.Post(url.toString());
+    req.setHeader(CONTENT_TYPE, "text/plain");
+    req.setHeader(ORIGIN, origin);
+    req.bodyByteArray("{\"topic\":\"test-xd\"}".getBytes(StandardCharsets.US_ASCII));
+
+    r = http.execute(req).returnResponse();
+    assertThat(r.getStatusLine().getStatusCode()).isEqualTo(200);
+
+    Header vary = r.getFirstHeader(VARY);
+    assertThat(vary).named(VARY).isNotNull();
+    assertThat(Splitter.on(", ").splitToList(vary.getValue())).named(VARY).contains(ORIGIN);
+
+    Header allowOrigin = r.getFirstHeader(ACCESS_CONTROL_ALLOW_ORIGIN);
+    assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isNotNull();
+    assertThat(allowOrigin.getValue()).named(ACCESS_CONTROL_ALLOW_ORIGIN).isEqualTo(origin);
+
+    ChangeInfo info = gApi.changes().id(change.getChangeId()).get();
+    assertThat(info.topic).named("toppic").isEqualTo("test-xd");
+  }
+
   private RestResponse check(String url, boolean accept, String origin) throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
@@ -170,8 +223,7 @@ public class CorsIT extends AbstractDaemonTest {
       assertThat(Splitter.on(", ").splitToList(allowHeaders))
           .named(ACCESS_CONTROL_ALLOW_HEADERS)
           .containsExactlyElementsIn(
-              ImmutableSet.of(AUTHORIZATION, CONTENT_TYPE, "X-Gerrit-Auth", "X-Requested-With")
-                  .stream()
+              Stream.of(AUTHORIZATION, CONTENT_TYPE, "X-Gerrit-Auth", "X-Requested-With")
                   .map(s -> s.toLowerCase(Locale.US))
                   .collect(ImmutableSet.toImmutableSet()));
     } else {

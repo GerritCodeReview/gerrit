@@ -14,13 +14,18 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_X_GERRIT_AUTH;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
+import com.google.gerrit.httpd.restapi.ParameterParser;
+import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -81,6 +86,9 @@ public abstract class CacheBasedWebSession implements WebSession {
         }
 
         String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
+        if (token == null) {
+          token = getXdParameter(XD_X_GERRIT_AUTH);
+        }
         if (val != null && token != null && token.equals(val.getAuth())) {
           okPaths.add(AccessPath.REST_API);
         }
@@ -89,16 +97,21 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   private String readCookie() {
-    final Cookie[] all = request.getCookies();
+    Cookie[] all = request.getCookies();
     if (all != null) {
-      for (final Cookie c : all) {
+      for (Cookie c : all) {
         if (ACCOUNT_COOKIE.equals(c.getName())) {
-          final String v = c.getValue();
+          String v = c.getValue();
           return v != null && !"".equals(v) ? v : null;
         }
       }
     }
-    return null;
+    return getXdParameter(XD_AUTHORIZATION);
+  }
+
+  private String getXdParameter(String param) {
+    QueryParams qp = ParameterParser.getQueryParams(request);
+    return Iterables.getFirst(qp.getXd().get(param), null);
   }
 
   @Override

@@ -55,7 +55,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -94,6 +93,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -150,6 +150,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
@@ -176,6 +177,10 @@ public class RestApiServlet extends HttpServlet {
       ImmutableSet.of("GET", "HEAD", "POST", "PUT", "DELETE");
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
       ImmutableSet.of(AUTHORIZATION, CONTENT_TYPE, X_GERRIT_AUTH, X_REQUESTED_WITH);
+
+  public static final String XD_AUTHORIZATION = "access_token";
+  public static final String XD_CONTENT_TYPE = "$ct";
+  public static final String XD_METHOD = "$m";
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
@@ -257,8 +262,7 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
-    ListMultimap<String, String> params = MultimapBuilder.hashKeys().arrayListValues().build();
-    ListMultimap<String, String> config = MultimapBuilder.hashKeys().arrayListValues().build();
+    QueryParams qp = ParameterParser.getQueryParams(req);
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
@@ -268,10 +272,12 @@ public class RestApiServlet extends HttpServlet {
         doCorsPreflight(req, res);
         return;
       }
-      checkCors(req, res);
-      checkUserSession(req);
 
-      ParameterParser.splitQueryString(req.getQueryString(), config, params);
+      checkCors(req, res, qp.hasXdOverride());
+      if (qp.hasXdOverride()) {
+        req = applyXdOverrides(req, qp.xd);
+      }
+      checkUserSession(req);
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
@@ -284,7 +290,7 @@ public class RestApiServlet extends HttpServlet {
 
       if (path.isEmpty()) {
         if (rc instanceof NeedsParams) {
-          ((NeedsParams) rc).setParams(params);
+          ((NeedsParams) rc).setParams(qp.params);
         }
 
         if (isRead(req)) {
@@ -377,7 +383,7 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (!globals.paramParser.get().parse(viewData.view, params, req, res)) {
+      if (!globals.paramParser.get().parse(viewData.view, qp.params, req, res)) {
         return;
       }
 
@@ -420,7 +426,7 @@ public class RestApiServlet extends HttpServlet {
         if (result instanceof BinaryResult) {
           responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
         } else {
-          responseBytes = replyJson(req, res, config, result);
+          responseBytes = replyJson(req, res, qp.config, result);
         }
       }
     } catch (MalformedJsonException e) {
@@ -495,7 +501,7 @@ public class RestApiServlet extends HttpServlet {
               globals.currentUser.get(),
               req,
               auditStartTs,
-              params,
+              qp.params,
               inputRequestBody,
               status,
               result,
@@ -504,7 +510,40 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private void checkCors(HttpServletRequest req, HttpServletResponse res)
+  private static HttpServletRequest applyXdOverrides(
+      HttpServletRequest req, ListMultimap<String, String> xd) throws BadRequestException {
+    if (!"GET".equals(req.getMethod()) && !"POST".equals(req.getMethod())) {
+      throw new BadRequestException("GET or POST required");
+    }
+
+    String method = Iterables.getFirst(xd.get(XD_METHOD), null);
+    if (!ALLOWED_CORS_METHODS.contains(method)) {
+      throw new BadRequestException("method not allowed");
+    }
+
+    String contentType = Iterables.getFirst(xd.get(XD_CONTENT_TYPE), null);
+    if (method.equals("POST") || method.equals("PUT")) {
+      if (!"text/plain".equals(req.getContentType())) {
+        throw new BadRequestException("invalid " + CONTENT_TYPE);
+      } else if (Strings.isNullOrEmpty(contentType)) {
+        throw new BadRequestException(XD_CONTENT_TYPE + " required");
+      }
+    }
+
+    return new HttpServletRequestWrapper(req) {
+      @Override
+      public String getMethod() {
+        return method;
+      }
+
+      @Override
+      public String getContentType() {
+        return contentType;
+      }
+    };
+  }
+
+  private void checkCors(HttpServletRequest req, HttpServletResponse res, boolean isXd)
       throws BadRequestException {
     String origin = req.getHeader(ORIGIN);
     if (!Strings.isNullOrEmpty(origin)) {
@@ -512,7 +551,13 @@ public class RestApiServlet extends HttpServlet {
       if (!isOriginAllowed(origin)) {
         throw new BadRequestException("origin not allowed");
       }
-      setCorsHeaders(res, origin);
+      if (isXd) {
+        res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+      } else {
+        setCorsHeaders(res, origin);
+      }
+    } else if (isXd) {
+      throw new BadRequestException("expected " + ORIGIN);
     }
   }
 

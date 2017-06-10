@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -24,6 +27,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -47,9 +51,63 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
-class ParameterParser {
+public class ParameterParser {
+  private static final ImmutableSet<String> XD_KEYS =
+      ImmutableSet.of(XD_AUTHORIZATION, XD_CONTENT_TYPE, XD_METHOD);
+
   private static final ImmutableSet<String> RESERVED_KEYS =
       ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
+
+  public static class QueryParams {
+    static final String I = QueryParams.class.getName();
+
+    final ListMultimap<String, String> xd;
+    final ListMultimap<String, String> config;
+    final ListMultimap<String, String> params;
+
+    QueryParams() {
+      xd = MultimapBuilder.hashKeys(XD_KEYS.size()).arrayListValues(1).build();
+      config = MultimapBuilder.hashKeys(4).arrayListValues().build();
+      params = MultimapBuilder.hashKeys().arrayListValues().build();
+    }
+
+    boolean hasXdOverride() {
+      return xd.containsKey(XD_CONTENT_TYPE) || xd.containsKey(XD_METHOD);
+    }
+
+    public ListMultimap<String, String> getXd() {
+      return xd;
+    }
+  }
+
+  public static QueryParams getQueryParams(HttpServletRequest req) {
+    QueryParams qp = (QueryParams) req.getAttribute(QueryParams.I);
+    if (qp != null) {
+      return qp;
+    }
+
+    qp = new QueryParams();
+    req.setAttribute(QueryParams.I, qp);
+
+    String queryString = req.getQueryString();
+    if (Strings.isNullOrEmpty(queryString)) {
+      return qp;
+    }
+
+    for (String kvPair : Splitter.on('&').split(queryString)) {
+      Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
+      String key = Url.decode(i.next());
+      String val = i.hasNext() ? Url.decode(i.next()) : "";
+      if (XD_KEYS.contains(key)) {
+        qp.xd.put(key, val);
+      } else if (RESERVED_KEYS.contains(key)) {
+        qp.config.put(key, val);
+      } else {
+        qp.params.put(key, val);
+      }
+    }
+    return qp;
+  }
 
   private final CmdLineParser.Factory parserFactory;
   private final Injector injector;
@@ -96,24 +154,6 @@ class ParameterParser {
     pluginOptions.onBeanParseEnd();
 
     return true;
-  }
-
-  static void splitQueryString(
-      String queryString,
-      ListMultimap<String, String> config,
-      ListMultimap<String, String> params) {
-    if (!Strings.isNullOrEmpty(queryString)) {
-      for (String kvPair : Splitter.on('&').split(queryString)) {
-        Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
-        String key = Url.decode(i.next());
-        String val = i.hasNext() ? Url.decode(i.next()) : "";
-        if (RESERVED_KEYS.contains(key)) {
-          config.put(key, val);
-        } else {
-          params.put(key, val);
-        }
-      }
-    }
   }
 
   private static Set<String> query(HttpServletRequest req) {

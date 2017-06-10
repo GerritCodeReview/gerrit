@@ -81,11 +81,12 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        let newUrl = data.hash;
-        if (newUrl.startsWith('/VE/')) {
+        let newUrl = base + data.hash;
+        const hash = data.hash;
+        if (hash.startsWith('/VE/')) {
           newUrl = '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(loggedIn => {
@@ -326,7 +327,7 @@
     page(/^\/register(\/.*)?/, ctx => {
       app.params = {justRegistered: true};
       const path = ctx.params[0] || '/';
-      page.show(path);
+      page.show(base + path);
     });
 
     page.start();

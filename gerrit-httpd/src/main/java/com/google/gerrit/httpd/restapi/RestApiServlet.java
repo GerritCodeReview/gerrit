@@ -150,6 +150,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
@@ -174,6 +175,13 @@ public class RestApiServlet extends HttpServlet {
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
       ImmutableSet.of(AUTHORIZATION, CONTENT_TYPE, X_GERRIT_AUTH, X_REQUESTED_WITH);
+
+  static final String XD_AUTHORIZATION = "$a";
+  static final String XD_CONTENT_TYPE = "$ct";
+  static final String XD_METHOD = "$m";
+  static final String XD_X_GERRIT_AUTH = "$xga";
+  private static final ImmutableSet<String> ALLOWED_XD_METHODS =
+      ImmutableSet.of("GET", "POST", "PUT", "DELETE");
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
@@ -255,6 +263,7 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
+    ListMultimap<String, String> xd = MultimapBuilder.hashKeys().arrayListValues().build();
     ListMultimap<String, String> params = MultimapBuilder.hashKeys().arrayListValues().build();
     ListMultimap<String, String> config = MultimapBuilder.hashKeys().arrayListValues().build();
     Object inputRequestBody = null;
@@ -266,10 +275,13 @@ public class RestApiServlet extends HttpServlet {
         doCorsPreflight(req, res);
         return;
       }
-      checkCors(req, res);
-      checkUserSession(req);
 
-      ParameterParser.splitQueryString(req.getQueryString(), config, params);
+      ParameterParser.splitQueryString(req.getQueryString(), xd, config, params);
+      checkCors(req, res, !xd.isEmpty());
+      if (!xd.isEmpty()) {
+        req = applyXdOverrides(req, xd);
+      }
+      checkUserSession(req);
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
@@ -502,7 +514,37 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private void checkCors(HttpServletRequest req, HttpServletResponse res)
+  private static HttpServletRequest applyXdOverrides(
+      HttpServletRequest req, ListMultimap<String, String> xd) throws BadRequestException {
+    String method = Iterables.getFirst(xd.get(XD_METHOD), null);
+    if (!ALLOWED_XD_METHODS.contains(method)) {
+      log.error("method " + method);
+      throw new BadRequestException("method not allowed");
+    }
+
+    String contentType = Iterables.getFirst(xd.get(XD_CONTENT_TYPE), null);
+    if (method.equals("POST") || method.equals("PUT")) {
+      if (!"text/plain".equals(req.getContentType())) {
+        throw new BadRequestException("invalid " + CONTENT_TYPE);
+      } else if (Strings.isNullOrEmpty(contentType)) {
+        throw new BadRequestException(XD_CONTENT_TYPE + " required");
+      }
+    }
+
+    return new HttpServletRequestWrapper(req) {
+      @Override
+      public String getMethod() {
+        return method;
+      }
+
+      @Override
+      public String getContentType() {
+        return contentType;
+      }
+    };
+  }
+
+  private void checkCors(HttpServletRequest req, HttpServletResponse res, boolean isXd)
       throws BadRequestException {
     String origin = req.getHeader(ORIGIN);
     if (!Strings.isNullOrEmpty(origin)) {
@@ -510,7 +552,13 @@ public class RestApiServlet extends HttpServlet {
       if (!isOriginAllowed(origin)) {
         throw new BadRequestException("origin not allowed");
       }
-      setCorsHeaders(res, origin);
+      if (isXd) {
+        res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+      } else {
+        setCorsHeaders(res, origin);
+      }
+    } else if (isXd) {
+      throw new BadRequestException("expected " + ORIGIN);
     }
   }
 
@@ -560,7 +608,10 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     res.setHeader(ACCESS_CONTROL_MAX_AGE, "600");
-    res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, OPTIONS, PUT, DELETE, POST");
+    res.setHeader(
+        ACCESS_CONTROL_ALLOW_METHODS,
+        Joiner.on(", ")
+            .join(Iterables.concat(ALLOWED_XD_METHODS, ImmutableList.of("HEAD", "OPTIONS"))));
     res.setHeader(ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
   }
 

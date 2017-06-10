@@ -48,6 +48,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
 class ParameterParser {
+  private static final ImmutableSet<String> XD_KEYS =
+      ImmutableSet.of(
+          RestApiServlet.XD_AUTHORIZATION,
+          RestApiServlet.XD_CONTENT_TYPE,
+          RestApiServlet.XD_METHOD,
+          RestApiServlet.XD_X_GERRIT_AUTH);
+
   private static final ImmutableSet<String> RESERVED_KEYS =
       ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
 
@@ -100,6 +107,7 @@ class ParameterParser {
 
   static void splitQueryString(
       String queryString,
+      ListMultimap<String, String> xd,
       ListMultimap<String, String> config,
       ListMultimap<String, String> params) {
     if (!Strings.isNullOrEmpty(queryString)) {
@@ -107,7 +115,9 @@ class ParameterParser {
         Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
         String key = Url.decode(i.next());
         String val = i.hasNext() ? Url.decode(i.next()) : "";
-        if (RESERVED_KEYS.contains(key)) {
+        if (XD_KEYS.contains(key)) {
+          xd.put(key, val);
+        } else if (RESERVED_KEYS.contains(key)) {
           config.put(key, val);
         } else {
           params.put(key, val);

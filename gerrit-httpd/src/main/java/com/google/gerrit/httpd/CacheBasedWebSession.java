@@ -16,9 +16,11 @@ package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,6 +34,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 import java.util.EnumSet;
+import java.util.Iterator;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +43,8 @@ import org.eclipse.jgit.http.server.GitSmartHttpTools;
 @RequestScoped
 public abstract class CacheBasedWebSession implements WebSession {
   private static final String ACCOUNT_COOKIE = "GerritAccount";
+  private static final String XD_AUTHORIZATION = "$a";
+  private static final String XD_X_GERRIT_AUTH = "$xga";
   protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   private final HttpServletRequest request;
@@ -81,6 +86,9 @@ public abstract class CacheBasedWebSession implements WebSession {
         }
 
         String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
+        if (token == null) {
+          token = getQueryParameter(XD_X_GERRIT_AUTH);
+        }
         if (val != null && token != null && token.equals(val.getAuth())) {
           okPaths.add(AccessPath.REST_API);
         }
@@ -88,17 +96,31 @@ public abstract class CacheBasedWebSession implements WebSession {
     }
   }
 
-  private String readCookie() {
-    final Cookie[] all = request.getCookies();
-    if (all != null) {
-      for (final Cookie c : all) {
-        if (ACCOUNT_COOKIE.equals(c.getName())) {
-          final String v = c.getValue();
-          return v != null && !"".equals(v) ? v : null;
+  private String getQueryParameter(String param) {
+    String queryString = request.getQueryString();
+    if (!Strings.isNullOrEmpty(queryString) && queryString.contains(param)) {
+      for (String kvPair : Splitter.on('&').split(queryString)) {
+        Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
+        String key = Url.decode(i.next());
+        if (param.equals(key)) {
+          return i.hasNext() ? Url.decode(i.next()) : null;
         }
       }
     }
     return null;
+  }
+
+  private String readCookie() {
+    Cookie[] all = request.getCookies();
+    if (all != null) {
+      for (Cookie c : all) {
+        if (ACCOUNT_COOKIE.equals(c.getName())) {
+          String v = c.getValue();
+          return v != null && !"".equals(v) ? v : null;
+        }
+      }
+    }
+    return getQueryParameter(XD_AUTHORIZATION);
   }
 
   @Override

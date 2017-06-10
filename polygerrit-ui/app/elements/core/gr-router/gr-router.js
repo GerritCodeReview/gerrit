@@ -109,7 +109,12 @@
           data.params.view = 'gr-dashboard-view';
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          if (base) {
+            page('/login/' + encodeURIComponent(
+                data.canonicalPath.substring(base.length)));
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
         }
       });
     });
@@ -124,7 +129,12 @@
             filter: null,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          if (base) {
+            page('/login/' + encodeURIComponent(
+                data.canonicalPath.substring(base.length)));
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
         }
       });
     });
@@ -138,7 +148,12 @@
             filter: data.params.filter,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          if (base) {
+            page('/login/' + encodeURIComponent(
+                data.canonicalPath.substring(base.length)));
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
         }
       });
     });
@@ -151,7 +166,12 @@
             filter: data.params.filter || null,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          if (base) {
+            page('/login/' + encodeURIComponent(
+                data.canonicalPath.substring(base.length)));
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
         }
       });
     });
@@ -222,7 +242,12 @@
           data.params.view = 'gr-admin-view';
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          if (base) {
+            page('/login/' + encodeURIComponent(
+                data.canonicalPath.substring(base.length)));
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
         }
       });
     });

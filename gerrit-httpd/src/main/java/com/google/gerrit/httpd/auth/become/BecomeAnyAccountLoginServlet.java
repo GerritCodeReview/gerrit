@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
@@ -46,6 +47,7 @@ import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -122,8 +124,15 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res, false);
-      final StringBuilder rdr = new StringBuilder();
+      WebSession session = webSession.get();
+      session.login(res, false);
+      Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, session.getXGerritAuth());
+      c.setPath("/");
+      c.setSecure(false);
+      c.setMaxAge(-1); // Set the cookie for this browser session.
+      rsp.addCookie(c);
+
+      StringBuilder rdr = new StringBuilder();
       rdr.append(req.getContextPath());
       rdr.append("/");
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67400f92_18447d98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-10T19:56:23Z",
+      "side": 0,
+      "message": "Do we still want to check the access control request method to ensure it\u0027s in the acceptable list? (for example HEAD is not supported) Should that list be a static final which is set to GET, OPTIONS, PUT, DELETE, POST and shared in both the check and in the the ACCESS_CONTROL_ALLOW_METHODS response header?",
+      "range": {
+        "startLine": 527,
+        "startChar": 20,
+        "endLine": 527,
+        "endChar": 64
+      },
+      "revId": "e1b391b1f56a7d2923593cd7016aaa2c65332d85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

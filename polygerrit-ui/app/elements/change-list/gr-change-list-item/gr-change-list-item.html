@@ -140,8 +140,8 @@ limitations under the License.
     </td>
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">
-        [[change.branch]]
+      <a href$="[[_computeProjectBranchURL(change)]]">
+        [[_computeBranchText(change)]]
       </a>
     </td>
     <td class="cell updated"

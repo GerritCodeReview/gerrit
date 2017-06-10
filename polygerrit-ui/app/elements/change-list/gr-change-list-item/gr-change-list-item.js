@@ -106,10 +106,20 @@
           this.encodeURL(project, false);
     },
 
-    _computeProjectBranchURL(project, branch) {
-      // @see Issue 4255.
-      return this._computeProjectURL(project) +
-          '+branch:' + this.encodeURL(branch, false);
+    _computeProjectBranchURL(change) {
+      // @see Issue 4255, Issue 6195.
+      let output = this._computeProjectURL(change.project);
+      output += '+branch:' + this.encodeURL(change.branch, false);
+      if (change.topic) {
+        output += '+topic:' + this.encodeURL(change.topic, false);
+      }
+      return output;
+    },
+
+    _computeBranchText(change) {
+      let output = change.branch;
+      if (change.topic) { output += ` (${change.topic})`; }
+      return output;
     },
   });
 })();

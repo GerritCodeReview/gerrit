@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@
 
     properties: {
       _account: Object,
+      _checkUsername: Object,
       _saving: Boolean,
     },
 
@@ -39,9 +40,26 @@
     },
 
     attached() {
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+          this.$.restAPI.getAccountUsername().then(checkUsername => {
+            this._checkUsername = checkUsername;
+          });
+        } else {
+          this._account = [];
+          this._checkUsername = '';
+        }
       });
+    },
+
+    _handleUsernameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
     },
 
     _handleNameKeydown(e) {
@@ -53,9 +71,23 @@
 
     _save() {
       this._saving = true;
+      let username;
+      let email;
+      if (this.$.username && this.$.username.value &&
+          this.$.username.value !== this._checkUsername) {
+        username = this.$.restAPI.setAccountUsername(this.$.username.value);
+      } else {
+        username = '';
+      }
+      if (this.$.email && this.$.email.value) {
+        email = this.$.restAPI.setPreferredAccountEmail(this.$.email.value);
+      } else {
+        email = '';
+      }
       const promises = [
+        username,
         this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
+        email,
       ];
       return Promise.all(promises).then(() => {
         this._saving = false;

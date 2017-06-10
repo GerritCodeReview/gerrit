@@ -92,6 +92,7 @@
         } else if (!this._shouldSuppressError(text)) {
           this._showAlert('Server error: ' + text);
         }
+        console.error(text);
       });
     },
 

@@ -79,13 +79,13 @@
         // In certain login flows the server may redirect to a hash without
         // a leading slash, which page.js doesn't handle correctly.
         if (data.hash[0] !== '/') {
-          data.hash = '/' + data.hash;
+          data.hash = base + '/' + data.hash;
         }
-        let newUrl = data.hash;
+        let newUrl = base + data.hash;
         if (newUrl.startsWith('/VE/')) {
           newUrl = '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(loggedIn => {
@@ -314,7 +314,7 @@
     page(/^\/register(\/.*)?/, ctx => {
       app.params = {justRegistered: true};
       const path = ctx.params[0] || '/';
-      page.show(path);
+      page.show(base + path);
     });
 
     page.start();

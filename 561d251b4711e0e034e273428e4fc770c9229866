@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c39eddd7_9b11c3df",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-10T20:13:12Z",
+      "side": 1,
+      "message": "nit: I feel like the query string parsing could be done ahead of time and doesn\u0027t need to happen each param. Also in this I think there\u0027s a double lookup for .contains and the spliter iteration. There\u0027s similar logic in splitQueryString, can this code be shared?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 73
+      },
+      "revId": "561d251b4711e0e034e273428e4fc770c9229866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c97e1b1_31500603",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-10T20:13:12Z",
+      "side": 1,
+      "message": "nit: $a and $xga are used in a few places. Since they all represent the same auth \u0026 xsrf token, can they all reference the same static variable?",
+      "range": {
+        "startLine": 179,
+        "startChar": 41,
+        "endLine": 179,
+        "endChar": 45
+      },
+      "revId": "561d251b4711e0e034e273428e4fc770c9229866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

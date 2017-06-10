@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@
 
     properties: {
       _account: Object,
+      _checkEmails: Object,
+      _checkUsername: Object,
       _saving: Boolean,
     },
 
@@ -42,6 +44,19 @@
       this.$.restAPI.getAccount().then(account => {
         this._account = account;
       });
+      this.$.restAPI.getAccountUsername().then(checkUsername => {
+        this._checkUsername = checkUsername;
+      });
+      this.$.restAPI.getAccountEmails().then(checkEmails => {
+        this._checkEmails = checkEmails;
+      });
+    },
+
+    _handleUsernameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
     },
 
     _handleNameKeydown(e) {
@@ -51,11 +66,39 @@
       }
     },
 
+    _handleEmailKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
+    },
+
     _save() {
       this._saving = true;
+      let username;
+      let preferedEmail;
+      let email;
+      if (this.$.username && this.$.username.value && this.$.username.value !== this._checkUsername) {
+        username = this.$.restAPI.setAccountUsername(this.$.username.value);
+      } else {
+        username = '';
+      }
+
+      if (this.$.preferedEmail && this.$.preferedEmail.value) {
+        preferedEmail = this.$.restAPI.setPreferredAccountEmail(this.$.preferedEmail.value);
+      } else {
+        preferedEmail = '';
+      }
+      if (this.$.email && this.$.email.value && this.$.email.value !== this._checkEmails.email) {
+        email = this.$.restAPI.addAccountEmail(this.$.email.value);
+      } else {
+        email = '';
+      }
       const promises = [
+        username,
         this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
+        preferedEmail,
+        email,
       ];
       return Promise.all(promises).then(() => {
         this._saving = false;

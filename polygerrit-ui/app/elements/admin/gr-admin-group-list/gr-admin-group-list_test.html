@@ -81,7 +81,7 @@ limitations under the License.
 
       test('test for test group in the list', done => {
         flush(() => {
-          assert.equal(element._groups[1].name, 'test2');
+          assert.equal(element._groups[1].name, '1');
           assert.equal(element._groups[1].options.visible_to_all, false);
           done();
         });
@@ -124,6 +124,21 @@ limitations under the License.
               .calledWithExactly('test', 25, 25));
           done();
         });
+      });
+    });
+
+    suite('loading', () => {
+      test('correct contents are displayed', () => {
+        assert.isTrue(element._loading);
+        assert.equal(element._computeLoadingClass(element._loading), 'loading');
+        assert.equal(getComputedStyle(element.$.loading).display, 'block');
+
+        element._loading = false;
+        element._groups = _.times(25, groupGenerator);
+
+        flushAsynchronousOperations();
+        assert.equal(element._computeLoadingClass(element._loading), '');
+        assert.equal(getComputedStyle(element.$.loading).display, 'none');
       });
     });
   });

@@ -81,10 +81,10 @@
     },
 
     _getGroups(filter, groupsPerPage, offset) {
+      this._groups = [];
       return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
           .then(groups => {
             if (!groups) {
-              this._groups = [];
               return;
             }
             this._groups = Object.keys(groups)
@@ -95,6 +95,10 @@
              });
             this._loading = false;
           });
+    },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
     },
 
     _visibleToAll(item) {

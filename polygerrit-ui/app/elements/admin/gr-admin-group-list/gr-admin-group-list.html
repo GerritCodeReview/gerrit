@@ -39,7 +39,11 @@ limitations under the License.
           <th class="description topHeader">Group Description</th>
           <th class="visibleToAll topHeader">Visible To All</th>
         </tr>
-        <template is="dom-repeat" items="[[_shownGroups]]">
+        <tr id="loading" class$="loadingMsg [[_computeLoadingClass(_loading)]]">
+          <td>Loading...</td>
+        </tr>
+        <template is="dom-repeat" items="[[_shownGroups]]"
+            class$="[[_computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
               <a href$="[[_getUrl(item.group_id)]]">[[item.name]]</a>

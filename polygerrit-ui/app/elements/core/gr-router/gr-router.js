@@ -43,6 +43,10 @@
       page.base(base);
     }
 
+    if (window.location.href.indexOf("/#/register") > -1) {
+      page( '/register/');
+    }
+
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
 
@@ -78,14 +82,20 @@
       if (data.hash) {
         // In certain login flows the server may redirect to a hash without
         // a leading slash, which page.js doesn't handle correctly.
-        if (data.hash[0] !== '/') {
+        let hash;
+        if (base) {
+          hash = 1;
+        } else {
+          hash = 0;
+        }
+        if (data.hash[hash] !== '/') {
           data.hash = '/' + data.hash;
         }
         let newUrl = data.hash;
         if (newUrl.startsWith('/VE/')) {
           newUrl = '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(loggedIn => {
@@ -312,9 +322,9 @@
     });
 
     page(/^\/register(\/.*)?/, ctx => {
-      app.params = {justRegistered: true};
+      /*app.params = {justRegistered: true};
       const path = ctx.params[0] || '/';
-      page.show(path);
+      page.show(path);*/
     });
 
     page.start();

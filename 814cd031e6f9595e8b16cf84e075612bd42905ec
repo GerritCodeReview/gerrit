@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "1647c937_c459bf27",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-10T00:53:23Z",
+      "side": 1,
+      "message": "Why is this a script included in a DOM element? Can\u0027t it just be an included script?",
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73b0d686_187147a4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-10T00:53:23Z",
+      "side": 1,
+      "message": "Maybe make these have default values that throw exceptions.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "490dcf41_64094921",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
         "patchSetId": 6

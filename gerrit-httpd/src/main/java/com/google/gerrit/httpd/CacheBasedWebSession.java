@@ -14,13 +14,17 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
+import com.google.gerrit.httpd.restapi.ParameterParser;
+import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -70,31 +74,47 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.identified = identified;
 
     if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
-      String cookie = readCookie();
+      String cookie = readCookie(request);
       if (cookie != null) {
-        key = new Key(cookie);
-        val = manager.get(key);
-        if (val != null && val.needsCookieRefresh()) {
-          // Cookie is more than half old. Send the cookie again to the
-          // client with an updated expiration date.
-          val = manager.createVal(key, val);
+        authFromCookie(request, manager, cookie);
+      } else {
+        QueryParams qp = ParameterParser.getQueryParams(request);
+        String token = Iterables.getFirst(qp.getXd().get(XD_AUTHORIZATION), null);
+        if (token != null) {
+          authFromXdAuthorization(manager, token);
         }
-
-        String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
-        if (val != null && token != null && token.equals(val.getAuth())) {
-          okPaths.add(AccessPath.REST_API);
-        }
+      }
+      if (val != null && val.needsCookieRefresh()) {
+        // Cookie is more than half old; refresh with an updated expiration date.
+        val = manager.createVal(key, val);
       }
     }
   }
 
-  private String readCookie() {
-    final Cookie[] all = request.getCookies();
+  private void authFromCookie(
+      HttpServletRequest request, WebSessionManager manager, String cookie) {
+    key = new Key(cookie);
+    val = manager.get(key);
+    String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
+    if (val != null && token != null && token.equals(val.getAuth())) {
+      okPaths.add(AccessPath.REST_API);
+    }
+  }
+
+  private void authFromXdAuthorization(WebSessionManager manager, String accessToken) {
+    key = new Key(accessToken);
+    val = manager.get(key);
+    if (val != null) {
+      okPaths.add(AccessPath.REST_API);
+    }
+  }
+
+  private static String readCookie(HttpServletRequest request) {
+    Cookie[] all = request.getCookies();
     if (all != null) {
-      for (final Cookie c : all) {
+      for (Cookie c : all) {
         if (ACCOUNT_COOKIE.equals(c.getName())) {
-          final String v = c.getValue();
-          return v != null && !"".equals(v) ? v : null;
+          return Strings.emptyToNull(c.getValue());
         }
       }
     }

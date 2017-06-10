@@ -14,16 +14,23 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.ALLOWED_CORS_METHODS;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -47,9 +54,93 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
-class ParameterParser {
+public class ParameterParser {
   private static final ImmutableSet<String> RESERVED_KEYS =
       ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
+
+  @AutoValue
+  public abstract static class QueryParams {
+    static final String I = QueryParams.class.getName();
+
+    static QueryParams create(
+        String accessToken,
+        String xdMethod,
+        String xdContentType,
+        ImmutableListMultimap<String, String> config,
+        ImmutableListMultimap<String, String> params) {
+      return new AutoValue_ParameterParser_QueryParams(
+          accessToken, xdMethod, xdContentType, config, params);
+    }
+
+    public abstract String accessToken();
+
+    abstract String xdMethod();
+
+    abstract String xdContentType();
+
+    abstract ImmutableListMultimap<String, String> config();
+
+    abstract ImmutableListMultimap<String, String> params();
+
+    boolean hasXdOverride() {
+      return xdMethod() != null || xdContentType() != null;
+    }
+  }
+
+  public static QueryParams getQueryParams(HttpServletRequest req) throws BadRequestException {
+    QueryParams qp = (QueryParams) req.getAttribute(QueryParams.I);
+    if (qp != null) {
+      return qp;
+    }
+
+    String accessToken = null;
+    String xdMethod = null;
+    String xdContentType = null;
+    ListMultimap<String, String> config = MultimapBuilder.hashKeys(4).arrayListValues().build();
+    ListMultimap<String, String> params = MultimapBuilder.hashKeys().arrayListValues().build();
+
+    String queryString = req.getQueryString();
+    if (!Strings.isNullOrEmpty(queryString)) {
+      for (String kvPair : Splitter.on('&').split(queryString)) {
+        Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
+        String key = Url.decode(i.next());
+        String val = i.hasNext() ? Url.decode(i.next()) : "";
+
+        if (XD_AUTHORIZATION.equals(key)) {
+          if (accessToken != null) {
+            throw new BadRequestException("duplicate " + XD_AUTHORIZATION);
+          }
+          accessToken = val;
+        } else if (XD_METHOD.equals(key)) {
+          if (xdMethod != null) {
+            throw new BadRequestException("duplicate " + XD_METHOD);
+          } else if (!ALLOWED_CORS_METHODS.contains(val)) {
+            throw new BadRequestException("invalid " + XD_METHOD);
+          }
+          xdMethod = val;
+        } else if (XD_CONTENT_TYPE.equals(key)) {
+          if (xdContentType != null) {
+            throw new BadRequestException("duplicate " + XD_CONTENT_TYPE);
+          }
+          xdContentType = val;
+        } else if (RESERVED_KEYS.contains(key)) {
+          config.put(key, val);
+        } else {
+          params.put(key, val);
+        }
+      }
+    }
+
+    qp =
+        QueryParams.create(
+            accessToken,
+            xdMethod,
+            xdContentType,
+            ImmutableListMultimap.copyOf(config),
+            ImmutableListMultimap.copyOf(params));
+    req.setAttribute(QueryParams.I, qp);
+    return qp;
+  }
 
   private final CmdLineParser.Factory parserFactory;
   private final Injector injector;
@@ -96,24 +187,6 @@ class ParameterParser {
     pluginOptions.onBeanParseEnd();
 
     return true;
-  }
-
-  static void splitQueryString(
-      String queryString,
-      ListMultimap<String, String> config,
-      ListMultimap<String, String> params) {
-    if (!Strings.isNullOrEmpty(queryString)) {
-      for (String kvPair : Splitter.on('&').split(queryString)) {
-        Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
-        String key = Url.decode(i.next());
-        String val = i.hasNext() ? Url.decode(i.next()) : "";
-        if (RESERVED_KEYS.contains(key)) {
-          config.put(key, val);
-        } else {
-          params.put(key, val);
-        }
-      }
-    }
   }
 
   private static Set<String> query(HttpServletRequest req) {

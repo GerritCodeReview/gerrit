@@ -32,12 +32,33 @@ By default all REST endpoints assume anonymous access and filter
 results to correspond to what anonymous users can read (which may
 be nothing at all).
 
-Users (and programs) may authenticate by prefixing the endpoint URL with
-`/a/`. For example to authenticate to `/projects/`, request the URL
-`/a/projects/`.
+Users (and programs) can authenticate with HTTP passwords by prefixing
+the endpoint URL with `/a/`. For example to authenticate to
+`/projects/`, request the URL `/a/projects/`. Gerrit will use HTTP basic
+authentication with the HTTP password from the user's account settings
+page. This form of authentication bypasses the need for XSRF tokens.
 
-Gerrit uses HTTP basic authentication with the HTTP password from the
-user's account settings page.
+An authorization cookie may be presented in the request URL inside the
+`access_token` query parameter.  XSRF tokens are not required when a
+valid access_token is used in the URL.
+
+[[cors]]
+=== CORS
+
+Cross-site scripting may be supported if the administrator has configured
+link:config-gerrit.html#site.allowOriginRegex[site.allowOriginRegex].
+
+Approved web applications running from an allowed origin can rely on
+CORS preflight to authorize requests requiring cookie based
+authentication, or mutations (POST, PUT, DELETE). Mutations require a
+valid XSRF token in the `X-Gerrit-Auth` request header.
+
+Alternatively applications can use `access_token` in the URL (see
+above) to authorize requests. Mutations sent as POST with a request
+content type of `text/plain` can skip CORS preflight. Gerrit accepts
+additional query parameters `$m` to override the correct method (PUT,
+POST, DELETE) and `$ct` to specify the actual content type, such as
+`application/json; charset=UTF-8`.
 
 [[preconditions]]
 === Preconditions

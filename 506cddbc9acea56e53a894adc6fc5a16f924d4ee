@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a961e589_95882437",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-10T23:18:06Z",
+      "side": 1,
+      "message": "Need help with this please as it causes continues redirecting.\n\nHow do i fix that so that if it matches /#/redirect or /#/redirect/ redirect to /redirect (includes base url)",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "506cddbc9acea56e53a894adc6fc5a16f924d4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

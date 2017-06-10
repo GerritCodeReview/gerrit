@@ -47,12 +47,9 @@ limitations under the License.
       _listeners = {};
 
       account = {
+        username: 'username',
         name: 'name',
         email: 'email',
-        secondary_emails: [
-          'email2',
-          'email3',
-        ],
       };
 
       stub('gr-rest-api-interface', {
@@ -60,6 +57,10 @@ limitations under the License.
         // Once the account is resolved, we can let the test proceed.
           flush(done);
           return Promise.resolve(account);
+        },
+        setAccountUsername(username) {
+          account.username = username;
+          return Promise.resolve();
         },
         setAccountName(name) {
           account.name = name;
@@ -119,20 +120,24 @@ limitations under the License.
       }).then(done);
     });
 
-    test('saves name and preferred email', done => {
+    test('saves username, name and email', done => {
       flush(() => {
+        element.$.username.value = 'new username';
         element.$.name.value = 'new name';
         element.$.email.value = 'email3';
 
         // Nothing should be committed yet.
+        assert.equal(account.username, 'username');
         assert.equal(account.name, 'name');
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
         save().then(() => {
+          assert.equal(account.username, 'new username');
           assert.equal(account.name, 'new name');
           assert.equal(account.email, 'email3');
         }).then(done);
+        done();
       });
     });
 
@@ -142,6 +147,15 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element.$.name, 13);  // 'enter'
       }).then(() => {
         assert.equal(account.name, 'entered name');
+      }).then(done);
+    });
+
+    test('pressing enter saves username', done => {
+      element.$.username.value = 'entered username';
+      save(() => {
+        MockInteractions.pressAndReleaseKeyOn(element.$.username, 13);  // 'enter'
+      }).then(() => {
+        assert.equal(account.username, 'entered username');
       }).then(done);
     });
   });

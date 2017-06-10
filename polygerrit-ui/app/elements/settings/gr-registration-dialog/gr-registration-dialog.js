@@ -44,7 +44,21 @@
       });
     },
 
+    _handleUsernameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
+    },
+
     _handleNameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
+    },
+
+    _handleEmailKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._save();
@@ -53,9 +67,16 @@
 
     _save() {
       this._saving = true;
+      let email;
+      if (this.$.email && this.$.email.value) {
+        email = this.$.restAPI.addAccountEmail(this.$.email.value);
+      } else {
+        email = '';
+      }
       const promises = [
+        this.$.restAPI.setAccountUsername(this.$.username.value),
         this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
+        email,
       ];
       return Promise.all(promises).then(() => {
         this._saving = false;

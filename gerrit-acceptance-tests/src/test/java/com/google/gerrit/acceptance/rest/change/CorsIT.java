@@ -18,16 +18,24 @@ import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_MAX_AGE;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.HttpHeaders.ORIGIN;
+import static com.google.common.net.HttpHeaders.VARY;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.testutil.ConfigSuite;
+import java.util.Locale;
+import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicHeader;
@@ -65,14 +73,14 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putWithOriginRefused() throws Exception {
+  public void putWithOriginAccepted() throws Exception {
     Result change = createChange();
     String origin = "http://example.com";
     RestResponse r =
         adminRestSession.putWithHeader(
             "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
     r.assertOK();
-    checkCors(r, false, origin);
+    checkCors(r, true, origin);
   }
 
   @Test
@@ -88,71 +96,90 @@ public class CorsIT extends AbstractDaemonTest {
 
     RestResponse res = adminRestSession.execute(req);
     res.assertOK();
+
+    String vary = res.getHeader(VARY);
+    assertThat(vary).named(VARY).isNotNull();
+    assertThat(Splitter.on(", ").splitToList(vary))
+        .containsExactly(ORIGIN, ACCESS_CONTROL_REQUEST_METHOD, ACCESS_CONTROL_REQUEST_HEADERS);
     checkCors(res, true, origin);
   }
 
   @Test
   public void preflightBadOrigin() throws Exception {
     Result change = createChange();
-
     Request req =
         Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://evil.attacker");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
-
     adminRestSession.execute(req).assertBadRequest();
   }
 
   @Test
   public void preflightBadMethod() throws Exception {
     Result change = createChange();
-
-    for (String method : new String[] {"POST", "PUT", "DELETE", "PATCH"}) {
-      Request req =
-          Request.Options(
-              adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
-      req.addHeader(ORIGIN, "http://example.com");
-      req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, method);
-      adminRestSession.execute(req).assertBadRequest();
-    }
+    Request req =
+        Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
+    req.addHeader(ORIGIN, "http://example.com");
+    req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "CALL");
+    adminRestSession.execute(req).assertBadRequest();
   }
 
   @Test
   public void preflightBadHeader() throws Exception {
     Result change = createChange();
-
     Request req =
         Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://example.com");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
-    req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Gerrit-Auth");
-
+    req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Secret-Auth-Token");
     adminRestSession.execute(req).assertBadRequest();
   }
 
   private RestResponse check(String url, boolean accept, String origin) throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
-    r.assertOK();
+    if (accept) {
+      r.assertOK();
+    } else {
+      r.assertBadRequest();
+    }
     checkCors(r, accept, origin);
     return r;
   }
 
   private void checkCors(RestResponse r, boolean accept, String origin) {
+    String vary = r.getHeader(VARY);
+    assertThat(vary).named(VARY).isNotNull();
+    assertThat(Splitter.on(", ").splitToList(vary)).named(VARY).contains(ORIGIN);
+
     String allowOrigin = r.getHeader(ACCESS_CONTROL_ALLOW_ORIGIN);
     String allowCred = r.getHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS);
+    String maxAge = r.getHeader(ACCESS_CONTROL_MAX_AGE);
     String allowMethods = r.getHeader(ACCESS_CONTROL_ALLOW_METHODS);
     String allowHeaders = r.getHeader(ACCESS_CONTROL_ALLOW_HEADERS);
     if (accept) {
-      assertThat(allowOrigin).isEqualTo(origin);
-      assertThat(allowCred).isEqualTo("true");
-      assertThat(allowMethods).isEqualTo("GET, OPTIONS");
-      assertThat(allowHeaders).isEqualTo("X-Requested-With");
+      assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isEqualTo(origin);
+      assertThat(allowCred).named(ACCESS_CONTROL_ALLOW_CREDENTIALS).isEqualTo("true");
+      assertThat(maxAge).named(ACCESS_CONTROL_MAX_AGE).isEqualTo("600");
+
+      assertThat(allowMethods).named(ACCESS_CONTROL_ALLOW_METHODS).isNotNull();
+      assertThat(Splitter.on(", ").splitToList(allowMethods))
+          .named(ACCESS_CONTROL_ALLOW_METHODS)
+          .containsExactly("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS");
+
+      assertThat(allowHeaders).named(ACCESS_CONTROL_ALLOW_HEADERS).isNotNull();
+      assertThat(Splitter.on(", ").splitToList(allowHeaders))
+          .named(ACCESS_CONTROL_ALLOW_HEADERS)
+          .containsExactlyElementsIn(
+              Stream.of(AUTHORIZATION, CONTENT_TYPE, "X-Gerrit-Auth", "X-Requested-With")
+                  .map(s -> s.toLowerCase(Locale.US))
+                  .collect(ImmutableSet.toImmutableSet()));
     } else {
-      assertThat(allowOrigin).isNull();
-      assertThat(allowCred).isNull();
-      assertThat(allowMethods).isNull();
-      assertThat(allowHeaders).isNull();
+      assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isNull();
+      assertThat(allowCred).named(ACCESS_CONTROL_ALLOW_CREDENTIALS).isNull();
+      assertThat(maxAge).named(ACCESS_CONTROL_MAX_AGE).isNull();
+      assertThat(allowMethods).named(ACCESS_CONTROL_ALLOW_METHODS).isNull();
+      assertThat(allowHeaders).named(ACCESS_CONTROL_ALLOW_HEADERS).isNull();
     }
   }
 }

@@ -102,13 +102,24 @@
       });
     });
 
+    function redirectToLogin(data) {
+      const basePath = base || '';
+      if (base) {
+        return page('/login/' + encodeURIComponent(
+            data.substring(basePath.length)));
+      } else {
+        return page.redirect(
+            '/login/' + encodeURIComponent(data));
+      }
+    }
+
     page('/dashboard/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = 'gr-dashboard-view';
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -124,7 +135,7 @@
             filter: null,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -139,7 +150,7 @@
             filter: data.params.filter,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -153,7 +164,7 @@
             filter: data.params.filter || null,
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -272,7 +283,7 @@
             adminView: 'gr-admin-plugin-list',
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -284,7 +295,7 @@
           data.params.placeholder = true;
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });

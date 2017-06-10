@@ -81,11 +81,12 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        var newUrl = data.hash;
-        if (newUrl.indexOf('/VE/') === 0) {
-          newUrl = '/settings' + data.hash;
+        var hash = data.hash;
+        var newUrl = base + hash;
+        if (hash.indexOf('/VE/') === 0) {
+          newUrl = base + '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(function(loggedIn) {
@@ -241,7 +242,7 @@
       app.params = {justRegistered: true};
       var path = ctx.params[0] || '/';
       if (path[0] !== '/') { return; }
-      page.show(path);
+      page.show(base + path);
     });
 
     page.start();

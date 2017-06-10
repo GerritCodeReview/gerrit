@@ -81,11 +81,12 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        var newUrl = data.hash;
-        if (newUrl.indexOf('/VE/') === 0) {
-          newUrl = '/settings' + data.hash;
+        const hash = data.hash;
+        let newUrl = base + hash;
+        if (hash.indexOf('/VE/') === 0) {
+          newUrl = base + '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(function(loggedIn) {
@@ -240,7 +241,7 @@
     page(/^\/register(\/.*)?/, function(ctx) {
       app.params = {justRegistered: true};
       var path = ctx.params[0] || '/';
-      page.show(path);
+      page.show(base + path);
     });
 
     page.start();

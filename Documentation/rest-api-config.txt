@@ -156,6 +156,7 @@ link:#consistency-check-input[ConsistencyCheckInput] entity.
   Content-Type: application/json; charset=UTF-8
 
   {
+    "check_accounts": {},
     "check_account_external_ids": {}
   }
 ----
@@ -170,6 +171,14 @@ is returned that contains detected consistency problems.
 
   )]}'
   {
+    "check_accounts_result": {
+      "problems": [
+        {
+          "status": "ERROR",
+          "message": "Account \u00271000024\u0027 has no external ID for its preferred email \u0027foo.bar@example.com\u0027"
+        }
+      ]
+    }
     "check_account_external_ids_result": {
       "problems": [
         {
@@ -1505,6 +1514,9 @@ consistency checks.
 [options="header",cols="1,^1,5"]
 |================================================
 |Field Name                         ||Description
+|`check_accounts_result`            |optional|
+The result of running the account consistency check as a
+link:#check-accounts-result-info[CheckAccountsResultInfo] entity.
 |`check_account_external_ids_result`|optional|
 The result of running the account external ID consistency check as a
 link:#check-account-external-ids-result-info[
@@ -1519,6 +1531,9 @@ consistency checks should be run.
 [options="header",cols="1,^1,5"]
 |=========================================
 |Field Name                  ||Description
+|`check_accounts`            |optional|
+Input for the account consistency check as
+link:#check-accounts-input[CheckAccountsInput] entity.
 |`check_account_external_ids`|optional|
 Input for the account external ID consistency check as
 link:#check-account-external-ids-input[CheckAccountExternalIdsInput]

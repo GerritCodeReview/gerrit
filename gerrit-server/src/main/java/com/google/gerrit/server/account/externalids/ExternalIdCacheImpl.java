@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -44,8 +47,7 @@ import org.slf4j.LoggerFactory;
 class ExternalIdCacheImpl implements ExternalIdCache {
   private static final Logger log = LoggerFactory.getLogger(ExternalIdCacheImpl.class);
 
-  private final LoadingCache<ObjectId, ImmutableSetMultimap<Account.Id, ExternalId>>
-      extIdsByAccount;
+  private final LoadingCache<ObjectId, AllExternalIds> extIdsByAccount;
   private final ExternalIdReader externalIdReader;
   private final Lock lock;
 
@@ -217,7 +219,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
     try {
-      return extIdsByAccount.get(externalIdReader.readRevision()).get(accountId);
+      return extIdsByAccount.get(externalIdReader.readRevision()).byAccount().get(accountId);
     } catch (ExecutionException e) {
       throw new IOException("Cannot list external ids by account", e);
     }
@@ -226,12 +228,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   @Override
   public Set<ExternalId> byEmail(String email) throws IOException {
     try {
-      return extIdsByAccount
-          .get(externalIdReader.readRevision())
-          .values()
-          .stream()
-          .filter(e -> email.equals(e.email()))
-          .collect(toSet());
+      return extIdsByAccount.get(externalIdReader.readRevision()).byEmail().get(email);
     } catch (ExecutionException e) {
       throw new IOException("Cannot list external ids by email", e);
     }
@@ -245,12 +242,15 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     try {
       ListMultimap<Account.Id, ExternalId> m;
       if (!ObjectId.zeroId().equals(oldNotesRev)) {
-        m = MultimapBuilder.hashKeys().arrayListValues().build(extIdsByAccount.get(oldNotesRev));
+        m =
+            MultimapBuilder.hashKeys()
+                .arrayListValues()
+                .build(extIdsByAccount.get(oldNotesRev).byAccount());
       } else {
         m = MultimapBuilder.hashKeys().arrayListValues().build();
       }
       update.accept(m);
-      extIdsByAccount.put(newNotesRev, ImmutableSetMultimap.copyOf(m));
+      extIdsByAccount.put(newNotesRev, AllExternalIds.create(m));
     } catch (ExecutionException e) {
       log.warn("Cannot update external IDs", e);
     } finally {
@@ -262,8 +262,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     Collections2.transform(ids, e -> e.key()).removeAll(toRemove);
   }
 
-  private static class Loader
-      extends CacheLoader<ObjectId, ImmutableSetMultimap<Account.Id, ExternalId>> {
+  private static class Loader extends CacheLoader<ObjectId, AllExternalIds> {
     private final ExternalIdReader externalIdReader;
 
     Loader(ExternalIdReader externalIdReader) {
@@ -271,13 +270,31 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     }
 
     @Override
-    public ImmutableSetMultimap<Account.Id, ExternalId> load(ObjectId notesRev) throws Exception {
+    public AllExternalIds load(ObjectId notesRev) throws Exception {
       Multimap<Account.Id, ExternalId> extIdsByAccount =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalId extId : externalIdReader.all(notesRev)) {
         extIdsByAccount.put(extId.accountId(), extId);
       }
-      return ImmutableSetMultimap.copyOf(extIdsByAccount);
+      return AllExternalIds.create(extIdsByAccount);
     }
+  }
+
+  @AutoValue
+  abstract static class AllExternalIds {
+    static AllExternalIds create(Multimap<Account.Id, ExternalId> byAccount) {
+      ImmutableSetMultimap<String, ExternalId> byEmail =
+          byAccount
+              .values()
+              .stream()
+              .filter(e -> !Strings.isNullOrEmpty(e.email()))
+              .collect(toImmutableSetMultimap(ExternalId::email, e -> e));
+      return new AutoValue_ExternalIdCacheImpl_AllExternalIds(
+          ImmutableSetMultimap.copyOf(byAccount), byEmail);
+    }
+
+    public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
+
+    public abstract ImmutableSetMultimap<String, ExternalId> byEmail();
   }
 }

@@ -666,7 +666,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(sender.getMessages()).hasSize(0);
 
     // Disable the notification. The user provided in the 'notifyDetails' should still be notified.
-    TestAccount userToNotify = accounts.user2();
+    TestAccount userToNotify = accountCreator.user2();
     input.destination = "branch-3";
     input.notify = NotifyHandling.NONE;
     input.notifyDetails =

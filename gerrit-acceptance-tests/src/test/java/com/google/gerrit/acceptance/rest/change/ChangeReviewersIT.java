@@ -199,7 +199,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // CC a group that overlaps with some existing reviewers and CCed accounts.
     TestAccount reviewer =
-        accounts.create(name("reviewer"), "addCcGroup-reviewer@example.com", "Reviewer");
+        accountCreator.create(name("reviewer"), "addCcGroup-reviewer@example.com", "Reviewer");
     result = addReviewer(changeId, reviewer.username);
     assertThat(result.error).isNull();
     sender.clear();
@@ -425,7 +425,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndAddReviewers() throws Exception {
-    TestAccount observer = accounts.user2();
+    TestAccount observer = accountCreator.user2();
     PushOneCommit.Result r = createChange();
     ReviewInput input =
         ReviewInput.approve().reviewer(user.email).reviewer(observer.email, CC, false);
@@ -480,7 +480,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .id(mediumGroup)
         .addMembers(usernames.subList(0, mediumGroupSize).toArray(new String[mediumGroupSize]));
 
-    TestAccount observer = accounts.user2();
+    TestAccount observer = accountCreator.user2();
     PushOneCommit.Result r = createChange();
 
     // Attempt to add overly large group as reviewers.
@@ -610,9 +610,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   @Test
   public void addOverlappingGroups() throws Exception {
     String emailPrefix = "addOverlappingGroups-";
-    TestAccount user1 = accounts.create(name("user1"), emailPrefix + "user1@example.com", "User1");
-    TestAccount user2 = accounts.create(name("user2"), emailPrefix + "user2@example.com", "User2");
-    TestAccount user3 = accounts.create(name("user3"), emailPrefix + "user3@example.com", "User3");
+    TestAccount user1 =
+        accountCreator.create(name("user1"), emailPrefix + "user1@example.com", "User1");
+    TestAccount user2 =
+        accountCreator.create(name("user2"), emailPrefix + "user2@example.com", "User2");
+    TestAccount user3 =
+        accountCreator.create(name("user3"), emailPrefix + "user3@example.com", "User3");
     String group1 = createGroup("group1");
     String group2 = createGroup("group2");
     gApi.groups().id(group1).addMembers(user1.username, user2.username);
@@ -796,7 +799,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     List<TestAccount> result = new ArrayList<>(n);
     for (int i = 0; i < n; i++) {
       result.add(
-          accounts.create(name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i));
+          accountCreator.create(
+              name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i));
     }
     return result;
   }

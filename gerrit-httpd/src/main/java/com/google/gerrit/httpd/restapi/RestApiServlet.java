@@ -20,8 +20,11 @@ import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_MAX_AGE;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
@@ -53,7 +56,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Streams;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -169,8 +171,11 @@ public class RestApiServlet extends HttpServlet {
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
   private static final int SC_UNPROCESSABLE_ENTITY = 422;
   private static final String X_REQUESTED_WITH = "X-Requested-With";
+  private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
+  private static final ImmutableSet<String> ALLOWED_CORS_METHODS =
+      ImmutableSet.of("GET", "HEAD", "POST", "PUT", "DELETE");
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
-      ImmutableSet.of(X_REQUESTED_WITH);
+      ImmutableSet.of(AUTHORIZATION, CONTENT_TYPE, X_GERRIT_AUTH, X_REQUESTED_WITH);
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
@@ -499,10 +504,14 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private void checkCors(HttpServletRequest req, HttpServletResponse res) {
+  private void checkCors(HttpServletRequest req, HttpServletResponse res)
+      throws BadRequestException {
     String origin = req.getHeader(ORIGIN);
-    if (isRead(req) && !Strings.isNullOrEmpty(origin) && isOriginAllowed(origin)) {
+    if (!Strings.isNullOrEmpty(origin)) {
       res.addHeader(VARY, ORIGIN);
+      if (!isOriginAllowed(origin)) {
+        throw new BadRequestException("origin not allowed");
+      }
       setCorsHeaders(res, origin);
     }
   }
@@ -525,20 +534,17 @@ public class RestApiServlet extends HttpServlet {
     }
 
     String method = req.getHeader(ACCESS_CONTROL_REQUEST_METHOD);
-    if (!"GET".equals(method) && !"HEAD".equals(method)) {
+    if (!ALLOWED_CORS_METHODS.contains(method)) {
       throw new BadRequestException(method + " not allowed in CORS");
     }
 
     String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
     if (headers != null) {
       res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
-      String badHeader =
-          Streams.stream(Splitter.on(',').trimResults().split(headers))
-              .filter(h -> !ALLOWED_CORS_REQUEST_HEADERS.contains(h))
-              .findFirst()
-              .orElse(null);
-      if (badHeader != null) {
-        throw new BadRequestException(badHeader + " not allowed in CORS");
+      for (String reqHdr : Splitter.on(',').trimResults().split(headers)) {
+        if (!isAllowedCorsRequestHeader(reqHdr)) {
+          throw new BadRequestException(reqHdr + " not allowed in CORS");
+        }
       }
     }
 
@@ -548,10 +554,22 @@ public class RestApiServlet extends HttpServlet {
     res.setContentLength(0);
   }
 
-  private void setCorsHeaders(HttpServletResponse res, String origin) {
+  private static boolean isAllowedCorsRequestHeader(String reqHdr) {
+    return ALLOWED_CORS_REQUEST_HEADERS
+            .stream()
+            .filter(a -> a.compareToIgnoreCase(reqHdr) == 0)
+            .findFirst()
+            .orElse(null)
+        != null;
+  }
+
+  private static void setCorsHeaders(HttpServletResponse res, String origin) {
     res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-    res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, OPTIONS");
+    res.setHeader(ACCESS_CONTROL_MAX_AGE, "600");
+    res.setHeader(
+        ACCESS_CONTROL_ALLOW_METHODS,
+        Joiner.on(", ").join(Iterables.concat(ALLOWED_CORS_METHODS, ImmutableList.of("OPTIONS"))));
     res.setHeader(ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
   }
 

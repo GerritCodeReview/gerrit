@@ -65,14 +65,14 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putWithOriginRefused() throws Exception {
+  public void putWithOriginAccepted() throws Exception {
     Result change = createChange();
     String origin = "http://example.com";
     RestResponse r =
         adminRestSession.putWithHeader(
             "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
     r.assertOK();
-    checkCors(r, false, origin);
+    checkCors(r, true, origin);
   }
 
   @Test
@@ -94,46 +94,42 @@ public class CorsIT extends AbstractDaemonTest {
   @Test
   public void preflightBadOrigin() throws Exception {
     Result change = createChange();
-
     Request req =
         Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://evil.attacker");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
-
     adminRestSession.execute(req).assertBadRequest();
   }
 
   @Test
   public void preflightBadMethod() throws Exception {
     Result change = createChange();
-
-    for (String method : new String[] {"POST", "PUT", "DELETE", "PATCH"}) {
-      Request req =
-          Request.Options(
-              adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
-      req.addHeader(ORIGIN, "http://example.com");
-      req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, method);
-      adminRestSession.execute(req).assertBadRequest();
-    }
+    Request req =
+        Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
+    req.addHeader(ORIGIN, "http://example.com");
+    req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "CALL");
+    adminRestSession.execute(req).assertBadRequest();
   }
 
   @Test
   public void preflightBadHeader() throws Exception {
     Result change = createChange();
-
     Request req =
         Request.Options(adminRestSession.url() + "/a/changes/" + change.getChangeId() + "/detail");
     req.addHeader(ORIGIN, "http://example.com");
     req.addHeader(ACCESS_CONTROL_REQUEST_METHOD, "GET");
-    req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Gerrit-Auth");
-
+    req.addHeader(ACCESS_CONTROL_REQUEST_HEADERS, "X-Secret-Auth-Token");
     adminRestSession.execute(req).assertBadRequest();
   }
 
   private RestResponse check(String url, boolean accept, String origin) throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
-    r.assertOK();
+    if (accept) {
+      r.assertOK();
+    } else {
+      r.assertBadRequest();
+    }
     checkCors(r, accept, origin);
     return r;
   }
@@ -145,9 +141,6 @@ public class CorsIT extends AbstractDaemonTest {
     String allowHeaders = r.getHeader(ACCESS_CONTROL_ALLOW_HEADERS);
     if (accept) {
       assertThat(allowOrigin).isEqualTo(origin);
-      assertThat(allowCred).isEqualTo("true");
-      assertThat(allowMethods).isEqualTo("GET, OPTIONS");
-      assertThat(allowHeaders).isEqualTo("X-Requested-With");
     } else {
       assertThat(allowOrigin).isNull();
       assertThat(allowCred).isNull();

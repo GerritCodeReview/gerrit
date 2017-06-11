@@ -139,7 +139,7 @@ def gen_classpath(ext):
   plugins = set()
 
   # Classpath entries are absolute for cross-cell support
-  java_library = re.compile('bazel-out/local-fastbuild/bin/(.*)/[^/]+[.]jar$')
+  java_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)/[^/]+[.]jar$')
   srcs = re.compile('(.*/external/[^/]+)/jar/(.*)[.]jar')
   for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):

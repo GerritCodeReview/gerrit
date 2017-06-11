@@ -193,7 +193,8 @@
 
     saveDiffPreferences(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.diff'] = undefined;
+      this._cache[this.getBaseUrl() +
+          '/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
@@ -201,7 +202,7 @@
     getAccount() {
       return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
         if (resp.status === 403) {
-          this._cache['/accounts/self/detail'] = null;
+          this._cache[this.getBaseUrl() + '/accounts/self/detail'] = null;
         }
       });
     },
@@ -226,7 +227,8 @@
           opt_errFn, opt_ctx).then(() => {
             // If result of getAccountEmails is in cache, update it in the cache
             // so we don't have to invalidate it.
-            const cachedEmails = this._cache['/accounts/self/emails'];
+            const cachedEmails = this._cache[
+                this.getBaseUrl() + '/accounts/self/emails'];
             if (cachedEmails) {
               const emails = cachedEmails.map(entry => {
                 if (entry.email === email) {
@@ -235,7 +237,7 @@
                   return {email};
                 }
               });
-              this._cache['/accounts/self/emails'] = emails;
+              this._cache[this.getBaseUrl() + '/accounts/self/emails'] = emails;
             }
           });
     },
@@ -245,13 +247,15 @@
           opt_ctx).then(response => {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
+            const cachedAccount = this._cache[
+                this.getBaseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(newName => {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {name: newName});
+                this._cache[
+                    this.getBaseUrl() + '/accounts/self/detail'] =
+                        Object.assign({}, cachedAccount, {name: newName});
               });
             }
           });
@@ -262,13 +266,15 @@
           opt_errFn, opt_ctx).then(response => {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
+            const cachedAccount = this._cache[
+                this.getBaseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(newStatus => {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {status: newStatus});
+                this._cache[
+                    this.getBaseUrl() + '/accounts/self/detail'] =
+                        Object.assign({}, cachedAccount, {status: newStatus});
               });
             }
           });
@@ -357,13 +363,13 @@
         return this._sharedFetchPromises[url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[this.getBaseUrl() + url] !== undefined) {
+        return Promise.resolve(this._cache[this.getBaseUrl() + url]);
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
           response => {
             if (response !== undefined) {
-              this._cache[url] = response;
+              this._cache[this.getBaseUrl() + url] = response;
             }
             this._sharedFetchPromises[url] = undefined;
             return response;

@@ -22,6 +22,30 @@
       "revId": "ded81119aa64279fdc0a400621fd177de8bd23f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8eca3bb7_057e9c41",
+        "filename": "project.config",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:37:33Z",
+      "side": 0,
+      "message": "Done in the following change.",
+      "parentUuid": "8baacc95_ae3970bc",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 17
+      },
+      "revId": "ded81119aa64279fdc0a400621fd177de8bd23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

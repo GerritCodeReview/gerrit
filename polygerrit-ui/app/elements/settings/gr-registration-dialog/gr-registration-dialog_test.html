@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,12 +41,14 @@ limitations under the License.
   suite('gr-registration-dialog tests', () => {
     let element;
     let account;
+    let config;
     let _listeners;
 
     setup(done => {
       _listeners = {};
 
       account = {
+        username: 'username',
         name: 'name',
         email: 'email',
         secondary_emails: [
@@ -55,11 +57,23 @@ limitations under the License.
         ],
       };
 
+      config = {auth: {editable_account_fields: []}};
+
       stub('gr-rest-api-interface', {
+        getLoggedIn() {
+          return Promise.resolve(true);
+        },
         getAccount() {
         // Once the account is resolved, we can let the test proceed.
           flush(done);
           return Promise.resolve(account);
+        },
+        getConfig() {
+          return Promise.resolve(config);
+        },
+        setAccountUsername(username) {
+          account.username = username;
+          return Promise.resolve();
         },
         setAccountName(name) {
           account.name = name;
@@ -119,17 +133,23 @@ limitations under the License.
       }).then(done);
     });
 
-    test('saves name and preferred email', done => {
+    test('saves username, name and preferred email', done => {
+      const serverConfig = ['FULL_NAME', 'USER_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
       flush(() => {
-        element.$.name.value = 'new name';
-        element.$.email.value = 'email3';
+        element.$.usernameInput.bindValue = 'new username';
+        element.$.nameInput.bindValue = 'new name';
+        element.$.emailSelect.bindValue = 'email3';
 
         // Nothing should be committed yet.
+        assert.equal(account.username, 'username');
         assert.equal(account.name, 'name');
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
         save().then(() => {
+          assert.equal(account.username, 'new username');
           assert.equal(account.name, 'new name');
           assert.equal(account.email, 'email3');
         }).then(done);
@@ -137,12 +157,41 @@ limitations under the License.
     });
 
     test('pressing enter saves name', done => {
-      element.$.name.value = 'entered name';
+      const serverConfig = ['FULL_NAME', 'USER_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
+      element.$.nameInput.bindValue = 'entered name';
       save(() => {
-        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13); // 'enter'
+        // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
       }).then(() => {
         assert.equal(account.name, 'entered name');
       }).then(done);
+    });
+
+    test('pressing enter saves username', done => {
+      const serverConfig = ['FULL_NAME', 'USER_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
+      element.$.usernameInput.bindValue = 'entered username';
+      save(() => {
+        // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element.$.usernameInput, 13);
+      }).then(() => {
+        assert.equal(account.username, 'entered username');
+      }).then(done);
+    });
+
+    test('check username dialog for being disabled', () => {
+      const serverConfig = ['FULL_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
+
+      flushAsynchronousOperations();
+
+      assert.isTrue(element.$.username.hasAttribute('disabled'));
+
+      assert.equal(account.username, element.$.usernameInput.bindValue);
     });
   });
 </script>

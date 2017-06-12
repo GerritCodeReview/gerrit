@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b516f0b6_5fae22ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T20:00:20Z",
+      "side": 1,
+      "message": "Importing an element to get access to a namespace is counterintuitive tbh.",
+      "range": {
+        "startLine": 846,
+        "startChar": 18,
+        "endLine": 846,
+        "endChar": 45
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1647c937_c459bf27",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
         "patchSetId": 6

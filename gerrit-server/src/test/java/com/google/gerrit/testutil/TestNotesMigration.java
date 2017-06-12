@@ -108,53 +108,7 @@ public class TestNotesMigration extends NotesMigration {
   }
 
   public TestNotesMigration resetFromEnv() {
-    switch (NoteDbMode.get()) {
-      case READ_WRITE:
-        setWriteChanges(true);
-        setReadChanges(true);
-        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
-        setDisableChangeReviewDb(false);
-        setFuseUpdates(false);
-        break;
-      case WRITE:
-        setWriteChanges(true);
-        setReadChanges(false);
-        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
-        setDisableChangeReviewDb(false);
-        setFuseUpdates(false);
-        break;
-      case PRIMARY:
-        setWriteChanges(true);
-        setReadChanges(true);
-        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
-        setDisableChangeReviewDb(false);
-        setFuseUpdates(false);
-        break;
-      case DISABLE_CHANGE_REVIEW_DB:
-        setWriteChanges(true);
-        setReadChanges(true);
-        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
-        setDisableChangeReviewDb(true);
-        setFuseUpdates(false);
-        break;
-      case FUSED:
-        setWriteChanges(true);
-        setReadChanges(true);
-        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
-        setDisableChangeReviewDb(true);
-        setFuseUpdates(true);
-        break;
-      case CHECK:
-      case OFF:
-      default:
-        setWriteChanges(false);
-        setReadChanges(false);
-        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
-        setDisableChangeReviewDb(false);
-        setFuseUpdates(false);
-        break;
-    }
-    return this;
+    return setFrom(NoteDbMode.get().migration);
   }
 
   public TestNotesMigration setFrom(NotesMigration other) {

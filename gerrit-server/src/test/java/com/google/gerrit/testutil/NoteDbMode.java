@@ -18,31 +18,33 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.NotesMigrationState;
 
 public enum NoteDbMode {
   /** NoteDb is disabled. */
-  OFF(false),
+  OFF(NotesMigrationState.REVIEW_DB),
 
   /** Writing data to NoteDb is enabled. */
-  WRITE(false),
+  WRITE(NotesMigrationState.WRITE),
 
   /** Reading and writing all data to NoteDb is enabled. */
-  READ_WRITE(true),
+  READ_WRITE(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY),
 
   /** Changes are created with their primary storage as NoteDb. */
-  PRIMARY(true),
+  PRIMARY(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY),
 
   /** All change tables are entirely disabled. */
-  DISABLE_CHANGE_REVIEW_DB(true),
+  DISABLE_CHANGE_REVIEW_DB(NotesMigrationState.NOTE_DB_UNFUSED),
 
   /** All change tables are entirely disabled, and code/meta ref updates are fused. */
-  FUSED(true),
+  FUSED(NotesMigrationState.NOTE_DB),
 
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
    * match.
    */
-  CHECK(false);
+  CHECK(NotesMigrationState.REVIEW_DB);
 
   private static final String ENV_VAR = "GERRIT_NOTEDB";
   private static final String SYS_PROP = "gerrit.notedb";
@@ -71,12 +73,13 @@ public enum NoteDbMode {
   }
 
   public static boolean readWrite() {
-    return get().readWrite;
+    NotesMigration migration = get().migration;
+    return migration.rawWriteChangesSetting() && migration.readChanges();
   }
 
-  private final boolean readWrite;
+  final NotesMigration migration;
 
-  private NoteDbMode(boolean readWrite) {
-    this.readWrite = readWrite;
+  private NoteDbMode(NotesMigrationState state) {
+    migration = state.migration();
   }
 }

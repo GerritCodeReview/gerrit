@@ -16,6 +16,24 @@
       "revId": "88e17287966d8573ebacbd2a23754e69772002b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28653144_ee3f0e7c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3920,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-12T17:12:04Z",
+      "side": 1,
+      "message": "I debated with myself about that all weekend. I settled on one list and allowing all applications full access to the API.\n\nThe only benefit I can see from having GET vs. full is being able to say a GET-only application could have less security review applied to it, as it can\u0027t mutate even if it has an XSS attack vector, but it could still leak confidential content, so that\u0027s probably not a valid argument for ignoring the security of the collaborating application.",
+      "parentUuid": "421f2317_6b317fd0",
+      "revId": "88e17287966d8573ebacbd2a23754e69772002b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

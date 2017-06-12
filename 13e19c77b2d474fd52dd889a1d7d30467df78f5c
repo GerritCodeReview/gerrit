@@ -306,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "d471120e_114988a1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:44:10Z",
+      "side": 1,
+      "message": "Nope, thanks, done.",
+      "parentUuid": "0c5e62f6_6f0b120e",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 6
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fff242b7_5995da6d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
         "patchSetId": 25

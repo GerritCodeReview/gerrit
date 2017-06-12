@@ -78,7 +78,6 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
@@ -143,8 +142,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsers;
 
   @Inject private AccountsUpdate.Server accountsUpdate;
-
-  @Inject private AccountByEmailCache byEmailCache;
 
   @Inject private ExternalIds externalIds;
 
@@ -674,28 +671,6 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("modify account not permitted");
     gApi.accounts().id(admin.id.get()).deleteEmail(admin.email);
-  }
-
-  @Test
-  public void lookUpFromCacheByEmail() throws Exception {
-    // exact match with scheme "mailto:"
-    assertEmail(byEmailCache.get(admin.email), admin);
-
-    // exact match with other scheme
-    String email = "foo.bar@example.com";
-    externalIdsUpdateFactory
-        .create()
-        .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    assertEmail(byEmailCache.get(email), admin);
-
-    // wrong case doesn't match
-    assertThat(byEmailCache.get(admin.email.toUpperCase(Locale.US))).isEmpty();
-
-    // prefix doesn't match
-    assertThat(byEmailCache.get(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
-
-    // non-existing doesn't match
-    assertThat(byEmailCache.get("non-existing@example.com")).isEmpty();
   }
 
   @Test

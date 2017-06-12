@@ -76,13 +76,13 @@
       },
       backPage: String,
       hasParent: Boolean,
-      serverConfig: {
-        type: Object,
-        observer: '_startUpdateCheckTimer',
-      },
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
+      },
+      _serverConfig: {
+        type: Object,
+        observer: '_startUpdateCheckTimer',
       },
       _diffPrefs: Object,
       _numFilesShown: {
@@ -165,7 +165,7 @@
       _replyDisabled: {
         type: Boolean,
         value: true,
-        computed: '_computeReplyDisabled(serverConfig)',
+        computed: '_computeReplyDisabled(_serverConfig)',
       },
       _changeStatus: {
         type: String,
@@ -206,6 +206,10 @@
     },
 
     attached() {
+      this.$.restAPI.getConfig().then(config => {
+        this._serverConfig = config;
+      });
+
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
@@ -1256,10 +1260,10 @@
     },
 
     _startUpdateCheckTimer() {
-      if (!this.serverConfig ||
-          !this.serverConfig.change ||
-          this.serverConfig.change.update_delay === undefined ||
-          this.serverConfig.change.update_delay <= MIN_CHECK_INTERVAL_SECS) {
+      if (!this._serverConfig ||
+          !this._serverConfig.change ||
+          this._serverConfig.change.update_delay === undefined ||
+          this._serverConfig.change.update_delay <= MIN_CHECK_INTERVAL_SECS) {
         return;
       }
 

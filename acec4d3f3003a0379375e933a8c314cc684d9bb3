@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3bcbc47_52d0ff60",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-12T09:19:15Z",
+      "side": 1,
+      "message": "I know, I could have put even more detail and the issue is the LifecycleListener that starts the modules in the same order they are registered with it (the listener().to() you mentioned).\n\nThe loading of the plugins are performed using Guice but their bindings are not made by the PluginModule itself but only by the PluginLoader which is started by the start() method invoked by the LifecycleListener.\n\nI will put a larger and more detailed comment as suggested.",
+      "parentUuid": "d7868271_5f5827c0",
+      "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dc9a651_f2a17b0b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

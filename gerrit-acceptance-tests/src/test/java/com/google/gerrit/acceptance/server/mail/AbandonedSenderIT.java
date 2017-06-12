@@ -47,8 +47,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }
@@ -61,8 +60,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }
@@ -77,8 +75,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .notTo(other)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }
@@ -92,8 +89,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer, other)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }
@@ -106,8 +102,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .notTo(sc.owner, sc.starrer)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .notTo(ABANDONED_CHANGES);
   }
 
@@ -164,8 +159,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }
@@ -185,8 +179,7 @@ public class AbandonedSenderIT extends AbstractNotificationTest {
         .sent("abandon", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ABANDONED_CHANGES);
   }

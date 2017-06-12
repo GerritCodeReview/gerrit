@@ -204,7 +204,9 @@ public class WorkQueue {
       queueName = prefix;
     }
 
-    public void unregisterWorkQueue() {
+    @Override
+    protected void terminated() {
+      super.terminated();
       queues.remove(this);
     }
 

@@ -36,18 +36,15 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
-
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SessionScoped
 /* OAuth protocol implementation */
@@ -67,7 +64,8 @@ class OAuthSession {
   private boolean linkMode;
 
   @Inject
-  OAuthSession(DynamicItem<WebSession> webSession,
+  OAuthSession(
+      DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider,
@@ -88,8 +86,9 @@ class OAuthSession {
     return Strings.emptyToNull(request.getParameter("code")) != null;
   }
 
-  boolean login(HttpServletRequest request, HttpServletResponse response,
-      OAuthServiceProvider oauth) throws IOException {
+  boolean login(
+      HttpServletRequest request, HttpServletResponse response, OAuthServiceProvider oauth)
+      throws IOException {
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -99,8 +98,7 @@ class OAuthSession {
       }
 
       log.debug("Login-Retrieve-User " + this);
-      OAuthToken token = oauth.getAccessToken(
-          new OAuthVerifier(request.getParameter("code")));
+      OAuthToken token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
       user = oauth.getUserInfo(token);
 
       if (isLoggedIn()) {
@@ -118,22 +116,19 @@ class OAuthSession {
     // https://bz.apache.org/bugzilla/show_bug.cgi?id=28323
     // we cannot use LoginUrlToken.getToken() method,
     // because it relies on getPathInfo() and it is always null here.
-    redirectToken = redirectToken.substring(
-        request.getContextPath().length());
-    response.sendRedirect(oauth.getAuthorizationUrl() +
-        "&state=" + state);
+    redirectToken = redirectToken.substring(request.getContextPath().length());
+    response.sendRedirect(oauth.getAuthorizationUrl() + "&state=" + state);
     return false;
   }
 
-  private void authenticateAndRedirect(HttpServletRequest req,
-      HttpServletResponse rsp, OAuthToken token) throws IOException {
+  private void authenticateAndRedirect(
+      HttpServletRequest req, HttpServletResponse rsp, OAuthToken token) throws IOException {
     AuthRequest areq = new AuthRequest(user.getExternalId());
     AuthResult arsp;
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
-        if (!authenticateWithIdentityClaimedDuringHandshake(areq, rsp,
-            claimedIdentifier)) {
+        if (!authenticateWithIdentityClaimedDuringHandshake(areq, rsp, claimedIdentifier)) {
           return;
         }
       } else if (linkMode) {
@@ -155,8 +150,7 @@ class OAuthSession {
     }
 
     webSession.get().login(arsp, true);
-    String suffix = redirectToken.substring(
-        OAuthWebFilter.GERRIT_LOGIN.length() + 1);
+    String suffix = redirectToken.substring(OAuthWebFilter.GERRIT_LOGIN.length() + 1);
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
     rdr.append(Url.decode(suffix));
     rsp.sendRedirect(rdr.toString());
@@ -175,24 +169,35 @@ class OAuthSession {
         // This is (for now) a fatal error. There are two records
         // for what might be the same user.
         //
-        log.error("OAuth accounts disagree over user identity:\n"
-            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-            + "\n" + "  Delgate ID: " + actualId + " is "
-            + user.getExternalId());
+        log.error(
+            "OAuth accounts disagree over user identity:\n"
+                + "  Claimed ID: "
+                + claimedId
+                + " is "
+                + claimedIdentifier
+                + "\n"
+                + "  Delgate ID: "
+                + actualId
+                + " is "
+                + user.getExternalId());
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }
     } else if (claimedId != null && actualId == null) {
       // Claimed account already exists: link to it.
       //
-      log.info("OAuth2: linking claimed identity to {}",
-          claimedId.toString());
+      log.info("OAuth2: linking claimed identity to {}", claimedId.toString());
       try {
         accountManager.link(claimedId, req);
       } catch (OrmException e) {
-        log.error("Cannot link: " +  user.getExternalId()
-            + " to user identity:\n"
-            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
+        log.error(
+            "Cannot link: "
+                + user.getExternalId()
+                + " to user identity:\n"
+                + "  Claimed ID: "
+                + claimedId
+                + " is "
+                + claimedIdentifier);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }
@@ -200,13 +205,16 @@ class OAuthSession {
     return true;
   }
 
-  private boolean authenticateWithLinkedIdentity(AuthRequest areq,
-      HttpServletResponse rsp) throws AccountException, IOException {
+  private boolean authenticateWithLinkedIdentity(AuthRequest areq, HttpServletResponse rsp)
+      throws AccountException, IOException {
     try {
       accountManager.link(identifiedUser.get().getAccountId(), areq);
     } catch (OrmException e) {
-      log.error("Cannot link: " + user.getExternalId()
-          + " to user identity: " + identifiedUser.get().getAccountId());
+      log.error(
+          "Cannot link: "
+              + user.getExternalId()
+              + " to user identity: "
+              + identifiedUser.get().getAccountId());
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return false;
     } finally {
@@ -238,8 +246,7 @@ class OAuthSession {
     try {
       return SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new IllegalArgumentException(
-          "No SecureRandom available for GitHub authentication", e);
+      throw new IllegalArgumentException("No SecureRandom available for GitHub authentication", e);
     }
   }
 
@@ -251,8 +258,7 @@ class OAuthSession {
 
   @Override
   public String toString() {
-    return "OAuthSession [token=" + tokenCache.get(accountId) + ", user="
-        + user + "]";
+    return "OAuthSession [token=" + tokenCache.get(accountId) + ", user=" + user + "]";
   }
 
   public void setServiceProvider(OAuthServiceProvider provider) {

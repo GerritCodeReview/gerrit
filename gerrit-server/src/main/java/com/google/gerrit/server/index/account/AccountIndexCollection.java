@@ -22,10 +22,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class AccountIndexCollection extends
-    IndexCollection<Account.Id, AccountState, AccountIndex> {
+public class AccountIndexCollection
+    extends IndexCollection<Account.Id, AccountState, AccountIndex> {
   @Inject
   @VisibleForTesting
-  public AccountIndexCollection() {
-  }
+  public AccountIndexCollection() {}
 }

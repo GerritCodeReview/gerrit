@@ -14,10 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-/**
- * Download scheme string constants supported by the download-commands core
- * plugin.
- */
+/** Download scheme string constants supported by the download-commands core plugin. */
 public class CoreDownloadSchemes {
   public static final String ANON_GIT = "git";
   public static final String ANON_HTTP = "anonymous http";
@@ -25,6 +22,5 @@ public class CoreDownloadSchemes {
   public static final String SSH = "ssh";
   public static final String REPO_DOWNLOAD = "repo";
 
-  private CoreDownloadSchemes() {
-  }
+  private CoreDownloadSchemes() {}
 }

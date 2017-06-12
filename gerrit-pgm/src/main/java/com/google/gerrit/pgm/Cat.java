@@ -16,11 +16,9 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.AbstractProgram;
-
-import org.kohsuke.args4j.Argument;
-
 import java.io.IOException;
 import java.io.InputStream;
+import org.kohsuke.args4j.Argument;
 
 /** Dump the contents of a file in our archive. */
 public class Cat extends AbstractProgram {

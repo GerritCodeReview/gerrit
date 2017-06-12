@@ -76,28 +76,27 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     fp.add(addNew);
     add(fp);
 
-
     /* bottom table */
     add(watchesTab);
     add(delSel);
 
-
     /* popup */
-    projectsPopup = new ProjectListPopup() {
-      @Override
-      protected void onMovePointerTo(String projectName) {
-        // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPoppingUp() || "".equals(nameBox.getText())) {
-          nameBox.setText(projectName);
-        }
-      }
+    projectsPopup =
+        new ProjectListPopup() {
+          @Override
+          protected void onMovePointerTo(String projectName) {
+            // prevent user input from being overwritten by simply poping up
+            if (!projectsPopup.isPoppingUp() || "".equals(nameBox.getText())) {
+              nameBox.setText(projectName);
+            }
+          }
 
-      @Override
-      protected void openRow(String projectName) {
-        nameBox.setText(projectName);
-        doAddNew();
-      }
-    };
+          @Override
+          protected void openRow(String projectName) {
+            nameBox.setText(projectName);
+            doAddNew();
+          }
+        };
     projectsPopup.initPopup(Util.C.projects(), PageLinks.SETTINGS_PROJECTS);
   }
 
@@ -105,57 +104,64 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     nameBox = new RemoteSuggestBox(new ProjectNameSuggestOracle());
     nameBox.setVisibleLength(50);
     nameBox.setHintText(Util.C.defaultProjectName());
-    nameBox.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        doAddNew();
-      }
-    });
+    nameBox.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            doAddNew();
+          }
+        });
 
     filterTxt = new HintTextBox();
     filterTxt.setVisibleLength(50);
     filterTxt.setHintText(Util.C.defaultFilter());
-    filterTxt.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doAddNew();
-        }
-      }
-    });
+    filterTxt.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              doAddNew();
+            }
+          }
+        });
 
     addNew = new Button(Util.C.buttonWatchProject());
-    addNew.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doAddNew();
-      }
-    });
+    addNew.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doAddNew();
+          }
+        });
 
     browse = new Button(Util.C.buttonBrowseProjects());
-    browse.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        int top = grid.getAbsoluteTop() - 50; // under page header
-        // Try to place it to the right of everything else, but not
-        // right justified
-        int left =
-            5 + Math.max(grid.getAbsoluteLeft() + grid.getOffsetWidth(),
-                watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth());
-        projectsPopup.setPreferredCoordinates(top, left);
-        projectsPopup.displayPopup();
-      }
-    });
+    browse.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            int top = grid.getAbsoluteTop() - 50; // under page header
+            // Try to place it to the right of everything else, but not
+            // right justified
+            int left =
+                5
+                    + Math.max(
+                        grid.getAbsoluteLeft() + grid.getOffsetWidth(),
+                        watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth());
+            projectsPopup.setPreferredCoordinates(top, left);
+            projectsPopup.displayPopup();
+          }
+        });
 
     watchesTab = new MyWatchesTable();
 
     delSel = new Button(Util.C.buttonDeleteSshKey());
-    delSel.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        watchesTab.deleteChecked();
-      }
-    });
+    delSel.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            watchesTab.deleteChecked();
+          }
+        });
   }
 
   @Override
@@ -177,8 +183,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     }
 
     String filter = filterTxt.getText();
-    if (filter == null || filter.isEmpty()
-        || filter.equals(Util.C.defaultFilter())) {
+    if (filter == null || filter.isEmpty() || filter.equals(Util.C.defaultFilter())) {
       filter = null;
     }
 
@@ -186,12 +191,13 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     nameBox.setEnabled(false);
     filterTxt.setEnabled(false);
 
-    final ProjectWatchInfo projectWatchInfo = JavaScriptObject
-        .createObject().cast();
+    final ProjectWatchInfo projectWatchInfo = JavaScriptObject.createObject().cast();
     projectWatchInfo.project(projectName);
     projectWatchInfo.filter(filterTxt.getText());
 
-    AccountApi.updateWatchedProject("self", projectWatchInfo,
+    AccountApi.updateWatchedProject(
+        "self",
+        projectWatchInfo,
         new GerritCallback<JsArray<ProjectWatchInfo>>() {
           @Override
           public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
@@ -214,13 +220,14 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   }
 
   protected void populateWatches() {
-    AccountApi.getWatchedProjects("self",
+    AccountApi.getWatchedProjects(
+        "self",
         new GerritCallback<JsArray<ProjectWatchInfo>>() {
-      @Override
-      public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
-        display();
-        watchesTab.display(watchedProjects);
-      }
-    });
+          @Override
+          public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
+            display();
+            watchesTab.display(watchedProjects);
+          }
+        });
   }
 }

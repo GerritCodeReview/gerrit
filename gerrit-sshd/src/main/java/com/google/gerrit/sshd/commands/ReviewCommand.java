@@ -41,12 +41,6 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -56,11 +50,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewCommand.class);
+  private static final Logger log = LoggerFactory.getLogger(ReviewCommand.class);
 
   @Override
   protected final CmdLineParser newCmdLineParser(Object options) {
@@ -73,9 +70,13 @@ public class ReviewCommand extends SshCommand {
 
   private final Set<PatchSet> patchSets = new HashSet<>();
 
-  @Argument(index = 0, required = true, multiValued = true,
-      metaVar = "{COMMIT | CHANGE,PATCHSET}",
-      usage = "list of commits or patch sets to review")
+  @Argument(
+    index = 0,
+    required = true,
+    multiValued = true,
+    metaVar = "{COMMIT | CHANGE,PATCHSET}",
+    usage = "list of commits or patch sets to review"
+  )
   void addPatchSetId(final String token) {
     try {
       PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
@@ -87,16 +88,30 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  @Option(name = "--project", aliases = "-p", usage = "project containing the specified patch set(s)")
+  @Option(
+    name = "--project",
+    aliases = "-p",
+    usage = "project containing the specified patch set(s)"
+  )
   private ProjectControl projectControl;
 
   @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patch set(s)")
   private String branch;
 
-  @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change(s)", metaVar = "MESSAGE")
+  @Option(
+    name = "--message",
+    aliases = "-m",
+    usage = "cover message to publish on change(s)",
+    metaVar = "MESSAGE"
+  )
   private String changeComment;
 
-  @Option(name = "--notify", aliases = "-n", usage = "Who to send email notifications to after the review is stored.", metaVar = "NOTIFYHANDLING")
+  @Option(
+    name = "--notify",
+    aliases = "-n",
+    usage = "Who to send email notifications to after the review is stored.",
+    metaVar = "NOTIFYHANDLING"
+  )
   private NotifyHandling notify;
 
   @Option(name = "--abandon", usage = "abandon the specified change(s)")
@@ -120,31 +135,39 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--json", aliases = "-j", usage = "read review input json from stdin")
   private boolean json;
 
-  @Option(name = "--strict-labels", usage = "Strictly check if the labels "
-      + "specified can be applied to the given patch set(s)")
+  @Option(
+    name = "--strict-labels",
+    usage = "Strictly check if the labels " + "specified can be applied to the given patch set(s)"
+  )
   private boolean strictLabels;
 
-  @Option(name = "--tag", aliases = "-t", usage = "applies a tag to the given review", metaVar = "TAG")
+  @Option(
+    name = "--tag",
+    aliases = "-t",
+    usage = "applies a tag to the given review",
+    metaVar = "TAG"
+  )
   private String changeTag;
 
-  @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
+  @Option(
+    name = "--label",
+    aliases = "-l",
+    usage = "custom label(s) to assign",
+    metaVar = "LABEL=VALUE"
+  )
   void addLabel(final String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
     LabelType.checkName(v.label()); // Disallow SUBM.
     customLabels.put(v.label(), v.value());
   }
 
-  @Inject
-  private ProjectControl.Factory projectControlFactory;
+  @Inject private ProjectControl.Factory projectControlFactory;
 
-  @Inject
-  private AllProjectsName allProjects;
+  @Inject private AllProjectsName allProjects;
 
-  @Inject
-  private GerritApi gApi;
+  @Inject private GerritApi gApi;
 
-  @Inject
-  private PatchSetParser psParser;
+  @Inject private PatchSetParser psParser;
 
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;
@@ -235,12 +258,10 @@ public class ReviewCommand extends SshCommand {
         writeError("error", e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
         ok = false;
-        writeError("error",
-            "no such change " + patchSet.getId().getParentKey().get());
+        writeError("error", "no such change " + patchSet.getId().getParentKey().get());
       } catch (Exception e) {
         ok = false;
-        writeError("fatal", "internal server error while reviewing "
-            + patchSet.getId() + "\n");
+        writeError("fatal", "internal server error while reviewing " + patchSet.getId() + "\n");
         log.error("internal error while reviewing " + patchSet.getId(), e);
       }
     }
@@ -250,8 +271,7 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(PatchSet patchSet,
-      final ReviewInput review) throws RestApiException {
+  private void applyReview(PatchSet patchSet, final ReviewInput review) throws RestApiException {
     gApi.changes()
         .id(patchSet.getId().getParentKey().get())
         .revision(patchSet.getRevision().get())
@@ -260,8 +280,7 @@ public class ReviewCommand extends SshCommand {
 
   private ReviewInput reviewFromJson() throws UnloggedFailure {
     try (InputStreamReader r = new InputStreamReader(in, UTF_8)) {
-      return OutputFormat.JSON.newGson().
-          fromJson(CharStreams.toString(r), ReviewInput.class);
+      return OutputFormat.JSON.newGson().fromJson(CharStreams.toString(r), ReviewInput.class);
     } catch (IOException | JsonSyntaxException e) {
       writeError("error", e.getMessage() + '\n');
       throw die("internal error while reading review input");
@@ -347,9 +366,7 @@ public class ReviewCommand extends SshCommand {
     }
 
     for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
-      StringBuilder usage = new StringBuilder("score for ")
-        .append(type.getName())
-        .append("\n");
+      StringBuilder usage = new StringBuilder("score for ").append(type.getName()).append("\n");
 
       for (LabelValue v : type.getValues()) {
         usage.append(v.format()).append("\n");

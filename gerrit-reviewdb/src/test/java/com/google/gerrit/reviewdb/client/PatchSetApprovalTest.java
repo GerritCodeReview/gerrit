@@ -18,11 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Test;
 
 public class PatchSetApprovalTest {
   static {
@@ -31,18 +29,15 @@ public class PatchSetApprovalTest {
 
   @Test
   public void keyEquality() {
-    PatchSetApproval.Key k1 = new PatchSetApproval.Key(
-        new PatchSet.Id(new Change.Id(1), 2),
-        new Account.Id(3),
-        new LabelId("My-Label"));
-    PatchSetApproval.Key k2 = new PatchSetApproval.Key(
-        new PatchSet.Id(new Change.Id(1), 2),
-        new Account.Id(3),
-        new LabelId("My-Label"));
-    PatchSetApproval.Key k3 = new PatchSetApproval.Key(
-        new PatchSet.Id(new Change.Id(1), 2),
-        new Account.Id(3),
-        new LabelId("Other-Label"));
+    PatchSetApproval.Key k1 =
+        new PatchSetApproval.Key(
+            new PatchSet.Id(new Change.Id(1), 2), new Account.Id(3), new LabelId("My-Label"));
+    PatchSetApproval.Key k2 =
+        new PatchSetApproval.Key(
+            new PatchSet.Id(new Change.Id(1), 2), new Account.Id(3), new LabelId("My-Label"));
+    PatchSetApproval.Key k3 =
+        new PatchSetApproval.Key(
+            new PatchSet.Id(new Change.Id(1), 2), new Account.Id(3), new LabelId("Other-Label"));
 
     assertThat(k2).isEqualTo(k1);
     assertThat(k3).isNotEqualTo(k1);

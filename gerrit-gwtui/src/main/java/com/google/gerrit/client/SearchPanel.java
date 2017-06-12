@@ -45,16 +45,17 @@ class SearchPanel extends Composite {
 
     searchBox = new HintTextBox();
     final MySuggestionDisplay suggestionDisplay = new MySuggestionDisplay();
-    searchBox.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (!suggestionDisplay.isSuggestionSelected) {
-            doSearch();
+    searchBox.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              if (!suggestionDisplay.isSuggestionSelected) {
+                doSearch();
+              }
+            }
           }
-        }
-      }
-    });
+        });
 
     if (Gerrit.hasDocSearch()) {
       dropdown = new ListBox();
@@ -76,12 +77,13 @@ class SearchPanel extends Composite {
 
     final Button searchButton = new Button(Gerrit.C.searchButton());
     searchButton.setStyleName("searchButton");
-    searchButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        doSearch();
-      }
-    });
+    searchButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            doSearch();
+          }
+        });
 
     body.add(suggestBox);
     if (dropdown != null) {
@@ -99,15 +101,16 @@ class SearchPanel extends Composite {
     super.onLoad();
     if (regFocus == null) {
       regFocus =
-          GlobalKey.addApplication(this, new KeyCommand(0, '/', Gerrit.C
-              .keySearch()) {
-            @Override
-            public void onKeyPress(final KeyPressEvent event) {
-              event.preventDefault();
-              searchBox.setFocus(true);
-              searchBox.selectAll();
-            }
-          });
+          GlobalKey.addApplication(
+              this,
+              new KeyCommand(0, '/', Gerrit.C.keySearch()) {
+                @Override
+                public void onKeyPress(final KeyPressEvent event) {
+                  event.preventDefault();
+                  searchBox.setFocus(true);
+                  searchBox.selectAll();
+                }
+              });
     }
   }
 
@@ -127,8 +130,7 @@ class SearchPanel extends Composite {
 
     searchBox.setFocus(false);
 
-    if (dropdown != null
-        && dropdown.getSelectedValue().equals(Gerrit.C.searchDropdownDoc())) {
+    if (dropdown != null && dropdown.getSelectedValue().equals(Gerrit.C.searchDropdownDoc())) {
       // doc
       Gerrit.display(PageLinks.toDocumentationQuery(query));
     } else {
@@ -136,14 +138,12 @@ class SearchPanel extends Composite {
       if (query.matches("^[1-9][0-9]*$")) {
         Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
       } else {
-        Gerrit.display(
-            PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+        Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
       }
     }
   }
 
-  private static class MySuggestionDisplay
-      extends SuggestBox.DefaultSuggestionDisplay {
+  private static class MySuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay {
     private boolean isSuggestionSelected;
 
     private MySuggestionDisplay() {

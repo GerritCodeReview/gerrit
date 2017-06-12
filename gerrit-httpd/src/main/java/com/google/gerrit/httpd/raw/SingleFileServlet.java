@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-
 import java.nio.file.Path;
 
 /** Serve a single static file, regardless of path. */
@@ -29,8 +28,8 @@ class SingleFileServlet extends ResourceServlet {
     this.path = path;
   }
 
-  SingleFileServlet(Cache<Path, Resource> cache, Path path, boolean refresh,
-      boolean cacheOnClient) {
+  SingleFileServlet(
+      Cache<Path, Resource> cache, Path path, boolean refresh, boolean cacheOnClient) {
     super(cache, refresh, cacheOnClient);
     this.path = path;
   }

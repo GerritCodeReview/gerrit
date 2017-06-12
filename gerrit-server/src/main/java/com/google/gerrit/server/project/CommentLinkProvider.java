@@ -21,17 +21,14 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Set;
-
 public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
-  private static final Logger log =
-      LoggerFactory.getLogger(CommentLinkProvider.class);
+  private static final Logger log = LoggerFactory.getLogger(CommentLinkProvider.class);
 
   private final Config cfg;
 
@@ -43,8 +40,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
   @Override
   public List<CommentLinkInfo> get() {
     Set<String> subsections = cfg.getSubsections(ProjectConfig.COMMENTLINK);
-    List<CommentLinkInfo> cls =
-        Lists.newArrayListWithCapacity(subsections.size());
+    List<CommentLinkInfo> cls = Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
       try {
         CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);

@@ -29,16 +29,17 @@ import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.kohsuke.args4j.Option;
 
 /** Causes the caches to purge all entries and reload. */
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
-@CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "flush-caches",
+  description = "Flush some/all server caches from memory",
+  runsAt = MASTER_OR_SLAVE
+)
 final class FlushCaches extends SshCommand {
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<>();
@@ -49,11 +50,9 @@ final class FlushCaches extends SshCommand {
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
 
-  @Inject
-  private ListCaches listCaches;
+  @Inject private ListCaches listCaches;
 
-  @Inject
-  private PostCaches postCaches;
+  @Inject private PostCaches postCaches;
 
   @Override
   protected void run() throws Failure {
@@ -76,11 +75,9 @@ final class FlushCaches extends SshCommand {
       }
 
       if (all) {
-        postCaches.apply(new ConfigResource(),
-            new PostCaches.Input(FLUSH_ALL));
+        postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH_ALL));
       } else {
-        postCaches.apply(new ConfigResource(),
-            new PostCaches.Input(FLUSH, caches));
+        postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH, caches));
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
@@ -89,8 +86,8 @@ final class FlushCaches extends SshCommand {
 
   @SuppressWarnings("unchecked")
   private void doList() {
-    for (String name : (List<String>) listCaches
-        .setFormat(OutputFormat.LIST).apply(new ConfigResource())) {
+    for (String name :
+        (List<String>) listCaches.setFormat(OutputFormat.LIST).apply(new ConfigResource())) {
       stderr.print(name);
       stderr.print('\n');
     }

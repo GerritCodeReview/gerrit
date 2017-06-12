@@ -30,14 +30,12 @@ import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ChangeFieldTest extends GerritBaseTests {
   static {
@@ -56,8 +54,7 @@ public class ChangeFieldTest extends GerritBaseTests {
 
   @Test
   public void reviewerFieldValues() {
-    Table<ReviewerStateInternal, Account.Id, Timestamp> t =
-        HashBasedTable.create();
+    Table<ReviewerStateInternal, Account.Id, Timestamp> t = HashBasedTable.create();
     Timestamp t1 = TimeUtil.nowTs();
     t.put(ReviewerStateInternal.REVIEWER, new Account.Id(1), t1);
     Timestamp t2 = TimeUtil.nowTs();
@@ -65,14 +62,11 @@ public class ChangeFieldTest extends GerritBaseTests {
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
     List<String> values = ChangeField.getReviewerFieldValues(reviewers);
-    assertThat(values).containsExactly(
-        "REVIEWER,1",
-        "REVIEWER,1," + t1.getTime(),
-        "CC,2",
-        "CC,2," + t2.getTime());
+    assertThat(values)
+        .containsExactly(
+            "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
 
-    assertThat(ChangeField.parseReviewerFieldValues(values))
-        .isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(values)).isEqualTo(reviewers);
   }
 
   @Test
@@ -85,12 +79,7 @@ public class ChangeFieldTest extends GerritBaseTests {
                         label(SubmitRecord.Label.Status.MAY, "Label-1", null),
                         label(SubmitRecord.Label.Status.OK, "Label-2", 1))),
                 new Account.Id(1)))
-        .containsExactly(
-            "OK",
-            "MAY,label-1",
-            "OK,label-2",
-            "OK,label-2,0",
-            "OK,label-2,1");
+        .containsExactly("OK", "MAY,label-1", "OK,label-2", "OK,label-2,0", "OK,label-2,1");
   }
 
   @Test
@@ -103,8 +92,7 @@ public class ChangeFieldTest extends GerritBaseTests {
             label(SubmitRecord.Label.Status.OK, "Label-2", 1)));
   }
 
-  private static SubmitRecord record(SubmitRecord.Status status,
-      SubmitRecord.Label... labels) {
+  private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {
     SubmitRecord r = new SubmitRecord();
     r.status = status;
     if (labels.length > 0) {
@@ -113,8 +101,8 @@ public class ChangeFieldTest extends GerritBaseTests {
     return r;
   }
 
-  private static SubmitRecord.Label label(SubmitRecord.Label.Status status,
-      String label, Integer appliedBy) {
+  private static SubmitRecord.Label label(
+      SubmitRecord.Label.Status status, String label, Integer appliedBy) {
     SubmitRecord.Label l = new SubmitRecord.Label();
     l.status = status;
     l.label = label;
@@ -126,9 +114,11 @@ public class ChangeFieldTest extends GerritBaseTests {
 
   private static void assertStoredRecordRoundTrip(SubmitRecord... records) {
     List<SubmitRecord> recordList = ImmutableList.copyOf(records);
-    List<String> stored = ChangeField.storedSubmitRecords(recordList).stream()
-        .map(s -> new String(s, UTF_8))
-        .collect(toList());
+    List<String> stored =
+        ChangeField.storedSubmitRecords(recordList)
+            .stream()
+            .map(s -> new String(s, UTF_8))
+            .collect(toList());
     assertThat(ChangeField.parseSubmitRecords(stored))
         .named("JSON %s" + stored)
         .isEqualTo(recordList);

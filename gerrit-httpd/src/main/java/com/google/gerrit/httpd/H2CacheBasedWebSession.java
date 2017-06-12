@@ -30,7 +30,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.RequestScoped;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,14 +41,15 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
       protected void configure() {
         persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
             .maximumWeight(1024) // reasonable default for many sites
-            .expireAfterWrite(CacheBasedWebSession.MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
+            .expireAfterWrite(
+                CacheBasedWebSession.MAX_AGE_MINUTES,
+                MINUTES) // expire sessions if they are inactive
         ;
-        install(new FactoryModuleBuilder()
-            .build(WebSessionManagerFactory.class));
+        install(new FactoryModuleBuilder().build(WebSessionManagerFactory.class));
         DynamicItem.itemOf(binder(), WebSession.class);
         DynamicItem.bind(binder(), WebSession.class)
-          .to(H2CacheBasedWebSession.class)
-          .in(RequestScoped.class);
+            .to(H2CacheBasedWebSession.class)
+            .in(RequestScoped.class);
       }
     };
   }
@@ -63,7 +63,7 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
       RequestFactory identified) {
-    super(request, response, managerFactory.create(cache), authConfig,
-        anonymousProvider, identified);
+    super(
+        request, response, managerFactory.create(cache), authConfig, anonymousProvider, identified);
   }
 }

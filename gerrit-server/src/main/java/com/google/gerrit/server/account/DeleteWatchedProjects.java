@@ -32,13 +32,11 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteWatchedProjects
@@ -49,7 +47,8 @@ public class DeleteWatchedProjects
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  DeleteWatchedProjects(Provider<ReviewDb> dbProvider,
+  DeleteWatchedProjects(
+      Provider<ReviewDb> dbProvider,
       Provider<IdentifiedUser> self,
       AccountCache accountCache,
       WatchConfig.Accessor watchConfig) {
@@ -61,12 +60,10 @@ public class DeleteWatchedProjects
 
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws AuthException, UnprocessableEntityException, OrmException,
-      IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to edit project watches "
-          + "of other users");
+      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+          ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to edit project watches " + "of other users");
     }
     if (input == null) {
       return Response.none();
@@ -83,16 +80,16 @@ public class DeleteWatchedProjects
       throws OrmException, IOException {
     ResultSet<AccountProjectWatch> watchedProjects =
         dbProvider.get().accountProjectWatches().byAccount(accountId);
-    HashMap<AccountProjectWatch.Key, AccountProjectWatch> watchedProjectsMap =
-        new HashMap<>();
+    HashMap<AccountProjectWatch.Key, AccountProjectWatch> watchedProjectsMap = new HashMap<>();
     for (AccountProjectWatch watchedProject : watchedProjects) {
       watchedProjectsMap.put(watchedProject.getKey(), watchedProject);
     }
 
     List<AccountProjectWatch> watchesToDelete = new LinkedList<>();
     for (ProjectWatchInfo projectInfo : input) {
-      AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,
-          new Project.NameKey(projectInfo.project), projectInfo.filter);
+      AccountProjectWatch.Key key =
+          new AccountProjectWatch.Key(
+              accountId, new Project.NameKey(projectInfo.project), projectInfo.filter);
       if (watchedProjectsMap.containsKey(key)) {
         watchesToDelete.add(watchedProjectsMap.get(key));
       }
@@ -107,8 +104,9 @@ public class DeleteWatchedProjects
       throws IOException, ConfigInvalidException {
     watchConfig.deleteProjectWatches(
         accountId,
-        input.stream().map(w -> ProjectWatchKey.create(
-                new Project.NameKey(w.project), w.filter))
+        input
+            .stream()
+            .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
             .collect(toList()));
   }
 }

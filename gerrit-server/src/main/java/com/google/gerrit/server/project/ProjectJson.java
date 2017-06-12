@@ -32,8 +32,7 @@ public class ProjectJson {
   private final WebLinks webLinks;
 
   @Inject
-  ProjectJson(AllProjectsName allProjectsName,
-      WebLinks webLinks) {
+  ProjectJson(AllProjectsName allProjectsName, WebLinks webLinks) {
     this.allProjects = allProjectsName;
     this.webLinks = webLinks;
   }
@@ -50,8 +49,7 @@ public class ProjectJson {
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
     info.id = Url.encode(info.name);
-    FluentIterable<WebLinkInfo> links =
-        webLinks.getProjectLinks(p.getName());
+    FluentIterable<WebLinkInfo> links = webLinks.getProjectLinks(p.getName());
     info.webLinks = links.isEmpty() ? null : links.toList();
     return info;
   }

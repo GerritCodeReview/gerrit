@@ -21,6 +21,5 @@ import com.google.gwt.core.client.JsArray;
 public class EditFileInfo extends JavaScriptObject {
   public final native JsArray<DiffWebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
-  protected EditFileInfo() {
-  }
+  protected EditFileInfo() {}
 }

@@ -32,8 +32,7 @@ public class RobotCommentApiImpl implements RobotCommentApi {
   private final RobotCommentResource comment;
 
   @Inject
-  RobotCommentApiImpl(GetRobotComment getComment,
-      @Assisted RobotCommentResource comment) {
+  RobotCommentApiImpl(GetRobotComment getComment, @Assisted RobotCommentResource comment) {
     this.getComment = getComment;
     this.comment = comment;
   }

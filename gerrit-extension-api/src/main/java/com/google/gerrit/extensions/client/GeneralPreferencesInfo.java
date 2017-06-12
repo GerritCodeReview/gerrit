@@ -28,7 +28,11 @@ public class GeneralPreferencesInfo {
 
   /** Preferred method to download a change. */
   public enum DownloadCommand {
-    REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH
+    REPO_DOWNLOAD,
+    PULL,
+    CHECKOUT,
+    CHERRY_PICK,
+    FORMAT_PATCH
   }
 
   public enum DateFormat {
@@ -130,6 +134,7 @@ public class GeneralPreferencesInfo {
   public String downloadScheme;
   /** Type of download command the user prefers to use. */
   public DownloadCommand downloadCommand;
+
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
   public Boolean highlightAssigneeInChangeTable;

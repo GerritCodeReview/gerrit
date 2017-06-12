@@ -22,7 +22,8 @@ public class OAuthUserInfo {
   private final String displayName;
   private final String claimedIdentity;
 
-  public OAuthUserInfo(String externalId,
+  public OAuthUserInfo(
+      String externalId,
       String userName,
       String emailAddress,
       String displayName,

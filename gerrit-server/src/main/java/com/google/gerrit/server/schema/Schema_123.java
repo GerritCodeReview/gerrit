@@ -27,7 +27,11 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -35,35 +39,24 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Map;
-
 public class Schema_123 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 
   @Inject
-  Schema_123(Provider<Schema_122> prior,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName) {
+  Schema_123(
+      Provider<Schema_122> prior, GitRepositoryManager repoManager, AllUsersName allUsersName) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Multimap<Account.Id, Change.Id> imports = ArrayListMultimap.create();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery(
-          "SELECT "
-          + "account_id, "
-          + "change_id "
-          + "FROM starred_changes")) {
+        ResultSet rs =
+            stmt.executeQuery("SELECT " + "account_id, " + "change_id " + "FROM starred_changes")) {
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         Change.Id changeId = new Change.Id(rs.getInt(2));
@@ -78,11 +71,11 @@ public class Schema_123 extends SchemaVersion {
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      ObjectId id = StarredChangesUtil.writeLabels(git,
-          StarredChangesUtil.DEFAULT_LABELS);
+      ObjectId id = StarredChangesUtil.writeLabels(git, StarredChangesUtil.DEFAULT_LABELS);
       for (Map.Entry<Account.Id, Change.Id> e : imports.entries()) {
-        bru.addCommand(new ReceiveCommand(ObjectId.zeroId(), id,
-            RefNames.refsStarredChanges(e.getValue(), e.getKey())));
+        bru.addCommand(
+            new ReceiveCommand(
+                ObjectId.zeroId(), id, RefNames.refsStarredChanges(e.getValue(), e.getKey())));
       }
       bru.execute(rw, new TextProgressMonitor());
     } catch (IOException ex) {

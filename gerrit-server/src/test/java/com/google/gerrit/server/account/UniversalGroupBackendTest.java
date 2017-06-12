@@ -37,20 +37,17 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
+import java.util.Set;
 import org.easymock.IAnswer;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Set;
 
 public class UniversalGroupBackendTest {
   static {
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());
   }
 
-  private static final AccountGroup.UUID OTHER_UUID =
-      new AccountGroup.UUID("other");
+  private static final AccountGroup.UUID OTHER_UUID = new AccountGroup.UUID("other");
 
   private UniversalGroupBackend backend;
   private IdentifiedUser user;
@@ -75,10 +72,8 @@ public class UniversalGroupBackendTest {
 
   @Test
   public void testGet() {
-    assertEquals("Registered Users",
-        backend.get(REGISTERED_USERS).getName());
-    assertEquals("Project Owners",
-        backend.get(PROJECT_OWNERS).getName());
+    assertEquals("Registered Users", backend.get(REGISTERED_USERS).getName());
+    assertEquals("Project Owners", backend.get(PROJECT_OWNERS).getName());
     assertNull(backend.get(OTHER_UUID));
   }
 
@@ -117,25 +112,25 @@ public class UniversalGroupBackendTest {
     expect(backend.handles(handled)).andStubReturn(true);
     expect(backend.handles(not(eq(handled)))).andStubReturn(false);
     expect(backend.membershipsOf(anyObject(IdentifiedUser.class)))
-        .andStubAnswer(new IAnswer<GroupMembership>() {
-          @Override
-          public GroupMembership answer() throws Throwable {
-            Object[] args = getCurrentArguments();
-            GroupMembership membership = createMock(GroupMembership.class);
-            expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
-            expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
-            replay(membership);
-            return membership;
-          }
-        });
+        .andStubAnswer(
+            new IAnswer<GroupMembership>() {
+              @Override
+              public GroupMembership answer() throws Throwable {
+                Object[] args = getCurrentArguments();
+                GroupMembership membership = createMock(GroupMembership.class);
+                expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
+                expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
+                replay(membership);
+                return membership;
+              }
+            });
     replay(member, notMember, backend);
 
     backends = new DynamicSet<>();
     backends.add(backend);
     backend = new UniversalGroupBackend(backends);
 
-    GroupMembership checker =
-        backend.membershipsOf(member);
+    GroupMembership checker = backend.membershipsOf(member);
     assertFalse(checker.contains(REGISTERED_USERS));
     assertFalse(checker.contains(OTHER_UUID));
     assertTrue(checker.contains(handled));
@@ -144,5 +139,4 @@ public class UniversalGroupBackendTest {
     assertFalse(checker.contains(handled));
     assertFalse(checker.contains(notHandled));
   }
-
 }

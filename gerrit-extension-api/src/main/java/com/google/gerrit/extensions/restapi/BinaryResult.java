@@ -29,11 +29,10 @@ import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Wrapper around a non-JSON result from a {@link RestView}.
- * <p>
- * Views may return this type to signal they want the server glue to write raw
- * data to the client, instead of attempting automatic conversion to JSON. The
- * create form is overloaded to handle plain text from a String, or binary data
- * from a {@code byte[]} or {@code InputSteam}.
+ *
+ * <p>Views may return this type to signal they want the server glue to write raw data to the
+ * client, instead of attempting automatic conversion to JSON. The create form is overloaded to
+ * handle plain text from a String, or binary data from a {@code byte[]} or {@code InputSteam}.
  */
 public abstract class BinaryResult implements Closeable {
   /** Default MIME type for unknown binary data. */
@@ -50,9 +49,8 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /**
-   * Produce an {@code application/octet-stream} of unknown length by copying
-   * the InputStream until EOF. The server glue will automatically close this
-   * stream when copying is complete.
+   * Produce an {@code application/octet-stream} of unknown length by copying the InputStream until
+   * EOF. The server glue will automatically close this stream when copying is complete.
    */
   public static BinaryResult create(InputStream data) {
     return new Stream(data);
@@ -138,22 +136,21 @@ public abstract class BinaryResult implements Closeable {
   /**
    * Write or copy the result onto the specified output stream.
    *
-   * @param os stream to write result data onto. This stream will be closed by
-   *        the caller after this method returns.
-   * @throws IOException if the data cannot be produced, or the OutputStream
-   *         {@code os} throws any IOException during a write or flush call.
+   * @param os stream to write result data onto. This stream will be closed by the caller after this
+   *     method returns.
+   * @throws IOException if the data cannot be produced, or the OutputStream {@code os} throws any
+   *     IOException during a write or flush call.
    */
   public abstract void writeTo(OutputStream os) throws IOException;
 
   /**
    * Return a copy of the result as a String.
-   * <p>
-   * The default version of this method copies the result into a temporary byte
-   * array and then tries to decode it using the configured encoding.
+   *
+   * <p>The default version of this method copies the result into a temporary byte array and then
+   * tries to decode it using the configured encoding.
    *
    * @return string version of the result.
-   * @throws IOException if the data cannot be produced or could not be
-   *         decoded to a String.
+   * @throws IOException if the data cannot be produced or could not be decoded to a String.
    */
   public String asString() throws IOException {
     long len = getContentLength();
@@ -169,8 +166,7 @@ public abstract class BinaryResult implements Closeable {
 
   /** Close the result and release any resources it holds. */
   @Override
-  public void close() throws IOException {
-  }
+  public void close() throws IOException {}
 
   @Override
   public String toString() {
@@ -180,20 +176,17 @@ public abstract class BinaryResult implements Closeable {
           getContentType(), getContentLength());
     }
     return String.format(
-        "BinaryResult[Content-Type: %s, Content-Length: unknown]",
-        getContentType());
+        "BinaryResult[Content-Type: %s, Content-Length: unknown]", getContentType());
   }
 
   private static String decode(byte[] data, Charset enc) {
     try {
-      Charset cs = enc != null
-          ? enc
-          : UTF_8;
+      Charset cs = enc != null ? enc : UTF_8;
       return cs.newDecoder()
-        .onMalformedInput(CodingErrorAction.REPORT)
-        .onUnmappableCharacter(CodingErrorAction.REPORT)
-        .decode(ByteBuffer.wrap(data))
-        .toString();
+          .onMalformedInput(CodingErrorAction.REPORT)
+          .onUnmappableCharacter(CodingErrorAction.REPORT)
+          .decode(ByteBuffer.wrap(data))
+          .toString();
     } catch (UnsupportedCharsetException | CharacterCodingException e) {
       // Fallback to ISO-8850-1 style encoding.
       StringBuilder r = new StringBuilder(data.length);

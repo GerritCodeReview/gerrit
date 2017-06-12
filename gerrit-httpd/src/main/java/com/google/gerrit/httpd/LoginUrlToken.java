@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginUrlToken {
@@ -31,6 +30,5 @@ public class LoginUrlToken {
     return CharMatcher.is('/').trimLeadingFrom(token);
   }
 
-  private LoginUrlToken() {
-  }
+  private LoginUrlToken() {}
 }

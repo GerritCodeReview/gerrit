@@ -17,6 +17,6 @@ package com.google.gerrit.server.data;
 import java.util.List;
 
 public class SubmitRecordAttribute {
-    public String status;
-    public List<SubmitLabelAttribute> labels;
+  public String status;
+  public List<SubmitLabelAttribute> labels;
 }

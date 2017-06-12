@@ -31,37 +31,40 @@ import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
-@CommandMetaData(name = "show-queue",
-    description = "Display the background work queues",
-    runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "show-queue",
+  description = "Display the background work queues",
+  runsAt = MASTER_OR_SLAVE
+)
 final class ShowQueue extends SshCommand {
-  @Option(name = "--wide", aliases = {"-w"},
-      usage = "display without line width truncation")
+  @Option(
+    name = "--wide",
+    aliases = {"-w"},
+    usage = "display without line width truncation"
+  )
   private boolean wide;
 
-  @Option(name = "--by-queue", aliases = {"-q"},
-      usage = "group tasks by queue and print queue info")
+  @Option(
+    name = "--by-queue",
+    aliases = {"-q"},
+    usage = "group tasks by queue and print queue info"
+  )
   private boolean groupByQueue;
 
-  @Inject
-  private ListTasks listTasks;
+  @Inject private ListTasks listTasks;
 
-  @Inject
-  private IdentifiedUser currentUser;
+  @Inject private IdentifiedUser currentUser;
 
-  @Inject
-  private WorkQueue workQueue;
+  @Inject private WorkQueue workQueue;
 
   private int columns = 80;
   private int maxCommandWidth;
@@ -82,10 +85,12 @@ final class ShowQueue extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     maxCommandWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
-    stdout.print(String.format("%-8s %-12s %-12s %-4s %s\n", //
-        "Task", "State", "StartTime", "", "Command"));
-    stdout.print("----------------------------------------------"
-        + "--------------------------------\n");
+    stdout.print(
+        String.format(
+            "%-8s %-12s %-12s %-4s %s\n", //
+            "Task", "State", "StartTime", "", "Command"));
+    stdout.print(
+        "----------------------------------------------" + "--------------------------------\n");
 
     List<TaskInfo> tasks;
     try {
@@ -116,8 +121,7 @@ final class ShowQueue extends SshCommand {
     return byQueue;
   }
 
-  private void print(List<TaskInfo> tasks, long now, boolean viewAll,
-      int threadPoolSize) {
+  private void print(List<TaskInfo> tasks, long now, boolean viewAll, int threadPoolSize) {
     for (TaskInfo task : tasks) {
       String start;
       switch (task.state) {
@@ -136,24 +140,30 @@ final class ShowQueue extends SshCommand {
 
       // Shows information about tasks depending on the user rights
       if (viewAll || task.projectName == null) {
-        String command = task.command.length() < maxCommandWidth
-            ? task.command
+        String command =
+            task.command.length() < maxCommandWidth
+                ? task.command
                 : task.command.substring(0, maxCommandWidth);
 
-        stdout.print(String.format("%8s %-12s %-12s %-4s %s\n",
-            task.id, start, startTime(task.startTime), "", command));
+        stdout.print(
+            String.format(
+                "%8s %-12s %-12s %-4s %s\n",
+                task.id, start, startTime(task.startTime), "", command));
       } else {
-        String remoteName = task.remoteName != null
-            ? task.remoteName + "/" + task.projectName
-                : task.projectName;
+        String remoteName =
+            task.remoteName != null ? task.remoteName + "/" + task.projectName : task.projectName;
 
-        stdout.print(String.format("%8s %-12s %-4s %s\n",
-            task.id, start, startTime(task.startTime),
-            MoreObjects.firstNonNull(remoteName, "n/a")));
+        stdout.print(
+            String.format(
+                "%8s %-12s %-4s %s\n",
+                task.id,
+                start,
+                startTime(task.startTime),
+                MoreObjects.firstNonNull(remoteName, "n/a")));
       }
     }
-    stdout.print("----------------------------------------------"
-        + "--------------------------------\n");
+    stdout.print(
+        "----------------------------------------------" + "--------------------------------\n");
     stdout.print("  " + tasks.size() + " tasks");
     if (threadPoolSize > 0) {
       stdout.print(", " + threadPoolSize + " worker threads");

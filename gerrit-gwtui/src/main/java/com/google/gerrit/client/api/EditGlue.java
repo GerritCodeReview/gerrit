@@ -24,13 +24,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class EditGlue {
   public static void onAction(
-      ChangeInfo change,
-      EditInfo edit,
-      ActionInfo action,
-      ActionButton button) {
-    RestApi api = ChangeApi.edit(
-          change.legacyId().get())
-      .view(action.id());
+      ChangeInfo change, EditInfo edit, ActionInfo action, ActionButton button) {
+    RestApi api = ChangeApi.edit(change.legacyId().get()).view(action.id());
 
     JavaScriptObject f = get(action.id());
     if (f != null) {
@@ -49,6 +44,5 @@ public class EditGlue {
     return $wnd.Gerrit.edit_actions[id];
   }-*/;
 
-  private EditGlue() {
-  }
+  private EditGlue() {}
 }

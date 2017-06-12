@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.Comment;
-
 import java.util.Objects;
 
 public class DraftInput extends Comment {

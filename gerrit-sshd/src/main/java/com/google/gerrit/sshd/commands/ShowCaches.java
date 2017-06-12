@@ -38,24 +38,25 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
-
-import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaSession;
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 /** Show the current cache states. */
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
-@CommandMetaData(name = "show-caches", description = "Display current cache statistics",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "show-caches",
+  description = "Display current cache statistics",
+  runsAt = MASTER_OR_SLAVE
+)
 final class ShowCaches extends SshCommand {
   private static volatile long serverStarted;
 
@@ -66,8 +67,7 @@ final class ShowCaches extends SshCommand {
     }
 
     @Override
-    public void stop() {
-    }
+    public void stop() {}
   }
 
   @Option(name = "--gc", usage = "perform Java GC before printing memory stats")
@@ -79,20 +79,22 @@ final class ShowCaches extends SshCommand {
   @Option(name = "--show-threads", usage = "show detailed thread counts")
   private boolean showThreads;
 
-  @Inject
-  private SshDaemon daemon;
+  @Inject private SshDaemon daemon;
 
-  @Inject
-  private ListCaches listCaches;
+  @Inject private ListCaches listCaches;
 
-  @Inject
-  private GetSummary getSummary;
+  @Inject private GetSummary getSummary;
 
-  @Inject
-  private CurrentUser self;
+  @Inject private CurrentUser self;
 
-  @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
+  @Option(
+    name = "--width",
+    aliases = {"-w"},
+    metaVar = "COLS",
+    usage = "width of output table"
+  )
   private int columns = 80;
+
   private int nw;
 
   @Override
@@ -117,31 +119,43 @@ final class ShowCaches extends SshCommand {
         "Gerrit Code Review",
         Version.getVersion() != null ? Version.getVersion() : "",
         new SimpleDateFormat("HH:mm:ss   zzz").format(now));
-    stdout.format(
-        "%-25s %-20s   uptime %16s\n",
-        "", "",
-        uptime(now.getTime() - serverStarted));
+    stdout.format("%-25s %-20s   uptime %16s\n", "", "", uptime(now.getTime() - serverStarted));
     stdout.print('\n');
 
-    stdout.print(String.format(//
-        "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
-        , "" //
-        , "Name" //
-        , "Entries" //
-        , "AvgGet" //
-        , "Hit Ratio" //
-    ));
-    stdout.print(String.format(//
-        "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
-        , "" //
-        , "" //
-        , "Mem" //
-        , "Disk" //
-        , "Space" //
-        , "" //
-        , "Mem" //
-        , "Disk" //
-    ));
+    stdout.print(
+        String.format( //
+            "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
+            ,
+            "" //
+            ,
+            "Name" //
+            ,
+            "Entries" //
+            ,
+            "AvgGet" //
+            ,
+            "Hit Ratio" //
+            ));
+    stdout.print(
+        String.format( //
+            "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
+            ,
+            "" //
+            ,
+            "" //
+            ,
+            "Mem" //
+            ,
+            "Disk" //
+            ,
+            "Space" //
+            ,
+            "" //
+            ,
+            "Mem" //
+            ,
+            "Disk" //
+            ));
     stdout.print("--");
     for (int i = 0; i < nw; i++) {
       stdout.print('-');
@@ -157,8 +171,7 @@ final class ShowCaches extends SshCommand {
     if (self.getCapabilities().canMaintainServer()) {
       sshSummary();
 
-      SummaryInfo summary =
-          getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource());
+      SummaryInfo summary = getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource());
       taskSummary(summary.taskSummary);
       memSummary(summary.memSummary);
       threadSummary(summary.threadSummary);
@@ -173,8 +186,7 @@ final class ShowCaches extends SshCommand {
 
   private Collection<CacheInfo> getCaches() {
     @SuppressWarnings("unchecked")
-    Map<String, CacheInfo> caches =
-        (Map<String, CacheInfo>) listCaches.apply(new ConfigResource());
+    Map<String, CacheInfo> caches = (Map<String, CacheInfo>) listCaches.apply(new ConfigResource());
     for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
       CacheInfo cache = entry.getValue();
       cache.name = entry.getKey();
@@ -207,17 +219,17 @@ final class ShowCaches extends SshCommand {
   }
 
   private void printCache(CacheInfo cache) {
-    stdout.print(String.format(
-        "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
-        CacheType.DISK.equals(cache.type) ? "D" : "",
-        cache.name,
-        nullToEmpty(cache.entries.mem),
-        nullToEmpty(cache.entries.disk),
-        Strings.nullToEmpty(cache.entries.space),
-        Strings.nullToEmpty(cache.averageGet),
-        formatAsPercent(cache.hitRatio.mem),
-        formatAsPercent(cache.hitRatio.disk)
-      ));
+    stdout.print(
+        String.format(
+            "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
+            CacheType.DISK.equals(cache.type) ? "D" : "",
+            cache.name,
+            nullToEmpty(cache.entries.mem),
+            nullToEmpty(cache.entries.disk),
+            Strings.nullToEmpty(cache.entries.space),
+            Strings.nullToEmpty(cache.averageGet),
+            formatAsPercent(cache.hitRatio.mem),
+            formatAsPercent(cache.hitRatio.disk)));
   }
 
   private static String nullToEmpty(Long l) {
@@ -229,20 +241,17 @@ final class ShowCaches extends SshCommand {
   }
 
   private void memSummary(MemSummaryInfo memSummary) {
-    stdout.format("Mem: %s total = %s used + %s free + %s buffers\n",
-        memSummary.total,
-        memSummary.used,
-        memSummary.free,
-        memSummary.buffers);
+    stdout.format(
+        "Mem: %s total = %s used + %s free + %s buffers\n",
+        memSummary.total, memSummary.used, memSummary.free, memSummary.buffers);
     stdout.format("     %s max\n", memSummary.max);
-    stdout.format("    %8d open files\n",
-        nullToZero(memSummary.openFiles));
+    stdout.format("    %8d open files\n", nullToZero(memSummary.openFiles));
     stdout.print('\n');
   }
 
   private void threadSummary(ThreadSummaryInfo threadSummary) {
-    stdout.format("Threads: %d CPUs available, %d threads\n",
-        threadSummary.cpus, threadSummary.threads);
+    stdout.format(
+        "Threads: %d CPUs available, %d threads\n", threadSummary.cpus, threadSummary.threads);
 
     if (showThreads) {
       stdout.print(String.format("  %22s", ""));
@@ -250,8 +259,7 @@ final class ShowCaches extends SshCommand {
         stdout.print(String.format(" %14s", s.name()));
       }
       stdout.print('\n');
-      for (Entry<String, Map<Thread.State, Integer>> e :
-          threadSummary.counts.entrySet()) {
+      for (Entry<String, Map<Thread.State, Integer>> e : threadSummary.counts.entrySet()) {
         stdout.print(String.format("  %-22s", e.getKey()));
         for (Thread.State s : Thread.State.values()) {
           stdout.print(String.format(" %14d", nullToZero(e.getValue().get(s))));
@@ -287,29 +295,19 @@ final class ShowCaches extends SshCommand {
 
     for (IoSession s : list) {
       if (s instanceof MinaSession) {
-        MinaSession minaSession = (MinaSession)s;
+        MinaSession minaSession = (MinaSession) s;
         oldest = Math.min(oldest, minaSession.getSession().getCreationTime());
       }
     }
 
     stdout.format(
-        "SSH:   %4d  users, oldest session started %s ago\n",
-        list.size(),
-        uptime(now - oldest));
+        "SSH:   %4d  users, oldest session started %s ago\n", list.size(), uptime(now - oldest));
   }
 
   private void jvmSummary(JvmSummaryInfo jvmSummary) {
-    stdout.format("JVM: %s %s %s\n",
-        jvmSummary.vmVendor,
-        jvmSummary.vmName,
-        jvmSummary.vmVersion);
-    stdout.format("  on %s %s %s\n",
-        jvmSummary.osName,
-        jvmSummary.osVersion,
-        jvmSummary.osArch);
-    stdout.format("  running as %s on %s\n",
-        jvmSummary.user,
-        Strings.nullToEmpty(jvmSummary.host));
+    stdout.format("JVM: %s %s %s\n", jvmSummary.vmVendor, jvmSummary.vmName, jvmSummary.vmVersion);
+    stdout.format("  on %s %s %s\n", jvmSummary.osName, jvmSummary.osVersion, jvmSummary.osArch);
+    stdout.format("  running as %s on %s\n", jvmSummary.user, Strings.nullToEmpty(jvmSummary.host));
     stdout.format("  cwd  %s\n", jvmSummary.currentWorkingDirectory);
     stdout.format("  site %s\n", jvmSummary.site);
   }

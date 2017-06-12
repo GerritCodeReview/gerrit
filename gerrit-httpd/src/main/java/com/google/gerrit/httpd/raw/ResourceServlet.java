@@ -36,10 +36,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -49,45 +45,44 @@ import java.nio.file.attribute.FileTime;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.GZIPOutputStream;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for serving static resources.
- * <p>
- * Supports caching, ETags, basic content type detection, and limited gzip
- * compression.
+ *
+ * <p>Supports caching, ETags, basic content type detection, and limited gzip compression.
  */
 public abstract class ResourceServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ResourceServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(ResourceServlet.class);
 
   private static final int CACHE_FILE_SIZE_LIMIT_BYTES = 100 << 10;
 
   private static final String JS = "application/x-javascript";
   private static final ImmutableMap<String, String> MIME_TYPES =
-      ImmutableMap.<String, String> builder()
-        .put("css", "text/css")
-        .put("gif", "image/gif")
-        .put("htm", "text/html")
-        .put("html", "text/html")
-        .put("ico", "image/x-icon")
-        .put("jpeg", "image/jpeg")
-        .put("jpg", "image/jpeg")
-        .put("js", JS)
-        .put("pdf", "application/pdf")
-        .put("png", "image/png")
-        .put("rtf", "text/rtf")
-        .put("svg", "image/svg+xml")
-        .put("text", "text/plain")
-        .put("tif", "image/tiff")
-        .put("tiff", "image/tiff")
-        .put("txt", "text/plain")
-        .build();
+      ImmutableMap.<String, String>builder()
+          .put("css", "text/css")
+          .put("gif", "image/gif")
+          .put("htm", "text/html")
+          .put("html", "text/html")
+          .put("ico", "image/x-icon")
+          .put("jpeg", "image/jpeg")
+          .put("jpg", "image/jpeg")
+          .put("js", JS)
+          .put("pdf", "application/pdf")
+          .put("png", "image/png")
+          .put("rtf", "text/rtf")
+          .put("svg", "image/svg+xml")
+          .put("text", "text/plain")
+          .put("tif", "image/tiff")
+          .put("tiff", "image/tiff")
+          .put("txt", "text/plain")
+          .build();
 
   protected static String contentType(String name) {
     int dot = name.lastIndexOf('.');
@@ -105,14 +100,16 @@ public abstract class ResourceServlet extends HttpServlet {
     this(cache, refresh, true, CACHE_FILE_SIZE_LIMIT_BYTES);
   }
 
-  protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
-      boolean cacheOnClient) {
+  protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh, boolean cacheOnClient) {
     this(cache, refresh, cacheOnClient, CACHE_FILE_SIZE_LIMIT_BYTES);
   }
 
   @VisibleForTesting
-  ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
-      boolean cacheOnClient, int cacheFileSizeLimitBytes) {
+  ResourceServlet(
+      Cache<Path, Resource> cache,
+      boolean refresh,
+      boolean cacheOnClient,
+      int cacheFileSizeLimitBytes) {
     this.cache = checkNotNull(cache, "cache");
     this.refresh = refresh;
     this.cacheOnClient = cacheOnClient;
@@ -120,8 +117,7 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   /**
-   * Get the resource path on the filesystem that should be served for this
-   * request.
+   * Get the resource path on the filesystem that should be served for this request.
    *
    * @param pathInfo result of {@link HttpServletRequest#getPathInfo()}.
    * @return path where static content can be found.
@@ -134,8 +130,7 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String name;
     if (req.getPathInfo() == null) {
       name = "/";
@@ -234,17 +229,17 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   /**
-   * Maybe stream a path to the response, depending on the properties of the
-   * file and cache headers in the request.
+   * Maybe stream a path to the response, depending on the properties of the file and cache headers
+   * in the request.
    *
    * @param p path to stream
    * @param req HTTP request.
    * @param rsp HTTP response.
-   * @return true if the response was written (either the file contents or an
-   *     error); false if the path is too small to stream and should be cached.
+   * @return true if the response was written (either the file contents or an error); false if the
+   *     path is too small to stream and should be cached.
    */
-  private boolean maybeStream(Path p, HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+  private boolean maybeStream(Path p, HttpServletRequest req, HttpServletResponse rsp)
+      throws IOException {
     try {
       if (Files.size(p) < cacheFileSizeLimitBytes) {
         return false;
@@ -283,23 +278,20 @@ public abstract class ResourceServlet extends HttpServlet {
     return true;
   }
 
-
   private static boolean isUnreasonableName(String name) {
     return name.length() < 1
-      || name.contains("\\") // no windows/dos style paths
-      || name.startsWith("../") // no "../etc/passwd"
-      || name.contains("/../") // no "foo/../etc/passwd"
-      || name.contains("/./") // "foo/./foo" is insane to ask
-      || name.contains("//"); // windows UNC path can be "//..."
+        || name.contains("\\") // no windows/dos style paths
+        || name.startsWith("../") // no "../etc/passwd"
+        || name.contains("/../") // no "foo/../etc/passwd"
+        || name.contains("/./") // "foo/./foo" is insane to ask
+        || name.contains("//"); // windows UNC path can be "//..."
   }
 
   private Callable<Resource> newLoader(final Path p) {
     return () -> {
       try {
         return new Resource(
-            getLastModifiedTime(p),
-            contentType(p.toString()),
-            Files.readAllBytes(p));
+            getLastModifiedTime(p), contentType(p.toString()), Files.readAllBytes(p));
       } catch (NoSuchFileException e) {
         return Resource.NOT_FOUND;
       }
@@ -307,8 +299,7 @@ public abstract class ResourceServlet extends HttpServlet {
   }
 
   public static class Resource {
-    static final Resource NOT_FOUND =
-        new Resource(FileTime.fromMillis(0), "", new byte[] {});
+    static final Resource NOT_FOUND = new Resource(FileTime.fromMillis(0), "", new byte[] {});
 
     final FileTime lastModified;
     final String contentType;
@@ -329,14 +320,11 @@ public abstract class ResourceServlet extends HttpServlet {
       } catch (NoSuchFileException e) {
         return this != NOT_FOUND;
       }
-      return t.toMillis() == 0
-          || lastModified.toMillis() == 0
-          || !lastModified.equals(t);
+      return t.toMillis() == 0 || lastModified.toMillis() == 0 || !lastModified.equals(t);
     }
   }
 
-  public static class Weigher
-      implements com.google.common.cache.Weigher<Path, Resource> {
+  public static class Weigher implements com.google.common.cache.Weigher<Path, Resource> {
     @Override
     public int weigh(Path p, Resource r) {
       return 2 * p.toString().length() + r.raw.length;

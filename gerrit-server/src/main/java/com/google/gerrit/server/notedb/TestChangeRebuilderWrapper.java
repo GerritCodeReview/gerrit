@@ -25,11 +25,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @VisibleForTesting
 @Singleton
@@ -39,8 +37,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   private final AtomicBoolean stealNextUpdate;
 
   @Inject
-  TestChangeRebuilderWrapper(SchemaFactory<ReviewDb> schemaFactory,
-      ChangeRebuilderImpl rebuilder) {
+  TestChangeRebuilderWrapper(SchemaFactory<ReviewDb> schemaFactory, ChangeRebuilderImpl rebuilder) {
     super(schemaFactory);
     this.delegate = rebuilder;
     this.failNextUpdate = new AtomicBoolean();
@@ -57,8 +54,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }
@@ -70,9 +66,8 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException, ConfigInvalidException {
+  public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException {
     // stealNextUpdate doesn't really apply in this case because the IOException
     // would normally come from the manager.execute() method, which isn't called
     // here.
@@ -87,9 +82,8 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException {
+  public Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws NoSuchChangeException, OrmException, IOException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }

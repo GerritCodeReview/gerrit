@@ -32,7 +32,6 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -45,28 +44,30 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     @Override
     public void onBrowserEvent(final Event event) {
       switch (DOM.eventGetType(event)) {
-        case Event.ONCLICK: {
-          // Find out which cell was actually clicked.
-          final Element td = getEventTargetCell(event);
-          if (td == null) {
+        case Event.ONCLICK:
+          {
+            // Find out which cell was actually clicked.
+            final Element td = getEventTargetCell(event);
+            if (td == null) {
+              break;
+            }
+            final int row = rowOf(td);
+            if (getRowItem(row) != null) {
+              onCellSingleClick(event, rowOf(td), columnOf(td));
+              return;
+            }
             break;
           }
-          final int row = rowOf(td);
-          if (getRowItem(row) != null) {
-            onCellSingleClick(event, rowOf(td), columnOf(td));
+        case Event.ONDBLCLICK:
+          {
+            // Find out which cell was actually clicked.
+            Element td = getEventTargetCell(event);
+            if (td == null) {
+              return;
+            }
+            onCellDoubleClick(rowOf(td), columnOf(td));
             return;
           }
-          break;
-        }
-        case Event.ONDBLCLICK: {
-          // Find out which cell was actually clicked.
-          Element td = getEventTargetCell(event);
-          if (td == null) {
-            return;
-          }
-          onCellDoubleClick(rowOf(td), columnOf(td));
-          return;
-        }
       }
       super.onBrowserEvent(event);
     }
@@ -98,8 +99,8 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         new PrevKeyCommand(0, 'k', Util.M.helpListPrev(itemHelpName)),
         new NextKeyCommand(0, 'j', Util.M.helpListNext(itemHelpName)));
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.M.helpListOpen(itemHelpName)));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
-                                                  Util.M.helpListOpen(itemHelpName)));
+    keysNavigation.add(
+        new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.M.helpListOpen(itemHelpName)));
   }
 
   protected NavigationTable() {
@@ -208,8 +209,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       final Element tr = fmt.getElement(currentRow, C_ARROW).getParentElement();
       UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), false);
     }
-    if (0 <= newRow && newRow < table.getRowCount()
-        && getRowItem(newRow) != null) {
+    if (0 <= newRow && newRow < table.getRowCount() && getRowItem(newRow) != null) {
       table.setWidget(newRow, C_ARROW, pointer);
       final Element tr = fmt.getElement(newRow, C_ARROW).getParentElement();
       UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), true);
@@ -238,11 +238,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
 
     if (parentScrollPanel != null) {
-      parentScrollPanel.ensureVisible(new UIObject() {
-        {
-          setElement(tr);
-        }
-      });
+      parentScrollPanel.ensureVisible(
+          new UIObject() {
+            {
+              setElement(tr);
+            }
+          });
     } else {
       int rt = tr.getAbsoluteTop();
       int rl = tr.getAbsoluteLeft();

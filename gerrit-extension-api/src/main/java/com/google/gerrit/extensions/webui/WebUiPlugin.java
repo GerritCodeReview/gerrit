@@ -20,10 +20,10 @@ import com.google.inject.Inject;
 
 /**
  * Specifies JavaScript to dynamically load into the web UI.
- * <p>
- * To automatically register (instead of writing a Guice module), declare the
- * intention with {@code @Listen}, extend the correct class and define a
- * constructor to configure the correct resource:
+ *
+ * <p>To automatically register (instead of writing a Guice module), declare the intention with
+ * {@code @Listen}, extend the correct class and define a constructor to configure the correct
+ * resource:
  *
  * <pre>
  * &#064;Listen
@@ -49,7 +49,7 @@ public abstract class WebUiPlugin {
 
   private String pluginName;
 
-  /** @return installed name of the plugin that provides this UI feature.  */
+  /** @return installed name of the plugin that provides this UI feature. */
   public final String getPluginName() {
     return pluginName;
   }

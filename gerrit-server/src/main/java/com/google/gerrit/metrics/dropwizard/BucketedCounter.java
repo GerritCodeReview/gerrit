@@ -14,14 +14,12 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.CounterImpl;
-
-import com.codahale.metrics.Metric;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,8 +34,8 @@ abstract class BucketedCounter implements BucketedMetric {
   private final Map<Object, CounterImpl> cells;
   private final Object lock = new Object();
 
-  BucketedCounter(DropWizardMetricMaker metrics,
-      String name, Description desc, Field<?>... fields) {
+  BucketedCounter(
+      DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     this.metrics = metrics;
     this.name = name;
     this.isRate = desc.isRate();

@@ -27,7 +27,10 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
-
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
@@ -37,33 +40,24 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
 /** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
 public class AsyncReceiveCommits implements PreReceiveHook {
-  private static final Logger log =
-      LoggerFactory.getLogger(AsyncReceiveCommits.class);
+  private static final Logger log = LoggerFactory.getLogger(AsyncReceiveCommits.class);
 
   private static final String TIMEOUT_NAME = "ReceiveCommitsOverallTimeout";
 
   public interface Factory {
-    AsyncReceiveCommits create(ProjectControl projectControl,
-        Repository repository);
+    AsyncReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
 
   public static class Module extends PrivateModule {
     @Override
     public void configure() {
-      install(new FactoryModuleBuilder()
-          .build(AsyncReceiveCommits.Factory.class));
+      install(new FactoryModuleBuilder().build(AsyncReceiveCommits.Factory.class));
       expose(AsyncReceiveCommits.Factory.class);
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
       // be using AsyncReceiveCommits.Factory instead.
-      install(new FactoryModuleBuilder()
-          .build(ReceiveCommits.Factory.class));
+      install(new FactoryModuleBuilder().build(ReceiveCommits.Factory.class));
     }
 
     @Provides
@@ -71,9 +65,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     @Named(TIMEOUT_NAME)
     long getTimeoutMillis(@GerritServerConfig final Config cfg) {
       return ConfigUtil.getTimeUnit(
-          cfg, "receive", null, "timeout",
-          TimeUnit.MINUTES.toMillis(4),
-          TimeUnit.MILLISECONDS);
+          cfg, "receive", null, "timeout", TimeUnit.MINUTES.toMillis(4), TimeUnit.MILLISECONDS);
     }
   }
 
@@ -113,7 +105,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private class MessageSenderOutputStream extends OutputStream {
     @Override
     public void write(int b) {
-      rc.getMessageSender().sendBytes(new byte[]{(byte)b});
+      rc.getMessageSender().sendBytes(new byte[] {(byte) b});
     }
 
     @Override
@@ -139,7 +131,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final long timeoutMillis;
 
   @Inject
-  AsyncReceiveCommits(final ReceiveCommits.Factory factory,
+  AsyncReceiveCommits(
+      final ReceiveCommits.Factory factory,
       @ReceiveCommitsExecutor final Executor executor,
       final RequestScopePropagator scopePropagator,
       @Named(TIMEOUT_NAME) final long timeoutMillis,
@@ -150,22 +143,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     rc = factory.create(projectControl, repo);
     rc.getReceivePack().setPreReceiveHook(this);
 
-    progress = new MultiProgressMonitor(
-        new MessageSenderOutputStream(), "Processing changes");
+    progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     this.timeoutMillis = timeoutMillis;
   }
 
   @Override
-  public void onPreReceive(final ReceivePack rp,
-      final Collection<ReceiveCommand> commands) {
+  public void onPreReceive(final ReceivePack rp, final Collection<ReceiveCommand> commands) {
     try {
       progress.waitFor(
           executor.submit(scopePropagator.wrap(new Worker(commands))),
-          timeoutMillis, TimeUnit.MILLISECONDS);
+          timeoutMillis,
+          TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
-      log.warn(String.format(
-          "Error in ReceiveCommits while processing changes for project %s",
-              rc.getProject().getName()), e);
+      log.warn(
+          String.format(
+              "Error in ReceiveCommits while processing changes for project %s",
+              rc.getProject().getName()),
+          e);
       rc.addError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.

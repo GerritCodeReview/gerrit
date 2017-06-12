@@ -14,13 +14,12 @@
 
 package com.google.gerrit.sshd;
 
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
-import org.eclipse.jgit.util.QuotedString;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
+import org.apache.log4j.Layout;
+import org.apache.log4j.spi.LoggingEvent;
+import org.eclipse.jgit.util.QuotedString;
 
 public final class SshLogLayout extends Layout {
 
@@ -38,7 +37,7 @@ public final class SshLogLayout extends Layout {
   private final SimpleDateFormat tzFormat;
   private char[] timeZone;
 
- public SshLogLayout() {
+  public SshLogLayout() {
     final TimeZone tz = TimeZone.getDefault();
     calendar = Calendar.getInstance(tz);
 
@@ -134,6 +133,5 @@ public final class SshLogLayout extends Layout {
   }
 
   @Override
-  public void activateOptions() {
-  }
+  public void activateOptions() {}
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.util.Set;
 
 /** Tracks group inclusions in memory for efficient access. */
@@ -30,5 +29,6 @@ public interface GroupIncludeCache {
   Set<AccountGroup.UUID> allExternalMembers();
 
   void evictSubgroupsOf(AccountGroup.UUID groupId);
+
   void evictParentGroupsOf(AccountGroup.UUID groupId);
 }

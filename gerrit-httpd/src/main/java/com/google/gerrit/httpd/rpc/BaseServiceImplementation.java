@@ -26,7 +26,6 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Provider;
-
 import java.io.IOException;
 
 /** Support for services which require a {@link ReviewDb} instance. */
@@ -34,8 +33,8 @@ public class BaseServiceImplementation {
   private final Provider<ReviewDb> schema;
   private final Provider<? extends CurrentUser> currentUser;
 
-  protected BaseServiceImplementation(final Provider<ReviewDb> schema,
-      final Provider<? extends CurrentUser> currentUser) {
+  protected BaseServiceImplementation(
+      final Provider<ReviewDb> schema, final Provider<? extends CurrentUser> currentUser) {
     this.schema = schema;
     this.currentUser = currentUser;
   }
@@ -55,10 +54,10 @@ public class BaseServiceImplementation {
 
   /**
    * Executes {@code action.run} with an active ReviewDb connection.
-   * <p>
-   * A database handle is automatically opened and closed around the action's
-   * {@link Action#run(ReviewDb)} method. OrmExceptions are caught and passed
-   * into the onFailure method of the callback.
+   *
+   * <p>A database handle is automatically opened and closed around the action's {@link
+   * Action#run(ReviewDb)} method. OrmExceptions are caught and passed into the onFailure method of
+   * the callback.
    *
    * @param <T> type of result the callback expects.
    * @param callback the callback that will receive the result.
@@ -101,8 +100,7 @@ public class BaseServiceImplementation {
     }
   }
 
-  private static <T> void handleOrmException(
-      final AsyncCallback<T> callback, Exception e) {
+  private static <T> void handleOrmException(final AsyncCallback<T> callback, Exception e) {
     if (e.getCause() instanceof Failure) {
       callback.onFailure(e.getCause().getCause());
     } else if (e.getCause() instanceof NoSuchEntityException) {
@@ -129,13 +127,13 @@ public class BaseServiceImplementation {
      * @param db an open database handle to be used by this connection.
      * @return he value to pass to {@link AsyncCallback#onSuccess(Object)}.
      * @throws OrmException any schema based action failed.
-     * @throws Failure cause is given to
-     *         {@link AsyncCallback#onFailure(Throwable)}.
+     * @throws Failure cause is given to {@link AsyncCallback#onFailure(Throwable)}.
      * @throws NoSuchProjectException
      * @throws NoSuchGroupException
      * @throws InvalidQueryException
      */
-    T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException,
-        NoSuchGroupException, InvalidQueryException, IOException;
+    T run(ReviewDb db)
+        throws OrmException, Failure, NoSuchProjectException, NoSuchGroupException,
+            InvalidQueryException, IOException;
   }
 }

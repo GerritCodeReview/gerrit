@@ -22,15 +22,15 @@ import java.util.stream.StreamSupport;
 class MultipleProvidersForPluginException extends IllegalArgumentException {
   private static final long serialVersionUID = 1L;
 
-  MultipleProvidersForPluginException(Path pluginSrcPath,
-      Iterable<ServerPluginProvider> providersHandlers) {
-    super(pluginSrcPath.toAbsolutePath()
-        + " is claimed to be handled by more than one plugin provider: "
-        + providersListToString(providersHandlers));
+  MultipleProvidersForPluginException(
+      Path pluginSrcPath, Iterable<ServerPluginProvider> providersHandlers) {
+    super(
+        pluginSrcPath.toAbsolutePath()
+            + " is claimed to be handled by more than one plugin provider: "
+            + providersListToString(providersHandlers));
   }
 
-  private static String providersListToString(
-      Iterable<ServerPluginProvider> providersHandlers) {
+  private static String providersListToString(Iterable<ServerPluginProvider> providersHandlers) {
     return StreamSupport.stream(providersHandlers.spliterator(), false)
         .map(ServerPluginProvider::getProviderPluginName)
         .collect(joining(", "));

@@ -23,13 +23,11 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
-
+import java.util.Iterator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Iterator;
 
 @RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
@@ -61,8 +59,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     ChangeInfo c = get(changeId);
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(1);
-    assertThat(c.messages.iterator().next().message)
-      .isEqualTo("Uploaded patch set 1.");
+    assertThat(c.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
   }
 
   @Test

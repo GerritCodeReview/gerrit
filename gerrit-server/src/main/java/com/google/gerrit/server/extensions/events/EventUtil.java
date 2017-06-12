@@ -33,15 +33,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EventUtil {
   private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
@@ -51,7 +49,8 @@ public class EventUtil {
   private final ChangeJson changeJson;
 
   @Inject
-  EventUtil(ChangeJson.Factory changeJsonFactory,
+  EventUtil(
+      ChangeJson.Factory changeJsonFactory,
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
@@ -66,16 +65,13 @@ public class EventUtil {
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException,
-             IOException {
+      throws OrmException, PatchListNotAvailableException, GpgException, IOException {
     return revisionInfo(project.getNameKey(), ps);
   }
 
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException,
-             IOException {
-    ChangeData cd = changeDataFactory.create(db.get(),
-        project, ps.getId().getParentKey());
+      throws OrmException, PatchListNotAvailableException, GpgException, IOException {
+    ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
     ChangeControl ctl = cd.changeControl();
     return changeJson.getRevisionInfo(ctl, ps);
   }
@@ -87,25 +83,22 @@ public class EventUtil {
     return AccountJson.toAccountInfo(a);
   }
 
-  public Map<String, ApprovalInfo> approvals(Account a,
-      Map<String, Short> approvals, Timestamp ts) {
+  public Map<String, ApprovalInfo> approvals(
+      Account a, Map<String, Short> approvals, Timestamp ts) {
     Map<String, ApprovalInfo> result = new HashMap<>();
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
-      result.put(e.getKey(),
-          ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
+      result.put(e.getKey(), ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
     }
     return result;
   }
 
-  public void logEventListenerError(Object event, Object listener,
-      Exception error) {
+  public void logEventListenerError(Object event, Object listener, Exception error) {
     if (log.isDebugEnabled()) {
       log.debug(
           String.format(
               "Error in event listener %s for event %s",
-              listener.getClass().getName(),
-              event.getClass().getName()),
+              listener.getClass().getName(), event.getClass().getName()),
           error);
     } else {
       log.warn(
@@ -118,15 +111,9 @@ public class EventUtil {
 
   public static void logEventListenerError(Object listener, Exception error) {
     if (log.isDebugEnabled()) {
-      log.debug(
-          String.format(
-              "Error in event listener %s", listener.getClass().getName()),
-          error);
+      log.debug(String.format("Error in event listener %s", listener.getClass().getName()), error);
     } else {
-      log.warn(
-          "Error in listener {}: {}",
-          listener.getClass().getName(),
-          error.getMessage());
+      log.warn("Error in listener {}: {}", listener.getClass().getName(), error.getMessage());
     }
   }
 }

@@ -39,7 +39,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +47,7 @@ import java.util.TreeMap;
 
 class Message extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Message> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -80,12 +80,14 @@ class Message extends Composite {
     }
 
     initWidget(uiBinder.createAndBindUi(this));
-    header.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setOpen(!isOpen());
-      }
-    }, ClickEvent.getType());
+    header.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            setOpen(!isOpen());
+          }
+        },
+        ClickEvent.getType());
 
     this.history = parent;
     this.info = info;
@@ -95,8 +97,8 @@ class Message extends Composite {
     if (info.message() != null) {
       String msg = info.message().trim();
       summary.setInnerText(msg);
-      message.setInnerSafeHtml(history.getCommentLinkProcessor()
-        .apply(new SafeHtmlBuilder().append(msg).wikify()));
+      message.setInnerSafeHtml(
+          history.getCommentLinkProcessor().apply(new SafeHtmlBuilder().append(msg).wikify()));
       ApiGlue.fireEvent("comment", message);
     } else {
       reply.getElement().getStyle().setVisibility(Visibility.HIDDEN);
@@ -140,9 +142,8 @@ class Message extends Composite {
   }
 
   private void setName(boolean open) {
-    name.setInnerText(open
-        ? authorName(info)
-        : com.google.gerrit.common.FormatUtil.elide(authorName(info), 20));
+    name.setInnerText(
+        open ? authorName(info) : com.google.gerrit.common.FormatUtil.elide(authorName(info), 20));
   }
 
   void autoOpen() {
@@ -168,9 +169,7 @@ class Message extends Composite {
 
   private void renderComments(List<CommentInfo> list) {
     CommentLinkProcessor clp = history.getCommentLinkProcessor();
-    PatchSet.Id ps = new PatchSet.Id(
-        history.getChangeId(),
-        info._revisionNumber());
+    PatchSet.Id ps = new PatchSet.Id(history.getChangeId(), info._revisionNumber());
     TreeMap<String, List<CommentInfo>> m = byPath(list);
     List<CommentInfo> l = m.remove(Patch.COMMIT_MSG);
     if (l != null) {
@@ -185,8 +184,7 @@ class Message extends Composite {
     }
   }
 
-  private static TreeMap<String, List<CommentInfo>>
-  byPath(List<CommentInfo> list) {
+  private static TreeMap<String, List<CommentInfo>> byPath(List<CommentInfo> list) {
     TreeMap<String, List<CommentInfo>> m = new TreeMap<>();
     for (CommentInfo c : list) {
       List<CommentInfo> l = m.get(c.path());

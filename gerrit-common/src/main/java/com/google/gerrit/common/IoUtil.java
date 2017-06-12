@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Sets;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,8 +31,7 @@ import java.util.Set;
 
 @GwtIncompatible("Unemulated methods in Class and OutputStream")
 public final class IoUtil {
-  public static void copyWithThread(final InputStream src,
-      final OutputStream dst) {
+  public static void copyWithThread(final InputStream src, final OutputStream dst) {
     new Thread("IoUtil-Copy") {
       @Override
       public void run() {
@@ -80,8 +78,7 @@ public final class IoUtil {
         if (have.add(url)) {
           addURL.invoke(cl, url);
         }
-      } catch (MalformedURLException | IllegalArgumentException |
-          IllegalAccessException e) {
+      } catch (MalformedURLException | IllegalArgumentException | IllegalAccessException e) {
         throw noAddURL("addURL " + path + " failed", e);
       } catch (InvocationTargetException e) {
         throw noAddURL("addURL " + path + " failed", e.getCause());
@@ -97,6 +94,6 @@ public final class IoUtil {
     String prefix = "Cannot extend classpath: ";
     return new UnsupportedOperationException(prefix + m, why);
   }
-  private IoUtil() {
-  }
+
+  private IoUtil() {}
 }

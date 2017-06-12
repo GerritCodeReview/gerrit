@@ -28,9 +28,7 @@ public abstract class DefaultQueueOp implements Runnable {
     return workQueue.getDefaultQueue().schedule(this, delay, unit);
   }
 
-  public ScheduledFuture<?> startWithFixedDelay(long initialDelay, long delay,
-      TimeUnit unit) {
-    return workQueue.getDefaultQueue()
-        .scheduleWithFixedDelay(this, initialDelay, delay, unit);
+  public ScheduledFuture<?> startWithFixedDelay(long initialDelay, long delay, TimeUnit unit) {
+    return workQueue.getDefaultQueue().scheduleWithFixedDelay(this, initialDelay, delay, unit);
   }
 }

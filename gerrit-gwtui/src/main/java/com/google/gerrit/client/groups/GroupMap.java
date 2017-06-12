@@ -39,8 +39,8 @@ public class GroupMap extends NativeMap<GroupInfo> {
     call.get(NativeMap.copyKeysIntoChildren(cb));
   }
 
-  public static void suggestAccountGroupForProject(String project, String query,
-      int limit, AsyncCallback<GroupMap> cb) {
+  public static void suggestAccountGroupForProject(
+      String project, String query, int limit, AsyncCallback<GroupMap> cb) {
     RestApi call = groups();
     if (project != null) {
       call.addParameter("p", project);
@@ -59,8 +59,7 @@ public class GroupMap extends NativeMap<GroupInfo> {
   }
 
   public static void myOwned(String groupName, AsyncCallback<GroupMap> cb) {
-    myOwnedGroups().addParameter("q", groupName).get(
-        NativeMap.copyKeysIntoChildren(cb));
+    myOwnedGroups().addParameter("q", groupName).get(NativeMap.copyKeysIntoChildren(cb));
   }
 
   private static RestApi myOwnedGroups() {
@@ -71,6 +70,5 @@ public class GroupMap extends NativeMap<GroupInfo> {
     return new RestApi("/groups/");
   }
 
-  protected GroupMap() {
-  }
+  protected GroupMap() {}
 }

@@ -16,18 +16,17 @@ package com.google.gerrit.server.git;
 
 /**
  * Wrapper for {@link org.eclipse.jgit.errors.LargeObjectException}. Since
- * org.eclipse.jgit.errors.LargeObjectException is a {@link RuntimeException}
- * the GerritJsonServlet would treat it as internal failure and as result the
- * web ui would just show 'Internal Server Error'. Wrapping
- * org.eclipse.jgit.errors.LargeObjectException into a normal {@link Exception}
+ * org.eclipse.jgit.errors.LargeObjectException is a {@link RuntimeException} the GerritJsonServlet
+ * would treat it as internal failure and as result the web ui would just show 'Internal Server
+ * Error'. Wrapping org.eclipse.jgit.errors.LargeObjectException into a normal {@link Exception}
  * allows to display a proper error message.
  */
 public class LargeObjectException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public LargeObjectException(final String message,
-      final org.eclipse.jgit.errors.LargeObjectException cause) {
+  public LargeObjectException(
+      final String message, final org.eclipse.jgit.errors.LargeObjectException cause) {
     super(message, cause);
   }
 }

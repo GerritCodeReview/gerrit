@@ -22,8 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutAccount
-    implements RestModifyView<AccountResource, AccountInput> {
+public class PutAccount implements RestModifyView<AccountResource, AccountInput> {
   @Override
   public Response<AccountInfo> apply(AccountResource resource, AccountInput input)
       throws ResourceConflictException {

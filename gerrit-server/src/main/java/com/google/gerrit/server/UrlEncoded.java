@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.restapi.Url;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,8 +23,7 @@ public class UrlEncoded extends LinkedHashMap<String, String> {
 
   private String url;
 
-  public UrlEncoded() {
-  }
+  public UrlEncoded() {}
 
   public UrlEncoded(final String url) {
     this.url = url;

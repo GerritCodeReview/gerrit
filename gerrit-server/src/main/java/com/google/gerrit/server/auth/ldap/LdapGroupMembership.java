@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectCache;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -66,8 +65,7 @@ class LdapGroupMembership implements GroupMembership {
       try {
         membership = new ListGroupMembership(membershipCache.get(id));
       } catch (ExecutionException e) {
-        LdapGroupBackend.log.warn(String.format(
-            "Cannot lookup membershipsOf %s in LDAP", id), e);
+        LdapGroupBackend.log.warn(String.format("Cannot lookup membershipsOf %s in LDAP", id), e);
         membership = GroupMembership.EMPTY;
       }
     }

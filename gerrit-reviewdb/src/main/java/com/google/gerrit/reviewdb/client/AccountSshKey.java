@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.IntKey;
-
 import java.util.Objects;
 
 /** An SSH key approved for use by an {@link Account}. */
@@ -62,8 +61,7 @@ public final class AccountSshKey {
 
   protected boolean valid;
 
-  protected AccountSshKey() {
-  }
+  protected AccountSshKey() {}
 
   public AccountSshKey(final AccountSshKey.Id i, final String pub) {
     id = i;

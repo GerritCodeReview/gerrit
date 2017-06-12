@@ -24,8 +24,7 @@ import com.google.gerrit.metrics.Field;
 
 /** Generalized implementation of N-dimensional counter metrics. */
 class CounterImplN extends BucketedCounter implements BucketedMetric {
-  CounterImplN(DropWizardMetricMaker metrics, String name, Description desc,
-      Field<?>... fields) {
+  CounterImplN(DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     super(metrics, name, desc, fields);
   }
 
@@ -65,8 +64,7 @@ class CounterImplN extends BucketedCounter implements BucketedMetric {
     ImmutableList<Object> keyList = (ImmutableList<Object>) key;
     String[] parts = new String[fields.length];
     for (int i = 0; i < fields.length; i++) {
-      Function<Object, String> fmt =
-          (Function<Object, String>) fields[i].formatter();
+      Function<Object, String> fmt = (Function<Object, String>) fields[i].formatter();
 
       parts[i] = fmt.apply(keyList.get(i)).replace('/', '-');
     }

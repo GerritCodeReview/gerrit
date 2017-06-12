@@ -18,24 +18,24 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-
 import java.lang.reflect.Type;
 
 /**
  * JSON deserializer for {@link Event}s.
- * <p>
- * Deserialized objects are of an appropriate subclass based on the value of the
- * top-level "type" element.
+ *
+ * <p>Deserialized objects are of an appropriate subclass based on the value of the top-level "type"
+ * element.
  */
 public class EventDeserializer implements JsonDeserializer<Event> {
   @Override
-  public Event deserialize(JsonElement json, Type typeOfT,
-      JsonDeserializationContext context) throws JsonParseException {
+  public Event deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
     if (!json.isJsonObject()) {
       throw new JsonParseException("Not an object");
     }
     JsonElement typeJson = json.getAsJsonObject().get("type");
-    if (typeJson == null || !typeJson.isJsonPrimitive()
+    if (typeJson == null
+        || !typeJson.isJsonPrimitive()
         || !typeJson.getAsJsonPrimitive().isString()) {
       throw new JsonParseException("Type is not a string: " + typeJson);
     }

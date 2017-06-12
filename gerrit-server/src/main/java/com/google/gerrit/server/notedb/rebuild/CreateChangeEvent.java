@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.io.IOException;
 
 class CreateChangeEvent extends Event {
@@ -37,8 +36,13 @@ class CreateChangeEvent extends Event {
   }
 
   CreateChangeEvent(Change change, Integer minPsNum) {
-    super(psId(change, minPsNum), change.getOwner(), change.getOwner(),
-        change.getCreatedOn(), change.getCreatedOn(), null);
+    super(
+        psId(change, minPsNum),
+        change.getOwner(),
+        change.getOwner(),
+        change.getCreatedOn(),
+        change.getCreatedOn(),
+        null);
     this.change = change;
   }
 

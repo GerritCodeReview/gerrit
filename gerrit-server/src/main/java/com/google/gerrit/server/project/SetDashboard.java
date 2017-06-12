@@ -27,14 +27,12 @@ import com.google.gerrit.server.project.SetDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 class SetDashboard implements RestModifyView<DashboardResource, Input> {
   static class Input {
-    @DefaultInput
-    String id;
+    @DefaultInput String id;
     String commitMessage;
   }
 
@@ -48,7 +46,7 @@ class SetDashboard implements RestModifyView<DashboardResource, Input> {
   @Override
   public Response<DashboardInfo> apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      MethodNotAllowedException, ResourceNotFoundException, IOException {
+          MethodNotAllowedException, ResourceNotFoundException, IOException {
     if (resource.isProjectDefault()) {
       return defaultSetter.get().apply(resource, input);
     }

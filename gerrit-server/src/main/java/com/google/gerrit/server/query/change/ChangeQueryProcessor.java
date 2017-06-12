@@ -32,7 +32,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.util.Set;
 
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
@@ -48,7 +47,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   }
 
   @Inject
-  ChangeQueryProcessor(Provider<CurrentUser> userProvider,
+  ChangeQueryProcessor(
+      Provider<CurrentUser> userProvider,
       Metrics metrics,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
@@ -56,8 +56,14 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
       Provider<ReviewDb> db,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory) {
-    super(userProvider, metrics, ChangeSchemaDefinitions.INSTANCE, indexConfig, indexes,
-        rewriter, FIELD_LIMIT);
+    super(
+        userProvider,
+        metrics,
+        ChangeSchemaDefinitions.INSTANCE,
+        indexConfig,
+        indexes,
+        rewriter,
+        FIELD_LIMIT);
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
@@ -70,16 +76,16 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   }
 
   @Override
-  protected QueryOptions createOptions(IndexConfig indexConfig, int start,
-      int limit, Set<String> requestedFields) {
-    return IndexedChangeQuery.createOptions(indexConfig, start, limit,
-        requestedFields);
+  protected QueryOptions createOptions(
+      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
+    return IndexedChangeQuery.createOptions(indexConfig, start, limit, requestedFields);
   }
 
   @Override
-  protected Predicate<ChangeData> enforceVisibility(
-      Predicate<ChangeData> pred) {
-    return new AndChangeSource(pred, new ChangeIsVisibleToPredicate(db,
-        notesFactory, changeControlFactory, userProvider.get()), start);
+  protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
+    return new AndChangeSource(
+        pred,
+        new ChangeIsVisibleToPredicate(db, notesFactory, changeControlFactory, userProvider.get()),
+        start);
   }
 }

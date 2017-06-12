@@ -30,8 +30,7 @@ public final class TrackingId {
     @Column(id = 1, length = TrackingId.TRACKING_ID_MAX_CHAR)
     protected String id;
 
-    protected Id() {
-    }
+    protected Id() {}
 
     public Id(final String id) {
       this.id = id;
@@ -55,8 +54,7 @@ public final class TrackingId {
     @Column(id = 1, length = TrackingId.TRACKING_SYSTEM_MAX_CHAR)
     protected String system;
 
-    protected System() {
-    }
+    protected System() {}
 
     public System(final String s) {
       this.system = s;
@@ -119,11 +117,9 @@ public final class TrackingId {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected TrackingId() {
-  }
+  protected TrackingId() {}
 
-  public TrackingId(final Change.Id ch, final TrackingId.Id id,
-      final TrackingId.System s) {
+  public TrackingId(final Change.Id ch, final TrackingId.Id id, final TrackingId.System s) {
     key = new Key(ch, id, s);
   }
 

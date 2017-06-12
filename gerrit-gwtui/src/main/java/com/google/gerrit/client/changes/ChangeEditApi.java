@@ -28,8 +28,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** REST API helpers to remotely edit a change. */
 public class ChangeEditApi {
   /** Get file (or commit message) contents. */
-  public static void get(PatchSet.Id id, String path, boolean base,
-      HttpCallback<NativeString> cb) {
+  public static void get(PatchSet.Id id, String path, boolean base, HttpCallback<NativeString> cb) {
     RestApi api;
     if (id.get() != 0) {
       // Read from a published revision, when change edit doesn't
@@ -44,14 +43,12 @@ public class ChangeEditApi {
   }
 
   /** Get file (or commit message) contents of the edit. */
-  public static void get(PatchSet.Id id, String path,
-      HttpCallback<NativeString> cb) {
+  public static void get(PatchSet.Id id, String path, HttpCallback<NativeString> cb) {
     get(id, path, false, cb);
   }
 
   /** Get meta info for change edit. */
-  public static void getMeta(PatchSet.Id id, String path,
-      AsyncCallback<EditFileInfo> cb) {
+  public static void getMeta(PatchSet.Id id, String path, AsyncCallback<EditFileInfo> cb) {
     if (id.get() != 0) {
       throw new IllegalStateException("only supported for edits");
     }
@@ -64,8 +61,7 @@ public class ChangeEditApi {
   }
 
   /** Put contents into a file or commit message in a change edit. */
-  public static void put(int id, String path, String content,
-      GerritCallback<VoidResult> cb) {
+  public static void put(int id, String path, String content, GerritCallback<VoidResult> cb) {
     if (Patch.COMMIT_MSG.equals(path)) {
       putMessage(id, content, cb);
     } else {
@@ -79,8 +75,7 @@ public class ChangeEditApi {
   }
 
   /** Rename a file in the pending edit. */
-  public static void rename(int id, String path, String newPath,
-      AsyncCallback<VoidResult> cb) {
+  public static void rename(int id, String path, String newPath, AsyncCallback<VoidResult> cb) {
     Input in = Input.create();
     in.oldPath(path);
     in.newPath(newPath);
@@ -108,10 +103,11 @@ public class ChangeEditApi {
     }
 
     final native void restorePath(String p) /*-{ this.restore_path=p }-*/;
+
     final native void oldPath(String p) /*-{ this.old_path=p }-*/;
+
     final native void newPath(String p) /*-{ this.new_path=p }-*/;
 
-    protected Input() {
-    }
+    protected Input() {}
   }
 }

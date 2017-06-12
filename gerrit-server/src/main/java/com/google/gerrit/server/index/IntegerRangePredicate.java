@@ -22,8 +22,8 @@ import com.google.gwtorm.server.OrmException;
 public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
   private final Range range;
 
-  protected IntegerRangePredicate(FieldDef<T, Integer> type,
-      String value) throws QueryParseException {
+  protected IntegerRangePredicate(FieldDef<T, Integer> type, String value)
+      throws QueryParseException {
     super(type, value);
     range = RangeUtil.getRange(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
     if (range == null) {

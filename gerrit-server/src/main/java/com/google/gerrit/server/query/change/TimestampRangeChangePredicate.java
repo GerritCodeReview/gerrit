@@ -17,13 +17,12 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.Matchable;
-
 import java.sql.Timestamp;
 
-public abstract class TimestampRangeChangePredicate extends
-    TimestampRangePredicate<ChangeData> implements Matchable<ChangeData> {
-  protected TimestampRangeChangePredicate(FieldDef<ChangeData, Timestamp> def,
-      String name, String value) {
+public abstract class TimestampRangeChangePredicate extends TimestampRangePredicate<ChangeData>
+    implements Matchable<ChangeData> {
+  protected TimestampRangeChangePredicate(
+      FieldDef<ChangeData, Timestamp> def, String name, String value) {
     super(def, name, value);
   }
 

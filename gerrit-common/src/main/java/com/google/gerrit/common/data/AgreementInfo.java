@@ -21,8 +21,7 @@ public class AgreementInfo {
   public List<String> accepted;
   public Map<String, ContributorAgreement> agreements;
 
-  public AgreementInfo() {
-  }
+  public AgreementInfo() {}
 
   public void setAccepted(List<String> a) {
     accepted = a;

@@ -24,13 +24,11 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-
 import java.util.Comparator;
 import java.util.Iterator;
 
 public abstract class FancyFlexTable<RowItem> extends Composite {
-  private static final FancyFlexTableImpl impl =
-      GWT.create(FancyFlexTableImpl.class);
+  private static final FancyFlexTableImpl impl = GWT.create(FancyFlexTableImpl.class);
 
   protected static final int C_ARROW = 0;
 
@@ -51,8 +49,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   }
 
   protected RowItem getRowItem(final int row) {
-    return FancyFlexTable.<RowItem> getRowItem(table.getCellFormatter()
-        .getElement(row, 0));
+    return FancyFlexTable.<RowItem>getRowItem(table.getCellFormatter().getElement(row, 0));
   }
 
   protected void setRowItem(final int row, final RowItem item) {
@@ -64,32 +61,28 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
    *
    * @param comparator comparator by which the items in the table are sorted
    * @param item the item that should be found
-   * @return if the item is found the number of the row that contains the item;
-   *         if the item is not found {@code -1}
+   * @return if the item is found the number of the row that contains the item; if the item is not
+   *     found {@code -1}
    */
   protected int findRowItem(Comparator<RowItem> comparator, RowItem item) {
     int row = lookupRowItem(comparator, item);
-    if (row < table.getRowCount()
-        && comparator.compare(item, getRowItem(row)) == 0) {
+    if (row < table.getRowCount() && comparator.compare(item, getRowItem(row)) == 0) {
       return row;
     }
     return -1;
   }
 
   /**
-   * Finds the number of the row where a new item should be inserted into the
-   * table.
+   * Finds the number of the row where a new item should be inserted into the table.
    *
    * @param comparator comparator by which the items in the table are sorted
    * @param item the new item that should be inserted
-   * @return if the item is not yet contained in the table, the number of the
-   *         row where the new item should be inserted; if the item is already
-   *         contained in the table {@code -1}
+   * @return if the item is not yet contained in the table, the number of the row where the new item
+   *     should be inserted; if the item is already contained in the table {@code -1}
    */
   protected int getInsertRow(Comparator<RowItem> comparator, RowItem item) {
     int row = lookupRowItem(comparator, item);
-    if (row >= table.getRowCount()
-        || comparator.compare(item, getRowItem(row)) != 0) {
+    if (row >= table.getRowCount() || comparator.compare(item, getRowItem(row)) != 0) {
       return row;
     }
     return -1;
@@ -100,9 +93,9 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
    *
    * @param comparator comparator by which the items in the table are sorted
    * @param item the item that should be looked up
-   * @return if the item is found the number of the row that contains the item;
-   *         if the item is not found the number of the row where the item
-   *         should be inserted according to the given comparator.
+   * @return if the item is found the number of the row that contains the item; if the item is not
+   *     found the number of the row where the item should be inserted according to the given
+   *     comparator.
    */
   private int lookupRowItem(Comparator<RowItem> comparator, RowItem item) {
     int left = 1;
@@ -125,7 +118,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   }
 
   protected void resetHtml(final SafeHtml body) {
-    for (final Iterator<Widget> i = table.iterator(); i.hasNext();) {
+    for (final Iterator<Widget> i = table.iterator(); i.hasNext(); ) {
       i.next();
       i.remove();
     }
@@ -180,8 +173,8 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
    * Get the td element that contains another element.
    *
    * @param target the child element whose parent td is required.
-   * @return the td containing element {@code target}; null if {@code target} is
-   *         not a member of this table.
+   * @return the td containing element {@code target}; null if {@code target} is not a member of
+   *     this table.
    */
   protected Element getParentCell(final Element target) {
     final Element body = FancyFlexTableImpl.getBodyElement(table);
@@ -219,12 +212,11 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     return DOM.getChildIndex(tr, td);
   }
 
-  protected static class MyFlexTable extends FlexTable {
-  }
+  protected static class MyFlexTable extends FlexTable {}
 
   private static native <ItemType> void setRowItem(Element td, ItemType c)
-  /*-{ td['__gerritRowItem'] = c; }-*/;
+      /*-{ td['__gerritRowItem'] = c; }-*/ ;
 
   private static native <ItemType> ItemType getRowItem(Element td)
-  /*-{ return td['__gerritRowItem']; }-*/;
+      /*-{ return td['__gerritRowItem']; }-*/ ;
 }

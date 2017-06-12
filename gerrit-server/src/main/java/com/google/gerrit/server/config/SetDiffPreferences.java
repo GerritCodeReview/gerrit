@@ -30,28 +30,25 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class SetDiffPreferences implements
-    RestModifyView<ConfigResource, DiffPreferencesInfo> {
-  private static final Logger log =
-      LoggerFactory.getLogger(SetDiffPreferences.class);
+public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPreferencesInfo> {
+  private static final Logger log = LoggerFactory.getLogger(SetDiffPreferences.class);
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitManager;
 
   @Inject
-  SetDiffPreferences(GitRepositoryManager gitManager,
+  SetDiffPreferences(
+      GitRepositoryManager gitManager,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName) {
     this.gitManager = gitManager;
@@ -60,9 +57,8 @@ public class SetDiffPreferences implements
   }
 
   @Override
-  public DiffPreferencesInfo apply(ConfigResource configResource,
-      DiffPreferencesInfo in)
-          throws BadRequestException, IOException, ConfigInvalidException {
+  public DiffPreferencesInfo apply(ConfigResource configResource, DiffPreferencesInfo in)
+      throws BadRequestException, IOException, ConfigInvalidException {
     if (in == null) {
       throw new BadRequestException("input must be provided");
     }
@@ -76,15 +72,18 @@ public class SetDiffPreferences implements
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     DiffPreferencesInfo out = new DiffPreferencesInfo();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      VersionedAccountPreferences prefs =
-          VersionedAccountPreferences.forDefault();
+      VersionedAccountPreferences prefs = VersionedAccountPreferences.forDefault();
       prefs.load(md);
       DiffPreferencesInfo defaults = DiffPreferencesInfo.defaults();
-      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in,
-          defaults);
+      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in, defaults);
       prefs.commit(md);
-      loadSection(prefs.getConfig(), UserConfigSections.DIFF, null, out,
-          DiffPreferencesInfo.defaults(), null);
+      loadSection(
+          prefs.getConfig(),
+          UserConfigSections.DIFF,
+          null,
+          out,
+          DiffPreferencesInfo.defaults(),
+          null);
     }
     return out;
   }

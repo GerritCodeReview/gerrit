@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
-
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -47,8 +46,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithShortRef() throws Exception {
     // Move change to a different branch using short ref name
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     move(r.getChangeId(), newBranch.getShortName());
     assertThat(r.getChange().change().getDest()).isEqualTo(newBranch);
@@ -58,8 +56,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithFullRef() throws Exception {
     // Move change to a different branch using full ref name
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     move(r.getChangeId(), newBranch.get());
     assertThat(r.getChange().change().getDest()).isEqualTo(newBranch);
@@ -69,8 +66,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithMessage() throws Exception {
     // Provide a message using --message flag
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     String moveMessage = "Moving for the move test";
     move(r.getChangeId(), newBranch.get(), moveMessage);
@@ -79,8 +75,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     expectedMessage.append("Change destination moved from master to moveTest");
     expectedMessage.append("\n\n");
     expectedMessage.append(moveMessage);
-    assertThat(r.getChange().messages().get(1).getMessage())
-        .isEqualTo(expectedMessage.toString());
+    assertThat(r.getChange().messages().get(1).getMessage()).isEqualTo(expectedMessage.toString());
   }
 
   @Test
@@ -96,14 +91,16 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToSameChangeId() throws Exception {
     // Move change to a branch with existing change with same change ID
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     int changeNum = r.getChange().change().getChangeId();
     createChange(newBranch.get(), r.getChangeId());
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Destination " + newBranch.getShortName()
-        + " has a different change with same change key " + r.getChangeId());
+    exception.expectMessage(
+        "Destination "
+            + newBranch.getShortName()
+            + " has a different change with same change key "
+            + r.getChangeId());
     move(changeNum, newBranch.get());
   }
 
@@ -111,11 +108,10 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToNonExistentRef() throws Exception {
     // Move change to a non-existing branch
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = new Branch.NameKey(
-        r.getChange().change().getProject(), "does_not_exist");
+    Branch.NameKey newBranch =
+        new Branch.NameKey(r.getChange().change().getProject(), "does_not_exist");
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Destination " + newBranch.get()
-        + " not found in the project");
+    exception.expectMessage("Destination " + newBranch.get() + " not found in the project");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -123,8 +119,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveClosedChange() throws Exception {
     // Move a change which is not open
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     merge(r);
     exception.expect(ResourceConflictException.class);
@@ -141,17 +136,16 @@ public class MoveChangeIT extends AbstractDaemonTest {
     TestRepository<?>.CommitBuilder commitBuilder =
         testRepo.branch("HEAD").commit().insertChangeId();
     commitBuilder
-      .parent(r1.getCommit())
-      .parent(r2.getCommit())
-      .message("Move change Merge Commit")
-      .author(admin.getIdent())
-      .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+        .parent(r1.getCommit())
+        .parent(r2.getCommit())
+        .message("Move change Merge Commit")
+        .author(admin.getIdent())
+        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
     RevCommit c = commitBuilder.create();
     pushHead(testRepo, "refs/for/master", false, false);
 
     // Try to move the merge commit to another branch
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r1.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r1.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Merge commit cannot be moved");
@@ -165,7 +159,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Branch.NameKey newBranch =
         new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
-    block(Permission.PUSH,
+    block(
+        Permission.PUSH,
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
         "refs/for/" + newBranch.get());
     exception.expect(AuthException.class);
@@ -177,10 +172,10 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeFromBranchWithoutAbandonPerms() throws Exception {
     // Move change for which user does not have abandon permissions
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
-    block(Permission.ABANDON,
+    block(
+        Permission.ABANDON,
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
         r.getChange().change().getDest().get());
     setApiUser(user);
@@ -199,20 +194,15 @@ public class MoveChangeIT extends AbstractDaemonTest {
     int changeNum = r.getChange().change().getChangeId();
 
     // Create a branch with that same commit
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     BranchInput bi = new BranchInput();
     bi.revision = r.getCommit().name();
-    gApi.projects()
-      .name(newBranch.getParentKey().get())
-      .branch(newBranch.get())
-      .create(bi);
+    gApi.projects().name(newBranch.getParentKey().get()).branch(newBranch.get()).create(bi);
 
     // Try to move the change to the branch with the same commit
     exception.expect(ResourceConflictException.class);
-    exception
-        .expectMessage("Current patchset revision is reachable from tip of "
-            + newBranch.get());
+    exception.expectMessage(
+        "Current patchset revision is reachable from tip of " + newBranch.get());
     move(changeNum, newBranch.get());
   }
 
@@ -220,17 +210,15 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeWithCurrentPatchSetLocked() throws Exception {
     // Move change that is locked
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
+    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
 
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     LabelType patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
-    AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers,
-        "refs/heads/*");
+    AccountGroup.UUID registeredUsers = SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(
+        cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers, "refs/heads/*");
     saveProjectConfig(cfg);
     grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
@@ -240,28 +228,23 @@ public class MoveChangeIT extends AbstractDaemonTest {
     move(r.getChangeId(), newBranch.get());
   }
 
-  private void move(int changeNum, String destination)
-      throws RestApiException {
+  private void move(int changeNum, String destination) throws RestApiException {
     gApi.changes().id(changeNum).move(destination);
   }
 
-  private void move(String changeId, String destination)
-      throws RestApiException {
+  private void move(String changeId, String destination) throws RestApiException {
     gApi.changes().id(changeId).move(destination);
   }
 
-  private void move(String changeId, String destination, String message)
-      throws RestApiException {
+  private void move(String changeId, String destination, String message) throws RestApiException {
     MoveInput in = new MoveInput();
     in.destinationBranch = destination;
     in.message = message;
     gApi.changes().id(changeId).move(in);
   }
 
-  private PushOneCommit.Result createChange(String branch, String changeId)
-      throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, changeId);
+  private PushOneCommit.Result createChange(String branch, String changeId) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo, changeId);
     PushOneCommit.Result result = push.to("refs/for/" + branch);
     result.assertOkStatus();
     return result;

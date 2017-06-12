@@ -28,16 +28,6 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
-
-import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaAcceptor;
-import org.apache.sshd.common.io.mina.MinaSession;
-import org.apache.sshd.common.io.nio2.Nio2Acceptor;
-import org.apache.sshd.common.session.helpers.AbstractSession;
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -48,20 +38,38 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.mina.MinaAcceptor;
+import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2Acceptor;
+import org.apache.sshd.common.session.helpers.AbstractSession;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 /** Show the current SSH connections. */
 @RequiresCapability(GlobalCapability.VIEW_CONNECTIONS)
-@CommandMetaData(name = "show-connections", description = "Display active client SSH connections",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "show-connections",
+  description = "Display active client SSH connections",
+  runsAt = MASTER_OR_SLAVE
+)
 final class ShowConnections extends SshCommand {
-  @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
+  @Option(
+    name = "--numeric",
+    aliases = {"-n"},
+    usage = "don't resolve names"
+  )
   private boolean numeric;
 
-  @Option(name = "--wide", aliases = {"-w"}, usage = "display without line width truncation")
+  @Option(
+    name = "--wide",
+    aliases = {"-w"},
+    usage = "display without line width truncation"
+  )
   private boolean wide;
 
-  @Inject
-  private SshDaemon daemon;
+  @Inject private SshDaemon daemon;
 
   private int hostNameWidth;
   private int columns = 80;
@@ -77,7 +85,7 @@ final class ShowConnections extends SshCommand {
       }
     }
     super.start(env);
- }
+  }
 
   @Override
   protected void run() throws Failure {
@@ -86,32 +94,33 @@ final class ShowConnections extends SshCommand {
       throw new Failure(1, "fatal: sshd no longer running");
     }
 
-    final List<IoSession> list =
-        new ArrayList<>(acceptor.getManagedSessions().values());
-    Collections.sort(list, new Comparator<IoSession>() {
-      @Override
-      public int compare(IoSession arg0, IoSession arg1) {
-        if (arg0 instanceof MinaSession) {
-          MinaSession mArg0 = (MinaSession) arg0;
-          MinaSession mArg1 = (MinaSession) arg1;
-          if (mArg0.getSession().getCreationTime() < mArg1.getSession()
-              .getCreationTime()) {
-            return -1;
-          } else if (mArg0.getSession().getCreationTime() > mArg1.getSession()
-              .getCreationTime()) {
-            return 1;
+    final List<IoSession> list = new ArrayList<>(acceptor.getManagedSessions().values());
+    Collections.sort(
+        list,
+        new Comparator<IoSession>() {
+          @Override
+          public int compare(IoSession arg0, IoSession arg1) {
+            if (arg0 instanceof MinaSession) {
+              MinaSession mArg0 = (MinaSession) arg0;
+              MinaSession mArg1 = (MinaSession) arg1;
+              if (mArg0.getSession().getCreationTime() < mArg1.getSession().getCreationTime()) {
+                return -1;
+              } else if (mArg0.getSession().getCreationTime()
+                  > mArg1.getSession().getCreationTime()) {
+                return 1;
+              }
+            }
+            return (int) (arg0.getId() - arg1.getId());
           }
-        }
-        return (int) (arg0.getId() - arg1.getId());
-      }
-    });
+        });
 
     hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
 
     if (getBackend().equals("mina")) {
       long now = TimeUtil.nowMs();
-      stdout.print(String.format("%-8s %8s %8s   %-15s %s\n",
-          "Session", "Start", "Idle", "User", "Remote Host"));
+      stdout.print(
+          String.format(
+              "%-8s %8s %8s   %-15s %s\n", "Session", "Start", "Idle", "User", "Remote Host"));
       stdout.print("--------------------------------------------------------------\n");
       for (final IoSession io : list) {
         checkState(io instanceof MinaSession, "expected MinaSession");
@@ -121,25 +130,25 @@ final class ShowConnections extends SshCommand {
         AbstractSession s = AbstractSession.getSession(io, true);
         SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
-        stdout.print(String.format("%8s %8s %8s   %-15.15s %s\n",
-            id(sd),
-            time(now, start),
-            age(idle),
-            username(sd),
-            hostname(io.getRemoteAddress())));
+        stdout.print(
+            String.format(
+                "%8s %8s %8s   %-15.15s %s\n",
+                id(sd),
+                time(now, start),
+                age(idle),
+                username(sd),
+                hostname(io.getRemoteAddress())));
       }
     } else {
-      stdout.print(String.format("%-8s   %-15s %s\n",
-          "Session", "User", "Remote Host"));
+      stdout.print(String.format("%-8s   %-15s %s\n", "Session", "User", "Remote Host"));
       stdout.print("--------------------------------------------------------------\n");
       for (final IoSession io : list) {
         AbstractSession s = AbstractSession.getSession(io, true);
         SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
-        stdout.print(String.format("%8s   %-15.15s %s\n",
-            id(sd),
-            username(sd),
-            hostname(io.getRemoteAddress())));
+        stdout.print(
+            String.format(
+                "%8s   %-15.15s %s\n", id(sd), username(sd), hostname(io.getRemoteAddress())));
       }
     }
 
@@ -201,7 +210,6 @@ final class ShowConnections extends SshCommand {
       }
 
       return "a/" + u.getAccountId().toString();
-
     }
     return "";
   }

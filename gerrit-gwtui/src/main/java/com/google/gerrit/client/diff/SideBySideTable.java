@@ -24,18 +24,23 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 /**
- * A table with one row and two columns to hold the two CodeMirrors displaying
- * the files to be compared.
+ * A table with one row and two columns to hold the two CodeMirrors displaying the files to be
+ * compared.
  */
 class SideBySideTable extends DiffTable {
   interface Binder extends UiBinder<HTMLPanel, SideBySideTable> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
     String intralineBg();
+
     String diff();
+
     String hideA();
+
     String hideB();
+
     String padding();
   }
 
@@ -46,8 +51,7 @@ class SideBySideTable extends DiffTable {
 
   private boolean visibleA;
 
-  SideBySideTable(SideBySide parent, DiffObject base, DiffObject revision,
-      String path) {
+  SideBySideTable(SideBySide parent, DiffObject base, DiffObject revision, String path) {
     super(parent, base, revision, path);
 
     initWidget(uiBinder.createAndBindUi(this));

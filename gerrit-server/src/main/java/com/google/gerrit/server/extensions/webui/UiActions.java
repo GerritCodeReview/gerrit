@@ -26,11 +26,9 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.inject.Provider;
-
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Objects;
 
 public class UiActions {
   private static final Logger log = LoggerFactory.getLogger(UiActions.class);
@@ -40,18 +38,15 @@ public class UiActions {
   }
 
   public static <R extends RestResource> Iterable<UiAction.Description> from(
-      RestCollection<?, R> collection,
-      R resource,
-      Provider<CurrentUser> userProvider) {
+      RestCollection<?, R> collection, R resource, Provider<CurrentUser> userProvider) {
     return from(collection.views(), resource, userProvider);
   }
 
   public static <R extends RestResource> Iterable<UiAction.Description> from(
-      DynamicMap<RestView<R>> views,
-      final R resource,
-      final Provider<CurrentUser> userProvider) {
+      DynamicMap<RestView<R>> views, final R resource, final Provider<CurrentUser> userProvider) {
     return FluentIterable.from(views)
-        .transform((DynamicMap.Entry<RestView<R>> e) -> {
+        .transform(
+            (DynamicMap.Entry<RestView<R>> e) -> {
               int d = e.getExportName().indexOf('.');
               if (d < 0) {
                 return null;
@@ -61,9 +56,10 @@ public class UiActions {
               try {
                 view = e.getProvider().get();
               } catch (RuntimeException err) {
-                log.error(String.format(
-                    "error creating view %s.%s",
-                    e.getPluginName(), e.getExportName()), err);
+                log.error(
+                    String.format(
+                        "error creating view %s.%s", e.getPluginName(), e.getExportName()),
+                    err);
                 return null;
               }
 
@@ -72,32 +68,26 @@ public class UiActions {
               }
 
               try {
-                CapabilityUtils.checkRequiresCapability(userProvider,
-                    e.getPluginName(), view.getClass());
+                CapabilityUtils.checkRequiresCapability(
+                    userProvider, e.getPluginName(), view.getClass());
               } catch (AuthException exc) {
                 return null;
               }
 
-              UiAction.Description dsc =
-                  ((UiAction<R>) view).getDescription(resource);
+              UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
               if (dsc == null || !dsc.isVisible()) {
                 return null;
               }
 
               String name = e.getExportName().substring(d + 1);
               PrivateInternals_UiActionDescription.setMethod(
-                  dsc,
-                  e.getExportName().substring(0, d));
+                  dsc, e.getExportName().substring(0, d));
               PrivateInternals_UiActionDescription.setId(
-                  dsc,
-                  "gerrit".equals(e.getPluginName())
-                    ? name
-                    : e.getPluginName() + '~' + name);
+                  dsc, "gerrit".equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);
               return dsc;
             })
         .filter(Objects::nonNull);
   }
 
-  private UiActions() {
-  }
+  private UiActions() {}
 }

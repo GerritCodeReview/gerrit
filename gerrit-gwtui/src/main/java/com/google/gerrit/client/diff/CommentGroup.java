@@ -18,7 +18,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
@@ -27,7 +26,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * When a comment is placed on a line a CommentWidget is created.
+ * <p>When a comment is placed on a line a CommentWidget is created.
  */
 abstract class CommentGroup extends Composite {
 
@@ -139,12 +138,15 @@ abstract class CommentGroup extends Composite {
 
   void attach(DiffTable parent) {
     parent.add(this);
-    lineWidget = cm.addLineWidget(Math.max(0, line - 1), getElement(),
-        Configuration.create()
-          .set("coverGutter", true)
-          .set("noHScroll", true)
-          .set("above", line <= 0)
-          .set("insertAt", 0));
+    lineWidget =
+        cm.addLineWidget(
+            Math.max(0, line - 1),
+            getElement(),
+            Configuration.create()
+                .set("coverGutter", true)
+                .set("noHScroll", true)
+                .set("above", line <= 0)
+                .set("insertAt", 0));
   }
 
   @Override

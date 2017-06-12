@@ -39,7 +39,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,9 +46,12 @@ import java.util.List;
 
 public class MyGpgKeysScreen extends SettingsScreen {
   interface Binder extends UiBinder<HTMLPanel, MyGpgKeysScreen> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField(provided = true) GpgKeyTable keys;
+  @UiField(provided = true)
+  GpgKeyTable keys;
+
   @UiField Button deleteKey;
   @UiField Button addKey;
 
@@ -105,39 +107,45 @@ public class MyGpgKeysScreen extends SettingsScreen {
   }
 
   private void refreshKeys() {
-    AccountApi.self().view("gpgkeys").get(NativeMap.copyKeysIntoChildren("id",
-        new GerritCallback<NativeMap<GpgKeyInfo>>() {
-          @Override
-          public void onSuccess(NativeMap<GpgKeyInfo> result) {
-            List<GpgKeyInfo> list = Natives.asList(result.values());
-            // TODO(dborowitz): Sort on something more meaningful, like
-            // created date?
-            Collections.sort(list, new Comparator<GpgKeyInfo>() {
-              @Override
-              public int compare(GpgKeyInfo a, GpgKeyInfo b) {
-                return a.id().compareTo(b.id());
-              }
-            });
-            keys.clear();
-            keyText.setText("");
-            errorPanel.setVisible(false);
-            addButton.setEnabled(true);
-            if (!list.isEmpty()) {
-              keys.setVisible(true);
-              for (GpgKeyInfo k : list) {
-                keys.addOneKey(k);
-              }
-              showKeyTable(true);
-              showAddKeyBlock(false);
-            } else {
-              keys.setVisible(false);
-              showAddKeyBlock(true);
-              showKeyTable(false);
-            }
+    AccountApi.self()
+        .view("gpgkeys")
+        .get(
+            NativeMap.copyKeysIntoChildren(
+                "id",
+                new GerritCallback<NativeMap<GpgKeyInfo>>() {
+                  @Override
+                  public void onSuccess(NativeMap<GpgKeyInfo> result) {
+                    List<GpgKeyInfo> list = Natives.asList(result.values());
+                    // TODO(dborowitz): Sort on something more meaningful, like
+                    // created date?
+                    Collections.sort(
+                        list,
+                        new Comparator<GpgKeyInfo>() {
+                          @Override
+                          public int compare(GpgKeyInfo a, GpgKeyInfo b) {
+                            return a.id().compareTo(b.id());
+                          }
+                        });
+                    keys.clear();
+                    keyText.setText("");
+                    errorPanel.setVisible(false);
+                    addButton.setEnabled(true);
+                    if (!list.isEmpty()) {
+                      keys.setVisible(true);
+                      for (GpgKeyInfo k : list) {
+                        keys.addOneKey(k);
+                      }
+                      showKeyTable(true);
+                      showAddKeyBlock(false);
+                    } else {
+                      keys.setVisible(false);
+                      showAddKeyBlock(true);
+                      showKeyTable(false);
+                    }
 
-            display();
-          }
-        }));
+                    display();
+                  }
+                }));
   }
 
   private void showAddKeyBlock(boolean show) {
@@ -157,7 +165,9 @@ public class MyGpgKeysScreen extends SettingsScreen {
     }
     addButton.setEnabled(false);
     keyText.setEnabled(false);
-    AccountApi.addGpgKey("self", keyText.getText(),
+    AccountApi.addGpgKey(
+        "self",
+        keyText.getText(),
         new AsyncCallback<NativeMap<GpgKeyInfo>>() {
           @Override
           public void onSuccess(NativeMap<GpgKeyInfo> result) {
@@ -178,8 +188,7 @@ public class MyGpgKeysScreen extends SettingsScreen {
                 errorText.setText(sce.getMessage());
               }
             } else {
-              errorText.setText(
-                  "Unexpected error saving key: " + caught.getMessage());
+              errorText.setText("Unexpected error saving key: " + caught.getMessage());
             }
             errorPanel.setVisible(true);
           }
@@ -201,12 +210,13 @@ public class MyGpgKeysScreen extends SettingsScreen {
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
 
-      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          updateDeleteButton();
-        }
-      };
+      updateDeleteHandler =
+          new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+              updateDeleteButton();
+            }
+          };
     }
 
     private void addOneKey(GpgKeyInfo k) {
@@ -253,7 +263,9 @@ public class MyGpgKeysScreen extends SettingsScreen {
           toDelete.add(getRowItem(row).fingerprint());
         }
       }
-      AccountApi.deleteGpgKeys("self", toDelete,
+      AccountApi.deleteGpgKeys(
+          "self",
+          toDelete,
           new GerritCallback<NativeMap<GpgKeyInfo>>() {
             @Override
             public void onSuccess(NativeMap<GpgKeyInfo> result) {

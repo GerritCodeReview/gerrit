@@ -26,14 +26,14 @@ public class OAuthToken implements Serializable {
   private final String raw;
 
   /**
-   * Time of expiration of this token, or {@code Long#MAX_VALUE} if this
-   * token never expires, or time of expiration is unknown.
+   * Time of expiration of this token, or {@code Long#MAX_VALUE} if this token never expires, or
+   * time of expiration is unknown.
    */
   private final long expiresAt;
 
   /**
-   * The identifier of the OAuth provider that issued this token
-   * in the form <tt>"plugin-name:provider-name"</tt>, or {@code null}.
+   * The identifier of the OAuth provider that issued this token in the form
+   * <tt>"plugin-name:provider-name"</tt>, or {@code null}.
    */
   private final String providerId;
 
@@ -41,8 +41,7 @@ public class OAuthToken implements Serializable {
     this(token, secret, raw, Long.MAX_VALUE, null);
   }
 
-  public OAuthToken(String token, String secret, String raw,
-      long expiresAt, String providerId) {
+  public OAuthToken(String token, String secret, String raw, long expiresAt, String providerId) {
     this.token = token;
     this.secret = secret;
     this.raw = raw;

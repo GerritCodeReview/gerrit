@@ -30,5 +30,4 @@ public class EncodePathSeparatorTest {
     gitwebType.setPathSeparator('!');
     assertEquals("a!b", gitwebType.replacePathSeparator("a/b"));
   }
-
 }

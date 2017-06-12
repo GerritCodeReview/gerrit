@@ -33,7 +33,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
@@ -50,20 +57,9 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-public class LuceneAccountIndex
-    extends AbstractLuceneIndex<Account.Id, AccountState>
+public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountState>
     implements AccountIndex {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneAccountIndex.class);
+  private static final Logger log = LoggerFactory.getLogger(LuceneAccountIndex.class);
 
   private static final String ACCOUNTS = "accounts";
 
@@ -81,13 +77,12 @@ public class LuceneAccountIndex
   private final QueryBuilder<AccountState> queryBuilder;
   private final AccountCache accountCache;
 
-  private static Directory dir(Schema<AccountState> schema, Config cfg,
-      SitePaths sitePaths) throws IOException {
+  private static Directory dir(Schema<AccountState> schema, Config cfg, SitePaths sitePaths)
+      throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir =
-        LuceneVersionManager.getDir(sitePaths, ACCOUNTS + "_", schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS + "_", schema);
     return FSDirectory.open(indexDir);
   }
 
@@ -96,13 +91,19 @@ public class LuceneAccountIndex
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       AccountCache accountCache,
-      @Assisted Schema<AccountState> schema) throws IOException {
-    super(schema, sitePaths, dir(schema, cfg, sitePaths), ACCOUNTS, null,
-        new GerritIndexWriterConfig(cfg, ACCOUNTS), new SearcherFactory());
+      @Assisted Schema<AccountState> schema)
+      throws IOException {
+    super(
+        schema,
+        sitePaths,
+        dir(schema, cfg, sitePaths),
+        ACCOUNTS,
+        null,
+        new GerritIndexWriterConfig(cfg, ACCOUNTS),
+        new SearcherFactory());
     this.accountCache = accountCache;
 
-    indexWriterConfig =
-        new GerritIndexWriterConfig(cfg, ACCOUNTS);
+    indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
   }
 
@@ -126,13 +127,12 @@ public class LuceneAccountIndex
   }
 
   @Override
-  public DataSource<AccountState> getSource(Predicate<AccountState> p,
-      QueryOptions opts) throws QueryParseException {
+  public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
+      throws QueryParseException {
     return new QuerySource(
         opts,
         queryBuilder.toQuery(p),
-        new Sort(
-            new SortField(ID_SORT_FIELD, SortField.Type.LONG, true)));
+        new Sort(new SortField(ID_SORT_FIELD, SortField.Type.LONG, true)));
   }
 
   private class QuerySource implements DataSource<AccountState> {
@@ -200,14 +200,11 @@ public class LuceneAccountIndex
 
   private Set<String> fields(QueryOptions opts) {
     Set<String> fs = opts.fields();
-    return fs.contains(ID.getName())
-        ? fs
-        : Sets.union(fs, ImmutableSet.of(ID.getName()));
+    return fs.contains(ID.getName()) ? fs : Sets.union(fs, ImmutableSet.of(ID.getName()));
   }
 
   private AccountState toAccountState(Document doc) {
-    Account.Id id =
-        new Account.Id(doc.getField(ID.getName()).numericValue().intValue());
+    Account.Id id = new Account.Id(doc.getField(ID.getName()).numericValue().intValue());
     // Use the AccountCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any. The most expensive part to
     // compute anyway is the effective group IDs, and we don't have a good way

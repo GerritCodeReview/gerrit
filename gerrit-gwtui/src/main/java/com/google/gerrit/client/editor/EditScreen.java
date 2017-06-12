@@ -73,7 +73,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-
+import java.util.List;
 import net.codemirror.addon.AddonInjector;
 import net.codemirror.addon.Addons;
 import net.codemirror.lib.CodeMirror;
@@ -87,15 +87,16 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
-import java.util.List;
-
 public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
     String fullWidth();
+
     String base();
+
     String hideBase();
   }
 
@@ -155,74 +156,82 @@ public class EditScreen extends Screen {
     final CallbackGroup group2 = new CallbackGroup();
     final CallbackGroup group3 = new CallbackGroup();
 
-    CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
-      final AsyncCallback<Void> themeCallback = group3.addEmpty();
-
-      @Override
-      public void onSuccess(Void result) {
-        // Load theme after CM library to ensure theme can override CSS.
-        ThemeLoader.loadTheme(prefs.theme(), themeCallback);
-        group2.done();
-
-        new AddonInjector().add(Addons.I.merge_bundled().getName()).inject(
+    CodeMirror.initLibrary(
+        group1.add(
             new AsyncCallback<Void>() {
-          @Override
-          public void onFailure(Throwable caught) {
-          }
+              final AsyncCallback<Void> themeCallback = group3.addEmpty();
 
-          @Override
-          public void onSuccess(Void result) {
-            if (!prefs.showBase() || revision.get() > 0) {
-              group3.done();
-            }
-          }
-        });
-      }
+              @Override
+              public void onSuccess(Void result) {
+                // Load theme after CM library to ensure theme can override CSS.
+                ThemeLoader.loadTheme(prefs.theme(), themeCallback);
+                group2.done();
 
-      @Override
-      public void onFailure(Throwable caught) {
-      }
-    }));
+                new AddonInjector()
+                    .add(Addons.I.merge_bundled().getName())
+                    .inject(
+                        new AsyncCallback<Void>() {
+                          @Override
+                          public void onFailure(Throwable caught) {}
 
-    ChangeApi.detail(revision.getParentKey().get(),
-        group1.add(new AsyncCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(ChangeInfo c) {
-            project.setInnerText(c.project());
-            SafeHtml.setInnerHTML(filePath, Header.formatPath(path));
-          }
+                          @Override
+                          public void onSuccess(Void result) {
+                            if (!prefs.showBase() || revision.get() > 0) {
+                              group3.done();
+                            }
+                          }
+                        });
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        }));
+              @Override
+              public void onFailure(Throwable caught) {}
+            }));
+
+    ChangeApi.detail(
+        revision.getParentKey().get(),
+        group1.add(
+            new AsyncCallback<ChangeInfo>() {
+              @Override
+              public void onSuccess(ChangeInfo c) {
+                project.setInnerText(c.project());
+                SafeHtml.setInnerHTML(filePath, Header.formatPath(path));
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {}
+            }));
 
     if (revision.get() == 0) {
-      ChangeEditApi.getMeta(revision, path,
-          group1.add(new AsyncCallback<EditFileInfo>() {
-            @Override
-            public void onSuccess(EditFileInfo editInfo) {
-              editFileInfo = editInfo;
-            }
+      ChangeEditApi.getMeta(
+          revision,
+          path,
+          group1.add(
+              new AsyncCallback<EditFileInfo>() {
+                @Override
+                public void onSuccess(EditFileInfo editInfo) {
+                  editFileInfo = editInfo;
+                }
 
-            @Override
-            public void onFailure(Throwable e) {
-            }
-          }));
+                @Override
+                public void onFailure(Throwable e) {}
+              }));
 
       if (prefs.showBase()) {
-        ChangeEditApi.get(revision, path, true /* base */,
-            group1.addFinal(new HttpCallback<NativeString>() {
-              @Override
-              public void onSuccess(HttpResponse<NativeString> fc) {
-                baseContent = fc;
-                group3.done();
-              }
+        ChangeEditApi.get(
+            revision,
+            path,
+            true /* base */,
+            group1.addFinal(
+                new HttpCallback<NativeString>() {
+                  @Override
+                  public void onSuccess(HttpResponse<NativeString> fc) {
+                    baseContent = fc;
+                    group3.done();
+                  }
 
-              @Override
-              public void onFailure(Throwable e) {
-              }
-            }));
+                  @Override
+                  public void onFailure(Throwable e) {}
+                }));
       } else {
         group1.done();
       }
@@ -230,72 +239,74 @@ public class EditScreen extends Screen {
       // TODO(davido): We probably want to create dedicated GET EditScreenMeta
       // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
       DiffApi.diff(revision, path)
-        .webLinksOnly()
-        .get(group1.addFinal(new AsyncCallback<DiffInfo>() {
-          @Override
-          public void onSuccess(DiffInfo diffInfo) {
-            diffLinks = diffInfo.webLinks();
-          }
+          .webLinksOnly()
+          .get(
+              group1.addFinal(
+                  new AsyncCallback<DiffInfo>() {
+                    @Override
+                    public void onSuccess(DiffInfo diffInfo) {
+                      diffLinks = diffInfo.webLinks();
+                    }
 
-          @Override
-          public void onFailure(Throwable e) {
-          }
-      }));
+                    @Override
+                    public void onFailure(Throwable e) {}
+                  }));
     }
 
-    ChangeEditApi.get(revision, path,
-        group2.add(new HttpCallback<NativeString>() {
-          final AsyncCallback<Void> modeCallback = group3.addEmpty();
+    ChangeEditApi.get(
+        revision,
+        path,
+        group2.add(
+            new HttpCallback<NativeString>() {
+              final AsyncCallback<Void> modeCallback = group3.addEmpty();
 
+              @Override
+              public void onSuccess(HttpResponse<NativeString> fc) {
+                content = fc;
+                if (revision.get() > 0) {
+                  baseContent = fc;
+                }
+
+                if (prefs.syntaxHighlighting()) {
+                  injectMode(fc.getContentType(), modeCallback);
+                } else {
+                  modeCallback.onSuccess(null);
+                }
+              }
+
+              @Override
+              public void onFailure(Throwable e) {
+                // "Not Found" means it's a new file.
+                if (RestApi.isNotFound(e)) {
+                  content = null;
+                  modeCallback.onSuccess(null);
+                } else {
+                  GerritCallback.showFailure(e);
+                }
+              }
+            }));
+
+    group3.addListener(
+        new ScreenLoadCallback<Void>(this) {
           @Override
-          public void onSuccess(HttpResponse<NativeString> fc) {
-            content = fc;
-            if (revision.get() > 0) {
-              baseContent = fc;
-            }
+          protected void preDisplay(Void result) {
+            initEditor();
 
-            if (prefs.syntaxHighlighting()) {
-              injectMode(fc.getContentType(), modeCallback);
-            } else {
-              modeCallback.onSuccess(null);
-            }
+            renderLinks(editFileInfo, diffLinks);
+            editFileInfo = null;
+            diffLinks = null;
+
+            showBase.setValue(prefs.showBase(), true);
+            cmBase.refresh();
           }
-
-          @Override
-          public void onFailure(Throwable e) {
-            // "Not Found" means it's a new file.
-            if (RestApi.isNotFound(e)) {
-              content = null;
-              modeCallback.onSuccess(null);
-            } else {
-              GerritCallback.showFailure(e);
-            }
-          }
-        }));
-
-    group3.addListener(new ScreenLoadCallback<Void>(this) {
-      @Override
-      protected void preDisplay(Void result) {
-        initEditor();
-
-        renderLinks(editFileInfo, diffLinks);
-        editFileInfo = null;
-        diffLinks = null;
-
-        showBase.setValue(prefs.showBase(), true);
-        cmBase.refresh();
-      }
-    });
+        });
   }
 
   @Override
   public void registerKeys() {
     super.registerKeys();
     KeyMap localKeyMap = KeyMap.create();
-    localKeyMap
-        .on("Ctrl-L", gotoLine())
-        .on("Cmd-L", gotoLine())
-        .on("Cmd-S", save());
+    localKeyMap.on("Ctrl-L", gotoLine()).on("Cmd-L", gotoLine()).on("Cmd-S", save());
 
     // TODO(davido): Find a better way to prevent key maps collisions
     if (prefs.keyMapType() != KeyMapType.EMACS) {
@@ -323,29 +334,34 @@ public class EditScreen extends Screen {
     if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
-    resizeHandler = Window.addResizeHandler(new ResizeHandler() {
-      @Override
-      public void onResize(ResizeEvent event) {
-        adjustHeight();
-      }
-    });
-    closeHandler = Window.addWindowClosingHandler(new ClosingHandler() {
-      @Override
-      public void onWindowClosing(ClosingEvent event) {
-        if (!cmEdit.isClean(generation)) {
-          event.setMessage(EditConstants.I.closeUnsavedChanges());
-        }
-      }
-    });
+    resizeHandler =
+        Window.addResizeHandler(
+            new ResizeHandler() {
+              @Override
+              public void onResize(ResizeEvent event) {
+                adjustHeight();
+              }
+            });
+    closeHandler =
+        Window.addWindowClosingHandler(
+            new ClosingHandler() {
+              @Override
+              public void onWindowClosing(ClosingEvent event) {
+                if (!cmEdit.isClean(generation)) {
+                  event.setMessage(EditConstants.I.closeUnsavedChanges());
+                }
+              }
+            });
 
     generation = cmEdit.changeGeneration(true);
     setClean(true);
-    cmEdit.on(new ChangesHandler() {
-      @Override
-      public void handle(CodeMirror cm) {
-        setClean(cm.isClean(generation));
-      }
-    });
+    cmEdit.on(
+        new ChangesHandler() {
+          @Override
+          public void handle(CodeMirror cm) {
+            setClean(cm.isClean(generation));
+          }
+        });
 
     adjustHeight();
     cmEdit.on("cursorActivity", updateCursorPosition());
@@ -397,17 +413,14 @@ public class EditScreen extends Screen {
 
   @UiHandler("close")
   void onClose(@SuppressWarnings("unused") ClickEvent e) {
-    if (cmEdit.isClean(generation)
-        || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
+    if (cmEdit.isClean(generation) || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
       upToChange();
     }
   }
 
   private void displayBase() {
-    cmBase.getWrapperElement().getParentElement()
-        .removeClassName(style.hideBase());
-    cmEdit.getWrapperElement().getParentElement()
-        .removeClassName(style.fullWidth());
+    cmBase.getWrapperElement().getParentElement().removeClassName(style.hideBase());
+    cmEdit.getWrapperElement().getParentElement().removeClassName(style.fullWidth());
     mv.getGapElement().removeClassName(style.hideBase());
     setCmBaseValue();
     setLineLength(prefs.lineLength());
@@ -419,7 +432,10 @@ public class EditScreen extends Screen {
     boolean shouldShow = e.getValue();
     if (shouldShow) {
       if (baseContent == null) {
-        ChangeEditApi.get(revision, path, true /* base */,
+        ChangeEditApi.get(
+            revision,
+            path,
+            true /* base */,
             new HttpCallback<NativeString>() {
               @Override
               public void onSuccess(HttpResponse<NativeString> fc) {
@@ -428,17 +444,14 @@ public class EditScreen extends Screen {
               }
 
               @Override
-              public void onFailure(Throwable e) {
-              }
+              public void onFailure(Throwable e) {}
             });
       } else {
         displayBase();
       }
     } else {
-      cmBase.getWrapperElement().getParentElement()
-          .addClassName(style.hideBase());
-      cmEdit.getWrapperElement().getParentElement()
-          .addClassName(style.fullWidth());
+      cmBase.getWrapperElement().getParentElement().addClassName(style.hideBase());
+      cmEdit.getWrapperElement().getParentElement().addClassName(style.fullWidth());
       mv.getGapElement().addClassName(style.hideBase());
     }
     mv.setShowDifferences(shouldShow);
@@ -460,18 +473,20 @@ public class EditScreen extends Screen {
   }
 
   void setTheme(final Theme newTheme) {
-    cmBase.operation(new Runnable() {
-      @Override
-      public void run() {
-        cmBase.setOption("theme", newTheme.name().toLowerCase());
-      }
-    });
-    cmEdit.operation(new Runnable() {
-      @Override
-      public void run() {
-        cmEdit.setOption("theme", newTheme.name().toLowerCase());
-      }
-    });
+    cmBase.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmBase.setOption("theme", newTheme.name().toLowerCase());
+          }
+        });
+    cmEdit.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmEdit.setOption("theme", newTheme.name().toLowerCase());
+          }
+        });
   }
 
   void setLineLength(int length) {
@@ -490,18 +505,20 @@ public class EditScreen extends Screen {
   }
 
   void setShowWhitespaceErrors(final boolean show) {
-    cmBase.operation(new Runnable() {
-      @Override
-      public void run() {
-        cmBase.setOption("showTrailingSpace", show);
-      }
-    });
-    cmEdit.operation(new Runnable() {
-      @Override
-      public void run() {
-        cmEdit.setOption("showTrailingSpace", show);
-      }
-    });
+    cmBase.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmBase.setOption("showTrailingSpace", show);
+          }
+        });
+    cmEdit.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmEdit.setOption("showTrailingSpace", show);
+          }
+        });
   }
 
   void setShowTabs(boolean show) {
@@ -511,11 +528,8 @@ public class EditScreen extends Screen {
 
   void adjustHeight() {
     int height = header.getOffsetHeight();
-    int rest = Gerrit.getHeaderFooterHeight()
-        + height
-        + 5; // Estimate
-    mv.getGapElement().getStyle().setHeight(
-        Window.getClientHeight() - rest, Unit.PX);
+    int rest = Gerrit.getHeaderFooterHeight() + height + 5; // Estimate
+    mv.getGapElement().getStyle().setHeight(Window.getClientHeight() - rest, Unit.PX);
     cmBase.adjustHeight(height);
     cmEdit.adjustHeight(height);
   }
@@ -524,18 +538,20 @@ public class EditScreen extends Screen {
     ModeInfo modeInfo = ModeInfo.findMode(content.getContentType(), path);
     final String mode = modeInfo != null ? modeInfo.mime() : null;
     if (b && mode != null && !mode.isEmpty()) {
-      injectMode(mode, new AsyncCallback<Void>() {
-        @Override
-        public void onSuccess(Void result) {
-          cmBase.setOption("mode", mode);
-          cmEdit.setOption("mode", mode);
-        }
+      injectMode(
+          mode,
+          new AsyncCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+              cmBase.setOption("mode", mode);
+              cmEdit.setOption("mode", mode);
+            }
 
-        @Override
-        public void onFailure(Throwable caught) {
-          prefs.syntaxHighlighting(false);
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {
+              prefs.syntaxHighlighting(false);
+            }
+          });
     } else {
       cmBase.setOption("mode", (String) null);
       cmEdit.setOption("mode", (String) null);
@@ -555,23 +571,26 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(content.getContentType(), path);
       }
     }
-    mv = MergeView.create(editor, Configuration.create()
-        .set("autoCloseBrackets", prefs.autoCloseBrackets())
-        .set("cursorBlinkRate", prefs.cursorBlinkRate())
-        .set("cursorHeight", 0.85)
-        .set("indentUnit", prefs.indentUnit())
-        .set("keyMap", prefs.keyMapType().name().toLowerCase())
-        .set("lineNumbers", prefs.hideLineNumbers())
-        .set("lineWrapping", false)
-        .set("matchBrackets", prefs.matchBrackets())
-        .set("mode", mode != null ? mode.mime() : null)
-        .set("origLeft", editContent)
-        .set("scrollbarStyle", "overlay")
-        .set("showTrailingSpace", prefs.showWhitespaceErrors())
-        .set("styleSelectedText", true)
-        .set("tabSize", prefs.tabSize())
-        .set("theme", prefs.theme().name().toLowerCase())
-        .set("value", ""));
+    mv =
+        MergeView.create(
+            editor,
+            Configuration.create()
+                .set("autoCloseBrackets", prefs.autoCloseBrackets())
+                .set("cursorBlinkRate", prefs.cursorBlinkRate())
+                .set("cursorHeight", 0.85)
+                .set("indentUnit", prefs.indentUnit())
+                .set("keyMap", prefs.keyMapType().name().toLowerCase())
+                .set("lineNumbers", prefs.hideLineNumbers())
+                .set("lineWrapping", false)
+                .set("matchBrackets", prefs.matchBrackets())
+                .set("mode", mode != null ? mode.mime() : null)
+                .set("origLeft", editContent)
+                .set("scrollbarStyle", "overlay")
+                .set("showTrailingSpace", prefs.showWhitespaceErrors())
+                .set("styleSelectedText", true)
+                .set("tabSize", prefs.tabSize())
+                .set("theme", prefs.theme().name().toLowerCase())
+                .set("value", ""));
 
     cmBase = mv.leftOriginal();
     cmBase.getWrapperElement().addClassName(style.base());
@@ -579,16 +598,17 @@ public class EditScreen extends Screen {
     setCmBaseValue();
     cmEdit.setValue(editContent);
 
-    CodeMirror.addCommand("save", new CommandRunner() {
-      @Override
-      public void run(CodeMirror instance) {
-        save().run();
-      }
-    });
+    CodeMirror.addCommand(
+        "save",
+        new CommandRunner() {
+          @Override
+          public void run(CodeMirror instance) {
+            save().run();
+          }
+        });
   }
 
-  private void renderLinks(EditFileInfo editInfo,
-      JsArray<DiffWebLinkInfo> diffLinks) {
+  private void renderLinks(EditFileInfo editInfo, JsArray<DiffWebLinkInfo> diffLinks) {
     renderLinksToDiff();
 
     if (editInfo != null) {
@@ -608,16 +628,14 @@ public class EditScreen extends Screen {
 
   private void renderLinksToDiff() {
     InlineHyperlink sbs = new InlineHyperlink();
-    sbs.setHTML(new ImageResourceRenderer()
-        .render(Gerrit.RESOURCES.sideBySideDiff()));
+    sbs.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
     sbs.setTargetHistoryToken(
         Dispatcher.toPatch("sidebyside", null, new Patch.Key(revision, path)));
     sbs.setTitle(PatchUtil.C.sideBySideDiff());
     linkPanel.add(sbs);
 
     InlineHyperlink unified = new InlineHyperlink();
-    unified.setHTML(new ImageResourceRenderer()
-        .render(Gerrit.RESOURCES.unifiedDiff()));
+    unified.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
     unified.setTargetHistoryToken(
         Dispatcher.toPatch("unified", null, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
@@ -633,17 +651,20 @@ public class EditScreen extends Screen {
         // key (or j/k) is held down. Performance on Chrome is fine
         // without the deferral.
         //
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-          @Override
-          public void execute() {
-            cmEdit.operation(new Runnable() {
-              @Override
-              public void run() {
-                updateActiveLine();
-              }
-            });
-          }
-        });
+        Scheduler.get()
+            .scheduleDeferred(
+                new ScheduledCommand() {
+                  @Override
+                  public void execute() {
+                    cmEdit.operation(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            updateActiveLine();
+                          }
+                        });
+                  }
+                });
       }
     };
   }
@@ -676,13 +697,17 @@ public class EditScreen extends Screen {
             }
           }
           final int g = cmEdit.changeGeneration(false);
-          ChangeEditApi.put(revision.getParentKey().get(), path, text,
+          ChangeEditApi.put(
+              revision.getParentKey().get(),
+              path,
+              text,
               new GerritCallback<VoidResult>() {
                 @Override
                 public void onSuccess(VoidResult result) {
                   generation = g;
                   setClean(cmEdit.isClean(g));
                 }
+
                 @Override
                 public void onFailure(final Throwable caught) {
                   close.setEnabled(true);
@@ -698,8 +723,9 @@ public class EditScreen extends Screen {
   }
 
   private void setCmBaseValue() {
-    cmBase.setValue(baseContent != null && baseContent.getResult() != null
-        ? baseContent.getResult().asString()
-        : "");
+    cmBase.setValue(
+        baseContent != null && baseContent.getResult() != null
+            ? baseContent.getResult().asString()
+            : "");
   }
 }

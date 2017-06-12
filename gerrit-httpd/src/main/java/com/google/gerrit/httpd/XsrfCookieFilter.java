@@ -23,9 +23,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -44,32 +42,30 @@ public class XsrfCookieFilter implements Filter {
 
   @Inject
   XsrfCookieFilter(
-      Provider<CurrentUser> user,
-      DynamicItem<WebSession> session,
-      AuthConfig authConfig) {
+      Provider<CurrentUser> user, DynamicItem<WebSession> session, AuthConfig authConfig) {
     this.user = user;
     this.session = session;
     this.authConfig = authConfig;
   }
 
   @Override
-  public void doFilter(ServletRequest req, ServletResponse rsp,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
+      throws IOException, ServletException {
     WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
-    setXsrfTokenCookie(
-        (HttpServletRequest) req, (HttpServletResponse) rsp, s);
+    setXsrfTokenCookie((HttpServletRequest) req, (HttpServletResponse) rsp, s);
     chain.doFilter(req, rsp);
   }
 
-  private void setXsrfTokenCookie(HttpServletRequest req,
-      HttpServletResponse rsp, WebSession session) {
+  private void setXsrfTokenCookie(
+      HttpServletRequest req, HttpServletResponse rsp, WebSession session) {
     String v = session != null ? session.getXGerritAuth() : null;
     Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, nullToEmpty(v));
     c.setPath("/");
     c.setSecure(authConfig.getCookieSecure() && isSecure(req));
-    c.setMaxAge(v != null
-        ? -1 // Set the cookie for this browser session.
-        : 0); // Remove the cookie (expire immediately).
+    c.setMaxAge(
+        v != null
+            ? -1 // Set the cookie for this browser session.
+            : 0); // Remove the cookie (expire immediately).
     rsp.addCookie(c);
   }
 
@@ -78,10 +74,8 @@ public class XsrfCookieFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig config) {
-  }
+  public void init(FilterConfig config) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 }

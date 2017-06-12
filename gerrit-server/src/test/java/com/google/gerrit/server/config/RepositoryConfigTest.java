@@ -19,14 +19,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-
-import org.eclipse.jgit.lib.Config;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
+import org.junit.Test;
 
 public class RepositoryConfigTest {
 
@@ -75,28 +73,26 @@ public class RepositoryConfigTest {
 
   @Test
   public void testDefaultSubmitTypeForStartWithFilter() {
-    configureDefaultSubmitType("somePath/somePath/*",
-        SubmitType.REBASE_IF_NECESSARY);
+    configureDefaultSubmitType("somePath/somePath/*", SubmitType.REBASE_IF_NECESSARY);
     configureDefaultSubmitType("somePath/*", SubmitType.CHERRY_PICK);
     configureDefaultSubmitType("*", SubmitType.MERGE_ALWAYS);
 
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.MERGE_ALWAYS);
 
-    assertThat(
-        repoCfg.getDefaultSubmitType(new NameKey("somePath/someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
 
-    assertThat(
-        repoCfg.getDefaultSubmitType(new NameKey(
-            "somePath/somePath/someProject"))).isEqualTo(
-        SubmitType.REBASE_IF_NECESSARY);
+    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/somePath/someProject")))
+        .isEqualTo(SubmitType.REBASE_IF_NECESSARY);
   }
 
-  private void configureDefaultSubmitType(String projectFilter,
-      SubmitType submitType) {
-    cfg.setString(RepositoryConfig.SECTION_NAME, projectFilter,
-        RepositoryConfig.DEFAULT_SUBMIT_TYPE_NAME, submitType.toString());
+  private void configureDefaultSubmitType(String projectFilter, SubmitType submitType) {
+    cfg.setString(
+        RepositoryConfig.SECTION_NAME,
+        projectFilter,
+        RepositoryConfig.DEFAULT_SUBMIT_TYPE_NAME,
+        submitType.toString());
   }
 
   @Test
@@ -116,8 +112,7 @@ public class RepositoryConfigTest {
   public void testOwnerGroupsForSpecificFilter() {
     ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
     configureOwnerGroups("someProject", ownerGroups);
-    assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject")))
-        .isEmpty();
+    assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject"))).isEmpty();
     assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
         .containsExactlyElementsIn(ownerGroups);
   }
@@ -138,38 +133,36 @@ public class RepositoryConfigTest {
     assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/someProject")))
         .containsExactlyElementsIn(ownerGroups2);
 
-    assertThat(
-        repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
+    assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
         .containsExactlyElementsIn(ownerGroups3);
   }
 
-  private void configureOwnerGroups(String projectFilter,
-      List<String> ownerGroups) {
-    cfg.setStringList(RepositoryConfig.SECTION_NAME, projectFilter,
-        RepositoryConfig.OWNER_GROUP_NAME, ownerGroups);
+  private void configureOwnerGroups(String projectFilter, List<String> ownerGroups) {
+    cfg.setStringList(
+        RepositoryConfig.SECTION_NAME,
+        projectFilter,
+        RepositoryConfig.OWNER_GROUP_NAME,
+        ownerGroups);
   }
 
   @Test
   public void testBasePathWhenNotConfigured() {
-    assertThat((Object)repoCfg.getBasePath(new NameKey("someProject"))).isNull();
+    assertThat((Object) repoCfg.getBasePath(new NameKey("someProject"))).isNull();
   }
 
   @Test
   public void testBasePathForStarFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("*", basePath);
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
-        .isEqualTo(basePath);
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
   }
 
   @Test
   public void testBasePathForSpecificFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("someProject", basePath);
-    assertThat((Object) repoCfg.getBasePath(new NameKey("someOtherProject")))
-        .isNull();
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
-        .isEqualTo(basePath);
+    assertThat((Object) repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
   }
 
   @Test
@@ -184,23 +177,19 @@ public class RepositoryConfigTest {
     configureBasePath("project/*", basePath3);
     configureBasePath("*", basePath4);
 
-    assertThat(repoCfg.getBasePath(new NameKey("project1")).toString())
-        .isEqualTo(basePath1);
-    assertThat(repoCfg.getBasePath(new NameKey("project/project/someProject"))
-        .toString()).isEqualTo(basePath2);
-    assertThat(
-        repoCfg.getBasePath(new NameKey("project/someProject")).toString())
-            .isEqualTo(basePath3);
-    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
-        .isEqualTo(basePath4);
+    assertThat(repoCfg.getBasePath(new NameKey("project1")).toString()).isEqualTo(basePath1);
+    assertThat(repoCfg.getBasePath(new NameKey("project/project/someProject")).toString())
+        .isEqualTo(basePath2);
+    assertThat(repoCfg.getBasePath(new NameKey("project/someProject")).toString())
+        .isEqualTo(basePath3);
+    assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath4);
   }
 
   @Test
   public void testAllBasePath() {
-    ImmutableList<Path> allBasePaths = ImmutableList.of(
-        Paths.get("/someBasePath1"),
-        Paths.get("/someBasePath2"),
-        Paths.get("/someBasePath2"));
+    ImmutableList<Path> allBasePaths =
+        ImmutableList.of(
+            Paths.get("/someBasePath1"), Paths.get("/someBasePath2"), Paths.get("/someBasePath2"));
 
     configureBasePath("*", allBasePaths.get(0).toString());
     configureBasePath("project/*", allBasePaths.get(1).toString());
@@ -210,7 +199,7 @@ public class RepositoryConfigTest {
   }
 
   private void configureBasePath(String projectFilter, String basePath) {
-    cfg.setString(RepositoryConfig.SECTION_NAME, projectFilter,
-        RepositoryConfig.BASE_PATH_NAME, basePath);
+    cfg.setString(
+        RepositoryConfig.SECTION_NAME, projectFilter, RepositoryConfig.BASE_PATH_NAME, basePath);
   }
 }

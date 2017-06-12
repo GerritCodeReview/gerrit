@@ -17,19 +17,15 @@ package com.google.gerrit.server.schema;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
- * Marker on {@link com.google.gwtorm.server.SchemaFactory} implementation
- * that talks to the underlying traditional {@link
- * com.google.gerrit.reviewdb.server.ReviewDb} database.
- * <p>
- * During the migration to NoteDb, the actual {@code ReviewDb} will be a wrapper
- * with certain tables enabled/disabled; this marker goes on the low-level
- * implementation that has all tables.
+ * Marker on {@link com.google.gwtorm.server.SchemaFactory} implementation that talks to the
+ * underlying traditional {@link com.google.gerrit.reviewdb.server.ReviewDb} database.
+ *
+ * <p>During the migration to NoteDb, the actual {@code ReviewDb} will be a wrapper with certain
+ * tables enabled/disabled; this marker goes on the low-level implementation that has all tables.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ReviewDbFactory {
-}
+public @interface ReviewDbFactory {}

@@ -27,15 +27,13 @@ import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 /** Initialize the {@code sshd} configuration section. */
 @Singleton
@@ -46,7 +44,10 @@ class InitSshd implements InitStep {
   private final Section sshd;
 
   @Inject
-  InitSshd(final ConsoleUI ui, final SitePaths site, final Libraries libraries,
+  InitSshd(
+      final ConsoleUI ui,
+      final SitePaths site,
+      final Libraries libraries,
       final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
@@ -110,25 +111,39 @@ class InitSshd implements InitStep {
 
         System.err.print(" rsa...");
         System.err.flush();
-        new ProcessBuilder("ssh-keygen",
-            "-q" /* quiet */,
-            "-t", "rsa",
-            "-P", emptyPassphraseArg,
-            "-C", comment,
-            "-f", site.ssh_rsa.toAbsolutePath().toString()
-        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
-            .start().waitFor();
+        new ProcessBuilder(
+                "ssh-keygen",
+                "-q" /* quiet */,
+                "-t",
+                "rsa",
+                "-P",
+                emptyPassphraseArg,
+                "-C",
+                comment,
+                "-f",
+                site.ssh_rsa.toAbsolutePath().toString())
+            .redirectError(Redirect.INHERIT)
+            .redirectOutput(Redirect.INHERIT)
+            .start()
+            .waitFor();
 
         System.err.print(" dsa...");
         System.err.flush();
-        new ProcessBuilder("ssh-keygen",
-            "-q" /* quiet */,
-            "-t", "dsa",
-            "-P", emptyPassphraseArg,
-            "-C", comment,
-            "-f", site.ssh_dsa.toAbsolutePath().toString()
-        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
-            .start().waitFor();
+        new ProcessBuilder(
+                "ssh-keygen",
+                "-q" /* quiet */,
+                "-t",
+                "dsa",
+                "-P",
+                emptyPassphraseArg,
+                "-C",
+                comment,
+                "-f",
+                site.ssh_dsa.toAbsolutePath().toString())
+            .redirectError(Redirect.INHERIT)
+            .redirectOutput(Redirect.INHERIT)
+            .start()
+            .waitFor();
 
       } else {
         // Generate the SSH daemon host key ourselves. This is complex

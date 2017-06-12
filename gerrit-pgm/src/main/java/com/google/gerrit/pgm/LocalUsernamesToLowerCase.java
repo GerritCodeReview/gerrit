@@ -25,14 +25,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.kohsuke.args4j.Option;
 
 /** Converts the local username for all accounts to lower case */
 public class LocalUsernamesToLowerCase extends SiteProgram {
@@ -45,8 +43,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
 
   private Injector dbInjector;
 
-  @Inject
-  private SchemaFactory<ReviewDb> database;
+  @Inject private SchemaFactory<ReviewDb> database;
 
   @Override
   public int run() throws Exception {
@@ -55,8 +52,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     }
 
     dbInjector = createDbInjector(MULTI_USER);
-    manager.add(dbInjector,
-        dbInjector.createChildInjector(SchemaVersionCheck.module()));
+    manager.add(dbInjector, dbInjector.createChildInjector(SchemaVersionCheck.module()));
     manager.start();
     dbInjector.injectMembers(this);
 
@@ -83,15 +79,13 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     return 0;
   }
 
-  private void convertLocalUserToLowerCase(final ReviewDb db,
-      final AccountExternalId extId) {
+  private void convertLocalUserToLowerCase(final ReviewDb db, final AccountExternalId extId) {
     if (extId.isScheme(AccountExternalId.SCHEME_GERRIT)) {
       final String localUser = extId.getSchemeRest();
       final String localUserLowerCase = localUser.toLowerCase(Locale.US);
       if (!localUser.equals(localUserLowerCase)) {
         final AccountExternalId.Key extIdKeyLowerCase =
-            new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
-                localUserLowerCase);
+            new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT, localUserLowerCase);
         final AccountExternalId extIdLowerCase =
             new AccountExternalId(extId.getAccountId(), extIdKeyLowerCase);
         try {
@@ -117,7 +111,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     @Override
     public void run() {
       try (ReviewDb db = database.open()) {
-        for (;;) {
+        for (; ; ) {
           final AccountExternalId extId = next();
           if (extId == null) {
             break;

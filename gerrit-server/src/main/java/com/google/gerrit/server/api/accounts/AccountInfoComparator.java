@@ -17,20 +17,17 @@ package com.google.gerrit.server.api.accounts;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.common.AccountInfo;
-
 import java.util.Comparator;
 
 public class AccountInfoComparator extends Ordering<AccountInfo>
     implements Comparator<AccountInfo> {
-  public static final AccountInfoComparator ORDER_NULLS_FIRST =
-      new AccountInfoComparator();
+  public static final AccountInfoComparator ORDER_NULLS_FIRST = new AccountInfoComparator();
   public static final AccountInfoComparator ORDER_NULLS_LAST =
       new AccountInfoComparator().setNullsLast();
 
   private boolean nullsLast;
 
-  private AccountInfoComparator() {
-  }
+  private AccountInfoComparator() {}
 
   private AccountInfoComparator setNullsLast() {
     this.nullsLast = true;

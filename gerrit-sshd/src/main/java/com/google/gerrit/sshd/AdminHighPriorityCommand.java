@@ -21,11 +21,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation tagged on a concrete Command that requires
- * high priority thread creation whenever called by administrators users.
+ * Annotation tagged on a concrete Command that requires high priority thread creation whenever
+ * called by administrators users.
+ *
  * <p>
  */
-@Target( {ElementType.TYPE})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
-public @interface AdminHighPriorityCommand {
-}
+public @interface AdminHighPriorityCommand {}

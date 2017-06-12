@@ -16,7 +16,6 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.rules.StoredValues;
-
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -41,8 +40,7 @@ public class PRED_uploader_1 extends Predicate.P1 {
 
     Account.Id uploaderId = StoredValues.getPatchSet(engine).getUploader();
 
-    if (!a1.unify(new StructureTerm(user, new IntegerTerm(uploaderId.get())),
-        engine.trail)) {
+    if (!a1.unify(new StructureTerm(user, new IntegerTerm(uploaderId.get())), engine.trail)) {
       return engine.fail();
     }
     return cont;

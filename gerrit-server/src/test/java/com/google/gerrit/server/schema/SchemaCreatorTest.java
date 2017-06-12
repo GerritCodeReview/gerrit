@@ -30,12 +30,6 @@ import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -43,16 +37,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SchemaCreatorTest {
-  @Inject
-  private AllProjectsName allProjects;
+  @Inject private AllProjectsName allProjects;
 
-  @Inject
-  private GitRepositoryManager repoManager;
+  @Inject private GitRepositoryManager repoManager;
 
-  @Inject
-  private InMemoryDatabase db;
+  @Inject private InMemoryDatabase db;
 
   private LifecycleManager lifecycle;
 
@@ -72,13 +67,11 @@ public class SchemaCreatorTest {
   }
 
   @Test
-  public void testGetCauses_CreateSchema() throws OrmException, SQLException,
-      IOException {
+  public void testGetCauses_CreateSchema() throws OrmException, SQLException, IOException {
     // Initially the schema should be empty.
     String[] types = {"TABLE", "VIEW"};
     try (JdbcSchema d = (JdbcSchema) db.open();
-        ResultSet rs = d.getConnection().getMetaData()
-          .getTables(null, null, null, types)) {
+        ResultSet rs = d.getConnection().getMetaData().getTables(null, null, null, types)) {
       assertThat(rs.next()).isFalse();
     }
 
@@ -93,8 +86,7 @@ public class SchemaCreatorTest {
     if (sitePath.getName().equals(".")) {
       sitePath = sitePath.getParentFile();
     }
-    assertThat(db.getSystemConfig().sitePath)
-        .isEqualTo(sitePath.getCanonicalPath());
+    assertThat(db.getSystemConfig().sitePath).isEqualTo(sitePath.getCanonicalPath());
   }
 
   private LabelTypes getLabelTypes() throws Exception {
@@ -102,8 +94,7 @@ public class SchemaCreatorTest {
     ProjectConfig c = new ProjectConfig(allProjects);
     try (Repository repo = repoManager.openRepository(allProjects)) {
       c.load(repo);
-      return new LabelTypes(
-          ImmutableList.copyOf(c.getLabelSections().values()));
+      return new LabelTypes(ImmutableList.copyOf(c.getLabelSections().values()));
     }
   }
 
@@ -128,8 +119,7 @@ public class SchemaCreatorTest {
   }
 
   private void assertValueRange(LabelType label, Integer... range) {
-    assertThat(label.getValuesAsList())
-        .containsExactlyElementsIn(Arrays.asList(range)).inOrder();
+    assertThat(label.getValuesAsList()).containsExactlyElementsIn(Arrays.asList(range)).inOrder();
     assertThat(label.getMax().getValue()).isEqualTo(range[0]);
     assertThat(label.getMin().getValue()).isEqualTo(range[range.length - 1]);
     for (LabelValue v : label.getValues()) {

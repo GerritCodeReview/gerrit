@@ -37,23 +37,20 @@
 
 package com.google.gerrit.pgm.util;
 
-import org.eclipse.jgit.util.CachedAuthenticator;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.eclipse.jgit.util.CachedAuthenticator;
 
 final class ProxyUtil {
   /**
    * Configure the JRE's standard HTTP based on {@code http_proxy}.
-   * <p>
-   * The popular libcurl library honors the {@code http_proxy} environment
-   * variable as a means of specifying an HTTP proxy for requests made behind a
-   * firewall. This is not natively recognized by the JRE, so this method can be
-   * used by command line utilities to configure the JRE before the first
-   * request is sent.
    *
-   * @throws MalformedURLException the value in {@code http_proxy} is
-   *         unsupportable.
+   * <p>The popular libcurl library honors the {@code http_proxy} environment variable as a means of
+   * specifying an HTTP proxy for requests made behind a firewall. This is not natively recognized
+   * by the JRE, so this method can be used by command line utilities to configure the JRE before
+   * the first request is sent.
+   *
+   * @throws MalformedURLException the value in {@code http_proxy} is unsupportable.
    */
   static void configureHttpProxy() throws MalformedURLException {
     final String s = System.getenv("http_proxy");
@@ -63,8 +60,7 @@ final class ProxyUtil {
 
     final URL u = new URL((!s.contains("://")) ? "http://" + s : s);
     if (!"http".equals(u.getProtocol())) {
-      throw new MalformedURLException("Invalid http_proxy: " + s
-          + ": Only http supported.");
+      throw new MalformedURLException("Invalid http_proxy: " + s + ": Only http supported.");
     }
 
     final String proxyHost = u.getHost();
@@ -80,11 +76,10 @@ final class ProxyUtil {
       final int c = userpass.indexOf(':');
       final String user = userpass.substring(0, c);
       final String pass = userpass.substring(c + 1);
-      CachedAuthenticator.add(new CachedAuthenticator.CachedAuthentication(
-          proxyHost, proxyPort, user, pass));
+      CachedAuthenticator.add(
+          new CachedAuthenticator.CachedAuthentication(proxyHost, proxyPort, user, pass));
     }
   }
 
-  ProxyUtil() {
-  }
+  ProxyUtil() {}
 }

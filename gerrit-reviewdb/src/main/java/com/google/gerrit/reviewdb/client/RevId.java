@@ -23,8 +23,7 @@ public final class RevId {
   @Column(id = 1, length = LEN)
   protected String id;
 
-  protected RevId() {
-  }
+  protected RevId() {}
 
   public RevId(final String str) {
     id = str;
@@ -41,8 +40,8 @@ public final class RevId {
   }
 
   /**
-   * @return if {@link #isComplete()}, {@code this}; otherwise a new RevId
-   *         with 'z' appended on the end.
+   * @return if {@link #isComplete()}, {@code this}; otherwise a new RevId with 'z' appended on the
+   *     end.
    */
   public RevId max() {
     if (isComplete()) {

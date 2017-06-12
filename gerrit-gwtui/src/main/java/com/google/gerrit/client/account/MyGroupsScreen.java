@@ -31,12 +31,13 @@ public class MyGroupsScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    GroupList.my(new ScreenLoadCallback<GroupList>(this) {
-      @Override
-      protected void preDisplay(GroupList result) {
-        groups.display(result);
-        groups.finishDisplay();
-      }
-    });
+    GroupList.my(
+        new ScreenLoadCallback<GroupList>(this) {
+          @Override
+          protected void preDisplay(GroupList result) {
+            groups.display(result);
+            groups.finishDisplay();
+          }
+        });
   }
 }

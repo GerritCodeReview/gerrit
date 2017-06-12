@@ -26,9 +26,11 @@ public class ProjectWatchInfo extends JavaScriptObject {
   }
 
   public final native String project() /*-{ return this.project; }-*/;
+
   public final native String filter() /*-{ return this.filter; }-*/;
 
   public final native void project(String s) /*-{ this.project = s; }-*/;
+
   public final native void filter(String s) /*-{ this.filter = s; }-*/;
 
   public final void notify(ProjectWatchInfo.Type t, Boolean b) {
@@ -61,19 +63,35 @@ public class ProjectWatchInfo extends JavaScriptObject {
     return Boolean.valueOf(b);
   }
 
-  private native boolean notifyNewChanges() /*-{ return this['notify_new_changes'] ? true : false; }-*/;
-  private native boolean notifyNewPatchSets() /*-{ return this['notify_new_patch_sets'] ? true : false; }-*/;
-  private native boolean notifyAllComments() /*-{ return this['notify_all_comments'] ? true : false; }-*/;
-  private native boolean notifySubmittedChanges() /*-{ return this['notify_submitted_changes'] ? true : false; }-*/;
-  private native boolean notifyAbandonedChanges() /*-{ return this['notify_abandoned_changes'] ? true : false; }-*/;
+  private native boolean
+      notifyNewChanges() /*-{ return this['notify_new_changes'] ? true : false; }-*/;
 
-  private native void notifyNewChanges(boolean b) /*-{ this['notify_new_changes'] = b ? true : null; }-*/;
-  private native void notifyNewPatchSets(boolean b) /*-{ this['notify_new_patch_sets'] = b ? true : null; }-*/;
-  private native void notifyAllComments(boolean b) /*-{ this['notify_all_comments'] = b ? true : null; }-*/;
-  private native void notifySubmittedChanges(boolean b) /*-{ this['notify_submitted_changes'] = b ? true : null; }-*/;
-  private native void notifyAbandonedChanges(boolean b) /*-{ this['notify_abandoned_changes'] = b ? true : null; }-*/;
+  private native boolean
+      notifyNewPatchSets() /*-{ return this['notify_new_patch_sets'] ? true : false; }-*/;
 
-  protected ProjectWatchInfo() {
+  private native boolean
+      notifyAllComments() /*-{ return this['notify_all_comments'] ? true : false; }-*/;
 
-  }
+  private native boolean
+      notifySubmittedChanges() /*-{ return this['notify_submitted_changes'] ? true : false; }-*/;
+
+  private native boolean
+      notifyAbandonedChanges() /*-{ return this['notify_abandoned_changes'] ? true : false; }-*/;
+
+  private native void notifyNewChanges(
+      boolean b) /*-{ this['notify_new_changes'] = b ? true : null; }-*/;
+
+  private native void notifyNewPatchSets(
+      boolean b) /*-{ this['notify_new_patch_sets'] = b ? true : null; }-*/;
+
+  private native void notifyAllComments(
+      boolean b) /*-{ this['notify_all_comments'] = b ? true : null; }-*/;
+
+  private native void notifySubmittedChanges(
+      boolean b) /*-{ this['notify_submitted_changes'] = b ? true : null; }-*/;
+
+  private native void notifyAbandonedChanges(
+      boolean b) /*-{ this['notify_abandoned_changes'] = b ? true : null; }-*/;
+
+  protected ProjectWatchInfo() {}
 }

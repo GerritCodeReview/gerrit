@@ -18,10 +18,8 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ChangeCleanupConfig {
@@ -31,9 +29,9 @@ public class ChangeCleanupConfig {
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
-      + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
-      + "\n"
-      + "If this change is still wanted it should be restored.";
+          + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
+          + "\n"
+          + "If this change is still wanted it should be restored.";
 
   private final ScheduleConfig scheduleConfig;
   private final long abandonAfter;
@@ -41,19 +39,17 @@ public class ChangeCleanupConfig {
   private final String abandonMessage;
 
   @Inject
-  ChangeCleanupConfig(@GerritServerConfig Config cfg,
-      @CanonicalWebUrl @Nullable String canonicalWebUrl) {
+  ChangeCleanupConfig(
+      @GerritServerConfig Config cfg, @CanonicalWebUrl @Nullable String canonicalWebUrl) {
     scheduleConfig = new ScheduleConfig(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
-    abandonIfMergeable =
-        cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
+    abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
   }
 
   private long readAbandonAfter(Config cfg) {
     long abandonAfter =
-        ConfigUtil.getTimeUnit(cfg, SECTION, null, KEY_ABANDON_AFTER, 0,
-            TimeUnit.MILLISECONDS);
+        ConfigUtil.getTimeUnit(cfg, SECTION, null, KEY_ABANDON_AFTER, 0, TimeUnit.MILLISECONDS);
     return abandonAfter >= 0 ? abandonAfter : 0;
   }
 

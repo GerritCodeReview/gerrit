@@ -23,12 +23,10 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.junit.Test;
 
 @NoHttpd
 public class AbandonRestoreIT extends AbstractDaemonTest {
@@ -39,10 +37,10 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     String commit = result.getCommit().name();
     executeCmd(commit, "abandon", "'abandon it'");
     executeCmd(commit, "restore", "'restore it'");
-    assertChangeMessages(result.getChangeId(), ImmutableList.of(
-        "Uploaded patch set 1.",
-        "Abandoned\n\nabandon it",
-        "Restored\n\nrestore it"));
+    assertChangeMessages(
+        result.getChangeId(),
+        ImmutableList.of(
+            "Uploaded patch set 1.", "Abandoned\n\nabandon it", "Restored\n\nrestore it"));
   }
 
   @Test
@@ -51,31 +49,25 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     String commit = result.getCommit().name();
     executeCmd(commit, "abandon", null);
     executeCmd(commit, "restore", null);
-    assertChangeMessages(result.getChangeId(), ImmutableList.of(
-        "Uploaded patch set 1.",
-        "Abandoned",
-        "Restored"));
+    assertChangeMessages(
+        result.getChangeId(), ImmutableList.of("Uploaded patch set 1.", "Abandoned", "Restored"));
   }
 
-  private void executeCmd(String commit, String op, String message)
-      throws Exception {
-    StringBuilder command = new StringBuilder("gerrit review ")
-        .append(commit)
-        .append(" --")
-        .append(op);
+  private void executeCmd(String commit, String op, String message) throws Exception {
+    StringBuilder command =
+        new StringBuilder("gerrit review ").append(commit).append(" --").append(op);
     if (message != null) {
       command.append(" --message ").append(message);
     }
     String response = adminSshSession.exec(command.toString());
     assert_()
-      .withFailureMessage(adminSshSession.getError())
-      .that(adminSshSession.hasError())
-      .isFalse();
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
   }
 
-  private void assertChangeMessages(String changeId, List<String> expected)
-      throws Exception {
+  private void assertChangeMessages(String changeId, List<String> expected) throws Exception {
     ChangeInfo c = get(changeId);
     Iterable<ChangeMessageInfo> messages = c.messages;
     assertThat(messages).isNotNull();

@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.List;
 import java.util.Map;
 
@@ -34,34 +33,31 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   protected final CommentsUtil commentsUtil;
 
   @Inject
-  ListRobotComments(Provider<ReviewDb> db,
-      Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+  ListRobotComments(
+      Provider<ReviewDb> db, Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
     this.db = db;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
   }
 
   @Override
-  public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
+  public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc) throws OrmException {
+    return commentJson
+        .get()
         .setFillAccounts(true)
         .newRobotCommentFormatter()
         .format(listComments(rsrc));
   }
 
-  public List<RobotCommentInfo> getComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
+  public List<RobotCommentInfo> getComments(RevisionResource rsrc) throws OrmException {
+    return commentJson
+        .get()
         .setFillAccounts(true)
         .newRobotCommentFormatter()
         .formatAsList(listComments(rsrc));
   }
 
-  private Iterable<RobotComment> listComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentsUtil.robotCommentsByPatchSet(
-        rsrc.getNotes(), rsrc.getPatchSet().getId());
+  private Iterable<RobotComment> listComments(RevisionResource rsrc) throws OrmException {
+    return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().getId());
   }
 }

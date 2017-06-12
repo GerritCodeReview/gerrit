@@ -27,8 +27,7 @@ class HttpRequestContext implements RequestContext {
   private final RequestScopedReviewDbProvider provider;
 
   @Inject
-  HttpRequestContext(DynamicItem<WebSession> session,
-      RequestScopedReviewDbProvider provider) {
+  HttpRequestContext(DynamicItem<WebSession> session, RequestScopedReviewDbProvider provider) {
     this.session = session;
     this.provider = provider;
   }

@@ -14,14 +14,12 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.HistogramImpl;
-
-import com.codahale.metrics.Metric;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,8 +33,8 @@ abstract class BucketedHistogram implements BucketedMetric {
   private final Map<Object, HistogramImpl> cells;
   private final Object lock = new Object();
 
-  BucketedHistogram(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<?>... fields) {
+  BucketedHistogram(
+      DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     this.metrics = metrics;
     this.name = name;
     this.ordering = desc.getFieldOrdering();

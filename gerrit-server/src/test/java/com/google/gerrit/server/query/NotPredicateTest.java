@@ -23,10 +23,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-
 import java.util.Collections;
 import java.util.List;
+import org.junit.Test;
 
 public class NotPredicateTest extends PredicateTest {
   @Test
@@ -64,8 +63,7 @@ public class NotPredicateTest extends PredicateTest {
     assertOnlyChild("remove(0)", p, n);
   }
 
-  private static void assertOnlyChild(String o, Predicate<String> c,
-      Predicate<String> p) {
+  private static void assertOnlyChild(String o, Predicate<String> c, Predicate<String> p) {
     assertEquals(o + " did not affect child", 1, p.getChildCount());
     assertSame(o + " did not affect child", c, p.getChild(0));
   }
@@ -105,7 +103,7 @@ public class NotPredicateTest extends PredicateTest {
     assertEquals(sb, n.copy(sb).getChildren());
 
     try {
-      n.copy(Collections.<Predicate> emptyList());
+      n.copy(Collections.<Predicate>emptyList());
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       assertEquals("Expected exactly one child", e.getMessage());

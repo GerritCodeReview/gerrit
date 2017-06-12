@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Set;
 
 class DestinationPredicate extends ChangeOperatorPredicate {

@@ -33,21 +33,17 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class SetPreferences implements
-    RestModifyView<ConfigResource, GeneralPreferencesInfo> {
-  private static final Logger log =
-      LoggerFactory.getLogger(SetPreferences.class);
+public class SetPreferences implements RestModifyView<ConfigResource, GeneralPreferencesInfo> {
+  private static final Logger log = LoggerFactory.getLogger(SetPreferences.class);
 
   private final GeneralPreferencesLoader loader;
   private final GitRepositoryManager gitManager;
@@ -56,7 +52,8 @@ public class SetPreferences implements
   private final AccountCache accountCache;
 
   @Inject
-  SetPreferences(GeneralPreferencesLoader loader,
+  SetPreferences(
+      GeneralPreferencesLoader loader,
       GitRepositoryManager gitManager,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
@@ -69,9 +66,8 @@ public class SetPreferences implements
   }
 
   @Override
-  public GeneralPreferencesInfo apply(ConfigResource rsrc,
-      GeneralPreferencesInfo i)
-          throws BadRequestException, IOException, ConfigInvalidException {
+  public GeneralPreferencesInfo apply(ConfigResource rsrc, GeneralPreferencesInfo i)
+      throws BadRequestException, IOException, ConfigInvalidException {
     if (!hasSetFields(i)) {
       throw new BadRequestException("unsupported option");
     }
@@ -83,21 +79,25 @@ public class SetPreferences implements
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       VersionedAccountPreferences p = VersionedAccountPreferences.forDefault();
       p.load(md);
-      storeSection(p.getConfig(), UserConfigSections.GENERAL, null, i,
-          GeneralPreferencesInfo.defaults());
+      storeSection(
+          p.getConfig(), UserConfigSections.GENERAL, null, i, GeneralPreferencesInfo.defaults());
       com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
       com.google.gerrit.server.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
       p.commit(md);
 
       accountCache.evictAll();
 
-      GeneralPreferencesInfo r = loadSection(p.getConfig(),
-          UserConfigSections.GENERAL, null, new GeneralPreferencesInfo(),
-          GeneralPreferencesInfo.defaults(), null);
+      GeneralPreferencesInfo r =
+          loadSection(
+              p.getConfig(),
+              UserConfigSections.GENERAL,
+              null,
+              new GeneralPreferencesInfo(),
+              GeneralPreferencesInfo.defaults(),
+              null);
       return loader.loadMyMenusAndUrlAliases(r, p, null);
     }
   }
-
 
   private static boolean hasSetFields(GeneralPreferencesInfo in) {
     try {

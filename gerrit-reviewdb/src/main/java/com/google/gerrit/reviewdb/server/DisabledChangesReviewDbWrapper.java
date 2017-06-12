@@ -36,12 +36,10 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
   public DisabledChangesReviewDbWrapper(ReviewDb db) {
     super(db);
     changes = new DisabledChangeAccess(delegate.changes());
-    patchSetApprovals =
-        new DisabledPatchSetApprovalAccess(delegate.patchSetApprovals());
+    patchSetApprovals = new DisabledPatchSetApprovalAccess(delegate.patchSetApprovals());
     changeMessages = new DisabledChangeMessageAccess(delegate.changeMessages());
     patchSets = new DisabledPatchSetAccess(delegate.patchSets());
-    patchComments =
-        new DisabledPatchLineCommentAccess(delegate.patchComments());
+    patchComments = new DisabledPatchLineCommentAccess(delegate.patchComments());
   }
 
   public ReviewDb unsafeGetDelegate() {
@@ -105,8 +103,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledPatchSetApprovalAccess
-      extends PatchSetApprovalAccessWrapper {
+  private static class DisabledPatchSetApprovalAccess extends PatchSetApprovalAccessWrapper {
     DisabledPatchSetApprovalAccess(PatchSetApprovalAccess delegate) {
       super(delegate);
     }
@@ -117,14 +114,12 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
 
     @Override
-    public CheckedFuture<PatchSetApproval, OrmException> getAsync(
-        PatchSetApproval.Key key) {
+    public CheckedFuture<PatchSetApproval, OrmException> getAsync(PatchSetApproval.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 
     @Override
-    public ResultSet<PatchSetApproval> get(
-        Iterable<PatchSetApproval.Key> keys) {
+    public ResultSet<PatchSetApproval> get(Iterable<PatchSetApproval.Key> keys) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -144,8 +139,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledChangeMessageAccess
-      extends ChangeMessageAccessWrapper {
+  private static class DisabledChangeMessageAccess extends ChangeMessageAccessWrapper {
     DisabledChangeMessageAccess(ChangeMessageAccess delegate) {
       super(delegate);
     }
@@ -156,8 +150,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
 
     @Override
-    public CheckedFuture<ChangeMessage, OrmException> getAsync(
-        ChangeMessage.Key key) {
+    public CheckedFuture<ChangeMessage, OrmException> getAsync(ChangeMessage.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -218,8 +211,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledPatchLineCommentAccess
-      extends PatchLineCommentAccessWrapper {
+  private static class DisabledPatchLineCommentAccess extends PatchLineCommentAccessWrapper {
     DisabledPatchLineCommentAccess(PatchLineCommentAccess delegate) {
       super(delegate);
     }
@@ -230,14 +222,12 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
 
     @Override
-    public CheckedFuture<PatchLineComment, OrmException> getAsync(
-        PatchLineComment.Key key) {
+    public CheckedFuture<PatchLineComment, OrmException> getAsync(PatchLineComment.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 
     @Override
-    public ResultSet<PatchLineComment> get(
-        Iterable<PatchLineComment.Key> keys) {
+    public ResultSet<PatchLineComment> get(Iterable<PatchLineComment.Key> keys) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -257,14 +247,12 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
 
     @Override
-    public ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id,
-        String file) {
+    public ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file) {
       throw new UnsupportedOperationException(MSG);
     }
 
     @Override
-    public ResultSet<PatchLineComment> publishedByPatchSet(
-        PatchSet.Id patchset) {
+    public ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -275,8 +263,8 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
 
     @Override
-    public ResultSet<PatchLineComment> draftByChangeFileAuthor(Change.Id id,
-        String file, Account.Id author) {
+    public ResultSet<PatchLineComment> draftByChangeFileAuthor(
+        Change.Id id, String file, Account.Id author) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -286,4 +274,3 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 }
-

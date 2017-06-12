@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.TypeLiteral;
-
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 
 public class GpgKey extends AccountResource {

@@ -23,7 +23,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.tofu.SoyTofu;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -84,8 +83,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     return builder.build().compileToTofu();
   }
 
-  private void addTemplate(SoyFileSet.Builder builder, String name)
-      throws ProvisionException {
+  private void addTemplate(SoyFileSet.Builder builder, String name) throws ProvisionException {
     // Load as a file in the mail templates directory if present.
     Path tmpl = site.mail_dir.resolve(name);
     if (Files.isRegularFile(tmpl)) {
@@ -93,8 +91,8 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
       try (Reader r = Files.newBufferedReader(tmpl, StandardCharsets.UTF_8)) {
         content = CharStreams.toString(r);
       } catch (IOException err) {
-        throw new ProvisionException("Failed to read template file " +
-            tmpl.toAbsolutePath().toString(), err);
+        throw new ProvisionException(
+            "Failed to read template file " + tmpl.toAbsolutePath().toString(), err);
       }
       builder.add(content, tmpl.toAbsolutePath().toString());
       return;

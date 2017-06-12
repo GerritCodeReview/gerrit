@@ -17,7 +17,13 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -27,14 +33,6 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PackParser;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class InMemoryInserter extends ObjectInserter {
   private final ObjectReader reader;
@@ -52,8 +50,7 @@ public class InMemoryInserter extends ObjectInserter {
   }
 
   @Override
-  public ObjectId insert(int type, long length, InputStream in)
-      throws IOException {
+  public ObjectId insert(int type, long length, InputStream in) throws IOException {
     return insert(InsertedObject.create(type, in));
   }
 
@@ -109,8 +106,7 @@ public class InMemoryInserter extends ObjectInserter {
     }
 
     @Override
-    public Collection<ObjectId> resolve(AbbreviatedObjectId id)
-        throws IOException {
+    public Collection<ObjectId> resolve(AbbreviatedObjectId id) throws IOException {
       Set<ObjectId> result = new HashSet<>();
       for (ObjectId insId : inserted.keySet()) {
         if (id.prefixCompare(insId) == 0) {
@@ -122,8 +118,7 @@ public class InMemoryInserter extends ObjectInserter {
     }
 
     @Override
-    public ObjectLoader open(AnyObjectId objectId, int typeHint)
-        throws IOException {
+    public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
       InsertedObject obj = inserted.get(objectId);
       if (obj == null) {
         return reader.open(objectId, typeHint);

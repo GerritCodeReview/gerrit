@@ -15,16 +15,12 @@
 package com.google.gerrit.testutil.log;
 
 import com.google.common.collect.Lists;
-
+import java.util.Collection;
+import java.util.LinkedList;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-/**
- * Log4j appender that logs into a list
- */
+/** Log4j appender that logs into a list */
 public class CollectionAppender extends AppenderSkeleton {
   private Collection<LoggingEvent> events;
 
@@ -43,14 +39,13 @@ public class CollectionAppender extends AppenderSkeleton {
 
   @Override
   protected void append(LoggingEvent event) {
-    if (! events.add(event)) {
+    if (!events.add(event)) {
       throw new RuntimeException("Could not append event " + event);
     }
   }
 
   @Override
-  public void close() {
-  }
+  public void close() {}
 
   public Collection<LoggingEvent> getLoggedEvents() {
     return Lists.newLinkedList(events);

@@ -44,7 +44,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,10 +56,10 @@ import java.util.Set;
 @Singleton
 public class AddMembers implements RestModifyView<GroupResource, Input> {
   public static class Input {
-    @DefaultInput
-    String _oneMember;
+    @DefaultInput String _oneMember;
 
     List<String> members;
+
     public static Input fromMembers(List<String> members) {
       Input in = new Input();
       in.members = members;
@@ -92,7 +91,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AuditService auditService;
 
   @Inject
-  AddMembers(Provider<IdentifiedUser> self,
+  AddMembers(
+      Provider<IdentifiedUser> self,
       AccountManager accountManager,
       AuthConfig authConfig,
       AccountsCollection accounts,
@@ -114,8 +114,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException,
-      UnprocessableEntityException, OrmException, IOException {
+      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+          IOException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -128,8 +128,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     for (String nameOrEmailOrId : input.members) {
       Account a = findAccount(nameOrEmailOrId);
       if (!a.isActive()) {
-        throw new UnprocessableEntityException(String.format(
-            "Account Inactive: %s", nameOrEmailOrId));
+        throw new UnprocessableEntityException(
+            String.format("Account Inactive: %s", nameOrEmailOrId));
       }
 
       if (!control.canAddMember()) {
@@ -142,8 +142,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return toAccountInfoList(newMemberIds);
   }
 
-  Account findAccount(String nameOrEmailOrId) throws AuthException,
-      UnprocessableEntityException, OrmException, IOException {
+  Account findAccount(String nameOrEmailOrId)
+      throws AuthException, UnprocessableEntityException, OrmException, IOException {
     try {
       return accounts.parse(nameOrEmailOrId).getAccount();
     } catch (UnprocessableEntityException e) {
@@ -174,14 +174,12 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  public void addMembers(AccountGroup.Id groupId,
-      Collection<? extends Account.Id> newMemberIds)
-          throws OrmException, IOException {
+  public void addMembers(AccountGroup.Id groupId, Collection<? extends Account.Id> newMemberIds)
+      throws OrmException, IOException {
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = new HashMap<>();
     for (Account.Id accId : newMemberIds) {
       if (!newAccountGroupMembers.containsKey(accId)) {
-        AccountGroupMember.Key key =
-            new AccountGroupMember.Key(accId, groupId);
+        AccountGroupMember.Key key = new AccountGroupMember.Key(accId, groupId);
         AccountGroupMember m = db.get().accountGroupMembers().get(key);
         if (m == null) {
           m = new AccountGroupMember(key);
@@ -190,8 +188,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       }
     }
     if (!newAccountGroupMembers.isEmpty()) {
-      auditService.dispatchAddAccountsToGroup(self.get().getAccountId(),
-          newAccountGroupMembers.values());
+      auditService.dispatchAddAccountsToGroup(
+          self.get().getAccountId(), newAccountGroupMembers.values());
       db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
       for (AccountGroupMember m : newAccountGroupMembers.values()) {
         accountCache.evict(m.getAccountId());
@@ -207,15 +205,13 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     try {
       AuthRequest req = AuthRequest.forUser(user);
       req.setSkipAuthentication(true);
-      return accountCache.get(accountManager.authenticate(req).getAccountId())
-          .getAccount();
+      return accountCache.get(accountManager.authenticate(req).getAccountId()).getAccount();
     } catch (AccountException e) {
       return null;
     }
   }
 
-  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds)
-      throws OrmException {
+  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds) throws OrmException {
     List<AccountInfo> result = new LinkedList<>();
     AccountLoader loader = infoFactory.create(true);
     for (Account.Id accId : accountIds) {
@@ -226,8 +222,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   static class PutMember implements RestModifyView<GroupResource, PutMember.Input> {
-    static class Input {
-    }
+    static class Input {}
 
     private final AddMembers put;
     private final String id;
@@ -239,8 +234,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public AccountInfo apply(GroupResource resource, PutMember.Input input)
-        throws AuthException, MethodNotAllowedException,
-        ResourceNotFoundException, OrmException, IOException {
+        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
+            IOException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       try {
@@ -265,8 +260,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(MemberResource resource, PutMember.Input input)
-        throws OrmException {
+    public AccountInfo apply(MemberResource resource, PutMember.Input input) throws OrmException {
       // Do nothing, the user is already a member.
       return get.apply(resource);
     }

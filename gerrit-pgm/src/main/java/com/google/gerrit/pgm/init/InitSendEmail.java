@@ -24,7 +24,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.send.SmtpEmailSender.Encryption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.nio.file.Files;
 
 /** Initialize the {@code sendemail} configuration section. */
@@ -35,8 +34,7 @@ class InitSendEmail implements InitStep {
   private final SitePaths site;
 
   @Inject
-  InitSendEmail(final ConsoleUI ui, final SitePaths site,
-      final Section.Factory sections) {
+  InitSendEmail(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
     this.ui = ui;
     this.sendemail = sections.get("sendemail", null);
     this.site = site;
@@ -46,14 +44,12 @@ class InitSendEmail implements InitStep {
   public void run() {
     ui.header("Email Delivery");
 
-    final String hostname =
-        sendemail.string("SMTP server hostname", "smtpServer", "localhost");
+    final String hostname = sendemail.string("SMTP server hostname", "smtpServer", "localhost");
 
     sendemail.string("SMTP server port", "smtpServerPort", "(default)", true);
 
     final Encryption enc =
-        sendemail.select("SMTP encryption", "smtpEncryption", Encryption.NONE,
-            true);
+        sendemail.select("SMTP encryption", "smtpEncryption", Encryption.NONE, true);
 
     String username = null;
     if (Files.exists(site.gerrit_config)) {

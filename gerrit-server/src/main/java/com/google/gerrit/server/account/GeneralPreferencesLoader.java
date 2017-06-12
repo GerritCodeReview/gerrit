@@ -32,7 +32,12 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -40,24 +45,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Singleton
 public class GeneralPreferencesLoader {
-  private static final Logger log =
-      LoggerFactory.getLogger(GeneralPreferencesLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(GeneralPreferencesLoader.class);
 
   private final GitRepositoryManager gitMgr;
   private final AllUsersName allUsersName;
 
   @Inject
-  public GeneralPreferencesLoader(GitRepositoryManager gitMgr,
-      AllUsersName allUsersName) {
+  public GeneralPreferencesLoader(GitRepositoryManager gitMgr, AllUsersName allUsersName) {
     this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
   }
@@ -67,30 +63,37 @@ public class GeneralPreferencesLoader {
     return read(id, null);
   }
 
-  public GeneralPreferencesInfo merge(Account.Id id,
-      GeneralPreferencesInfo in) throws IOException,
-          ConfigInvalidException, RepositoryNotFoundException {
+  public GeneralPreferencesInfo merge(Account.Id id, GeneralPreferencesInfo in)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     return read(id, in);
   }
 
-  private GeneralPreferencesInfo read(Account.Id id,
-      GeneralPreferencesInfo in) throws IOException,
-          ConfigInvalidException, RepositoryNotFoundException {
+  private GeneralPreferencesInfo read(Account.Id id, GeneralPreferencesInfo in)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository allUsers = gitMgr.openRepository(allUsersName)) {
       // Load all users default prefs
       VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
       dp.load(allUsers);
       GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
-      loadSection(dp.getConfig(), UserConfigSections.GENERAL, null, allUserPrefs,
-          GeneralPreferencesInfo.defaults(), in);
+      loadSection(
+          dp.getConfig(),
+          UserConfigSections.GENERAL,
+          null,
+          allUserPrefs,
+          GeneralPreferencesInfo.defaults(),
+          in);
 
       // Load user prefs
       VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
       p.load(allUsers);
       GeneralPreferencesInfo r =
-          loadSection(p.getConfig(), UserConfigSections.GENERAL, null,
-          new GeneralPreferencesInfo(),
-          updateDefaults(allUserPrefs), in);
+          loadSection(
+              p.getConfig(),
+              UserConfigSections.GENERAL,
+              null,
+              new GeneralPreferencesInfo(),
+              updateDefaults(allUserPrefs),
+              in);
 
       return loadMyMenusAndUrlAliases(r, p, dp);
     }
@@ -109,9 +112,7 @@ public class GeneralPreferencesLoader {
         }
       }
     } catch (IllegalAccessException e) {
-      log.error(
-          "Cannot get default general preferences from " + allUsersName.get(),
-          e);
+      log.error("Cannot get default general preferences from " + allUsersName.get(), e);
       return GeneralPreferencesInfo.defaults();
     }
     return result;
@@ -128,8 +129,7 @@ public class GeneralPreferencesLoader {
       r.my.add(new MenuItem("Drafts", "#/q/owner:self+is:draft", null));
       r.my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
       r.my.add(new MenuItem("Edits", "#/q/has:edit", null));
-      r.my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open",
-          null));
+      r.my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
       r.my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
       r.my.add(new MenuItem("Groups", "#/groups/self", null));
     }
@@ -146,17 +146,13 @@ public class GeneralPreferencesLoader {
     Config cfg = v.getConfig();
     for (String subsection : cfg.getSubsections(UserConfigSections.MY)) {
       String url = my(cfg, subsection, KEY_URL, "#/");
-      String target = my(cfg, subsection, KEY_TARGET,
-          url.startsWith("#") ? null : "_blank");
-      my.add(new MenuItem(
-          subsection, url, target,
-          my(cfg, subsection, KEY_ID, null)));
+      String target = my(cfg, subsection, KEY_TARGET, url.startsWith("#") ? null : "_blank");
+      my.add(new MenuItem(subsection, url, target, my(cfg, subsection, KEY_ID, null)));
     }
     return my;
   }
 
-  private static String my(Config cfg, String subsection, String key,
-      String defaultValue) {
+  private static String my(Config cfg, String subsection, String key, String defaultValue) {
     String val = cfg.getString(UserConfigSections.MY, subsection, key);
     return !Strings.isNullOrEmpty(val) ? val : defaultValue;
   }
@@ -165,8 +161,9 @@ public class GeneralPreferencesLoader {
     HashMap<String, String> urlAliases = new HashMap<>();
     Config cfg = v.getConfig();
     for (String subsection : cfg.getSubsections(URL_ALIAS)) {
-      urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
-         cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+      urlAliases.put(
+          cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
+          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return !urlAliases.isEmpty() ? urlAliases : null;
   }

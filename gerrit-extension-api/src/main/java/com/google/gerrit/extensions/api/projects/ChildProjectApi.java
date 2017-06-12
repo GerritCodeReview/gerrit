@@ -20,12 +20,13 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface ChildProjectApi {
   ProjectInfo get() throws RestApiException;
+
   ProjectInfo get(boolean recursive) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements ChildProjectApi {
     @Override
     public ProjectInfo get() throws RestApiException {

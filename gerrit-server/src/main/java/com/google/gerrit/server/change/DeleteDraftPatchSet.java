@@ -44,19 +44,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.io.IOException;
-import java.util.Collection;
-
 @Singleton
-public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Input>,
-    UiAction<RevisionResource> {
-  public static class Input {
-  }
+public class DeleteDraftPatchSet
+    implements RestModifyView<RevisionResource, Input>, UiAction<RevisionResource> {
+  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
@@ -67,7 +64,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private final boolean allowDrafts;
 
   @Inject
-  public DeleteDraftPatchSet(Provider<ReviewDb> db,
+  public DeleteDraftPatchSet(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
@@ -86,8 +84,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
       bu.addOp(rsrc.getChange().getId(), new Op(rsrc.getPatchSet().getId()));
       bu.execute();
@@ -107,8 +105,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws RestApiException,
-        OrmException, IOException, NoSuchChangeException {
+    public boolean updateChange(ChangeContext ctx)
+        throws RestApiException, OrmException, IOException, NoSuchChangeException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (patchSet == null) {
         return false; // Nothing to do.
@@ -142,8 +140,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
               patchSet.getRefName()));
     }
 
-    private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx)
-        throws OrmException {
+    private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx) throws OrmException {
       // For NoteDb itself, no need to delete these entities, as they are
       // automatically filtered out when patch sets are deleted.
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
@@ -160,8 +157,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)
-        throws OrmException, RestApiException, IOException,
-        NoSuchChangeException {
+        throws OrmException, RestApiException, IOException, NoSuchChangeException {
       Change c = ctx.getChange();
       if (deletedOnlyPatchSet()) {
         deleteChangeOp = deleteChangeOpProvider.get();
@@ -178,13 +174,12 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
           && patchSetsBeforeDeletion.iterator().next().getId().equals(psId);
     }
 
-    private PatchSetInfo previousPatchSetInfo(ChangeContext ctx)
-        throws OrmException {
+    private PatchSetInfo previousPatchSetInfo(ChangeContext ctx) throws OrmException {
       try {
         // TODO(dborowitz): Get this in a way that doesn't involve re-opening
         // the repo after the updateRepo phase.
-        return patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(),
-            new PatchSet.Id(psId.getParentKey(), psId.get() - 1));
+        return patchSetInfoFactory.get(
+            ctx.getDb(), ctx.getNotes(), new PatchSet.Id(psId.getParentKey(), psId.get() - 1));
       } catch (PatchSetInfoNotAvailableException e) {
         throw new OrmException(e);
       }
@@ -196,13 +191,13 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     try {
       int psCount = psUtil.byChange(db.get(), rsrc.getNotes()).size();
       return new UiAction.Description()
-        .setLabel("Delete")
-        .setTitle(String.format("Delete draft revision %d",
-            rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(allowDrafts
-            && rsrc.getPatchSet().isDraft()
-            && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT)
-            && psCount > 1);
+          .setLabel("Delete")
+          .setTitle(String.format("Delete draft revision %d", rsrc.getPatchSet().getPatchSetId()))
+          .setVisible(
+              allowDrafts
+                  && rsrc.getPatchSet().isDraft()
+                  && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT)
+                  && psCount > 1);
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

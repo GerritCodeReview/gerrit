@@ -15,7 +15,7 @@
 package com.google.gerrit.server.data;
 
 public class SubmitLabelAttribute {
-    public String label;
-    public String status;
-    public AccountAttribute by;
+  public String label;
+  public String status;
+  public AccountAttribute by;
 }

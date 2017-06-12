@@ -19,21 +19,20 @@ public interface ServerInformation {
   /** Current state of the server. */
   enum State {
     /**
-     * The server is starting up, and network connections are not yet being
-     * accepted. Plugins or extensions starting during this time are starting
-     * for the first time in this process.
+     * The server is starting up, and network connections are not yet being accepted. Plugins or
+     * extensions starting during this time are starting for the first time in this process.
      */
     STARTUP,
 
     /**
-     * The server is running and handling requests. Plugins starting during this
-     * state may be reloading, or being installed into a running system.
+     * The server is running and handling requests. Plugins starting during this state may be
+     * reloading, or being installed into a running system.
      */
     RUNNING,
 
     /**
-     * The server is attempting a graceful halt of operations and will exit (or
-     * be killed by the operating system) soon.
+     * The server is attempting a graceful halt of operations and will exit (or be killed by the
+     * operating system) soon.
      */
     SHUTDOWN
   }

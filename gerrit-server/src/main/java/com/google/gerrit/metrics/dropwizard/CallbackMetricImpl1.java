@@ -14,17 +14,21 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Function;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 
-import com.codahale.metrics.MetricRegistry;
-
 /** Optimized version of {@link BucketedCallback} for single dimension. */
 class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
-  CallbackMetricImpl1(DropWizardMetricMaker metrics, MetricRegistry registry,
-      String name, Class<V> valueClass, Description desc, Field<F1> field1) {
+  CallbackMetricImpl1(
+      DropWizardMetricMaker metrics,
+      MetricRegistry registry,
+      String name,
+      Class<V> valueClass,
+      Description desc,
+      Field<F1> field1) {
     super(metrics, registry, name, valueClass, desc, field1);
   }
 
@@ -32,9 +36,7 @@ class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
     return new Impl1();
   }
 
-  private final class Impl1
-      extends CallbackMetric1<F1, V>
-      implements CallbackMetricGlue {
+  private final class Impl1 extends CallbackMetric1<F1, V> implements CallbackMetricGlue {
     @Override
     public void beginSet() {
       doBeginSet();
@@ -76,8 +78,7 @@ class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
   @Override
   String name(Object field1) {
     @SuppressWarnings("unchecked")
-    Function<Object, String> fmt =
-        (Function<Object, String>) fields[0].formatter();
+    Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
 
     return fmt.apply(field1).replace('/', '-');
   }

@@ -29,14 +29,14 @@ import org.parboiled.support.ParsingResult;
 public class ParboiledTest {
 
   private static final String EXPECTED =
-  "[Expression] '42'\n" +
-  "  [Term] '42'\n" +
-  "    [Factor] '42'\n" +
-  "      [Number] '42'\n" +
-  "        [0..9] '4'\n" +
-  "        [0..9] '2'\n" +
-  "    [zeroOrMore]\n" +
-  "  [zeroOrMore]\n";
+      "[Expression] '42'\n"
+          + "  [Term] '42'\n"
+          + "    [Factor] '42'\n"
+          + "      [Number] '42'\n"
+          + "        [0..9] '4'\n"
+          + "        [0..9] '2'\n"
+          + "    [zeroOrMore]\n"
+          + "  [zeroOrMore]\n";
 
   private CalculatorParser parser;
 
@@ -47,8 +47,7 @@ public class ParboiledTest {
 
   @Test
   public void test() {
-    ParsingResult<String> result =
-        new ReportingParseRunner<String>(parser.Expression()).run("42");
+    ParsingResult<String> result = new ReportingParseRunner<String>(parser.Expression()).run("42");
     assertThat(result.isSuccess()).isTrue();
     // next test is optional; we could stop here.
     assertThat(ParseTreeUtils.printNodeTree(result)).isEqualTo(EXPECTED);

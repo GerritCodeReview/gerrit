@@ -36,7 +36,8 @@ public class ReviewerResource implements RestResource {
   private final IdentifiedUser user;
 
   @AssistedInject
-  ReviewerResource(IdentifiedUser.GenericFactory userFactory,
+  ReviewerResource(
+      IdentifiedUser.GenericFactory userFactory,
       @Assisted ChangeResource change,
       @Assisted Account.Id id) {
     this.change = change;
@@ -60,16 +61,16 @@ public class ReviewerResource implements RestResource {
   }
 
   /**
-   * @return the control for the caller's user (as opposed to the reviewer's
-   *     user as returned by {@link #getReviewerControl()}).
+   * @return the control for the caller's user (as opposed to the reviewer's user as returned by
+   *     {@link #getReviewerControl()}).
    */
   public ChangeControl getControl() {
     return change.getControl();
   }
 
   /**
-   * @return the control for the reviewer's user (as opposed to the caller's
-   *     user as returned by {@link #getControl()}).
+   * @return the control for the reviewer's user (as opposed to the caller's user as returned by
+   *     {@link #getControl()}).
    */
   public ChangeControl getReviewerControl() {
     return change.getControl().forUser(user);

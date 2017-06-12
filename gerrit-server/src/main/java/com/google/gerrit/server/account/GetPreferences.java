@@ -29,17 +29,14 @@ public class GetPreferences implements RestReadView<AccountResource> {
   private final AccountCache accountCache;
 
   @Inject
-  GetPreferences(Provider<CurrentUser> self,
-      AccountCache accountCache) {
+  GetPreferences(Provider<CurrentUser> self, AccountCache accountCache) {
     this.self = self;
     this.accountCache = accountCache;
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+  public GeneralPreferencesInfo apply(AccountResource rsrc) throws AuthException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 

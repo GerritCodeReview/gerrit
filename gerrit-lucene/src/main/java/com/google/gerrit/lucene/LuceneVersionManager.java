@@ -32,12 +32,6 @@ import com.google.gerrit.server.index.Schema;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -46,11 +40,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class LuceneVersionManager implements LifecycleListener {
-  private static final Logger log = LoggerFactory
-      .getLogger(LuceneVersionManager.class);
+  private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
 
   static final String CHANGES_PREFIX = "changes_";
 
@@ -60,8 +57,7 @@ public class LuceneVersionManager implements LifecycleListener {
     private final boolean exists;
     private final boolean ready;
 
-    private Version(Schema<V> schema, int version, boolean exists,
-        boolean ready) {
+    private Version(Schema<V> schema, int version, boolean exists, boolean ready) {
       checkArgument(schema == null || schema.getVersion() == version);
       this.schema = schema;
       this.version = version;
@@ -71,8 +67,7 @@ public class LuceneVersionManager implements LifecycleListener {
   }
 
   static Path getDir(SitePaths sitePaths, String prefix, Schema<?> schema) {
-    return sitePaths.index_dir.resolve(String.format("%s%04d",
-        prefix, schema.getVersion()));
+    return sitePaths.index_dir.resolve(String.format("%s%04d", prefix, schema.getVersion()));
   }
 
   private final SitePaths sitePaths;
@@ -95,9 +90,9 @@ public class LuceneVersionManager implements LifecycleListener {
     reindexers = Maps.newHashMapWithExpectedSize(defs.size());
     onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
     runReindexMsg =
-        "No index versions ready; run java -jar " +
-        sitePaths.gerrit_war.toAbsolutePath() +
-        " reindex";
+        "No index versions ready; run java -jar "
+            + sitePaths.gerrit_war.toAbsolutePath()
+            + " reindex";
   }
 
   @Override
@@ -178,7 +173,7 @@ public class LuceneVersionManager implements LifecycleListener {
   /**
    * Start the online reindexer if the current index is not already the latest.
    *
-   * @param  force start re-index
+   * @param force start re-index
    * @return true if started, otherwise false.
    * @throws ReindexerAlreadyRunningException
    */
@@ -210,24 +205,20 @@ public class LuceneVersionManager implements LifecycleListener {
     return false;
   }
 
-  private boolean isCurrentIndexVersionLatest(
-      String name, OnlineReindexer<?, ?, ?> reindexer) {
-    int readVersion = defs.get(name).getIndexCollection().getSearchIndex()
-        .getSchema().getVersion();
-    return reindexer == null
-        || reindexer.getVersion() == readVersion;
+  private boolean isCurrentIndexVersionLatest(String name, OnlineReindexer<?, ?, ?> reindexer) {
+    int readVersion = defs.get(name).getIndexCollection().getSearchIndex().getSchema().getVersion();
+    return reindexer == null || reindexer.getVersion() == readVersion;
   }
 
-  private static void validateReindexerNotRunning(
-      OnlineReindexer<?, ?, ?> reindexer)
+  private static void validateReindexerNotRunning(OnlineReindexer<?, ?, ?> reindexer)
       throws ReindexerAlreadyRunningException {
     if (reindexer != null && reindexer.isRunning()) {
       throw new ReindexerAlreadyRunningException();
     }
   }
 
-  private <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>>
-      scanVersions(IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
+  private <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>> scanVersions(
+      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = new TreeMap<>();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
@@ -237,13 +228,11 @@ public class LuceneVersionManager implements LifecycleListener {
         log.warn("Not a directory: %s", p.toAbsolutePath());
       }
       int v = schema.getVersion();
-      versions.put(v, new Version<>(
-          schema, v, isDir, cfg.getReady(def.getName(), v)));
+      versions.put(v, new Version<>(schema, v, isDir, cfg.getReady(def.getName(), v)));
     }
 
     String prefix = def.getName() + "_";
-    try (DirectoryStream<Path> paths =
-        Files.newDirectoryStream(sitePaths.index_dir)) {
+    try (DirectoryStream<Path> paths = Files.newDirectoryStream(sitePaths.index_dir)) {
       for (Path p : paths) {
         String n = p.getFileName().toString();
         if (!n.startsWith(prefix)) {
@@ -252,13 +241,11 @@ public class LuceneVersionManager implements LifecycleListener {
         String versionStr = n.substring(prefix.length());
         Integer v = Ints.tryParse(versionStr);
         if (v == null || versionStr.length() != 4) {
-          log.warn("Unrecognized version in index directory: {}",
-              p.toAbsolutePath());
+          log.warn("Unrecognized version in index directory: {}", p.toAbsolutePath());
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(
-              null, v, true, cfg.getReady(def.getName(), v)));
+          versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
         }
       }
     } catch (IOException e) {
@@ -267,8 +254,11 @@ public class LuceneVersionManager implements LifecycleListener {
     return versions;
   }
 
-  private <V> void markNotReady(GerritIndexStatus cfg, String name,
-      Iterable<Version<V>> versions, Collection<Version<V>> inUse) {
+  private <V> void markNotReady(
+      GerritIndexStatus cfg,
+      String name,
+      Iterable<Version<V>> versions,
+      Collection<Version<V>> inUse) {
     boolean dirty = false;
     for (Version<V> v : versions) {
       if (!inUse.contains(v) && v.exists) {

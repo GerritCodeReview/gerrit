@@ -25,10 +25,8 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexModule extends LifecycleModule {
   private final int threads;

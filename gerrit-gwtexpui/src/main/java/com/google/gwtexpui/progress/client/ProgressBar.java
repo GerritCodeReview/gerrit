@@ -20,10 +20,10 @@ import com.google.gwt.user.client.ui.Label;
 
 /**
  * A simple progress bar with a text label.
- * <p>
- * The bar is 200 pixels wide and 20 pixels high. To keep the implementation
- * simple and lightweight this dimensions are fixed and shouldn't be modified by
- * style overrides in client code or CSS.
+ *
+ * <p>The bar is 200 pixels wide and 20 pixels high. To keep the implementation simple and
+ * lightweight this dimensions are fixed and shouldn't be modified by style overrides in client code
+ * or CSS.
  */
 public class ProgressBar extends Composite {
   static {

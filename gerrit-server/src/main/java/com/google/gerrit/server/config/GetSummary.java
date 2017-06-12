@@ -20,10 +20,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -39,6 +35,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
+import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.MAINTAIN_SERVER)
 public class GetSummary implements RestReadView<ConfigResource> {
@@ -69,7 +67,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public SummaryInfo apply(ConfigResource rsrc)  {
+  public SummaryInfo apply(ConfigResource rsrc) {
     if (gc) {
       System.gc();
       System.runFinalization();
@@ -94,11 +92,14 @@ public class GetSummary implements RestReadView<ConfigResource> {
     int tasksSleeping = 0;
     for (Task<?> task : pending) {
       switch (task.getState()) {
-        case RUNNING: tasksRunning++;
+        case RUNNING:
+          tasksRunning++;
           break;
-        case READY: tasksReady++;
+        case READY:
+          tasksReady++;
           break;
-        case SLEEPING: tasksSleeping++;
+        case SLEEPING:
+          tasksSleeping++;
           break;
         case CANCELLED:
         case DONE:
@@ -141,9 +142,16 @@ public class GetSummary implements RestReadView<ConfigResource> {
     threadInfo.cpus = r.availableProcessors();
     threadInfo.threads = toInteger(ManagementFactory.getThreadMXBean().getThreadCount());
 
-    List<String> prefixes = Arrays.asList("HTTP", "IntraLineDiff", "ReceiveCommits",
-        "SSH git-receive-pack", "SSH git-upload-pack", "SSH-Interactive-Worker",
-        "SSH-Stream-Worker", "SshCommandStart");
+    List<String> prefixes =
+        Arrays.asList(
+            "HTTP",
+            "IntraLineDiff",
+            "ReceiveCommits",
+            "SSH git-receive-pack",
+            "SSH git-upload-pack",
+            "SSH-Interactive-Worker",
+            "SSH-Stream-Worker",
+            "SshCommandStart");
     String other = "Other";
     ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
@@ -193,8 +201,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
       // Ignored
     }
 
-    jvmSummary.currentWorkingDirectory =
-        path(Paths.get(".").toAbsolutePath().getParent());
+    jvmSummary.currentWorkingDirectory = path(Paths.get(".").toAbsolutePath().getParent());
     jvmSummary.site = path(sitePath);
     return jvmSummary;
   }

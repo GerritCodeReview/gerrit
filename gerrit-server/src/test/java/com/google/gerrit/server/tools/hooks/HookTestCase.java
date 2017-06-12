@@ -53,13 +53,6 @@ package com.google.gerrit.server.tools.hooks;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.io.ByteStreams;
-
-import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,6 +62,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 
 @Ignore
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
@@ -105,20 +103,14 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
     String path = scproot + "/hooks/" + name;
     String errorMessage = "Cannot locate " + path + " in CLASSPATH";
     URL url = cl().getResource(path);
-    assert_()
-      .withFailureMessage(errorMessage)
-      .that(url).isNotNull();
+    assert_().withFailureMessage(errorMessage).that(url).isNotNull();
 
     String protocol = url.getProtocol();
-    assert_()
-      .withFailureMessage("Cannot invoke " + url)
-      .that(protocol).isAnyOf("file", "jar");
+    assert_().withFailureMessage("Cannot invoke " + url).that(protocol).isAnyOf("file", "jar");
 
     if ("file".equals(protocol)) {
       hook = new File(url.getPath());
-      assert_()
-        .withFailureMessage(errorMessage)
-        .that(hook.isFile()).isTrue();
+      assert_().withFailureMessage(errorMessage).that(hook.isFile()).isTrue();
       long time = hook.lastModified();
       hook.setExecutable(true);
       hook.setLastModified(time);

@@ -83,8 +83,7 @@ public final class AccountProjectWatch {
     @Column(id = 1)
     protected String filter;
 
-    protected Filter() {
-    }
+    protected Filter() {}
 
     public Filter(String f) {
       filter = f != null && !f.isEmpty() ? f : FILTER_ALL;
@@ -122,8 +121,7 @@ public final class AccountProjectWatch {
   @Column(id = 6)
   protected boolean notifyAbandonedChanges;
 
-  protected AccountProjectWatch() {
-  }
+  protected AccountProjectWatch() {}
 
   public AccountProjectWatch(final AccountProjectWatch.Key k) {
     key = k;

@@ -20,14 +20,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
 public class ListChildProjects implements RestReadView<ProjectResource> {
 
@@ -40,9 +38,11 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   private final ProjectNode.Factory projectNodeFactory;
 
   @Inject
-  ListChildProjects(ProjectCache projectCache,
+  ListChildProjects(
+      ProjectCache projectCache,
       AllProjectsName allProjectsName,
-      ProjectJson json, ProjectNode.Factory projectNodeFactory) {
+      ProjectJson json,
+      ProjectNode.Factory projectNodeFactory) {
     this.projectCache = projectCache;
     this.allProjects = allProjectsName;
     this.json = json;
@@ -56,8 +56,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc) {
     if (recursive) {
-      return getChildProjectsRecursively(rsrc.getNameKey(),
-          rsrc.getControl().getUser());
+      return getChildProjectsRecursively(rsrc.getNameKey(), rsrc.getControl().getUser());
     }
     return getDirectChildProjects(rsrc.getNameKey());
   }
@@ -77,8 +76,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     return childProjects;
   }
 
-  private List<ProjectInfo> getChildProjectsRecursively(Project.NameKey parent,
-      CurrentUser user) {
+  private List<ProjectInfo> getChildProjectsRecursively(Project.NameKey parent, CurrentUser user) {
     Map<Project.NameKey, ProjectNode> projects = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
       ProjectState p = projectCache.get(name);
@@ -86,8 +84,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
         // If we can't get it from the cache, pretend it's not present.
         continue;
       }
-      projects.put(name, projectNodeFactory.create(p.getProject(),
-          p.controlFor(user).isVisible()));
+      projects.put(name, projectNodeFactory.create(p.getProject(), p.controlFor(user).isVisible()));
     }
     for (ProjectNode key : projects.values()) {
       ProjectNode node = projects.get(key.getParentName());

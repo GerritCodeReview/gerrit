@@ -31,8 +31,8 @@ class RenameFileAction {
   private RenameFileBox renameBox;
   private PopupPanel popup;
 
-  RenameFileAction(Change.Id changeId, RevisionInfo revision,
-      ChangeScreen.Style style, Widget renameButton) {
+  RenameFileAction(
+      Change.Id changeId, RevisionInfo revision, ChangeScreen.Style style, Widget renameButton) {
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;
@@ -53,14 +53,15 @@ class RenameFileAction {
     final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(renameButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              popup = null;
+            }
+          }
+        });
     p.add(renameBox);
     p.showRelativeTo(renameButton);
     GlobalKey.dialog(p);

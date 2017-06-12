@@ -29,9 +29,9 @@ class DownloadAction extends RightSidePopdownAction {
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);
-    this.downloadBox = new DownloadBox(info, revision,
-        new PatchSet.Id(info.legacyId(),
-            info.revision(revision)._number()));
+    this.downloadBox =
+        new DownloadBox(
+            info, revision, new PatchSet.Id(info.legacyId(), info.revision(revision)._number()));
   }
 
   @Override

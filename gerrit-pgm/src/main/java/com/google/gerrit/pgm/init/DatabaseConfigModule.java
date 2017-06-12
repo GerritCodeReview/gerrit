@@ -29,23 +29,30 @@ public class DatabaseConfigModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(SitePaths.class).toInstance(site);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("db2")).to(DB2Initializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("derby")).to(DerbyInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("h2")).to(H2Initializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("jdbc")).to(JDBCInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("mysql")).to(MySqlInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("oracle")).to(OracleInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("postgresql")).to(PostgreSQLInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("maxdb")).to(MaxDbInitializer.class);
-    bind(DatabaseConfigInitializer.class).annotatedWith(
-        Names.named("hana")).to(HANAInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("db2"))
+        .to(DB2Initializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("derby"))
+        .to(DerbyInitializer.class);
+    bind(DatabaseConfigInitializer.class).annotatedWith(Names.named("h2")).to(H2Initializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("jdbc"))
+        .to(JDBCInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("mysql"))
+        .to(MySqlInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("oracle"))
+        .to(OracleInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("postgresql"))
+        .to(PostgreSQLInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("maxdb"))
+        .to(MaxDbInitializer.class);
+    bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("hana"))
+        .to(HANAInitializer.class);
   }
 }

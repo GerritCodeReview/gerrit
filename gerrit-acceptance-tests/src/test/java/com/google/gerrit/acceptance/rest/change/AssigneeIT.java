@@ -26,13 +26,11 @@ import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.testutil.TestTimeUtil;
-
+import java.util.Iterator;
+import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.Iterator;
-import java.util.List;
 
 @NoHttpd
 public class AssigneeIT extends AbstractDaemonTest {
@@ -56,8 +54,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   @Test
   public void testAddGetAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(setAssignee(r, user.email)._accountId)
-        .isEqualTo(user.getId().get());
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
     assertThat(getAssignee(r)._accountId).isEqualTo(user.getId().get());
   }
 
@@ -65,8 +62,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void testSetNewAssigneeWhenExists() throws Exception {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
-    assertThat(setAssignee(r, user.email)._accountId)
-    .isEqualTo(user.getId().get());
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }
 
   @Test
@@ -95,8 +91,7 @@ public class AssigneeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Iterable<AccountInfo> reviewers = getReviewers(r, state);
     assertThat(reviewers).isNull();
-    assertThat(setAssignee(r, user.email)._accountId)
-        .isEqualTo(user.getId().get());
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
     reviewers = getReviewers(r, state);
     assertThat(reviewers).hasSize(1);
     AccountInfo reviewer = Iterables.getFirst(reviewers, null);
@@ -107,15 +102,13 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void testSetAlreadyExistingAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
-    assertThat(setAssignee(r, user.email)._accountId)
-        .isEqualTo(user.getId().get());
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }
 
   @Test
   public void testDeleteAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(setAssignee(r, user.email)._accountId)
-        .isEqualTo(user.getId().get());
+    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
     assertThat(deleteAssignee(r)._accountId).isEqualTo(user.getId().get());
     assertThat(getAssignee(r)).isNull();
   }
@@ -130,18 +123,16 @@ public class AssigneeIT extends AbstractDaemonTest {
     return gApi.changes().id(r.getChange().getId().get()).getAssignee();
   }
 
-  private List<AccountInfo> getPastAssignees(PushOneCommit.Result r)
-      throws Exception {
+  private List<AccountInfo> getPastAssignees(PushOneCommit.Result r) throws Exception {
     return gApi.changes().id(r.getChange().getId().get()).getPastAssignees();
   }
 
-  private Iterable<AccountInfo> getReviewers(PushOneCommit.Result r,
-      ReviewerState state) throws Exception {
+  private Iterable<AccountInfo> getReviewers(PushOneCommit.Result r, ReviewerState state)
+      throws Exception {
     return get(r.getChangeId()).reviewers.get(state);
   }
 
-  private AccountInfo setAssignee(PushOneCommit.Result r, String identifieer)
-      throws Exception {
+  private AccountInfo setAssignee(PushOneCommit.Result r, String identifieer) throws Exception {
     AssigneeInput input = new AssigneeInput();
     input.assignee = identifieer;
     return gApi.changes().id(r.getChange().getId().get()).setAssignee(input);

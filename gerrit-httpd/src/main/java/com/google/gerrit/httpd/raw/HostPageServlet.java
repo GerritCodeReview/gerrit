@@ -43,15 +43,6 @@ import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,19 +52,24 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /** Sends the Gerrit host page to clients. */
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
-  private static final Logger log =
-      LoggerFactory.getLogger(HostPageServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(HostPageServlet.class);
 
   private static final String HPD_ID = "gerrit_hostpagedata";
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
@@ -156,8 +152,8 @@ public class HostPageServlet extends HttpServlet {
 
   private static int getPluginsLoadTimeout(Config cfg) {
     long cfgValue =
-        ConfigUtil.getTimeUnit(cfg, "plugins", null, "jsLoadTimeout",
-            DEFAULT_JS_LOAD_TIMEOUT, TimeUnit.MILLISECONDS);
+        ConfigUtil.getTimeUnit(
+            cfg, "plugins", null, "jsLoadTimeout", DEFAULT_JS_LOAD_TIMEOUT, TimeUnit.MILLISECONDS);
     if (cfgValue < 0) {
       return 0;
     }
@@ -182,8 +178,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     Page.Content page = select(req);
     StringWriter w = new StringWriter();
     CurrentUser user = currentUser.get();
@@ -234,9 +229,7 @@ public class HostPageServlet extends HttpServlet {
   private void plugins(StringWriter w) {
     List<String> urls = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
-      urls.add(String.format("plugins/%s/%s",
-          u.getPluginName(),
-          u.getJavaScriptResourcePath()));
+      urls.add(String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath()));
     }
     if (!urls.isEmpty()) {
       w.write(HPD_ID + ".plugins=");
@@ -273,8 +266,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void insertETags(Element e) {
-    if ("img".equalsIgnoreCase(e.getTagName())
-        || "script".equalsIgnoreCase(e.getTagName())) {
+    if ("img".equalsIgnoreCase(e.getTagName()) || "script".equalsIgnoreCase(e.getTagName())) {
       String src = e.getAttribute("src");
       if (src != null && src.startsWith("static/")) {
         String name = src.substring("static/".length());
@@ -370,8 +362,7 @@ public class HostPageServlet extends HttpServlet {
       }
     }
 
-    private FileInfo injectCssFile(Document hostDoc, String id, Path src)
-        throws IOException {
+    private FileInfo injectCssFile(Document hostDoc, String id, Path src) throws IOException {
       FileInfo info = new FileInfo(src);
       Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {
@@ -382,8 +373,7 @@ public class HostPageServlet extends HttpServlet {
         banner.removeChild(banner.getFirstChild());
       }
 
-      String css =
-          HtmlDomUtil.readFile(src.getParent(), src.getFileName().toString());
+      String css = HtmlDomUtil.readFile(src.getParent(), src.getFileName().toString());
       if (css == null) {
         return info;
       }
@@ -392,8 +382,7 @@ public class HostPageServlet extends HttpServlet {
       return info;
     }
 
-    private FileInfo injectXmlFile(Document hostDoc, String id, Path src)
-        throws IOException {
+    private FileInfo injectXmlFile(Document hostDoc, String id, Path src) throws IOException {
       FileInfo info = new FileInfo(src);
       Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {

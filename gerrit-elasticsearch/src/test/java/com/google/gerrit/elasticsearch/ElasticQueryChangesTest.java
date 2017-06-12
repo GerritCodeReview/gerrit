@@ -31,7 +31,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
 import org.elasticsearch.common.settings.Settings;
@@ -41,16 +45,11 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
-  private static final Gson gson = new GsonBuilder()
-      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-      .create();
+  private static final Gson gson =
+      new GsonBuilder()
+          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+          .create();
   private static Node node;
   private static String port;
   private static File elasticDir;
@@ -64,45 +63,37 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @BeforeClass
-  public static void startIndexService()
-      throws InterruptedException, ExecutionException {
+  public static void startIndexService() throws InterruptedException, ExecutionException {
     if (node != null) {
       // do not start Elasticsearch twice
       return;
     }
     elasticDir = Files.createTempDir();
     Path elasticDirPath = elasticDir.toPath();
-    Settings settings = Settings.settingsBuilder()
-        .put("cluster.name", "gerrit")
-        .put("node.name", "Gerrit Elasticsearch Test Node")
-        .put("node.local", true)
-        .put("discovery.zen.ping.multicast.enabled", false)
-        .put("index.store.fs.memory.enabled", true)
-        .put("index.gateway.type", "none")
-        .put("index.max_result_window", Integer.MAX_VALUE)
-        .put("gateway.type", "default")
-        .put("http.port", 0)
-        .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
-        .put("path.home", elasticDirPath.toAbsolutePath())
-        .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
-        .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
-        .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
-        .put("transport.tcp.connect_timeout", "60s")
-        .build();
+    Settings settings =
+        Settings.settingsBuilder()
+            .put("cluster.name", "gerrit")
+            .put("node.name", "Gerrit Elasticsearch Test Node")
+            .put("node.local", true)
+            .put("discovery.zen.ping.multicast.enabled", false)
+            .put("index.store.fs.memory.enabled", true)
+            .put("index.gateway.type", "none")
+            .put("index.max_result_window", Integer.MAX_VALUE)
+            .put("gateway.type", "default")
+            .put("http.port", 0)
+            .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
+            .put("path.home", elasticDirPath.toAbsolutePath())
+            .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
+            .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
+            .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
+            .put("transport.tcp.connect_timeout", "60s")
+            .build();
 
     // Start the node
-    node = NodeBuilder.nodeBuilder()
-        .settings(settings)
-        .node();
+    node = NodeBuilder.nodeBuilder().settings(settings).node();
 
     // Wait for it to be ready
-    node.client()
-        .admin()
-        .cluster()
-        .prepareHealth()
-        .setWaitForYellowStatus()
-        .execute()
-        .actionGet();
+    node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 
     createIndexes();
 
@@ -137,8 +128,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     elasticsearchConfig.setString("index", null, "port", port);
     elasticsearchConfig.setString("index", null, "name", "gerrit");
     elasticsearchConfig.setBoolean("index", "elasticsearch", "test", true);
-    return Guice.createInjector(
-        new InMemoryModule(elasticsearchConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 
   private static void createIndexes() {
@@ -158,22 +148,20 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
         .actionGet();
   }
 
-  private static String getHttpPort()
-      throws InterruptedException, ExecutionException {
-    String nodes = node.client().admin().cluster()
-        .nodesInfo(new NodesInfoRequest("*")).get().toString();
-    Gson gson = new GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .create();
+  private static String getHttpPort() throws InterruptedException, ExecutionException {
+    String nodes =
+        node.client().admin().cluster().nodesInfo(new NodesInfoRequest("*")).get().toString();
+    Gson gson =
+        new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create();
     Info info = gson.fromJson(nodes, Info.class);
 
     checkState(info.nodes != null && info.nodes.size() == 1);
     Iterator<NodeInfo> values = info.nodes.values().iterator();
     String httpAddress = values.next().httpAddress;
 
-    checkState(
-        !Strings.isNullOrEmpty(httpAddress) && httpAddress.indexOf(':') > 0);
-    return httpAddress.substring(httpAddress.indexOf(':') + 1,
-        httpAddress.length());
+    checkState(!Strings.isNullOrEmpty(httpAddress) && httpAddress.indexOf(':') > 0);
+    return httpAddress.substring(httpAddress.indexOf(':') + 1, httpAddress.length());
   }
 }

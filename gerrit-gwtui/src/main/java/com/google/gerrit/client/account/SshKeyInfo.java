@@ -18,12 +18,16 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class SshKeyInfo extends JavaScriptObject {
   public final native int seq() /*-{ return this.seq || 0; }-*/;
+
   public final native String sshPublicKey() /*-{ return this.ssh_public_key; }-*/;
+
   public final native String encodedKey() /*-{ return this.encoded_key; }-*/;
+
   public final native String algorithm() /*-{ return this.algorithm; }-*/;
+
   public final native String comment() /*-{ return this.comment; }-*/;
+
   public final native boolean isValid() /*-{ return this['valid'] ? true : false; }-*/;
 
-  protected SshKeyInfo() {
-  }
+  protected SshKeyInfo() {}
 }

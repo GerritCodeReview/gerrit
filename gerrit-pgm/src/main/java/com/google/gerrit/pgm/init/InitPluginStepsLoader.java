@@ -26,7 +26,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -44,8 +43,8 @@ public class InitPluginStepsLoader {
   final ConsoleUI ui;
 
   @Inject
-  public InitPluginStepsLoader(final ConsoleUI ui, final SitePaths sitePaths,
-      final Injector initInjector) {
+  public InitPluginStepsLoader(
+      final ConsoleUI ui, final SitePaths sitePaths, final Injector initInjector) {
     this.pluginsDir = sitePaths.plugins_dir;
     this.initInjector = initInjector;
     this.ui = ui;
@@ -68,8 +67,8 @@ public class InitPluginStepsLoader {
   private InitStep loadInitStep(Path jar) {
     try {
       URLClassLoader pluginLoader =
-          new URLClassLoader(new URL[] {jar.toUri().toURL()},
-             InitPluginStepsLoader.class.getClassLoader());
+          new URLClassLoader(
+              new URL[] {jar.toUri().toURL()}, InitPluginStepsLoader.class.getClassLoader());
       try (JarFile jarFile = new JarFile(jar.toFile())) {
         Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
         String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
@@ -100,24 +99,23 @@ public class InitPluginStepsLoader {
   }
 
   private Injector getPluginInjector(Path jarPath) throws IOException {
-    final String pluginName = MoreObjects.firstNonNull(
-        JarPluginProvider.getJarPluginName(jarPath),
-        PluginLoader.nameOf(jarPath));
-    return initInjector.createChildInjector(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(String.class).annotatedWith(PluginName.class).toInstance(
-            pluginName);
-      }
-    });
+    final String pluginName =
+        MoreObjects.firstNonNull(
+            JarPluginProvider.getJarPluginName(jarPath), PluginLoader.nameOf(jarPath));
+    return initInjector.createChildInjector(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(String.class).annotatedWith(PluginName.class).toInstance(pluginName);
+          }
+        });
   }
 
   private List<Path> scanJarsInPluginsDirectory() {
     try {
       return PluginLoader.listPlugins(pluginsDir, ".jar");
     } catch (IOException e) {
-      ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(),
-          e.getMessage());
+      ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(), e.getMessage());
       return ImmutableList.of();
     }
   }

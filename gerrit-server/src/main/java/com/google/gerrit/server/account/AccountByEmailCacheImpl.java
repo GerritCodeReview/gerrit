@@ -30,30 +30,24 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Translates an email address to a set of matching accounts. */
 @Singleton
 public class AccountByEmailCacheImpl implements AccountByEmailCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(AccountByEmailCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(AccountByEmailCacheImpl.class);
   private static final String CACHE_NAME = "accounts_byemail";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME,
-            String.class,
-            new TypeLiteral<Set<Account.Id>>() {})
-          .loader(Loader.class);
+        cache(CACHE_NAME, String.class, new TypeLiteral<Set<Account.Id>>() {}).loader(Loader.class);
         bind(AccountByEmailCacheImpl.class);
         bind(AccountByEmailCache.class).to(AccountByEmailCacheImpl.class);
       }
@@ -63,8 +57,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
   private final LoadingCache<String, Set<Account.Id>> cache;
 
   @Inject
-  AccountByEmailCacheImpl(
-      @Named(CACHE_NAME) LoadingCache<String, Set<Account.Id>> cache) {
+  AccountByEmailCacheImpl(@Named(CACHE_NAME) LoadingCache<String, Set<Account.Id>> cache) {
     this.cache = cache;
   }
 
@@ -91,7 +84,8 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema,
+    Loader(
+        SchemaFactory<ReviewDb> schema,
         AccountIndexCollection accountIndexes,
         Provider<InternalAccountQuery> accountQueryProvider) {
       this.schema = schema;
@@ -107,15 +101,15 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
           r.add(a.getId());
         }
         if (accountIndexes.getSearchIndex() != null) {
-          for (AccountState accountState : accountQueryProvider.get()
-              .byExternalId(
-                  (new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO,
-                      email)).get())) {
+          for (AccountState accountState :
+              accountQueryProvider
+                  .get()
+                  .byExternalId(
+                      (new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email)).get())) {
             r.add(accountState.getAccount().getId());
           }
         } else {
-          for (AccountExternalId a : db.accountExternalIds()
-              .byEmailAddress(email)) {
+          for (AccountExternalId a : db.accountExternalIds().byEmailAddress(email)) {
             r.add(a.getAccountId());
           }
         }

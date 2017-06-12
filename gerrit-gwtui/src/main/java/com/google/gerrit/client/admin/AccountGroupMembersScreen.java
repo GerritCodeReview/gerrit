@@ -39,7 +39,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -79,30 +78,30 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     includes.setEnabled(canModify);
   }
 
-
   private void initMemberList() {
-    addMemberBox = new AddMemberBox(
-        Util.C.buttonAddGroupMember(),
-        Util.C.defaultAccountName(),
-        new AccountSuggestOracle());
+    addMemberBox =
+        new AddMemberBox(
+            Util.C.buttonAddGroupMember(), Util.C.defaultAccountName(), new AccountSuggestOracle());
 
-    addMemberBox.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doAddNewMember();
-      }
-    });
+    addMemberBox.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doAddNewMember();
+          }
+        });
 
     members = new MemberTable();
     members.addStyleName(Gerrit.RESOURCES.css().groupMembersTable());
 
     delMember = new Button(Util.C.buttonDeleteGroupMembers());
-    delMember.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        members.deleteChecked();
-      }
-    });
+    delMember.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            members.deleteChecked();
+          }
+        });
 
     memberPanel = new FlowPanel();
     memberPanel.add(new SmallHeading(Util.C.headingMembers()));
@@ -115,26 +114,30 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   private void initIncludeList() {
     accountGroupSuggestOracle = new AccountGroupSuggestOracle();
     addIncludeBox =
-        new AddMemberBox(Util.C.buttonAddIncludedGroup(),
-            Util.C.defaultAccountGroupName(), accountGroupSuggestOracle);
+        new AddMemberBox(
+            Util.C.buttonAddIncludedGroup(),
+            Util.C.defaultAccountGroupName(),
+            accountGroupSuggestOracle);
 
-    addIncludeBox.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doAddNewInclude();
-      }
-    });
+    addIncludeBox.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doAddNewInclude();
+          }
+        });
 
     includes = new IncludeTable();
     includes.addStyleName(Gerrit.RESOURCES.css().groupIncludesTable());
 
     delInclude = new Button(Util.C.buttonDeleteIncludedGroup());
-    delInclude.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        includes.deleteChecked();
-      }
-    });
+    delInclude.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            includes.deleteChecked();
+          }
+        });
 
     includePanel = new FlowPanel();
     includePanel.add(new SmallHeading(Util.C.headingIncludedGroups()));
@@ -174,7 +177,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     addMemberBox.setEnabled(false);
-    GroupApi.addMember(getGroupUUID(), nameEmail,
+    GroupApi.addMember(
+        getGroupUUID(),
+        nameEmail,
         new GerritCallback<AccountInfo>() {
           @Override
           public void onSuccess(final AccountInfo memberInfo) {
@@ -203,7 +208,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     addIncludeBox.setEnabled(false);
-    GroupApi.addIncludedGroup(getGroupUUID(), uuid.get(),
+    GroupApi.addIncludedGroup(
+        getGroupUUID(),
+        uuid.get(),
         new GerritCallback<GroupInfo>() {
           @Override
           public void onSuccess(final GroupInfo result) {
@@ -252,11 +259,13 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         }
       }
       if (!ids.isEmpty()) {
-        GroupApi.removeMembers(getGroupUUID(), ids,
+        GroupApi.removeMembers(
+            getGroupUUID(),
+            ids,
             new GerritCallback<VoidResult>() {
               @Override
               public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
+                for (int row = 1; row < table.getRowCount(); ) {
                   final AccountInfo i = getRowItem(row);
                   if (i != null && ids.contains(i._accountId())) {
                     table.removeRow(row);
@@ -283,26 +292,27 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void insert(AccountInfo info) {
-      Comparator<AccountInfo> c = new Comparator<AccountInfo>() {
-        @Override
-        public int compare(AccountInfo a, AccountInfo b) {
-          int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-          if (cmp != 0) {
-            return cmp;
-          }
+      Comparator<AccountInfo> c =
+          new Comparator<AccountInfo>() {
+            @Override
+            public int compare(AccountInfo a, AccountInfo b) {
+              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
+              if (cmp != 0) {
+                return cmp;
+              }
 
-          cmp = nullToEmpty(a.email()).compareTo(nullToEmpty(b.email()));
-          if (cmp != 0) {
-            return cmp;
-          }
+              cmp = nullToEmpty(a.email()).compareTo(nullToEmpty(b.email()));
+              if (cmp != 0) {
+                return cmp;
+              }
 
-          return a._accountId() - b._accountId();
-        }
+              return a._accountId() - b._accountId();
+            }
 
-        public String nullToEmpty(String str) {
-          return str == null ? "" : str;
-        }
-      };
+            public String nullToEmpty(String str) {
+              return str == null ? "" : str;
+            }
+          };
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
@@ -359,11 +369,13 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         }
       }
       if (!ids.isEmpty()) {
-        GroupApi.removeIncludedGroups(getGroupUUID(), ids,
+        GroupApi.removeIncludedGroups(
+            getGroupUUID(),
+            ids,
             new GerritCallback<VoidResult>() {
               @Override
               public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
+                for (int row = 1; row < table.getRowCount(); ) {
                   final GroupInfo i = getRowItem(row);
                   if (i != null && ids.contains(i.getGroupUUID())) {
                     table.removeRow(row);
@@ -390,20 +402,21 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void insert(GroupInfo info) {
-      Comparator<GroupInfo> c = new Comparator<GroupInfo>() {
-        @Override
-        public int compare(GroupInfo a, GroupInfo b) {
-          int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
-          if (cmp != 0) {
-            return cmp;
-          }
-          return a.getGroupUUID().compareTo(b.getGroupUUID());
-        }
+      Comparator<GroupInfo> c =
+          new Comparator<GroupInfo>() {
+            @Override
+            public int compare(GroupInfo a, GroupInfo b) {
+              int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
+              if (cmp != 0) {
+                return cmp;
+              }
+              return a.getGroupUUID().compareTo(b.getGroupUUID());
+            }
 
-        private String nullToEmpty(@Nullable String str) {
-          return (str == null) ? "" : str;
-        }
-      };
+            private String nullToEmpty(@Nullable String str) {
+              return (str == null) ? "" : str;
+            }
+          };
       int insertPos = getInsertRow(c, info);
       if (insertPos >= 0) {
         table.insertRow(insertPos);
@@ -420,8 +433,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
       if (AccountGroup.isInternalGroup(uuid)) {
-        table.setWidget(row, 2,
-            new Hyperlink(i.name(), Dispatcher.toGroup(uuid)));
+        table.setWidget(row, 2, new Hyperlink(i.name(), Dispatcher.toGroup(uuid)));
         fmt.getElement(row, 2).setTitle(null);
         table.setText(row, 3, i.description());
       } else if (i.url() != null) {

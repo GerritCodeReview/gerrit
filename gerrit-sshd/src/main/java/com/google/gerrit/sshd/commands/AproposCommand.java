@@ -23,18 +23,17 @@ import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResu
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.kohsuke.args4j.Argument;
 
-import java.util.List;
-
-@CommandMetaData(name = "apropos", description = "Search in Gerrit documentation",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "apropos",
+  description = "Search in Gerrit documentation",
+  runsAt = MASTER_OR_SLAVE
+)
 final class AproposCommand extends SshCommand {
-  @Inject
-  private QueryDocumentationExecutor searcher;
-  @Inject
-  @CanonicalWebUrl String url;
+  @Inject private QueryDocumentationExecutor searcher;
+  @Inject @CanonicalWebUrl String url;
 
   @Argument(index = 0, required = true, metaVar = "QUERY")
   private String q;
@@ -44,8 +43,7 @@ final class AproposCommand extends SshCommand {
     try {
       List<QueryDocumentationExecutor.DocResult> res = searcher.doQuery(q);
       for (DocResult docResult : res) {
-        stdout.println(String.format("%s:\n%s%s\n", docResult.title, url,
-            docResult.url));
+        stdout.println(String.format("%s:\n%s%s\n", docResult.title, url, docResult.url));
       }
     } catch (DocQueryException dqe) {
       throw die(dqe);

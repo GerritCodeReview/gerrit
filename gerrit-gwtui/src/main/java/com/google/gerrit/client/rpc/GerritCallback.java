@@ -28,9 +28,9 @@ import com.google.gwtjsonrpc.client.ServerUnavailableException;
 import com.google.gwtjsonrpc.common.JsonConstants;
 
 /** Abstract callback handling generic error conditions automatically */
-public abstract class GerritCallback<T> implements
-    com.google.gwtjsonrpc.common.AsyncCallback<T>,
-    com.google.gwt.user.client.rpc.AsyncCallback<T> {
+public abstract class GerritCallback<T>
+    implements com.google.gwtjsonrpc.common.AsyncCallback<T>,
+        com.google.gwt.user.client.rpc.AsyncCallback<T> {
   @Override
   public void onFailure(final Throwable caught) {
     showFailure(caught);
@@ -69,8 +69,9 @@ public abstract class GerritCallback<T> implements
   }
 
   public static boolean isSigninFailure(Throwable caught) {
-    if (isNotSignedIn(caught) || isInvalidXSRF(caught) ||
-        (isNoSuchEntity(caught) && !Gerrit.isSignedIn())) {
+    if (isNotSignedIn(caught)
+        || isInvalidXSRF(caught)
+        || (isNoSuchEntity(caught) && !Gerrit.isSignedIn())) {
       return true;
     }
     return false;
@@ -84,7 +85,7 @@ public abstract class GerritCallback<T> implements
   protected static boolean isNotSignedIn(Throwable caught) {
     return RestApi.isNotSignedIn(caught)
         || (caught instanceof RemoteJsonException
-           && caught.getMessage().equals(NotSignedInException.MESSAGE));
+            && caught.getMessage().equals(NotSignedInException.MESSAGE));
   }
 
   protected static boolean isNoSuchEntity(Throwable caught) {
@@ -105,6 +106,6 @@ public abstract class GerritCallback<T> implements
 
   protected static boolean isNoSuchGroup(final Throwable caught) {
     return caught instanceof RemoteJsonException
-    && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
+        && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
   }
 }

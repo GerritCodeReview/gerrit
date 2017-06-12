@@ -19,10 +19,9 @@ import com.google.gerrit.common.Nullable;
 
 /**
  * Stable identifier for options passed to a particular submit rule evaluator.
- * <p>
- * Used to test whether it is ok to reuse a cached list of submit records. Does
- * not include a change or patch set ID; callers are responsible for checking
- * those on their own.
+ *
+ * <p>Used to test whether it is ok to reuse a cached list of submit records. Does not include a
+ * change or patch set ID; callers are responsible for checking those on their own.
  */
 @AutoValue
 public abstract class SubmitRuleOptions {
@@ -40,17 +39,26 @@ public abstract class SubmitRuleOptions {
   }
 
   public abstract boolean fastEvalLabels();
+
   public abstract boolean allowDraft();
+
   public abstract boolean allowClosed();
+
   public abstract boolean skipFilters();
-  @Nullable public abstract String rule();
+
+  @Nullable
+  public abstract String rule();
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract SubmitRuleOptions.Builder fastEvalLabels(boolean fastEvalLabels);
+
     public abstract SubmitRuleOptions.Builder allowDraft(boolean allowDraft);
+
     public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
+
     public abstract SubmitRuleOptions.Builder skipFilters(boolean skipFilters);
+
     public abstract SubmitRuleOptions.Builder rule(@Nullable String rule);
 
     public abstract SubmitRuleOptions build();

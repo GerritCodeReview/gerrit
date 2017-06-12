@@ -19,7 +19,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,21 +31,18 @@ public class Schema_117 extends SchemaVersion {
   }
 
   @Override
-  protected void preUpdateSchema(ReviewDb db)
-      throws OrmException, SQLException {
+  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
     JdbcSchema schema = (JdbcSchema) db;
     Connection connection = schema.getConnection();
     String tableName = "patch_sets";
     String oldColumnName = "push_certficate";
     String newColumnName = "push_certificate";
-    Set<String> columns =
-        schema.getDialect().listColumns(connection, tableName);
+    Set<String> columns = schema.getDialect().listColumns(connection, tableName);
     if (columns.contains(oldColumnName)) {
       renameColumn(db, tableName, oldColumnName, newColumnName);
     }
     try (Statement stmt = schema.getConnection().createStatement()) {
-      stmt.execute(
-          "ALTER TABLE " + tableName + " MODIFY " + newColumnName + " clob");
+      stmt.execute("ALTER TABLE " + tableName + " MODIFY " + newColumnName + " clob");
     } catch (SQLException e) {
       // Ignore.  Type may have already been modified manually.
     }

@@ -23,10 +23,8 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.sshd.commands.QueryShell.Factory;
 import com.google.inject.Injector;
-
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
+import org.kohsuke.args4j.Option;
 
 /** Run Gerrit's SQL query tool */
 public class Gsql extends SiteProgram {
@@ -46,17 +44,18 @@ public class Gsql extends SiteProgram {
     dbInjector = createDbInjector(SINGLE_USER);
     manager.add(dbInjector);
     manager.start();
-    RuntimeShutdown.add(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          System.in.close();
-        } catch (IOException e) {
-          // Ignored
-        }
-        manager.stop();
-      }
-    });
+    RuntimeShutdown.add(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              System.in.close();
+            } catch (IOException e) {
+              // Ignored
+            }
+            manager.stop();
+          }
+        });
     final QueryShell shell = shellFactory().create(System.in, System.out);
     shell.setOutputFormat(format);
     if (query != null) {
@@ -68,11 +67,14 @@ public class Gsql extends SiteProgram {
   }
 
   private Factory shellFactory() {
-    return dbInjector.createChildInjector(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(QueryShell.Factory.class);
-      }
-    }).getInstance(QueryShell.Factory.class);
+    return dbInjector
+        .createChildInjector(
+            new FactoryModule() {
+              @Override
+              protected void configure() {
+                factory(QueryShell.Factory.class);
+              }
+            })
+        .getInstance(QueryShell.Factory.class);
   }
 }

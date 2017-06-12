@@ -17,7 +17,6 @@ package com.google.gerrit.gpg;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.api.GpgApiModule;
 import com.google.gerrit.server.EnableSignedPush;
-
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,17 +32,14 @@ public class GpgModule extends FactoryModule {
 
   @Override
   protected void configure() {
-    boolean configEnableSignedPush =
-        cfg.getBoolean("receive", null, "enableSignedPush", false);
-    boolean configEditGpgKeys =
-        cfg.getBoolean("gerrit", null, "editGpgKeys", true);
+    boolean configEnableSignedPush = cfg.getBoolean("receive", null, "enableSignedPush", false);
+    boolean configEditGpgKeys = cfg.getBoolean("gerrit", null, "editGpgKeys", true);
     boolean havePgp = BouncyCastleUtil.havePGP();
     boolean enableSignedPush = configEnableSignedPush && havePgp;
     bindConstant().annotatedWith(EnableSignedPush.class).to(enableSignedPush);
 
     if (configEnableSignedPush && !havePgp) {
-      log.info("Bouncy Castle PGP not installed; signed push verification is"
-          + " disabled");
+      log.info("Bouncy Castle PGP not installed; signed push verification is" + " disabled");
     }
     if (enableSignedPush) {
       install(new SignedPushModule());

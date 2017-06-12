@@ -31,22 +31,20 @@ import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-import java.io.IOException;
-
 @Singleton
-public class SetDiffPreferences implements
-    RestModifyView<AccountResource, DiffPreferencesInfo> {
+public class SetDiffPreferences implements RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
 
   @Inject
-  SetDiffPreferences(Provider<CurrentUser> self,
+  SetDiffPreferences(
+      Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
@@ -59,9 +57,8 @@ public class SetDiffPreferences implements
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
       throws AuthException, BadRequestException, ConfigInvalidException,
-      RepositoryNotFoundException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+          RepositoryNotFoundException, IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 
@@ -73,20 +70,22 @@ public class SetDiffPreferences implements
     return writeToGit(readFromGit(id, gitMgr, allUsersName, in), id);
   }
 
-  private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in,
-      Account.Id userId) throws RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
+  private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in, Account.Id userId)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     DiffPreferencesInfo out = new DiffPreferencesInfo();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      VersionedAccountPreferences prefs = VersionedAccountPreferences.forUser(
-          userId);
+      VersionedAccountPreferences prefs = VersionedAccountPreferences.forUser(userId);
       prefs.load(md);
       DiffPreferencesInfo defaults = DiffPreferencesInfo.defaults();
-      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in,
-          defaults);
+      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in, defaults);
       prefs.commit(md);
-      loadSection(prefs.getConfig(), UserConfigSections.DIFF, null, out,
-          DiffPreferencesInfo.defaults(), null);
+      loadSection(
+          prefs.getConfig(),
+          UserConfigSections.DIFF,
+          null,
+          out,
+          DiffPreferencesInfo.defaults(),
+          null);
     }
     return out;
   }

@@ -19,16 +19,6 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.SshScope.Context;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.future.CloseFuture;
-import org.apache.sshd.common.future.SshFutureListener;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
-import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
-import org.apache.sshd.server.session.ServerSession;
-import org.eclipse.jgit.lib.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -38,6 +28,14 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.future.CloseFuture;
+import org.apache.sshd.common.future.SshFutureListener;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
+import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.lib.Constants;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
@@ -51,8 +49,7 @@ public class SshUtil {
    * @throws NoSuchProviderException the JVM is missing the provider.
    */
   public static PublicKey parse(final AccountSshKey key)
-      throws NoSuchAlgorithmException, InvalidKeySpecException,
-      NoSuchProviderException {
+      throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
     try {
       final String s = key.getEncodedKey();
       if (s == null) {
@@ -69,8 +66,8 @@ public class SshUtil {
    * Convert an RFC 4716 style key to an OpenSSH style key.
    *
    * @param keyStr the key string to convert.
-   * @return {@code keyStr} if conversion failed; otherwise the converted
-   *         key, in OpenSSH key format.
+   * @return {@code keyStr} if conversion failed; otherwise the converted key, in OpenSSH key
+   *     format.
    */
   public static String toOpenSshPublicKey(final String keyStr) {
     try {
@@ -96,8 +93,8 @@ public class SshUtil {
       }
 
       final PublicKey key =
-          new ByteArrayBuffer(Base64.decodeBase64(Constants.encodeASCII(strBuf
-              .toString()))).getRawPublicKey();
+          new ByteArrayBuffer(Base64.decodeBase64(Constants.encodeASCII(strBuf.toString())))
+              .getRawPublicKey();
       if (key instanceof RSAPublicKey) {
         strBuf.insert(0, KeyPairProvider.SSH_RSA + " ");
 
@@ -118,9 +115,13 @@ public class SshUtil {
     }
   }
 
-  public static boolean success(final String username, final ServerSession session,
-      final SshScope sshScope, final SshLog sshLog,
-      final SshSession sd, final CurrentUser user) {
+  public static boolean success(
+      final String username,
+      final ServerSession session,
+      final SshScope sshScope,
+      final SshLog sshLog,
+      final SshSession sd,
+      final CurrentUser user) {
     if (sd.getUser() == null) {
       sd.authenticationSuccess(username, user);
 
@@ -154,7 +155,8 @@ public class SshUtil {
     return true;
   }
 
-  public static IdentifiedUser createUser(final SshSession sd,
+  public static IdentifiedUser createUser(
+      final SshSession sd,
       final IdentifiedUser.GenericFactory userFactory,
       final Account.Id account) {
     return userFactory.create(sd.getRemoteAddress(), account);

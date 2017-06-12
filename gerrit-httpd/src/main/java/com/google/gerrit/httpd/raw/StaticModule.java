@@ -37,17 +37,11 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -59,39 +53,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StaticModule extends ServletModule {
-  private static final Logger log =
-      LoggerFactory.getLogger(StaticModule.class);
+  private static final Logger log = LoggerFactory.getLogger(StaticModule.class);
 
   public static final String CACHE = "static_content";
   public static final String GERRIT_UI_COOKIE = "GERRIT_UI";
 
   /**
-   * Paths at which we should serve the main PolyGerrit application {@code
-   * index.html}.
-   * <p>
-   * Supports {@code "/*"} as a trailing wildcard.
+   * Paths at which we should serve the main PolyGerrit application {@code index.html}.
+   *
+   * <p>Supports {@code "/*"} as a trailing wildcard.
    */
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
-      ImmutableList.of(
-          "/",
-          "/c/*",
-          "/q/*",
-          "/x/*",
-          "/admin/*",
-          "/dashboard/*",
-          "/settings/*");
-          // TODO(dborowitz): These fragments conflict with the REST API
-          // namespace, so they will need to use a different path.
-          //"/groups/*",
-          //"/projects/*");
-          //
+      ImmutableList.of("/", "/c/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
+  // TODO(dborowitz): These fragments conflict with the REST API
+  // namespace, so they will need to use a different path.
+  //"/groups/*",
+  //"/projects/*");
+  //
 
   /**
    * Paths that should be treated as static assets when serving PolyGerrit.
-   * <p>
-   * Supports {@code "/*"} as a trailing wildcard.
+   *
+   * <p>Supports {@code "/*"} as a trailing wildcard.
    */
   private static final ImmutableList<String> POLYGERRIT_ASSET_PATHS =
       ImmutableList.of(
@@ -105,8 +93,7 @@ public class StaticModule extends ServletModule {
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
-  private static final String POLYGERRIT_INDEX_SERVLET =
-      "PolyGerritUiIndexServlet";
+  private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
   private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -132,14 +119,15 @@ public class StaticModule extends ServletModule {
   protected void configureServlets() {
     serveRegex("^/Documentation/(.+)$").with(named(DOC_SERVLET));
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
-    install(new CacheModule() {
-      @Override
-      protected void configure() {
-        cache(CACHE, Path.class, Resource.class)
-            .maximumWeight(1 << 20)
-            .weigher(ResourceServlet.Weigher.class);
-      }
-    });
+    install(
+        new CacheModule() {
+          @Override
+          protected void configure() {
+            cache(CACHE, Path.class, Resource.class)
+                .maximumWeight(1 << 20)
+                .weigher(ResourceServlet.Weigher.class);
+          }
+        });
     if (!options.headless()) {
       install(new CoreStaticModule());
     }
@@ -165,8 +153,8 @@ public class StaticModule extends ServletModule {
         private static final long serialVersionUID = 1L;
 
         @Override
-        protected void service(HttpServletRequest req,
-            HttpServletResponse resp) throws IOException {
+        protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
           resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
       };
@@ -183,10 +171,11 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(ROBOTS_TXT_SERVLET)
-    HttpServlet getRobotsTxtServlet(@GerritServerConfig Config cfg,
-        SitePaths sitePaths, @Named(CACHE) Cache<Path, Resource> cache) {
-      Path configPath = sitePaths.resolve(
-          cfg.getString("httpd", null, "robotsFile"));
+    HttpServlet getRobotsTxtServlet(
+        @GerritServerConfig Config cfg,
+        SitePaths sitePaths,
+        @Named(CACHE) Cache<Path, Resource> cache) {
+      Path configPath = sitePaths.resolve(cfg.getString("httpd", null, "robotsFile"));
       if (configPath != null) {
         if (exists(configPath) && isReadable(configPath)) {
           return new SingleFileServlet(cache, configPath, true);
@@ -195,11 +184,9 @@ public class StaticModule extends ServletModule {
       }
       Paths p = getPaths();
       if (p.warFs != null) {
-        return new SingleFileServlet(
-            cache, p.warFs.getPath("/robots.txt"), false);
+        return new SingleFileServlet(cache, p.warFs.getPath("/robots.txt"), false);
       }
-      return new SingleFileServlet(
-          cache, webappSourcePath("robots.txt"), true);
+      return new SingleFileServlet(cache, webappSourcePath("robots.txt"), true);
     }
 
     @Provides
@@ -208,11 +195,9 @@ public class StaticModule extends ServletModule {
     HttpServlet getFaviconServlet(@Named(CACHE) Cache<Path, Resource> cache) {
       Paths p = getPaths();
       if (p.warFs != null) {
-        return new SingleFileServlet(
-            cache, p.warFs.getPath("/favicon.ico"), false);
+        return new SingleFileServlet(cache, p.warFs.getPath("/favicon.ico"), false);
       }
-      return new SingleFileServlet(
-          cache, webappSourcePath("favicon.ico"), true);
+      return new SingleFileServlet(cache, webappSourcePath("favicon.ico"), true);
     }
 
     private Path webappSourcePath(String name) {
@@ -220,8 +205,12 @@ public class StaticModule extends ServletModule {
       if (p.unpackedWar != null) {
         return p.unpackedWar.resolve(name);
       }
-      return p.buckOut.resolveSibling("gerrit-war").resolve("src")
-          .resolve("main").resolve("webapp").resolve(name);
+      return p.buckOut
+          .resolveSibling("gerrit-war")
+          .resolve("src")
+          .resolve("main")
+          .resolve("webapp")
+          .resolve(name);
     }
   }
 
@@ -239,8 +228,7 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(GWT_UI_SERVLET)
-    HttpServlet getGwtUiServlet(@Named(CACHE) Cache<Path, Resource> cache)
-        throws IOException {
+    HttpServlet getGwtUiServlet(@Named(CACHE) Cache<Path, Resource> cache) throws IOException {
       Paths p = getPaths();
       if (p.warFs != null) {
         return new WarGwtUiServlet(cache, p.warFs);
@@ -265,40 +253,35 @@ public class StaticModule extends ServletModule {
     @Provides
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
-    HttpServlet getPolyGerritUiIndexServlet(
-        @Named(CACHE) Cache<Path, Resource> cache) {
-      return new SingleFileServlet(cache,
-          polyGerritBasePath().resolve("index.html"),
-          getPaths().isDev(),
-          false);
+    HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      return new SingleFileServlet(
+          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
     }
 
     @Provides
     @Singleton
-    PolyGerritUiServlet getPolyGerritUiServlet(
-        @Named(CACHE) Cache<Path, Resource> cache) {
+    PolyGerritUiServlet getPolyGerritUiServlet(@Named(CACHE) Cache<Path, Resource> cache) {
       return new PolyGerritUiServlet(cache, polyGerritBasePath());
     }
 
     @Provides
     @Singleton
-    BowerComponentsServlet getBowerComponentsServlet(
-        @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
+    BowerComponentsServlet getBowerComponentsServlet(@Named(CACHE) Cache<Path, Resource> cache)
+        throws IOException {
       return new BowerComponentsServlet(cache, getPaths().buckOut);
     }
 
     @Provides
     @Singleton
-    FontsServlet getFontsServlet(
-        @Named(CACHE) Cache<Path, Resource> cache) throws IOException {
+    FontsServlet getFontsServlet(@Named(CACHE) Cache<Path, Resource> cache) throws IOException {
       return new FontsServlet(cache, getPaths().buckOut);
     }
 
     private Path polyGerritBasePath() {
       Paths p = getPaths();
       if (options.forcePolyGerritDev()) {
-        checkArgument(p.buckOut != null,
-            "no buck-out directory found for PolyGerrit developer mode");
+        checkArgument(
+            p.buckOut != null, "no buck-out directory found for PolyGerrit developer mode");
       }
 
       if (p.isDev()) {
@@ -320,19 +303,16 @@ public class StaticModule extends ServletModule {
     private Paths(GerritOptions options) {
       try {
         File launcherLoadedFrom = getLauncherLoadedFrom();
-        if (launcherLoadedFrom != null
-            && launcherLoadedFrom.getName().endsWith(".jar")) {
+        if (launcherLoadedFrom != null && launcherLoadedFrom.getName().endsWith(".jar")) {
           // Special case: unpacked war archive deployed in container.
           // The path is something like:
           // <container>/<gerrit>/WEB-INF/lib/launcher.jar
           // Switch to exploded war case with <container>/webapp>/<gerrit>
           // root directory
           warFs = null;
-          unpackedWar = java.nio.file.Paths.get(launcherLoadedFrom
-              .getParentFile()
-              .getParentFile()
-              .getParentFile()
-              .toURI());
+          unpackedWar =
+              java.nio.file.Paths.get(
+                  launcherLoadedFrom.getParentFile().getParentFile().getParentFile().toURI());
           buckOut = null;
           development = false;
           return;
@@ -352,8 +332,7 @@ public class StaticModule extends ServletModule {
           development = false;
         }
       } catch (IOException e) {
-        throw new ProvisionException(
-            "Error initializing static content paths", e);
+        throw new ProvisionException("Error initializing static content paths", e);
       }
     }
 
@@ -373,8 +352,7 @@ public class StaticModule extends ServletModule {
             && GerritLauncher.NOT_ARCHIVED.equals(e.getMessage())) {
           return null;
         }
-        ProvisionException pe =
-            new ProvisionException("Error reading gerrit.war");
+        ProvisionException pe = new ProvisionException("Error reading gerrit.war");
         pe.initCause(e);
         throw pe;
       }
@@ -412,8 +390,7 @@ public class StaticModule extends ServletModule {
           return dstwar.getAbsoluteFile().toPath();
         }
       } catch (IOException e) {
-        ProvisionException pe =
-            new ProvisionException("Cannot create war tempdir");
+        ProvisionException pe = new ProvisionException("Cannot create war tempdir");
         pe.initCause(e);
         throw pe;
       }
@@ -434,7 +411,8 @@ public class StaticModule extends ServletModule {
     private final FontsServlet fontServlet;
 
     @Inject
-    PolyGerritFilter(GerritOptions options,
+    PolyGerritFilter(
+        GerritOptions options,
         Paths paths,
         @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
         PolyGerritUiServlet polygerritUI,
@@ -446,21 +424,19 @@ public class StaticModule extends ServletModule {
       this.polygerritUI = polygerritUI;
       this.bowerComponentServlet = bowerComponentServlet;
       this.fontServlet = fontServlet;
-      checkState(options.enablePolyGerrit(),
-          "can't install PolyGerritFilter when PolyGerrit is disabled");
+      checkState(
+          options.enablePolyGerrit(), "can't install PolyGerritFilter when PolyGerrit is disabled");
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+        throws IOException, ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
       if (handlePolyGerritParam(req, res)) {
@@ -471,8 +447,7 @@ public class StaticModule extends ServletModule {
         return;
       }
 
-      GuiceFilterRequestWrapper reqWrapper =
-          new GuiceFilterRequestWrapper(req);
+      GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
       String path = pathInfo(req);
 
       // Special case assets during development that are built by Buck and not
@@ -509,8 +484,8 @@ public class StaticModule extends ServletModule {
       return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
     }
 
-    private boolean handlePolyGerritParam(HttpServletRequest req,
-        HttpServletResponse res) throws IOException {
+    private boolean handlePolyGerritParam(HttpServletRequest req, HttpServletResponse res)
+        throws IOException {
       if (!options.enableGwtUi()) {
         return false;
       }
@@ -555,8 +530,7 @@ public class StaticModule extends ServletModule {
       return type == UiType.POLYGERRIT;
     }
 
-    private void setPolyGerritCookie(HttpServletRequest req,
-        HttpServletResponse res, UiType pref) {
+    private void setPolyGerritCookie(HttpServletRequest req, HttpServletResponse res, UiType pref) {
       // Only actually set a cookie if both UIs are enabled in the server;
       // otherwise clear it.
       Cookie cookie = new Cookie(GERRIT_UI_COOKIE, pref.name());
@@ -589,7 +563,7 @@ public class StaticModule extends ServletModule {
           if (path.regionMatches(0, p, 0, p.length() - 1)) {
             return true;
           }
-        } else if(p.equals(path)) {
+        } else if (p.equals(path)) {
           return true;
         }
       }
@@ -597,8 +571,7 @@ public class StaticModule extends ServletModule {
     }
   }
 
-  private static class GuiceFilterRequestWrapper
-      extends HttpServletRequestWrapper {
+  private static class GuiceFilterRequestWrapper extends HttpServletRequestWrapper {
     GuiceFilterRequestWrapper(HttpServletRequest req) {
       super(req);
     }

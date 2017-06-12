@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Option;
 
 public class GetChildProject implements RestReadView<ChildProjectResource> {
@@ -36,8 +35,7 @@ public class GetChildProject implements RestReadView<ChildProjectResource> {
   }
 
   @Override
-  public ProjectInfo apply(ChildProjectResource rsrc)
-      throws ResourceNotFoundException {
+  public ProjectInfo apply(ChildProjectResource rsrc) throws ResourceNotFoundException {
     if (recursive || rsrc.isDirectChild()) {
       return json.format(rsrc.getChild().getProject());
     }

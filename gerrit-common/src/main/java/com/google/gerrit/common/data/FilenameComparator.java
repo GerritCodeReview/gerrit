@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Patch;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -24,8 +23,8 @@ import java.util.Set;
 public class FilenameComparator implements Comparator<String> {
   public static final FilenameComparator INSTANCE = new FilenameComparator();
 
-  private static final Set<String> cppHeaderSuffixes = new HashSet<>(
-      Arrays.asList(".h", ".hxx", ".hpp"));
+  private static final Set<String> cppHeaderSuffixes =
+      new HashSet<>(Arrays.asList(".h", ".hxx", ".hpp"));
 
   private FilenameComparator() {}
 
@@ -48,8 +47,7 @@ public class FilenameComparator implements Comparator<String> {
 
     int s1 = path1.lastIndexOf('.');
     int s2 = path2.lastIndexOf('.');
-    if (s1 > 0 && s2 > 0 &&
-        path1.substring(0, s1).equals(path2.substring(0, s2))) {
+    if (s1 > 0 && s2 > 0 && path1.substring(0, s1).equals(path2.substring(0, s2))) {
       String suffixA = path1.substring(s1);
       String suffixB = path2.substring(s2);
       // C++ and C: give priority to header files (.h/.hpp/...)

@@ -37,7 +37,7 @@ public class ErrorDialog extends PopupPanel {
   private final Button closey;
 
   protected ErrorDialog() {
-    super(/* auto hide */false, /* modal */true);
+    super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
 
@@ -51,22 +51,24 @@ public class ErrorDialog extends PopupPanel {
 
     closey = new Button();
     closey.setText(Gerrit.C.errorDialogContinue());
-    closey.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        hide();
-      }
-    });
-    closey.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        // if the close button is triggered by a key we need to consume the key
-        // event, otherwise the key event would be propagated to the parent
-        // screen and eventually trigger some unwanted action there after the
-        // error dialog was closed
-        event.stopPropagation();
-      }
-    });
+    closey.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            hide();
+          }
+        });
+    closey.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            // if the close button is triggered by a key we need to consume the key
+            // event, otherwise the key event would be propagated to the parent
+            // screen and eventually trigger some unwanted action there after the
+            // error dialog was closed
+            event.stopPropagation();
+          }
+        });
     buttons.add(closey);
 
     final FlowPanel center = new FlowPanel();

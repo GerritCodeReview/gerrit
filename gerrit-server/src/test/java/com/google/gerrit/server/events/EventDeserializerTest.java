@@ -22,7 +22,6 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import org.junit.Test;
 
 public class EventDeserializerTest {
@@ -39,32 +38,32 @@ public class EventDeserializerTest {
     accountAttribute.email = "some.user@domain.com";
     refUpdatedEvent.submitter = createSupplier(accountAttribute);
 
-    Gson gsonSerializer = new GsonBuilder()
-        .registerTypeAdapter(Supplier.class, new SupplierSerializer()).create();
+    Gson gsonSerializer =
+        new GsonBuilder().registerTypeAdapter(Supplier.class, new SupplierSerializer()).create();
     String serializedEvent = gsonSerializer.toJson(refUpdatedEvent);
 
-    Gson gsonDeserializer = new GsonBuilder()
-        .registerTypeAdapter(Event.class, new EventDeserializer())
-        .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
-        .create();
+    Gson gsonDeserializer =
+        new GsonBuilder()
+            .registerTypeAdapter(Event.class, new EventDeserializer())
+            .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
+            .create();
 
-    RefUpdatedEvent e = (RefUpdatedEvent) gsonDeserializer
-        .fromJson(serializedEvent, Event.class);
+    RefUpdatedEvent e = (RefUpdatedEvent) gsonDeserializer.fromJson(serializedEvent, Event.class);
 
     assertThat(e).isNotNull();
     assertThat(e.refUpdate).isInstanceOf(Supplier.class);
-    assertThat(e.refUpdate.get().refName)
-        .isEqualTo(refUpdatedAttribute.refName);
+    assertThat(e.refUpdate.get().refName).isEqualTo(refUpdatedAttribute.refName);
     assertThat(e.submitter).isInstanceOf(Supplier.class);
     assertThat(e.submitter.get().email).isEqualTo(accountAttribute.email);
   }
 
   private <T> Supplier<T> createSupplier(final T value) {
-    return Suppliers.memoize(new Supplier<T>() {
-      @Override
-      public T get() {
-        return value;
-      }
-    });
+    return Suppliers.memoize(
+        new Supplier<T>() {
+          @Override
+          public T get() {
+            return value;
+          }
+        });
   }
 }

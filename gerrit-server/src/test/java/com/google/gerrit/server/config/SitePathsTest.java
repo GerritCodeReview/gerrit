@@ -22,14 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testutil.GerritBaseTests;
-
-import org.junit.Test;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.junit.Test;
 
 public class SitePathsTest extends GerritBaseTests {
   @Test
@@ -93,8 +91,7 @@ public class SitePathsTest extends GerritBaseTests {
     assertNull(site.resolve(""));
 
     assertNotNull(site.resolve("a"));
-    assertEquals(root.resolve("a").toAbsolutePath().normalize(),
-        site.resolve("a"));
+    assertEquals(root.resolve("a").toAbsolutePath().normalize(), site.resolve("a"));
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
     assertNotNull(site.resolve(pfx + "a"));

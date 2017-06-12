@@ -23,5 +23,4 @@ import java.lang.annotation.Target;
 
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
-public @interface Sandboxed {
-}
+public @interface Sandboxed {}

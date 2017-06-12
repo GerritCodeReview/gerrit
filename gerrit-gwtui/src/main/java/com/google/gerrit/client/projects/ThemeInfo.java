@@ -18,9 +18,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class ThemeInfo extends JavaScriptObject {
   public final native String css() /*-{ return this.css; }-*/;
+
   public final native String header() /*-{ return this.header; }-*/;
+
   public final native String footer() /*-{ return this.footer; }-*/;
 
-  protected ThemeInfo() {
-  }
+  protected ThemeInfo() {}
 }

@@ -21,11 +21,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -46,6 +41,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Delayed execution of tasks using a background thread pool. */
 @Singleton
@@ -59,8 +57,7 @@ public class WorkQueue {
     }
 
     @Override
-    public void start() {
-    }
+    public void start() {}
 
     @Override
     public void stop() {
@@ -183,24 +180,27 @@ public class WorkQueue {
     private final String queueName;
 
     Executor(int corePoolSize, final String prefix) {
-      super(corePoolSize, new ThreadFactory() {
-        private final ThreadFactory parent = Executors.defaultThreadFactory();
-        private final AtomicInteger tid = new AtomicInteger(1);
+      super(
+          corePoolSize,
+          new ThreadFactory() {
+            private final ThreadFactory parent = Executors.defaultThreadFactory();
+            private final AtomicInteger tid = new AtomicInteger(1);
 
-        @Override
-        public Thread newThread(final Runnable task) {
-          final Thread t = parent.newThread(task);
-          t.setName(prefix + "-" + tid.getAndIncrement());
-          t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
-          return t;
-        }
-      });
+            @Override
+            public Thread newThread(final Runnable task) {
+              final Thread t = parent.newThread(task);
+              t.setName(prefix + "-" + tid.getAndIncrement());
+              t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
+              return t;
+            }
+          });
 
-      all = new ConcurrentHashMap<>( //
-          corePoolSize << 1, // table size
-          0.75f, // load factor
-          corePoolSize + 4 // concurrency level
-          );
+      all =
+          new ConcurrentHashMap<>( //
+              corePoolSize << 1, // table size
+              0.75f, // load factor
+              corePoolSize + 4 // concurrency level
+              );
       queueName = prefix;
     }
 
@@ -212,7 +212,7 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         final Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
-      for (;;) {
+      for (; ; ) {
         final int id = idGenerator.next();
 
         Task<V> task;
@@ -253,9 +253,8 @@ public class WorkQueue {
   }
 
   /**
-   * Runnable needing to know it was canceled.
-   * Note that cancel is called only in case the task is not in
-   * progress already.
+   * Runnable needing to know it was canceled. Note that cancel is called only in case the task is
+   * not in progress already.
    */
   public interface CancelableRunnable extends Runnable {
     /** Notifies the runnable it was canceled. */
@@ -263,15 +262,13 @@ public class WorkQueue {
   }
 
   /**
-   * Base interface handles the case when task was canceled before
-   * actual execution and in case it was started cancel method is
-   * not called yet the task itself will be destroyed anyway (it
-   * will result in resource opening errors).
-   * This interface gives a chance to implementing classes for
+   * Base interface handles the case when task was canceled before actual execution and in case it
+   * was started cancel method is not called yet the task itself will be destroyed anyway (it will
+   * result in resource opening errors). This interface gives a chance to implementing classes for
    * handling such scenario and act accordingly.
    */
   public interface CanceledWhileRunning extends CancelableRunnable {
-    /** Notifies the runnable it was canceled during execution. **/
+    /** Notifies the runnable it was canceled during execution. * */
     void setCanceledWhileRunning();
   }
 
@@ -279,13 +276,14 @@ public class WorkQueue {
   public static class Task<V> implements RunnableScheduledFuture<V> {
     /**
      * Summarized status of a single task.
-     * <p>
-     * Tasks have the following state flow:
+     *
+     * <p>Tasks have the following state flow:
+     *
      * <ol>
-     * <li>{@link #SLEEPING}: if scheduled with a non-zero delay.</li>
-     * <li>{@link #READY}: waiting for an available worker thread.</li>
-     * <li>{@link #RUNNING}: actively executing on a worker thread.</li>
-     * <li>{@link #DONE}: finished executing, if not periodic.</li>
+     *   <li>{@link #SLEEPING}: if scheduled with a non-zero delay.
+     *   <li>{@link #READY}: waiting for an available worker thread.
+     *   <li>{@link #RUNNING}: actively executing on a worker thread.
+     *   <li>{@link #DONE}: finished executing, if not periodic.
      * </ol>
      */
     public enum State {
@@ -293,7 +291,12 @@ public class WorkQueue {
       // prefer to see tasks sorted in: done before running,
       // running before ready, ready before sleeping.
       //
-      DONE, CANCELLED, RUNNING, READY, SLEEPING, OTHER
+      DONE,
+      CANCELLED,
+      RUNNING,
+      READY,
+      SLEEPING,
+      OTHER
     }
 
     private final Runnable runnable;
@@ -303,8 +306,7 @@ public class WorkQueue {
     private final AtomicBoolean running;
     private final Date startTime;
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor,
-        int taskId) {
+    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
       this.runnable = runnable;
       this.task = task;
       this.executor = executor;
@@ -369,7 +371,6 @@ public class WorkQueue {
         executor.remove(this);
         executor.purge();
         return true;
-
       }
       return false;
     }
@@ -385,8 +386,8 @@ public class WorkQueue {
     }
 
     @Override
-    public V get(long timeout, TimeUnit unit) throws InterruptedException,
-        ExecutionException, TimeoutException {
+    public V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
       return task.get(timeout, unit);
     }
 
@@ -430,10 +431,13 @@ public class WorkQueue {
       //This is a workaround to be able to print a proper name when the task
       //is wrapped into a TrustedListenableFutureTask.
       try {
-        if (runnable.getClass().isAssignableFrom(Class.forName(
-            "com.google.common.util.concurrent.TrustedListenableFutureTask"))) {
-          Class<?> trustedFutureInterruptibleTask = Class.forName(
-              "com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask");
+        if (runnable
+            .getClass()
+            .isAssignableFrom(
+                Class.forName("com.google.common.util.concurrent.TrustedListenableFutureTask"))) {
+          Class<?> trustedFutureInterruptibleTask =
+              Class.forName(
+                  "com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask");
           for (Field field : runnable.getClass().getDeclaredFields()) {
             if (field.getType().isAssignableFrom(trustedFutureInterruptibleTask)) {
               field.setAccessible(true);
@@ -449,25 +453,23 @@ public class WorkQueue {
             }
           }
         }
-      } catch (ClassNotFoundException | IllegalArgumentException
-          | IllegalAccessException e) {
-        log.debug("Cannot get a proper name for TrustedListenableFutureTask: {}",
-            e.getMessage());
+      } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
+        log.debug("Cannot get a proper name for TrustedListenableFutureTask: {}", e.getMessage());
       }
       return runnable.toString();
     }
   }
 
   /**
-   * Same as Task class, but with a reference to ProjectRunnable, used to
-   * retrieve the project name from the operation queued
-   **/
+   * Same as Task class, but with a reference to ProjectRunnable, used to retrieve the project name
+   * from the operation queued
+   */
   public static class ProjectTask<V> extends Task<V> implements ProjectRunnable {
 
     private final ProjectRunnable runnable;
 
-    ProjectTask(ProjectRunnable runnable, RunnableScheduledFuture<V> task,
-        Executor executor, int taskId) {
+    ProjectTask(
+        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
       super(runnable, task, executor, taskId);
       this.runnable = runnable;
     }

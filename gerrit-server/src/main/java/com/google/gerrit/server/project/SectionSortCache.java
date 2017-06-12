@@ -24,20 +24,17 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Caches the order AccessSections should be sorted for evaluation. */
 @Singleton
 public class SectionSortCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(SectionSortCache.class);
+  private static final Logger log = LoggerFactory.getLogger(SectionSortCache.class);
 
   private static final String CACHE_NAME = "permission_sort";
 
@@ -108,8 +105,8 @@ public class SectionSortCache {
     return sections.toArray(new AccessSection[sections.size()]);
   }
 
-  private static boolean isIdentityTransform(List<AccessSection> sections,
-      IdentityHashMap<AccessSection, Integer> srcMap) {
+  private static boolean isIdentityTransform(
+      List<AccessSection> sections, IdentityHashMap<AccessSection, Integer> srcMap) {
     for (int i = 0; i < sections.size(); i++) {
       if (i != srcMap.get(sections.get(i))) {
         return false;
@@ -121,7 +118,9 @@ public class SectionSortCache {
   @AutoValue
   abstract static class EntryKey {
     public abstract String ref();
+
     public abstract List<String> patterns();
+
     public abstract int cachedHashCode();
 
     static EntryKey create(String refName, List<AccessSection> sections) {
@@ -132,8 +131,7 @@ public class SectionSortCache {
         patterns.add(n);
         hc = hc * 31 + n.hashCode();
       }
-      return new AutoValue_SectionSortCache_EntryKey(
-          refName, ImmutableList.copyOf(patterns), hc);
+      return new AutoValue_SectionSortCache_EntryKey(refName, ImmutableList.copyOf(patterns), hc);
     }
 
     @Override
@@ -145,9 +143,9 @@ public class SectionSortCache {
   static final class EntryVal {
     /**
      * Maps the input index to the output index.
-     * <p>
-     * For {@code x == order[y]} the expression means move the item at
-     * source position {@code x} to the output position {@code y}.
+     *
+     * <p>For {@code x == order[y]} the expression means move the item at source position {@code x}
+     * to the output position {@code y}.
      */
     final int[] order;
 
@@ -155,6 +153,4 @@ public class SectionSortCache {
       this.order = order;
     }
   }
-
-
 }

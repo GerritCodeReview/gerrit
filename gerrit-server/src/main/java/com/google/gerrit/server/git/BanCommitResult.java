@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.git;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class BanCommitResult {
   private final List<ObjectId> newlyBannedCommits = new ArrayList<>(4);

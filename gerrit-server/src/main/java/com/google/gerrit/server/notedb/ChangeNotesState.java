@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +42,12 @@ import java.util.Set;
 
 /**
  * Immutable state associated with a change meta ref at a given commit.
- * <p>
- * One instance is the output of a single {@link ChangeNotesParser}, and
- * contains types required to support public methods on {@link ChangeNotes}. It
- * is intended to be cached in-process.
- * <p>
- * Note that {@link ChangeNotes} contains more than just a single {@code
- * ChangeNoteState}, such as per-draft information, so that class is not cached
- * directly.
+ *
+ * <p>One instance is the output of a single {@link ChangeNotesParser}, and contains types required
+ * to support public methods on {@link ChangeNotes}. It is intended to be cached in-process.
+ *
+ * <p>Note that {@link ChangeNotes} contains more than just a single {@code ChangeNoteState}, such
+ * as per-draft information, so that class is not cached directly.
  */
 @AutoValue
 public abstract class ChangeNotesState {
@@ -127,63 +124,85 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(publishedComments));
   }
 
-
   /**
    * Subset of Change columns that can be represented in NoteDb.
-   * <p>
-   * Notable exceptions include rowVersion and noteDbState, which are only make
-   * sense when read from NoteDb, so they cannot be cached.
-   * <p>
-   * Fields are in listed column order.
+   *
+   * <p>Notable exceptions include rowVersion and noteDbState, which are only make sense when read
+   * from NoteDb, so they cannot be cached.
+   *
+   * <p>Fields are in listed column order.
    */
   @AutoValue
   abstract static class ChangeColumns {
     abstract Change.Key changeKey();
+
     abstract Timestamp createdOn();
+
     abstract Timestamp lastUpdatedOn();
+
     abstract Account.Id owner();
 
     // Project not included, as it's not stored anywhere in the meta ref.
     abstract String branch();
 
-    @Nullable abstract PatchSet.Id currentPatchSetId();
+    @Nullable
+    abstract PatchSet.Id currentPatchSetId();
+
     abstract String subject();
-    @Nullable abstract String topic();
-    @Nullable abstract String originalSubject();
-    @Nullable abstract String submissionId();
-    @Nullable abstract Account.Id assignee();
+
+    @Nullable
+    abstract String topic();
+
+    @Nullable
+    abstract String originalSubject();
+
+    @Nullable
+    abstract String submissionId();
+
+    @Nullable
+    abstract Account.Id assignee();
     // TODO(dborowitz): Use a sensible default other than null
-    @Nullable abstract Change.Status status();
+    @Nullable
+    abstract Change.Status status();
   }
 
   abstract Change.Id changeId();
 
-  @Nullable abstract ChangeColumns columns();
+  @Nullable
+  abstract ChangeColumns columns();
 
   // Other related to this Change.
   abstract ImmutableSet<Account.Id> pastAssignees();
+
   abstract ImmutableSet<String> hashtags();
+
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
+
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
 
   abstract ReviewerSet reviewers();
+
   abstract ImmutableList<Account.Id> allPastReviewers();
+
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
   abstract ImmutableList<SubmitRecord> submitRecords();
+
   abstract ImmutableList<ChangeMessage> allChangeMessages();
-  abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage>
-      changeMessagesByPatchSet();
+
+  abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet();
+
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
-    Change change = new Change(
-        c.changeKey(),
-        changeId(),
-        c.owner(),
-        new Branch.NameKey(project, c.branch()),
-        c.createdOn());
+    Change change =
+        new Change(
+            c.changeKey(),
+            changeId(),
+            c.owner(),
+            new Branch.NameKey(project, c.branch()),
+            c.createdOn());
     copyNonConstructorColumnsTo(change);
     change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
     return change;
@@ -209,8 +228,7 @@ public abstract class ChangeNotesState {
     change.setAssignee(c.assignee());
 
     if (!patchSets().isEmpty()) {
-      change.setCurrentPatchSet(
-          c.currentPatchSetId(), c.subject(), c.originalSubject());
+      change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
     } else {
       // TODO(dborowitz): This should be an error, but for now it's required for
       // some tests to pass.

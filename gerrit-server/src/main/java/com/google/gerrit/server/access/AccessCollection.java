@@ -25,14 +25,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class AccessCollection implements
-    RestCollection<TopLevelResource, AccessResource> {
+public class AccessCollection implements RestCollection<TopLevelResource, AccessResource> {
   private final Provider<ListAccess> list;
   private final DynamicMap<RestView<AccessResource>> views;
 
   @Inject
-  AccessCollection(Provider<ListAccess> list,
-      DynamicMap<RestView<AccessResource>> views) {
+  AccessCollection(Provider<ListAccess> list, DynamicMap<RestView<AccessResource>> views) {
     this.list = list;
     this.views = views;
   }

@@ -15,7 +15,6 @@
 package com.google.gerrit.client;
 
 import com.google.gwt.regexp.shared.RegExp;
-
 import java.util.HashMap;
 import java.util.Map;
 

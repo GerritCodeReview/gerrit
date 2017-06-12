@@ -33,9 +33,6 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,7 +40,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -54,14 +50,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Authenticates the current user by HTTP digest authentication.
- * <p>
- * The current HTTP request is authenticated by looking up the username from the
- * Authorization header and checking the digest response against the stored
- * password. This filter is intended only to protect the {@link GitOverHttpServlet}
- * and its handled URLs, which provide remote repository access over HTTP.
+ *
+ * <p>The current HTTP request is authenticated by looking up the username from the Authorization
+ * header and checking the digest response against the stored password. This filter is intended only
+ * to protect the {@link GitOverHttpServlet} and its handled URLs, which provide remote repository
+ * access over HTTP.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>
  */
@@ -78,9 +75,12 @@ class ProjectDigestFilter implements Filter {
   private ServletContext context;
 
   @Inject
-  ProjectDigestFilter(@CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      DynamicItem<WebSession> session, AccountCache accountCache,
-      @GerritServerConfig Config config) throws XsrfException {
+  ProjectDigestFilter(
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      DynamicItem<WebSession> session,
+      AccountCache accountCache,
+      @GerritServerConfig Config config)
+      throws XsrfException {
     this.urlProvider = urlProvider;
     this.session = session;
     this.accountCache = accountCache;
@@ -94,12 +94,11 @@ class ProjectDigestFilter implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     Response rsp = new Response(req, (HttpServletResponse) response);
 
@@ -108,8 +107,7 @@ class ProjectDigestFilter implements Filter {
     }
   }
 
-  private boolean verify(HttpServletRequest req, Response rsp)
-      throws IOException {
+  private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
     if (hdr == null || !hdr.startsWith("Digest ")) {
       // Allow an anonymous connection through, or it might be using a
@@ -146,7 +144,7 @@ class ProjectDigestFilter implements Filter {
     }
 
     final AccountState who = accountCache.getByUsername(username);
-    if (who == null || ! who.getAccount().isActive()) {
+    if (who == null || !who.getAccount().isActive()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -159,8 +157,7 @@ class ProjectDigestFilter implements Filter {
 
     final String A1 = user + ":" + realm + ":" + passwd;
     final String A2 = method + ":" + uri;
-    final String expect =
-        KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));
+    final String expect = KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));
 
     if (expect.equals(response)) {
       try {
@@ -170,7 +167,6 @@ class ProjectDigestFilter implements Filter {
           ws.setAccessPathOk(AccessPath.GIT, true);
           ws.setAccessPathOk(AccessPath.REST_API, true);
           return true;
-
         }
         rsp.stale = true;
         rsp.sendError(SC_UNAUTHORIZED);
@@ -180,7 +176,6 @@ class ProjectDigestFilter implements Filter {
         rsp.sendError(SC_INTERNAL_SERVER_ERROR);
         return false;
       }
-
     }
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
@@ -208,9 +203,10 @@ class ProjectDigestFilter implements Filter {
     }
   }
 
-  private static final char[] LHEX =
-      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
-          'a', 'b', 'c', 'd', 'e', 'f',};
+  private static final char[] LHEX = {
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
+    'a', 'b', 'c', 'd', 'e', 'f',
+  };
 
   private static String LHEX(byte[] bin) {
     StringBuilder r = new StringBuilder(bin.length * 2);

@@ -27,8 +27,7 @@ public abstract class Response<T> {
   }
 
   public static <T> Response<T> withMustRevalidate(T value) {
-    return ok(value).caching(
-        CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
+    return ok(value).caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }
 
   /** HTTP 201 Created: typically used when a new resource is made. */
@@ -66,10 +65,15 @@ public abstract class Response<T> {
   }
 
   public abstract boolean isNone();
+
   public abstract int statusCode();
+
   public abstract T value();
+
   public abstract CacheControl caching();
+
   public abstract Response<T> caching(CacheControl c);
+
   @Override
   public abstract String toString();
 
@@ -116,8 +120,7 @@ public abstract class Response<T> {
   }
 
   private static final class None extends Response<Object> {
-    private None() {
-    }
+    private None() {}
 
     @Override
     public boolean isNone() {
@@ -169,8 +172,7 @@ public abstract class Response<T> {
 
     @Override
     public boolean equals(Object o) {
-      return o instanceof Redirect
-        && ((Redirect) o).location.equals(location);
+      return o instanceof Redirect && ((Redirect) o).location.equals(location);
     }
 
     @Override
@@ -198,8 +200,7 @@ public abstract class Response<T> {
 
     @Override
     public boolean equals(Object o) {
-      return o instanceof Accepted
-        && ((Accepted) o).location.equals(location);
+      return o instanceof Accepted && ((Accepted) o).location.equals(location);
     }
 
     @Override

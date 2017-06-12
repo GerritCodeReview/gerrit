@@ -20,20 +20,18 @@ import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Download protocol from {@code gerrit.config}.
- * <p>
- * Only used to configure the built-in set of schemes and commands in the core
- * download-commands plugin; not used by other plugins.
+ *
+ * <p>Only used to configure the built-in set of schemes and commands in the core download-commands
+ * plugin; not used by other plugins.
  */
 @Singleton
 public class DownloadConfig {
@@ -45,17 +43,15 @@ public class DownloadConfig {
   DownloadConfig(@GerritServerConfig final Config cfg) {
     String[] allSchemes = cfg.getStringList("download", null, "scheme");
     if (allSchemes.length == 0) {
-      downloadSchemes = ImmutableSet.of(
-          CoreDownloadSchemes.SSH,
-          CoreDownloadSchemes.HTTP,
-          CoreDownloadSchemes.ANON_HTTP);
+      downloadSchemes =
+          ImmutableSet.of(
+              CoreDownloadSchemes.SSH, CoreDownloadSchemes.HTTP, CoreDownloadSchemes.ANON_HTTP);
     } else {
       List<String> normalized = new ArrayList<>(allSchemes.length);
       for (String s : allSchemes) {
         String core = toCoreScheme(s);
         if (core == null) {
-          throw new IllegalArgumentException(
-              "not a core download scheme: " + s);
+          throw new IllegalArgumentException("not a core download scheme: " + s);
         }
         normalized.add(core);
       }
@@ -64,8 +60,7 @@ public class DownloadConfig {
 
     DownloadCommand[] downloadCommandValues = DownloadCommand.values();
     List<DownloadCommand> allCommands =
-        ConfigUtil.getEnumList(cfg, "download", null, "command",
-            downloadCommandValues, null);
+        ConfigUtil.getEnumList(cfg, "download", null, "command", downloadCommandValues, null);
     if (isOnlyNull(allCommands)) {
       downloadCommands = ImmutableSet.copyOf(downloadCommandValues);
     } else {
@@ -78,9 +73,9 @@ public class DownloadConfig {
     } else if (v.isEmpty() || "off".equalsIgnoreCase(v)) {
       archiveFormats = ImmutableSet.of();
     } else {
-      archiveFormats = ImmutableSet.copyOf(ConfigUtil.getEnumList(cfg,
-          "download", null, "archive",
-          ArchiveFormat.TGZ));
+      archiveFormats =
+          ImmutableSet.copyOf(
+              ConfigUtil.getEnumList(cfg, "download", null, "archive", ArchiveFormat.TGZ));
     }
   }
 
@@ -96,7 +91,9 @@ public class DownloadConfig {
         return (String) f.get(null);
       }
       return null;
-    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+    } catch (NoSuchFieldException
+        | SecurityException
+        | IllegalArgumentException
         | IllegalAccessException e) {
       return null;
     }

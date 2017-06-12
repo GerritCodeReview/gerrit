@@ -24,7 +24,6 @@ import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -42,37 +41,42 @@ public class InitPlugins implements InitStep {
   public static final String PLUGIN_DIR = "WEB-INF/plugins/";
   public static final String JAR = ".jar";
 
-  public static List<PluginData> listPlugins(SitePaths site,
-      PluginsDistribution pluginsDistribution) throws IOException {
+  public static List<PluginData> listPlugins(
+      SitePaths site, PluginsDistribution pluginsDistribution) throws IOException {
     return listPlugins(site, false, pluginsDistribution);
   }
 
-  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site,
-      PluginsDistribution pluginsDistribution) throws IOException {
+  public static List<PluginData> listPluginsAndRemoveTempFiles(
+      SitePaths site, PluginsDistribution pluginsDistribution) throws IOException {
     return listPlugins(site, true, pluginsDistribution);
   }
 
-  private static List<PluginData> listPlugins(final SitePaths site,
-      final boolean deleteTempPluginFile, PluginsDistribution pluginsDistribution)
-          throws IOException {
+  private static List<PluginData> listPlugins(
+      final SitePaths site,
+      final boolean deleteTempPluginFile,
+      PluginsDistribution pluginsDistribution)
+      throws IOException {
     final List<PluginData> result = new ArrayList<>();
-    pluginsDistribution.foreach(new PluginsDistribution.Processor() {
-      @Override
-      public void process(String pluginName, InputStream in) throws IOException {
-        Path tmpPlugin = JarPluginProvider.storeInTemp(pluginName, in, site);
-        String pluginVersion = getVersion(tmpPlugin);
-        if (deleteTempPluginFile) {
-          Files.delete(tmpPlugin);
-        }
-        result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
-      }
-    });
-    return FluentIterable.from(result).toSortedList(new Comparator<PluginData>() {
-        @Override
-        public int compare(PluginData a, PluginData b) {
-          return a.name.compareTo(b.name);
-        }
-      });
+    pluginsDistribution.foreach(
+        new PluginsDistribution.Processor() {
+          @Override
+          public void process(String pluginName, InputStream in) throws IOException {
+            Path tmpPlugin = JarPluginProvider.storeInTemp(pluginName, in, site);
+            String pluginVersion = getVersion(tmpPlugin);
+            if (deleteTempPluginFile) {
+              Files.delete(tmpPlugin);
+            }
+            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
+          }
+        });
+    return FluentIterable.from(result)
+        .toSortedList(
+            new Comparator<PluginData>() {
+              @Override
+              public int compare(PluginData a, PluginData b) {
+                return a.name.compareTo(b.name);
+              }
+            });
   }
 
   private final ConsoleUI ui;
@@ -84,8 +88,11 @@ public class InitPlugins implements InitStep {
   private Injector postRunInjector;
 
   @Inject
-  InitPlugins(final ConsoleUI ui, final SitePaths site,
-      InitFlags initFlags, InitPluginStepsLoader pluginLoader,
+  InitPlugins(
+      final ConsoleUI ui,
+      final SitePaths site,
+      InitFlags initFlags,
+      InitPluginStepsLoader pluginLoader,
       PluginsDistribution pluginsDistribution) {
     this.ui = ui;
     this.site = site;
@@ -124,24 +131,26 @@ public class InitPlugins implements InitStep {
 
         if (!(initFlags.installPlugins.contains(pluginName)
             || initFlags.installAllPlugins
-            || ui.yesno(upgrade, "Install plugin %s version %s", pluginName,
-                plugin.version))) {
+            || ui.yesno(upgrade, "Install plugin %s version %s", pluginName, plugin.version))) {
           Files.deleteIfExists(tmpPlugin);
           continue;
         }
 
         if (upgrade) {
           final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(upgrade, "%s %s is already installed, overwrite it",
-              plugin.name, installedPluginVersion)) {
+          if (!ui.yesno(
+              upgrade,
+              "%s %s is already installed, overwrite it",
+              plugin.name,
+              installedPluginVersion)) {
             Files.deleteIfExists(tmpPlugin);
             continue;
           }
           try {
             Files.delete(p);
           } catch (IOException e) {
-            throw new IOException("Failed to delete plugin " + pluginName
-                + ": " + p.toAbsolutePath(), e);
+            throw new IOException(
+                "Failed to delete plugin " + pluginName + ": " + p.toAbsolutePath(), e);
           }
         }
         try {
@@ -153,9 +162,14 @@ public class InitPlugins implements InitStep {
             ui.message("Installed %s %s\n", plugin.name, plugin.version);
           }
         } catch (IOException e) {
-          throw new IOException("Failed to install plugin " + pluginName
-              + ": " + tmpPlugin.toAbsolutePath() + " -> "
-              + p.toAbsolutePath(), e);
+          throw new IOException(
+              "Failed to install plugin "
+                  + pluginName
+                  + ": "
+                  + tmpPlugin.toAbsolutePath()
+                  + " -> "
+                  + p.toAbsolutePath(),
+              e);
         }
       } finally {
         Files.deleteIfExists(plugin.pluginPath);

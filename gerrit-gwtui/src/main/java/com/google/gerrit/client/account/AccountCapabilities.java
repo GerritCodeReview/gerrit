@@ -18,17 +18,13 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/** Capabilities the caller has from {@code /accounts/self/capabilities}.  */
+/** Capabilities the caller has from {@code /accounts/self/capabilities}. */
 public class AccountCapabilities extends JavaScriptObject {
   public static void all(AsyncCallback<AccountCapabilities> cb, String... filter) {
-    new RestApi("/accounts/self/capabilities")
-      .addParameter("q", filter)
-      .get(cb);
+    new RestApi("/accounts/self/capabilities").addParameter("q", filter).get(cb);
   }
 
-  protected AccountCapabilities() {
-  }
+  protected AccountCapabilities() {}
 
-  public final native boolean canPerform(String name)
-  /*-{ return this[name] ? true : false; }-*/;
+  public final native boolean canPerform(String name)/*-{ return this[name] ? true : false; }-*/ ;
 }

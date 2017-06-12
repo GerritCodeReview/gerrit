@@ -43,12 +43,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.apache.commons.lang.mutable.MutableDouble;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -65,15 +59,20 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang.mutable.MutableDouble;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReviewerRecommender {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewersUtil.class);
+  private static final Logger log = LoggerFactory.getLogger(ReviewersUtil.class);
   private static final double BASE_REVIEWER_WEIGHT = 10;
   private static final double BASE_OWNER_WEIGHT = 1;
   private static final double BASE_COMMENT_WEIGHT = 0.5;
-  private static final double[] WEIGHTS = new double[] {
-      BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,};
+  private static final double[] WEIGHTS =
+      new double[] {
+        BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,
+      };
   private static final long PLUGIN_QUERY_TIMEOUT = 500; //ms
 
   private final ChangeQueryBuilder changeQueryBuilder;
@@ -85,7 +84,8 @@ public class ReviewerRecommender {
   private final ApprovalsUtil approvalsUtil;
 
   @Inject
-  ReviewerRecommender(ChangeQueryBuilder changeQueryBuilder,
+  ReviewerRecommender(
+      ChangeQueryBuilder changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
       InternalChangeQuery internalChangeQuery,
       WorkQueue workQueue,
@@ -105,7 +105,8 @@ public class ReviewerRecommender {
 
   public List<Account.Id> suggestReviewers(
       ChangeNotes changeNotes,
-      SuggestReviewers suggestReviewers, ProjectControl projectControl,
+      SuggestReviewers suggestReviewers,
+      ProjectControl projectControl,
       List<Account.Id> candidateList)
       throws OrmException {
     String query = suggestReviewers.getQuery();
@@ -115,8 +116,7 @@ public class ReviewerRecommender {
     if (Strings.isNullOrEmpty(query)) {
       reviewerScores = baseRankingForEmptyQuery(baseWeight);
     } else {
-      reviewerScores = baseRankingForCandidateList(
-          candidateList, projectControl, baseWeight);
+      reviewerScores = baseRankingForCandidateList(candidateList, projectControl, baseWeight);
     }
 
     // Send the query along with a candidate list to all plugins and merge the
@@ -124,32 +124,41 @@ public class ReviewerRecommender {
     // can also return non-candidate account ids.
     List<Callable<Set<SuggestedReviewer>>> tasks =
         new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
-    List<Double> weights =
-        new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
+    List<Double> weights = new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
 
-    for (DynamicMap.Entry<ReviewerSuggestion> plugin :
-        reviewerSuggestionPluginMap) {
-      tasks.add(() -> plugin.getProvider().get()
-          .suggestReviewers(projectControl.getProject().getNameKey(),
-              changeNotes.getChangeId(), query, reviewerScores.keySet()));
-      String pluginWeight = config.getString("addReviewer",
-          plugin.getPluginName() + "-" + plugin.getExportName(), "weight");
+    for (DynamicMap.Entry<ReviewerSuggestion> plugin : reviewerSuggestionPluginMap) {
+      tasks.add(
+          () ->
+              plugin
+                  .getProvider()
+                  .get()
+                  .suggestReviewers(
+                      projectControl.getProject().getNameKey(),
+                      changeNotes.getChangeId(),
+                      query,
+                      reviewerScores.keySet()));
+      String pluginWeight =
+          config.getString(
+              "addReviewer", plugin.getPluginName() + "-" + plugin.getExportName(), "weight");
       if (Strings.isNullOrEmpty(pluginWeight)) {
         pluginWeight = "1";
       }
       try {
         weights.add(Double.parseDouble(pluginWeight));
       } catch (NumberFormatException e) {
-        log.error("Exception while parsing weight for " +
-            plugin.getPluginName() + "-" + plugin.getExportName(), e);
+        log.error(
+            "Exception while parsing weight for "
+                + plugin.getPluginName()
+                + "-"
+                + plugin.getExportName(),
+            e);
         weights.add(1d);
       }
     }
 
     try {
-      List<Future<Set<SuggestedReviewer>>> futures = workQueue
-          .getDefaultQueue()
-          .invokeAll(tasks, PLUGIN_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
+      List<Future<Set<SuggestedReviewer>>> futures =
+          workQueue.getDefaultQueue().invokeAll(tasks, PLUGIN_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
       Iterator<Double> weightIterator = weights.iterator();
       for (Future<Set<SuggestedReviewer>> f : futures) {
         double weight = weightIterator.next();
@@ -171,29 +180,30 @@ public class ReviewerRecommender {
       reviewerScores.remove(changeNotes.getChange().getOwner());
 
       // Remove existing reviewers
-      reviewerScores.keySet().removeAll(
-          approvalsUtil.getReviewers(dbProvider.get(), changeNotes)
-              .byState(REVIEWER));
+      reviewerScores
+          .keySet()
+          .removeAll(approvalsUtil.getReviewers(dbProvider.get(), changeNotes).byState(REVIEWER));
     }
 
     // Sort results
     Stream<Entry<Account.Id, MutableDouble>> sorted =
-        reviewerScores.entrySet().stream()
+        reviewerScores
+            .entrySet()
+            .stream()
             .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
-    List<Account.Id> sortedSuggestions = sorted
-        .map(Map.Entry::getKey)
-        .collect(Collectors.toList());
+    List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(Collectors.toList());
     return sortedSuggestions;
   }
 
-  private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(
-      double baseWeight) throws OrmException{
+  private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(double baseWeight)
+      throws OrmException {
     // Get the user's last 50 changes, check approvals
     try {
-      List<ChangeData> result = internalChangeQuery
-          .setLimit(50)
-          .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
-          .query(changeQueryBuilder.owner("self"));
+      List<ChangeData> result =
+          internalChangeQuery
+              .setLimit(50)
+              .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
+              .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {
         for (PatchSetApproval approval : cd.currentApprovals()) {
@@ -214,9 +224,8 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
-      List<Account.Id> candidates,
-      ProjectControl projectControl,
-      double baseWeight) throws OrmException {
+      List<Account.Id> candidates, ProjectControl projectControl, double baseWeight)
+      throws OrmException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).
@@ -232,21 +241,18 @@ public class ReviewerRecommender {
 
         // Get all labels for this project and create a compound OR query to
         // fetch all changes where users have applied one of these labels
-        List<LabelType> labelTypes =
-            projectControl.getLabelTypes().getLabelTypes();
-        List<Predicate<ChangeData>> labelPredicates =
-            new ArrayList<>(labelTypes.size());
+        List<LabelType> labelTypes = projectControl.getLabelTypes().getLabelTypes();
+        List<Predicate<ChangeData>> labelPredicates = new ArrayList<>(labelTypes.size());
         for (LabelType type : labelTypes) {
-          labelPredicates
-              .add(changeQueryBuilder.label(type.getName() + ",user=" + id));
+          labelPredicates.add(changeQueryBuilder.label(type.getName() + ",user=" + id));
         }
         Predicate<ChangeData> reviewerQuery =
             Predicate.and(projectQuery, Predicate.or(labelPredicates));
 
-        Predicate<ChangeData> ownerQuery = Predicate.and(projectQuery,
-            changeQueryBuilder.owner(id.toString()));
-        Predicate<ChangeData> commentedByQuery = Predicate.and(projectQuery,
-            changeQueryBuilder.commentby(id.toString()));
+        Predicate<ChangeData> ownerQuery =
+            Predicate.and(projectQuery, changeQueryBuilder.owner(id.toString()));
+        Predicate<ChangeData> commentedByQuery =
+            Predicate.and(projectQuery, changeQueryBuilder.commentby(id.toString()));
 
         predicates.add(reviewerQuery);
         predicates.add(ownerQuery);
@@ -259,10 +265,11 @@ public class ReviewerRecommender {
       }
     }
 
-    List<List<ChangeData>> result = internalChangeQuery
-        .setLimit(100 * predicates.size())
-        .setRequestedFields(ImmutableSet.of())
-        .query(predicates);
+    List<List<ChangeData>> result =
+        internalChangeQuery
+            .setLimit(100 * predicates.size())
+            .setRequestedFields(ImmutableSet.of())
+            .query(predicates);
 
     Iterator<List<ChangeData>> queryResultIterator = result.iterator();
     Iterator<Account.Id> reviewersIterator = reviewers.keySet().iterator();
@@ -275,8 +282,7 @@ public class ReviewerRecommender {
         currentId = reviewersIterator.next();
       }
 
-      reviewers.get(currentId).add(WEIGHTS[i % WEIGHTS.length] *
-          baseWeight * currentResult.size());
+      reviewers.get(currentId).add(WEIGHTS[i % WEIGHTS.length] * baseWeight * currentResult.size());
       i++;
     }
     return reviewers;

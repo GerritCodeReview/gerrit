@@ -16,10 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import java.util.List;
 
-
-/**
- * Additional data about a {@link PatchSet} not normally loaded.
- */
+/** Additional data about a {@link PatchSet} not normally loaded. */
 public final class PatchSetInfo {
   public static class ParentInfo {
     public RevId id;
@@ -30,8 +27,7 @@ public final class PatchSetInfo {
       this.shortMessage = shortMessage;
     }
 
-    protected ParentInfo() {
-    }
+    protected ParentInfo() {}
   }
 
   protected PatchSet.Id key;
@@ -54,8 +50,7 @@ public final class PatchSetInfo {
   /** SHA-1 of commit */
   protected String revId;
 
-  protected PatchSetInfo() {
-  }
+  protected PatchSetInfo() {}
 
   public PatchSetInfo(final PatchSet.Id k) {
     key = k;

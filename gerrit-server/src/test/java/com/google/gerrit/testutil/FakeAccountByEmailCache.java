@@ -19,7 +19,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountByEmailCache;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,8 +35,7 @@ public class FakeAccountByEmailCache implements AccountByEmailCache {
 
   @Override
   public synchronized Set<Account.Id> get(String email) {
-    return Collections.unmodifiableSet(
-        Sets.union(byEmail.get(email), anyEmail));
+    return Collections.unmodifiableSet(Sets.union(byEmail.get(email), anyEmail));
   }
 
   @Override

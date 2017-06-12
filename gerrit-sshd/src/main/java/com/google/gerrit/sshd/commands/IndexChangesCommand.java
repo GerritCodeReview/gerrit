@@ -23,23 +23,24 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.kohsuke.args4j.Argument;
 
 @CommandMetaData(name = "changes", description = "Index changes")
 final class IndexChangesCommand extends SshCommand {
-  @Inject
-  private Index index;
+  @Inject private Index index;
 
-  @Inject
-  private ChangeArgumentParser changeArgumentParser;
+  @Inject private ChangeArgumentParser changeArgumentParser;
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE",
-      usage = "changes to index")
+  @Argument(
+    index = 0,
+    required = true,
+    multiValued = true,
+    metaVar = "CHANGE",
+    usage = "changes to index"
+  )
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);
@@ -60,8 +61,8 @@ final class IndexChangesCommand extends SshCommand {
         index.apply(rsrc, new Index.Input());
       } catch (IOException | RestApiException | OrmException e) {
         ok = false;
-        writeError("error", String.format(
-            "failed to index change %s: %s", rsrc.getId(), e.getMessage()));
+        writeError(
+            "error", String.format("failed to index change %s: %s", rsrc.getId(), e.getMessage()));
       }
     }
     if (!ok) {

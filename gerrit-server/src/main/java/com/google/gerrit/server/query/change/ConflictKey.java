@@ -15,11 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.extensions.client.SubmitType;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.Serializable;
 import java.util.Objects;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class ConflictKey implements Serializable {
   private static final long serialVersionUID = 2L;
@@ -29,10 +27,9 @@ public class ConflictKey implements Serializable {
   private final SubmitType submitType;
   private final boolean contentMerge;
 
-  public ConflictKey(ObjectId commit, ObjectId otherCommit,
-      SubmitType submitType, boolean contentMerge) {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(submitType)
-        || commit.compareTo(otherCommit) < 0) {
+  public ConflictKey(
+      ObjectId commit, ObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
+    if (SubmitType.FAST_FORWARD_ONLY.equals(submitType) || commit.compareTo(otherCommit) < 0) {
       this.commit = commit;
       this.otherCommit = otherCommit;
     } else {
@@ -64,7 +61,7 @@ public class ConflictKey implements Serializable {
     if (!(o instanceof ConflictKey)) {
       return false;
     }
-    ConflictKey other = (ConflictKey)o;
+    ConflictKey other = (ConflictKey) o;
     return commit.equals(other.commit)
         && otherCommit.equals(other.otherCommit)
         && submitType.equals(other.submitType)

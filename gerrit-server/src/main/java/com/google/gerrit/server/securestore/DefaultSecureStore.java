@@ -18,19 +18,17 @@ import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 @Singleton
 public class DefaultSecureStore extends SecureStore {
@@ -56,8 +54,8 @@ public class DefaultSecureStore extends SecureStore {
   }
 
   @Override
-  public synchronized String[] getListForPlugin(String pluginName, String section,
-    String subsection, String name) {
+  public synchronized String[] getListForPlugin(
+      String pluginName, String section, String subsection, String name) {
     FileBasedConfig cfg = null;
     if (pluginSec.containsKey(pluginName)) {
       cfg = pluginSec.get(pluginName);
@@ -78,8 +76,7 @@ public class DefaultSecureStore extends SecureStore {
   }
 
   @Override
-  public void setList(String section, String subsection, String name,
-      List<String> values) {
+  public void setList(String section, String subsection, String name, List<String> values) {
     if (values != null) {
       sec.setStringList(section, subsection, name, values);
     } else {
@@ -127,8 +124,7 @@ public class DefaultSecureStore extends SecureStore {
         throw new IOException("Cannot lock " + path);
       }
       try {
-        FileUtil.chmod(0600, new File(path.getParentFile(), path.getName()
-            + ".lock"));
+        FileUtil.chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
         lf.write(out);
         if (!lf.commit()) {
           throw new IOException("Cannot commit write to " + path);

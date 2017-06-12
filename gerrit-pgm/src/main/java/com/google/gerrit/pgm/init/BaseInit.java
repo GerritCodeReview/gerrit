@@ -55,10 +55,6 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -71,13 +67,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
-  private static final Logger log =
-      LoggerFactory.getLogger(BaseInit.class);
+  private static final Logger log = LoggerFactory.getLogger(BaseInit.class);
 
   private final boolean standalone;
   private final boolean initDb;
@@ -86,22 +82,29 @@ public class BaseInit extends SiteProgram {
 
   private Injector sysInjector;
 
-  protected BaseInit(PluginsDistribution pluginsDistribution,
-      List<String> pluginsToInstall) {
+  protected BaseInit(PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     this.standalone = true;
     this.initDb = true;
     this.pluginsDistribution = pluginsDistribution;
     this.pluginsToInstall = pluginsToInstall;
   }
 
-  public BaseInit(Path sitePath, boolean standalone, boolean initDb,
-      PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
+  public BaseInit(
+      Path sitePath,
+      boolean standalone,
+      boolean initDb,
+      PluginsDistribution pluginsDistribution,
+      List<String> pluginsToInstall) {
     this(sitePath, null, standalone, initDb, pluginsDistribution, pluginsToInstall);
   }
 
-  public BaseInit(Path sitePath, final Provider<DataSource> dsProvider,
-      boolean standalone, boolean initDb,
-      PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
+  public BaseInit(
+      Path sitePath,
+      final Provider<DataSource> dsProvider,
+      boolean standalone,
+      boolean initDb,
+      PluginsDistribution pluginsDistribution,
+      List<String> pluginsToInstall) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
     this.initDb = initDb;
@@ -120,7 +123,6 @@ public class BaseInit extends SiteProgram {
     init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
     init.flags.deleteCaches = getDeleteCaches();
-
 
     final SiteRun run;
     try {
@@ -175,8 +177,7 @@ public class BaseInit extends SiteProgram {
    * @param run completed run instance.
    * @throws Exception
    */
-  protected void afterInit(SiteRun run) throws Exception {
-  }
+  protected void afterInit(SiteRun run) throws Exception {}
 
   protected List<String> getInstallPlugins() {
     try {
@@ -185,7 +186,7 @@ public class BaseInit extends SiteProgram {
       }
       List<String> names = pluginsDistribution.listPluginNames();
       if (pluginsToInstall != null) {
-        for (Iterator<String> i = names.iterator(); i.hasNext();) {
+        for (Iterator<String> i = names.iterator(); i.hasNext(); ) {
           String n = i.next();
           if (!pluginsToInstall.contains(n)) {
             i.remove();
@@ -194,8 +195,7 @@ public class BaseInit extends SiteProgram {
       }
       return names;
     } catch (FileNotFoundException e) {
-      log.warn("Couldn't find distribution archive location."
-          + " No plugin will be installed");
+      log.warn("Couldn't find distribution archive location." + " No plugin will be installed");
       return null;
     }
   }
@@ -215,7 +215,10 @@ public class BaseInit extends SiteProgram {
     final SitePathInitializer initializer;
 
     @Inject
-    SiteInit(final SitePaths site, final InitFlags flags, final ConsoleUI ui,
+    SiteInit(
+        final SitePaths site,
+        final InitFlags flags,
+        final ConsoleUI ui,
         final SitePathInitializer initializer) {
       this.site = site;
       this.flags = flags;
@@ -231,51 +234,55 @@ public class BaseInit extends SiteProgram {
     final SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
     final String currentSecureStoreClassName = getConfiguredSecureStoreClass();
 
-    if (secureStoreInitData != null && currentSecureStoreClassName != null
+    if (secureStoreInitData != null
+        && currentSecureStoreClassName != null
         && !currentSecureStoreClassName.equals(secureStoreInitData.className)) {
-      String err = String.format(
-          "Different secure store was previously configured: %s. "
-          + "Use SwitchSecureStore program to switch between implementations.",
-          currentSecureStoreClassName);
+      String err =
+          String.format(
+              "Different secure store was previously configured: %s. "
+                  + "Use SwitchSecureStore program to switch between implementations.",
+              currentSecureStoreClassName);
       throw die(err);
     }
 
     m.add(new GerritServerConfigModule());
     m.add(new InitModule(standalone, initDb));
-    m.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(ConsoleUI.class).toInstance(ui);
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        List<String> plugins =
-            MoreObjects.firstNonNull(
-                getInstallPlugins(), new ArrayList<String>());
-        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
-            InstallPlugins.class).toInstance(plugins);
-        bind(new TypeLiteral<Boolean>() {}).annotatedWith(
-            InstallAllPlugins.class).toInstance(installAllPlugins());
-        bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+    m.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(ConsoleUI.class).toInstance(ui);
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            List<String> plugins =
+                MoreObjects.firstNonNull(getInstallPlugins(), new ArrayList<String>());
+            bind(new TypeLiteral<List<String>>() {})
+                .annotatedWith(InstallPlugins.class)
+                .toInstance(plugins);
+            bind(new TypeLiteral<Boolean>() {})
+                .annotatedWith(InstallAllPlugins.class)
+                .toInstance(installAllPlugins());
+            bind(PluginsDistribution.class).toInstance(pluginsDistribution);
 
-        String secureStoreClassName;
-        if (secureStoreInitData != null) {
-          secureStoreClassName = secureStoreInitData.className;
-        } else {
-          secureStoreClassName = currentSecureStoreClassName;
-        }
-        if (secureStoreClassName != null) {
-          ui.message("Using secure store: %s\n", secureStoreClassName);
-        }
-        bind(SecureStoreInitData.class).toProvider(
-            Providers.of(secureStoreInitData));
-        bind(String.class).annotatedWith(SecureStoreClassName.class)
-            .toProvider(Providers.of(secureStoreClassName));
-        bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
-        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
-            LibraryDownload.class).toInstance(getSkippedDownloads());
-        bind(Boolean.class).annotatedWith(
-            LibraryDownload.class).toInstance(skipAllDownloads());
-      }
-    });
+            String secureStoreClassName;
+            if (secureStoreInitData != null) {
+              secureStoreClassName = secureStoreInitData.className;
+            } else {
+              secureStoreClassName = currentSecureStoreClassName;
+            }
+            if (secureStoreClassName != null) {
+              ui.message("Using secure store: %s\n", secureStoreClassName);
+            }
+            bind(SecureStoreInitData.class).toProvider(Providers.of(secureStoreInitData));
+            bind(String.class)
+                .annotatedWith(SecureStoreClassName.class)
+                .toProvider(Providers.of(secureStoreClassName));
+            bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
+            bind(new TypeLiteral<List<String>>() {})
+                .annotatedWith(LibraryDownload.class)
+                .toInstance(getSkippedDownloads());
+            bind(Boolean.class).annotatedWith(LibraryDownload.class).toInstance(skipAllDownloads());
+          }
+        });
 
     try {
       return Guice.createInjector(PRODUCTION, m).getInstance(SiteInit.class);
@@ -313,27 +320,26 @@ public class BaseInit extends SiteProgram {
     try {
       Path secureStoreLib = Paths.get(secureStore);
       if (!Files.exists(secureStoreLib)) {
-        throw new InvalidSecureStoreException(String.format(
-            "File %s doesn't exist", secureStore));
+        throw new InvalidSecureStoreException(String.format("File %s doesn't exist", secureStore));
       }
       JarScanner scanner = new JarScanner(secureStoreLib);
-      List<String> secureStores =
-          scanner.findSubClassesOf(SecureStore.class);
+      List<String> secureStores = scanner.findSubClassesOf(SecureStore.class);
       if (secureStores.isEmpty()) {
-        throw new InvalidSecureStoreException(String.format(
-            "Cannot find class implementing %s interface in %s",
-            SecureStore.class.getName(), secureStore));
+        throw new InvalidSecureStoreException(
+            String.format(
+                "Cannot find class implementing %s interface in %s",
+                SecureStore.class.getName(), secureStore));
       }
       if (secureStores.size() > 1) {
-        throw new InvalidSecureStoreException(String.format(
-            "%s has more that one implementation of %s interface",
-            secureStore, SecureStore.class.getName()));
+        throw new InvalidSecureStoreException(
+            String.format(
+                "%s has more that one implementation of %s interface",
+                secureStore, SecureStore.class.getName()));
       }
       IoUtil.loadJARs(secureStoreLib);
       return new SecureStoreInitData(secureStoreLib, secureStores.get(0));
     } catch (IOException e) {
-      throw new InvalidSecureStoreException(String.format("%s is not a valid jar",
-          secureStore));
+      throw new InvalidSecureStoreException(String.format("%s is not a valid jar", secureStore));
     }
   }
 
@@ -346,7 +352,10 @@ public class BaseInit extends SiteProgram {
     final GitRepositoryManager repositoryManager;
 
     @Inject
-    SiteRun(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
+    SiteRun(
+        final ConsoleUI ui,
+        final SitePaths site,
+        final InitFlags flags,
         final SchemaUpdater schemaUpdater,
         final SchemaFactory<ReviewDb> schema,
         final GitRepositoryManager repositoryManager) {
@@ -360,32 +369,33 @@ public class BaseInit extends SiteProgram {
 
     void upgradeSchema() throws OrmException {
       final List<String> pruneList = new ArrayList<>();
-      schemaUpdater.update(new UpdateUI() {
-        @Override
-        public void message(String msg) {
-          System.err.println(msg);
-          System.err.flush();
-        }
-
-        @Override
-        public boolean yesno(boolean def, String msg) {
-          return ui.yesno(def, msg);
-        }
-
-        @Override
-        public boolean isBatch() {
-          return ui.isBatch();
-        }
-
-        @Override
-        public void pruneSchema(StatementExecutor e, List<String> prune) {
-          for (String p : prune) {
-            if (!pruneList.contains(p)) {
-              pruneList.add(p);
+      schemaUpdater.update(
+          new UpdateUI() {
+            @Override
+            public void message(String msg) {
+              System.err.println(msg);
+              System.err.flush();
             }
-          }
-        }
-      });
+
+            @Override
+            public boolean yesno(boolean def, String msg) {
+              return ui.yesno(def, msg);
+            }
+
+            @Override
+            public boolean isBatch() {
+              return ui.isBatch();
+            }
+
+            @Override
+            public void pruneSchema(StatementExecutor e, List<String> prune) {
+              for (String p : prune) {
+                if (!pruneList.contains(p)) {
+                  pruneList.add(p);
+                }
+              }
+            }
+          });
 
       if (!pruneList.isEmpty()) {
         StringBuilder msg = new StringBuilder();
@@ -420,13 +430,14 @@ public class BaseInit extends SiteProgram {
   private Injector createSysInjector(final SiteInit init) {
     if (sysInjector == null) {
       final List<Module> modules = new ArrayList<>();
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(ConsoleUI.class).toInstance(init.ui);
-          bind(InitFlags.class).toInstance(init.flags);
-        }
-      });
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(ConsoleUI.class).toInstance(init.ui);
+              bind(InitFlags.class).toInstance(init.flags);
+            }
+          });
       sysInjector = createDbInjector(SINGLE_USER).createChildInjector(modules);
     }
     return sysInjector;
@@ -435,36 +446,37 @@ public class BaseInit extends SiteProgram {
   private static void recursiveDelete(Path path) {
     final String msg = "warn: Cannot remove ";
     try {
-      Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-        @Override
-        public FileVisitResult visitFile(Path f, BasicFileAttributes attrs)
-            throws IOException {
-          try {
-            Files.delete(f);
-          } catch (IOException e) {
-            System.err.println(msg + f);
-          }
-          return FileVisitResult.CONTINUE;
-        }
+      Files.walkFileTree(
+          path,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path f, BasicFileAttributes attrs) throws IOException {
+              try {
+                Files.delete(f);
+              } catch (IOException e) {
+                System.err.println(msg + f);
+              }
+              return FileVisitResult.CONTINUE;
+            }
 
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException err) {
-          try {
-            // Previously warned if err was not null; if dir is not empty as a
-            // result, will cause an error that will be logged below.
-            Files.delete(dir);
-          } catch (IOException e) {
-            System.err.println(msg + dir);
-          }
-          return FileVisitResult.CONTINUE;
-        }
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException err) {
+              try {
+                // Previously warned if err was not null; if dir is not empty as a
+                // result, will cause an error that will be logged below.
+                Files.delete(dir);
+              } catch (IOException e) {
+                System.err.println(msg + dir);
+              }
+              return FileVisitResult.CONTINUE;
+            }
 
-        @Override
-        public FileVisitResult visitFileFailed(Path f, IOException e) {
-          System.err.println(msg + f);
-          return FileVisitResult.CONTINUE;
-        }
-      });
+            @Override
+            public FileVisitResult visitFileFailed(Path f, IOException e) {
+              System.err.println(msg + f);
+              return FileVisitResult.CONTINUE;
+            }
+          });
     } catch (IOException e) {
       System.err.println(msg + path);
     }

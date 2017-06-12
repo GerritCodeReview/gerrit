@@ -33,7 +33,12 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -41,26 +46,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Initializes the user session if HTTP authentication is enabled.
- * <p>
- * If HTTP authentication has been enabled this servlet binds to {@code /login/}
- * and initializes the user session based on user information contained in the
- * HTTP request.
+ *
+ * <p>If HTTP authentication has been enabled this servlet binds to {@code /login/} and initializes
+ * the user session based on user information contained in the HTTP request.
  */
 @Singleton
 class HttpLoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log =
-      LoggerFactory.getLogger(HttpLoginServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(HttpLoginServlet.class);
 
   private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
@@ -69,7 +64,8 @@ class HttpLoginServlet extends HttpServlet {
   private final AuthConfig authConfig;
 
   @Inject
-  HttpLoginServlet(final DynamicItem<WebSession> webSession,
+  HttpLoginServlet(
+      final DynamicItem<WebSession> webSession,
       final CanonicalWebUrl urlProvider,
       final AccountManager accountManager,
       final HttpAuthFilter authFilter,
@@ -82,18 +78,21 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws ServletException, IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws ServletException, IOException {
     final String token = LoginUrlToken.getToken(req);
 
     CacheHeaders.setNotCacheable(rsp);
     final String user = authFilter.getRemoteUser(req);
     if (user == null || "".equals(user)) {
-      log.error("Unable to authenticate user by " + authFilter.getLoginHeader()
-          + " request header.  Check container or server configuration.");
+      log.error(
+          "Unable to authenticate user by "
+              + authFilter.getLoginHeader()
+              + " request header.  Check container or server configuration.");
 
-      final Document doc = HtmlDomUtil.parseFile( //
-          HttpLoginServlet.class, "ConfigurationError.html");
+      final Document doc =
+          HtmlDomUtil.parseFile( //
+              HttpLoginServlet.class, "ConfigurationError.html");
 
       replace(doc, "loginHeader", authFilter.getLoginHeader());
       replace(doc, "ServerName", req.getServerName());
@@ -126,12 +125,16 @@ class HttpLoginServlet extends HttpServlet {
     String remoteExternalId = authFilter.getRemoteExternalIdToken(req);
     if (remoteExternalId != null) {
       try {
-        log.debug("Associating external identity \"{}\" to user \"{}\"",
-            remoteExternalId, user);
+        log.debug("Associating external identity \"{}\" to user \"{}\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
       } catch (AccountException | OrmException e) {
-        log.error("Unable to associate external identity \"" + remoteExternalId
-            + "\" to user \"" + user + "\"", e);
+        log.error(
+            "Unable to associate external identity \""
+                + remoteExternalId
+                + "\" to user \""
+                + user
+                + "\"",
+            e);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return;
       }
@@ -155,10 +158,10 @@ class HttpLoginServlet extends HttpServlet {
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
       throws AccountException, OrmException, IOException {
     AccountExternalId remoteAuthExtId =
-        new AccountExternalId(arsp.getAccountId(), new AccountExternalId.Key(
-            SCHEME_EXTERNAL, remoteAuthToken));
-    accountManager.updateLink(arsp.getAccountId(),
-        new AuthRequest(remoteAuthExtId.getExternalId()));
+        new AccountExternalId(
+            arsp.getAccountId(), new AccountExternalId.Key(SCHEME_EXTERNAL, remoteAuthToken));
+    accountManager.updateLink(
+        arsp.getAccountId(), new AuthRequest(remoteAuthExtId.getExternalId()));
   }
 
   private void replace(Document doc, String name, String value) {

@@ -32,14 +32,14 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
-
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class ConfigInfoImpl extends ConfigInfo {
-  public ConfigInfoImpl(boolean serverEnableSignedPush,
+  public ConfigInfoImpl(
+      boolean serverEnableSignedPush,
       ProjectControl control,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -50,13 +50,11 @@ public class ConfigInfoImpl extends ConfigInfo {
     Project p = control.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
-    InheritedBooleanInfo useContributorAgreements =
-        new InheritedBooleanInfo();
+    InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
     InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
     InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
-    InheritedBooleanInfo createNewChangeForAllNotInTarget =
-        new InheritedBooleanInfo();
+    InheritedBooleanInfo createNewChangeForAllNotInTarget = new InheritedBooleanInfo();
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
@@ -65,25 +63,20 @@ public class ConfigInfoImpl extends ConfigInfo {
     useSignedOffBy.value = projectState.isUseSignedOffBy();
     useContentMerge.value = projectState.isUseContentMerge();
     requireChangeId.value = projectState.isRequireChangeID();
-    createNewChangeForAllNotInTarget.value =
-        projectState.isCreateNewChangeForAllNotInTarget();
+    createNewChangeForAllNotInTarget.value = projectState.isCreateNewChangeForAllNotInTarget();
 
-    useContributorAgreements.configuredValue =
-        p.getUseContributorAgreements();
+    useContributorAgreements.configuredValue = p.getUseContributorAgreements();
     useSignedOffBy.configuredValue = p.getUseSignedOffBy();
     useContentMerge.configuredValue = p.getUseContentMerge();
     requireChangeId.configuredValue = p.getRequireChangeID();
-    createNewChangeForAllNotInTarget.configuredValue =
-        p.getCreateNewChangeForAllNotInTarget();
+    createNewChangeForAllNotInTarget.configuredValue = p.getCreateNewChangeForAllNotInTarget();
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
 
-    ProjectState parentState = Iterables.getFirst(projectState
-        .parents(), null);
+    ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
-      useContributorAgreements.inheritedValue =
-          parentState.isUseContributorAgreements();
+      useContributorAgreements.inheritedValue = parentState.isUseContributorAgreements();
       useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
       useContentMerge.inheritedValue = parentState.isUseContentMerge();
       requireChangeId.inheritedValue = parentState.isRequireChangeID();
@@ -107,16 +100,18 @@ public class ConfigInfoImpl extends ConfigInfo {
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(projectState) == config
-            .getMaxObjectSizeLimit() ? config
-            .getFormattedMaxObjectSizeLimit() : p.getMaxObjectSizeLimit();
+        config.getEffectiveMaxObjectSizeLimit(projectState) == config.getMaxObjectSizeLimit()
+            ? config.getFormattedMaxObjectSizeLimit()
+            : p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.inheritedValue =
-        config.getFormattedMaxObjectSizeLimit();
+    maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
     this.submitType = p.getSubmitType();
-    this.state = p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE ? p.getState() : null;
+    this.state =
+        p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
+            ? p.getState()
+            : null;
 
     this.commentlinks = new LinkedHashMap<>();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {
@@ -124,26 +119,25 @@ public class ConfigInfoImpl extends ConfigInfo {
     }
 
     pluginConfig =
-        getPluginConfig(control.getProjectState(), pluginConfigEntries,
-            cfgFactory, allProjects);
+        getPluginConfig(control.getProjectState(), pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
-    for (UiAction.Description d : UiActions.from(
-        views, new ProjectResource(control),
-        Providers.of(control.getUser()))) {
+    for (UiAction.Description d :
+        UiActions.from(views, new ProjectResource(control), Providers.of(control.getUser()))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
-      ProjectState project, DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      PluginConfigFactory cfgFactory, AllProjectsName allProjects) {
+      ProjectState project,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory,
+      AllProjectsName allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
       ProjectConfigEntry configEntry = e.getProvider().get();
-      PluginConfig cfg =
-          cfgFactory.getFromProjectConfig(project, e.getPluginName());
+      PluginConfig cfg = cfgFactory.getFromProjectConfig(project, e.getPluginName());
       String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
@@ -152,25 +146,25 @@ public class ConfigInfoImpl extends ConfigInfo {
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
       p.editable = configEntry.isEditable(project) ? true : null;
-      if (configEntry.isInheritable()
-          && !allProjects.equals(project.getProject().getNameKey())) {
+      if (configEntry.isInheritable() && !allProjects.equals(project.getProject().getNameKey())) {
         PluginConfig cfgWithInheritance =
-            cfgFactory.getFromProjectConfigWithInheritance(project,
-                e.getPluginName());
+            cfgFactory.getFromProjectConfigWithInheritance(project, e.getPluginName());
         p.inheritable = true;
-        p.value = configEntry.onRead(project,
-            cfgWithInheritance.getString(e.getExportName(),
-                configEntry.getDefaultValue()));
+        p.value =
+            configEntry.onRead(
+                project,
+                cfgWithInheritance.getString(e.getExportName(), configEntry.getDefaultValue()));
         p.configuredValue = configuredValue;
         p.inheritedValue = getInheritedValue(project, cfgFactory, e);
       } else {
         if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
-          p.values = configEntry.onRead(project,
-              Arrays.asList(cfg.getStringList(e.getExportName())));
+          p.values =
+              configEntry.onRead(project, Arrays.asList(cfg.getStringList(e.getExportName())));
         } else {
-          p.value = configEntry.onRead(project, configuredValue != null
-              ? configuredValue
-              : configEntry.getDefaultValue());
+          p.value =
+              configEntry.onRead(
+                  project,
+                  configuredValue != null ? configuredValue : configEntry.getDefaultValue());
         }
       }
       Map<String, ConfigParameterInfo> pc = pluginConfig.get(e.getPluginName());
@@ -183,18 +177,16 @@ public class ConfigInfoImpl extends ConfigInfo {
     return !pluginConfig.isEmpty() ? pluginConfig : null;
   }
 
-  private String getInheritedValue(ProjectState project,
-      PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
+  private String getInheritedValue(
+      ProjectState project, PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
     ProjectConfigEntry configEntry = e.getProvider().get();
     ProjectState parent = Iterables.getFirst(project.parents(), null);
     String inheritedValue = configEntry.getDefaultValue();
     if (parent != null) {
       PluginConfig parentCfgWithInheritance =
-          cfgFactory.getFromProjectConfigWithInheritance(parent,
-              e.getPluginName());
+          cfgFactory.getFromProjectConfigWithInheritance(parent, e.getPluginName());
       inheritedValue =
-          parentCfgWithInheritance.getString(e.getExportName(),
-              configEntry.getDefaultValue());
+          parentCfgWithInheritance.getString(e.getExportName(), configEntry.getDefaultValue());
     }
     return inheritedValue;
   }

@@ -48,16 +48,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -113,7 +111,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-      ResourceConflictException, OrmException, IOException {
+          ResourceConflictException, OrmException, IOException {
     if (input == null) {
       input = new GroupInput();
     }
@@ -125,24 +123,24 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     CreateGroupArgs args = new CreateGroupArgs();
     args.setGroupName(name);
     args.groupDescription = Strings.emptyToNull(input.description);
-    args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll,
-        defaultVisibleToAll);
+    args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll, defaultVisibleToAll);
     args.ownerGroupId = ownerId;
     if (input.members != null && !input.members.isEmpty()) {
       List<Account.Id> members = new ArrayList<>();
       for (String nameOrEmailOrId : input.members) {
         Account a = addMembers.findAccount(nameOrEmailOrId);
         if (!a.isActive()) {
-          throw new UnprocessableEntityException(String.format(
-              "Account Inactive: %s", nameOrEmailOrId));
+          throw new UnprocessableEntityException(
+              String.format("Account Inactive: %s", nameOrEmailOrId));
         }
         members.add(a.getId());
       }
       args.initialMembers = members;
     } else {
-      args.initialMembers = ownerId == null
-          ? Collections.singleton(self.get().getAccountId())
-          : Collections.<Account.Id> emptySet();
+      args.initialMembers =
+          ownerId == null
+              ? Collections.singleton(self.get().getAccountId())
+              : Collections.<Account.Id>emptySet();
     }
 
     for (GroupCreationValidationListener l : groupCreationValidationListeners) {
@@ -156,8 +154,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     return json.format(GroupDescriptions.forAccountGroup(createGroup(args)));
   }
 
-  private AccountGroup.Id owner(GroupInput input)
-      throws UnprocessableEntityException {
+  private AccountGroup.Id owner(GroupInput input) throws UnprocessableEntityException {
     if (input.ownerId != null) {
       GroupDescription.Basic d = groups.parseInternal(Url.decode(input.ownerId));
       return GroupDescriptions.toAccountGroup(d).getId();
@@ -171,10 +168,9 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     // Do not allow creating groups with the same name as system groups
     List<String> sysGroupNames = SystemGroupBackend.getNames();
     for (String name : sysGroupNames) {
-      if (name.toLowerCase(Locale.US).equals(
-          createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
-        throw new ResourceConflictException("group '" + name
-            + "' already exists");
+      if (name.toLowerCase(Locale.US)
+          .equals(createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+        throw new ResourceConflictException("group '" + name + "' already exists");
       }
     }
 
@@ -182,10 +178,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     AccountGroup.UUID uuid =
         GroupUUID.make(
             createGroupArgs.getGroupName(),
-            self.get().newCommitterIdent(serverIdent.getWhen(),
-                serverIdent.getTimeZone()));
-    AccountGroup group =
-        new AccountGroup(createGroupArgs.getGroup(), groupId, uuid);
+            self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
+    AccountGroup group = new AccountGroup(createGroupArgs.getGroup(), groupId, uuid);
     group.setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupId != null) {
       AccountGroup ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
@@ -202,8 +196,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     try {
       db.accountGroupNames().insert(Collections.singleton(gn));
     } catch (OrmDuplicateKeyException e) {
-      throw new ResourceConflictException("group '"
-          + createGroupArgs.getGroupName() + "' already exists");
+      throw new ResourceConflictException(
+          "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
     db.accountGroups().insert(Collections.singleton(group));
 

@@ -20,7 +20,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +35,8 @@ public class PrivateInternals_DynamicTypes {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicItem.class) {
         ParameterizedType p = (ParameterizedType) type.getType();
-        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
+        m.put(
+            TypeLiteral.get(p.getActualTypeArguments()[0]),
             (DynamicItem<?>) e.getValue().getProvider().get());
       }
     }
@@ -52,7 +52,8 @@ public class PrivateInternals_DynamicTypes {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicSet.class) {
         ParameterizedType p = (ParameterizedType) type.getType();
-        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
+        m.put(
+            TypeLiteral.get(p.getActualTypeArguments()[0]),
             (DynamicSet<?>) e.getValue().getProvider().get());
       }
     }
@@ -68,7 +69,8 @@ public class PrivateInternals_DynamicTypes {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicMap.class) {
         ParameterizedType p = (ParameterizedType) type.getType();
-        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
+        m.put(
+            TypeLiteral.get(p.getActualTypeArguments()[0]),
             (DynamicMap<?>) e.getValue().getProvider().get());
       }
     }
@@ -79,8 +81,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachItems(
-      Injector src,
-      Map<TypeLiteral<?>, DynamicItem<?>> items, String pluginName) {
+      Injector src, Map<TypeLiteral<?>, DynamicItem<?>> items, String pluginName) {
     if (src == null || items == null || items.isEmpty()) {
       return Collections.emptyList();
     }
@@ -106,8 +107,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachSets(
-      Injector src,
-      Map<TypeLiteral<?>, DynamicSet<?>> sets) {
+      Injector src, Map<TypeLiteral<?>, DynamicSet<?>> sets) {
     if (src == null || sets == null || sets.isEmpty()) {
       return Collections.emptyList();
     }
@@ -135,9 +135,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static List<RegistrationHandle> attachMaps(
-      Injector src,
-      String groupName,
-      Map<TypeLiteral<?>, DynamicMap<?>> maps) {
+      Injector src, String groupName, Map<TypeLiteral<?>, DynamicMap<?>> maps) {
     if (src == null || maps == null || maps.isEmpty()) {
       return Collections.emptyList();
     }
@@ -169,8 +167,7 @@ public class PrivateInternals_DynamicTypes {
     return new LifecycleListener() {
       private List<RegistrationHandle> handles;
 
-      @Inject
-      private Injector self;
+      @Inject private Injector self;
 
       @Override
       public void start() {

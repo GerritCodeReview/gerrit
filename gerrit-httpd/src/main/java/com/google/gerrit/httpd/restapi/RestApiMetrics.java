@@ -30,8 +30,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class RestApiMetrics {
   private static final String[] PKGS = {
-    "com.google.gerrit.server.",
-    "com.google.gerrit.",
+    "com.google.gerrit.server.", "com.google.gerrit.",
   };
 
   final Counter1<String> count;
@@ -42,32 +41,34 @@ public class RestApiMetrics {
   @Inject
   RestApiMetrics(MetricMaker metrics) {
     Field<String> view = Field.ofString("view", "view implementation class");
-    count = metrics.newCounter(
-        "http/server/rest_api/count",
-        new Description("REST API calls by view")
-          .setRate(),
-        view);
+    count =
+        metrics.newCounter(
+            "http/server/rest_api/count",
+            new Description("REST API calls by view").setRate(),
+            view);
 
-    errorCount = metrics.newCounter(
-        "http/server/rest_api/error_count",
-        new Description("REST API calls by view")
-          .setRate(),
-        view,
-        Field.ofInteger("error_code", "HTTP status code"));
+    errorCount =
+        metrics.newCounter(
+            "http/server/rest_api/error_count",
+            new Description("REST API calls by view").setRate(),
+            view,
+            Field.ofInteger("error_code", "HTTP status code"));
 
-    serverLatency = metrics.newTimer(
-        "http/server/rest_api/server_latency",
-        new Description("REST API call latency by view")
-          .setCumulative()
-          .setUnit(Units.MILLISECONDS),
-        view);
+    serverLatency =
+        metrics.newTimer(
+            "http/server/rest_api/server_latency",
+            new Description("REST API call latency by view")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            view);
 
-    responseBytes = metrics.newHistogram(
-        "http/server/rest_api/response_bytes",
-        new Description("Size of response on network (may be gzip compressed)")
-          .setCumulative()
-          .setUnit(Units.BYTES),
-        view);
+    responseBytes =
+        metrics.newHistogram(
+            "http/server/rest_api/response_bytes",
+            new Description("Size of response on network (may be gzip compressed)")
+                .setCumulative()
+                .setUnit(Units.BYTES),
+            view);
   }
 
   String view(ViewData viewData) {
@@ -78,8 +79,7 @@ public class RestApiMetrics {
         break;
       }
     }
-    if (!Strings.isNullOrEmpty(viewData.pluginName)
-        && !"gerrit".equals(viewData.pluginName)) {
+    if (!Strings.isNullOrEmpty(viewData.pluginName) && !"gerrit".equals(viewData.pluginName)) {
       impl = viewData.pluginName + '-' + impl;
     }
     return impl;

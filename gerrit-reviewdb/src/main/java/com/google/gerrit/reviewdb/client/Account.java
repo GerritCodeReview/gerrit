@@ -20,38 +20,29 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
-
 import java.sql.Timestamp;
 
 /**
  * Information about a single user.
- * <p>
- * A user may have multiple identities they can use to login to Gerrit (see
- * {@link AccountExternalId}), but in such cases they always map back to a
- * single Account entity.
- * <p>
- * Entities "owned" by an Account (that is, their primary key contains the
- * {@link Account.Id} key as part of their key structure):
+ *
+ * <p>A user may have multiple identities they can use to login to Gerrit (see {@link
+ * AccountExternalId}), but in such cases they always map back to a single Account entity.
+ *
+ * <p>Entities "owned" by an Account (that is, their primary key contains the {@link Account.Id} key
+ * as part of their key structure):
+ *
  * <ul>
- *
- * <li>{@link AccountExternalId}: OpenID identities and email addresses known to
- * be registered to this user. Multiple records can exist when the user has more
- * than one public identity, such as a work and a personal email address.</li>
- *
- * <li>{@link AccountGroupMember}: membership of the user in a specific human
- * managed {@link AccountGroup}. Multiple records can exist when the user is a
- * member of more than one group.</li>
- *
- * <li>{@link AccountProjectWatch}: user's email settings related to a specific
- * {@link Project}. One record per project the user is interested in tracking.</li>
- *
- * <li>{@link AccountSshKey}: user's public SSH keys, for authentication through
- * the internal SSH daemon. One record per SSH key uploaded by the user, keys
- * are checked in random order until a match is found.</li>
- *
- * <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side
- * and unified diff</li>
- *
+ *   <li>{@link AccountExternalId}: OpenID identities and email addresses known to be registered to
+ *       this user. Multiple records can exist when the user has more than one public identity, such
+ *       as a work and a personal email address.
+ *   <li>{@link AccountGroupMember}: membership of the user in a specific human managed {@link
+ *       AccountGroup}. Multiple records can exist when the user is a member of more than one group.
+ *   <li>{@link AccountProjectWatch}: user's email settings related to a specific {@link Project}.
+ *       One record per project the user is interested in tracking.
+ *   <li>{@link AccountSshKey}: user's public SSH keys, for authentication through the internal SSH
+ *       daemon. One record per SSH key uploaded by the user, keys are checked in random order until
+ *       a match is found.
+ *   <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side and unified diff
  * </ul>
  */
 public final class Account {
@@ -60,15 +51,25 @@ public final class Account {
   public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
 
   /** Regular expression that {@link #userName} must match. */
-  public static final String USER_NAME_PATTERN = "^" + //
-      "(" + //
-      USER_NAME_PATTERN_FIRST + //
-      USER_NAME_PATTERN_REST + "*" + //
-      USER_NAME_PATTERN_LAST + //
-      "|" + //
-      USER_NAME_PATTERN_FIRST + //
-      ")" + //
-      "$";
+  public static final String USER_NAME_PATTERN =
+      "^"
+          + //
+          "("
+          + //
+          USER_NAME_PATTERN_FIRST
+          + //
+          USER_NAME_PATTERN_REST
+          + "*"
+          + //
+          USER_NAME_PATTERN_LAST
+          + //
+          "|"
+          + //
+          USER_NAME_PATTERN_FIRST
+          + //
+          ")"
+          + //
+          "$";
 
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
@@ -77,8 +78,7 @@ public final class Account {
     @Column(id = 1)
     protected int id;
 
-    protected Id() {
-    }
+    protected Id() {}
 
     public Id(final int id) {
       this.id = id;
@@ -114,8 +114,8 @@ public final class Account {
     /**
      * Parse an Account.Id out of a part of a ref-name.
      *
-     * @param name  a ref name with the following syntax: {@code "34/1234..."}.
-     *              We assume that the caller has trimmed any prefix.
+     * @param name a ref name with the following syntax: {@code "34/1234..."}. We assume that the
+     *     caller has trimmed any prefix.
      */
     public static Id fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
@@ -124,10 +124,10 @@ public final class Account {
 
     /**
      * Parse an Account.Id out of the last part of a ref name.
-     * <p>
-     * The input is a ref name of the form {@code ".../1234"}, where the suffix
-     * is a non-sharded account ID. Ref names using a sharded ID should use
-     * {@link #fromRefPart(String)} instead for greater safety.
+     *
+     * <p>The input is a ref name of the form {@code ".../1234"}, where the suffix is a non-sharded
+     * account ID. Ref names using a sharded ID should use {@link #fromRefPart(String)} instead for
+     * greater safety.
      *
      * @param name ref name
      * @return account ID, or null if not numeric.
@@ -167,14 +167,12 @@ public final class Account {
   /** <i>stored in git, used for caching</i> the user's preferences. */
   private GeneralPreferencesInfo generalPreferences;
 
-  protected Account() {
-  }
+  protected Account() {}
 
   /**
    * Create a new account.
    *
-   * @param newId unique id, see
-   *        {@link com.google.gerrit.reviewdb.server.ReviewDb#nextAccountId()}.
+   * @param newId unique id, see {@link com.google.gerrit.reviewdb.server.ReviewDb#nextAccountId()}.
    * @param registeredOn when the account was registered.
    */
   public Account(Account.Id newId, Timestamp registeredOn) {
@@ -213,9 +211,9 @@ public final class Account {
 
   /**
    * Formats an account name.
-   * <p>
-   * If the account has a full name, it returns only the full name. Otherwise it
-   * returns a longer form that includes the email address.
+   *
+   * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
+   * form that includes the email address.
    */
   public String getName(String anonymousCowardName) {
     if (fullName != null) {
@@ -229,13 +227,14 @@ public final class Account {
 
   /**
    * Get the name and email address.
-   * <p>
-   * Example output:
+   *
+   * <p>Example output:
+   *
    * <ul>
-   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
-   * <li>{@code A U. Thor (12)}: missing email address</li>
-   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
-   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
+   *   <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated
+   *   <li>{@code A U. Thor (12)}: missing email address
+   *   <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name
+   *   <li>{@code Anonymous Coward (12)}: missing name and email address
    * </ul>
    */
   public String getNameEmail(String anonymousCowardName) {
@@ -268,11 +267,11 @@ public final class Account {
   }
 
   public boolean isActive() {
-    return ! inactive;
+    return !inactive;
   }
 
   public void setActive(boolean active) {
-    inactive = ! active;
+    inactive = !active;
   }
 
   /** @return the computed user name for this account */

@@ -27,38 +27,42 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-
 public class ChangeAbandoned {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeAbandoned.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeAbandoned.class);
 
   private final DynamicSet<ChangeAbandonedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ChangeAbandoned(DynamicSet<ChangeAbandonedListener> listeners,
-      EventUtil util) {
+  ChangeAbandoned(DynamicSet<ChangeAbandonedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet ps, Account abandoner, String reason,
-      Timestamp when, NotifyHandling notifyHandling) {
+  public void fire(
+      Change change,
+      PatchSet ps,
+      Account abandoner,
+      String reason,
+      Timestamp when,
+      NotifyHandling notifyHandling) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), ps),
-          util.accountInfo(abandoner),
-          reason, when, notifyHandling);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), ps),
+              util.accountInfo(abandoner),
+              reason,
+              when,
+              notifyHandling);
       for (ChangeAbandonedListener l : listeners) {
         try {
           l.onChangeAbandoned(event);
@@ -66,8 +70,7 @@ public class ChangeAbandoned {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
@@ -76,8 +79,13 @@ public class ChangeAbandoned {
       implements ChangeAbandonedListener.Event {
     private final String reason;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
-        String reason, Timestamp when, NotifyHandling notifyHandling) {
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        AccountInfo abandoner,
+        String reason,
+        Timestamp when,
+        NotifyHandling notifyHandling) {
       super(change, revision, abandoner, when, notifyHandling);
       this.reason = reason;
     }

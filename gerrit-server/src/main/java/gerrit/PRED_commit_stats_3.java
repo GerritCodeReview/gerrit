@@ -18,14 +18,12 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
-
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
-
 import java.util.List;
 
 /**
@@ -54,15 +52,13 @@ public class PRED_commit_stats_3 extends Predicate.P3 {
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     // Account for magic files
     if (!a1.unify(
-        new IntegerTerm(
-            pl.getPatches().size() - countMagicFiles(pl.getPatches())),
-        engine.trail)) {
+        new IntegerTerm(pl.getPatches().size() - countMagicFiles(pl.getPatches())), engine.trail)) {
       return engine.fail();
     }
-    if (!a2.unify(new IntegerTerm(pl.getInsertions()),engine.trail)) {
+    if (!a2.unify(new IntegerTerm(pl.getInsertions()), engine.trail)) {
       return engine.fail();
     }
-    if (!a3.unify(new IntegerTerm(pl.getDeletions()),engine.trail)) {
+    if (!a3.unify(new IntegerTerm(pl.getDeletions()), engine.trail)) {
       return engine.fail();
     }
     return cont;

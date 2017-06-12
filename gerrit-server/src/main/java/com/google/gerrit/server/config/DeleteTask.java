@@ -26,8 +26,7 @@ import com.google.inject.Singleton;
 @Singleton
 @RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})
 public class DeleteTask implements RestModifyView<TaskResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   @Override
   public Response<?> apply(TaskResource rsrc, Input input) {

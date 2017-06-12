@@ -19,14 +19,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.Version;
-
 import org.junit.Test;
 
 @NoHttpd
 public class ServerIT extends AbstractDaemonTest {
   @Test
   public void getVersion() throws Exception {
-    assertThat(gApi.config().server().getVersion())
-        .isEqualTo(Version.getVersion());
+    assertThat(gApi.config().server().getVersion()).isEqualTo(Version.getVersion());
   }
 }

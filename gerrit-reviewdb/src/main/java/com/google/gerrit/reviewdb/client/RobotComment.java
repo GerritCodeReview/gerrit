@@ -24,8 +24,14 @@ public class RobotComment extends Comment {
   public String url;
   public Map<String, String> properties;
 
-  public RobotComment(Key key, Account.Id author, Timestamp writtenOn,
-      short side, String message, String serverId, String robotId,
+  public RobotComment(
+      Key key,
+      Account.Id author,
+      Timestamp writtenOn,
+      short side,
+      String message,
+      String serverId,
+      String robotId,
       String robotRunId) {
     super(key, author, writtenOn, side, message, serverId);
     this.robotId = robotId;
@@ -36,24 +42,50 @@ public class RobotComment extends Comment {
   public String toString() {
     return new StringBuilder()
         .append("RobotComment{")
-        .append("key=").append(key).append(',')
-        .append("robotId=").append(robotId).append(',')
-        .append("robotRunId=").append(robotRunId).append(',')
-        .append("lineNbr=").append(lineNbr).append(',')
-        .append("author=").append(author.getId().get()).append(',')
+        .append("key=")
+        .append(key)
+        .append(',')
+        .append("robotId=")
+        .append(robotId)
+        .append(',')
+        .append("robotRunId=")
+        .append(robotRunId)
+        .append(',')
+        .append("lineNbr=")
+        .append(lineNbr)
+        .append(',')
+        .append("author=")
+        .append(author.getId().get())
+        .append(',')
         .append("realAuthor=")
-            .append(realAuthor != null ? realAuthor.getId().get() : "")
-            .append(',')
-        .append("writtenOn=").append(writtenOn.toString()).append(',')
-        .append("side=").append(side).append(',')
-        .append("message=").append(Objects.toString(message, "")).append(',')
+        .append(realAuthor != null ? realAuthor.getId().get() : "")
+        .append(',')
+        .append("writtenOn=")
+        .append(writtenOn.toString())
+        .append(',')
+        .append("side=")
+        .append(side)
+        .append(',')
+        .append("message=")
+        .append(Objects.toString(message, ""))
+        .append(',')
         .append("parentUuid=")
-            .append(Objects.toString(parentUuid, "")).append(',')
-        .append("range=").append(Objects.toString(range, "")).append(',')
-        .append("revId=").append(revId != null ? revId : "").append(',')
-        .append("tag=").append(Objects.toString(tag, "")).append(',')
-        .append("url=").append(url).append(',')
-        .append("properties=").append(properties != null ? properties : "")
+        .append(Objects.toString(parentUuid, ""))
+        .append(',')
+        .append("range=")
+        .append(Objects.toString(range, ""))
+        .append(',')
+        .append("revId=")
+        .append(revId != null ? revId : "")
+        .append(',')
+        .append("tag=")
+        .append(Objects.toString(tag, ""))
+        .append(',')
+        .append("url=")
+        .append(url)
+        .append(',')
+        .append("properties=")
+        .append(properties != null ? properties : "")
         .append('}')
         .toString();
   }

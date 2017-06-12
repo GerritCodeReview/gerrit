@@ -62,8 +62,7 @@ public abstract class MenuScreen extends Screen {
     link(text, target, true);
   }
 
-  protected void link(final String text, final String target,
-      final boolean visible) {
+  protected void link(final String text, final String target, final boolean visible) {
     final LinkMenuItem item = new LinkMenuItem(text, target);
     item.setStyleName(Gerrit.RESOURCES.css().menuItem());
     item.setVisible(visible);

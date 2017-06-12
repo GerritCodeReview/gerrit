@@ -24,21 +24,17 @@ import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.kohsuke.args4j.Argument;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Argument;
 
-/**
- * Command that dispatches to a subcommand from its command table.
- */
+/** Command that dispatches to a subcommand from its command table. */
 final class DispatchCommand extends BaseCommand {
   interface Factory {
     DispatchCommand create(Map<String, CommandProvider> map);
@@ -55,8 +51,7 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(CurrentUser cu,
-      @Assisted final Map<String, CommandProvider> all) {
+  DispatchCommand(CurrentUser cu, @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
     commands = all;
     atomicCmd = Atomics.newReference();
@@ -79,8 +74,10 @@ final class DispatchCommand extends BaseCommand {
       final CommandProvider p = commands.get(commandName);
       if (p == null) {
         String msg =
-            (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "
-                + commandName + ": not found";
+            (getName().isEmpty() ? "Gerrit Code Review" : getName())
+                + ": "
+                + commandName
+                + ": not found";
         throw die(msg);
       }
 
@@ -114,18 +111,15 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd)
-      throws UnloggedFailure {
+  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
     String pluginName = null;
     if (cmd instanceof BaseCommand) {
       pluginName = ((BaseCommand) cmd).getPluginName();
     }
     try {
-      CapabilityUtils.checkRequiresCapability(currentUser,
-          pluginName, cmd.getClass());
+      CapabilityUtils.checkRequiresCapability(currentUser, pluginName, cmd.getClass());
     } catch (AuthException e) {
-      throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN,
-          e.getMessage());
+      throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, e.getMessage());
     }
   }
 
@@ -161,8 +155,7 @@ final class DispatchCommand extends BaseCommand {
     for (String name : Sets.newTreeSet(commands.keySet())) {
       final CommandProvider p = commands.get(name);
       usage.append("   ");
-      usage.append(String.format(format, name,
-          Strings.nullToEmpty(p.getDescription())));
+      usage.append(String.format(format, name, Strings.nullToEmpty(p.getDescription())));
       usage.append("\n");
     }
     usage.append("\n");

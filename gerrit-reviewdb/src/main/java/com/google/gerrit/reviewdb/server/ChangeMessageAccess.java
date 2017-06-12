@@ -23,8 +23,7 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface ChangeMessageAccess extends
-    Access<ChangeMessage, ChangeMessage.Key> {
+public interface ChangeMessageAccess extends Access<ChangeMessage, ChangeMessage.Key> {
   @Override
   @PrimaryKey("key")
   ChangeMessage get(ChangeMessage.Key id) throws OrmException;

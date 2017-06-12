@@ -29,56 +29,49 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String DELETE = "DELETE";
   protected static final String POST = "POST";
 
-  protected <R extends RestResource>
-  ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
+  protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
     return new ReadViewBinder<>(view(viewType, GET, "/"));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType) {
+  protected <R extends RestResource> ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType) {
     return new ModifyViewBinder<>(view(viewType, PUT, "/"));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType) {
+  protected <R extends RestResource> ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType) {
     return new ModifyViewBinder<>(view(viewType, POST, "/"));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType) {
+  protected <R extends RestResource> ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType) {
     return new ModifyViewBinder<>(view(viewType, DELETE, "/"));
   }
 
-  protected <R extends RestResource>
-  ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType, String name) {
+  protected <R extends RestResource> ReadViewBinder<R> get(
+      TypeLiteral<RestView<R>> viewType, String name) {
     return new ReadViewBinder<>(view(viewType, GET, name));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType, String name) {
+  protected <R extends RestResource> ModifyViewBinder<R> put(
+      TypeLiteral<RestView<R>> viewType, String name) {
     return new ModifyViewBinder<>(view(viewType, PUT, name));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType, String name) {
+  protected <R extends RestResource> ModifyViewBinder<R> post(
+      TypeLiteral<RestView<R>> viewType, String name) {
     return new ModifyViewBinder<>(view(viewType, POST, name));
   }
 
-  protected <R extends RestResource>
-  ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType, String name) {
+  protected <R extends RestResource> ModifyViewBinder<R> delete(
+      TypeLiteral<RestView<R>> viewType, String name) {
     return new ModifyViewBinder<>(view(viewType, DELETE, name));
   }
 
-  protected <P extends RestResource>
-  ChildCollectionBinder<P> child(TypeLiteral<RestView<P>> type, String name) {
+  protected <P extends RestResource> ChildCollectionBinder<P> child(
+      TypeLiteral<RestView<P>> type, String name) {
     return new ChildCollectionBinder<>(view(type, GET, name));
   }
 
-  protected <R extends RestResource>
-  LinkedBindingBuilder<RestView<R>> view(
-      TypeLiteral<RestView<R>> viewType,
-      String method,
-      String name) {
+  protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
+      TypeLiteral<RestView<R>> viewType, String method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 
@@ -99,23 +92,21 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <T extends RestReadView<P>>
-    ScopedBindingBuilder to(Class<T> impl) {
+    public <T extends RestReadView<P>> ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <T extends RestReadView<P>>
-    void toInstance(T impl) {
+    public <T extends RestReadView<P>> void toInstance(T impl) {
       binder.toInstance(impl);
     }
 
-    public <T extends RestReadView<P>>
-    ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
+    public <T extends RestReadView<P>> ScopedBindingBuilder toProvider(
+        Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
-    public <T extends RestReadView<P>>
-    ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
+    public <T extends RestReadView<P>> ScopedBindingBuilder toProvider(
+        Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
   }
@@ -127,23 +118,21 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <T extends RestModifyView<P, ?>>
-    ScopedBindingBuilder to(Class<T> impl) {
+    public <T extends RestModifyView<P, ?>> ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <T extends RestModifyView<P, ?>>
-    void toInstance(T impl) {
+    public <T extends RestModifyView<P, ?>> void toInstance(T impl) {
       binder.toInstance(impl);
     }
 
-    public <T extends RestModifyView<P, ?>>
-    ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
+    public <T extends RestModifyView<P, ?>> ScopedBindingBuilder toProvider(
+        Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
-    public <T extends RestModifyView<P, ?>>
-    ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
+    public <T extends RestModifyView<P, ?>> ScopedBindingBuilder toProvider(
+        Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
   }
@@ -155,23 +144,22 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <C extends RestResource, T extends ChildCollection<P, C>>
-    ScopedBindingBuilder to(Class<T> impl) {
+    public <C extends RestResource, T extends ChildCollection<P, C>> ScopedBindingBuilder to(
+        Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <C extends RestResource, T extends ChildCollection<P, C>>
-    void toInstance(T impl) {
+    public <C extends RestResource, T extends ChildCollection<P, C>> void toInstance(T impl) {
       binder.toInstance(impl);
     }
 
     public <C extends RestResource, T extends ChildCollection<P, C>>
-    ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
+        ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
     public <C extends RestResource, T extends ChildCollection<P, C>>
-    ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
+        ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
   }

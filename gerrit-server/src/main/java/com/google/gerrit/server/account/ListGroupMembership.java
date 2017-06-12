@@ -17,12 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.util.Set;
 
-/**
- * GroupMembership over an explicit list.
- */
+/** GroupMembership over an explicit list. */
 public class ListGroupMembership implements GroupMembership {
   private final Set<AccountGroup.UUID> groups;
 

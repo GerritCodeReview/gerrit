@@ -18,13 +18,11 @@ import com.google.common.base.Function;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Timer1;
-
 import java.util.concurrent.TimeUnit;
 
 /** Optimized version of {@link BucketedTimer} for single dimension. */
 class TimerImpl1<F1> extends BucketedTimer implements BucketedMetric {
-  TimerImpl1(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<F1> field1) {
+  TimerImpl1(DropWizardMetricMaker metrics, String name, Description desc, Field<F1> field1) {
     super(metrics, name, desc, field1);
   }
 
@@ -46,8 +44,7 @@ class TimerImpl1<F1> extends BucketedTimer implements BucketedMetric {
   @Override
   String name(Object field1) {
     @SuppressWarnings("unchecked")
-    Function<Object, String> fmt =
-        (Function<Object, String>) fields[0].formatter();
+    Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
 
     return fmt.apply(field1).replace('/', '-');
   }

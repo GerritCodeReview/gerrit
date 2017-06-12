@@ -23,21 +23,29 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 /**
- * A table with one row and one column to hold a unified CodeMirror displaying
- * the files to be compared.
+ * A table with one row and one column to hold a unified CodeMirror displaying the files to be
+ * compared.
  */
 class UnifiedTable extends DiffTable {
   interface Binder extends UiBinder<HTMLPanel, UnifiedTable> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface DiffTableStyle extends CssResource {
     String intralineInsert();
+
     String intralineDelete();
+
     String diffInsert();
+
     String diffDelete();
+
     String unifiedLineNumber();
+
     String unifiedLineNumberEmpty();
+
     String lineNumbersLeft();
+
     String lineNumbersRight();
   }
 
@@ -45,8 +53,7 @@ class UnifiedTable extends DiffTable {
   @UiField Element cm;
   @UiField static DiffTableStyle style;
 
-  UnifiedTable(Unified parent, DiffObject base, DiffObject revision,
-      String path) {
+  UnifiedTable(Unified parent, DiffObject base, DiffObject revision, String path) {
     super(parent, base, revision, path);
 
     initWidget(uiBinder.createAndBindUi(this));
@@ -54,8 +61,7 @@ class UnifiedTable extends DiffTable {
   }
 
   @Override
-  void setHideEmptyPane(boolean hide) {
-  }
+  void setHideEmptyPane(boolean hide) {}
 
   @Override
   boolean isVisibleA() {
@@ -69,8 +75,7 @@ class UnifiedTable extends DiffTable {
 
   @Override
   int getHeaderHeight() {
-    int h = patchSetSelectBoxA.getOffsetHeight()
-        + patchSetSelectBoxB.getOffsetHeight();
+    int h = patchSetSelectBoxA.getOffsetHeight() + patchSetSelectBoxB.getOffsetHeight();
     if (hasHeader()) {
       h += diffHeaderRow.getOffsetHeight();
     }

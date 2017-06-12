@@ -23,15 +23,13 @@ public class GroupInfo {
   protected String description;
   protected String url;
 
-  protected GroupInfo() {
-  }
+  protected GroupInfo() {}
 
   /**
    * Create an anonymous group info, when only the id is known.
-   * <p>
-   * This constructor should only be a last-ditch effort, when the usual group
-   * lookup has failed and a stale group id has been discovered in the data
-   * store.
+   *
+   * <p>This constructor should only be a last-ditch effort, when the usual group lookup has failed
+   * and a stale group id has been discovered in the data store.
    */
   public GroupInfo(final AccountGroup.UUID uuid) {
     this.uuid = uuid;

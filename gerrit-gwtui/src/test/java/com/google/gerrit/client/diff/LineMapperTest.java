@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-
 import org.junit.Test;
 
 /** Unit tests for LineMapper */
@@ -51,56 +50,46 @@ public class LineMapperTest {
   public void testFindInCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
-    assertEquals(new LineOnOtherInfo(9, true),
-        mapper.lineOnOther(DisplaySide.A, 9));
-    assertEquals(new LineOnOtherInfo(9, true),
-        mapper.lineOnOther(DisplaySide.B, 9));
+    assertEquals(new LineOnOtherInfo(9, true), mapper.lineOnOther(DisplaySide.A, 9));
+    assertEquals(new LineOnOtherInfo(9, true), mapper.lineOnOther(DisplaySide.B, 9));
   }
 
   @Test
   public void testFindAfterCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
-    assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(DisplaySide.A, 10));
-    assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(DisplaySide.B, 10));
+    assertEquals(new LineOnOtherInfo(10, true), mapper.lineOnOther(DisplaySide.A, 10));
+    assertEquals(new LineOnOtherInfo(10, true), mapper.lineOnOther(DisplaySide.B, 10));
   }
 
   @Test
   public void testFindInInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
-    assertEquals(new LineOnOtherInfo(-1, false),
-        mapper.lineOnOther(DisplaySide.B, 9));
+    assertEquals(new LineOnOtherInfo(-1, false), mapper.lineOnOther(DisplaySide.B, 9));
   }
 
   @Test
   public void testFindAfterInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
-    assertEquals(new LineOnOtherInfo(0, true),
-        mapper.lineOnOther(DisplaySide.B, 10));
-    assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(DisplaySide.A, 0));
+    assertEquals(new LineOnOtherInfo(0, true), mapper.lineOnOther(DisplaySide.B, 10));
+    assertEquals(new LineOnOtherInfo(10, true), mapper.lineOnOther(DisplaySide.A, 0));
   }
 
   @Test
   public void testFindInDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
-    assertEquals(new LineOnOtherInfo(-1, false),
-        mapper.lineOnOther(DisplaySide.A, 9));
+    assertEquals(new LineOnOtherInfo(-1, false), mapper.lineOnOther(DisplaySide.A, 9));
   }
 
   @Test
   public void testFindAfterDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
-    assertEquals(new LineOnOtherInfo(0, true),
-        mapper.lineOnOther(DisplaySide.A, 10));
-    assertEquals(new LineOnOtherInfo(10, true),
-        mapper.lineOnOther(DisplaySide.B, 0));
+    assertEquals(new LineOnOtherInfo(0, true), mapper.lineOnOther(DisplaySide.A, 10));
+    assertEquals(new LineOnOtherInfo(10, true), mapper.lineOnOther(DisplaySide.B, 0));
   }
 
   @Test
@@ -119,14 +108,10 @@ public class LineMapperTest {
     assertEquals(4, mapper.getLineA());
     assertEquals(6, mapper.getLineB());
 
-    assertEquals(new LineOnOtherInfo(1, true),
-        mapper.lineOnOther(DisplaySide.B, 1));
-    assertEquals(new LineOnOtherInfo(3, true),
-        mapper.lineOnOther(DisplaySide.B, 5));
+    assertEquals(new LineOnOtherInfo(1, true), mapper.lineOnOther(DisplaySide.B, 1));
+    assertEquals(new LineOnOtherInfo(3, true), mapper.lineOnOther(DisplaySide.B, 5));
 
-    assertEquals(new LineOnOtherInfo(2, true),
-        mapper.lineOnOther(DisplaySide.B, 2));
-    assertEquals(new LineOnOtherInfo(2, false),
-        mapper.lineOnOther(DisplaySide.B, 3));
+    assertEquals(new LineOnOtherInfo(2, true), mapper.lineOnOther(DisplaySide.B, 2));
+    assertEquals(new LineOnOtherInfo(2, false), mapper.lineOnOther(DisplaySide.B, 3));
   }
 }

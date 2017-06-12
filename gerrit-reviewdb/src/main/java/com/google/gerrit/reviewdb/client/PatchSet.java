@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +32,7 @@ public final class PatchSet {
    * Is the reference name a change reference?
    *
    * @deprecated use isChangeRef instead.
-   **/
+   */
   @Deprecated
   public static boolean isRef(String name) {
     return isChangeRef(name);
@@ -108,9 +107,7 @@ public final class PatchSet {
     }
 
     public String toRefName() {
-      return changeId.refPrefixBuilder()
-          .append(patchSetId)
-          .toString();
+      return changeId.refPrefixBuilder().append(patchSetId).toString();
     }
 
     /** Parse a PatchSet.Id out of a string representation. */
@@ -154,9 +151,7 @@ public final class PatchSet {
     }
 
     public static String toId(int number) {
-      return number == 0
-          ? "edit"
-          : String.valueOf(number);
+      return number == 0 ? "edit" : String.valueOf(number);
     }
   }
 
@@ -178,12 +173,12 @@ public final class PatchSet {
 
   /**
    * Opaque group identifier, usually assigned during creation.
-   * <p>
-   * This field is actually a comma-separated list of values, as in rare cases
-   * involving merge commits a patch set may belong to multiple groups.
-   * <p>
-   * Changes on the same branch having patch sets with intersecting groups are
-   * considered related, as in the "Related Changes" tab.
+   *
+   * <p>This field is actually a comma-separated list of values, as in rare cases involving merge
+   * commits a patch set may belong to multiple groups.
+   *
+   * <p>Changes on the same branch having patch sets with intersecting groups are considered
+   * related, as in the "Related Changes" tab.
    */
   @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String groups;
@@ -194,8 +189,7 @@ public final class PatchSet {
   @Column(id = 8, notNull = false, length = Integer.MAX_VALUE)
   protected String pushCertificate;
 
-  protected PatchSet() {
-  }
+  protected PatchSet() {}
 
   public PatchSet(final PatchSet.Id k) {
     id = k;

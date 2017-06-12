@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,15 +28,13 @@ import java.util.Map;
 public interface Groups {
   /**
    * Look up a group by ID.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the group. Methods that
-   * mutate the group do not necessarily re-read the group. Therefore, calling a
-   * getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code groupApi} instances.
    *
-   * @param id any identifier supported by the REST API, including group name or
-   *     UUID.
+   * <p><strong>Note:</strong> This method eagerly reads the group. Methods that mutate the group do
+   * not necessarily re-read the group. Therefore, calling a getter method on an instance after
+   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
+   * is not recommended to store references to {@code groupApi} instances.
+   *
+   * @param id any identifier supported by the REST API, including group name or UUID.
    * @return API for accessing the group.
    * @throws RestApiException if an error occurred.
    */
@@ -53,8 +50,7 @@ public interface Groups {
   ListRequest list();
 
   abstract class ListRequest {
-    private final EnumSet<ListGroupsOption> options =
-        EnumSet.noneOf(ListGroupsOption.class);
+    private final EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
     private final List<String> projects = new ArrayList<>();
     private final List<String> groups = new ArrayList<>();
 
@@ -182,9 +178,9 @@ public interface Groups {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements Groups {
     @Override
     public GroupApi id(String id) throws RestApiException {

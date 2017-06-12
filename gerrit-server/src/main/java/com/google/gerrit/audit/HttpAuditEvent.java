@@ -34,8 +34,16 @@ public class HttpAuditEvent extends AuditEvent {
    * @param status HTTP status
    * @param result result of the event
    */
-  public HttpAuditEvent(String sessionId, CurrentUser who, String what, long when,
-      Multimap<String, ?> params, String httpMethod, Object input, int status, Object result) {
+  public HttpAuditEvent(
+      String sessionId,
+      CurrentUser who,
+      String what,
+      long when,
+      Multimap<String, ?> params,
+      String httpMethod,
+      Object input,
+      int status,
+      Object result) {
     super(sessionId, who, what, when, params, result);
     this.httpMethod = httpMethod;
     this.input = input;

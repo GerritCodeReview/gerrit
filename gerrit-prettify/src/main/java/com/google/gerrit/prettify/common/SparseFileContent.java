@@ -14,11 +14,9 @@
 
 package com.google.gerrit.prettify.common;
 
-
-import org.eclipse.jgit.diff.Edit;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 public class SparseFileContent {
   protected String path;
@@ -282,8 +280,7 @@ public class SparseFileContent {
       lines = new ArrayList<>();
     }
 
-    protected Range() {
-    }
+    protected Range() {}
 
     private String get(final int i) {
       return lines.get(i - base);

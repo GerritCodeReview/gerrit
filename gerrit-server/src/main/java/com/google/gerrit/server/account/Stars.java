@@ -38,15 +38,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
 @Singleton
-public class Stars implements
-    ChildCollection<AccountResource, AccountResource.Star> {
+public class Stars implements ChildCollection<AccountResource, AccountResource.Star> {
 
   private final ChangesCollection changes;
   private final ListStarredChanges listStarredChanges;
@@ -54,7 +52,8 @@ public class Stars implements
   private final DynamicMap<RestView<AccountResource.Star>> views;
 
   @Inject
-  Stars(ChangesCollection changes,
+  Stars(
+      ChangesCollection changes,
       ListStarredChanges listStarredChanges,
       StarredChangesUtil starredChangesUtil,
       DynamicMap<RestView<AccountResource.Star>> views) {
@@ -69,8 +68,7 @@ public class Stars implements
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    Set<String> labels =
-        starredChangesUtil.getLabels(user.getAccountId(), change.getId());
+    Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());
     return new AccountResource.Star(user, change, labels);
   }
 
@@ -85,14 +83,12 @@ public class Stars implements
   }
 
   @Singleton
-  public static class ListStarredChanges
-      implements RestReadView<AccountResource> {
+  public static class ListStarredChanges implements RestReadView<AccountResource> {
     private final Provider<CurrentUser> self;
     private final ChangesCollection changes;
 
     @Inject
-    ListStarredChanges(Provider<CurrentUser> self,
-        ChangesCollection changes) {
+    ListStarredChanges(Provider<CurrentUser> self, ChangesCollection changes) {
       this.self = self;
       this.changes = changes;
     }
@@ -102,8 +98,7 @@ public class Stars implements
     public List<ChangeInfo> apply(AccountResource rsrc)
         throws BadRequestException, AuthException, OrmException {
       if (self.get() != rsrc.getUser()) {
-        throw new AuthException(
-            "not allowed to list stars of another account");
+        throw new AuthException("not allowed to list stars of another account");
       }
       QueryChanges query = changes.list();
       query.addQuery("has:stars");
@@ -112,38 +107,32 @@ public class Stars implements
   }
 
   @Singleton
-  public static class Get implements
-      RestReadView<AccountResource.Star> {
+  public static class Get implements RestReadView<AccountResource.Star> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
     @Inject
-    Get(Provider<CurrentUser> self,
-        StarredChangesUtil starredChangesUtil) {
+    Get(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
       this.self = self;
       this.starredChangesUtil = starredChangesUtil;
     }
 
     @Override
-    public SortedSet<String> apply(AccountResource.Star rsrc)
-        throws AuthException, OrmException {
+    public SortedSet<String> apply(AccountResource.Star rsrc) throws AuthException, OrmException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed to get stars of another account");
       }
-      return starredChangesUtil.getLabels(self.get().getAccountId(),
-          rsrc.getChange().getId());
+      return starredChangesUtil.getLabels(self.get().getAccountId(), rsrc.getChange().getId());
     }
   }
 
   @Singleton
-  public static class Post implements
-      RestModifyView<AccountResource.Star, StarsInput> {
+  public static class Post implements RestModifyView<AccountResource.Star, StarsInput> {
     private final Provider<CurrentUser> self;
     private final StarredChangesUtil starredChangesUtil;
 
     @Inject
-    Post(Provider<CurrentUser> self,
-        StarredChangesUtil starredChangesUtil) {
+    Post(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
       this.self = self;
       this.starredChangesUtil = starredChangesUtil;
     }
@@ -152,12 +141,14 @@ public class Stars implements
     public Collection<String> apply(AccountResource.Star rsrc, StarsInput in)
         throws AuthException, BadRequestException, OrmException {
       if (self.get() != rsrc.getUser()) {
-        throw new AuthException(
-            "not allowed to update stars of another account");
+        throw new AuthException("not allowed to update stars of another account");
       }
       try {
-        return starredChangesUtil.star(self.get().getAccountId(),
-            rsrc.getChange().getProject(), rsrc.getChange().getId(), in.add,
+        return starredChangesUtil.star(
+            self.get().getAccountId(),
+            rsrc.getChange().getProject(),
+            rsrc.getChange().getId(),
+            in.add,
             in.remove);
       } catch (IllegalLabelException e) {
         throw new BadRequestException(e.getMessage());

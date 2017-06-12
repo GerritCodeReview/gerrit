@@ -17,13 +17,12 @@ package com.google.gerrit.sshd;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
  * Name of a command registered in an SSH daemon.
- * <p>
- * Use {@link Commands#key(String)} to construct a key for a command name.
+ *
+ * <p>Use {@link Commands#key(String)} to construct a key for a command name.
  *
  * @see CommandModule#command(String)
  * @see Commands#key(String)

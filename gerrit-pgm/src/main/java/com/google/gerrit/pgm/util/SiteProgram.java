@@ -50,10 +50,6 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.Config;
-import org.kohsuke.args4j.Option;
-
 import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,11 +58,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.sql.DataSource;
+import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
-  @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
+  @Option(
+    name = "--site-path",
+    aliases = {"-d"},
+    usage = "Local directory containing site data"
+  )
   private void setSitePath(String path) {
     sitePath = Paths.get(path);
   }
@@ -75,8 +76,7 @@ public abstract class SiteProgram extends AbstractProgram {
 
   private Path sitePath = Paths.get(".");
 
-  protected SiteProgram() {
-  }
+  protected SiteProgram() {}
 
   protected SiteProgram(Path sitePath) {
     this.sitePath = sitePath;
@@ -95,8 +95,8 @@ public abstract class SiteProgram extends AbstractProgram {
   /** Ensures we are running inside of a valid site, otherwise throws a Die. */
   protected void mustHaveValidSite() throws Die {
     if (!Files.exists(sitePath.resolve("etc").resolve("gerrit.config"))) {
-      throw die("not a Gerrit site: '" + getSitePath() + "'\n"
-          + "Perhaps you need to run init first?");
+      throw die(
+          "not a Gerrit site: '" + getSitePath() + "'\n" + "Perhaps you need to run init first?");
     }
   }
 
@@ -106,51 +106,55 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector(final boolean enableMetrics,
-      final DataSourceProvider.Context context) {
+  protected Injector createDbInjector(
+      final boolean enableMetrics, final DataSourceProvider.Context context) {
     final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 
-    Module sitePathModule = new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        bind(String.class).annotatedWith(SecureStoreClassName.class)
-            .toProvider(Providers.of(getConfiguredSecureStoreClass()));
-      }
-    };
+    Module sitePathModule =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            bind(String.class)
+                .annotatedWith(SecureStoreClassName.class)
+                .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+          }
+        };
     modules.add(sitePathModule);
 
     if (enableMetrics) {
       modules.add(new DropWizardMetricMaker.ApiModule());
     } else {
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(MetricMaker.class).to(DisabledMetricMaker.class);
-        }
-      });
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(MetricMaker.class).to(DisabledMetricMaker.class);
+            }
+          });
     }
 
-    modules.add(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        bind(DataSourceProvider.Context.class).toInstance(context);
-        if (dsProvider != null) {
-          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-            .toProvider(dsProvider)
-            .in(SINGLETON);
-          if (LifecycleListener.class.isAssignableFrom(dsProvider.getClass())) {
-            listener().toInstance((LifecycleListener) dsProvider);
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            bind(DataSourceProvider.Context.class).toInstance(context);
+            if (dsProvider != null) {
+              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+                  .toProvider(dsProvider)
+                  .in(SINGLETON);
+              if (LifecycleListener.class.isAssignableFrom(dsProvider.getClass())) {
+                listener().toInstance((LifecycleListener) dsProvider);
+              }
+            } else {
+              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+                  .toProvider(SiteLibraryBasedDataSourceProvider.class)
+                  .in(SINGLETON);
+              listener().to(SiteLibraryBasedDataSourceProvider.class);
+            }
           }
-        } else {
-          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-            .toProvider(SiteLibraryBasedDataSourceProvider.class)
-            .in(SINGLETON);
-          listener().to(SiteLibraryBasedDataSourceProvider.class);
-        }
-      }
-    });
+        });
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
@@ -166,16 +170,17 @@ public abstract class SiteProgram extends AbstractProgram {
       throw new ProvisionException("database.type must be defined");
     }
 
-    final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,
-            sitePathModule).getInstance(
-            Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
+    final DataSourceType dst =
+        Guice.createInjector(new DataSourceModule(), configModule, sitePathModule)
+            .getInstance(Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
 
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(DataSourceType.class).toInstance(dst);
-      }
-    });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(DataSourceType.class).toInstance(dst);
+          }
+        });
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
@@ -190,7 +195,8 @@ public abstract class SiteProgram extends AbstractProgram {
       if (why instanceof SQLException) {
         throw die("Cannot connect to SQL database", why);
       }
-      if (why instanceof OrmException && why.getCause() != null
+      if (why instanceof OrmException
+          && why.getCause() != null
           && "Unable to determine driver URL".equals(why.getMessage())) {
         why = why.getCause();
         if (isCannotCreatePoolException(why)) {
@@ -228,12 +234,13 @@ public abstract class SiteProgram extends AbstractProgram {
     }
 
     List<Module> modules = new ArrayList<>();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
-      }
-    });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
+          }
+        });
     modules.add(new GerritServerConfigModule());
     modules.add(new DataSourceModule());
     Injector i = Guice.createInjector(modules);
@@ -247,16 +254,15 @@ public abstract class SiteProgram extends AbstractProgram {
         }
       }
     }
-    throw new IllegalStateException(String.format(
-        "Cannot guess database type from the database product name '%s'",
-        dbProductName));
+    throw new IllegalStateException(
+        String.format(
+            "Cannot guess database type from the database product name '%s'", dbProductName));
   }
 
   @SuppressWarnings("deprecation")
   private static boolean isCannotCreatePoolException(Throwable why) {
     return why instanceof org.apache.commons.dbcp.SQLNestedException
         && why.getCause() != null
-        && why.getMessage().startsWith(
-            "Cannot create PoolableConnectionFactory");
+        && why.getMessage().startsWith("Cannot create PoolableConnectionFactory");
   }
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.io.IOException;
 
 /** Caches important (but small) account state to avoid database hits. */

@@ -22,16 +22,14 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
  *
- * @param <I> input type from which documents are created and search results are
- *     returned.
- * @param <T> type that should be extracted from the input object when converting
- *     to an index document.
+ * @param <I> input type from which documents are created and search results are returned.
+ * @param <T> type that should be extracted from the input object when converting to an index
+ *     document.
  */
 public abstract class FieldDef<I, T> {
   /** Definition of a single (non-repeatable) field. */
@@ -47,12 +45,11 @@ public abstract class FieldDef<I, T> {
   }
 
   /** Definition of a repeatable field. */
-  public abstract static class Repeatable<I, T>
-      extends FieldDef<I, Iterable<T>> {
+  public abstract static class Repeatable<I, T> extends FieldDef<I, Iterable<T>> {
     protected Repeatable(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
-      Preconditions.checkArgument(type != FieldType.INTEGER_RANGE,
-          "Range queries against repeated fields are unsupported");
+      Preconditions.checkArgument(
+          type != FieldType.INTEGER_RANGE, "Range queries against repeated fields are unsupported");
     }
 
     @Override
@@ -67,12 +64,9 @@ public abstract class FieldDef<I, T> {
     public final boolean allowsDrafts;
 
     @Inject
-    FillArgs(TrackingFooters trackingFooters,
-        @GerritServerConfig Config cfg) {
+    FillArgs(TrackingFooters trackingFooters, @GerritServerConfig Config cfg) {
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
+      this.allowsDrafts = cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true);
     }
   }
 
@@ -97,10 +91,7 @@ public abstract class FieldDef<I, T> {
     return name;
   }
 
-  /**
-   * @return type of the field; for repeatable fields, the inner type, not the
-   *     iterable type.
-   */
+  /** @return type of the field; for repeatable fields, the inner type, not the iterable type. */
   public final FieldType<?> getType() {
     return type;
   }
@@ -114,10 +105,8 @@ public abstract class FieldDef<I, T> {
    * Get the field contents from the input object.
    *
    * @param input input object.
-   * @param args arbitrary arguments needed to fill in indexable fields of the
-   *     input object.
+   * @param args arbitrary arguments needed to fill in indexable fields of the input object.
    * @return the field value(s) to index.
-   *
    * @throws OrmException
    */
   public abstract T get(I input, FillArgs args) throws OrmException;

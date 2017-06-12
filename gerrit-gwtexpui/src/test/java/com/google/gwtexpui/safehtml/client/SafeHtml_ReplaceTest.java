@@ -16,67 +16,63 @@ package com.google.gwtexpui.safehtml.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Test;
 
 public class SafeHtml_ReplaceTest {
   @Test
   public void testReplaceEmpty() {
     SafeHtml o = html("A\nissue42\nB");
     assertThat(o.replaceAll(null)).isSameAs(o);
-    assertThat(o.replaceAll(Collections.<FindReplace> emptyList())).isSameAs(o);
+    assertThat(o.replaceAll(Collections.<FindReplace>emptyList())).isSameAs(o);
   }
 
   @Test
   public void testReplaceOneLink() {
     SafeHtml o = html("A\nissue 42\nB");
-    SafeHtml n = o.replaceAll(repls(
-        new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
+    SafeHtml n =
+        o.replaceAll(repls(new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A\n<a href=\"?42\">issue 42</a>\nB");
+    assertThat(n.asString()).isEqualTo("A\n<a href=\"?42\">issue 42</a>\nB");
   }
 
   @Test
   public void testReplaceNoLeadingOrTrailingText() {
     SafeHtml o = html("issue 42");
-    SafeHtml n = o.replaceAll(repls(
-        new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
+    SafeHtml n =
+        o.replaceAll(repls(new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "<a href=\"?42\">issue 42</a>");
+    assertThat(n.asString()).isEqualTo("<a href=\"?42\">issue 42</a>");
   }
 
   @Test
   public void testReplaceTwoLinks() {
     SafeHtml o = html("A\nissue 42\nissue 9918\nB");
-    SafeHtml n = o.replaceAll(repls(
-        new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
+    SafeHtml n =
+        o.replaceAll(repls(new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A\n"
-        + "<a href=\"?42\">issue 42</a>\n"
-        + "<a href=\"?9918\">issue 9918</a>\n"
-        + "B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A\n" + "<a href=\"?42\">issue 42</a>\n" + "<a href=\"?9918\">issue 9918</a>\n" + "B");
   }
 
   @Test
   public void testReplaceInOrder() {
     SafeHtml o = html("A\nissue 42\nReally GWTEXPUI-9918 is better\nB");
-    SafeHtml n = o.replaceAll(repls(
-        new RawFindReplace("(GWTEXPUI-(\\d+))",
-            "<a href=\"gwtexpui-bug?$2\">$1</a>"),
-        new RawFindReplace("(issue\\s+(\\d+))",
-            "<a href=\"generic-bug?$2\">$1</a>")));
+    SafeHtml n =
+        o.replaceAll(
+            repls(
+                new RawFindReplace("(GWTEXPUI-(\\d+))", "<a href=\"gwtexpui-bug?$2\">$1</a>"),
+                new RawFindReplace("(issue\\s+(\\d+))", "<a href=\"generic-bug?$2\">$1</a>")));
     assertThat(o).isNotSameAs(n);
-    assertThat(n.asString()).isEqualTo(
-        "A\n"
-        + "<a href=\"generic-bug?42\">issue 42</a>\n"
-        + "Really <a href=\"gwtexpui-bug?9918\">GWTEXPUI-9918</a> is better\n"
-        + "B");
+    assertThat(n.asString())
+        .isEqualTo(
+            "A\n"
+                + "<a href=\"generic-bug?42\">issue 42</a>\n"
+                + "Really <a href=\"gwtexpui-bug?9918\">GWTEXPUI-9918</a> is better\n"
+                + "B");
   }
 
   @Test

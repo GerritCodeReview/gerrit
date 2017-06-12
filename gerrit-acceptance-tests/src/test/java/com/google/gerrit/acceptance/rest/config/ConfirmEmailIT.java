@@ -20,7 +20,6 @@ import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -28,47 +27,37 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     Config cfg = new Config();
-    cfg.setString("auth", null, "registerEmailPrivateKey",
-        SignedToken.generateRandomKey());
+    cfg.setString("auth", null, "registerEmailPrivateKey", SignedToken.generateRandomKey());
     return cfg;
   }
 
-  @Inject
-  private EmailTokenVerifier emailTokenVerifier;
+  @Inject private EmailTokenVerifier emailTokenVerifier;
 
   @Test
   public void confirm() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), "new.mail@example.com");
-    adminRestSession
-        .put("/config/server/email.confirm", in)
-        .assertNoContent();
+    adminRestSession.put("/config/server/email.confirm", in).assertNoContent();
   }
 
   @Test
   public void confirmForOtherUser_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(user.getId(), "new.mail@example.com");
-    adminRestSession
-        .put("/config/server/email.confirm", in)
-        .assertUnprocessableEntity();
+    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
   }
 
   @Test
   public void confirmInvalidToken_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = "invalidToken";
-    adminRestSession
-        .put("/config/server/email.confirm", in)
-        .assertUnprocessableEntity();
+    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
   }
 
   @Test
   public void confirmAlreadyInUse_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), user.email);
-    adminRestSession
-        .put("/config/server/email.confirm", in)
-        .assertUnprocessableEntity();
+    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
   }
 }

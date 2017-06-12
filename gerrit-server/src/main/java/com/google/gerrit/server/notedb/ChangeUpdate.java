@@ -63,17 +63,6 @@ import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -85,22 +74,31 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A delta to apply to a change.
- * <p>
- * This delta will become two unique commits: one in the AllUsers repo that will
- * contain the draft comments on this change and one in the notes branch that
- * will contain approvals, reviewers, change status, subject, submit records,
- * the change message, and published comments. There are limitations on the set
- * of modifications that can be handled in a single update. In particular, there
- * is a single author and timestamp for each update.
- * <p>
- * This class is not thread-safe.
+ *
+ * <p>This delta will become two unique commits: one in the AllUsers repo that will contain the
+ * draft comments on this change and one in the notes branch that will contain approvals, reviewers,
+ * change status, subject, submit records, the change message, and published comments. There are
+ * limitations on the set of modifications that can be handled in a single update. In particular,
+ * there is a single author and timestamp for each update.
+ *
+ * <p>This class is not thread-safe.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
+
     ChangeUpdate create(ChangeControl ctl, Date when);
 
     ChangeUpdate create(
@@ -112,8 +110,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         Comparator<String> labelNameComparator);
 
     @VisibleForTesting
-    ChangeUpdate create(ChangeControl ctl, Date when,
-        Comparator<String> labelNameComparator);
+    ChangeUpdate create(ChangeControl ctl, Date when, Comparator<String> labelNameComparator);
   }
 
   private final AccountCache accountCache;
@@ -158,9 +155,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
-    this(serverIdent, anonymousCowardName, migration, accountCache,
-        updateManagerFactory, draftUpdateFactory, robotCommentUpdateFactory,
-        projectCache, ctl, serverIdent.getWhen(), noteUtil);
+    this(
+        serverIdent,
+        anonymousCowardName,
+        migration,
+        accountCache,
+        updateManagerFactory,
+        draftUpdateFactory,
+        robotCommentUpdateFactory,
+        projectCache,
+        ctl,
+        serverIdent.getWhen(),
+        noteUtil);
   }
 
   @AssistedInject
@@ -176,9 +182,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
-    this(serverIdent, anonymousCowardName, migration, accountCache,
-        updateManagerFactory, draftUpdateFactory, robotCommentUpdateFactory,
-        ctl, when,
+    this(
+        serverIdent,
+        anonymousCowardName,
+        migration,
+        accountCache,
+        updateManagerFactory,
+        draftUpdateFactory,
+        robotCommentUpdateFactory,
+        ctl,
+        when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         noteUtil);
   }
@@ -205,8 +218,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(migration, ctl, serverIdent,
-        anonymousCowardName, noteUtil, when);
+    super(migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -230,8 +242,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
-        accountId, realAccountId, authorIdent, when);
+    super(
+        migration,
+        noteUtil,
+        serverIdent,
+        anonymousCowardName,
+        null,
+        change,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -240,8 +261,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public ObjectId commit() throws IOException, OrmException {
-    try (NoteDbUpdateManager updateManager =
-        updateManagerFactory.create(getProjectName())) {
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
       updateManager.add(this);
       updateManager.stageAndApplyDelta(getChange());
       updateManager.execute();
@@ -251,9 +271,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setChangeId(String changeId) {
     String old = getChange().getKey().get();
-    checkArgument(old.equals(changeId),
+    checkArgument(
+        old.equals(changeId),
         "The Change-Id was already set to %s, so we cannot set this Change-Id: %s",
-        old, changeId);
+        old,
+        changeId);
     this.changeId = changeId;
   }
 
@@ -262,8 +284,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setStatus(Change.Status status) {
-    checkArgument(status != Change.Status.MERGED,
-        "use merge(Iterable<SubmitRecord>)");
+    checkArgument(status != Change.Status.MERGED, "use merge(Iterable<SubmitRecord>)");
     this.status = status;
   }
 
@@ -287,13 +308,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.empty());
   }
 
-  public void merge(RequestId submissionId,
-      Iterable<SubmitRecord> submitRecords) {
+  public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
     this.status = Change.Status.MERGED;
     this.submissionId = submissionId.toStringForStorage();
     this.submitRecords = ImmutableList.copyOf(submitRecords);
-    checkArgument(!this.submitRecords.isEmpty(),
-        "no submit records specified at submit time");
+    checkArgument(!this.submitRecords.isEmpty(), "no submit records specified at submit time");
   }
 
   @Deprecated // Only until we improve ChangeRebuilder to call merge().
@@ -353,11 +372,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (draftUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        draftUpdate = draftUpdateFactory.create(
-            notes, accountId, realAccountId, authorIdent, when);
+        draftUpdate = draftUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
       } else {
-        draftUpdate = draftUpdateFactory.create(
-            getChange(), accountId, realAccountId, authorIdent, when);
+        draftUpdate =
+            draftUpdateFactory.create(getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
     return draftUpdate;
@@ -368,11 +386,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (robotCommentUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        robotCommentUpdate = robotCommentUpdateFactory.create(
-            notes, accountId, realAccountId, authorIdent, when);
+        robotCommentUpdate =
+            robotCommentUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
       } else {
-        robotCommentUpdate = robotCommentUpdateFactory.create(
-            getChange(), accountId, realAccountId, authorIdent, when);
+        robotCommentUpdate =
+            robotCommentUpdateFactory.create(
+                getChange(), accountId, realAccountId, authorIdent, when);
       }
     }
     return robotCommentUpdate;
@@ -386,8 +405,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     setCommit(rw, id, null);
   }
 
-  public void setCommit(RevWalk rw, ObjectId id, String pushCert)
-      throws IOException {
+  public void setCommit(RevWalk rw, ObjectId id, String pushCert) throws IOException {
     RevCommit commit = rw.parseCommit(id);
     rw.parseBody(commit);
     this.commit = commit.name();
@@ -396,8 +414,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /**
-   * Set the revision without depending on the commit being present in the
-   * repository; should only be used for converting old corrupt commits.
+   * Set the revision without depending on the commit being present in the repository; should only
+   * be used for converting old corrupt commits.
    */
   public void setRevisionForMissingCommit(String id, String pushCert) {
     commit = id;
@@ -440,8 +458,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /** @return the tree id for the updated tree */
-  private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter,
-      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+  private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
     if (comments.isEmpty() && pushCert == null) {
       return null;
     }
@@ -460,16 +478,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      ObjectId data = inserter.insert(
-          OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
+      ObjectId data =
+          inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
     return rnm.noteMap.writeTree(inserter);
   }
 
-  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw,
-      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
+      throws ConfigInvalidException, OrmException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
@@ -479,8 +497,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       // hasn't advanced.
       ChangeNotes notes = getNotes();
       if (notes != null && notes.revisionNoteMap != null) {
-        ObjectId idFromNotes =
-            firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
+        ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
         if (idFromNotes.equals(curr)) {
           return notes.revisionNoteMap;
         }
@@ -490,15 +507,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil,
-        getId(),
-        rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.PUBLISHED);
+        noteUtil, getId(), rw.getObjectReader(), noteMap, PatchLineComment.Status.PUBLISHED);
   }
 
-  private void checkComments(Map<RevId, ChangeRevisionNote> existingNotes,
-      Map<RevId, RevisionNoteBuilder> toUpdate) throws OrmException {
+  private void checkComments(
+      Map<RevId, ChangeRevisionNote> existingNotes, Map<RevId, RevisionNoteBuilder> toUpdate)
+      throws OrmException {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
@@ -528,8 +542,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (RevisionNoteBuilder b : toUpdate.values()) {
       for (Comment c : b.put.values()) {
         if (existing.contains(c.key)) {
-          throw new OrmException(
-              "Cannot update existing published comment: " + c);
+          throw new OrmException("Cannot update existing published comment: " + c);
         }
       }
     }
@@ -541,8 +554,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
-  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
-      ObjectId curr) throws OrmException, IOException {
+  protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
+      throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
@@ -612,14 +625,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
 
-    for (Table.Cell<String, Account.Id, Optional<Short>> c
-        : approvals.cellSet()) {
+    for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
       if (!c.getValue().isPresent()) {
         msg.append('-').append(c.getRowKey());
       } else {
-        msg.append(LabelVote.create(
-            c.getRowKey(), c.getValue().get()).formatWithEquals());
+        msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
       }
       Account.Id id = c.getColumnKey();
       if (!id.equals(getAccountId())) {
@@ -634,8 +645,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (submitRecords != null) {
       for (SubmitRecord rec : submitRecords) {
-        addFooter(msg, FOOTER_SUBMITTED_WITH)
-            .append(rec.status);
+        addFooter(msg, FOOTER_SUBMITTED_WITH).append(rec.status);
         if (rec.errorMessage != null) {
           msg.append(' ').append(sanitizeFooter(rec.errorMessage));
         }
@@ -644,7 +654,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         if (rec.labels != null) {
           for (SubmitRecord.Label label : rec.labels) {
             addFooter(msg, FOOTER_SUBMITTED_WITH)
-                .append(label.status).append(": ").append(label.label);
+                .append(label.status)
+                .append(": ")
+                .append(label.label);
             if (label.appliedBy != null) {
               msg.append(": ");
               addIdent(msg, label.appliedBy);
@@ -727,8 +739,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return sb.append(footer.getName()).append(": ");
   }
 
-  private static void addFooter(StringBuilder sb, FooterKey footer,
-      Object... values) {
+  private static void addFooter(StringBuilder sb, FooterKey footer, Object... values) {
     addFooter(sb, footer);
     for (Object value : values) {
       sb.append(value);

@@ -19,13 +19,11 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 public class PluginConfig {
   private static final String PLUGIN = "plugin";
@@ -53,14 +51,16 @@ public class PluginConfig {
     ProjectState parent = Iterables.getFirst(state.parents(), null);
     if (parent != null) {
       PluginConfig parentPluginConfig =
-          parent.getConfig().getPluginConfig(pluginName)
-              .withInheritance(projectStateFactory);
+          parent.getConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
       Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
         if (!allNames.contains(name)) {
-          cfg.setStringList(PLUGIN, pluginName, name, Arrays
-              .asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name)));
+          cfg.setStringList(
+              PLUGIN,
+              pluginName,
+              name,
+              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name)));
         }
       }
     }
@@ -86,8 +86,7 @@ public class PluginConfig {
     if (defaultValue == null) {
       return cfg.getString(PLUGIN, pluginName, name);
     }
-    return MoreObjects.firstNonNull(cfg.getString(PLUGIN, pluginName, name),
-        defaultValue);
+    return MoreObjects.firstNonNull(cfg.getString(PLUGIN, pluginName, name), defaultValue);
   }
 
   public void setString(String name, String value) {

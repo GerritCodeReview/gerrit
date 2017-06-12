@@ -39,12 +39,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -54,12 +48,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCacheImpl implements AccountCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(AccountCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(AccountCacheImpl.class);
 
   private static final String BYID_NAME = "accounts";
   private static final String BYUSER_NAME = "accounts_byname";
@@ -68,13 +65,10 @@ public class AccountCacheImpl implements AccountCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, Account.Id.class, AccountState.class)
-          .loader(ByIdLoader.class);
+        cache(BYID_NAME, Account.Id.class, AccountState.class).loader(ByIdLoader.class);
 
-        cache(BYUSER_NAME,
-            String.class,
-            new TypeLiteral<Optional<Account.Id>>() {})
-          .loader(ByNameLoader.class);
+        cache(BYUSER_NAME, String.class, new TypeLiteral<Optional<Account.Id>>() {})
+            .loader(ByNameLoader.class);
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
@@ -87,7 +81,8 @@ public class AccountCacheImpl implements AccountCache {
   private final Provider<AccountIndexer> indexer;
 
   @Inject
-  AccountCacheImpl(@Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
+  AccountCacheImpl(
+      @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
       @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
       Provider<AccountIndexer> indexer) {
     this.byId = byId;
@@ -149,8 +144,7 @@ public class AccountCacheImpl implements AccountCache {
     account.setActive(false);
     Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(account, anon, ids,
-        new HashMap<ProjectWatchKey, Set<NotifyType>>());
+    return new AccountState(account, anon, ids, new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
@@ -162,19 +156,18 @@ public class AccountCacheImpl implements AccountCache {
     private final Provider<WatchConfig.Accessor> watchConfig;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf,
+    ByIdLoader(
+        SchemaFactory<ReviewDb> sf,
         GroupCache groupCache,
         GeneralPreferencesLoader loader,
-        @Named(BYUSER_NAME) LoadingCache<String,
-            Optional<Account.Id>> byUsername,
+        @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
         @GerritServerConfig Config cfg,
         Provider<WatchConfig.Accessor> watchConfig) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
       this.byName = byUsername;
-      this.readFromGit =
-          cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
+      this.readFromGit = cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
       this.watchConfig = watchConfig;
     }
 
@@ -199,8 +192,7 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(
-              db.accountExternalIds().byAccount(who).toList());
+          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(who).toList());
 
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
@@ -215,8 +207,7 @@ public class AccountCacheImpl implements AccountCache {
       try {
         account.setGeneralPreferences(loader.load(who));
       } catch (IOException | ConfigInvalidException e) {
-        log.warn("Cannot load GeneralPreferences for " + who +
-            " (using default)", e);
+        log.warn("Cannot load GeneralPreferences for " + who + " (using default)", e);
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
       }
 
@@ -225,8 +216,7 @@ public class AccountCacheImpl implements AccountCache {
               ? watchConfig.get().getProjectWatches(who)
               : GetWatchedProjects.readProjectWatchesFromDb(db, who);
 
-      return new AccountState(account, internalGroups, externalIds,
-          projectWatches);
+      return new AccountState(account, internalGroups, externalIds, projectWatches);
     }
   }
 
@@ -236,7 +226,8 @@ public class AccountCacheImpl implements AccountCache {
     private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    ByNameLoader(SchemaFactory<ReviewDb> sf,
+    ByNameLoader(
+        SchemaFactory<ReviewDb> sf,
         AccountIndexCollection accountIndexes,
         Provider<InternalAccountQuery> accountQueryProvider) {
       this.schema = sf;
@@ -246,14 +237,13 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-        AccountExternalId.Key key = new AccountExternalId.Key( //
-            AccountExternalId.SCHEME_USERNAME, //
-            username);
+      AccountExternalId.Key key =
+          new AccountExternalId.Key( //
+              AccountExternalId.SCHEME_USERNAME, //
+              username);
       if (accountIndexes.getSearchIndex() != null) {
-        AccountState accountState =
-            accountQueryProvider.get().oneByExternalId(key.get());
-        return Optional.ofNullable(accountState)
-            .map(s -> s.getAccount().getId());
+        AccountState accountState = accountQueryProvider.get().oneByExternalId(key.get());
+        return Optional.ofNullable(accountState).map(s -> s.getAccount().getId());
       }
 
       try (ReviewDb db = schema.open()) {

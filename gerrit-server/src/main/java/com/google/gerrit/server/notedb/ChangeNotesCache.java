@@ -28,32 +28,27 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class ChangeNotesCache {
-  @VisibleForTesting
-  static final String CACHE_NAME = "change_notes";
+  @VisibleForTesting static final String CACHE_NAME = "change_notes";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         bind(ChangeNotesCache.class);
-        cache(CACHE_NAME,
-            Key.class,
-            ChangeNotesState.class)
-          .weigher(Weigher.class)
-          .maximumWeight(10 << 20);
+        cache(CACHE_NAME, Key.class, ChangeNotesState.class)
+            .weigher(Weigher.class)
+            .maximumWeight(10 << 20);
       }
     };
   }
@@ -61,12 +56,13 @@ public class ChangeNotesCache {
   @AutoValue
   public abstract static class Key {
     abstract Project.NameKey project();
+
     abstract Change.Id changeId();
+
     abstract ObjectId id();
   }
 
-  public static class Weigher
-      implements com.google.common.cache.Weigher<Key, ChangeNotesState> {
+  public static class Weigher implements com.google.common.cache.Weigher<Key, ChangeNotesState> {
     // Single object overhead.
     private static final int O = 16;
 
@@ -85,30 +81,45 @@ public class ChangeNotesCache {
       // estimated average element sizes rather than iterating over collections.
       // Numbers are largely hand-wavy based on
       // http://stackoverflow.com/questions/258120/what-is-the-memory-consumption-of-an-object-in-java
-      return
-          K // changeId
+      return K // changeId
           + str(40) // changeKey
           + T // createdOn
           + T // lastUpdatedOn
-          + P + K // owner
-          + P + str(state.columns().branch())
-          + P + patchSetId() // currentPatchSetId
-          + P + str(state.columns().subject())
-          + P + str(state.columns().topic())
-          + P + str(state.columns().originalSubject())
-          + P + str(state.columns().submissionId())
+          + P
+          + K // owner
+          + P
+          + str(state.columns().branch())
+          + P
+          + patchSetId() // currentPatchSetId
+          + P
+          + str(state.columns().subject())
+          + P
+          + str(state.columns().topic())
+          + P
+          + str(state.columns().originalSubject())
+          + P
+          + str(state.columns().submissionId())
           + ptr(state.columns().assignee(), K) // assignee
           + P // status
-          + P + set(state.pastAssignees(), K)
-          + P + set(state.hashtags(), str(10))
-          + P + list(state.patchSets(), patchSet())
-          + P + list(state.allPastReviewers(), approval())
-          + P + list(state.reviewerUpdates(), 4 * O + K + K + P)
-          + P + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
-          + P + list(state.allChangeMessages(), changeMessage())
+          + P
+          + set(state.pastAssignees(), K)
+          + P
+          + set(state.hashtags(), str(10))
+          + P
+          + list(state.patchSets(), patchSet())
+          + P
+          + list(state.allPastReviewers(), approval())
+          + P
+          + list(state.reviewerUpdates(), 4 * O + K + K + P)
+          + P
+          + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
+          + P
+          + list(state.allChangeMessages(), changeMessage())
           // Just key overhead for map, already counted messages in previous.
-          + P + map(state.changeMessagesByPatchSet().asMap(), patchSetId())
-          + P + map(state.publishedComments().asMap(), comment());
+          + P
+          + map(state.changeMessagesByPatchSet().asMap(), patchSetId())
+          + P
+          + map(state.publishedComments().asMap(), comment());
     }
 
     private static int ptr(Object o, int size) {
@@ -164,10 +175,13 @@ public class ChangeNotesCache {
 
     private static int patchSet() {
       return O
-          + P + patchSetId()
+          + P
+          + patchSetId()
           + str(40) // revision
-          + P + K // uploader
-          + P + T // createdOn
+          + P
+          + K // uploader
+          + P
+          + T // createdOn
           + 1 // draft
           + str(40) // groups
           + P; // pushCertificate
@@ -175,9 +189,16 @@ public class ChangeNotesCache {
 
     private static int approval() {
       return O
-          + P + patchSetId() + P + K + P + O + str(10)
+          + P
+          + patchSetId()
+          + P
+          + K
+          + P
+          + O
+          + str(10)
           + 2 // value
-          + P + T // granted
+          + P
+          + T // granted
           + P // tag
           + P; // realAccountId
     }
@@ -185,11 +206,15 @@ public class ChangeNotesCache {
     private static int changeMessage() {
       int key = K + str(20);
       return O
-          + P + key
-          + P + K // author
-          + P + T // writtenON
+          + P
+          + key
+          + P
+          + K // author
+          + P
+          + T // writtenON
           + str(64) // message
-          + P + patchSetId()
+          + P
+          + patchSetId()
           + P
           + P; // realAuthor
     }
@@ -198,18 +223,24 @@ public class ChangeNotesCache {
       int key = P + str(20) + P + str(32) + 4;
       int ident = O + 4;
       return O
-          + P + key
+          + P
+          + key
           + 4 // lineNbr
-          + P + ident // author
-          + P + ident //realAuthor
-          + P + T // writtenOn
+          + P
+          + ident // author
+          + P
+          + ident //realAuthor
+          + P
+          + T // writtenOn
           + 2 // side
           + str(32) // message
           + str(10) // parentUuid
           + (P + O + 4 + 4 + 4 + 4) / 2 // range on 50% of comments
           + P // tag
-          + P + str(40) // revId
-          + P + str(36); // serverId
+          + P
+          + str(40) // revId
+          + P
+          + str(36); // serverId
     }
   }
 
@@ -219,13 +250,13 @@ public class ChangeNotesCache {
 
     /**
      * The {@link RevisionNoteMap} produced while parsing this change.
-     * <p>
-     * These instances are mutable and non-threadsafe, so it is only safe to
-     * return it to the caller that actually incurred the cache miss. It is only
-     * used as an optimization; {@link ChangeNotes} is capable of lazily loading
-     * it as necessary.
+     *
+     * <p>These instances are mutable and non-threadsafe, so it is only safe to return it to the
+     * caller that actually incurred the cache miss. It is only used as an optimization; {@link
+     * ChangeNotes} is capable of lazily loading it as necessary.
      */
-    @Nullable abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
+    @Nullable
+    abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
   }
 
   private class Loader implements Callable<ChangeNotesState> {
@@ -241,8 +272,8 @@ public class ChangeNotesCache {
 
     @Override
     public ChangeNotesState call() throws ConfigInvalidException, IOException {
-      ChangeNotesParser parser = new ChangeNotesParser(
-          key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
+      ChangeNotesParser parser =
+          new ChangeNotesParser(key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.
@@ -255,23 +286,21 @@ public class ChangeNotesCache {
   private final Args args;
 
   @Inject
-  ChangeNotesCache(
-      @Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache,
-      Args args) {
+  ChangeNotesCache(@Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache, Args args) {
     this.cache = cache;
     this.args = args;
   }
 
-  Value get(Project.NameKey project, Change.Id changeId,
-      ObjectId metaId, ChangeNotesRevWalk rw) throws IOException {
+  Value get(Project.NameKey project, Change.Id changeId, ObjectId metaId, ChangeNotesRevWalk rw)
+      throws IOException {
     try {
-      Key key =
-          new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
+      Key key = new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
       Loader loader = new Loader(key, rw);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
     } catch (ExecutionException e) {
-      throw new IOException(String.format(
+      throw new IOException(
+          String.format(
               "Error loading %s in %s at %s",
               RefNames.changeMetaRef(changeId), project, metaId.name()),
           e);

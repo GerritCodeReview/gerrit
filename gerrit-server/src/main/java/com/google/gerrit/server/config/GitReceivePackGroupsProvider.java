@@ -20,19 +20,21 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Collections;
+import org.eclipse.jgit.lib.Config;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject
-  public GitReceivePackGroupsProvider(GroupBackend gb,
+  public GitReceivePackGroupsProvider(
+      GroupBackend gb,
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, threadContext, serverCtx, ImmutableList.copyOf(
-        config.getStringList("receive", null, "allowGroup")));
+    super(
+        gb,
+        threadContext,
+        serverCtx,
+        ImmutableList.copyOf(config.getStringList("receive", null, "allowGroup")));
 
     // If no group was set, default to "registered users"
     //

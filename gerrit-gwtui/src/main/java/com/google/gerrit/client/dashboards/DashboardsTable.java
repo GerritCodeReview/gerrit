@@ -24,7 +24,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -76,12 +75,14 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    Collections.sort(list, new Comparator<DashboardInfo>() {
-      @Override
-      public int compare(DashboardInfo a, DashboardInfo b) {
-        return a.id().compareTo(b.id());
-      }
-    });
+    Collections.sort(
+        list,
+        new Comparator<DashboardInfo>() {
+          @Override
+          public int compare(DashboardInfo a, DashboardInfo b) {
+            return a.id().compareTo(b.id());
+          }
+        });
 
     String ref = null;
     for (DashboardInfo d : list) {
@@ -126,13 +127,21 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.getElement(row, 1).setTitle(Util.C.dashboardDefaultToolTip());
     }
-    table.setWidget(row, 2, new Anchor(k.path(), "#"
-            + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
+    table.setWidget(
+        row,
+        2,
+        new Anchor(
+            k.path(),
+            "#" + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
     table.setText(row, 3, k.title() != null ? k.title() : k.path());
     table.setText(row, 4, k.description());
     if (k.definingProject() != null && !k.definingProject().equals(k.project())) {
-      table.setWidget(row, 5, new Anchor(k.definingProject(), "#"
-          + PageLinks.toProjectDashboards(new Project.NameKey(k.definingProject()))));
+      table.setWidget(
+          row,
+          5,
+          new Anchor(
+              k.definingProject(),
+              "#" + PageLinks.toProjectDashboards(new Project.NameKey(k.definingProject()))));
     }
     setRowItem(row, k);
   }

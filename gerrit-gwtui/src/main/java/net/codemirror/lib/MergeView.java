@@ -46,6 +46,5 @@ public class MergeView extends JavaScriptObject {
     return $doc.getElementsByClassName("CodeMirror-merge-gap")[0];
   }-*/;
 
-  protected MergeView() {
-  }
+  protected MergeView() {}
 }

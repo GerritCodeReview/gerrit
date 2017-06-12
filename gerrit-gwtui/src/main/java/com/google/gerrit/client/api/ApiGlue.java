@@ -286,8 +286,12 @@ public class ApiGlue {
   }
 
   static final native void invoke(JavaScriptObject f) /*-{ f(); }-*/;
+
   static final native void invoke(JavaScriptObject f, JavaScriptObject a) /*-{ f(a); }-*/;
-  static final native void invoke(JavaScriptObject f, JavaScriptObject a, JavaScriptObject b) /*-{ f(a,b) }-*/;
+
+  static final native void invoke(
+      JavaScriptObject f, JavaScriptObject a, JavaScriptObject b) /*-{ f(a,b) }-*/;
+
   static final native void invoke(JavaScriptObject f, String a) /*-{ f(a); }-*/;
 
   public static final void fireEvent(String event, String a) {
@@ -312,8 +316,7 @@ public class ApiGlue {
   }
 
   static final native JsArray<JavaScriptObject> getEventHandlers(String e)
-  /*-{ return $wnd.Gerrit.events[e] || [] }-*/;
+      /*-{ return $wnd.Gerrit.events[e] || [] }-*/ ;
 
-  private ApiGlue() {
-  }
+  private ApiGlue() {}
 }

@@ -54,19 +54,20 @@ public class RegisterScreen extends AccountScreen {
     final HTML whereFrom = new HTML(Util.C.welcomeContactFrom());
     whereFrom.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
     contactGroup.add(whereFrom);
-    contactGroup.add(new ContactPanelShort() {
-      @Override
-      protected void display(AccountInfo account) {
-        super.display(account);
+    contactGroup.add(
+        new ContactPanelShort() {
+          @Override
+          protected void display(AccountInfo account) {
+            super.display(account);
 
-        if ("".equals(nameTxt.getText())) {
-          // No name? Encourage the user to provide us something.
-          //
-          nameTxt.setFocus(true);
-          save.setEnabled(true);
-        }
-      }
-    });
+            if ("".equals(nameTxt.getText())) {
+              // No name? Encourage the user to provide us something.
+              //
+              nameTxt.setFocus(true);
+              save.setEnabled(true);
+            }
+          }
+        });
     formBody.add(contactGroup);
 
     if (Gerrit.getUserAccount().username() == null
@@ -106,11 +107,12 @@ public class RegisterScreen extends AccountScreen {
       final HTML whySshKey = new HTML(Util.C.welcomeSshKeyText());
       whySshKey.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
       sshKeyGroup.add(whySshKey);
-      sshKeyGroup.add(new SshPanel() {
-        {
-          setKeyTableVisible(false);
-        }
-      });
+      sshKeyGroup.add(
+          new SshPanel() {
+            {
+              setKeyTableVisible(false);
+            }
+          });
       formBody.add(sshKeyGroup);
     }
 
@@ -124,10 +126,8 @@ public class RegisterScreen extends AccountScreen {
       whyAgreement.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
       agreementGroup.add(whyAgreement);
 
-      choices.add(new InlineHyperlink(Util.C.newAgreement(),
-          PageLinks.SETTINGS_NEW_AGREEMENT));
-      choices
-          .add(new InlineHyperlink(Util.C.welcomeAgreementLater(), nextToken));
+      choices.add(new InlineHyperlink(Util.C.newAgreement(), PageLinks.SETTINGS_NEW_AGREEMENT));
+      choices.add(new InlineHyperlink(Util.C.welcomeAgreementLater(), nextToken));
       formBody.add(agreementGroup);
     } else {
       choices.add(new InlineHyperlink(Util.C.welcomeContinue(), nextToken));

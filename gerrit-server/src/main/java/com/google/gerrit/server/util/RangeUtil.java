@@ -16,13 +16,11 @@ package com.google.gerrit.server.util;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class RangeUtil {
-  private static final Pattern RANGE_PATTERN =
-      Pattern.compile("(>|>=|=|<|<=|)([+-]?\\d+)$");
+  private static final Pattern RANGE_PATTERN = Pattern.compile("(>|>=|=|<|<=|)([+-]?\\d+)$");
 
   private RangeUtil() {}
 

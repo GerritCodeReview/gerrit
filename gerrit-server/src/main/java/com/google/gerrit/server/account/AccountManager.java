@@ -37,21 +37,18 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Tracks authentication related details for user accounts. */
 @Singleton
 public class AccountManager {
-  private static final Logger log =
-      LoggerFactory.getLogger(AccountManager.class);
+  private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache byIdCache;
@@ -66,7 +63,8 @@ public class AccountManager {
   private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
-  AccountManager(SchemaFactory<ReviewDb> schema,
+  AccountManager(
+      SchemaFactory<ReviewDb> schema,
       AccountCache byIdCache,
       AccountByEmailCache byEmailCache,
       Realm accountMapper,
@@ -89,22 +87,16 @@ public class AccountManager {
     this.accountQueryProvider = accountQueryProvider;
   }
 
-  /**
-   * @return user identified by this external identity string, or null.
-   */
+  /** @return user identified by this external identity string, or null. */
   public Account.Id lookup(String externalId) throws AccountException {
     try {
       if (accountIndexes.getSearchIndex() != null) {
-        AccountState accountState =
-            accountQueryProvider.get().oneByExternalId(externalId);
-        return accountState != null
-            ? accountState.getAccount().getId()
-            : null;
+        AccountState accountState = accountQueryProvider.get().oneByExternalId(externalId);
+        return accountState != null ? accountState.getAccount().getId() : null;
       }
 
       try (ReviewDb db = schema.open()) {
-        AccountExternalId ext =
-            db.accountExternalIds().get(new AccountExternalId.Key(externalId));
+        AccountExternalId ext = db.accountExternalIds().get(new AccountExternalId.Key(externalId));
         return ext != null ? ext.getAccountId() : null;
       }
     } catch (OrmException e) {
@@ -117,11 +109,10 @@ public class AccountManager {
    *
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
-   * @throws AccountException the account does not exist, and cannot be created,
-   *         or exists, but cannot be located, or is inactive.
+   * @throws AccountException the account does not exist, and cannot be created, or exists, but
+   *     cannot be located, or is inactive.
    */
-  public AuthResult authenticate(AuthRequest who)
-      throws AccountException, IOException {
+  public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
     who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
@@ -148,11 +139,10 @@ public class AccountManager {
     }
   }
 
-  private AccountExternalId getAccountExternalId(ReviewDb db,
-      AccountExternalId.Key key) throws OrmException {
+  private AccountExternalId getAccountExternalId(ReviewDb db, AccountExternalId.Key key)
+      throws OrmException {
     if (accountIndexes.getSearchIndex() != null) {
-      AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(key.get());
+      AccountState accountState = accountQueryProvider.get().oneByExternalId(key.get());
       if (accountState != null) {
         for (AccountExternalId extId : accountState.getExternalIds()) {
           if (extId.getKey().equals(key)) {
@@ -168,8 +158,7 @@ public class AccountManager {
     // without having to query the DB every time
     if (key.getScheme().equals(AccountExternalId.SCHEME_GERRIT)
         || key.getScheme().equals(AccountExternalId.SCHEME_USERNAME)) {
-      AccountState state = byIdCache.getByUsername(
-          key.get().substring(key.getScheme().length()));
+      AccountState state = byIdCache.getByUsername(key.get().substring(key.getScheme().length()));
       if (state != null) {
         for (AccountExternalId accountExternalId : state.getExternalIds()) {
           if (accountExternalId.getKey().equals(key)) {
@@ -192,8 +181,7 @@ public class AccountManager {
     String newEmail = who.getEmailAddress();
     String oldEmail = extId.getEmailAddress();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
-      if (oldEmail != null
-          && oldEmail.equals(user.getAccount().getPreferredEmail())) {
+      if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
         toUpdate = load(toUpdate, user.getAccountId(), db);
         toUpdate.setPreferredEmail(newEmail);
       }
@@ -212,8 +200,9 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
-      log.warn(String.format("Not changing already set username %s to %s",
-          user.getUserName(), who.getUserName()));
+      log.warn(
+          String.format(
+              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
     }
 
     if (toUpdate != null) {
@@ -229,8 +218,7 @@ public class AccountManager {
     }
   }
 
-  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db)
-      throws OrmException {
+  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
     if (toUpdate == null) {
       toUpdate = db.accounts().get(accountId);
       if (toUpdate == null) {
@@ -254,8 +242,8 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false)
-      && db.accounts().anyAccounts().toList().isEmpty();
+    boolean isFirstAccount =
+        awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
 
     try {
       db.accounts().upsert(Collections.singleton(account));
@@ -272,16 +260,17 @@ public class AccountManager {
       // is going to be the site's administrator and just make them that
       // to bootstrap the authentication database.
       //
-      Permission admin = projectCache.getAllProjects()
-          .getConfig()
-          .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
-          .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
+      Permission admin =
+          projectCache
+              .getAllProjects()
+              .getConfig()
+              .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+              .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
       AccountGroup g = db.accountGroups().byUUID(uuid).iterator().next();
       AccountGroup.Id adminId = g.getId();
-      AccountGroupMember m =
-          new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
+      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
       auditService.dispatchAddAccountsToGroup(newId, Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
@@ -294,13 +283,19 @@ public class AccountManager {
         changeUserNameFactory.create(db, user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
-            "Cannot assign user name \"" + who.getUserName() + "\" to account "
-                + newId + "; name already in use.";
+            "Cannot assign user name \""
+                + who.getUserName()
+                + "\" to account "
+                + newId
+                + "; name already in use.";
         handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (InvalidUserNameException e) {
         String message =
-            "Cannot assign user name \"" + who.getUserName() + "\" to account "
-                + newId + "; name does not conform.";
+            "Cannot assign user name \""
+                + who.getUserName()
+                + "\" to account "
+                + newId
+                + "; name does not conform.";
         handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (OrmException e) {
         String message = "Cannot assign user name";
@@ -315,26 +310,27 @@ public class AccountManager {
   }
 
   /**
-   * This method handles an exception that occurred during the setting of the
-   * user name for a newly created account. If the realm does not allow the user
-   * to set a user name manually this method deletes the newly created account
-   * and throws an {@link AccountUserNameException}. In any case the error
-   * message is logged.
+   * This method handles an exception that occurred during the setting of the user name for a newly
+   * created account. If the realm does not allow the user to set a user name manually this method
+   * deletes the newly created account and throws an {@link AccountUserNameException}. In any case
+   * the error message is logged.
    *
    * @param db the database
    * @param account the newly created account
    * @param extId the newly created external id
    * @param errorMessage the error message
-   * @param e the exception that occurred during the setting of the user name
-   *        for the new account
-   * @param logException flag that decides whether the exception should be
-   *        included into the log
-   * @throws AccountUserNameException thrown if the realm does not allow the
-   *         user to manually set the user name
+   * @param e the exception that occurred during the setting of the user name for the new account
+   * @param logException flag that decides whether the exception should be included into the log
+   * @throws AccountUserNameException thrown if the realm does not allow the user to manually set
+   *     the user name
    * @throws OrmException thrown if cleaning the database failed
    */
-  private void handleSettingUserNameFailure(ReviewDb db, Account account,
-      AccountExternalId extId, String errorMessage, Exception e,
+  private void handleSettingUserNameFailure(
+      ReviewDb db,
+      Account account,
+      AccountExternalId extId,
+      String errorMessage,
+      Exception e,
       boolean logException)
       throws AccountUserNameException, OrmException {
     if (logException) {
@@ -368,8 +364,8 @@ public class AccountManager {
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
-   * @throws AccountException the identity belongs to a different account, or it
-   *         cannot be linked at this time.
+   * @throws AccountException the identity belongs to a different account, or it cannot be linked at
+   *     this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException {
@@ -401,33 +397,30 @@ public class AccountManager {
       }
 
       return new AuthResult(to, key, false);
-
     }
   }
 
   /**
    * Update the link to another unique authentication identity to an existing account.
    *
-   * Existing external identities with the same scheme will be removed and replaced
-   * with the new one.
+   * <p>Existing external identities with the same scheme will be removed and replaced with the new
+   * one.
    *
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
    * @throws OrmException
-   * @throws AccountException the identity belongs to a different account, or it
-   *         cannot be linked at this time.
+   * @throws AccountException the identity belongs to a different account, or it cannot be linked at
+   *     this time.
    */
-  public AuthResult updateLink(Account.Id to, AuthRequest who) throws OrmException,
-      AccountException, IOException {
+  public AuthResult updateLink(Account.Id to, AuthRequest who)
+      throws OrmException, AccountException, IOException {
     try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       List<AccountExternalId.Key> filteredKeysByScheme =
-          filterKeysByScheme(key.getScheme(), db.accountExternalIds()
-              .byAccount(to));
+          filterKeysByScheme(key.getScheme(), db.accountExternalIds().byAccount(to));
       if (!filteredKeysByScheme.isEmpty()
-          && (filteredKeysByScheme.size() > 1 || !filteredKeysByScheme
-              .contains(key))) {
+          && (filteredKeysByScheme.size() > 1 || !filteredKeysByScheme.contains(key))) {
         db.accountExternalIds().deleteKeys(filteredKeysByScheme);
       }
       byIdCache.evict(to);
@@ -452,8 +445,8 @@ public class AccountManager {
    * @param from account to unlink the identity from.
    * @param who the identity to delete
    * @return the result of unlinking the identity from the user.
-   * @throws AccountException the identity belongs to a different account, or it
-   *         cannot be unlinked at this time.
+   * @throws AccountException the identity belongs to a different account, or it cannot be unlinked
+   *     at this time.
    */
   public AuthResult unlink(Account.Id from, AuthRequest who)
       throws AccountException, OrmException, IOException {
@@ -462,8 +455,7 @@ public class AccountManager {
       AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {
         if (!extId.getAccountId().equals(from)) {
-          throw new AccountException(
-              "Identity '" + key.get() + "' in use by another account");
+          throw new AccountException("Identity '" + key.get() + "' in use by another account");
         }
         db.accountExternalIds().delete(Collections.singleton(extId));
 
@@ -483,10 +475,8 @@ public class AccountManager {
       }
 
       return new AuthResult(from, key, false);
-
     }
   }
-
 
   private static AccountExternalId.Key id(AuthRequest who) {
     return new AccountExternalId.Key(who.getExternalId());

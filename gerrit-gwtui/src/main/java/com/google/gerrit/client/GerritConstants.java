@@ -18,35 +18,49 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface GerritConstants extends Constants {
   String menuSignIn();
+
   String menuRegister();
+
   String reportBug();
+
   String loadingPlugins();
 
   String signInDialogTitle();
+
   String signInDialogGoAnonymous();
 
   String linkIdentityDialogTitle();
+
   String registerDialogTitle();
+
   String loginTypeUnsupported();
 
   String errorTitle();
+
   String errorDialogContinue();
+
   String warnTitle();
 
   String confirmationDialogOk();
+
   String confirmationDialogCancel();
 
   String branchCreationDialogTitle();
+
   String branchCreationConfirmationMessage();
 
   String branchDeletionDialogTitle();
+
   String branchDeletionConfirmationMessage();
 
   String notSignedInTitle();
+
   String notSignedInBody();
 
   String notFoundTitle();
+
   String notFoundBody();
+
   String noSuchAccountTitle();
 
   String noSuchGroupTitle();
@@ -56,79 +70,125 @@ public interface GerritConstants extends Constants {
   String labelNotApplicable();
 
   String menuAll();
+
   String menuAllOpen();
+
   String menuAllMerged();
+
   String menuAllAbandoned();
 
   String menuMine();
+
   String menuMyChanges();
+
   String menuMyDrafts();
+
   String menuMyWatchedChanges();
+
   String menuMyStarredChanges();
+
   String menuMyDraftComments();
 
   String menuDiff();
+
   String menuDiffCommit();
+
   String menuDiffPreferences();
+
   String menuDiffPatchSets();
+
   String menuDiffFiles();
 
   String menuProjects();
+
   String menuProjectsList();
+
   String menuProjectsInfo();
+
   String menuProjectsBranches();
+
   String menuProjectsTags();
+
   String menuProjectsAccess();
+
   String menuProjectsDashboards();
+
   String menuProjectsCreate();
 
   String menuPeople();
+
   String menuPeopleGroupsList();
+
   String menuPeopleGroupsCreate();
 
   String menuPlugins();
+
   String menuPluginsInstalled();
 
   String menuDocumentation();
+
   String menuDocumentationTOC();
+
   String menuDocumentationSearch();
+
   String menuDocumentationUpload();
+
   String menuDocumentationAccess();
+
   String menuDocumentationAPI();
+
   String menuDocumentationProjectOwnerGuide();
 
   String searchHint();
+
   String searchButton();
 
   String rpcStatusWorking();
 
   String sectionNavigation();
+
   String sectionActions();
+
   String keySearch();
+
   String keyEditor();
+
   String keyHelp();
 
   String sectionJumping();
+
   String jumpAllOpen();
+
   String jumpAllMerged();
+
   String jumpAllAbandoned();
+
   String jumpMine();
+
   String jumpMineDrafts();
+
   String jumpMineWatched();
+
   String jumpMineStarred();
+
   String jumpMineDraftComments();
 
   String projectAccessError();
+
   String projectAccessProposeForReviewHint();
 
   String userCannotVoteToolTip();
 
   String stringListPanelAdd();
+
   String stringListPanelDelete();
+
   String stringListPanelUp();
+
   String stringListPanelDown();
 
   String searchDropdownChanges();
+
   String searchDropdownDoc();
 
   String polyGerrit();

@@ -21,18 +21,20 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
-
-import org.eclipse.jgit.diff.Edit;
-
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 public class PatchScript {
   public enum DisplayMethod {
-    NONE, DIFF, IMG
+    NONE,
+    DIFF,
+    IMG
   }
 
   public enum FileMode {
-    FILE, SYMLINK, GITLINK
+    FILE,
+    SYMLINK,
+    GITLINK
   }
 
   private Change.Key changeId;
@@ -60,15 +62,31 @@ public class PatchScript {
   private transient String commitIdA;
   private transient String commitIdB;
 
-  public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
-      final String nn, final FileMode om, final FileMode nm,
-      final List<String> h, final DiffPreferencesInfo dp,
-      final SparseFileContent ca, final SparseFileContent cb,
-      final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
-      final String mta, final String mtb, final CommentDetail cd,
-      final List<Patch> hist, final boolean hf, final boolean id,
-      final boolean idf, final boolean idt, boolean bin,
-      final String cma, final String cmb) {
+  public PatchScript(
+      final Change.Key ck,
+      final ChangeType ct,
+      final String on,
+      final String nn,
+      final FileMode om,
+      final FileMode nm,
+      final List<String> h,
+      final DiffPreferencesInfo dp,
+      final SparseFileContent ca,
+      final SparseFileContent cb,
+      final List<Edit> e,
+      final DisplayMethod ma,
+      final DisplayMethod mb,
+      final String mta,
+      final String mtb,
+      final CommentDetail cd,
+      final List<Patch> hist,
+      final boolean hf,
+      final boolean id,
+      final boolean idf,
+      final boolean idt,
+      boolean bin,
+      final String cma,
+      final String cmb) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -95,8 +113,7 @@ public class PatchScript {
     commitIdB = cmb;
   }
 
-  protected PatchScript() {
-  }
+  protected PatchScript() {}
 
   public Change.Key getChangeId() {
     return changeId;

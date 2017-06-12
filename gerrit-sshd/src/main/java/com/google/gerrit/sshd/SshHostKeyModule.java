@@ -17,7 +17,6 @@ package com.google.gerrit.sshd;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.inject.AbstractModule;
-
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 
 public class SshHostKeyModule extends AbstractModule {

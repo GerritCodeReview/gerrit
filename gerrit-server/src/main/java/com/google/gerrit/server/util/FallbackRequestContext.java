@@ -23,8 +23,8 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 /**
- * The default RequestContext to use when not in a request scope e.g.
- * ThreadLocalRequestContext is not set.
+ * The default RequestContext to use when not in a request scope e.g. ThreadLocalRequestContext is
+ * not set.
  */
 @Singleton
 public class FallbackRequestContext implements RequestContext {
@@ -46,8 +46,7 @@ public class FallbackRequestContext implements RequestContext {
     return new Provider<ReviewDb>() {
       @Override
       public ReviewDb get() {
-        throw new ProvisionException(
-            "Automatic ReviewDb only available in request scope");
+        throw new ProvisionException("Automatic ReviewDb only available in request scope");
       }
     };
   }

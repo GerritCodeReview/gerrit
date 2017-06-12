@@ -36,15 +36,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class DeleteDraftComment
-    implements RestModifyView<DraftCommentResource, Input> {
-  static class Input {
-  }
+public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
+  static class Input {}
 
   private final Provider<ReviewDb> db;
   private final CommentsUtil commentsUtil;
@@ -53,7 +50,8 @@ public class DeleteDraftComment
   private final PatchListCache patchListCache;
 
   @Inject
-  DeleteDraftComment(Provider<ReviewDb> db,
+  DeleteDraftComment(
+      Provider<ReviewDb> db,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory updateFactory,
@@ -68,9 +66,12 @@ public class DeleteDraftComment
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
-        TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -86,23 +87,19 @@ public class DeleteDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException {
-      Optional<Comment> maybeComment =
-          commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
-      PatchSet.Id psId =
-          new PatchSet.Id(ctx.getChange().getId(), key.patchSetId);
+      PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), key.patchSetId);
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
       Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
-      commentsUtil.deleteComments(
-          ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
+      commentsUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
       ctx.bumpLastUpdatedOn(false);
       return true;
     }

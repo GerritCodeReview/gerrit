@@ -43,16 +43,15 @@ public class CommentLinkInfoImpl extends CommentLinkInfo {
     }
   }
 
-  public CommentLinkInfoImpl(String name, String match, String link, String html,
-      Boolean enabled) {
+  public CommentLinkInfoImpl(String name, String match, String link, String html, Boolean enabled) {
     checkArgument(name != null, "invalid commentlink.name");
-    checkArgument(!Strings.isNullOrEmpty(match),
-        "invalid commentlink.%s.match", name);
+    checkArgument(!Strings.isNullOrEmpty(match), "invalid commentlink.%s.match", name);
     link = Strings.emptyToNull(link);
     html = Strings.emptyToNull(html);
     checkArgument(
         (link != null && html == null) || (link == null && html != null),
-        "commentlink.%s must have either link or html", name);
+        "commentlink.%s must have either link or html",
+        name);
     this.name = name;
     this.match = match;
     this.link = link;

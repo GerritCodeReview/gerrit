@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.inject.Key;
 import com.google.inject.util.Providers;
-
 import org.junit.Test;
 
 public class DynamicSetTest {

@@ -23,7 +23,6 @@ import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -44,8 +43,7 @@ public class GetDetail implements RestReadView<AccountResource> {
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
     try {
-      directory.fillAccountInfo(Collections.singleton(info),
-          EnumSet.allOf(FillOptions.class));
+      directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     } catch (DirectoryException e) {
       Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
       throw new OrmException(e);

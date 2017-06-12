@@ -37,11 +37,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,12 +46,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-
 import javax.naming.CompositeName;
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class LdapRealm extends AbstractRealm {
@@ -79,8 +76,10 @@ class LdapRealm extends AbstractRealm {
       Helper helper,
       AuthConfig authConfig,
       EmailExpander emailExpander,
-      @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
-      @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
+      @Named(LdapModule.GROUP_CACHE)
+          final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
+      @Named(LdapModule.USERNAME_CACHE)
+          final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
@@ -136,14 +135,12 @@ class LdapRealm extends AbstractRealm {
     return v;
   }
 
-  static List<String> optionalList(final Config config,
-      final String name) {
+  static List<String> optionalList(final Config config, final String name) {
     String[] s = config.getStringList("ldap", null, name);
     return Arrays.asList(s);
   }
 
-  static List<String> requiredList(final Config config,
-      final String name) {
+  static List<String> requiredList(final Config config, final String name) {
     List<String> vlist = optionalList(config, name);
 
     if (vlist.isEmpty()) {
@@ -186,11 +183,10 @@ class LdapRealm extends AbstractRealm {
     }
   }
 
-  private static void checkBackendCompliance(String configOption,
-      String suppliedValue, boolean disabledByBackend) {
+  private static void checkBackendCompliance(
+      String configOption, String suppliedValue, boolean disabledByBackend) {
     if (disabledByBackend && !Strings.isNullOrEmpty(suppliedValue)) {
-      String msg = String.format("LDAP backend doesn't support: ldap.%s",
-          configOption);
+      String msg = String.format("LDAP backend doesn't support: ldap.%s", configOption);
       log.error(msg);
       throw new IllegalArgumentException(msg);
     }
@@ -201,8 +197,7 @@ class LdapRealm extends AbstractRealm {
     return !readOnlyAccountFields.contains(field);
   }
 
-  static String apply(ParameterizedString p, LdapQuery.Result m)
-      throws NamingException {
+  static String apply(ParameterizedString p, LdapQuery.Result m) throws NamingException {
     if (p == null) {
       return null;
     }
@@ -217,8 +212,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest authenticate(final AuthRequest who)
-      throws AccountException {
+  public AuthRequest authenticate(final AuthRequest who) throws AccountException {
     if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
       who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
     }
@@ -233,8 +227,7 @@ class LdapRealm extends AbstractRealm {
       }
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
-        final LdapQuery.Result m = helper.findAccount(schema, ctx, username,
-            fetchMemberOfEagerly);
+        final LdapQuery.Result m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
@@ -314,8 +307,7 @@ class LdapRealm extends AbstractRealm {
     public Optional<Account.Id> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(
-                db.accountExternalIds().get(
-                    new AccountExternalId.Key(SCHEME_GERRIT, username)))
+                db.accountExternalIds().get(new AccountExternalId.Key(SCHEME_GERRIT, username)))
             .map(AccountExternalId::getAccountId);
       }
     }

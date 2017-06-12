@@ -21,7 +21,6 @@ import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.FlowPanel;
-
 import java.util.function.Function;
 
 /** Link to any user's account dashboard. */
@@ -30,24 +29,19 @@ public class AccountLinkPanel extends FlowPanel {
     return withStatus(ai, Change.Status.NEW);
   }
 
-  public static AccountLinkPanel withStatus(AccountInfo ai,
-      Change.Status status) {
-    return new AccountLinkPanel(
-        ai, name -> PageLinks.toAccountQuery(name, status));
+  public static AccountLinkPanel withStatus(AccountInfo ai, Change.Status status) {
+    return new AccountLinkPanel(ai, name -> PageLinks.toAccountQuery(name, status));
   }
 
   public static AccountLinkPanel forAssignee(AccountInfo ai) {
     return new AccountLinkPanel(ai, PageLinks::toAssigneeQuery);
   }
 
-  private AccountLinkPanel(AccountInfo ai,
-      Function<String, String> nameToQuery) {
+  private AccountLinkPanel(AccountInfo ai, Function<String, String> nameToQuery) {
     addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
 
     InlineHyperlink l =
-        new InlineHyperlink(
-            FormatUtil.name(ai),
-            nameToQuery.apply(name(ai))) {
+        new InlineHyperlink(FormatUtil.name(ai), nameToQuery.apply(name(ai))) {
           @Override
           public void go() {
             Gerrit.display(getTargetHistoryToken());

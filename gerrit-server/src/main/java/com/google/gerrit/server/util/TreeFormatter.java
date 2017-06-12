@@ -21,7 +21,9 @@ public class TreeFormatter {
 
   public interface TreeNode {
     String getDisplayName();
+
     boolean isVisible();
+
     SortedSet<? extends TreeNode> getChildren();
   }
 
@@ -62,8 +64,7 @@ public class TreeFormatter {
     printTree(rootNode, 0, true);
   }
 
-  private void printTree(final TreeNode node, final int level,
-      final boolean isLast) {
+  private void printTree(final TreeNode node, final int level, final boolean isLast) {
     printNode(node, level, isLast);
     final SortedSet<? extends TreeNode> childNodes = node.getChildren();
     int i = 0;
@@ -80,8 +81,7 @@ public class TreeFormatter {
     }
   }
 
-  private void printNode(final TreeNode node, final int level,
-      final boolean isLast) {
+  private void printNode(final TreeNode node, final int level, final boolean isLast) {
     printIndention(level);
     stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
     if (node.isVisible()) {

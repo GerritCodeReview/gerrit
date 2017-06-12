@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.webui;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.extensions.client.MenuItem;
-
 import java.util.List;
 
 @ExtensionPoint

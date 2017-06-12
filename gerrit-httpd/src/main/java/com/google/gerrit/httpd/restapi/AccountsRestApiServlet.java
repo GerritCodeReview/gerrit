@@ -24,8 +24,7 @@ public class AccountsRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  AccountsRestApiServlet(RestApiServlet.Globals globals,
-      Provider<AccountsCollection> accounts) {
+  AccountsRestApiServlet(RestApiServlet.Globals globals, Provider<AccountsCollection> accounts) {
     super(globals, accounts);
   }
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
-
 import org.junit.Test;
 
 public class HashtagsTest {
@@ -41,59 +40,56 @@ public class HashtagsTest {
   public void singleHashtag() throws Exception {
     String commitMessage = "#Subject\n\nLine 1\n\nLine 2";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("Subject"));
+        .containsExactlyElementsIn(Sets.newHashSet("Subject"));
   }
 
   @Test
   public void singleHashtagNumeric() throws Exception {
     String commitMessage = "Subject\n\n#123\n\nLine 2";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("123"));
+        .containsExactlyElementsIn(Sets.newHashSet("123"));
   }
 
   @Test
   public void multipleHashtags() throws Exception {
     String commitMessage = "#Subject\n\n#Hashtag\n\nLine 2";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("Subject", "Hashtag"));
+        .containsExactlyElementsIn(Sets.newHashSet("Subject", "Hashtag"));
   }
 
   @Test
   public void repeatedHashtag() throws Exception {
     String commitMessage = "#Subject\n\n#Hashtag1\n\n#Hashtag2\n\n#Hashtag1";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(
-          Sets.newHashSet("Subject", "Hashtag1", "Hashtag2"));
+        .containsExactlyElementsIn(Sets.newHashSet("Subject", "Hashtag1", "Hashtag2"));
   }
 
   @Test
   public void multipleHashtagsNoSpaces() throws Exception {
     String commitMessage = "Subject\n\n#Hashtag1#Hashtag2";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("Hashtag1"));
+        .containsExactlyElementsIn(Sets.newHashSet("Hashtag1"));
   }
 
   @Test
   public void hyphenatedHashtag() throws Exception {
     String commitMessage = "Subject\n\n#Hyphenated-Hashtag";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("Hyphenated-Hashtag"));
+        .containsExactlyElementsIn(Sets.newHashSet("Hyphenated-Hashtag"));
   }
 
   @Test
   public void underscoredHashtag() throws Exception {
     String commitMessage = "Subject\n\n#Underscored_Hashtag";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(Sets.newHashSet("Underscored_Hashtag"));
+        .containsExactlyElementsIn(Sets.newHashSet("Underscored_Hashtag"));
   }
 
   @Test
   public void hashtagsWithAccentedCharacters() throws Exception {
-    String commitMessage = "Jag #måste #öva på min #Svenska!\n\n"
-        + "Jag behöver en #läkare.";
+    String commitMessage = "Jag #måste #öva på min #Svenska!\n\n" + "Jag behöver en #läkare.";
     assertThat(HashtagsUtil.extractTags(commitMessage))
-      .containsExactlyElementsIn(
-          Sets.newHashSet("måste", "öva", "Svenska", "läkare"));
+        .containsExactlyElementsIn(Sets.newHashSet("måste", "öva", "Svenska", "läkare"));
   }
 
   @Test

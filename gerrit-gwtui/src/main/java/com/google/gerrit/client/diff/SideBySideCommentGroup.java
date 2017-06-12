@@ -18,20 +18,17 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
-
-import net.codemirror.lib.CodeMirror;
-
 import java.util.PriorityQueue;
+import net.codemirror.lib.CodeMirror;
 
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * When a comment is placed on a line a CommentWidget is created on both sides.
- * The group tracks all comment boxes on that same line, and also includes an
- * empty padding element to keep subsequent lines vertically aligned.
+ * <p>When a comment is placed on a line a CommentWidget is created on both sides. The group tracks
+ * all comment boxes on that same line, and also includes an empty padding element to keep
+ * subsequent lines vertically aligned.
  */
-class SideBySideCommentGroup extends CommentGroup
-    implements Comparable<SideBySideCommentGroup> {
+class SideBySideCommentGroup extends CommentGroup implements Comparable<SideBySideCommentGroup> {
   static void pair(SideBySideCommentGroup a, SideBySideCommentGroup b) {
     a.peers.add(b);
     b.peers.add(a);
@@ -40,8 +37,8 @@ class SideBySideCommentGroup extends CommentGroup
   private final Element padding;
   private final PriorityQueue<SideBySideCommentGroup> peers;
 
-  SideBySideCommentGroup(SideBySideCommentManager manager, CodeMirror cm, DisplaySide side,
-      int line) {
+  SideBySideCommentGroup(
+      SideBySideCommentManager manager, CodeMirror cm, DisplaySide side, int line) {
     super(manager, cm, side, line);
 
     padding = DOM.createDiv();
@@ -59,12 +56,12 @@ class SideBySideCommentGroup extends CommentGroup
   void remove(DraftBox box) {
     super.remove(box);
 
-    if (getBoxCount() == 0 && peers.size() == 1
-        && peers.peek().peers.size() > 1) {
+    if (getBoxCount() == 0 && peers.size() == 1 && peers.peek().peers.size() > 1) {
       SideBySideCommentGroup peer = peers.peek();
       peer.peers.remove(this);
       detach();
-      if (peer.getBoxCount() == 0 && peer.peers.size() == 1
+      if (peer.getBoxCount() == 0
+          && peer.peers.size() == 1
           && peer.peers.peek().getBoxCount() == 0) {
         peer.detach();
       } else {
@@ -89,30 +86,33 @@ class SideBySideCommentGroup extends CommentGroup
 
   @Override
   void handleRedraw() {
-    getLineWidget().onRedraw(new Runnable() {
-      @Override
-      public void run() {
-        if (canComputeHeight() && peers.peek().canComputeHeight()) {
-          if (getResizeTimer() != null) {
-            getResizeTimer().cancel();
-            setResizeTimer(null);
-          }
-          adjustPadding(SideBySideCommentGroup.this, peers.peek());
-        } else if (getResizeTimer() == null) {
-          setResizeTimer(new Timer() {
-            @Override
-            public void run() {
-              if (canComputeHeight() && peers.peek().canComputeHeight()) {
-                cancel();
-                setResizeTimer(null);
-                adjustPadding(SideBySideCommentGroup.this, peers.peek());
+    getLineWidget()
+        .onRedraw(
+            new Runnable() {
+              @Override
+              public void run() {
+                if (canComputeHeight() && peers.peek().canComputeHeight()) {
+                  if (getResizeTimer() != null) {
+                    getResizeTimer().cancel();
+                    setResizeTimer(null);
+                  }
+                  adjustPadding(SideBySideCommentGroup.this, peers.peek());
+                } else if (getResizeTimer() == null) {
+                  setResizeTimer(
+                      new Timer() {
+                        @Override
+                        public void run() {
+                          if (canComputeHeight() && peers.peek().canComputeHeight()) {
+                            cancel();
+                            setResizeTimer(null);
+                            adjustPadding(SideBySideCommentGroup.this, peers.peek());
+                          }
+                        }
+                      });
+                  getResizeTimer().scheduleRepeating(5);
+                }
               }
-            }
-          });
-          getResizeTimer().scheduleRepeating(5);
-        }
-      }
-    });
+            });
   }
 
   @Override
@@ -157,7 +157,6 @@ class SideBySideCommentGroup extends CommentGroup
     if (side == o.side) {
       return line - o.line;
     }
-    throw new IllegalStateException(
-        "Cannot compare SideBySideCommentGroup with different sides");
+    throw new IllegalStateException("Cannot compare SideBySideCommentGroup with different sides");
   }
 }

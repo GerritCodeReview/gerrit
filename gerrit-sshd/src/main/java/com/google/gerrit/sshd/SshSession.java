@@ -16,12 +16,10 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
-
-import org.apache.sshd.common.AttributeStore.AttributeKey;
-
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import org.apache.sshd.common.AttributeStore.AttributeKey;
 
 /** Global data related to an active SSH connection. */
 public class SshSession {

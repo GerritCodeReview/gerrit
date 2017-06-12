@@ -31,8 +31,7 @@ public abstract class RefConfigSection {
 
   protected String name;
 
-  public RefConfigSection() {
-  }
+  public RefConfigSection() {}
 
   public RefConfigSection(String name) {
     setName(name);

@@ -28,12 +28,11 @@ public class EventsMetrics implements EventListener {
 
   @Inject
   public EventsMetrics(MetricMaker metricMaker) {
-    events = metricMaker.newCounter(
-        "events",
-        new Description("Triggered events")
-          .setRate()
-          .setUnit("triggered events"),
-        Field.ofString("type"));
+    events =
+        metricMaker.newCounter(
+            "events",
+            new Description("Triggered events").setRate().setUnit("triggered events"),
+            Field.ofString("type"));
   }
 
   @Override

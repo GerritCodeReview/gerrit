@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import org.slf4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -25,18 +23,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
 
 public class TabFile {
   public interface Parser {
     String parse(String str);
   }
 
-  public static Parser TRIM = new Parser() {
-    @Override
-    public String parse(String str) {
-       return str.trim();
-    }
-  };
+  public static Parser TRIM =
+      new Parser() {
+        @Override
+        public String parse(String str) {
+          return str.trim();
+        }
+      };
 
   protected static class Row {
     public String left;
@@ -48,8 +48,9 @@ public class TabFile {
     }
   }
 
-  protected static List<Row> parse(String text, String filename, Parser left,
-      Parser right, ValidationError.Sink errors) throws IOException {
+  protected static List<Row> parse(
+      String text, String filename, Parser left, Parser right, ValidationError.Sink errors)
+      throws IOException {
     List<Row> rows = new ArrayList<>();
     BufferedReader br = new BufferedReader(new StringReader(text));
     String s;
@@ -60,8 +61,7 @@ public class TabFile {
 
       int tab = s.indexOf('\t');
       if (tab < 0) {
-        errors.error(new ValidationError(filename, lineNumber,
-            "missing tab delimiter"));
+        errors.error(new ValidationError(filename, lineNumber, "missing tab delimiter"));
         continue;
       }
 
@@ -86,8 +86,7 @@ public class TabFile {
     return map;
   }
 
-  protected static String asText(String left, String right,
-      Map<String, String> entries) {
+  protected static String asText(String left, String right, Map<String, String> entries) {
     if (entries.isEmpty()) {
       return null;
     }
@@ -148,7 +147,6 @@ public class TabFile {
   }
 
   public static ValidationError.Sink createLoggerSink(String file, Logger log) {
-    return ValidationError.createLoggerSink("Error parsing file " + file + ": ",
-        log);
+    return ValidationError.createLoggerSink("Error parsing file " + file + ": ", log);
   }
 }

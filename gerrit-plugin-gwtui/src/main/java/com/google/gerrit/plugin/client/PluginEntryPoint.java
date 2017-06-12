@@ -19,16 +19,17 @@ import com.google.gwt.core.client.EntryPoint;
 /**
  * Base class for writing Gerrit Web UI plugins
  *
- * Writing a plugin:
+ * <p>Writing a plugin:
+ *
  * <ol>
- * <li>Declare subtype of Plugin</li>
- * <li>Bind WebUiPlugin to GwtPlugin implementation in Gerrit-Module</li>
+ *   <li>Declare subtype of Plugin
+ *   <li>Bind WebUiPlugin to GwtPlugin implementation in Gerrit-Module
  * </ol>
  */
 public abstract class PluginEntryPoint implements EntryPoint {
   /**
-   * The plugin entry point method, called automatically by loading
-   * a module that declares an implementing class as an entry point.
+   * The plugin entry point method, called automatically by loading a module that declares an
+   * implementing class as an entry point.
    */
   public abstract void onPluginLoad();
 

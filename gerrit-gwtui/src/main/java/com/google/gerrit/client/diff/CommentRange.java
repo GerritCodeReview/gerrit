@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.JavaScriptObject;
-
 import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker.FromTo;
 
@@ -39,8 +38,11 @@ public class CommentRange extends JavaScriptObject {
   }
 
   public final native int startLine() /*-{ return this.start_line; }-*/;
+
   public final native int startCharacter() /*-{ return this.start_character; }-*/;
+
   public final native int endLine() /*-{ return this.end_line; }-*/;
+
   public final native int endCharacter() /*-{ return this.end_character; }-*/;
 
   private native void set(int sl, int sc, int el, int ec) /*-{
@@ -50,6 +52,5 @@ public class CommentRange extends JavaScriptObject {
     this.end_character = ec;
   }-*/;
 
-  protected CommentRange() {
-  }
+  protected CommentRange() {}
 }

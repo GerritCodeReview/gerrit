@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -25,19 +24,25 @@ public interface UsageDataPublishedListener {
 
   interface Event {
     MetaData getMetaData();
+
     Timestamp getInstant();
+
     List<Data> getData();
   }
 
   interface Data {
     long getValue();
+
     String getProjectName();
   }
 
   interface MetaData {
     String getName();
+
     String getUnitName();
+
     String getUnitSymbol();
+
     String getDescription();
   }
 

@@ -31,13 +31,11 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
 public class MergeValidators {
   private final DynamicSet<MergeValidationListener> mergeValidationListeners;
@@ -48,13 +46,15 @@ public class MergeValidators {
   }
 
   @Inject
-  MergeValidators(DynamicSet<MergeValidationListener> mergeValidationListeners,
+  MergeValidators(
+      DynamicSet<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
   }
 
-  public void validatePreMerge(Repository repo,
+  public void validatePreMerge(
+      Repository repo,
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,
@@ -67,32 +67,29 @@ public class MergeValidators {
     validators.add(projectConfigValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
-      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId,
-          caller);
+      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
     }
   }
 
-  public static class ProjectConfigValidator implements
-      MergeValidationListener {
+  public static class ProjectConfigValidator implements MergeValidationListener {
     private static final String INVALID_CONFIG =
         "Change contains an invalid project configuration.";
     private static final String PARENT_NOT_FOUND =
-        "Change contains an invalid project configuration:\n"
-        + "Parent project does not exist.";
+        "Change contains an invalid project configuration:\n" + "Parent project does not exist.";
     private static final String PLUGIN_VALUE_NOT_EDITABLE =
         "Change contains an invalid project configuration:\n"
-        + "One of the plugin configuration parameters is not editable.";
+            + "One of the plugin configuration parameters is not editable.";
     private static final String PLUGIN_VALUE_NOT_PERMITTED =
         "Change contains an invalid project configuration:\n"
-        + "One of the plugin configuration parameters has a value that is not"
-        + " permitted.";
+            + "One of the plugin configuration parameters has a value that is not"
+            + " permitted.";
     private static final String ROOT_NO_PARENT =
         "Change contains an invalid project configuration:\n"
-        + "The root project cannot have a parent.";
+            + "The root project cannot have a parent.";
     private static final String SET_BY_ADMIN =
         "Change contains a project configuration that changes the parent"
-        + " project.\n"
-        + "The change must be submitted by a Gerrit administrator.";
+            + " project.\n"
+            + "The change must be submitted by a Gerrit administrator.";
 
     private final AllProjectsName allProjectsName;
     private final ProjectCache projectCache;
@@ -103,7 +100,8 @@ public class MergeValidators {
     }
 
     @Inject
-    public ProjectConfigValidator(AllProjectsName allProjectsName,
+    public ProjectConfigValidator(
+        AllProjectsName allProjectsName,
         ProjectCache projectCache,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
@@ -112,7 +110,8 @@ public class MergeValidators {
     }
 
     @Override
-    public void onPreMerge(final Repository repo,
+    public void onPreMerge(
+        final Repository repo,
         final CodeReviewCommit commit,
         final ProjectState destProject,
         final Branch.NameKey destBranch,
@@ -122,12 +121,10 @@ public class MergeValidators {
       if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
         try {
-          ProjectConfig cfg =
-              new ProjectConfig(destProject.getProject().getNameKey());
+          ProjectConfig cfg = new ProjectConfig(destProject.getProject().getNameKey());
           cfg.load(repo, commit);
           newParent = cfg.getProject().getParent(allProjectsName);
-          final Project.NameKey oldParent =
-              destProject.getProject().getParent(allProjectsName);
+          final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
           if (oldParent == null) {
             // update of the 'All-Projects' project
             if (newParent != null) {
@@ -150,17 +147,20 @@ public class MergeValidators {
             ProjectConfigEntry configEntry = e.getProvider().get();
 
             String value = pluginCfg.getString(e.getExportName());
-            String oldValue = destProject.getConfig()
-                .getPluginConfig(e.getPluginName())
-                .getString(e.getExportName());
+            String oldValue =
+                destProject
+                    .getConfig()
+                    .getPluginConfig(e.getPluginName())
+                    .getString(e.getExportName());
 
-            if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
-                !configEntry.isEditable(destProject)) {
+            if ((value == null ? oldValue != null : !value.equals(oldValue))
+                && !configEntry.isEditable(destProject)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }
 
             if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
-                && value != null && !configEntry.getPermittedValues().contains(value)) {
+                && value != null
+                && !configEntry.getPermittedValues().contains(value)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
@@ -172,8 +172,7 @@ public class MergeValidators {
   }
 
   /** Execute merge validation plug-ins */
-  public static class PluginMergeValidationListener implements
-      MergeValidationListener {
+  public static class PluginMergeValidationListener implements MergeValidationListener {
     private final DynamicSet<MergeValidationListener> mergeValidationListeners;
 
     public PluginMergeValidationListener(
@@ -182,7 +181,8 @@ public class MergeValidators {
     }
 
     @Override
-    public void onPreMerge(Repository repo,
+    public void onPreMerge(
+        Repository repo,
         CodeReviewCommit commit,
         ProjectState destProject,
         Branch.NameKey destBranch,
@@ -190,8 +190,7 @@ public class MergeValidators {
         IdentifiedUser caller)
         throws MergeValidationException {
       for (MergeValidationListener validator : mergeValidationListeners) {
-        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId,
-            caller);
+        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
       }
     }
   }

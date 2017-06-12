@@ -16,7 +16,6 @@ package com.google.gerrit.server.args4j;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -27,14 +26,15 @@ import org.kohsuke.args4j.spi.Setter;
 public class SubcommandHandler extends OptionHandler<String> {
 
   @Inject
-  public SubcommandHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter<String> setter) {
+  public SubcommandHandler(
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
+      @Assisted final Setter<String> setter) {
     super(parser, option, setter);
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     setter.addValue(params.getParameter(0));
     owner.stopOptionParsing();
     return 1;

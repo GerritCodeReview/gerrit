@@ -18,15 +18,13 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /** Provides access to the {@code ReviewDb} DataSource. */
 @Singleton
-final class ReviewDbDataSourceProvider implements Provider<DataSource>,
-    LifecycleListener {
+final class ReviewDbDataSourceProvider implements Provider<DataSource>, LifecycleListener {
   private DataSource ds;
 
   @Override
@@ -38,8 +36,7 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>,
   }
 
   @Override
-  public void start() {
-  }
+  public void start() {}
 
   @Override
   public synchronized void stop() {

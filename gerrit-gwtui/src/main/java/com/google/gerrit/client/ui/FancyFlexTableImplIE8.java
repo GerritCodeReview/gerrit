@@ -41,8 +41,7 @@ public class FancyFlexTableImplIE8 extends FancyFlexTableImpl {
     b.closeElement("table");
 
     final Element newTable = SafeHtml.parse(b);
-    for (Element e = DOM.getFirstChild(newTable); e != null; e =
-        DOM.getNextSibling(e)) {
+    for (Element e = DOM.getFirstChild(newTable); e != null; e = DOM.getNextSibling(e)) {
       if ("tbody".equals(e.getTagName().toLowerCase())) {
         return e;
       }
@@ -51,5 +50,5 @@ public class FancyFlexTableImplIE8 extends FancyFlexTableImpl {
   }
 
   private static native void setBodyElement(HTMLTable myTable, Element newBody)
-  /*-{ myTable.@com.google.gwt.user.client.ui.HTMLTable::bodyElem = newBody; }-*/;
+      /*-{ myTable.@com.google.gwt.user.client.ui.HTMLTable::bodyElem = newBody; }-*/ ;
 }

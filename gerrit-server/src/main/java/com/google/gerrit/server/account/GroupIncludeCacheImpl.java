@@ -27,21 +27,18 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Tracks group inclusions in memory for efficient access. */
 @Singleton
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(GroupIncludeCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(GroupIncludeCacheImpl.class);
   private static final String PARENT_GROUPS_NAME = "groups_byinclude";
   private static final String SUBGROUPS_NAME = "groups_members";
   private static final String EXTERNAL_NAME = "groups_external";
@@ -50,20 +47,17 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(PARENT_GROUPS_NAME,
-            AccountGroup.UUID.class,
-            new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(ParentGroupsLoader.class);
+        cache(
+                PARENT_GROUPS_NAME,
+                AccountGroup.UUID.class,
+                new TypeLiteral<Set<AccountGroup.UUID>>() {})
+            .loader(ParentGroupsLoader.class);
 
-        cache(SUBGROUPS_NAME,
-            AccountGroup.UUID.class,
-            new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(SubgroupsLoader.class);
+        cache(SUBGROUPS_NAME, AccountGroup.UUID.class, new TypeLiteral<Set<AccountGroup.UUID>>() {})
+            .loader(SubgroupsLoader.class);
 
-        cache(EXTERNAL_NAME,
-            String.class,
-            new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(AllExternalLoader.class);
+        cache(EXTERNAL_NAME, String.class, new TypeLiteral<Set<AccountGroup.UUID>>() {})
+            .loader(AllExternalLoader.class);
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
@@ -78,7 +72,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   @Inject
   GroupIncludeCacheImpl(
       @Named(SUBGROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> subgroups,
-      @Named(PARENT_GROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups,
+      @Named(PARENT_GROUPS_NAME)
+          LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups,
       @Named(EXTERNAL_NAME) LoadingCache<String, Set<AccountGroup.UUID>> external) {
     this.subgroups = subgroups;
     this.parentGroups = parentGroups;
@@ -133,8 +128,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class SubgroupsLoader extends
-      CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
+  static class SubgroupsLoader extends CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -151,8 +145,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         }
 
         Set<AccountGroup.UUID> ids = new HashSet<>();
-        for (AccountGroupById agi : db.accountGroupById()
-            .byGroup(group.get(0).getId())) {
+        for (AccountGroupById agi : db.accountGroupById().byGroup(group.get(0).getId())) {
           ids.add(agi.getIncludeUUID());
         }
         return ImmutableSet.copyOf(ids);
@@ -160,8 +153,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class ParentGroupsLoader extends
-      CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
+  static class ParentGroupsLoader extends CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -173,8 +165,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
       try (ReviewDb db = schema.open()) {
         Set<AccountGroup.Id> ids = new HashSet<>();
-        for (AccountGroupById agi : db.accountGroupById()
-            .byIncludeUUID(key)) {
+        for (AccountGroupById agi : db.accountGroupById().byIncludeUUID(key)) {
           ids.add(agi.getGroupId());
         }
 
@@ -187,8 +178,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class AllExternalLoader extends
-      CacheLoader<String, Set<AccountGroup.UUID>> {
+  static class AllExternalLoader extends CacheLoader<String, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject

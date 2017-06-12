@@ -32,13 +32,11 @@ package com.google.gerrit.server.ioutil;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.CodedEnum;
-
-import org.eclipse.jgit.util.IO;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.eclipse.jgit.util.IO;
 
 public class BasicSerialization {
   private static final byte[] NO_BYTES = {};
@@ -59,8 +57,7 @@ public class BasicSerialization {
   }
 
   /** Write a fixed-width 64 bit integer in network byte order (big-endian). */
-  public static void writeFixInt64(final OutputStream output, final long val)
-      throws IOException {
+  public static void writeFixInt64(final OutputStream output, final long val) throws IOException {
     writeFixInt32(output, (int) (val >>> 32));
     writeFixInt32(output, (int) (val & 0xFFFFFFFFL));
   }
@@ -75,8 +72,7 @@ public class BasicSerialization {
   }
 
   /** Write a fixed-width 32 bit integer in network byte order (big-endian). */
-  public static void writeFixInt32(final OutputStream output, final int val)
-      throws IOException {
+  public static void writeFixInt32(final OutputStream output, final int val) throws IOException {
     output.write((val >>> 24) & 0xFF);
     output.write((val >>> 16) & 0xFF);
     output.write((val >>> 8) & 0xFF);
@@ -98,8 +94,7 @@ public class BasicSerialization {
   }
 
   /** Write a varint; value is treated as an unsigned value. */
-  public static void writeVarInt32(final OutputStream output, int value)
-      throws IOException {
+  public static void writeVarInt32(final OutputStream output, int value) throws IOException {
     while (true) {
       if ((value & ~0x7F) == 0) {
         output.write(value);
@@ -122,14 +117,14 @@ public class BasicSerialization {
   }
 
   /** Write a byte array prefixed by its length in a varint. */
-  public static void writeBytes(final OutputStream output, final byte[] data)
-      throws IOException {
+  public static void writeBytes(final OutputStream output, final byte[] data) throws IOException {
     writeBytes(output, data, 0, data.length);
   }
 
   /** Write a byte array prefixed by its length in a varint. */
-  public static void writeBytes(final OutputStream output, final byte[] data,
-      final int offset, final int len) throws IOException {
+  public static void writeBytes(
+      final OutputStream output, final byte[] data, final int offset, final int len)
+      throws IOException {
     writeVarInt32(output, len);
     output.write(data, offset, len);
   }
@@ -144,8 +139,7 @@ public class BasicSerialization {
   }
 
   /** Write a UTF-8 string, prefixed by its byte length in a varint. */
-  public static void writeString(final OutputStream output, final String s)
-      throws IOException {
+  public static void writeString(final OutputStream output, final String s) throws IOException {
     if (s == null) {
       writeVarInt32(output, 0);
     } else {
@@ -154,8 +148,8 @@ public class BasicSerialization {
   }
 
   /** Read an enum whose code is stored as a varint. */
-  public static <T extends CodedEnum> T readEnum(final InputStream input,
-      final T[] all) throws IOException {
+  public static <T extends CodedEnum> T readEnum(final InputStream input, final T[] all)
+      throws IOException {
     final int val = readVarInt32(input);
     for (T t : all) {
       if (t.getCode() == val) {
@@ -166,11 +160,10 @@ public class BasicSerialization {
   }
 
   /** Write an enum whose code is stored as a varint. */
-  public static <T extends CodedEnum> void writeEnum(final OutputStream output,
-      final T e) throws IOException {
+  public static <T extends CodedEnum> void writeEnum(final OutputStream output, final T e)
+      throws IOException {
     writeVarInt32(output, e.getCode());
   }
 
-  private BasicSerialization() {
-  }
+  private BasicSerialization() {}
 }

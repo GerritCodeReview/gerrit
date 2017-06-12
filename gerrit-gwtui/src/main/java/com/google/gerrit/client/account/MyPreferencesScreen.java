@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwtexpui.user.client.UserAgent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -95,24 +94,19 @@ public class MyPreferencesScreen extends SettingsScreen {
         GeneralPreferencesInfo.ReviewCategoryStrategy.ABBREV.name());
 
     emailStrategy = new ListBox();
-    emailStrategy
-        .addItem(
-            Util.C.messageCCMeOnMyComments(),
-            GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS
-                .name());
-    emailStrategy.addItem(Util.C.messageEnabled(),
-        GeneralPreferencesInfo.EmailStrategy.ENABLED.name());
-    emailStrategy
-        .addItem(
-            Util.C.messageDisabled(),
-            GeneralPreferencesInfo.EmailStrategy.DISABLED
-                .name());
+    emailStrategy.addItem(
+        Util.C.messageCCMeOnMyComments(),
+        GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS.name());
+    emailStrategy.addItem(
+        Util.C.messageEnabled(), GeneralPreferencesInfo.EmailStrategy.ENABLED.name());
+    emailStrategy.addItem(
+        Util.C.messageDisabled(), GeneralPreferencesInfo.EmailStrategy.DISABLED.name());
 
     defaultBaseForMerges = new ListBox();
-    defaultBaseForMerges.addItem(Util.C.autoMerge(),
-        GeneralPreferencesInfo.DefaultBase.AUTO_MERGE.name());
-    defaultBaseForMerges.addItem(Util.C.firstParent(),
-        GeneralPreferencesInfo.DefaultBase.FIRST_PARENT.name());
+    defaultBaseForMerges.addItem(
+        Util.C.autoMerge(), GeneralPreferencesInfo.DefaultBase.AUTO_MERGE.name());
+    defaultBaseForMerges.addItem(
+        Util.C.firstParent(), GeneralPreferencesInfo.DefaultBase.FIRST_PARENT.name());
 
     diffView = new ListBox();
     diffView.addItem(
@@ -124,8 +118,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     Date now = new Date();
     dateFormat = new ListBox();
-    for (GeneralPreferencesInfo.DateFormat fmt
-        : GeneralPreferencesInfo.DateFormat.values()) {
+    for (GeneralPreferencesInfo.DateFormat fmt : GeneralPreferencesInfo.DateFormat.values()) {
       StringBuilder r = new StringBuilder();
       r.append(DateTimeFormat.getFormat(fmt.getShortFormat()).format(now));
       r.append(" ; ");
@@ -134,8 +127,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     timeFormat = new ListBox();
-    for (GeneralPreferencesInfo.TimeFormat fmt
-        : GeneralPreferencesInfo.TimeFormat.values()) {
+    for (GeneralPreferencesInfo.TimeFormat fmt : GeneralPreferencesInfo.TimeFormat.values()) {
       StringBuilder r = new StringBuilder();
       r.append(DateTimeFormat.getFormat(fmt.getFormat()).format(now));
       timeFormat.addItem(r.toString(), fmt.name());
@@ -230,12 +222,13 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
-    save.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doSave();
-      }
-    });
+    save.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doSave();
+          }
+        });
 
     myMenus = new MyMenuPanel(save);
     add(myMenus);
@@ -268,13 +261,15 @@ public class MyPreferencesScreen extends SettingsScreen {
     extensionPanel.addStyleName(Gerrit.RESOURCES.css().extensionPanel());
     add(extensionPanel);
 
-    AccountApi.self().view("preferences")
-        .get(new ScreenLoadCallback<GeneralPreferences>(this) {
-      @Override
-      public void preDisplay(GeneralPreferences prefs) {
-        display(prefs);
-      }
-    });
+    AccountApi.self()
+        .view("preferences")
+        .get(
+            new ScreenLoadCallback<GeneralPreferences>(this) {
+              @Override
+              public void preDisplay(GeneralPreferences prefs) {
+                display(prefs);
+              }
+            });
   }
 
   private void enable(final boolean on) {
@@ -299,9 +294,13 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
-    setListBox(dateFormat, GeneralPreferencesInfo.DateFormat.STD, //
+    setListBox(
+        dateFormat,
+        GeneralPreferencesInfo.DateFormat.STD, //
         p.dateFormat());
-    setListBox(timeFormat, GeneralPreferencesInfo.TimeFormat.HHMM_12, //
+    setListBox(
+        timeFormat,
+        GeneralPreferencesInfo.TimeFormat.HHMM_12, //
         p.timeFormat());
     highlightAssigneeInChangeTable.setValue(p.highlightAssigneeInChangeTable());
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
@@ -309,16 +308,14 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     signedOffBy.setValue(p.signedOffBy());
-    setListBox(reviewCategoryStrategy,
+    setListBox(
+        reviewCategoryStrategy,
         GeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
-    setListBox(diffView,
-        GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
-        p.diffView());
-    setListBox(emailStrategy,
-        GeneralPreferencesInfo.EmailStrategy.ENABLED,
-        p.emailStrategy());
-    setListBox(defaultBaseForMerges,
+    setListBox(diffView, GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE, p.diffView());
+    setListBox(emailStrategy, GeneralPreferencesInfo.EmailStrategy.ENABLED, p.emailStrategy());
+    setListBox(
+        defaultBaseForMerges,
         GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
         p.defaultBaseForMerges());
     display(p.my());
@@ -332,20 +329,19 @@ public class MyPreferencesScreen extends SettingsScreen {
     myMenus.display(values);
   }
 
-  private void setListBox(final ListBox f, final int defaultValue,
-      final int currentValue) {
+  private void setListBox(final ListBox f, final int defaultValue, final int currentValue) {
     setListBox(f, String.valueOf(defaultValue), String.valueOf(currentValue));
   }
 
-  private <T extends Enum<?>> void setListBox(final ListBox f,
-      final T defaultValue, final T currentValue) {
-    setListBox(f,
+  private <T extends Enum<?>> void setListBox(
+      final ListBox f, final T defaultValue, final T currentValue) {
+    setListBox(
+        f,
         defaultValue != null ? defaultValue.name() : "",
         currentValue != null ? currentValue.name() : "");
   }
 
-  private void setListBox(final ListBox f, final String defaultValue,
-      final String currentValue) {
+  private void setListBox(final ListBox f, final String defaultValue, final String currentValue) {
     final int n = f.getItemCount();
     for (int i = 0; i < n; i++) {
       if (f.getValue(i).equals(currentValue)) {
@@ -366,8 +362,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     return defaultValue;
   }
 
-  private <T extends Enum<?>> T getListBox(final ListBox f,
-      final T defaultValue, T[] all) {
+  private <T extends Enum<?>> T getListBox(final ListBox f, final T defaultValue, T[] all) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       String v = f.getValue(idx);
@@ -388,32 +383,42 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.showSiteHeader(showSiteHeader.getValue());
     p.useFlashClipboard(useFlashClipboard.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
-    p.dateFormat(getListBox(dateFormat,
-        GeneralPreferencesInfo.DateFormat.STD,
-        GeneralPreferencesInfo.DateFormat.values()));
-    p.timeFormat(getListBox(timeFormat,
-        GeneralPreferencesInfo.TimeFormat.HHMM_12,
-        GeneralPreferencesInfo.TimeFormat.values()));
+    p.dateFormat(
+        getListBox(
+            dateFormat,
+            GeneralPreferencesInfo.DateFormat.STD,
+            GeneralPreferencesInfo.DateFormat.values()));
+    p.timeFormat(
+        getListBox(
+            timeFormat,
+            GeneralPreferencesInfo.TimeFormat.HHMM_12,
+            GeneralPreferencesInfo.TimeFormat.values()));
     p.highlightAssigneeInChangeTable(highlightAssigneeInChangeTable.getValue());
     p.relativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.sizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.signedOffBy(signedOffBy.getValue());
-    p.reviewCategoryStrategy(getListBox(reviewCategoryStrategy,
-        ReviewCategoryStrategy.NONE,
-        ReviewCategoryStrategy.values()));
-    p.diffView(getListBox(diffView,
-        GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
-        GeneralPreferencesInfo.DiffView.values()));
+    p.reviewCategoryStrategy(
+        getListBox(
+            reviewCategoryStrategy, ReviewCategoryStrategy.NONE, ReviewCategoryStrategy.values()));
+    p.diffView(
+        getListBox(
+            diffView,
+            GeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
+            GeneralPreferencesInfo.DiffView.values()));
 
-    p.emailStrategy(getListBox(emailStrategy,
-        GeneralPreferencesInfo.EmailStrategy.ENABLED,
-        GeneralPreferencesInfo.EmailStrategy.values()));
+    p.emailStrategy(
+        getListBox(
+            emailStrategy,
+            GeneralPreferencesInfo.EmailStrategy.ENABLED,
+            GeneralPreferencesInfo.EmailStrategy.values()));
 
-    p.defaultBaseForMerges(getListBox(defaultBaseForMerges,
-        GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
-        GeneralPreferencesInfo.DefaultBase.values()));
+    p.defaultBaseForMerges(
+        getListBox(
+            defaultBaseForMerges,
+            GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
+            GeneralPreferencesInfo.DefaultBase.values()));
 
     List<TopMenuItem> items = new ArrayList<>();
     for (List<String> v : myMenus.getValues()) {
@@ -424,45 +429,48 @@ public class MyPreferencesScreen extends SettingsScreen {
     enable(false);
     save.setEnabled(false);
 
-    AccountApi.self().view("preferences")
-        .put(p, new GerritCallback<GeneralPreferences>() {
-          @Override
-          public void onSuccess(GeneralPreferences prefs) {
-            Gerrit.setUserPreferences(prefs);
-            enable(true);
-            display(prefs);
-          }
+    AccountApi.self()
+        .view("preferences")
+        .put(
+            p,
+            new GerritCallback<GeneralPreferences>() {
+              @Override
+              public void onSuccess(GeneralPreferences prefs) {
+                Gerrit.setUserPreferences(prefs);
+                enable(true);
+                display(prefs);
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            enable(true);
-            save.setEnabled(true);
-            super.onFailure(caught);
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                enable(true);
+                save.setEnabled(true);
+                super.onFailure(caught);
+              }
+            });
   }
 
   private class MyMenuPanel extends StringListPanel {
     MyMenuPanel(Button save) {
-      super(Util.C.myMenu(), Arrays.asList(Util.C.myMenuName(),
-          Util.C.myMenuUrl()), save, false);
+      super(Util.C.myMenu(), Arrays.asList(Util.C.myMenuName(), Util.C.myMenuUrl()), save, false);
 
       setInfo(Util.C.myMenuInfo());
 
       Button resetButton = new Button(Util.C.myMenuReset());
-      resetButton.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          ConfigServerApi.defaultPreferences(
-              new GerritCallback<GeneralPreferences>() {
-                @Override
-                public void onSuccess(GeneralPreferences p) {
-                  MyPreferencesScreen.this.display(p.my());
-                  widget.setEnabled(true);
-                }
-              });
-        }
-      });
+      resetButton.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              ConfigServerApi.defaultPreferences(
+                  new GerritCallback<GeneralPreferences>() {
+                    @Override
+                    public void onSuccess(GeneralPreferences p) {
+                      MyPreferencesScreen.this.display(p.my());
+                      widget.setEnabled(true);
+                    }
+                  });
+            }
+          });
       buttonPanel.add(resetButton);
     }
   }

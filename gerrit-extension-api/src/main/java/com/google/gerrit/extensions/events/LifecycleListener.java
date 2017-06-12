@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.util.EventListener;
 
 /** Listener interested in server startup and shutdown events. */

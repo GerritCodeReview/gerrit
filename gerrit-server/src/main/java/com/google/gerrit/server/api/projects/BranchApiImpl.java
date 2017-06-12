@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 
 public class BranchApiImpl implements BranchApi {
@@ -48,7 +47,8 @@ public class BranchApiImpl implements BranchApi {
   private final ProjectResource project;
 
   @Inject
-  BranchApiImpl(BranchesCollection branches,
+  BranchApiImpl(
+      BranchesCollection branches,
       CreateBranch.Factory createBranchFactory,
       DeleteBranch deleteBranch,
       FilesCollection filesCollection,
@@ -95,8 +95,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public BinaryResult file(String path) throws RestApiException {
     try {
-      FileResource resource = filesCollection.parse(resource(),
-        IdString.fromDecoded(path));
+      FileResource resource = filesCollection.parse(resource(), IdString.fromDecoded(path));
       return getContent.apply(resource);
     } catch (IOException e) {
       throw new RestApiException("Cannot retrieve file", e);

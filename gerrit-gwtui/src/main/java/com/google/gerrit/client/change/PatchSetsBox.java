@@ -47,12 +47,12 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.Collections;
 import java.util.EnumSet;
 
 class PatchSetsBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetsBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private static final String OPEN;
@@ -70,7 +70,7 @@ class PatchSetsBox extends Composite {
   }-*/;
 
   private static boolean onOpen(NativeEvent e, int idx) {
-    if (link.handleAsClick(e.<Event> cast())) {
+    if (link.handleAsClick(e.<Event>cast())) {
       PatchSetsBox t = getRevisionBox(e);
       if (t != null) {
         t.onOpenRow(idx);
@@ -94,8 +94,11 @@ class PatchSetsBox extends Composite {
 
   interface Style extends CssResource {
     String current();
+
     String legacy_id();
+
     String commit();
+
     String draft_comment();
   }
 
@@ -119,24 +122,23 @@ class PatchSetsBox extends Composite {
   protected void onLoad() {
     if (!loaded) {
       RestApi call = ChangeApi.detail(changeId.get());
-      ChangeList.addOptions(call, EnumSet.of(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS));
-      call.get(new AsyncCallback<ChangeInfo>() {
-        @Override
-        public void onSuccess(ChangeInfo result) {
-          if (edit != null) {
-            edit.setName(edit.commit().commit());
-            result.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
-          }
-          render(result.revisions());
-          loaded = true;
-        }
+      ChangeList.addOptions(
+          call, EnumSet.of(ListChangesOption.ALL_COMMITS, ListChangesOption.ALL_REVISIONS));
+      call.get(
+          new AsyncCallback<ChangeInfo>() {
+            @Override
+            public void onSuccess(ChangeInfo result) {
+              if (edit != null) {
+                edit.setName(edit.commit().commit());
+                result.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+              }
+              render(result.revisions());
+              loaded = true;
+            }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {}
+          });
     }
   }
 
@@ -158,20 +160,25 @@ class PatchSetsBox extends Composite {
       revision(sb, i, revisions.get(i));
     }
 
-    GWT.<FancyFlexTableImpl> create(FancyFlexTableImpl.class)
-      .resetHtml(table, sb);
+    GWT.<FancyFlexTableImpl>create(FancyFlexTableImpl.class).resetHtml(table, sb);
   }
 
   private void header(SafeHtmlBuilder sb) {
     sb.openTr()
-      .openTh()
-          .setStyleName(style.legacy_id())
-          .append(Resources.C.patchSet())
-          .closeTh()
-      .openTh().append(Resources.C.commit()).closeTh()
-      .openTh().append(Resources.C.date()).closeTh()
-      .openTh().append(Resources.C.author()).closeTh()
-      .closeTr();
+        .openTh()
+        .setStyleName(style.legacy_id())
+        .append(Resources.C.patchSet())
+        .closeTh()
+        .openTh()
+        .append(Resources.C.commit())
+        .closeTh()
+        .openTh()
+        .append(Resources.C.date())
+        .closeTh()
+        .openTh()
+        .append(Resources.C.author())
+        .closeTh()
+        .closeTr();
   }
 
   private void revision(SafeHtmlBuilder sb, int index, RevisionInfo r) {
@@ -189,17 +196,15 @@ class PatchSetsBox extends Composite {
     sb.closeTd();
 
     sb.openTd()
-      .setStyleName(style.commit())
-      .openAnchor()
-      .setAttribute("href", "#" + url(r))
-      .setAttribute("onclick", OPEN + "(event," + index + ")")
-      .append(r.name().substring(0, 10))
-      .closeAnchor()
-      .closeTd();
+        .setStyleName(style.commit())
+        .openAnchor()
+        .setAttribute("href", "#" + url(r))
+        .setAttribute("onclick", OPEN + "(event," + index + ")")
+        .append(r.name().substring(0, 10))
+        .closeAnchor()
+        .closeTd();
 
-    sb.openTd()
-      .append(FormatUtil.shortFormatDayTime(c.committer().date()))
-      .closeTd();
+    sb.openTd().append(FormatUtil.shortFormatDayTime(c.committer().date())).closeTd();
 
     String an = c.author() != null ? c.author().name() : "";
     String cn = c.committer() != null ? c.committer().name() : "";

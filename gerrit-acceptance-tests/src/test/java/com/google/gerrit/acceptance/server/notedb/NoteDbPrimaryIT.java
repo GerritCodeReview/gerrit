@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
-
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -38,18 +37,15 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.inject.Inject;
-
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 public class NoteDbPrimaryIT extends AbstractDaemonTest {
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
   @Before
   public void setUp() throws Exception {
@@ -68,8 +64,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
 
     ChangeInfo info = gApi.changes().id(id.get()).get();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
-    ApprovalInfo approval =
-        Iterables.getOnlyElement(info.labels.get("Code-Review").all);
+    ApprovalInfo approval = Iterables.getOnlyElement(info.labels.get("Code-Review").all);
     assertThat(approval._accountId).isEqualTo(admin.id.get());
     assertThat(approval.value).isEqualTo(2);
     assertThat(info.messages).hasSize(3);
@@ -99,14 +94,12 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     din.message = "A comment";
     gApi.changes().id(id.get()).current().createDraft(din);
 
-    CommentInfo di = Iterables.getOnlyElement(
-        gApi.changes().id(id.get()).current().drafts()
-            .get(PushOneCommit.FILE_NAME));
+    CommentInfo di =
+        Iterables.getOnlyElement(
+            gApi.changes().id(id.get()).current().drafts().get(PushOneCommit.FILE_NAME));
     assertThat(di.message).isEqualTo(din.message);
 
-    assertThat(
-            db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id))
-        .isEmpty();
+    assertThat(db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id)).isEmpty();
 
     gApi.changes().id(id.get()).current().draft(di.id).delete();
     assertThat(gApi.changes().id(id.get()).current().drafts()).isEmpty();
@@ -119,13 +112,11 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     setNoteDbPrimary(id);
 
     gApi.changes().id(id.get()).current().review(ReviewInput.approve());
-    List<ApprovalInfo> approvals =
-        gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
+    List<ApprovalInfo> approvals = gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(2);
 
-    gApi.changes().id(id.get()).reviewer(admin.id.toString())
-        .deleteVote("Code-Review");
+    gApi.changes().id(id.get()).reviewer(admin.id.toString()).deleteVote("Code-Review");
 
     approvals = gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
     assertThat(approvals).hasSize(1);
@@ -139,8 +130,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     setNoteDbPrimary(id);
 
     gApi.changes().id(id.get()).current().review(ReviewInput.approve());
-    List<ApprovalInfo> approvals =
-        gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
+    List<ApprovalInfo> approvals = gApi.changes().id(id.get()).get().labels.get("Code-Review").all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(2);
 
@@ -167,15 +157,11 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     Change c = db.changes().get(id);
     assertThat(c).named("change " + id).isNotNull();
     NoteDbChangeState state = NoteDbChangeState.parse(c);
-    assertThat(state.getPrimaryStorage())
-        .named("storage of " + id)
-        .isEqualTo(REVIEW_DB);
+    assertThat(state.getPrimaryStorage()).named("storage of " + id).isEqualTo(REVIEW_DB);
 
     try (Repository changeRepo = repoManager.openRepository(c.getProject());
         Repository allUsersRepo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              state.isUpToDate(
-                  new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo)))
+      assertThat(state.isUpToDate(new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo)))
           .named("change " + id + " up to date")
           .isTrue();
     }
@@ -185,8 +171,12 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   private List<Account.Id> getReviewers(Change.Id id) throws Exception {
-    return gApi.changes().id(id.get()).get()
-        .reviewers.values().stream()
+    return gApi.changes()
+        .id(id.get())
+        .get()
+        .reviewers
+        .values()
+        .stream()
         .flatMap(Collection::stream)
         .map(a -> new Account.Id(a._accountId))
         .collect(toList());

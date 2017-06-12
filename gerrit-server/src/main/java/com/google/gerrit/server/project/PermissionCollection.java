@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,11 +42,10 @@ import java.util.Set;
 
 /**
  * Effective permissions applied to a reference in a project.
- * <p>
- * A collection may be user specific if a matching {@link AccessSection} uses
- * "${username}" in its name. The permissions granted in that section may only
- * be granted to the username that appears in the reference name, and also only
- * if the user is a member of the relevant group.
+ *
+ * <p>A collection may be user specific if a matching {@link AccessSection} uses "${username}" in
+ * its name. The permissions granted in that section may only be granted to the username that
+ * appears in the reference name, and also only if the user is a member of the relevant group.
  */
 public class PermissionCollection {
   @Singleton
@@ -62,19 +60,16 @@ public class PermissionCollection {
     /**
      * Get all permissions that apply to a reference.
      *
-     * @param matcherList collection of sections that should be considered, in
-     *        priority order (project specific definitions must appear before
-     *        inherited ones).
+     * @param matcherList collection of sections that should be considered, in priority order
+     *     (project specific definitions must appear before inherited ones).
      * @param ref reference being accessed.
-     * @param user if the reference is a per-user reference, e.g. access
-     *        sections using the parameter variable "${username}" will have
-     *        each username inserted into them to see if they apply to the
-     *        reference named by {@code ref}.
-     * @return map of permissions that apply to this reference, keyed by
-     *         permission name.
+     * @param user if the reference is a per-user reference, e.g. access sections using the
+     *     parameter variable "${username}" will have each username inserted into them to see if
+     *     they apply to the reference named by {@code ref}.
+     * @return map of permissions that apply to this reference, keyed by permission name.
      */
-    PermissionCollection filter(Iterable<SectionMatcher> matcherList,
-        String ref, CurrentUser user) {
+    PermissionCollection filter(
+        Iterable<SectionMatcher> matcherList, String ref, CurrentUser user) {
       if (isRE(ref)) {
         ref = RefPattern.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
@@ -118,8 +113,7 @@ public class PermissionCollection {
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
       HashMap<String, List<PermissionRule>> overridden = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
-      Multimap<Project.NameKey, String> exclusivePermissionsByProject =
-          ArrayListMultimap.create();
+      Multimap<Project.NameKey, String> exclusivePermissionsByProject = ArrayListMultimap.create();
       for (AccessSection section : sections) {
         Project.NameKey project = sectionToProject.get(section);
         for (Permission permission : section.getPermissions()) {
@@ -130,8 +124,7 @@ public class PermissionCollection {
             SeenRule s = SeenRule.create(section, permission, rule);
             boolean addRule;
             if (rule.isBlock()) {
-              addRule = !exclusivePermissionsByProject.containsEntry(project,
-                  permission.getName());
+              addRule = !exclusivePermissionsByProject.containsEntry(project, permission.getName());
             } else {
               addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
             }
@@ -161,8 +154,7 @@ public class PermissionCollection {
         }
       }
 
-      return new PermissionCollection(permissions, overridden, ruleProps,
-          perUser);
+      return new PermissionCollection(permissions, overridden, ruleProps, perUser);
     }
   }
 
@@ -171,7 +163,8 @@ public class PermissionCollection {
   private final Map<PermissionRule, ProjectRef> ruleProps;
   private final boolean perUser;
 
-  private PermissionCollection(Map<String, List<PermissionRule>> rules,
+  private PermissionCollection(
+      Map<String, List<PermissionRule>> rules,
       Map<String, List<PermissionRule>> overridden,
       Map<PermissionRule, ProjectRef> ruleProps,
       boolean perUser) {
@@ -182,8 +175,8 @@ public class PermissionCollection {
   }
 
   /**
-   * @return true if a "${username}" pattern might need to be expanded to build
-   *         this collection, making the results user specific.
+   * @return true if a "${username}" pattern might need to be expanded to build this collection,
+   *     making the results user specific.
    */
   public boolean isUserSpecific() {
     return perUser;
@@ -193,18 +186,16 @@ public class PermissionCollection {
    * Obtain all permission rules for a given type of permission.
    *
    * @param permissionName type of permission.
-   * @return all rules that apply to this reference, for any group. Never null;
-   *         the empty list is returned when there are no rules for the requested
-   *         permission name.
+   * @return all rules that apply to this reference, for any group. Never null; the empty list is
+   *     returned when there are no rules for the requested permission name.
    */
   public List<PermissionRule> getPermission(String permissionName) {
     List<PermissionRule> r = rules.get(permissionName);
-    return r != null ? r : Collections.<PermissionRule> emptyList();
+    return r != null ? r : Collections.<PermissionRule>emptyList();
   }
 
   List<PermissionRule> getOverridden(String permissionName) {
-    return firstNonNull(
-        overridden.get(permissionName), Collections.<PermissionRule> emptyList());
+    return firstNonNull(overridden.get(permissionName), Collections.<PermissionRule>emptyList());
   }
 
   ProjectRef getRuleProps(PermissionRule rule) {
@@ -214,12 +205,11 @@ public class PermissionCollection {
   /**
    * Obtain all declared permission rules that match the reference.
    *
-   * @return all rules. The collection will iterate a permission if it was
-   *         declared in the project configuration, either directly or
-   *         inherited. If the project owner did not use a known permission (for
-   *         example {@link Permission#FORGE_SERVER}, then it will not be
-   *         represented in the result even if {@link #getPermission(String)}
-   *         returns an empty list for the same permission.
+   * @return all rules. The collection will iterate a permission if it was declared in the project
+   *     configuration, either directly or inherited. If the project owner did not use a known
+   *     permission (for example {@link Permission#FORGE_SERVER}, then it will not be represented in
+   *     the result even if {@link #getPermission(String)} returns an empty list for the same
+   *     permission.
    */
   public Iterable<Map.Entry<String, List<PermissionRule>>> getDeclaredPermissions() {
     return rules.entrySet();
@@ -229,14 +219,16 @@ public class PermissionCollection {
   @AutoValue
   abstract static class SeenRule {
     public abstract String refPattern();
-    public abstract String permissionName();
-    @Nullable public abstract AccountGroup.UUID group();
 
-    static SeenRule create(AccessSection section, Permission permission,
-        @Nullable PermissionRule rule) {
-      AccountGroup.UUID group = rule != null && rule.getGroup() != null
-          ? rule.getGroup().getUUID()
-          : null;
+    public abstract String permissionName();
+
+    @Nullable
+    public abstract AccountGroup.UUID group();
+
+    static SeenRule create(
+        AccessSection section, Permission permission, @Nullable PermissionRule rule) {
+      AccountGroup.UUID group =
+          rule != null && rule.getGroup() != null ? rule.getGroup().getUUID() : null;
       return new AutoValue_PermissionCollection_SeenRule(
           section.getName(), permission.getName(), group);
     }

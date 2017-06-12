@@ -16,16 +16,19 @@ package com.google.gerrit.client.info;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-
 public class OAuthTokenInfo extends JavaScriptObject {
 
-  protected OAuthTokenInfo() {
-  }
+  protected OAuthTokenInfo() {}
 
   public final native String username() /*-{ return this.username; }-*/;
+
   public final native String resourceHost() /*-{ return this.resource_host; }-*/;
+
   public final native String accessToken() /*-{ return this.access_token; }-*/;
+
   public final native String providerId() /*-{ return this.provider_id; }-*/;
+
   public final native String expiresAt() /*-{ return this.expires_at; }-*/;
+
   public final native String type() /*-{ return this.type; }-*/;
 }

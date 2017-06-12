@@ -20,4 +20,3 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 public interface RevisionEvent extends ChangeEvent {
   RevisionInfo getRevision();
 }
-

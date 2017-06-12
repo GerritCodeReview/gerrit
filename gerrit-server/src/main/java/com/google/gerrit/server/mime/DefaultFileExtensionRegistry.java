@@ -15,15 +15,10 @@
 package com.google.gerrit.server.mime;
 
 import com.google.common.collect.ImmutableMap;
-
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil;
 import eu.medsea.mimeutil.detector.MimeDetector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +27,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Loads mime types from {@code mime-types.properties} at specificity of 2. */
 public class DefaultFileExtensionRegistry extends MimeDetector {
@@ -40,8 +37,8 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
 
   static {
     Properties prop = new Properties();
-    try (InputStream in = DefaultFileExtensionRegistry.class
-        .getResourceAsStream("mime-types.properties")) {
+    try (InputStream in =
+        DefaultFileExtensionRegistry.class.getResourceAsStream("mime-types.properties")) {
       prop.load(in);
     } catch (IOException e) {
       log.warn("Cannot load mime-types.properties", e);

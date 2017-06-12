@@ -30,11 +30,6 @@ import com.google.common.jimfs.Jimfs;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
-
-import org.joda.time.format.ISODateTimeFormat;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.FileSystem;
@@ -43,13 +38,13 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
+import org.joda.time.format.ISODateTimeFormat;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ResourceServletTest {
   private static Cache<Path, Resource> newCache(int size) {
-    return CacheBuilder.newBuilder()
-      .maximumSize(size)
-      .recordStats()
-      .build();
+    return CacheBuilder.newBuilder().maximumSize(size).recordStats().build();
   }
 
   private static class Servlet extends ResourceServlet {
@@ -57,26 +52,29 @@ public class ResourceServletTest {
 
     private final FileSystem fs;
 
-    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
-        boolean refresh) {
+    private Servlet(FileSystem fs, Cache<Path, Resource> cache, boolean refresh) {
       super(cache, refresh);
       this.fs = fs;
     }
 
-    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
-        boolean refresh, boolean cacheOnClient) {
+    private Servlet(
+        FileSystem fs, Cache<Path, Resource> cache, boolean refresh, boolean cacheOnClient) {
       super(cache, refresh, cacheOnClient);
       this.fs = fs;
     }
 
-    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
-        boolean refresh, int cacheFileSizeLimitBytes) {
+    private Servlet(
+        FileSystem fs, Cache<Path, Resource> cache, boolean refresh, int cacheFileSizeLimitBytes) {
       super(cache, refresh, true, cacheFileSizeLimitBytes);
       this.fs = fs;
     }
 
-    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
-        boolean refresh, boolean cacheOnClient, int cacheFileSizeLimitBytes) {
+    private Servlet(
+        FileSystem fs,
+        Cache<Path, Resource> cache,
+        boolean refresh,
+        boolean cacheOnClient,
+        int cacheFileSizeLimitBytes) {
       super(cache, refresh, cacheOnClient, cacheFileSizeLimitBytes);
       this.fs = fs;
     }
@@ -93,8 +91,7 @@ public class ResourceServletTest {
   @Before
   public void setUp() {
     fs = Jimfs.newFileSystem(Configuration.unix());
-    ts = new AtomicLong(ISODateTimeFormat.dateTime().parseMillis(
-        "2010-01-30T12:00:00.000-08:00"));
+    ts = new AtomicLong(ISODateTimeFormat.dateTime().parseMillis("2010-01-30T12:00:00.000-08:00"));
   }
 
   @Test
@@ -237,8 +234,7 @@ public class ResourceServletTest {
     Servlet servlet = new Servlet(fs, cache, true);
     writeFile("/foo", "foo1");
 
-    FakeHttpServletRequest req = request("/foo")
-        .addHeader("Accept-Encoding", "gzip");
+    FakeHttpServletRequest req = request("/foo").addHeader("Accept-Encoding", "gzip");
     FakeHttpServletResponse res = new FakeHttpServletResponse();
     servlet.doGet(req, res);
     assertThat(res.getStatus()).isEqualTo(SC_OK);
@@ -255,8 +251,7 @@ public class ResourceServletTest {
     String content = Strings.repeat("a", 100);
     writeFile("/foo", content);
 
-    FakeHttpServletRequest req = request("/foo")
-        .addHeader("Accept-Encoding", "gzip");
+    FakeHttpServletRequest req = request("/foo").addHeader("Accept-Encoding", "gzip");
     FakeHttpServletResponse res = new FakeHttpServletResponse();
     servlet.doGet(req, res);
     assertThat(res.getStatus()).isEqualTo(SC_OK);
@@ -267,8 +262,7 @@ public class ResourceServletTest {
   }
 
   @Test
-  public void largeFileBypassesCacheRegardlessOfRefreshParamter()
-      throws Exception {
+  public void largeFileBypassesCacheRegardlessOfRefreshParamter() throws Exception {
     for (boolean refresh : Lists.newArrayList(true, false)) {
       Cache<Path, Resource> cache = newCache(1);
       Servlet servlet = new Servlet(fs, cache, refresh, 3);
@@ -312,8 +306,7 @@ public class ResourceServletTest {
     String content = Strings.repeat("a", 100);
     writeFile("/foo", content);
 
-    FakeHttpServletRequest req = request("/foo")
-        .addHeader("Accept-Encoding", "gzip");
+    FakeHttpServletRequest req = request("/foo").addHeader("Accept-Encoding", "gzip");
     FakeHttpServletResponse res = new FakeHttpServletResponse();
     servlet.doGet(req, res);
     assertThat(res.getStatus()).isEqualTo(SC_OK);
@@ -331,8 +324,7 @@ public class ResourceServletTest {
 
   private void writeFile(String path, String content) throws Exception {
     Files.write(fs.getPath(path), content.getBytes(UTF_8));
-    Files.setLastModifiedTime(
-        fs.getPath(path), FileTime.fromMillis(ts.getAndIncrement()));
+    Files.setLastModifiedTime(fs.getPath(path), FileTime.fromMillis(ts.getAndIncrement()));
   }
 
   private static void assertCacheHits(Cache<?, ?> cache, int hits, int misses) {
@@ -340,8 +332,7 @@ public class ResourceServletTest {
     assertThat(cache.stats().missCount()).named("misses").isEqualTo(misses);
   }
 
-  private static void assertCacheable(FakeHttpServletResponse res,
-      boolean revalidate) {
+  private static void assertCacheable(FakeHttpServletResponse res, boolean revalidate) {
     String header = res.getHeader("Cache-Control").toLowerCase();
     assertThat(header).contains("public");
     if (revalidate) {

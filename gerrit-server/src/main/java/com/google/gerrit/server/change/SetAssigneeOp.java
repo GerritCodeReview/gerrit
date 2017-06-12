@@ -38,7 +38,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.util.Optional;
 
 public class SetAssigneeOp extends BatchUpdate.Op {
@@ -59,7 +58,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private Account oldAssignee;
 
   @AssistedInject
-  SetAssigneeOp(AccountsCollection accounts,
+  SetAssigneeOp(
+      AccountsCollection accounts,
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       DynamicSet<AssigneeValidationListener> validationListeners,
@@ -76,31 +76,26 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(BatchUpdate.ChangeContext ctx)
-      throws OrmException, RestApiException {
+  public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException, RestApiException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    Optional<Account.Id> oldAssigneeId =
-        Optional.ofNullable(change.getAssignee());
+    Optional<Account.Id> oldAssigneeId = Optional.ofNullable(change.getAssignee());
     oldAssignee = null;
     if (oldAssigneeId.isPresent()) {
       oldAssignee = accountInfosFactory.create().get(oldAssigneeId.get());
     }
     IdentifiedUser newAssigneeUser = accounts.parse(assignee);
-    if (oldAssigneeId.isPresent() &&
-        oldAssigneeId.get().equals(newAssigneeUser.getAccountId())) {
+    if (oldAssigneeId.isPresent() && oldAssigneeId.get().equals(newAssigneeUser.getAccountId())) {
       newAssignee = oldAssignee;
       return false;
     }
     if (!newAssigneeUser.getAccount().isActive()) {
-      throw new UnprocessableEntityException(String.format(
-          "Account of %s is not active", assignee));
+      throw new UnprocessableEntityException(
+          String.format("Account of %s is not active", assignee));
     }
     if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
-      throw new AuthException(String.format(
-          "Change %s is not visible to %s.",
-          change.getChangeId(),
-          assignee));
+      throw new AuthException(
+          String.format("Change %s is not visible to %s.", change.getChangeId(), assignee));
     }
     try {
       for (AssigneeValidationListener validator : validationListeners) {
@@ -118,8 +113,9 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     return true;
   }
 
-  private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update,
-      Account previousAssignee) throws OrmException {
+  private void addMessage(
+      BatchUpdate.ChangeContext ctx, ChangeUpdate update, Account previousAssignee)
+      throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Assignee ");
     if (previousAssignee == null) {
@@ -131,8 +127,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       msg.append(" to: ");
       msg.append(newAssignee.getName(anonymousCowardName));
     }
-    ChangeMessage cmsg = ChangeMessagesUtil.newMessage(ctx, msg.toString(),
-        ChangeMessagesUtil.TAG_SET_ASSIGNEE);
+    ChangeMessage cmsg =
+        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 

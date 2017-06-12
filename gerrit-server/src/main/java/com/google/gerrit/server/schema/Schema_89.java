@@ -21,7 +21,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.sql.SQLException;
 
 public class Schema_89 extends SchemaVersion {
@@ -31,14 +30,11 @@ public class Schema_89 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
-      SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     SqlDialect dialect = ((JdbcSchema) db).getDialect();
     try (StatementExecutor e = newExecutor(db)) {
-      dialect.dropIndex(e, "patch_set_approvals",
-          "patch_set_approvals_openByUser");
-      dialect.dropIndex(e, "patch_set_approvals",
-          "patch_set_approvals_closedByU");
+      dialect.dropIndex(e, "patch_set_approvals", "patch_set_approvals_openByUser");
+      dialect.dropIndex(e, "patch_set_approvals", "patch_set_approvals_closedByU");
     }
   }
 }

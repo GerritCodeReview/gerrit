@@ -21,35 +21,27 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
-
+import java.io.IOException;
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
-import java.io.IOException;
-
 public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   protected ProjectControl projectControl;
 
-  @Inject
-  private SshScope sshScope;
+  @Inject private SshScope sshScope;
 
-  @Inject
-  private GitRepositoryManager repoManager;
+  @Inject private GitRepositoryManager repoManager;
 
-  @Inject
-  private SshSession session;
+  @Inject private SshSession session;
 
-  @Inject
-  private SshScope.Context context;
+  @Inject private SshScope.Context context;
 
-  @Inject
-  private IdentifiedUser user;
+  @Inject private IdentifiedUser user;
 
-  @Inject
-  private IdentifiedUser.GenericFactory userFactory;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
 
   protected Repository repo;
   protected Project project;
@@ -59,31 +51,35 @@ public abstract class AbstractGitCommand extends BaseCommand {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {
-      startThread(new ProjectCommandRunnable() {
-        @Override
-        public void executeParseCommand() throws Exception {
-          parseCommandLine();
-        }
+      startThread(
+          new ProjectCommandRunnable() {
+            @Override
+            public void executeParseCommand() throws Exception {
+              parseCommandLine();
+            }
 
-        @Override
-        public void run() throws Exception {
-          AbstractGitCommand.this.service();
-        }
+            @Override
+            public void run() throws Exception {
+              AbstractGitCommand.this.service();
+            }
 
-        @Override
-        public Project.NameKey getProjectName() {
-          Project project = projectControl.getProjectState().getProject();
-          return project.getNameKey();
-        }
-      });
+            @Override
+            public Project.NameKey getProjectName() {
+              Project project = projectControl.getProjectState().getProject();
+              return project.getNameKey();
+            }
+          });
     } finally {
       sshScope.set(old);
     }
   }
 
   private SshSession newSession() {
-    SshSession n = new SshSession(session, session.getRemoteAddress(),
-        userFactory.create(session.getRemoteAddress(), user.getAccountId()));
+    SshSession n =
+        new SshSession(
+            session,
+            session.getRemoteAddress(),
+            userFactory.create(session.getRemoteAddress(), user.getAccountId()));
     n.setAccessPath(AccessPath.GIT);
     return n;
   }

@@ -21,8 +21,7 @@ import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 class SubmitFailureDialog extends ErrorDialog {
   static boolean isConflict(Throwable err) {
-    return err instanceof RemoteJsonException
-        && 409 == ((RemoteJsonException) err).getCode();
+    return err instanceof RemoteJsonException && 409 == ((RemoteJsonException) err).getCode();
   }
 
   SubmitFailureDialog(String msg) {

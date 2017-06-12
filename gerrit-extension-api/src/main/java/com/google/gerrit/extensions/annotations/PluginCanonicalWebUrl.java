@@ -17,16 +17,15 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
  * Annotation applied to a String containing the plugin canonical web URL.
- * <p>
- * A plugin or extension may receive this string by Guice injection to discover
- * the canonical web URL under which the plugin is available:
+ *
+ * <p>A plugin or extension may receive this string by Guice injection to discover the canonical web
+ * URL under which the plugin is available:
  *
  * <pre>
  *  {@literal @Inject}
@@ -38,5 +37,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface PluginCanonicalWebUrl {
-}
+public @interface PluginCanonicalWebUrl {}

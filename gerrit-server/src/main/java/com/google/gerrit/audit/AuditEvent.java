@@ -57,8 +57,13 @@ public class AuditEvent {
    * @param params parameters of the event
    * @param result result of the event
    */
-  public AuditEvent(String sessionId, CurrentUser who, String what, long when,
-      Multimap<String, ?> params, Object result) {
+  public AuditEvent(
+      String sessionId,
+      CurrentUser who,
+      String what,
+      long when,
+      Multimap<String, ?> params,
+      Object result) {
     Preconditions.checkNotNull(what, "what is a mandatory not null param !");
 
     this.sessionId = MoreObjects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);
@@ -95,7 +100,8 @@ public class AuditEvent {
 
   @Override
   public String toString() {
-    return String.format("AuditEvent UUID:%s, SID:%s, TS:%d, who:%s, what:%s",
+    return String.format(
+        "AuditEvent UUID:%s, SID:%s, TS:%d, who:%s, what:%s",
         uuid.uuid(), sessionId, when, who, what);
   }
 }

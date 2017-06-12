@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.ApprovalInfo;
-
 import java.util.Map;
 
 /** Notified whenever a vote is removed from a change. */
@@ -24,8 +23,11 @@ import java.util.Map;
 public interface VoteDeletedListener {
   interface Event extends RevisionEvent {
     Map<String, ApprovalInfo> getOldApprovals();
+
     Map<String, ApprovalInfo> getApprovals();
+
     Map<String, ApprovalInfo> getRemoved();
+
     String getMessage();
   }
 

@@ -42,7 +42,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
@@ -62,21 +74,6 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /** Serves Git repositories over HTTP. */
 @Singleton
 public class GitOverHttpServlet extends GitServlet {
@@ -87,6 +84,7 @@ public class GitOverHttpServlet extends GitServlet {
   private static final String ID_CACHE = "adv_bases";
 
   public static final String URL_REGEX;
+
   static {
     StringBuilder url = new StringBuilder();
     url.append("^(?:/a)?(?:/p/|/)(.*/(?:info/refs");
@@ -110,24 +108,25 @@ public class GitOverHttpServlet extends GitServlet {
       bind(Resolver.class);
       bind(UploadFactory.class);
       bind(UploadFilter.class);
-      bind(new TypeLiteral<ReceivePackFactory<HttpServletRequest>>() {}).to(
-          enableReceive ? ReceiveFactory.class : DisabledReceiveFactory.class);
+      bind(new TypeLiteral<ReceivePackFactory<HttpServletRequest>>() {})
+          .to(enableReceive ? ReceiveFactory.class : DisabledReceiveFactory.class);
       bind(ReceiveFilter.class);
-      install(new CacheModule() {
-        @Override
-        protected void configure() {
-          cache(ID_CACHE,
-              AdvertisedObjectsCacheKey.class,
-              new TypeLiteral<Set<ObjectId>>() {})
-            .maximumWeight(4096)
-            .expireAfterWrite(10, TimeUnit.MINUTES);
-        }
-      });
+      install(
+          new CacheModule() {
+            @Override
+            protected void configure() {
+              cache(ID_CACHE, AdvertisedObjectsCacheKey.class, new TypeLiteral<Set<ObjectId>>() {})
+                  .maximumWeight(4096)
+                  .expireAfterWrite(10, TimeUnit.MINUTES);
+            }
+          });
     }
   }
 
   @Inject
-  GitOverHttpServlet(Resolver resolver, UploadFactory upload,
+  GitOverHttpServlet(
+      Resolver resolver,
+      UploadFactory upload,
       UploadFilter uploadFilter,
       ReceivePackFactory<HttpServletRequest> receive,
       ReceiveFilter receiveFilter) {
@@ -146,8 +145,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final ProjectControl.Factory projectControlFactory;
 
     @Inject
-    Resolver(GitRepositoryManager manager,
-        ProjectControl.Factory projectControlFactory) {
+    Resolver(GitRepositoryManager manager, ProjectControl.Factory projectControlFactory) {
       this.manager = manager;
       this.projectControlFactory = projectControlFactory;
     }
@@ -155,7 +153,7 @@ public class GitOverHttpServlet extends GitServlet {
     @Override
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
-        ServiceNotEnabledException {
+            ServiceNotEnabledException {
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }
@@ -191,8 +189,7 @@ public class GitOverHttpServlet extends GitServlet {
       try {
         return manager.openRepository(pc.getProject().getNameKey());
       } catch (IOException e) {
-        throw new RepositoryNotFoundException(
-            pc.getProject().getNameKey().get(), e);
+        throw new RepositoryNotFoundException(pc.getProject().getNameKey().get(), e);
       }
     }
   }
@@ -203,7 +200,8 @@ public class GitOverHttpServlet extends GitServlet {
     private final DynamicSet<PostUploadHook> postUploadHooks;
 
     @Inject
-    UploadFactory(TransferConfig tc,
+    UploadFactory(
+        TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
         DynamicSet<PostUploadHook> postUploadHooks) {
       this.config = tc;
@@ -216,10 +214,8 @@ public class GitOverHttpServlet extends GitServlet {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
-      up.setPreUploadHook(PreUploadHookChain.newChain(
-          Lists.newArrayList(preUploadHooks)));
-      up.setPostUploadHook(
-          PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
+      up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
       return up;
     }
   }
@@ -232,7 +228,9 @@ public class GitOverHttpServlet extends GitServlet {
     private final UploadValidators.Factory uploadValidatorsFactory;
 
     @Inject
-    UploadFilter(Provider<ReviewDb> db, TagCache tagCache,
+    UploadFilter(
+        Provider<ReviewDb> db,
+        TagCache tagCache,
         ChangeNotes.Factory changeNotesFactory,
         @Nullable SearchingChangeCacheImpl changeCache,
         UploadValidators.Factory uploadValidatorsFactory) {
@@ -244,16 +242,18 @@ public class GitOverHttpServlet extends GitServlet {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain next) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
+        throws IOException, ServletException {
       // The Resolver above already checked READ access for us.
       Repository repo = ServletUtils.getRepository(request);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
       if (!pc.canRunUploadPack()) {
-        GitSmartHttpTools.sendError((HttpServletRequest) request,
-            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+        GitSmartHttpTools.sendError(
+            (HttpServletRequest) request,
+            (HttpServletResponse) response,
+            HttpServletResponse.SC_FORBIDDEN,
             "upload-pack not permitted on this server");
         return;
       }
@@ -261,21 +261,20 @@ public class GitOverHttpServlet extends GitServlet {
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
           uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
-      up.setPreUploadHook(PreUploadHookChain.newChain(
-          Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeNotesFactory,
-          changeCache, repo, pc, db.get(), true));
+      up.setPreUploadHook(
+          PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
+      up.setAdvertiseRefsHook(
+          new VisibleRefFilter(
+              tagCache, changeNotesFactory, changeCache, repo, pc, db.get(), true));
 
       next.doFilter(request, response);
     }
 
     @Override
-    public void init(FilterConfig config) {
-    }
+    public void init(FilterConfig config) {}
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
   }
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
@@ -305,8 +304,7 @@ public class GitOverHttpServlet extends GitServlet {
     }
   }
 
-  static class DisabledReceiveFactory implements
-      ReceivePackFactory<HttpServletRequest> {
+  static class DisabledReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     @Override
     public ReceivePack create(HttpServletRequest req, Repository db)
         throws ServiceNotEnabledException {
@@ -318,16 +316,14 @@ public class GitOverHttpServlet extends GitServlet {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
 
     @Inject
-    ReceiveFilter(
-        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
+    ReceiveFilter(@Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
       this.cache = cache;
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
-      boolean isGet =
-        "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+        throws IOException, ServletException {
+      boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
       ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
       ReceivePack rp = rc.getReceivePack();
@@ -336,16 +332,20 @@ public class GitOverHttpServlet extends GitServlet {
       Project.NameKey projectName = pc.getProject().getNameKey();
 
       if (!pc.canRunReceivePack()) {
-        GitSmartHttpTools.sendError((HttpServletRequest) request,
-            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+        GitSmartHttpTools.sendError(
+            (HttpServletRequest) request,
+            (HttpServletResponse) response,
+            HttpServletResponse.SC_FORBIDDEN,
             "receive-pack not permitted on this server");
         return;
       }
 
       final Capable s = rc.canUpload();
       if (s != Capable.OK) {
-        GitSmartHttpTools.sendError((HttpServletRequest) request,
-            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+        GitSmartHttpTools.sendError(
+            (HttpServletRequest) request,
+            (HttpServletResponse) response,
+            HttpServletResponse.SC_FORBIDDEN,
             "\n" + s.getMessage());
         return;
       }
@@ -360,8 +360,8 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      AdvertisedObjectsCacheKey cacheKey = AdvertisedObjectsCacheKey.create(
-          pc.getUser().getAccountId(), projectName);
+      AdvertisedObjectsCacheKey cacheKey =
+          AdvertisedObjectsCacheKey.create(pc.getUser().getAccountId(), projectName);
 
       if (isGet) {
         cache.invalidate(cacheKey);
@@ -376,17 +376,14 @@ public class GitOverHttpServlet extends GitServlet {
       chain.doFilter(request, response);
 
       if (isGet) {
-        cache.put(cacheKey, Collections.unmodifiableSet(
-            new HashSet<>(rp.getAdvertisedObjects())));
+        cache.put(cacheKey, Collections.unmodifiableSet(new HashSet<>(rp.getAdvertisedObjects())));
       }
     }
 
     @Override
-    public void init(FilterConfig arg0) {
-    }
+    public void init(FilterConfig arg0) {}
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
   }
 }

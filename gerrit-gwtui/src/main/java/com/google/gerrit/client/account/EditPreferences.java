@@ -62,37 +62,54 @@ public class EditPreferences extends JavaScriptObject {
   public final void theme(Theme i) {
     setThemeRaw(i != null ? i.toString() : Theme.DEFAULT.toString());
   }
+
   private native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
 
   public final void keyMapType(KeyMapType i) {
     setkeyMapTypeRaw(i != null ? i.toString() : KeyMapType.DEFAULT.toString());
   }
+
   private native void setkeyMapTypeRaw(String i) /*-{ this.key_map_type = i }-*/;
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
+
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
+
   public final native void indentUnit(int c) /*-{ this.indent_unit = c }-*/;
+
   public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
+
   public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
+
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
-  public final native void showWhitespaceErrors(boolean s) /*-{ this.show_whitespace_errors = s }-*/;
+
+  public final native void showWhitespaceErrors(
+      boolean s) /*-{ this.show_whitespace_errors = s }-*/;
+
   public final native void syntaxHighlighting(boolean s) /*-{ this.syntax_highlighting = s }-*/;
+
   public final native void hideLineNumbers(boolean s) /*-{ this.hide_line_numbers = s }-*/;
+
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
+
   public final native void lineWrapping(boolean w) /*-{ this.line_wrapping = w }-*/;
+
   public final native void autoCloseBrackets(boolean c) /*-{ this.auto_close_brackets = c }-*/;
+
   public final native void showBase(boolean s) /*-{ this.show_base = s }-*/;
 
   public final Theme theme() {
     String s = themeRaw();
     return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
   }
+
   private native String themeRaw() /*-{ return this.theme }-*/;
 
   public final KeyMapType keyMapType() {
     String s = keyMapTypeRaw();
     return s != null ? KeyMapType.valueOf(s) : KeyMapType.DEFAULT;
   }
+
   private native String keyMapTypeRaw() /*-{ return this.key_map_type }-*/;
 
   public final int tabSize() {
@@ -112,16 +129,27 @@ public class EditPreferences extends JavaScriptObject {
   }
 
   public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
+
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
-  public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;
-  public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
+
+  public final native boolean
+      showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;
+
+  public final native boolean
+      syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
+
   public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
+
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
+
   public final native boolean lineWrapping() /*-{ return this.line_wrapping || false }-*/;
-  public final native boolean autoCloseBrackets() /*-{ return this.auto_close_brackets || false }-*/;
+
+  public final native boolean
+      autoCloseBrackets() /*-{ return this.auto_close_brackets || false }-*/;
+
   public final native boolean showBase() /*-{ return this.show_base || false }-*/;
+
   private native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
-  protected EditPreferences() {
-  }
+  protected EditPreferences() {}
 }

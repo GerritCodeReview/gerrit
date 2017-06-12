@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,12 +35,14 @@ public class GetEmails implements RestReadView<AccountResource> {
         emails.add(e);
       }
     }
-    Collections.sort(emails, new Comparator<EmailInfo>() {
-      @Override
-      public int compare(EmailInfo a, EmailInfo b) {
-        return a.email.compareTo(b.email);
-      }
-    });
+    Collections.sort(
+        emails,
+        new Comparator<EmailInfo>() {
+          @Override
+          public int compare(EmailInfo a, EmailInfo b) {
+            return a.email.compareTo(b.email);
+          }
+        });
     return emails;
   }
 

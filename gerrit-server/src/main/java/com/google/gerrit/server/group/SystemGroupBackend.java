@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,16 +57,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   private static final SortedMap<String, GroupReference> names;
   private static final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
   private static final AccountGroup.UUID[] all = {
-      ANONYMOUS_USERS,
-      REGISTERED_USERS,
-      PROJECT_OWNERS,
-      CHANGE_OWNER,
+    ANONYMOUS_USERS, REGISTERED_USERS, PROJECT_OWNERS, CHANGE_OWNER,
   };
 
   static {
     SortedMap<String, GroupReference> n = new TreeMap<>();
-    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
-        ImmutableMap.builder();
+    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u = ImmutableMap.builder();
 
     for (AccountGroup.UUID uuid : all) {
       int c = uuid.get().indexOf(':');
@@ -157,8 +152,6 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new ListGroupMembership(ImmutableSet.of(
-        ANONYMOUS_USERS,
-        REGISTERED_USERS));
+    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
   }
 }

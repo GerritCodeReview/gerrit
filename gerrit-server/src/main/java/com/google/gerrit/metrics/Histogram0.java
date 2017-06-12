@@ -18,8 +18,8 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 
 /**
  * Measures the statistical distribution of values in a stream of data.
- * <p>
- * Suitable uses are "response size in bytes", etc.
+ *
+ * <p>Suitable uses are "response size in bytes", etc.
  */
 public abstract class Histogram0 implements RegistrationHandle {
   /**

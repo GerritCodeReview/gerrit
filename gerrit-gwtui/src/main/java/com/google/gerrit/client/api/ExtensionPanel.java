@@ -21,15 +21,13 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExtensionPanel extends FlowPanel {
-  private static final Logger logger =
-      Logger.getLogger(ExtensionPanel.class.getName());
+  private static final Logger logger = Logger.getLogger(ExtensionPanel.class.getName());
   private final GerritUiExtensionPoint extensionPoint;
   private final List<Context> contexts;
 
@@ -79,10 +77,14 @@ public class ExtensionPanel extends FlowPanel {
       try {
         ctx.onLoad();
       } catch (RuntimeException e) {
-        logger.log(Level.SEVERE,
+        logger.log(
+            Level.SEVERE,
             "Failed to load extension panel for extension point "
-                + extensionPoint.name() + " from plugin " + ctx.getPluginName()
-                + ": " + e.getMessage());
+                + extensionPoint.name()
+                + " from plugin "
+                + ctx.getPluginName()
+                + ": "
+                + e.getMessage());
       }
     }
   }
@@ -99,6 +101,7 @@ public class ExtensionPanel extends FlowPanel {
 
   static class Definition extends JavaScriptObject {
     static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       function PanelDefinition(n, c) {
         this.pluginName = n;
@@ -107,36 +110,35 @@ public class ExtensionPanel extends FlowPanel {
       return PanelDefinition;
     }-*/;
 
-    static native JsArray<Definition> get(String i)
-    /*-{ return $wnd.Gerrit.panels[i] || [] }-*/;
+    static native JsArray<Definition> get(String i)/*-{ return $wnd.Gerrit.panels[i] || [] }-*/ ;
 
-    protected Definition() {
-    }
+    protected Definition() {}
   }
 
   static class Context extends JavaScriptObject {
-    static final Context create(
-        Definition def,
-        SimplePanel panel) {
+    static final Context create(Definition def, SimplePanel panel) {
       return create(TYPE, def, panel.getElement());
     }
 
     final native void onLoad() /*-{ this._d.onLoad(this) }-*/;
+
     final native JsArray<JavaScriptObject> unload() /*-{ return this._u }-*/;
+
     final native String getPluginName() /*-{ return this._d.pluginName; }-*/;
 
     final native void put(String k, String v) /*-{ this.p[k] = v; }-*/;
+
     final native void putInt(String k, int v) /*-{ this.p[k] = v; }-*/;
+
     final native void putBoolean(String k, boolean v) /*-{ this.p[k] = v; }-*/;
+
     final native void putObject(String k, JavaScriptObject v) /*-{ this.p[k] = v; }-*/;
 
-    private static native Context create(
-        JavaScriptObject T,
-        Definition d,
-        Element e)
-    /*-{ return new T(d,e) }-*/;
+    private static native Context create(JavaScriptObject T, Definition d, Element e)
+        /*-{ return new T(d,e) }-*/ ;
 
     private static final JavaScriptObject TYPE = init();
+
     private static native JavaScriptObject init() /*-{
       var T = function(d,e) {
         this._d = d;
@@ -150,7 +152,6 @@ public class ExtensionPanel extends FlowPanel {
       return T;
     }-*/;
 
-    protected Context() {
-    }
+    protected Context() {}
   }
 }

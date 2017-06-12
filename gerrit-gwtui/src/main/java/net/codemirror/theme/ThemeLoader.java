@@ -21,62 +21,60 @@ import com.google.gwt.resources.client.ResourceCallback;
 import com.google.gwt.resources.client.ResourceException;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.EnumSet;
 
 /** Dynamically loads a known CodeMirror theme's CSS */
 public class ThemeLoader {
   private static final ExternalTextResource[] THEMES = {
-      Themes.I.day_3024(),
-      Themes.I.night_3024(),
-      Themes.I.abcdef(),
-      Themes.I.ambiance(),
-      Themes.I.base16_dark(),
-      Themes.I.base16_light(),
-      Themes.I.bespin(),
-      Themes.I.blackboard(),
-      Themes.I.cobalt(),
-      Themes.I.colorforth(),
-      Themes.I.dracula(),
-      Themes.I.eclipse(),
-      Themes.I.elegant(),
-      Themes.I.erlang_dark(),
-      Themes.I.hopscotch(),
-      Themes.I.icecoder(),
-      Themes.I.isotope(),
-      Themes.I.lesser_dark(),
-      Themes.I.liquibyte(),
-      Themes.I.material(),
-      Themes.I.mbo(),
-      Themes.I.mdn_like(),
-      Themes.I.midnight(),
-      Themes.I.monokai(),
-      Themes.I.neat(),
-      Themes.I.neo(),
-      Themes.I.night(),
-      Themes.I.paraiso_dark(),
-      Themes.I.paraiso_light(),
-      Themes.I.pastel_on_dark(),
-      Themes.I.railscasts(),
-      Themes.I.rubyblue(),
-      Themes.I.seti(),
-      Themes.I.solarized(),
-      Themes.I.the_matrix(),
-      Themes.I.tomorrow_night_bright(),
-      Themes.I.tomorrow_night_eighties(),
-      Themes.I.ttcn(),
-      Themes.I.twilight(),
-      Themes.I.vibrant_ink(),
-      Themes.I.xq_dark(),
-      Themes.I.xq_light(),
-      Themes.I.yeti(),
-      Themes.I.zenburn(),
+    Themes.I.day_3024(),
+    Themes.I.night_3024(),
+    Themes.I.abcdef(),
+    Themes.I.ambiance(),
+    Themes.I.base16_dark(),
+    Themes.I.base16_light(),
+    Themes.I.bespin(),
+    Themes.I.blackboard(),
+    Themes.I.cobalt(),
+    Themes.I.colorforth(),
+    Themes.I.dracula(),
+    Themes.I.eclipse(),
+    Themes.I.elegant(),
+    Themes.I.erlang_dark(),
+    Themes.I.hopscotch(),
+    Themes.I.icecoder(),
+    Themes.I.isotope(),
+    Themes.I.lesser_dark(),
+    Themes.I.liquibyte(),
+    Themes.I.material(),
+    Themes.I.mbo(),
+    Themes.I.mdn_like(),
+    Themes.I.midnight(),
+    Themes.I.monokai(),
+    Themes.I.neat(),
+    Themes.I.neo(),
+    Themes.I.night(),
+    Themes.I.paraiso_dark(),
+    Themes.I.paraiso_light(),
+    Themes.I.pastel_on_dark(),
+    Themes.I.railscasts(),
+    Themes.I.rubyblue(),
+    Themes.I.seti(),
+    Themes.I.solarized(),
+    Themes.I.the_matrix(),
+    Themes.I.tomorrow_night_bright(),
+    Themes.I.tomorrow_night_eighties(),
+    Themes.I.ttcn(),
+    Themes.I.twilight(),
+    Themes.I.vibrant_ink(),
+    Themes.I.xq_dark(),
+    Themes.I.xq_light(),
+    Themes.I.yeti(),
+    Themes.I.zenburn(),
   };
 
   private static final EnumSet<Theme> loaded = EnumSet.of(Theme.DEFAULT);
 
-  public static final void loadTheme(final Theme theme,
-      final AsyncCallback<Void> cb) {
+  public static final void loadTheme(final Theme theme, final AsyncCallback<Void> cb) {
     if (loaded.contains(theme)) {
       cb.onSuccess(null);
       return;
@@ -89,19 +87,20 @@ public class ThemeLoader {
     }
 
     try {
-      resource.getText(new ResourceCallback<TextResource>() {
-        @Override
-        public void onSuccess(TextResource resource) {
-          StyleInjector.inject(resource.getText());
-          loaded.add(theme);
-          cb.onSuccess(null);
-        }
+      resource.getText(
+          new ResourceCallback<TextResource>() {
+            @Override
+            public void onSuccess(TextResource resource) {
+              StyleInjector.inject(resource.getText());
+              loaded.add(theme);
+              cb.onSuccess(null);
+            }
 
-        @Override
-        public void onError(ResourceException e) {
-          cb.onFailure(e);
-        }
-      });
+            @Override
+            public void onError(ResourceException e) {
+              cb.onFailure(e);
+            }
+          });
     } catch (ResourceException e) {
       cb.onFailure(e);
     }
@@ -116,6 +115,5 @@ public class ThemeLoader {
     return null;
   }
 
-  private ThemeLoader() {
-  }
+  private ThemeLoader() {}
 }

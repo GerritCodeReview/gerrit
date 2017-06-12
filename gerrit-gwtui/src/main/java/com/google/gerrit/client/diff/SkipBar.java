@@ -26,7 +26,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
@@ -36,6 +35,7 @@ import net.codemirror.lib.TextMarker.FromTo;
 
 class SkipBar extends Composite {
   interface Binder extends UiBinder<HTMLPanel, SkipBar> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
   private static final int UP_DOWN_THRESHOLD = 30;
@@ -44,9 +44,15 @@ class SkipBar extends Composite {
     String noExpand();
   }
 
-  @UiField(provided = true) Anchor skipNum;
-  @UiField(provided = true) Anchor upArrow;
-  @UiField(provided = true) Anchor downArrow;
+  @UiField(provided = true)
+  Anchor skipNum;
+
+  @UiField(provided = true)
+  Anchor upArrow;
+
+  @UiField(provided = true)
+  Anchor downArrow;
+
   @UiField SkipBarStyle style;
 
   private final SkipManager manager;
@@ -64,50 +70,54 @@ class SkipBar extends Composite {
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
     initWidget(uiBinder.createAndBindUi(this));
-    addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        cm.focus();
-      }
-    }, ClickEvent.getType());
+    addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            cm.focus();
+          }
+        },
+        ClickEvent.getType());
   }
 
   void collapse(int start, int end, boolean attach) {
     if (attach) {
       boolean isNew = lineWidget == null;
-      Configuration cfg = Configuration.create()
-          .set("coverGutter", true)
-          .set("noHScroll", true);
+      Configuration cfg = Configuration.create().set("coverGutter", true).set("noHScroll", true);
       if (start == 0) { // First line workaround
         lineWidget = cm.addLineWidget(end + 1, getElement(), cfg.set("above", true));
       } else {
         lineWidget = cm.addLineWidget(start - 1, getElement(), cfg);
       }
       if (isNew) {
-        lineWidget.onFirstRedraw(new Runnable() {
-          @Override
-          public void run() {
-            int w = cm.getGutterElement().getOffsetWidth();
-            getElement().getStyle().setPaddingLeft(w, Unit.PX);
-          }
-        });
+        lineWidget.onFirstRedraw(
+            new Runnable() {
+              @Override
+              public void run() {
+                int w = cm.getGutterElement().getOffsetWidth();
+                getElement().getStyle().setPaddingLeft(w, Unit.PX);
+              }
+            });
       }
     }
 
-    textMarker = cm.markText(
-        Pos.create(start, 0),
-        Pos.create(end),
-        Configuration.create()
-          .set("collapsed", true)
-          .set("inclusiveLeft", true)
-          .set("inclusiveRight", true));
+    textMarker =
+        cm.markText(
+            Pos.create(start, 0),
+            Pos.create(end),
+            Configuration.create()
+                .set("collapsed", true)
+                .set("inclusiveLeft", true)
+                .set("inclusiveRight", true));
 
-    textMarker.on("beforeCursorEnter", new Runnable() {
-      @Override
-      public void run() {
-        expandAll();
-      }
-    });
+    textMarker.on(
+        "beforeCursorEnter",
+        new Runnable() {
+          @Override
+          public void run() {
+            expandAll();
+          }
+        });
 
     int skipped = end - start + 1;
     if (skipped <= UP_DOWN_THRESHOLD) {
@@ -116,8 +126,7 @@ class SkipBar extends Composite {
       upArrow.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
       downArrow.setHTML(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
     }
-    skipNum.setText(PatchUtil.M.patchSkipRegion(Integer
-        .toString(skipped)));
+    skipNum.setText(PatchUtil.M.patchSkipRegion(Integer.toString(skipped)));
   }
 
   static void link(SkipBar barA, SkipBar barB) {

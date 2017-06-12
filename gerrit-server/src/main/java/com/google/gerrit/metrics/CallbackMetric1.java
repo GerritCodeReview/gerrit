@@ -38,6 +38,5 @@ public abstract class CallbackMetric1<F1, V> implements CallbackMetric<V> {
 
   /** Prune any submetrics that were not assigned during this trigger. */
   @Override
-  public void prune() {
-  }
+  public void prune() {}
 }

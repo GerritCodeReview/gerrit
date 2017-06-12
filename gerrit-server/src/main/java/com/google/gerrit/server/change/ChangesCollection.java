@@ -32,13 +32,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.List;
 
 @Singleton
-public class ChangesCollection implements
-    RestCollection<TopLevelResource, ChangeResource>,
-    AcceptsPost<TopLevelResource> {
+public class ChangesCollection
+    implements RestCollection<TopLevelResource, ChangeResource>, AcceptsPost<TopLevelResource> {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final Provider<QueryChanges> queryFactory;
@@ -92,8 +90,7 @@ public class ChangesCollection implements
     return changeResourceFactory.create(ctl);
   }
 
-  public ChangeResource parse(Change.Id id)
-      throws ResourceNotFoundException, OrmException {
+  public ChangeResource parse(Change.Id id) throws ResourceNotFoundException, OrmException {
     List<ChangeControl> ctls = changeFinder.find(id, user.get());
     if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));

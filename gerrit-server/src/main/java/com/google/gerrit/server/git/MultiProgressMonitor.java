@@ -17,12 +17,6 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
-
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -32,31 +26,34 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Progress reporting interface that multiplexes multiple sub-tasks.
- * <p>
- * Output is of the format:
+ *
+ * <p>Output is of the format:
+ *
  * <pre>
  *   Task: subA: 1, subB: 75% (3/4) (-)\r
  *   Task: subA: 2, subB: 75% (3/4), subC: 1 (\)\r
  *   Task: subA: 2, subB: 100% (4/4), subC: 1 (|)\r
  *   Task: subA: 4, subB: 100% (4/4), subC: 4, done    \n
  * </pre>
- * <p>
- * Callers should try to keep task and sub-task descriptions short, since the
- * output should fit on one terminal line. (Note that git clients do not accept
- * terminal control characters, so true multi-line progress messages would be
- * impossible.)
+ *
+ * <p>Callers should try to keep task and sub-task descriptions short, since the output should fit
+ * on one terminal line. (Note that git clients do not accept terminal control characters, so true
+ * multi-line progress messages would be impossible.)
  */
 public class MultiProgressMonitor {
-  private static final Logger log =
-      LoggerFactory.getLogger(MultiProgressMonitor.class);
+  private static final Logger log = LoggerFactory.getLogger(MultiProgressMonitor.class);
 
   /** Constant indicating the total work units cannot be predicted. */
   public static final int UNKNOWN = 0;
 
-  private static final char[] SPINNER_STATES = new char[]{'-', '\\', '|', '/'};
+  private static final char[] SPINNER_STATES = new char[] {'-', '\\', '|', '/'};
   private static final char NO_SPINNER = ' ';
 
   /** Handle for a sub-task. */
@@ -73,8 +70,8 @@ public class MultiProgressMonitor {
 
     /**
      * Indicate that work has been completed on this sub-task.
-     * <p>
-     * Must be called from a worker thread.
+     *
+     * <p>Must be called from a worker thread.
      *
      * @param completed number of work units completed.
      */
@@ -98,8 +95,8 @@ public class MultiProgressMonitor {
 
     /**
      * Indicate that this sub-task is finished.
-     * <p>
-     * Must be called from a worker thread.
+     *
+     * <p>Must be called from a worker thread.
      */
     public void end() {
       if (total == UNKNOWN && getCount() > 0) {
@@ -108,16 +105,13 @@ public class MultiProgressMonitor {
     }
 
     @Override
-    public void start(int totalTasks) {
-    }
+    public void start(int totalTasks) {}
 
     @Override
-    public void beginTask(String title, int totalWork) {
-    }
+    public void beginTask(String title, int totalWork) {}
 
     @Override
-    public void endTask() {
-    }
+    public void endTask() {}
 
     @Override
     public boolean isCancelled() {
@@ -157,8 +151,11 @@ public class MultiProgressMonitor {
    * @param maxIntervalTime maximum interval between progress messages.
    * @param maxIntervalUnit time unit for progress interval.
    */
-  public MultiProgressMonitor(final OutputStream out, final String taskName,
-      long maxIntervalTime, TimeUnit maxIntervalUnit) {
+  public MultiProgressMonitor(
+      final OutputStream out,
+      final String taskName,
+      long maxIntervalTime,
+      TimeUnit maxIntervalUnit) {
     this.out = out;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
@@ -175,23 +172,21 @@ public class MultiProgressMonitor {
 
   /**
    * Wait for a task managed by a {@link Future}.
-   * <p>
-   * Must be called from the main thread, <em>not</em> a worker thread. Once a
-   * worker thread calls {@link #end()}, the future has an additional
-   * {@code maxInterval} to finish before it is forcefully cancelled and
-   * {@link ExecutionException} is thrown.
+   *
+   * <p>Must be called from the main thread, <em>not</em> a worker thread. Once a worker thread
+   * calls {@link #end()}, the future has an additional {@code maxInterval} to finish before it is
+   * forcefully cancelled and {@link ExecutionException} is thrown.
    *
    * @param workerFuture a future that returns when worker threads are finished.
-   * @param timeoutTime overall timeout for the task; the future is forcefully
-   *     cancelled if the task exceeds the timeout. Non-positive values indicate
-   *     no timeout.
+   * @param timeoutTime overall timeout for the task; the future is forcefully cancelled if the task
+   *     exceeds the timeout. Non-positive values indicate no timeout.
    * @param timeoutUnit unit for overall task timeout.
-   * @throws ExecutionException if this thread or a worker thread was
-   *     interrupted, the worker was cancelled, or timed out waiting for a
-   *     worker to call {@link #end()}.
+   * @throws ExecutionException if this thread or a worker thread was interrupted, the worker was
+   *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
-  public void waitFor(final Future<?> workerFuture, final long timeoutTime,
-      final TimeUnit timeoutUnit) throws ExecutionException {
+  public void waitFor(
+      final Future<?> workerFuture, final long timeoutTime, final TimeUnit timeoutUnit)
+      throws ExecutionException {
     long overallStart = System.nanoTime();
     long deadline;
     String detailMessage = "";
@@ -218,10 +213,12 @@ public class MultiProgressMonitor {
         if (deadline > 0 && now > deadline) {
           workerFuture.cancel(true);
           if (workerFuture.isCancelled()) {
-            detailMessage = String.format(
+            detailMessage =
+                String.format(
                     "(timeout %sms, cancelled)",
                     TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
-            log.warn(String.format(
+            log.warn(
+                String.format(
                     "MultiProgressMonitor worker killed after %sms" + detailMessage, //
                     TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
           }
@@ -237,8 +234,7 @@ public class MultiProgressMonitor {
         if (!done && workerFuture.isDone()) {
           // The worker may not have called end() explicitly, which is likely a
           // programming error.
-          log.warn("MultiProgressMonitor worker did not call end()"
-              + " before returning");
+          log.warn("MultiProgressMonitor worker did not call end()" + " before returning");
           end();
         }
       }
@@ -278,8 +274,8 @@ public class MultiProgressMonitor {
 
   /**
    * End the overall task.
-   * <p>
-   * Must be called from a worker thread.
+   *
+   * <p>Must be called from a worker thread.
    */
   public synchronized void end() {
     done = true;
@@ -313,8 +309,7 @@ public class MultiProgressMonitor {
   }
 
   private StringBuilder format() {
-    StringBuilder s = new StringBuilder().append("\r").append(taskName)
-        .append(':');
+    StringBuilder s = new StringBuilder().append("\r").append(taskName).append(':');
 
     if (!tasks.isEmpty()) {
       boolean first = true;
@@ -337,9 +332,7 @@ public class MultiProgressMonitor {
         if (t.total == UNKNOWN) {
           s.append(count);
         } else {
-          s.append(String.format("%d%% (%d/%d)",
-              count * 100 / t.total,
-              count, t.total));
+          s.append(String.format("%d%% (%d/%d)", count * 100 / t.total, count, t.total));
         }
       }
     }

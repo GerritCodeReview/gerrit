@@ -26,11 +26,9 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-
-import org.junit.Test;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.junit.Test;
 
 @NoHttpd
 public class ServerInfoIT extends AbstractDaemonTest {
@@ -57,8 +55,10 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.updateDelay", value = "50s")
 
   // download
-  @GerritConfig(name = "download.archive", values = {"tar",
-      "tbz2", "tgz", "txz"})
+  @GerritConfig(
+    name = "download.archive",
+    values = {"tar", "tbz2", "tgz", "txz"}
+  )
 
   // gerrit
   @GerritConfig(name = "gerrit.allProjects", value = "Root")
@@ -77,8 +77,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
-    assertThat(i.auth.editableAccountFields).containsExactly(
-        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME);
+    assertThat(i.auth.editableAccountFields)
+        .containsExactly(AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME);
     assertThat(i.auth.useContributorAgreements).isTrue();
     assertThat(i.auth.loginUrl).isEqualTo("https://example.com/login");
     assertThat(i.auth.loginText).isEqualTo("LOGIN");
@@ -148,9 +148,11 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.OPENID);
-    assertThat(i.auth.editableAccountFields).containsExactly(
-        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME,
-        AccountFieldName.USER_NAME);
+    assertThat(i.auth.editableAccountFields)
+        .containsExactly(
+            AccountFieldName.REGISTER_NEW_EMAIL,
+            AccountFieldName.FULL_NAME,
+            AccountFieldName.USER_NAME);
     assertThat(i.auth.useContributorAgreements).isNull();
     assertThat(i.auth.loginUrl).isNull();
     assertThat(i.auth.loginText).isNull();

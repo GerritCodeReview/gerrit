@@ -101,9 +101,6 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
-
-import net.codemirror.lib.CodeMirror;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,28 +108,42 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.codemirror.lib.CodeMirror;
 
 public class ChangeScreen extends Screen {
-  private static final Logger logger =
-      Logger.getLogger(ChangeScreen.class.getName());
+  private static final Logger logger = Logger.getLogger(ChangeScreen.class.getName());
 
   interface Binder extends UiBinder<HTMLPanel, ChangeScreen> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
     String avatar();
+
     String hashtagName();
+
     String hashtagIcon();
+
     String highlight();
+
     String labelName();
+
     String label_may();
+
     String label_need();
+
     String label_ok();
+
     String label_reject();
+
     String label_user();
+
     String pushCertStatus();
+
     String replyBox();
+
     String selected();
+
     String notCurrentPatchSet();
   }
 
@@ -241,8 +252,12 @@ public class ChangeScreen extends Screen {
   private DeleteFileAction deleteFileAction;
   private RenameFileAction renameFileAction;
 
-  public ChangeScreen(Change.Id changeId, DiffObject base, String revision,
-      boolean openReplyBox, FileTable.Mode mode) {
+  public ChangeScreen(
+      Change.Id changeId,
+      DiffObject base,
+      String revision,
+      boolean openReplyBox,
+      FileTable.Mode mode) {
     this.changeId = changeId;
     this.base = base;
     this.revision = normalize(revision);
@@ -253,9 +268,7 @@ public class ChangeScreen extends Screen {
   }
 
   PatchSet.Id getPatchSetId() {
-    return new PatchSet.Id(
-        changeInfo.legacyId(),
-        changeInfo.revisions().get(revision)._number());
+    return new PatchSet.Id(changeInfo.legacyId(), changeInfo.revisions().get(revision)._number());
   }
 
   @Override
@@ -263,62 +276,68 @@ public class ChangeScreen extends Screen {
     super.onLoad();
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
-      ChangeList.query("change:" + changeId.get() + " has:draft",
-          Collections.<ListChangesOption> emptySet(),
-          group.add(new AsyncCallback<ChangeList>() {
-            @Override
-            public void onSuccess(ChangeList result) {
-              hasDraftComments = result.length() > 0;
-            }
+      ChangeList.query(
+          "change:" + changeId.get() + " has:draft",
+          Collections.<ListChangesOption>emptySet(),
+          group.add(
+              new AsyncCallback<ChangeList>() {
+                @Override
+                public void onSuccess(ChangeList result) {
+                  hasDraftComments = result.length() > 0;
+                }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          }));
-      ChangeApi.editWithFiles(changeId.get(), group.add(
-          new AsyncCallback<EditInfo>() {
-            @Override
-            public void onSuccess(EditInfo result) {
-              edit = result;
-            }
+                @Override
+                public void onFailure(Throwable caught) {}
+              }));
+      ChangeApi.editWithFiles(
+          changeId.get(),
+          group.add(
+              new AsyncCallback<EditInfo>() {
+                @Override
+                public void onSuccess(EditInfo result) {
+                  edit = result;
+                }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          }));
+                @Override
+                public void onFailure(Throwable caught) {}
+              }));
     }
-    loadChangeInfo(true, group.addFinal(
-        new GerritCallback<ChangeInfo>() {
-          @Override
-          public void onSuccess(final ChangeInfo info) {
-            info.init();
-            addExtensionPoints(info, initCurrentRevision(info));
-
-            final RevisionInfo rev = info.revision(revision);
-            CallbackGroup group = new CallbackGroup();
-            loadCommit(rev, group);
-
-            group.addListener(new GerritCallback<Void>() {
+    loadChangeInfo(
+        true,
+        group.addFinal(
+            new GerritCallback<ChangeInfo>() {
               @Override
-              public void onSuccess(Void result) {
-                if (base.isBase() && rev.isMerge()) {
-                  base = DiffObject.parse(info.legacyId(),
-                      Gerrit.getUserPreferences()
-                          .defaultBaseForMerges().getBase());
-                }
-                loadConfigInfo(info, base);
-                JsArray<MessageInfo> mAr = info.messages();
-                for (int i = 0; i < mAr.length(); i++) {
-                  if (mAr.get(i).tag() != null) {
-                    hideTaggedComments.setVisible(true);
-                    break;
-                  }
-                }
+              public void onSuccess(final ChangeInfo info) {
+                info.init();
+                addExtensionPoints(info, initCurrentRevision(info));
+
+                final RevisionInfo rev = info.revision(revision);
+                CallbackGroup group = new CallbackGroup();
+                loadCommit(rev, group);
+
+                group.addListener(
+                    new GerritCallback<Void>() {
+                      @Override
+                      public void onSuccess(Void result) {
+                        if (base.isBase() && rev.isMerge()) {
+                          base =
+                              DiffObject.parse(
+                                  info.legacyId(),
+                                  Gerrit.getUserPreferences().defaultBaseForMerges().getBase());
+                        }
+                        loadConfigInfo(info, base);
+                        JsArray<MessageInfo> mAr = info.messages();
+                        for (int i = 0; i < mAr.length(); i++) {
+                          if (mAr.get(i).tag() != null) {
+                            hideTaggedComments.setVisible(true);
+                            break;
+                          }
+                        }
+                      }
+                    });
+                group.done();
               }
-            });
-            group.done();
-          }
-        }));
+            }));
   }
 
   private RevisionInfo initCurrentRevision(ChangeInfo info) {
@@ -361,28 +380,35 @@ public class ChangeScreen extends Screen {
   }
 
   private void addExtensionPoints(ChangeInfo change, RevisionInfo rev) {
-    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER,
-        headerExtension, change, rev);
-    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
-        headerExtensionMiddle, change, rev);
-    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
-        headerExtensionRight, change, rev);
+    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER, headerExtension, change, rev);
     addExtensionPoint(
-        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        changeExtension, change, rev);
+        GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
+        headerExtensionMiddle,
+        change,
+        rev);
+    addExtensionPoint(
+        GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS,
+        headerExtensionRight,
+        change,
+        rev);
+    addExtensionPoint(
+        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK, changeExtension, change, rev);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_RELATED_INFO_BLOCK,
-        relatedExtension, change, rev);
+        relatedExtension,
+        change,
+        rev);
     addExtensionPoint(
-        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK,
-        commitExtension, change, rev);
+        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK, commitExtension, change, rev);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_HISTORY_RIGHT_OF_BUTTONS,
-        historyExtensionRight, change, rev);
+        historyExtensionRight,
+        change,
+        rev);
   }
 
-  private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
-      Panel p, ChangeInfo change, RevisionInfo rev) {
+  private void addExtensionPoint(
+      GerritUiExtensionPoint extensionPoint, Panel p, ChangeInfo change, RevisionInfo rev) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
@@ -395,9 +421,8 @@ public class ChangeScreen extends Screen {
 
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
-    EnumSet<ListChangesOption> opts = EnumSet.of(
-      ListChangesOption.ALL_REVISIONS,
-      ListChangesOption.CHANGE_ACTIONS);
+    EnumSet<ListChangesOption> opts =
+        EnumSet.of(ListChangesOption.ALL_REVISIONS, ListChangesOption.CHANGE_ACTIONS);
     if (enableSignedPush()) {
       opts.add(ListChangesOption.PUSH_CERTIFICATES);
     }
@@ -411,13 +436,14 @@ public class ChangeScreen extends Screen {
   void loadRevisionInfo() {
     RestApi call = ChangeApi.actions(changeId.get(), revision);
     call.background();
-    call.get(new GerritCallback<NativeMap<ActionInfo>>() {
-      @Override
-      public void onSuccess(NativeMap<ActionInfo> actionMap) {
-        actionMap.copyKeysIntoChildren("id");
-        renderRevisionInfo(changeInfo, actionMap);
-      }
-    });
+    call.get(
+        new GerritCallback<NativeMap<ActionInfo>>() {
+          @Override
+          public void onSuccess(NativeMap<ActionInfo> actionMap) {
+            actionMap.copyKeysIntoChildren("id");
+            renderRevisionInfo(changeInfo, actionMap);
+          }
+        });
   }
 
   @Override
@@ -450,10 +476,8 @@ public class ChangeScreen extends Screen {
   private void initReplyButton(ChangeInfo info, String revision) {
     if (!info.revision(revision).isEdit()) {
       reply.setTitle(Gerrit.info().change().replyLabel());
-      reply.setHTML(new SafeHtmlBuilder()
-        .openDiv()
-        .append(Gerrit.info().change().replyLabel())
-        .closeDiv());
+      reply.setHTML(
+          new SafeHtmlBuilder().openDiv().append(Gerrit.info().change().replyLabel()).closeDiv());
       if (hasDraftComments || lc.hasReplyComment()) {
         reply.setStyleName(style.highlight());
       }
@@ -475,9 +499,9 @@ public class ChangeScreen extends Screen {
     for (int i = 0; i < revisions.length(); i++) {
       if (revision.equals(revisions.get(i).name())) {
         if (0 <= i + offset && i + offset < revisions.length()) {
-          Gerrit.display(PageLinks.toChange(
-              new PatchSet.Id(changeInfo.legacyId(),
-              revisions.get(i + offset)._number())));
+          Gerrit.display(
+              PageLinks.toChange(
+                  new PatchSet.Id(changeInfo.legacyId(), revisions.get(i + offset)._number())));
           return;
         }
         return;
@@ -487,17 +511,13 @@ public class ChangeScreen extends Screen {
 
   private void initIncludedInAction(ChangeInfo info) {
     if (info.status() == Status.MERGED) {
-      includedInAction = new IncludedInAction(
-          info.legacyId(),
-          style, headerLine, includedIn);
+      includedInAction = new IncludedInAction(info.legacyId(), style, headerLine, includedIn);
       includedIn.setVisible(true);
     }
   }
 
   private void initChangeAction(ChangeInfo info) {
-    NativeMap<ActionInfo> actions = info.hasActions()
-        ? info.actions()
-        : NativeMap.create();
+    NativeMap<ActionInfo> actions = info.hasActions() ? info.actions() : NativeMap.create();
     actions.copyKeysIntoChildren("id");
     if (actions.containsKey("/")) {
       deleteChange.setVisible(true);
@@ -513,11 +533,10 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initRevisionsAction(ChangeInfo info, String revision,
-      NativeMap<ActionInfo> actions) {
+  private void initRevisionsAction(
+      ChangeInfo info, String revision, NativeMap<ActionInfo> actions) {
     int currentPatchSet;
-    if (info.currentRevision() != null
-        && info.revisions().containsKey(info.currentRevision())) {
+    if (info.currentRevision() != null && info.revisions().containsKey(info.currentRevision())) {
       currentPatchSet = info.revision(info.currentRevision())._number();
     } else {
       JsArray<RevisionInfo> revList = info.revisions().values();
@@ -530,8 +549,7 @@ public class ChangeScreen extends Screen {
     String revisionId = info.revision(revision).id();
     if (revisionId.equals("edit")) {
       currentlyViewedPatchSet =
-          Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions()
-              .values()));
+          Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions().values()));
       currentPatchSet = info.revisions().values().length() - 1;
     } else {
       currentlyViewedPatchSet = revisionId;
@@ -539,12 +557,10 @@ public class ChangeScreen extends Screen {
         isPatchSetCurrent = false;
       }
     }
-    patchSetsText.setInnerText(Resources.M.patchSets(
-        currentlyViewedPatchSet, currentPatchSet));
+    patchSetsText.setInnerText(Resources.M.patchSets(currentlyViewedPatchSet, currentPatchSet));
     updatePatchSetsTextStyle(isPatchSetCurrent);
-    patchSetsAction = new PatchSetsAction(
-        info.legacyId(), revision, edit,
-        style, headerLine, patchSets);
+    patchSetsAction =
+        new PatchSetsAction(info.legacyId(), revision, edit, style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
     if (revInfo.draft()) {
@@ -560,23 +576,23 @@ public class ChangeScreen extends Screen {
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
-    downloadAction =
-        new DownloadAction(info, revision, style, headerLine, download);
+    downloadAction = new DownloadAction(info, revision, style, headerLine, download);
   }
 
   private void initProjectLinks(final ChangeInfo info) {
-    projectSettingsLink.setHref(
-        "#" + PageLinks.toProject(info.projectNameKey()));
-    projectSettings.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        if (Hyperlink.impl.handleAsClick((Event) event.getNativeEvent())) {
-          event.stopPropagation();
-          event.preventDefault();
-          Gerrit.display(PageLinks.toProject(info.projectNameKey()));
-        }
-      }
-    }, ClickEvent.getType());
+    projectSettingsLink.setHref("#" + PageLinks.toProject(info.projectNameKey()));
+    projectSettings.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            if (Hyperlink.impl.handleAsClick((Event) event.getNativeEvent())) {
+              event.stopPropagation();
+              event.preventDefault();
+              Gerrit.display(PageLinks.toProject(info.projectNameKey()));
+            }
+          }
+        },
+        ClickEvent.getType());
     projectDashboard.setText(info.project());
     projectDashboard.setTargetHistoryToken(
         PageLinks.toProjectDefaultDashboard(info.projectNameKey()));
@@ -586,11 +602,7 @@ public class ChangeScreen extends Screen {
     branchLink.setText(info.branch());
     branchLink.setTargetHistoryToken(
         PageLinks.toChangeQuery(
-            BranchLink.query(
-                info.projectNameKey(),
-                info.status(),
-                info.branch(),
-                null)));
+            BranchLink.query(info.projectNameKey(), info.status(), info.branch(), null)));
   }
 
   private void initEditMode(ChangeInfo info, String revision) {
@@ -603,15 +615,12 @@ public class ChangeScreen extends Screen {
           deleteFile.setVisible(!editMode.isVisible());
           renameFile.setVisible(!editMode.isVisible());
           reviewMode.setVisible(!editMode.isVisible());
-          addFileAction = new AddFileAction(
-              changeId, info.revision(revision),
-              style, addFile, files);
-          deleteFileAction = new DeleteFileAction(
-              changeId, info.revision(revision),
-              style, addFile);
-          renameFileAction = new RenameFileAction(
-              changeId, info.revision(revision),
-              style, addFile);
+          addFileAction =
+              new AddFileAction(changeId, info.revision(revision), style, addFile, files);
+          deleteFileAction =
+              new DeleteFileAction(changeId, info.revision(revision), style, addFile);
+          renameFileAction =
+              new RenameFileAction(changeId, info.revision(revision), style, addFile);
         } else {
           editMode.setVisible(false);
           addFile.setVisible(false);
@@ -640,8 +649,7 @@ public class ChangeScreen extends Screen {
     if (edit == null) {
       return revision.equals(info.currentRevision());
     }
-    return rev._number() == RevisionInfo.findEditParent(
-        info.revisions().values());
+    return rev._number() == RevisionInfo.findEditParent(info.revisions().values());
   }
 
   @UiHandler("publishEdit")
@@ -663,15 +671,13 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publish")
   void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision, publish, deleteRevision,
-        deleteChange);
+    DraftActions.publish(changeId, revision, publish, deleteRevision, deleteChange);
   }
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision, publish, deleteRevision,
-          deleteChange);
+      DraftActions.delete(changeId, revision, publish, deleteRevision, deleteChange);
     }
   }
 
@@ -687,92 +693,102 @@ public class ChangeScreen extends Screen {
     super.registerKeys();
 
     KeyCommandSet keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        Gerrit.displayLastChangeList();
-      }
-    });
-    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        Gerrit.display(PageLinks.toChange(changeId));
-      }
-    });
-    keysNavigation.add(new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          gotoSibling(1);
-        }
-      }, new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          gotoSibling(-1);
-        }
-      });
+    keysNavigation.add(
+        new KeyCommand(0, 'u', Util.C.upToChangeList()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            Gerrit.displayLastChangeList();
+          }
+        });
+    keysNavigation.add(
+        new KeyCommand(0, 'R', Util.C.keyReloadChange()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            Gerrit.display(PageLinks.toChange(changeId));
+          }
+        });
+    keysNavigation.add(
+        new KeyCommand(0, 'n', Util.C.keyNextPatchSet()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            gotoSibling(1);
+          }
+        },
+        new KeyCommand(0, 'p', Util.C.keyPreviousPatchSet()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            gotoSibling(-1);
+          }
+        });
     handlers.add(GlobalKey.add(this, keysNavigation));
 
     KeyCommandSet keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
-    keysAction.add(new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (Gerrit.isSignedIn()) {
-          onReply(null);
-        } else {
-          Gerrit.doSignIn(getToken());
-        }
-      }
-    });
-    keysAction.add(new KeyCommand(0, 'x', Util.C.keyExpandAllMessages()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        onExpandAll(null);
-      }
-    });
-    keysAction.add(new KeyCommand(0, 'z', Util.C.keyCollapseAllMessages()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        onCollapseAll(null);
-      }
-    });
-    keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (Gerrit.isSignedIn()) {
-          star.setValue(!star.getValue(), true);
-        } else {
-          Gerrit.doSignIn(getToken());
-        }
-      }
-    });
-    keysAction.add(new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (Gerrit.isSignedIn()) {
-          reviewers.onOpenForm();
-        } else {
-          Gerrit.doSignIn(getToken());
-        }
-      }
-    });
-    keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (Gerrit.isSignedIn()) {
-          // In Firefox this event is mistakenly called when F5 is pressed so
-          // differentiate F5 from 't' by checking the charCode(F5=0, t=116).
-          if (event.getNativeEvent().getCharCode() == 0) {
-            Window.Location.reload();
-            return;
+    keysAction.add(
+        new KeyCommand(0, 'a', Util.C.keyPublishComments()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (Gerrit.isSignedIn()) {
+              onReply(null);
+            } else {
+              Gerrit.doSignIn(getToken());
+            }
           }
-          if (topic.canEdit()) {
-            topic.onEdit();
+        });
+    keysAction.add(
+        new KeyCommand(0, 'x', Util.C.keyExpandAllMessages()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            onExpandAll(null);
           }
-        } else {
-          Gerrit.doSignIn(getToken());
-        }
-      }
-    });
+        });
+    keysAction.add(
+        new KeyCommand(0, 'z', Util.C.keyCollapseAllMessages()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            onCollapseAll(null);
+          }
+        });
+    keysAction.add(
+        new KeyCommand(0, 's', Util.C.changeTableStar()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (Gerrit.isSignedIn()) {
+              star.setValue(!star.getValue(), true);
+            } else {
+              Gerrit.doSignIn(getToken());
+            }
+          }
+        });
+    keysAction.add(
+        new KeyCommand(0, 'c', Util.C.keyAddReviewers()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (Gerrit.isSignedIn()) {
+              reviewers.onOpenForm();
+            } else {
+              Gerrit.doSignIn(getToken());
+            }
+          }
+        });
+    keysAction.add(
+        new KeyCommand(0, 't', Util.C.keyEditTopic()) {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (Gerrit.isSignedIn()) {
+              // In Firefox this event is mistakenly called when F5 is pressed so
+              // differentiate F5 from 't' by checking the charCode(F5=0, t=116).
+              if (event.getNativeEvent().getCharCode() == 0) {
+                Window.Location.reload();
+                return;
+              }
+              if (topic.canEdit()) {
+                topic.onEdit();
+              }
+            } else {
+              Gerrit.doSignIn(getToken());
+            }
+          }
+        });
     handlers.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
   }
@@ -781,9 +797,7 @@ public class ChangeScreen extends Screen {
   public void onShowView() {
     super.onShowView();
     commit.onShowView();
-    related.setMaxHeight(commit.getElement()
-        .getParentElement()
-        .getOffsetHeight());
+    related.setMaxHeight(commit.getElement().getParentElement().getOffsetHeight());
 
     if (openReplyBox) {
       onReply();
@@ -981,35 +995,34 @@ public class ChangeScreen extends Screen {
 
     updateToken(info, base, rev);
 
-    RevisionInfo baseRev =
-        resolveRevisionOrPatchSetId(info, base.asString(), null);
+    RevisionInfo baseRev = resolveRevisionOrPatchSetId(info, base.asString(), null);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
     if (rev.isEdit()) {
       // Comments are filtered for the current revision. Use parent
       // patch set for edits, as edits themself can never have comments.
-      RevisionInfo p = RevisionInfo.findEditParentRevision(
-          info.revisions().values());
+      RevisionInfo p = RevisionInfo.findEditParentRevision(info.revisions().values());
       List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
       loadFileList(base, baseRev, rev, lastReply, group, comments, null);
     } else {
       loadDiff(base, baseRev, rev, lastReply, group);
     }
-    group.addListener(new AsyncCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        loadConfigInfo(info, rev);
-      }
+    group.addListener(
+        new AsyncCallback<Void>() {
+          @Override
+          public void onSuccess(Void result) {
+            loadConfigInfo(info, rev);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        logger.log(Level.SEVERE,
-            "Loading file list and inline comments failed: "
-                + caught.getMessage());
-        loadConfigInfo(info, rev);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            logger.log(
+                Level.SEVERE,
+                "Loading file list and inline comments failed: " + caught.getMessage());
+            loadConfigInfo(info, rev);
+          }
+        });
     group.done();
   }
 
@@ -1020,29 +1033,26 @@ public class ChangeScreen extends Screen {
 
     RevisionInfoCache.add(changeId, rev);
     ConfigInfoCache.add(info);
-    ConfigInfoCache.get(info.projectNameKey(),
-      new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
-        @Override
-        protected void preDisplay(Entry result) {
-          loaded = true;
-          commentLinkProcessor = result.getCommentLinkProcessor();
-          setTheme(result.getTheme());
-          renderChangeInfo(info);
-          loadRevisionInfo();
-        }
-      });
+    ConfigInfoCache.get(
+        info.projectNameKey(),
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
+          @Override
+          protected void preDisplay(Entry result) {
+            loaded = true;
+            commentLinkProcessor = result.getCommentLinkProcessor();
+            setTheme(result.getTheme());
+            renderChangeInfo(info);
+            loadRevisionInfo();
+          }
+        });
   }
 
   private void updateToken(ChangeInfo info, DiffObject base, RevisionInfo rev) {
-    StringBuilder token = new StringBuilder("/c/")
-        .append(info._number())
-        .append("/");
+    StringBuilder token = new StringBuilder("/c/").append(info._number()).append("/");
     if (base.asString() != null) {
-      token.append(base.asString())
-          .append("..");
+      token.append(base.asString()).append("..");
     }
-    if (base.asString() != null
-        || !rev.name().equals(info.currentRevision())) {
+    if (base.asString() != null || !rev.name().equals(info.currentRevision())) {
       token.append(rev._number());
     }
     setToken(token.toString());
@@ -1061,34 +1071,44 @@ public class ChangeScreen extends Screen {
     return null;
   }
 
-  private void loadDiff(DiffObject base, RevisionInfo baseRev, RevisionInfo rev,
-      Timestamp myLastReply, CallbackGroup group) {
+  private void loadDiff(
+      DiffObject base,
+      RevisionInfo baseRev,
+      RevisionInfo rev,
+      Timestamp myLastReply,
+      CallbackGroup group) {
     List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     loadFileList(base, baseRev, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
-        .view("files")
-        .addParameterTrue("reviewed")
-        .get(group.add(new AsyncCallback<JsArrayString>() {
-            @Override
-            public void onSuccess(JsArrayString result) {
-              files.markReviewed(result);
-            }
+          .view("files")
+          .addParameterTrue("reviewed")
+          .get(
+              group.add(
+                  new AsyncCallback<JsArrayString>() {
+                    @Override
+                    public void onSuccess(JsArrayString result) {
+                      files.markReviewed(result);
+                    }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          }));
+                    @Override
+                    public void onFailure(Throwable caught) {}
+                  }));
     }
   }
 
-  private void loadFileList(final DiffObject base, final RevisionInfo baseRev,
-      final RevisionInfo rev, final Timestamp myLastReply, CallbackGroup group,
+  private void loadFileList(
+      final DiffObject base,
+      final RevisionInfo baseRev,
+      final RevisionInfo rev,
+      final Timestamp myLastReply,
+      CallbackGroup group,
       final List<NativeMap<JsArray<CommentInfo>>> comments,
       final List<NativeMap<JsArray<CommentInfo>>> drafts) {
-    DiffApi.list(changeId.get(),
+    DiffApi.list(
+        changeId.get(),
         rev.name(),
         baseRev,
         group.add(
@@ -1098,8 +1118,13 @@ public class ChangeScreen extends Screen {
                 files.set(
                     base,
                     new PatchSet.Id(changeId, rev._number()),
-                    style, reply, fileTableMode, edit != null);
-                files.setValue(m, myLastReply,
+                    style,
+                    reply,
+                    fileTableMode,
+                    edit != null);
+                files.setValue(
+                    m,
+                    myLastReply,
                     comments != null ? comments.get(0) : null,
                     drafts != null ? drafts.get(0) : null);
               }
@@ -1117,20 +1142,21 @@ public class ChangeScreen extends Screen {
     // TODO(dborowitz): Could eliminate this call by adding an option to include
     // inline comments in the change detail.
     ChangeApi.comments(changeId.get())
-      .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-        @Override
-        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-          // Return value is used for populating the file table, so only count
-          // comments for the current revision. Still include all comments in
-          // the history table.
-          r.add(filterForRevision(result, rev._number()));
-          history.addComments(result);
-        }
+        .get(
+            group.add(
+                new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+                  @Override
+                  public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+                    // Return value is used for populating the file table, so only count
+                    // comments for the current revision. Still include all comments in
+                    // the history table.
+                    r.add(filterForRevision(result, rev._number()));
+                    history.addComments(result);
+                  }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+                  @Override
+                  public void onFailure(Throwable caught) {}
+                }));
     return r;
   }
 
@@ -1151,24 +1177,24 @@ public class ChangeScreen extends Screen {
     return filtered;
   }
 
-  private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
-      RevisionInfo rev, CallbackGroup group) {
+  private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
       ChangeApi.revision(changeId.get(), rev.name())
-        .view("drafts")
-        .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-          @Override
-          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-            r.add(result);
-          }
+          .view("drafts")
+          .get(
+              group.add(
+                  new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+                    @Override
+                    public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+                      r.add(result);
+                    }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        }));
+                    @Override
+                    public void onFailure(Throwable caught) {}
+                  }));
     } else {
-      r.add(NativeMap.<JsArray<CommentInfo>> create());
+      r.add(NativeMap.<JsArray<CommentInfo>>create());
     }
     return r;
   }
@@ -1178,34 +1204,32 @@ public class ChangeScreen extends Screen {
       return;
     }
 
-    ChangeApi.commitWithLinks(changeId.get(), rev.name(),
-        group.add(new AsyncCallback<CommitInfo>() {
-          @Override
-          public void onSuccess(CommitInfo info) {
-            rev.setCommit(info);
-          }
+    ChangeApi.commitWithLinks(
+        changeId.get(),
+        rev.name(),
+        group.add(
+            new AsyncCallback<CommitInfo>() {
+              @Override
+              public void onSuccess(CommitInfo info) {
+                rev.setCommit(info);
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        }));
+              @Override
+              public void onFailure(Throwable caught) {}
+            }));
   }
 
-  private void renderSubmitType(Change.Status status, boolean canSubmit,
-      SubmitType submitType) {
+  private void renderSubmitType(Change.Status status, boolean canSubmit, SubmitType submitType) {
     if (canSubmit && status == Change.Status.NEW) {
-      statusText.setInnerText(changeInfo.mergeable()
-          ? Util.C.readyToSubmit()
-          : Util.C.mergeConflict());
+      statusText.setInnerText(
+          changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict());
     }
     setVisible(notMergeable, !changeInfo.mergeable());
-    submitActionText.setInnerText(
-        com.google.gerrit.client.admin.Util.toLongString(submitType));
+    submitActionText.setInnerText(com.google.gerrit.client.admin.Util.toLongString(submitType));
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
-    RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
-        info.currentRevision());
+    RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision, info.currentRevision());
     if (rev != null) {
       revision = rev.name();
       return rev;
@@ -1221,25 +1245,22 @@ public class ChangeScreen extends Screen {
       revision = rev.name();
       return rev;
     }
-    new ErrorDialog(
-        Resources.M.changeWithNoRevisions(info.legacyId().get())).center();
+    new ErrorDialog(Resources.M.changeWithNoRevisions(info.legacyId().get())).center();
     throw new IllegalStateException("no revision, cannot proceed");
   }
 
   /**
-   * Resolve a revision or patch set id string to RevisionInfo.
-   * When this view is created from the changes table, revision
-   * is passed as a real revision.
-   * When this view is created from side by side (by closing it with 'u')
-   * patch set id is passed.
+   * Resolve a revision or patch set id string to RevisionInfo. When this view is created from the
+   * changes table, revision is passed as a real revision. When this view is created from side by
+   * side (by closing it with 'u') patch set id is passed.
    *
    * @param info change info
    * @param revOrId revision or patch set id
    * @param defaultValue value returned when revOrId is null
    * @return resolved revision or default value
    */
-  private RevisionInfo resolveRevisionOrPatchSetId(ChangeInfo info,
-      String revOrId, String defaultValue) {
+  private RevisionInfo resolveRevisionOrPatchSetId(
+      ChangeInfo info, String revOrId, String defaultValue) {
     int parentNum;
     if (revOrId == null) {
       revOrId = defaultValue;
@@ -1264,9 +1285,9 @@ public class ChangeScreen extends Screen {
 
   private boolean isSubmittable(ChangeInfo info) {
     boolean canSubmit =
-        info.status().isOpen() &&
-        revision.equals(info.currentRevision()) &&
-        !info.revision(revision).draft();
+        info.status().isOpen()
+            && revision.equals(info.currentRevision())
+            && !info.revision(revision).draft();
     if (canSubmit && info.status() == Change.Status.NEW) {
       for (String name : info.labels()) {
         LabelInfo label = info.label(name);
@@ -1286,7 +1307,7 @@ public class ChangeScreen extends Screen {
           case OK:
           default:
             break;
-          }
+        }
       }
     }
     return canSubmit;
@@ -1348,13 +1369,12 @@ public class ChangeScreen extends Screen {
 
     // Properly render revision actions initially while waiting for
     // the callback to populate them correctly.
-    NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo> create();
+    NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo>create();
     initRevisionsAction(info, revision, emptyMap);
     quickApprove.setVisible(false);
     actions.reloadRevisionActions(emptyMap);
 
-    boolean current = revision.equals(info.currentRevision())
-        && !revisionInfo.isEdit();
+    boolean current = revision.equals(info.currentRevision()) && !revisionInfo.isEdit();
 
     if (revisionInfo.isEdit()) {
       statusText.setInnerText(Util.C.changeEdit());
@@ -1367,8 +1387,9 @@ public class ChangeScreen extends Screen {
     }
 
     if (Gerrit.isSignedIn()) {
-      replyAction = new ReplyAction(info, revision, hasDraftComments,
-          style, commentLinkProcessor, reply, quickApprove);
+      replyAction =
+          new ReplyAction(
+              info, revision, hasDraftComments, style, commentLinkProcessor, reply, quickApprove);
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
@@ -1380,11 +1401,10 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void renderRevisionInfo(ChangeInfo info,
-      NativeMap<ActionInfo> actionMap) {
+  private void renderRevisionInfo(ChangeInfo info, NativeMap<ActionInfo> actionMap) {
     initRevisionsAction(info, revision, actionMap);
-    commit.setParentNotCurrent(actionMap.containsKey("rebase")
-        && actionMap.get("rebase").enabled());
+    commit.setParentNotCurrent(
+        actionMap.containsKey("rebase") && actionMap.get("rebase").enabled());
     actions.reloadRevisionActions(actionMap);
   }
 
@@ -1396,18 +1416,19 @@ public class ChangeScreen extends Screen {
     }
     ownerLink.setText(name);
     ownerLink.setTitle(email(info.owner(), name));
-    ownerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
-        info.owner().name() != null
-        ? info.owner().name()
-        : info.owner().email() != null
-        ? info.owner().email()
-        : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
+    ownerLink.setTargetHistoryToken(
+        PageLinks.toAccountQuery(
+            info.owner().name() != null
+                ? info.owner().name()
+                : info.owner().email() != null
+                    ? info.owner().email()
+                    : String.valueOf(info.owner()._accountId()),
+            Change.Status.NEW));
   }
 
   private void renderUploader(ChangeInfo changeInfo, RevisionInfo revInfo) {
     AccountInfo uploader = revInfo.uploader();
-    boolean isOwner = uploader == null
-        || uploader._accountId() == changeInfo.owner()._accountId();
+    boolean isOwner = uploader == null || uploader._accountId() == changeInfo.owner()._accountId();
     renderPushCertificate(revInfo, isOwner ? ownerPanel : uploaderPanel);
     if (isOwner) {
       uploaderRow.getStyle().setDisplay(Display.NONE);
@@ -1430,8 +1451,7 @@ public class ChangeScreen extends Screen {
     Image status = new Image();
     panel.add(status);
     status.setStyleName(style.pushCertStatus());
-    if (!revInfo.hasPushCertificate()
-        || revInfo.pushCertificate().key() == null) {
+    if (!revInfo.hasPushCertificate() || revInfo.pushCertificate().key() == null) {
       status.setResource(Gerrit.RESOURCES.question());
       status.setTitle(Util.C.pushCertMissing());
       return;
@@ -1455,9 +1475,7 @@ public class ChangeScreen extends Screen {
   }
 
   private static String name(AccountInfo info) {
-    return info.name() != null
-        ? info.name()
-        : Gerrit.info().user().anonymousCowardName();
+    return info.name() != null ? info.name() : Gerrit.info().user().anonymousCowardName();
   }
 
   private static String email(AccountInfo info, String name) {
@@ -1465,9 +1483,7 @@ public class ChangeScreen extends Screen {
   }
 
   private static String problems(String msg, PushCertificateInfo info) {
-    if (info.key() == null
-        || !info.key().hasProblems()
-        || info.key().problems().length() == 0) {
+    if (info.key() == null || !info.key().hasProblems() || info.key().problems().length() == 0) {
       return msg;
     }
 
@@ -1496,12 +1512,12 @@ public class ChangeScreen extends Screen {
     int selectedIdx = list.length();
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
-      diffBase.addItem(
-        r.id() + ": " + r.name().substring(0, 6),
-        r.id());
+      diffBase.addItem(r.id() + ": " + r.name().substring(0, 6), r.id());
       if (r.name().equals(revision)) {
-        SelectElement.as(diffBase.getElement()).getOptions()
-            .getItem(diffBase.getItemCount() - 1).setDisabled(true);
+        SelectElement.as(diffBase.getElement())
+            .getOptions()
+            .getItem(diffBase.getItemCount() - 1)
+            .setDisabled(true);
       }
       if (base.isPatchSet() && base.asPatchSetId().get() == r._number()) {
         selectedIdx = diffBase.getItemCount() - 1;
@@ -1514,8 +1530,7 @@ public class ChangeScreen extends Screen {
       diffBase.addItem(Util.C.autoMerge(), DiffObject.AUTO_MERGE);
       for (int i = 0; i < parents.length(); i++) {
         int parentNum = i + 1;
-        diffBase.addItem(Util.M.diffBaseParent(parentNum),
-            String.valueOf(-parentNum));
+        diffBase.addItem(Util.M.diffBaseParent(parentNum), String.valueOf(-parentNum));
       }
 
       if (base.isParent()) {
@@ -1544,21 +1559,20 @@ public class ChangeScreen extends Screen {
     }
 
     if (updateAvailable == null) {
-      updateAvailable = new UpdateAvailableBar() {
-        @Override
-        void onShow() {
-          Gerrit.display(PageLinks.toChange(changeId));
-        }
+      updateAvailable =
+          new UpdateAvailableBar() {
+            @Override
+            void onShow() {
+              Gerrit.display(PageLinks.toChange(changeId));
+            }
 
-        @Override
-        void onIgnore(Timestamp newTime) {
-          lastDisplayedUpdate = newTime;
-        }
-      };
+            @Override
+            void onIgnore(Timestamp newTime) {
+              lastDisplayedUpdate = newTime;
+            }
+          };
     }
-    updateAvailable.set(
-        Natives.asList(nm).subList(om.length(), nm.length()),
-        newInfo.updated());
+    updateAvailable.set(Natives.asList(nm).subList(om.length(), nm.length()), newInfo.updated());
     if (!updateAvailable.isAttached()) {
       add(updateAvailable);
     }
@@ -1578,9 +1592,8 @@ public class ChangeScreen extends Screen {
 
   /**
    * @param parentToken
-   * @return 1-based parentNum if parentToken is a String which can be parsed as
-   *     a negative integer i.e. "-1", "-2", etc. If parentToken cannot be
-   *     parsed as a negative integer, return zero.
+   * @return 1-based parentNum if parentToken is a String which can be parsed as a negative integer
+   *     i.e. "-1", "-2", etc. If parentToken cannot be parsed as a negative integer, return zero.
    */
   private static int toParentNum(String parentToken) {
     try {

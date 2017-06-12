@@ -23,19 +23,16 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.QueryOptions;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public final class IndexUtils {
-  public static final Map<String, String> CUSTOM_CHAR_MAPPING =
-      ImmutableMap.of("_", " ", ".", " ");
+  public static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of("_", " ", ".", " ");
 
-  public static void setReady(SitePaths sitePaths, String name, int version,
-      boolean ready) throws IOException {
+  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready)
+      throws IOException {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       cfg.setReady(name, version, ready);
@@ -57,8 +54,7 @@ public final class IndexUtils {
     if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
       return fs;
     }
-    return Sets.union(fs,
-        ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
+    return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
   }
 
   private IndexUtils() {

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
-
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,8 +72,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden()
-      throws Exception {
+  public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden() throws Exception {
     grantOwner();
     blockCreateReference();
     setApiUser(user);
@@ -90,19 +88,15 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get());
+    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
   }
 
   private void assertCreateSucceeds() throws Exception {
     BranchInfo created = branch().create(new BranchInput()).get();
-    assertThat(created.ref)
-        .isEqualTo(Constants.R_HEADS + branch.getShortName());
+    assertThat(created.ref).isEqualTo(Constants.R_HEADS + branch.getShortName());
   }
 
-  private void assertCreateFails(Class<? extends RestApiException> errType)
-      throws Exception {
+  private void assertCreateFails(Class<? extends RestApiException> errType) throws Exception {
     exception.expect(errType);
     branch().create(new BranchInput());
   }

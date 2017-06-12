@@ -37,8 +37,7 @@ public class DownloadCommandPanel extends FlowPanel {
     for (Widget w : this) {
       if (w instanceof DownloadCommandLink) {
         DownloadCommandLink d = (DownloadCommandLink) w;
-        if (currentCommand != null
-            && d.getText().equals(currentCommand.getText())) {
+        if (currentCommand != null && d.getText().equals(currentCommand.getText())) {
           d.select();
           return;
         }

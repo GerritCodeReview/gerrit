@@ -26,13 +26,11 @@ public final class Patch {
   public static final String MERGE_LIST = "/MERGE_LIST";
 
   /**
-   * Checks if the given path represents a magic file. A magic file is a
-   * generated file that is automatically included into changes. It does not
-   * exist in the commit of the patch set.
+   * Checks if the given path represents a magic file. A magic file is a generated file that is
+   * automatically included into changes. It does not exist in the commit of the patch set.
    *
    * @param path the file path
-   * @return {@code true} if the path represents a magic file, otherwise
-   *         {@code false}.
+   * @return {@code true} if the path represents a magic file, otherwise {@code false}.
    */
   public static boolean isMagic(String path) {
     return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path);
@@ -133,32 +131,26 @@ public final class Patch {
     /**
      * A textual difference between two versions.
      *
-     * <p>
-     * A UNIFIED patch can be rendered in multiple ways. Most commonly, it is
-     * rendered as a side by side display using two columns, left column for the
-     * old version, right column for the new version. A UNIFIED patch can also
-     * be formatted in a number of standard "patch script" styles, but typically
-     * is formatted in the POSIX standard unified diff format.
+     * <p>A UNIFIED patch can be rendered in multiple ways. Most commonly, it is rendered as a side
+     * by side display using two columns, left column for the old version, right column for the new
+     * version. A UNIFIED patch can also be formatted in a number of standard "patch script" styles,
+     * but typically is formatted in the POSIX standard unified diff format.
      *
-     * <p>
-     * Usually Gerrit renders a UNIFIED patch in a PatchScreen.SideBySide view,
-     * presenting the file in two columns. If the user chooses, a
-     * PatchScreen.Unified is also a valid display method.
-     * */
+     * <p>Usually Gerrit renders a UNIFIED patch in a PatchScreen.SideBySide view, presenting the
+     * file in two columns. If the user chooses, a PatchScreen.Unified is also a valid display
+     * method.
+     */
     UNIFIED('U'),
 
     /**
      * Difference of two (or more) binary contents.
      *
-     * <p>
-     * A BINARY patch cannot be viewed in a text display, as it represents a
-     * change in binary content at the associated path, for example, an image
-     * file has been replaced with a different image.
+     * <p>A BINARY patch cannot be viewed in a text display, as it represents a change in binary
+     * content at the associated path, for example, an image file has been replaced with a different
+     * image.
      *
-     * <p>
-     * Gerrit can only render a BINARY file in a PatchScreen.Unified view, as
-     * the only information it can display is the old and new file content
-     * hashes.
+     * <p>Gerrit can only render a BINARY file in a PatchScreen.Unified view, as the only
+     * information it can display is the old and new file content hashes.
      */
     BINARY('B');
 
@@ -203,17 +195,13 @@ public final class Patch {
   /** Number of lines deleted from the file. */
   protected int deletions;
 
-  /**
-   * Original if {@link #changeType} is {@link ChangeType#COPIED} or
-   * {@link ChangeType#RENAMED}.
-   */
+  /** Original if {@link #changeType} is {@link ChangeType#COPIED} or {@link ChangeType#RENAMED}. */
   protected String sourceFileName;
 
   /** True if this patch has been reviewed by the current logged in user */
   private boolean reviewedByCurrentUser;
 
-  protected Patch() {
-  }
+  protected Patch() {}
 
   public Patch(final Patch.Key newId) {
     key = newId;

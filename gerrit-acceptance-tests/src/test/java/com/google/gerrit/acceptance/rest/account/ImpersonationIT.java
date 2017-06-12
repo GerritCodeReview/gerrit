@@ -63,7 +63,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.After;
@@ -71,17 +70,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ImpersonationIT extends AbstractDaemonTest {
-  @Inject
-  private AccountControl.Factory accountControlFactory;
+  @Inject private AccountControl.Factory accountControlFactory;
 
-  @Inject
-  private ApprovalsUtil approvalsUtil;
+  @Inject private ApprovalsUtil approvalsUtil;
 
-  @Inject
-  private ChangeMessagesUtil cmUtil;
+  @Inject private ChangeMessagesUtil cmUtil;
 
-  @Inject
-  private CommentsUtil commentsUtil;
+  @Inject private CommentsUtil commentsUtil;
 
   private RestSession anonRestSession;
   private TestAccount admin2;
@@ -106,17 +101,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void voteOnBehalfOf() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = ReviewInput.recommend();
     in.onBehalfOf = user.id.toString();
     in.message = "Message on behalf of";
     revision.review(in);
 
-    PatchSetApproval psa = Iterables.getOnlyElement(
-        r.getChange().approvals().values());
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.getPatchSetId().get()).isEqualTo(1);
     assertThat(psa.getLabel()).isEqualTo("Code-Review");
     assertThat(psa.getAccountId()).isEqualTo(user.id);
@@ -134,17 +126,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void voteOnBehalfOfRequiresLabel() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
     in.message = "Message on behalf of";
 
     exception.expect(AuthException.class);
-    exception.expectMessage(
-        "label required to post review on behalf of \"" + in.onBehalfOf + '"');
+    exception.expectMessage("label required to post review on behalf of \"" + in.onBehalfOf + '"');
     revision.review(in);
   }
 
@@ -152,9 +141,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void voteOnBehalfOfInvalidLabel() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
@@ -162,19 +149,15 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Not-A-Label", 5);
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "label \"Not-A-Label\" is not a configured label");
+    exception.expectMessage("label \"Not-A-Label\" is not a configured label");
     revision.review(in);
   }
 
   @Test
-  public void voteOnBehalfOfInvalidLabelIgnoredWithoutStrictLabels()
-      throws Exception {
+  public void voteOnBehalfOfInvalidLabelIgnoredWithoutStrictLabels() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
@@ -184,8 +167,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     revision.review(in);
 
-    assertThat(gApi.changes().id(r.getChangeId()).get().labels)
-        .doesNotContainKey("Not-A-Label");
+    assertThat(gApi.changes().id(r.getChangeId()).get().labels).doesNotContainKey("Not-A-Label");
   }
 
   @Test
@@ -196,9 +178,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
@@ -206,8 +186,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     exception.expect(AuthException.class);
     exception.expectMessage(
-        "not permitted to modify label \"Verified\" on behalf of \""
-            + in.onBehalfOf + '"');
+        "not permitted to modify label \"Verified\" on behalf of \"" + in.onBehalfOf + '"');
     revision.review(in);
   }
 
@@ -238,8 +217,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.comments = ImmutableMap.of(ci.path, ImmutableList.of(ci));
     gApi.changes().id(r.getChangeId()).current().review(in);
 
-    PatchSetApproval psa = Iterables.getOnlyElement(
-        r.getChange().approvals().values());
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.getPatchSetId().get()).isEqualTo(1);
     assertThat(psa.getLabel()).isEqualTo("Code-Review");
     assertThat(psa.getAccountId()).isEqualTo(user.id);
@@ -247,8 +225,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.getRealAccountId()).isEqualTo(admin.id);
 
     ChangeData cd = r.getChange();
-    Comment c = Iterables.getOnlyElement(
-        commentsUtil.publishedByChange(db, cd.notes()));
+    Comment c = Iterables.getOnlyElement(commentsUtil.publishedByChange(db, cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
     assertThat(c.author.getId()).isEqualTo(user.id);
     assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id);
@@ -275,8 +252,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(in);
 
     ChangeData cd = r.getChange();
-    RobotComment c = Iterables.getOnlyElement(
-        commentsUtil.robotCommentsByChange(cd.notes()));
+    RobotComment c = Iterables.getOnlyElement(commentsUtil.robotCommentsByChange(cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
     assertThat(c.robotId).isEqualTo(ci.robotId);
     assertThat(c.robotRunId).isEqualTo(ci.robotRunId);
@@ -312,9 +288,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void voteOnBehalfOfMissingUser() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = "doesnotexist";
@@ -326,23 +300,19 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void voteOnBehalfOfFailsWhenUserCannotSeeDestinationRef()
-      throws Exception {
+  public void voteOnBehalfOfFailsWhenUserCannotSeeDestinationRef() throws Exception {
     blockRead(newGroup);
 
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
     in.label("Code-Review", 1);
 
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage(
-        "on_behalf_of account " + user.id + " cannot see destination ref");
+    exception.expectMessage("on_behalf_of account " + user.id + " cannot see destination ref");
     revision.review(in);
   }
 
@@ -354,9 +324,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(accountControlFactory.get().canSee(user.id)).isFalse();
 
     PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
@@ -372,21 +340,15 @@ public class ImpersonationIT extends AbstractDaemonTest {
     allowSubmitOnBehalfOf();
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit(in);
+    gApi.changes().id(changeId).current().submit(in);
 
     ChangeData cd = r.getChange();
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
-    PatchSetApproval submitter = approvalsUtil.getSubmitter(
-        db, cd.notes(), cd.change().currentPatchSetId());
+    PatchSetApproval submitter =
+        approvalsUtil.getSubmitter(db, cd.notes(), cd.change().currentPatchSetId());
     assertThat(submitter.getAccountId()).isEqualTo(admin2.id);
     assertThat(submitter.getRealAccountId()).isEqualTo(admin.id);
   }
@@ -396,18 +358,12 @@ public class ImpersonationIT extends AbstractDaemonTest {
     allowSubmitOnBehalfOf();
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = "doesnotexist";
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("Account Not Found: doesnotexist");
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit(in);
+    gApi.changes().id(changeId).current().submit(in);
   }
 
   @Test
@@ -421,33 +377,22 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = admin2.email;
     exception.expect(AuthException.class);
     exception.expectMessage("submit on behalf of not permitted");
-    gApi.changes()
-        .id(project.get() + "~master~" + r.getChangeId())
-        .current()
-        .submit(in);
+    gApi.changes().id(project.get() + "~master~" + r.getChangeId()).current().submit(in);
   }
 
   @Test
-  public void submitOnBehalfOfFailsWhenUserCannotSeeDestinationRef()
-      throws Exception {
+  public void submitOnBehalfOfFailsWhenUserCannotSeeDestinationRef() throws Exception {
     blockRead(newGroup);
 
     allowSubmitOnBehalfOf();
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email;
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage(
-        "on_behalf_of account " + user.id + " cannot see destination ref");
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit(in);
+    exception.expectMessage("on_behalf_of account " + user.id + " cannot see destination ref");
+    gApi.changes().id(changeId).current().submit(in);
   }
 
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
@@ -459,28 +404,20 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email;
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("Account Not Found: " + in.onBehalfOf);
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit(in);
+    gApi.changes().id(changeId).current().submit(in);
   }
 
   @Test
   public void runAsValidUser() throws Exception {
     allowRunAs();
-    RestResponse res =
-        adminRestSession.getWithHeader("/accounts/self", runAsHeader(user.id));
+    RestResponse res = adminRestSession.getWithHeader("/accounts/self", runAsHeader(user.id));
     res.assertOK();
-    AccountInfo account =
-        newGson().fromJson(res.getEntityContent(), AccountInfo.class);
+    AccountInfo account = newGson().fromJson(res.getEntityContent(), AccountInfo.class);
     assertThat(account._accountId).isEqualTo(user.id.get());
   }
 
@@ -488,8 +425,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsDisabledByConfig() throws Exception {
     allowRunAs();
-    RestResponse res =
-        adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
     res.assertForbidden();
     assertThat(res.getEntityContent())
         .isEqualTo("X-Gerrit-RunAs disabled by auth.enableRunAs = false");
@@ -497,31 +433,25 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void runAsNotPermitted() throws Exception {
-    RestResponse res =
-        adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader(user.id));
     res.assertForbidden();
-    assertThat(res.getEntityContent())
-        .isEqualTo("not permitted to use X-Gerrit-RunAs");
+    assertThat(res.getEntityContent()).isEqualTo("not permitted to use X-Gerrit-RunAs");
   }
 
   @Test
   public void runAsNeverPermittedForAnonymousUsers() throws Exception {
     allowRunAs();
-    RestResponse res =
-        anonRestSession.getWithHeader("/changes/", runAsHeader(user.id));
+    RestResponse res = anonRestSession.getWithHeader("/changes/", runAsHeader(user.id));
     res.assertForbidden();
-    assertThat(res.getEntityContent())
-        .isEqualTo("not permitted to use X-Gerrit-RunAs");
+    assertThat(res.getEntityContent()).isEqualTo("not permitted to use X-Gerrit-RunAs");
   }
 
   @Test
   public void runAsInvalidUser() throws Exception {
     allowRunAs();
-    RestResponse res = adminRestSession.getWithHeader(
-        "/changes/", runAsHeader("doesnotexist"));
+    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader("doesnotexist"));
     res.assertForbidden();
-    assertThat(res.getEntityContent())
-        .isEqualTo("no account matches X-Gerrit-RunAs");
+    assertThat(res.getEntityContent()).isEqualTo("no account matches X-Gerrit-RunAs");
   }
 
   @Test
@@ -544,18 +474,17 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.message = "message";
     in.drafts = DraftHandling.PUBLISH;
-    RestResponse res = adminRestSession.postWithHeader(
-        "/changes/" + r.getChangeId() + "/revisions/current/review", in,
-        runAsHeader(user.id));
+    RestResponse res =
+        adminRestSession.postWithHeader(
+            "/changes/" + r.getChangeId() + "/revisions/current/review", in, runAsHeader(user.id));
     res.assertOK();
 
-    ChangeMessageInfo m = Iterables.getLast(
-        gApi.changes().id(r.getChangeId()).get().messages);
+    ChangeMessageInfo m = Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(m.message).endsWith(in.message);
     assertThat(m.author._accountId).isEqualTo(user.id.get());
 
-    CommentInfo c = Iterables.getOnlyElement(
-        gApi.changes().id(r.getChangeId()).comments().get(di.path));
+    CommentInfo c =
+        Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).comments().get(di.path));
     assertThat(c.author._accountId).isEqualTo(user.id.get());
     assertThat(c.message).isEqualTo(di.message);
 
@@ -578,20 +507,16 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id.toString();
     in.message = "Message on behalf of";
 
-    String endpoint =
-        "/changes/" + r.getChangeId() + "/revisions/current/review";
-    RestResponse res =
-        adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id));
+    String endpoint = "/changes/" + r.getChangeId() + "/revisions/current/review";
+    RestResponse res = adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id));
     res.assertForbidden();
-    assertThat(res.getEntityContent()).isEqualTo(
-        "label required to post review on behalf of \"" + in.onBehalfOf + '"');
+    assertThat(res.getEntityContent())
+        .isEqualTo("label required to post review on behalf of \"" + in.onBehalfOf + '"');
 
     in.label("Code-Review", 1);
-    adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id))
-        .assertOK();
+    adminRestSession.postWithHeader(endpoint, in, runAsHeader(user2.id)).assertOK();
 
-    PatchSetApproval psa = Iterables.getOnlyElement(
-        r.getChange().approvals().values());
+    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.getPatchSetId().get()).isEqualTo(1);
     assertThat(psa.getLabel()).isEqualTo("Code-Review");
     assertThat(psa.getAccountId()).isEqualTo(user.id);
@@ -610,8 +535,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     LabelType codeReviewType = Util.codeReview();
     String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
     String heads = "refs/heads/*";
-    AccountGroup.UUID uuid =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    AccountGroup.UUID uuid = SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg, forCodeReviewAs, -1, 1, uuid, heads);
     saveProjectConfig(project, cfg);
   }
@@ -619,34 +543,31 @@ public class ImpersonationIT extends AbstractDaemonTest {
   private void allowSubmitOnBehalfOf() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     String heads = "refs/heads/*";
-    AccountGroup.UUID uuid =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    AccountGroup.UUID uuid = SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg, Permission.SUBMIT_AS, uuid, heads);
     Util.allow(cfg, Permission.SUBMIT, uuid, heads);
     LabelType codeReviewType = Util.codeReview();
-    Util.allow(cfg, Permission.forLabel(codeReviewType.getName()),
-        -2, 2, uuid, heads);
+    Util.allow(cfg, Permission.forLabel(codeReviewType.getName()), -2, 2, uuid, heads);
     saveProjectConfig(project, cfg);
   }
 
   private void blockRead(GroupInfo group) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(
-        cfg, Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
+    Util.block(cfg, Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
     saveProjectConfig(project, cfg);
   }
 
   private void allowRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.allow(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+    Util.allow(
+        cfg, GlobalCapability.RUN_AS, SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 
   private void removeRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.remove(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+    Util.remove(
+        cfg, GlobalCapability.RUN_AS, SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 

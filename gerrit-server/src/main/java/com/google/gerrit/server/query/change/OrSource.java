@@ -20,7 +20,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -57,8 +56,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   @Override
   public boolean hasChange() {
     for (Predicate<ChangeData> p : getChildren()) {
-      if (!(p instanceof ChangeDataSource)
-          || !((ChangeDataSource) p).hasChange()) {
+      if (!(p instanceof ChangeDataSource) || !((ChangeDataSource) p).hasChange()) {
         return false;
       }
     }

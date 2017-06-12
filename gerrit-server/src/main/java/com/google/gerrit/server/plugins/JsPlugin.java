@@ -24,16 +24,13 @@ import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-
 import java.nio.file.Path;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 class JsPlugin extends Plugin {
   private Injector sysInjector;
 
-  JsPlugin(String name, Path srcFile, PluginUser pluginUser,
-      FileSnapshot snapshot) {
+  JsPlugin(String name, Path srcFile, PluginUser pluginUser, FileSnapshot snapshot) {
     super(name, srcFile, pluginUser, snapshot, ApiType.JS);
   }
 
@@ -52,8 +49,7 @@ class JsPlugin extends Plugin {
   public void start(PluginGuiceEnvironment env) throws Exception {
     manager = new LifecycleManager();
     String fileName = getSrcFile().getFileName().toString();
-    sysInjector =
-        Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
+    sysInjector = Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
     manager.start();
   }
 
@@ -99,8 +95,7 @@ class JsPlugin extends Plugin {
     @Override
     protected void configure() {
       bind(String.class).annotatedWith(PluginName.class).toInstance(pluginName);
-      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
-          new JavaScriptPlugin(fileName));
+      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(new JavaScriptPlugin(fileName));
     }
   }
 

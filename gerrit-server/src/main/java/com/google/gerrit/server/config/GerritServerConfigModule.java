@@ -23,14 +23,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 /** Creates {@link GerritServerConfig}. */
 public class GerritServerConfigModule extends AbstractModule {
@@ -44,13 +42,14 @@ public class GerritServerConfigModule extends AbstractModule {
   }
 
   private static String getSecureStoreFromGerritConfig(final Path sitePath) {
-    AbstractModule m = new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        bind(SitePaths.class);
-      }
-    };
+    AbstractModule m =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            bind(SitePaths.class);
+          }
+        };
     Injector injector = Guice.createInjector(m);
     SitePaths site = injector.getInstance(SitePaths.class);
     FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
@@ -74,9 +73,11 @@ public class GerritServerConfigModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
-    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON) ;
-    bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
-        GerritServerConfigProvider.class).in(SINGLETON);
+    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
+    bind(Config.class)
+        .annotatedWith(GerritServerConfig.class)
+        .toProvider(GerritServerConfigProvider.class)
+        .in(SINGLETON);
     bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
   }
 }

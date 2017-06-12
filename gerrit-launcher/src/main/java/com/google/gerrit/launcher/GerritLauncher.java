@@ -106,8 +106,7 @@ public final class GerritLauncher {
 
   public static void daemonStart(final String[] argv) throws Exception {
     if (daemonClassLoader != null) {
-      throw new IllegalStateException(
-        "daemonStart can be called only once per JVM instance");
+      throw new IllegalStateException("daemonStart can be called only once per JVM instance");
     }
     final ClassLoader cl = libClassLoader(false);
     Thread.currentThread().setContextClassLoader(cl);
@@ -127,8 +126,7 @@ public final class GerritLauncher {
 
   public static void daemonStop(final String[] argv) throws Exception {
     if (daemonClassLoader == null) {
-      throw new IllegalStateException(
-        "daemonStop can be called only after call to daemonStop");
+      throw new IllegalStateException("daemonStop can be called only after call to daemonStop");
     }
     String[] daemonArgv = new String[argv.length + 2];
     daemonArgv[0] = "daemon";
@@ -161,8 +159,8 @@ public final class GerritLauncher {
     }
   }
 
-  private static int invokeProgram(final ClassLoader loader,
-      final String[] origArgv) throws Exception {
+  private static int invokeProgram(final ClassLoader loader, final String[] origArgv)
+      throws Exception {
     String name = origArgv[0];
     final String[] argv = new String[origArgv.length - 1];
     System.arraycopy(origArgv, 1, argv, 0, argv.length);
@@ -232,8 +230,7 @@ public final class GerritLauncher {
     return cn;
   }
 
-  private static ClassLoader libClassLoader(boolean prologCompiler)
-      throws IOException {
+  private static ClassLoader libClassLoader(boolean prologCompiler) throws IOException {
     final File path;
     try {
       path = getDistributionArchive();
@@ -283,17 +280,13 @@ public final class GerritLauncher {
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();
     if (!extapi.isEmpty()) {
-      parent = new URLClassLoader(
-          extapi.toArray(new URL[extapi.size()]),
-          parent);
+      parent = new URLClassLoader(extapi.toArray(new URL[extapi.size()]), parent);
     }
-    return new URLClassLoader(
-        jars.values().toArray(new URL[jars.size()]),
-        parent);
+    return new URLClassLoader(jars.values().toArray(new URL[jars.size()]), parent);
   }
 
-  private static void extractJar(ZipFile zf, ZipEntry ze,
-      SortedMap<String, URL> jars) throws IOException {
+  private static void extractJar(ZipFile zf, ZipEntry ze, SortedMap<String, URL> jars)
+      throws IOException {
     File tmp = createTempFile(safeName(ze), ".jar");
     try (FileOutputStream out = new FileOutputStream(tmp);
         InputStream in = zf.getInputStream(ze)) {
@@ -305,14 +298,10 @@ public final class GerritLauncher {
     }
 
     String name = ze.getName();
-    jars.put(
-        name.substring(name.lastIndexOf('/'), name.length()),
-        tmp.toURI().toURL());
+    jars.put(name.substring(name.lastIndexOf('/'), name.length()), tmp.toURI().toURL());
   }
 
-  private static void move(SortedMap<String, URL> jars,
-      String prefix,
-      List<URL> extapi) {
+  private static void move(SortedMap<String, URL> jars, String prefix, List<URL> extapi) {
     SortedMap<String, URL> matches = jars.tailMap(prefix);
     if (!matches.isEmpty()) {
       String first = matches.firstKey();
@@ -351,8 +340,7 @@ public final class GerritLauncher {
    * @return local path of the Gerrit WAR file.
    * @throws FileNotFoundException if the code cannot guess the location.
    */
-  public static File getDistributionArchive()
-      throws FileNotFoundException, IOException {
+  public static File getDistributionArchive() throws FileNotFoundException, IOException {
     File result = myArchive;
     if (result == null) {
       synchronized (GerritLauncher.class) {
@@ -367,8 +355,7 @@ public final class GerritLauncher {
     return result;
   }
 
-  public static synchronized FileSystem getZipFileSystem(Path zip)
-      throws IOException {
+  public static synchronized FileSystem getZipFileSystem(Path zip) throws IOException {
     // FileSystems canonicalizes the path, so we should too.
     zip = zip.toRealPath();
     FileSystem zipFs = zipFileSystems.get(zip);
@@ -381,14 +368,12 @@ public final class GerritLauncher {
 
   public static FileSystem newZipFileSystem(Path zip) throws IOException {
     return FileSystems.newFileSystem(
-        URI.create("jar:" + zip.toUri()),
-        Collections.<String, String> emptyMap());
+        URI.create("jar:" + zip.toUri()), Collections.<String, String>emptyMap());
   }
 
   private static File locateMyArchive() throws FileNotFoundException {
     final ClassLoader myCL = GerritLauncher.class.getClassLoader();
-    final String myName =
-        GerritLauncher.class.getName().replace('.', '/') + ".class";
+    final String myName = GerritLauncher.class.getName().replace('.', '/') + ".class";
 
     final URL myClazz = myCL.getResource(myName);
     if (myClazz == null) {
@@ -420,8 +405,7 @@ public final class GerritLauncher {
     // The CodeSource might be able to give us the source as a stream.
     // If so, copy it to a local file so we have random access to it.
     //
-    final CodeSource src =
-        GerritLauncher.class.getProtectionDomain().getCodeSource();
+    final CodeSource src = GerritLauncher.class.getProtectionDomain().getCodeSource();
     if (src != null) {
       try (InputStream in = src.getLocation().openStream()) {
         final File tmp = createTempFile("gerrit_", ".zip");
@@ -447,35 +431,30 @@ public final class GerritLauncher {
 
   /**
    * Creates a temporary file within the application's unpack location.
-   * <p>
-   * The launcher unpacks the nested JAR files into a temporary directory,
-   * allowing the classes to be loaded from local disk with standard Java APIs.
-   * This method constructs a new temporary file in the same directory.
-   * <p>
-   * The method first tries to create {@code prefix + suffix} within the
-   * directory under the assumption that a given {@code prefix + suffix}
-   * combination is made at most once per JVM execution. If this fails (e.g. the
-   * named file already exists) a mangled unique name is used and returned
-   * instead, with the unique string appearing between the prefix and suffix.
-   * <p>
-   * Files created by this method will be automatically deleted by the JVM when
-   * it terminates. If the returned file is converted into a directory by the
-   * caller, the caller must arrange for the contents to be deleted before the
-   * directory is.
-   * <p>
-   * If supported by the underlying operating system, the temporary directory
-   * which contains these temporary files is accessible only by the user running
-   * the JVM.
+   *
+   * <p>The launcher unpacks the nested JAR files into a temporary directory, allowing the classes
+   * to be loaded from local disk with standard Java APIs. This method constructs a new temporary
+   * file in the same directory.
+   *
+   * <p>The method first tries to create {@code prefix + suffix} within the directory under the
+   * assumption that a given {@code prefix + suffix} combination is made at most once per JVM
+   * execution. If this fails (e.g. the named file already exists) a mangled unique name is used and
+   * returned instead, with the unique string appearing between the prefix and suffix.
+   *
+   * <p>Files created by this method will be automatically deleted by the JVM when it terminates. If
+   * the returned file is converted into a directory by the caller, the caller must arrange for the
+   * contents to be deleted before the directory is.
+   *
+   * <p>If supported by the underlying operating system, the temporary directory which contains
+   * these temporary files is accessible only by the user running the JVM.
    *
    * @param prefix prefix of the file name.
    * @param suffix suffix of the file name.
-   * @return the path of the temporary file. The returned object exists in the
-   *         filesystem as a file; caller may need to delete and recreate as a
-   *         directory if a directory was preferred.
+   * @return the path of the temporary file. The returned object exists in the filesystem as a file;
+   *     caller may need to delete and recreate as a directory if a directory was preferred.
    * @throws IOException the file could not be created.
    */
-  public static synchronized File createTempFile(String prefix, String suffix)
-      throws IOException {
+  public static synchronized File createTempFile(String prefix, String suffix) throws IOException {
     if (!temporaryDirectoryFound) {
       final File d = File.createTempFile("gerrit_", "_app", tmproot());
       if (d.delete() && d.mkdir()) {
@@ -528,7 +507,6 @@ public final class GerritLauncher {
     }
     return myHome;
   }
-
 
   private static File tmproot() {
     File tmp;
@@ -630,8 +608,7 @@ public final class GerritLauncher {
     return resolveInSourceRoot("buck-out");
   }
 
-  private static Path resolveInSourceRoot(String name)
-      throws FileNotFoundException {
+  private static Path resolveInSourceRoot(String name) throws FileNotFoundException {
     // Find ourselves in the classpath, as a loose class file or jar.
     Class<GerritLauncher> self = GerritLauncher.class;
     URL u = self.getResource(self.getSimpleName() + ".class");
@@ -642,8 +619,7 @@ public final class GerritLauncher {
       try {
         u = new URL(p.substring(0, p.indexOf('!')));
       } catch (MalformedURLException e) {
-        FileNotFoundException fnfe =
-            new FileNotFoundException("Not a valid jar file: " + u);
+        FileNotFoundException fnfe = new FileNotFoundException("Not a valid jar file: " + u);
         fnfe.initCause(e);
         throw fnfe;
       }
@@ -664,14 +640,12 @@ public final class GerritLauncher {
 
     Path ret = dir.resolve(name);
     if (!Files.exists(ret)) {
-      throw new FileNotFoundException(
-          name + " not found in source root " + dir);
+      throw new FileNotFoundException(name + " not found in source root " + dir);
     }
     return ret;
   }
 
-  private static ClassLoader useDevClasspath()
-      throws MalformedURLException, FileNotFoundException {
+  private static ClassLoader useDevClasspath() throws MalformedURLException, FileNotFoundException {
     Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
     dirs.add(out.resolve("classes").toUri().toURL());
@@ -682,8 +656,7 @@ public final class GerritLauncher {
       }
     }
     return new URLClassLoader(
-        dirs.toArray(new URL[dirs.size()]),
-        ClassLoader.getSystemClassLoader().getParent());
+        dirs.toArray(new URL[dirs.size()]), ClassLoader.getSystemClassLoader().getParent());
   }
 
   private static boolean includeJar(URL u) {
@@ -693,6 +666,5 @@ public final class GerritLauncher {
         && !path.contains("/buck-out/gen/lib/gwt/");
   }
 
-  private GerritLauncher() {
-  }
+  private GerritLauncher() {}
 }

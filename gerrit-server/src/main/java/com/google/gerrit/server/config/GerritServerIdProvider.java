@@ -19,15 +19,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.UUID;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.UUID;
 
 public class GerritServerIdProvider implements Provider<String> {
   public static final String SECTION = "gerrit";
@@ -40,8 +38,8 @@ public class GerritServerIdProvider implements Provider<String> {
   private final String id;
 
   @Inject
-  GerritServerIdProvider(@GerritServerConfig Config cfg,
-      SitePaths sitePaths) throws IOException, ConfigInvalidException {
+  GerritServerIdProvider(@GerritServerConfig Config cfg, SitePaths sitePaths)
+      throws IOException, ConfigInvalidException {
     String origId = cfg.getString(SECTION, null, KEY);
     if (!Strings.isNullOrEmpty(origId)) {
       id = origId;
@@ -69,8 +67,7 @@ public class GerritServerIdProvider implements Provider<String> {
     // Reread gerrit.config from disk before writing. We can't just use
     // cfg.toText(), as the @GerritServerConfig only has gerrit.config as a
     // fallback.
-    FileBasedConfig cfg =
-        new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
     if (!cfg.getFile().exists()) {
       return new Config();
     }

@@ -37,32 +37,30 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /** Handles OpenID based login flow. */
 @SuppressWarnings("serial")
 @Singleton
 class LoginForm extends HttpServlet {
   private static final Logger log = LoggerFactory.getLogger(LoginForm.class);
-  private static final ImmutableMap<String, String> ALL_PROVIDERS = ImmutableMap.of(
-      "launchpad", OpenIdUrls.URL_LAUNCHPAD,
-      "yahoo", OpenIdUrls.URL_YAHOO);
+  private static final ImmutableMap<String, String> ALL_PROVIDERS =
+      ImmutableMap.of(
+          "launchpad", OpenIdUrls.URL_LAUNCHPAD,
+          "yahoo", OpenIdUrls.URL_YAHOO);
 
   private final ImmutableSet<String> suggestProviders;
   private final Provider<String> urlProvider;
@@ -87,9 +85,7 @@ class LoginForm extends HttpServlet {
     this.urlProvider = urlProvider;
     this.impl = impl;
     this.header = header;
-    this.maxRedirectUrlLength = config.getInt(
-        "openid", "maxRedirectUrlLength",
-        10);
+    this.maxRedirectUrlLength = config.getInt("openid", "maxRedirectUrlLength", 10);
     this.oauthSessionProvider = oauthSessionProvider;
     this.currentUserProvider = currentUserProvider;
     this.oauthServiceProviders = oauthServiceProviders;
@@ -114,8 +110,7 @@ class LoginForm extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     if (ssoUrl != null) {
       String token = LoginUrlToken.getToken(req);
       SignInMode mode;
@@ -138,8 +133,7 @@ class LoginForm extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
     boolean link = req.getParameter("link") != null;
     String id = Strings.nullToEmpty(req.getParameter("id")).trim();
     if (id.isEmpty()) {
@@ -175,12 +169,10 @@ class LoginForm extends HttpServlet {
     } else {
       log.debug("OAuth provider \"{}\"", id);
       OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
-      if (!currentUserProvider.get().isIdentifiedUser()
-          && oauthSession.isLoggedIn()) {
+      if (!currentUserProvider.get().isIdentifiedUser() && oauthSession.isLoggedIn()) {
         oauthSession.logout();
       }
-      if ((isGerritLogin(req)
-          || oauthSession.isOAuthFinal(req))) {
+      if ((isGerritLogin(req) || oauthSession.isOAuthFinal(req))) {
         oauthSession.setServiceProvider(oauthProvider);
         oauthSession.setLinkMode(link);
         oauthSession.login(req, res, oauthProvider);
@@ -188,8 +180,14 @@ class LoginForm extends HttpServlet {
     }
   }
 
-  private void discover(HttpServletRequest req, HttpServletResponse res,
-      boolean link, String id, boolean remember, String token, SignInMode mode)
+  private void discover(
+      HttpServletRequest req,
+      HttpServletResponse res,
+      boolean link,
+      String id,
+      boolean remember,
+      String token,
+      SignInMode mode)
       throws IOException {
     if (ssoUrl != null) {
       remember = false;
@@ -202,8 +200,7 @@ class LoginForm extends HttpServlet {
         break;
 
       case NO_PROVIDER:
-        sendForm(req, res, link,
-            "Provider is not supported, or was incorrectly entered.");
+        sendForm(req, res, link, "Provider is not supported, or was incorrectly entered.");
         break;
 
       case ERROR:
@@ -212,8 +209,7 @@ class LoginForm extends HttpServlet {
     }
   }
 
-  private void redirect(DiscoveryResult r, HttpServletResponse res)
-      throws IOException {
+  private void redirect(DiscoveryResult r, HttpServletResponse res) throws IOException {
     StringBuilder url = new StringBuilder();
     url.append(r.providerUrl);
     if (r.providerArgs != null && !r.providerArgs.isEmpty()) {
@@ -225,9 +221,7 @@ class LoginForm extends HttpServlet {
         } else {
           url.append('&');
         }
-        url.append(Url.encode(arg.getKey()))
-           .append('=')
-           .append(Url.encode(arg.getValue()));
+        url.append(Url.encode(arg.getKey())).append('=').append(Url.encode(arg.getValue()));
       }
     }
     if (url.length() <= maxRedirectUrlLength) {
@@ -250,11 +244,11 @@ class LoginForm extends HttpServlet {
     sendHtml(res, doc);
   }
 
-  private void sendForm(HttpServletRequest req, HttpServletResponse res,
-      boolean link, @Nullable String errorMessage) throws IOException {
+  private void sendForm(
+      HttpServletRequest req, HttpServletResponse res, boolean link, @Nullable String errorMessage)
+      throws IOException {
     String self = req.getRequestURI();
-    String cancel = MoreObjects.firstNonNull(
-        urlProvider != null ? urlProvider.get() : "/", "/");
+    String cancel = MoreObjects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
     cancel += LoginUrlToken.getToken(req);
 
     Document doc = header.parse(LoginForm.class, "LoginForm.html");
@@ -305,20 +299,16 @@ class LoginForm extends HttpServlet {
     Element providers = HtmlDomUtil.find(doc, "providers");
     Set<String> plugins = oauthServiceProviders.plugins();
     for (String pluginName : plugins) {
-      Map<String, Provider<OAuthServiceProvider>> m =
-          oauthServiceProviders.byPlugin(pluginName);
-        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
-            : m.entrySet()) {
-          addProvider(providers, link, pluginName, e.getKey(),
-              e.getValue().get().getName());
-        }
+      Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
+      for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
+        addProvider(providers, link, pluginName, e.getKey(), e.getValue().get().getName());
+      }
     }
 
     sendHtml(res, doc);
   }
 
-  private void sendHtml(HttpServletResponse res, Document doc)
-      throws IOException {
+  private void sendHtml(HttpServletResponse res, Document doc) throws IOException {
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     res.setContentType("text/html");
@@ -329,20 +319,18 @@ class LoginForm extends HttpServlet {
     }
   }
 
-  private static void addProvider(Element form, boolean link,
-      String pluginName, String id, String serviceName) {
+  private static void addProvider(
+      Element form, boolean link, String pluginName, String id, String serviceName) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
     Element hyperlink = form.getOwnerDocument().createElement("a");
-    StringBuilder u = new StringBuilder(String.format("?id=%s_%s",
-        pluginName, id));
+    StringBuilder u = new StringBuilder(String.format("?id=%s_%s", pluginName, id));
     if (link) {
       u.append("&link");
     }
     hyperlink.setAttribute("href", u.toString());
 
-    hyperlink.setTextContent(serviceName +
-        " (" + pluginName + " plugin)");
+    hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
     div.appendChild(hyperlink);
     form.appendChild(div);
   }
@@ -353,15 +341,12 @@ class LoginForm extends HttpServlet {
     }
     Set<String> plugins = oauthServiceProviders.plugins();
     for (String pluginName : plugins) {
-      Map<String, Provider<OAuthServiceProvider>> m =
-          oauthServiceProviders.byPlugin(pluginName);
-        for (Map.Entry<String, Provider<OAuthServiceProvider>> e
-            : m.entrySet()) {
-          if (providerId.equals(
-              String.format("%s_%s", pluginName, e.getKey()))) {
-            return e.getValue().get();
-          }
+      Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
+      for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
+        if (providerId.equals(String.format("%s_%s", pluginName, e.getKey()))) {
+          return e.getValue().get();
         }
+      }
     }
     return null;
   }
@@ -379,7 +364,6 @@ class LoginForm extends HttpServlet {
   }
 
   private static boolean isGerritLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(
-        OAuthSessionOverOpenID.GERRIT_LOGIN) >= 0;
+    return request.getRequestURI().indexOf(OAuthSessionOverOpenID.GERRIT_LOGIN) >= 0;
   }
 }

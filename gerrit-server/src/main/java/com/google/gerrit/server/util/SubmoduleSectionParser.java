@@ -17,19 +17,17 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 
 /**
  * It parses from a configuration file submodule sections.
- * <p>
- * Example of submodule sections:
+ *
+ * <p>Example of submodule sections:
  *
  * <pre>
  * [submodule "project-a"]
@@ -49,9 +47,8 @@ public class SubmoduleSectionParser {
   private final String canonicalWebUrl;
   private final Branch.NameKey superProjectBranch;
 
-  public SubmoduleSectionParser(Config bbc,
-      String canonicalWebUrl,
-      Branch.NameKey superProjectBranch) {
+  public SubmoduleSectionParser(
+      Config bbc, String canonicalWebUrl, Branch.NameKey superProjectBranch) {
     this.bbc = bbc;
     this.canonicalWebUrl = canonicalWebUrl;
     this.superProjectBranch = superProjectBranch;
@@ -74,8 +71,12 @@ public class SubmoduleSectionParser {
     String branch = bbc.getString("submodule", id, "branch");
 
     try {
-      if (url != null && url.length() > 0 && path != null && path.length() > 0
-          && branch != null && branch.length() > 0) {
+      if (url != null
+          && url.length() > 0
+          && path != null
+          && path.length() > 0
+          && branch != null
+          && branch.length() > 0) {
         // All required fields filled.
         String project;
 
@@ -107,8 +108,7 @@ public class SubmoduleSectionParser {
           URI thisServerURI = new URI(canonicalWebUrl);
           String thisHost = thisServerURI.getHost();
           String targetHost = targetServerURI.getHost();
-          if (thisHost == null || targetHost == null ||
-              !targetHost.equalsIgnoreCase(thisHost)) {
+          if (thisHost == null || targetHost == null || !targetHost.equalsIgnoreCase(thisHost)) {
             return null;
           }
           String p1 = targetServerURI.getPath();
@@ -128,14 +128,14 @@ public class SubmoduleSectionParser {
         }
 
         if (project.endsWith(Constants.DOT_GIT_EXT)) {
-          project = project.substring(0, //
-              project.length() - Constants.DOT_GIT_EXT.length());
+          project =
+              project.substring(
+                  0, //
+                  project.length() - Constants.DOT_GIT_EXT.length());
         }
         Project.NameKey projectKey = new Project.NameKey(project);
         return new SubmoduleSubscription(
-            superProjectBranch,
-            new Branch.NameKey(projectKey, branch),
-            path);
+            superProjectBranch, new Branch.NameKey(projectKey, branch), path);
       }
     } catch (URISyntaxException e) {
       // Error in url syntax (in fact it is uri syntax)

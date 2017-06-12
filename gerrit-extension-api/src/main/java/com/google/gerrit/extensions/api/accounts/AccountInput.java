@@ -15,12 +15,10 @@
 package com.google.gerrit.extensions.api.accounts;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
-
 import java.util.List;
 
 public class AccountInput {
-  @DefaultInput
-  public String username;
+  @DefaultInput public String username;
   public String name;
   public String email;
   public String sshKey;

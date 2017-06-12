@@ -14,25 +14,23 @@
 
 package org.eclipse.jgit.lib;
 
-import org.eclipse.jgit.util.IO;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.eclipse.jgit.util.IO;
 
 public class ObjectIdSerialization {
   public static void writeCanBeNull(final OutputStream out, final AnyObjectId id)
       throws IOException {
     if (id != null) {
-      out.write((byte)1);
+      out.write((byte) 1);
       writeNotNull(out, id);
     } else {
-      out.write((byte)0);
+      out.write((byte) 0);
     }
   }
 
-  public static void writeNotNull(final OutputStream out, final AnyObjectId id)
-      throws IOException {
+  public static void writeNotNull(final OutputStream out, final AnyObjectId id) throws IOException {
     id.copyRawTo(out);
   }
 
@@ -53,6 +51,5 @@ public class ObjectIdSerialization {
     return ObjectId.fromRaw(b);
   }
 
-  private ObjectIdSerialization() {
-  }
+  private ObjectIdSerialization() {}
 }

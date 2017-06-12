@@ -72,14 +72,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 class RevisionApiImpl implements RevisionApi {
   interface Factory {
@@ -120,7 +118,8 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<GetMergeList> getMergeList;
 
   @Inject
-  RevisionApiImpl(GitRepositoryManager repoManager,
+  RevisionApiImpl(
+      GitRepositoryManager repoManager,
       Changes changes,
       CherryPick cherryPick,
       DeleteDraftPatchSet deleteDraft,
@@ -244,7 +243,10 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
       return changes.id(rebase.apply(revision, in)._number);
-    } catch (OrmException | EmailException | UpdateException | IOException
+    } catch (OrmException
+        | EmailException
+        | UpdateException
+        | IOException
         | NoSuchChangeException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
@@ -254,8 +256,7 @@ class RevisionApiImpl implements RevisionApi {
   public boolean canRebase() throws RestApiException {
     try (Repository repo = repoManager.openRepository(revision.getProject());
         RevWalk rw = new RevWalk(repo)) {
-      return rebaseUtil.canRebase(
-          revision.getPatchSet(), revision.getChange().getDest(), repo, rw);
+      return rebaseUtil.canRebase(revision.getPatchSet(), revision.getChange().getDest(), repo, rw);
     } catch (IOException e) {
       throw new RestApiException("Cannot check if rebase is possible", e);
     }
@@ -279,9 +280,7 @@ class RevisionApiImpl implements RevisionApi {
       } else {
         view = deleteReviewed;
       }
-      view.apply(
-          files.parse(revision, IdString.fromDecoded(path)),
-          new Reviewed.Input());
+      view.apply(files.parse(revision, IdString.fromDecoded(path)), new Reviewed.Input());
     } catch (Exception e) {
       throw new RestApiException("Cannot update reviewed flag", e);
     }
@@ -291,9 +290,8 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Set<String> reviewed() throws RestApiException {
     try {
-      return ImmutableSet.copyOf((Iterable<String>) listFiles
-          .setReviewed(true)
-          .apply(revision).value());
+      return ImmutableSet.copyOf(
+          (Iterable<String>) listFiles.setReviewed(true).apply(revision).value());
     } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot list reviewed files", e);
     }
@@ -322,7 +320,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, FileInfo> files() throws RestApiException {
     try {
-      return (Map<String, FileInfo>)listFiles.apply(revision).value();
+      return (Map<String, FileInfo>) listFiles.apply(revision).value();
     } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
@@ -332,8 +330,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, FileInfo> files(String base) throws RestApiException {
     try {
-      return (Map<String, FileInfo>) listFiles.setBase(base)
-          .apply(revision).value();
+      return (Map<String, FileInfo>) listFiles.setBase(base).apply(revision).value();
     } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
@@ -343,8 +340,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, FileInfo> files(int parentNum) throws RestApiException {
     try {
-      return (Map<String, FileInfo>) listFiles.setParent(parentNum)
-          .apply(revision).value();
+      return (Map<String, FileInfo>) listFiles.setParent(parentNum).apply(revision).value();
     } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
@@ -352,8 +348,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public FileApi file(String path) {
-    return fileApi.create(files.parse(revision,
-        IdString.fromDecoded(path)));
+    return fileApi.create(files.parse(revision, IdString.fromDecoded(path)));
   }
 
   @Override
@@ -413,8 +408,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public DraftApi draft(String id) throws RestApiException {
     try {
-      return draftFactory.create(drafts.parse(revision,
-          IdString.fromDecoded(id)));
+      return draftFactory.create(drafts.parse(revision, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve draft", e);
     }
@@ -425,7 +419,8 @@ class RevisionApiImpl implements RevisionApi {
     try {
       String id = createDraft.apply(revision, in).value().id;
       // Reread change to pick up new notes refs.
-      return changes.id(revision.getChange().getId().get())
+      return changes
+          .id(revision.getChange().getId().get())
           .revision(revision.getPatchSet().getId().get())
           .draft(id);
     } catch (UpdateException | OrmException e) {
@@ -436,8 +431,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public CommentApi comment(String id) throws RestApiException {
     try {
-      return commentFactory.create(comments.parse(revision,
-          IdString.fromDecoded(id)));
+      return commentFactory.create(comments.parse(revision, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve comment", e);
     }
@@ -446,8 +440,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public RobotCommentApi robotComment(String id) throws RestApiException {
     try {
-      return robotCommentFactory
-          .create(robotComments.parse(revision, IdString.fromDecoded(id)));
+      return robotCommentFactory.create(robotComments.parse(revision, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve robot comment", e);
     }
@@ -486,8 +479,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public SubmitType testSubmitType(TestSubmitRuleInput in)
-      throws RestApiException {
+  public SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException {
     try {
       return testSubmitType.apply(revision, in);
     } catch (OrmException e) {

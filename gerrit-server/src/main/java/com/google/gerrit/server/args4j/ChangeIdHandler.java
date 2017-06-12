@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -38,20 +37,20 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
   public ChangeIdHandler(
       // TODO(dborowitz): Not sure whether this is injectable here.
       Provider<InternalChangeQuery> queryProvider,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
       @Assisted final Setter<Change.Id> setter) {
     super(parser, option, setter);
     this.queryProvider = queryProvider;
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     final String[] tokens = token.split(",");
     if (tokens.length != 3) {
-      throw new CmdLineException(owner, "change should be specified as "
-                                 + "<project>,<branch>,<change-id>");
+      throw new CmdLineException(
+          owner, "change should be specified as " + "<project>,<branch>,<change-id>");
     }
 
     try {

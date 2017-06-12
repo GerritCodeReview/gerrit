@@ -48,7 +48,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -56,10 +58,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 @Ignore
 public abstract class AbstractQueryAccountsTest extends GerritServerTests {
@@ -70,38 +68,27 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return cfg;
   }
 
-  @Rule
-  public final TestName testName = new TestName();
+  @Rule public final TestName testName = new TestName();
 
-  @Inject
-  protected AccountCache accountCache;
+  @Inject protected AccountCache accountCache;
 
-  @Inject
-  protected AccountManager accountManager;
+  @Inject protected AccountManager accountManager;
 
-  @Inject
-  protected GerritApi gApi;
+  @Inject protected GerritApi gApi;
 
-  @Inject
-  protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected IdentifiedUser.GenericFactory userFactory;
 
-  @Inject
-  private Provider<AnonymousUser> anonymousUser;
+  @Inject private Provider<AnonymousUser> anonymousUser;
 
-  @Inject
-  protected InMemoryDatabase schemaFactory;
+  @Inject protected InMemoryDatabase schemaFactory;
 
-  @Inject
-  protected InternalChangeQuery internalChangeQuery;
+  @Inject protected InternalChangeQuery internalChangeQuery;
 
-  @Inject
-  protected SchemaCreator schemaCreator;
+  @Inject protected SchemaCreator schemaCreator;
 
-  @Inject
-  protected ThreadLocalRequestContext requestContext;
+  @Inject protected ThreadLocalRequestContext requestContext;
 
-  @Inject
-  protected OneOffRequestContext oneOffRequestContext;
+  @Inject protected OneOffRequestContext oneOffRequestContext;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -128,8 +115,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
-    final CurrentUser requestUser =
-        userFactory.create(requestUserId);
+    final CurrentUser requestUser = userFactory.create(requestUserId);
     return new RequestContext() {
       @Override
       public CurrentUser getUser() {
@@ -144,17 +130,18 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(new RequestContext() {
-      @Override
-      public CurrentUser getUser() {
-        return anonymousUser.get();
-      }
+    requestContext.setContext(
+        new RequestContext() {
+          @Override
+          public CurrentUser getUser() {
+            return anonymousUser.get();
+          }
 
-      @Override
-      public Provider<ReviewDb> getReviewDbProvider() {
-        return Providers.of(db);
-      }
-    });
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return Providers.of(db);
+          }
+        });
   }
 
   @After
@@ -192,11 +179,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
 
     String prefix = name("prefix");
-    AccountInfo user4 =
-        newAccountWithEmail("user4", prefix + "user4@example.com");
+    AccountInfo user4 = newAccountWithEmail("user4", prefix + "user4@example.com");
 
-    AccountInfo user5 =
-        newAccountWithEmail("user5", name("user5MixedCase@example.com"));
+    AccountInfo user5 = newAccountWithEmail("user5", name("user5MixedCase@example.com"));
 
     assertQuery("notexisting@test.com");
 
@@ -301,8 +286,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void withDetails() throws Exception {
-    AccountInfo user1 =
-        newAccount("myuser", "My User", "my.user@example.com", true);
+    AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
 
     List<AccountInfo> result = assertQuery(user1.username, user1);
     AccountInfo ai = result.get(0);
@@ -312,8 +296,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(ai.email).isNull();
     assertThat(ai.avatars).isNull();
 
-    result = assertQuery(
-        newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
     ai = result.get(0);
     assertThat(ai._accountId).isEqualTo(user1._accountId);
     assertThat(ai.name).isEqualTo(user1.name);
@@ -324,30 +307,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void withSecondaryEmails() throws Exception {
-    AccountInfo user1 =
-        newAccount("myuser", "My User", "my.user@example.com", true);
-    String[] secondaryEmails =
-        new String[] {"bar@example.com", "foo@example.com"};
+    AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
+    String[] secondaryEmails = new String[] {"bar@example.com", "foo@example.com"};
     addEmails(user1, secondaryEmails);
-
 
     List<AccountInfo> result = assertQuery(user1.username, user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
-    result = assertQuery(
-        newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
-    result = assertQuery(
-        newQuery(user1.username).withOption(ListAccountsOption.ALL_EMAILS),
-        user1);
+    result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.ALL_EMAILS), user1);
     assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
+        .inOrder();
 
-    result = assertQuery(newQuery(user1.username).withOptions(
-        ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS), user1);
+    result =
+        assertQuery(
+            newQuery(user1.username)
+                .withOptions(ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS),
+            user1);
     assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails)).inOrder();
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
+        .inOrder();
   }
 
   @Test
@@ -364,23 +346,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return newAccountWithEmail(username, null);
   }
 
-  protected AccountInfo newAccountWithEmail(String username, String email)
-      throws Exception {
+  protected AccountInfo newAccountWithEmail(String username, String email) throws Exception {
     return newAccount(username, email, true);
   }
 
-  protected AccountInfo newAccountWithFullName(String username, String fullName)
-      throws Exception {
+  protected AccountInfo newAccountWithFullName(String username, String fullName) throws Exception {
     return newAccount(username, fullName, null, true);
   }
 
-  protected AccountInfo newAccount(String username, String email,
-      boolean active) throws Exception {
+  protected AccountInfo newAccount(String username, String email, boolean active) throws Exception {
     return newAccount(username, null, email, active);
   }
 
-  protected AccountInfo newAccount(String username, String fullName,
-      String email, boolean active) throws Exception {
+  protected AccountInfo newAccount(String username, String fullName, String email, boolean active)
+      throws Exception {
     String uniqueName = name(username);
 
     try {
@@ -409,11 +388,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return name + "_" + suffix;
   }
 
-  private Account.Id createAccount(String username, String fullName,
-      String email, boolean active) throws Exception {
+  private Account.Id createAccount(String username, String fullName, String email, boolean active)
+      throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id =
-          accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
@@ -427,8 +405,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     }
   }
 
-  private void addEmails(AccountInfo account, String... emails)
-      throws Exception {
+  private void addEmails(AccountInfo account, String... emails) throws Exception {
     Account.Id id = new Account.Id(account._accountId);
     for (String email : emails) {
       accountManager.link(id, AuthRequest.forEmail(email));
@@ -440,31 +417,30 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return gApi.accounts().query(query.toString());
   }
 
-  protected List<AccountInfo> assertQuery(Object query, AccountInfo... accounts)
-      throws Exception {
+  protected List<AccountInfo> assertQuery(Object query, AccountInfo... accounts) throws Exception {
     return assertQuery(newQuery(query), accounts);
   }
 
-  protected List<AccountInfo> assertQuery(QueryRequest query,
-      AccountInfo... accounts) throws Exception {
+  protected List<AccountInfo> assertQuery(QueryRequest query, AccountInfo... accounts)
+      throws Exception {
     return assertQuery(query, Arrays.asList(accounts));
   }
 
-
-  protected List<AccountInfo> assertQuery(QueryRequest query,
-      List<AccountInfo> accounts) throws Exception {
+  protected List<AccountInfo> assertQuery(QueryRequest query, List<AccountInfo> accounts)
+      throws Exception {
     List<AccountInfo> result = query.get();
     Iterable<Integer> ids = ids(result);
-    assertThat(ids).named(format(query, result, accounts))
-        .containsExactlyElementsIn(ids(accounts)).inOrder();
+    assertThat(ids)
+        .named(format(query, result, accounts))
+        .containsExactlyElementsIn(ids(accounts))
+        .inOrder();
     return result;
   }
 
-  private String format(QueryRequest query, List<AccountInfo> actualIds,
-      List<AccountInfo> expectedAccounts) {
+  private String format(
+      QueryRequest query, List<AccountInfo> actualIds, List<AccountInfo> expectedAccounts) {
     StringBuilder b = new StringBuilder();
-    b.append("query '").append(query.getQuery())
-        .append("' with expected accounts ");
+    b.append("query '").append(query.getQuery()).append("' with expected accounts ");
     b.append(format(expectedAccounts));
     b.append(" and result ");
     b.append(format(actualIds));
@@ -477,9 +453,18 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     Iterator<AccountInfo> it = accounts.iterator();
     while (it.hasNext()) {
       AccountInfo a = it.next();
-      b.append("{").append(a._accountId).append(", ").append("name=")
-          .append(a.name).append(", ").append("email=").append(a.email)
-          .append(", ").append("username=").append(a.username).append("}");
+      b.append("{")
+          .append(a._accountId)
+          .append(", ")
+          .append("name=")
+          .append(a.name)
+          .append(", ")
+          .append("email=")
+          .append(a.email)
+          .append(", ")
+          .append("username=")
+          .append(a.username)
+          .append("}");
       if (it.hasNext()) {
         b.append(", ");
       }

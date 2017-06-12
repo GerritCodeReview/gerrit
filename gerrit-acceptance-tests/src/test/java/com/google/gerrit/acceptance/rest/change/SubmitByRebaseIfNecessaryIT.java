@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
-
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -53,33 +52,37 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteHead();
-    PushOneCommit.Result change2 =
-        createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
     RevCommit headAfterSecondSubmit = getRemoteHead();
     testRepo.reset(change.getCommit());
-    PushOneCommit.Result change3 =
-        createChange("Change 3", "a.txt", "bbb\nccc\n");
+    PushOneCommit.Result change3 = createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertRebase(testRepo, true);
     RevCommit headAfterThirdSubmit = getRemoteHead();
-    assertThat(headAfterThirdSubmit.getParent(0))
-        .isEqualTo(headAfterSecondSubmit);
+    assertThat(headAfterThirdSubmit.getParent(0)).isEqualTo(headAfterSecondSubmit);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, headAfterThirdSubmit);
     assertSubmitter(change3.getChangeId(), 1);
     assertSubmitter(change3.getChangeId(), 2);
 
-    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
-        headAfterFirstSubmit, headAfterSecondSubmit,
-        headAfterSecondSubmit, headAfterThirdSubmit);
-    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
-        change2.getChangeId(), headAfterSecondSubmit.name(),
-        change3.getChangeId(), headAfterThirdSubmit.name());
+    assertRefUpdatedEvents(
+        initialHead,
+        headAfterFirstSubmit,
+        headAfterFirstSubmit,
+        headAfterSecondSubmit,
+        headAfterSecondSubmit,
+        headAfterThirdSubmit);
+    assertChangeMergedEvents(
+        change.getChangeId(),
+        headAfterFirstSubmit.name(),
+        change2.getChangeId(),
+        headAfterSecondSubmit.name(),
+        change3.getChangeId(),
+        headAfterThirdSubmit.name());
   }
 }

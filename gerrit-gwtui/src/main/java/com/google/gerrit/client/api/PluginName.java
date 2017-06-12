@@ -21,11 +21,10 @@ import com.google.gwt.core.client.JsArrayString;
 /**
  * Determines the name a plugin has been installed under.
  *
- * This implementation guesses the name a plugin runs under by looking at the
- * JavaScript call stack and identifying the URL of the script file calling
- * {@code Gerrit.install()}. The simple approach applied here is looking at
- * the source URLs and extracting the name out of the string, e.g.:
- * {@code "http://localhost:8080/plugins/[name]/static/foo.js"}.
+ * <p>This implementation guesses the name a plugin runs under by looking at the JavaScript call
+ * stack and identifying the URL of the script file calling {@code Gerrit.install()}. The simple
+ * approach applied here is looking at the source URLs and extracting the name out of the string,
+ * e.g.: {@code "http://localhost:8080/plugins/[name]/static/foo.js"}.
  */
 class PluginName {
   private static final String UNKNOWN = "<unknown>";
@@ -35,7 +34,7 @@ class PluginName {
   }
 
   static String getCallerUrl() {
-    return GWT.<PluginName> create(PluginName.class).findCallerUrl();
+    return GWT.<PluginName>create(PluginName.class).findCallerUrl();
   }
 
   static String fromUrl(String url) {
@@ -74,10 +73,9 @@ class PluginName {
   }
 
   protected static final native JavaScriptException makeException()
-  /*-{ try { null.a() } catch (e) { return e } }-*/;
+      /*-{ try { null.a() } catch (e) { return e } }-*/ ;
 
-  private static native boolean hasStack(JavaScriptException e)
-  /*-{ return !!e.stack }-*/;
+  private static native boolean hasStack(JavaScriptException e)/*-{ return !!e.stack }-*/ ;
 
   /** Extracts URL from the stack frame. */
   static class PluginNameMoz extends PluginName {
@@ -104,6 +102,6 @@ class PluginName {
     }
 
     private static native JsArrayString getStack(JavaScriptException e)
-    /*-{ return e.stack ? e.stack.split('\n') : [] }-*/;
+        /*-{ return e.stack ? e.stack.split('\n') : [] }-*/ ;
   }
 }

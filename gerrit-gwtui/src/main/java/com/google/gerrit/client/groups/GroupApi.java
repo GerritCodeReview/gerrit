@@ -24,13 +24,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.Set;
 
-/**
- * A collection of static methods which work on the Gerrit REST API for specific
- * groups.
- */
+/** A collection of static methods which work on the Gerrit REST API for specific groups. */
 public class GroupApi {
   /** Create a new group */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
@@ -43,36 +39,38 @@ public class GroupApi {
   }
 
   /** Get the name of a group */
-  public static void getGroupName(AccountGroup.UUID group,
-      AsyncCallback<NativeString> cb) {
+  public static void getGroupName(AccountGroup.UUID group, AsyncCallback<NativeString> cb) {
     group(group).view("name").get(cb);
   }
 
   /** Check if the current user is owner of a group */
   public static void isGroupOwner(String groupName, final AsyncCallback<Boolean> cb) {
-    GroupMap.myOwned(groupName, new AsyncCallback<GroupMap>() {
-      @Override
-      public void onSuccess(GroupMap result) {
-        cb.onSuccess(!result.isEmpty());
-      }
-      @Override
-      public void onFailure(Throwable caught) {
-        cb.onFailure(caught);
-      }
-    });
+    GroupMap.myOwned(
+        groupName,
+        new AsyncCallback<GroupMap>() {
+          @Override
+          public void onSuccess(GroupMap result) {
+            cb.onSuccess(!result.isEmpty());
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            cb.onFailure(caught);
+          }
+        });
   }
 
   /** Rename a group */
-  public static void renameGroup(AccountGroup.UUID group,
-      String newName, AsyncCallback<VoidResult> cb) {
+  public static void renameGroup(
+      AccountGroup.UUID group, String newName, AsyncCallback<VoidResult> cb) {
     GroupInput in = GroupInput.create();
     in.name(newName);
     group(group).view("name").put(in, cb);
   }
 
   /** Set description for a group */
-  public static void setGroupDescription(AccountGroup.UUID group,
-      String description, AsyncCallback<VoidResult> cb) {
+  public static void setGroupDescription(
+      AccountGroup.UUID group, String description, AsyncCallback<VoidResult> cb) {
     RestApi call = group(group).view("description");
     if (description != null && !description.isEmpty()) {
       GroupInput in = GroupInput.create();
@@ -84,33 +82,33 @@ public class GroupApi {
   }
 
   /** Set owner for a group */
-  public static void setGroupOwner(AccountGroup.UUID group,
-      String owner, AsyncCallback<GroupInfo> cb) {
+  public static void setGroupOwner(
+      AccountGroup.UUID group, String owner, AsyncCallback<GroupInfo> cb) {
     GroupInput in = GroupInput.create();
     in.owner(owner);
     group(group).view("owner").put(in, cb);
   }
 
   /** Set the options for a group */
-  public static void setGroupOptions(AccountGroup.UUID group,
-      boolean isVisibleToAll, AsyncCallback<VoidResult> cb) {
+  public static void setGroupOptions(
+      AccountGroup.UUID group, boolean isVisibleToAll, AsyncCallback<VoidResult> cb) {
     GroupOptionsInput in = GroupOptionsInput.create();
     in.visibleToAll(isVisibleToAll);
     group(group).view("options").put(in, cb);
   }
 
   /** Add member to a group. */
-  public static void addMember(AccountGroup.UUID group, String member,
-      AsyncCallback<AccountInfo> cb) {
+  public static void addMember(
+      AccountGroup.UUID group, String member, AsyncCallback<AccountInfo> cb) {
     members(group).id(member).put(cb);
   }
 
   /** Add members to a group. */
-  public static void addMembers(AccountGroup.UUID group,
-      Set<String> members,
-      final AsyncCallback<JsArray<AccountInfo>> cb) {
+  public static void addMembers(
+      AccountGroup.UUID group, Set<String> members, final AsyncCallback<JsArray<AccountInfo>> cb) {
     if (members.size() == 1) {
-      addMember(group,
+      addMember(
+          group,
           members.iterator().next(),
           new AsyncCallback<AccountInfo>() {
             @Override
@@ -133,8 +131,8 @@ public class GroupApi {
   }
 
   /** Remove members from a group. */
-  public static void removeMembers(AccountGroup.UUID group,
-      Set<Integer> ids, final AsyncCallback<VoidResult> cb) {
+  public static void removeMembers(
+      AccountGroup.UUID group, Set<Integer> ids, final AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
       members(group).id(ids.iterator().next().toString()).delete(cb);
     } else {
@@ -147,17 +145,19 @@ public class GroupApi {
   }
 
   /** Include a group into a group. */
-  public static void addIncludedGroup(AccountGroup.UUID group, String include,
-      AsyncCallback<GroupInfo> cb) {
+  public static void addIncludedGroup(
+      AccountGroup.UUID group, String include, AsyncCallback<GroupInfo> cb) {
     groups(group).id(include).put(cb);
   }
 
   /** Include groups into a group. */
-  public static void addIncludedGroups(AccountGroup.UUID group,
+  public static void addIncludedGroups(
+      AccountGroup.UUID group,
       Set<String> includedGroups,
       final AsyncCallback<JsArray<GroupInfo>> cb) {
     if (includedGroups.size() == 1) {
-      addIncludedGroup(group,
+      addIncludedGroup(
+          group,
           includedGroups.iterator().next(),
           new AsyncCallback<GroupInfo>() {
             @Override
@@ -180,8 +180,8 @@ public class GroupApi {
   }
 
   /** Remove included groups from a group. */
-  public static void removeIncludedGroups(AccountGroup.UUID group,
-      Set<AccountGroup.UUID> ids, final AsyncCallback<VoidResult> cb) {
+  public static void removeIncludedGroups(
+      AccountGroup.UUID group, Set<AccountGroup.UUID> ids, final AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
       AccountGroup.UUID g = ids.iterator().next();
       groups(group).id(g.get()).delete(cb);
@@ -195,8 +195,8 @@ public class GroupApi {
   }
 
   /** Get audit log of a group. */
-  public static void getAuditLog(AccountGroup.UUID group,
-      AsyncCallback<JsArray<GroupAuditEventInfo>> cb) {
+  public static void getAuditLog(
+      AccountGroup.UUID group, AsyncCallback<JsArray<GroupAuditEventInfo>> cb) {
     group(group).view("log.audit").get(cb);
   }
 
@@ -218,15 +218,16 @@ public class GroupApi {
 
   private static class GroupInput extends JavaScriptObject {
     final native void description(String d) /*-{ if(d)this.description=d; }-*/;
+
     final native void name(String n) /*-{ if(n)this.name=n; }-*/;
+
     final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
 
     static GroupInput create() {
       return (GroupInput) createObject();
     }
 
-    protected GroupInput() {
-    }
+    protected GroupInput() {}
   }
 
   private static class GroupOptionsInput extends JavaScriptObject {
@@ -236,12 +237,12 @@ public class GroupApi {
       return (GroupOptionsInput) createObject();
     }
 
-    protected GroupOptionsInput() {
-    }
+    protected GroupOptionsInput() {}
   }
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;
+
     final native void addMember(String n) /*-{ this.members.push(n); }-*/;
 
     static MemberInput create() {
@@ -250,12 +251,12 @@ public class GroupApi {
       return m;
     }
 
-    protected MemberInput() {
-    }
+    protected MemberInput() {}
   }
 
   private static class IncludedGroupInput extends JavaScriptObject {
     final native void init() /*-{ this.groups = []; }-*/;
+
     final native void addGroup(String n) /*-{ this.groups.push(n); }-*/;
 
     static IncludedGroupInput create() {
@@ -264,7 +265,6 @@ public class GroupApi {
       return g;
     }
 
-    protected IncludedGroupInput() {
-    }
+    protected IncludedGroupInput() {}
   }
 }

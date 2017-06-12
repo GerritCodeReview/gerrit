@@ -26,7 +26,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.SyntaxException;
 import com.googlecode.prolog_cafe.exceptions.TermException;
@@ -39,15 +38,6 @@ import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-
-import org.eclipse.jgit.errors.LargeObjectException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
@@ -65,24 +55,28 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Manages a cache of compiled Prolog rules.
- * <p>
- * Rules are loaded from the {@code site_path/cache/rules/rules-SHA1.jar}, where
- * {@code SHA1} is the SHA1 of the Prolog {@code rules.pl} in a project's
- * {@link RefNames#REFS_CONFIG} branch.
+ *
+ * <p>Rules are loaded from the {@code site_path/cache/rules/rules-SHA1.jar}, where {@code SHA1} is
+ * the SHA1 of the Prolog {@code rules.pl} in a project's {@link RefNames#REFS_CONFIG} branch.
  */
 @Singleton
 public class RulesCache {
-  private static final List<String> PACKAGE_LIST = ImmutableList.of(
-      Prolog.BUILTIN, "gerrit");
+  private static final List<String> PACKAGE_LIST = ImmutableList.of(Prolog.BUILTIN, "gerrit");
 
   private static final class MachineRef extends WeakReference<PrologMachineCopy> {
     final ObjectId key;
 
-    MachineRef(ObjectId key, PrologMachineCopy pcm,
-        ReferenceQueue<PrologMachineCopy> queue) {
+    MachineRef(ObjectId key, PrologMachineCopy pcm, ReferenceQueue<PrologMachineCopy> queue) {
       super(pcm, queue);
       this.key = key;
     }
@@ -98,16 +92,17 @@ public class RulesCache {
   private final ClassLoader systemLoader;
   private final PrologMachineCopy defaultMachine;
   private final Map<ObjectId, MachineRef> machineCache = new HashMap<>();
-  private final ReferenceQueue<PrologMachineCopy> dead =
-      new ReferenceQueue<>();
+  private final ReferenceQueue<PrologMachineCopy> dead = new ReferenceQueue<>();
 
   @Inject
-  protected RulesCache(@GerritServerConfig Config config, SitePaths site,
-      GitRepositoryManager gm, DynamicSet<PredicateProvider> predicateProviders) {
+  protected RulesCache(
+      @GerritServerConfig Config config,
+      SitePaths site,
+      GitRepositoryManager gm,
+      DynamicSet<PredicateProvider> predicateProviders) {
     maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
     maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
-    enableProjectRules = config.getBoolean("rules", null, "enable", true)
-        && maxSrcBytes > 0;
+    enableProjectRules = config.getBoolean("rules", null, "enable", true) && maxSrcBytes > 0;
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     gitMgr = gm;
@@ -127,9 +122,7 @@ public class RulesCache {
    * @return a Prolog machine, after loading the specified rules.
    * @throws CompileException the machine cannot be created.
    */
-  public synchronized PrologMachineCopy loadMachine(
-      Project.NameKey project,
-      ObjectId rulesId)
+  public synchronized PrologMachineCopy loadMachine(Project.NameKey project, ObjectId rulesId)
       throws CompileException {
     if (!enableProjectRules || project == null || rulesId == null) {
       return defaultMachine;
@@ -154,8 +147,7 @@ public class RulesCache {
     return pcm;
   }
 
-  public PrologMachineCopy loadMachine(String name, Reader in)
-      throws CompileException {
+  public PrologMachineCopy loadMachine(String name, Reader in) throws CompileException {
     PrologMachineCopy pmc = consultRules(name, in);
     if (pmc == null) {
       throw new CompileException("Cannot consult rules from the stream " + name);
@@ -173,8 +165,8 @@ public class RulesCache {
     }
   }
 
-  private PrologMachineCopy createMachine(Project.NameKey project,
-      ObjectId rulesId) throws CompileException {
+  private PrologMachineCopy createMachine(Project.NameKey project, ObjectId rulesId)
+      throws CompileException {
     // If the rules are available as a complied JAR on local disk, prefer
     // that over dynamic consult as the bytecode will be faster.
     //
@@ -196,29 +188,26 @@ public class RulesCache {
     return pmc;
   }
 
-  private PrologMachineCopy consultRules(String name, Reader rules)
-      throws CompileException {
+  private PrologMachineCopy consultRules(String name, Reader rules) throws CompileException {
     BufferingPrologControl ctl = newEmptyMachine(systemLoader);
     PushbackReader in = new PushbackReader(rules, Prolog.PUSHBACK_SIZE);
     try {
-      if (!ctl.execute(Prolog.BUILTIN, "consult_stream",
-          SymbolTerm.intern(name), new JavaObjectTerm(in))) {
+      if (!ctl.execute(
+          Prolog.BUILTIN, "consult_stream", SymbolTerm.intern(name), new JavaObjectTerm(in))) {
         return null;
       }
     } catch (SyntaxException e) {
       throw new CompileException(e.toString(), e);
     } catch (TermException e) {
       Term m = e.getMessageTerm();
-      if (m instanceof StructureTerm && "syntax_error".equals(m.name())
-          && m.arity() >= 1) {
+      if (m instanceof StructureTerm && "syntax_error".equals(m.name()) && m.arity() >= 1) {
         StringBuilder msg = new StringBuilder();
         if (m.arg(0) instanceof ListTerm) {
           msg.append(Joiner.on(' ').join(((ListTerm) m.arg(0)).toJava()));
         } else {
           msg.append(m.arg(0).toString());
         }
-        if (m.arity() == 2 && m.arg(1) instanceof StructureTerm
-            && "at".equals(m.arg(1).name())) {
+        if (m.arity() == 2 && m.arg(1) instanceof StructureTerm && "at".equals(m.arg(1).name())) {
           Term at = m.arg(1).arg(0).dereference();
           if (at instanceof ListTerm) {
             msg.append(" at: ");
@@ -259,8 +248,7 @@ public class RulesCache {
     return b.toString().trim();
   }
 
-  private String read(Project.NameKey project, ObjectId rulesId)
-      throws CompileException {
+  private String read(Project.NameKey project, ObjectId rulesId) throws CompileException {
     try (Repository git = gitMgr.openRepository(project)) {
       try {
         ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);
@@ -279,8 +267,8 @@ public class RulesCache {
   private BufferingPrologControl newEmptyMachine(ClassLoader cl) {
     BufferingPrologControl ctl = new BufferingPrologControl();
     ctl.setMaxDatabaseSize(maxDbSize);
-    ctl.setPrologClassLoader(new PrologClassLoader(new PredicateClassLoader(
-        predicateProviders, cl)));
+    ctl.setPrologClassLoader(
+        new PrologClassLoader(new PredicateClassLoader(predicateProviders, cl)));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
 
     List<String> packages = new ArrayList<>();

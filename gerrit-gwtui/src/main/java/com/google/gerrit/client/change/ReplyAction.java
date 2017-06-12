@@ -52,9 +52,7 @@ class ReplyAction {
       CommentLinkProcessor clp,
       Widget replyButton,
       Widget quickApproveButton) {
-    this.psId = new PatchSet.Id(
-        info.legacyId(),
-        info.revisions().get(revision)._number());
+    this.psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
     this.revision = revision;
     this.hasDraftComments = hasDraftComments;
     this.style = style;
@@ -64,9 +62,10 @@ class ReplyAction {
 
     boolean current = revision.equals(info.currentRevision());
     allLabels = info.allLabels();
-    permittedLabels = current && info.hasPermittedLabels()
-        ? info.permittedLabels()
-        : NativeMap.<JsArrayString> create();
+    permittedLabels =
+        current && info.hasPermittedLabels()
+            ? info.permittedLabels()
+            : NativeMap.<JsArrayString>create();
   }
 
   boolean isVisible() {
@@ -91,12 +90,7 @@ class ReplyAction {
     }
 
     if (replyBox == null) {
-      replyBox = new ReplyBox(
-          clp,
-          psId,
-          revision,
-          allLabels,
-          permittedLabels);
+      replyBox = new ReplyBox(clp, psId, revision, allLabels, permittedLabels);
       allLabels = null;
       permittedLabels = null;
     }
@@ -108,17 +102,18 @@ class ReplyAction {
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(replyButton.getElement());
     p.addAutoHidePartner(quickApproveButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          popup = null;
-          if (hasDraftComments || replyBox.hasMessage()) {
-            replyButton.setStyleName(style.highlight());
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              popup = null;
+              if (hasDraftComments || replyBox.hasMessage()) {
+                replyButton.setStyleName(style.highlight());
+              }
+            }
           }
-        }
-      }
-    });
+        });
     p.add(replyBox);
     Window.scrollTo(0, 0);
     replyButton.removeStyleName(style.highlight());

@@ -29,27 +29,28 @@ class SubmitAction {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
       final Change.Id changeId = changeInfo.legacyId();
       ChangeApi.submit(
-        changeId.get(), revisionInfo.name(),
-        new GerritCallback<SubmitInfo>() {
-          @Override
-          public void onSuccess(SubmitInfo result) {
-            redisplay();
-          }
-
-          @Override
-          public void onFailure(Throwable err) {
-            if (SubmitFailureDialog.isConflict(err)) {
-              new SubmitFailureDialog(err.getMessage()).center();
-            } else {
-              super.onFailure(err);
+          changeId.get(),
+          revisionInfo.name(),
+          new GerritCallback<SubmitInfo>() {
+            @Override
+            public void onSuccess(SubmitInfo result) {
+              redisplay();
             }
-            redisplay();
-          }
 
-          private void redisplay() {
-            Gerrit.display(PageLinks.toChange(changeId));
-          }
-        });
+            @Override
+            public void onFailure(Throwable err) {
+              if (SubmitFailureDialog.isConflict(err)) {
+                new SubmitFailureDialog(err.getMessage()).center();
+              } else {
+                super.onFailure(err);
+              }
+              redisplay();
+            }
+
+            private void redisplay() {
+              Gerrit.display(PageLinks.toChange(changeId));
+            }
+          });
     }
   }
 }

@@ -16,7 +16,6 @@ package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -65,8 +64,7 @@ public class KeyCommandSet implements KeyPressHandler {
 
   public void add(final KeyCommand k) {
     assert !map.containsKey(k.keyMask)
-         : "Key " + k.describeKeyStroke().asString()
-         + " already registered";
+        : "Key " + k.describeKeyStroke().asString() + " already registered";
     if (!map.containsKey(k.keyMask)) {
       map.put(k.keyMask, k);
     }
@@ -103,7 +101,7 @@ public class KeyCommandSet implements KeyPressHandler {
         s.filter(filter);
       }
     }
-    for (final Iterator<KeyCommand> i = map.values().iterator(); i.hasNext();) {
+    for (final Iterator<KeyCommand> i = map.values().iterator(); i.hasNext(); ) {
       final KeyCommand kc = i.next();
       if (!filter.include(kc)) {
         i.remove();
@@ -118,7 +116,7 @@ public class KeyCommandSet implements KeyPressHandler {
   }
 
   public Collection<KeyCommandSet> getSets() {
-    return sets != null ? sets : Collections.<KeyCommandSet> emptyList();
+    return sets != null ? sets : Collections.<KeyCommandSet>emptyList();
   }
 
   @Override

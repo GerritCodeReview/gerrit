@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -84,8 +83,7 @@ class CommentsCollections {
       }
 
       @Override
-      public void onFailure(Throwable caught) {
-      }
+      public void onFailure(Throwable caught) {}
     };
   }
 
@@ -101,24 +99,23 @@ class CommentsCollections {
       }
 
       @Override
-      public void onFailure(Throwable caught) {
-      }
+      public void onFailure(Throwable caught) {}
     };
   }
 
-    private JsArray<CommentInfo> filterForParent(JsArray<CommentInfo> list) {
-      JsArray<CommentInfo> result = JsArray.createArray().cast();
-      for (CommentInfo c : Natives.asList(list)) {
-        if (c.side() == Side.REVISION) {
-          result.push(c);
-        } else if (base.isBaseOrAutoMerge() && !c.hasParent()) {
-          result.push(c);
-        } else if (base.isParent() && c.parent() == base.getParentNum()) {
-          result.push(c);
-        }
+  private JsArray<CommentInfo> filterForParent(JsArray<CommentInfo> list) {
+    JsArray<CommentInfo> result = JsArray.createArray().cast();
+    for (CommentInfo c : Natives.asList(list)) {
+      if (c.side() == Side.REVISION) {
+        result.push(c);
+      } else if (base.isBaseOrAutoMerge() && !c.hasParent()) {
+        result.push(c);
+      } else if (base.isParent() && c.parent() == base.getParentNum()) {
+        result.push(c);
       }
-      return result;
     }
+    return result;
+  }
 
   private AsyncCallback<NativeMap<JsArray<CommentInfo>>> draftsBase() {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -128,8 +125,7 @@ class CommentsCollections {
       }
 
       @Override
-      public void onFailure(Throwable caught) {
-      }
+      public void onFailure(Throwable caught) {}
     };
   }
 
@@ -144,8 +140,7 @@ class CommentsCollections {
       }
 
       @Override
-      public void onFailure(Throwable caught) {
-      }
+      public void onFailure(Throwable caught) {}
     };
   }
 
@@ -154,12 +149,14 @@ class CommentsCollections {
       for (CommentInfo c : Natives.asList(in)) {
         c.path(path);
       }
-      Collections.sort(Natives.asList(in), new Comparator<CommentInfo>() {
-        @Override
-        public int compare(CommentInfo a, CommentInfo b) {
-          return a.updated().compareTo(b.updated());
-        }
-      });
+      Collections.sort(
+          Natives.asList(in),
+          new Comparator<CommentInfo>() {
+            @Override
+            public int compare(CommentInfo a, CommentInfo b) {
+              return a.updated().compareTo(b.updated());
+            }
+          });
     }
     return in;
   }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
-
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -32,8 +31,12 @@ public class CommitReceivedEvent extends RefEvent {
     super(TYPE);
   }
 
-  public CommitReceivedEvent(ReceiveCommand command, Project project,
-      String refName, RevCommit commit, IdentifiedUser user) {
+  public CommitReceivedEvent(
+      ReceiveCommand command,
+      Project project,
+      String refName,
+      RevCommit commit,
+      IdentifiedUser user) {
     this();
     this.command = command;
     this.project = project;

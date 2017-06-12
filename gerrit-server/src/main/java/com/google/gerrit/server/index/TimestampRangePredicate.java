@@ -16,7 +16,6 @@ package com.google.gerrit.server.index;
 
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;
-
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -31,11 +30,11 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
     }
   }
 
-  protected TimestampRangePredicate(FieldDef<I, Timestamp> def,
-      String name, String value) {
+  protected TimestampRangePredicate(FieldDef<I, Timestamp> def, String name, String value) {
     super(def, name, value);
   }
 
   public abstract Date getMinTimestamp();
+
   public abstract Date getMaxTimestamp();
 }

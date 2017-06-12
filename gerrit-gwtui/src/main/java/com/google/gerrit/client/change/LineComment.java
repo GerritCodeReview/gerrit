@@ -32,6 +32,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class LineComment extends Composite {
   interface Binder extends UiBinder<HTMLPanel, LineComment> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Element sideLoc;
@@ -42,9 +43,7 @@ class LineComment extends Composite {
   @UiField InlineHyperlink line;
   @UiField Element message;
 
-  LineComment(CommentLinkProcessor clp,
-      PatchSet.Id defaultPs,
-      CommentInfo info) {
+  LineComment(CommentLinkProcessor clp, PatchSet.Id defaultPs, CommentInfo info) {
     initWidget(uiBinder.createAndBindUi(this));
 
     PatchSet.Id ps;
@@ -81,14 +80,17 @@ class LineComment extends Composite {
     }
 
     if (info.message() != null) {
-      message.setInnerSafeHtml(clp.apply(new SafeHtmlBuilder()
-          .append(info.message().trim()).wikify()));
+      message.setInnerSafeHtml(
+          clp.apply(new SafeHtmlBuilder().append(info.message().trim()).wikify()));
       ApiGlue.fireEvent("comment", message);
     }
   }
 
   private static String url(PatchSet.Id ps, CommentInfo info) {
-    return Dispatcher.toPatch(null, ps, info.path(),
+    return Dispatcher.toPatch(
+        null,
+        ps,
+        info.path(),
         info.side() == Side.PARENT ? DisplaySide.A : DisplaySide.B,
         info.line());
   }

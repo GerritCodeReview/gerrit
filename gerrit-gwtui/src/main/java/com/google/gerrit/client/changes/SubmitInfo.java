@@ -24,6 +24,5 @@ public class SubmitInfo extends JavaScriptObject {
 
   private native String statusRaw() /*-{ return this.status; }-*/;
 
-  protected SubmitInfo() {
-  }
+  protected SubmitInfo() {}
 }

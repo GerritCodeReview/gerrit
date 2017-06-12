@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +22,7 @@ import java.util.Map;
 /** In-memory table of {@link AccountInfo}, indexed by {@code Account.Id}. */
 public class AccountInfoCache {
   private static final AccountInfoCache EMPTY;
+
   static {
     EMPTY = new AccountInfoCache();
     EMPTY.accounts = Collections.emptyMap();
@@ -35,8 +35,7 @@ public class AccountInfoCache {
 
   protected Map<Account.Id, AccountInfo> accounts;
 
-  protected AccountInfoCache() {
-  }
+  protected AccountInfoCache() {}
 
   public AccountInfoCache(final Iterable<AccountInfo> list) {
     accounts = new HashMap<>();
@@ -47,12 +46,13 @@ public class AccountInfoCache {
 
   /**
    * Lookup the account summary
-   * <p>
-   * The return value can take on one of three forms:
+   *
+   * <p>The return value can take on one of three forms:
+   *
    * <ul>
-   * <li>{@code null}, if {@code id == null}.</li>
-   * <li>a valid info block, if {@code id} was loaded.</li>
-   * <li>an anonymous info block, if {@code id} was not loaded.</li>
+   *   <li>{@code null}, if {@code id == null}.
+   *   <li>a valid info block, if {@code id} was loaded.
+   *   <li>an anonymous info block, if {@code id} was not loaded.
    * </ul>
    *
    * @param id the id desired.

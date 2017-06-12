@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.systemstatus;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -38,22 +37,17 @@ public abstract class MessageOfTheDay {
 
   /**
    * Unique identifier for this message.
-   * <p>
-   * Messages with the same identifier will be hidden from the user until
-   * redisplay has occurred.
-   * </p>
    *
-   * @return unique message identifier. This identifier should be unique within
-   *         the server.
+   * <p>Messages with the same identifier will be hidden from the user until redisplay has occurred.
+   *
+   * @return unique message identifier. This identifier should be unique within the server.
    */
   public abstract String getMessageId();
 
   /**
    * When should the message be displayed?
    *
-   * <p>
-   * Default implementation returns {@code tomorrow at 00:00:00 GMT}.
-   * </p>
+   * <p>Default implementation returns {@code tomorrow at 00:00:00 GMT}.
    *
    * @return a future date after which the message should be redisplayed.
    */

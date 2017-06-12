@@ -16,11 +16,9 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.GitRepositoryManager;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 public class ProjectUtil {
 
@@ -29,16 +27,14 @@ public class ProjectUtil {
    *
    * @param repoManager Git repository manager to open the git repository
    * @param branch the branch for which it should be checked if it exists
-   * @return {@code true} if the specified branch exists or if
-   *         {@code HEAD} points to this branch, otherwise
-   *         {@code false}
-   * @throws RepositoryNotFoundException the repository of the branch's project
-   *         does not exist.
+   * @return {@code true} if the specified branch exists or if {@code HEAD} points to this branch,
+   *     otherwise {@code false}
+   * @throws RepositoryNotFoundException the repository of the branch's project does not exist.
    * @throws IOException error while retrieving the branch from the repository.
    */
-  public static boolean branchExists(final GitRepositoryManager repoManager,
-      final Branch.NameKey branch) throws RepositoryNotFoundException,
-      IOException {
+  public static boolean branchExists(
+      final GitRepositoryManager repoManager, final Branch.NameKey branch)
+      throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(branch.getParentKey())) {
       boolean exists = repo.getRefDatabase().exactRef(branch.get()) != null;
       if (!exists) {

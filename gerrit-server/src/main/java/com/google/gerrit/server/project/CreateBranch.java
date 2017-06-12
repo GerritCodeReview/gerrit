@@ -30,7 +30,7 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,8 +41,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class CreateBranch implements RestModifyView<ProjectResource, BranchInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
@@ -59,7 +57,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private String ref;
 
   @Inject
-  CreateBranch(Provider<IdentifiedUser> identifiedUser,
+  CreateBranch(
+      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated,
@@ -69,15 +68,13 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     this.repoManager = repoManager;
     this.db = db;
     this.referenceUpdated = referenceUpdated;
-    this.refCreationValidator =
-        refHelperFactory.create(ReceiveCommand.Type.CREATE);
+    this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.ref = ref;
   }
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException,
-      IOException {
+      throws BadRequestException, AuthException, ResourceConflictException, IOException {
     if (input == null) {
       input = new BranchInput();
     }
@@ -95,8 +92,10 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       throw new BadRequestException("invalid branch name \"" + ref + "\"");
     }
     if (MagicBranch.isMagicBranch(ref)) {
-      throw new BadRequestException("not allowed to create branches under \""
-          + MagicBranch.getMagicRefNamePrefix(ref) + "\"");
+      throw new BadRequestException(
+          "not allowed to create branches under \""
+              + MagicBranch.getMagicRefNamePrefix(ref)
+              + "\"");
     }
 
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
@@ -127,28 +126,31 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
-        refCreationValidator.validateRefOperation(
-            rsrc.getName(), identifiedUser.get(), u);
+        refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(
-                name.getParentKey(), u, ReceiveCommand.Type.CREATE,
+                name.getParentKey(),
+                u,
+                ReceiveCommand.Type.CREATE,
                 identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {
-              throw new ResourceConflictException("branch \"" + ref
-                  + "\" already exists");
+              throw new ResourceConflictException("branch \"" + ref + "\" already exists");
             }
             String refPrefix = RefUtil.getRefPrefix(ref);
             while (!Constants.R_HEADS.equals(refPrefix)) {
               if (repo.getRefDatabase().exactRef(refPrefix) != null) {
-                throw new ResourceConflictException("Cannot create branch \""
-                    + ref + "\" since it conflicts with branch \"" + refPrefix
-                    + "\".");
+                throw new ResourceConflictException(
+                    "Cannot create branch \""
+                        + ref
+                        + "\" since it conflicts with branch \""
+                        + refPrefix
+                        + "\".");
               }
               refPrefix = RefUtil.getRefPrefix(refPrefix);
             }
@@ -159,9 +161,10 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
-          default: {
-            throw new IOException(result.name());
-          }
+          default:
+            {
+              throw new IOException(result.name());
+            }
         }
 
         BranchInfo info = new BranchInfo();

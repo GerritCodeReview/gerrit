@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.mail.Address;
-
 import java.util.Collection;
 import java.util.Map;
 
@@ -34,44 +33,44 @@ public interface EmailSender {
   boolean canEmail(String address);
 
   /**
-   * Sends an email message. Messages always contain a text body, but messages
-   * can optionally include an additional HTML body. If both body types are
-   * present, {@code send} should construct a {@code multipart/alternative}
-   * message with an appropriately-selected boundary.
+   * Sends an email message. Messages always contain a text body, but messages can optionally
+   * include an additional HTML body. If both body types are present, {@code send} should construct
+   * a {@code multipart/alternative} message with an appropriately-selected boundary.
    *
    * @param from who the message is from.
-   * @param rcpt one or more address where the message will be delivered to.
-   *        This list overrides any To or CC headers in {@code headers}.
+   * @param rcpt one or more address where the message will be delivered to. This list overrides any
+   *     To or CC headers in {@code headers}.
    * @param headers message headers.
-   * @param textBody text to appear in the {@code text/plain} body of the
-   *        message.
-   * @param htmlBody optional HTML code to appear in the {@code text/html} body
-   *        of the message.
+   * @param textBody text to appear in the {@code text/plain} body of the message.
+   * @param htmlBody optional HTML code to appear in the {@code text/html} body of the message.
    * @throws EmailException the message cannot be sent.
    */
-  default void send(Address from, Collection<Address> rcpt,
-      Map<String, EmailHeader> headers, String textBody,
-      @Nullable String htmlBody) throws EmailException {
+  default void send(
+      Address from,
+      Collection<Address> rcpt,
+      Map<String, EmailHeader> headers,
+      String textBody,
+      @Nullable String htmlBody)
+      throws EmailException {
     send(from, rcpt, headers, textBody);
   }
 
   /**
    * Sends an email message with a text body only (i.e. not HTML or multipart).
    *
-   * Authors of new implementations of this interface should not use this method
-   * to send a message because this method does not accept the HTML body.
-   * Instead, authors should use the above signature of {@code send}.
+   * <p>Authors of new implementations of this interface should not use this method to send a
+   * message because this method does not accept the HTML body. Instead, authors should use the
+   * above signature of {@code send}.
    *
-   * This version of the method is preserved for support of legacy
-   * implementations.
+   * <p>This version of the method is preserved for support of legacy implementations.
    *
    * @param from who the message is from.
-   * @param rcpt one or more address where the message will be delivered to.
-   *        This list overrides any To or CC headers in {@code headers}.
+   * @param rcpt one or more address where the message will be delivered to. This list overrides any
+   *     To or CC headers in {@code headers}.
    * @param headers message headers.
    * @param body text to appear in the body of the message.
    * @throws EmailException the message cannot be sent.
    */
-  void send(Address from, Collection<Address> rcpt,
-      Map<String, EmailHeader> headers, String body) throws EmailException;
+  void send(Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body)
+      throws EmailException;
 }

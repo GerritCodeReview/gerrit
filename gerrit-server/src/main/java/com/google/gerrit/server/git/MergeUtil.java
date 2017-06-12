@@ -47,7 +47,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -77,41 +84,29 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Utility methods used during the merge process.
- * <p>
- * <strong>Note:</strong> Unless otherwise specified, the methods in this class
- * <strong>do not</strong> flush {@link ObjectInserter}s. Callers that want to
- * read back objects before flushing should use {@link
- * ObjectInserter#newReader()}. This is already the default behavior of {@code
- * BatchUpdate}.
+ *
+ * <p><strong>Note:</strong> Unless otherwise specified, the methods in this class <strong>do
+ * not</strong> flush {@link ObjectInserter}s. Callers that want to read back objects before
+ * flushing should use {@link ObjectInserter#newReader()}. This is already the default behavior of
+ * {@code BatchUpdate}.
  */
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
-  private static final String R_HEADS_MASTER =
-      Constants.R_HEADS + Constants.MASTER;
+  private static final String R_HEADS_MASTER = Constants.R_HEADS + Constants.MASTER;
 
   public static boolean useRecursiveMerge(Config cfg) {
     return cfg.getBoolean("core", null, "useRecursiveMerge", true);
   }
 
   public static ThreeWayMergeStrategy getMergeStrategy(Config cfg) {
-    return useRecursiveMerge(cfg)
-        ? MergeStrategy.RECURSIVE
-        : MergeStrategy.RESOLVE;
+    return useRecursiveMerge(cfg) ? MergeStrategy.RECURSIVE : MergeStrategy.RESOLVE;
   }
 
   public interface Factory {
     MergeUtil create(ProjectState project);
+
     MergeUtil create(ProjectState project, boolean useContentMerge);
   }
 
@@ -124,18 +119,26 @@ public class MergeUtil {
   private final boolean useRecursiveMerge;
 
   @AssistedInject
-  MergeUtil(@GerritServerConfig Config serverConfig,
+  MergeUtil(
+      @GerritServerConfig Config serverConfig,
       final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final ApprovalsUtil approvalsUtil,
       @Assisted final ProjectState project) {
-    this(serverConfig, db, identifiedUserFactory, urlProvider, approvalsUtil,
-        project, project.isUseContentMerge());
+    this(
+        serverConfig,
+        db,
+        identifiedUserFactory,
+        urlProvider,
+        approvalsUtil,
+        project,
+        project.isUseContentMerge());
   }
 
   @AssistedInject
-  MergeUtil(@GerritServerConfig Config serverConfig,
+  MergeUtil(
+      @GerritServerConfig Config serverConfig,
       final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
@@ -152,9 +155,9 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit getFirstFastForward(
-      final CodeReviewCommit mergeTip, final RevWalk rw,
-      final List<CodeReviewCommit> toMerge) throws IntegrationException {
-    for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
+      final CodeReviewCommit mergeTip, final RevWalk rw, final List<CodeReviewCommit> toMerge)
+      throws IntegrationException {
+    for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
       try {
         final CodeReviewCommit n = i.next();
         if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
@@ -162,15 +165,14 @@ public class MergeUtil {
           return n;
         }
       } catch (IOException e) {
-        throw new IntegrationException(
-            "Cannot fast-forward test during merge", e);
+        throw new IntegrationException("Cannot fast-forward test during merge", e);
       }
     }
     return mergeTip;
   }
 
-  public List<CodeReviewCommit> reduceToMinimalMerge(MergeSorter mergeSorter,
-      Collection<CodeReviewCommit> toSort) throws IntegrationException {
+  public List<CodeReviewCommit> reduceToMinimalMerge(
+      MergeSorter mergeSorter, Collection<CodeReviewCommit> toSort) throws IntegrationException {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
       result.addAll(mergeSorter.sort(toSort));
@@ -181,12 +183,17 @@ public class MergeUtil {
     return result;
   }
 
-  public CodeReviewCommit createCherryPickFromCommit(Repository repo,
-      ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
-      PersonIdent cherryPickCommitterIdent, String commitMsg,
-      CodeReviewRevWalk rw, int parentIndex)
+  public CodeReviewCommit createCherryPickFromCommit(
+      Repository repo,
+      ObjectInserter inserter,
+      RevCommit mergeTip,
+      RevCommit originalCommit,
+      PersonIdent cherryPickCommitterIdent,
+      String commitMsg,
+      CodeReviewRevWalk rw,
+      int parentIndex)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      MergeIdenticalTreeException, MergeConflictException {
+          MergeIdenticalTreeException, MergeConflictException {
 
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
@@ -208,13 +215,19 @@ public class MergeUtil {
     throw new MergeConflictException("merge conflict");
   }
 
-  public static RevCommit createMergeCommit(Repository repo, ObjectInserter inserter,
-      RevCommit mergeTip, RevCommit originalCommit, String mergeStrategy,
-      PersonIdent committerIndent, String commitMsg, RevWalk rw)
+  public static RevCommit createMergeCommit(
+      Repository repo,
+      ObjectInserter inserter,
+      RevCommit mergeTip,
+      RevCommit originalCommit,
+      String mergeStrategy,
+      PersonIdent committerIndent,
+      String commitMsg,
+      RevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException {
 
-    if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy) &&
-        rw.isMergedInto(originalCommit, mergeTip)) {
+    if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy)
+        && rw.isMergedInto(originalCommit, mergeTip)) {
       throw new ChangeAlreadyMergedException(
           "'" + originalCommit.getName() + "' has already been merged");
     }
@@ -246,8 +259,7 @@ public class MergeUtil {
     return sb.toString();
   }
 
-  public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
-      PatchSet.Id psId) {
+  public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl, PatchSet.Id psId) {
     Change c = ctl.getChange();
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
@@ -297,15 +309,13 @@ public class MergeUtil {
       if (a.isLegacySubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
-        if (submitAudit == null
-            || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
+        if (submitAudit == null || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
           submitAudit = a;
         }
         continue;
       }
 
-      final Account acc =
-          identifiedUserFactory.create(a.getAccountId()).getAccount();
+      final Account acc = identifiedUserFactory.create(a.getAccountId()).getAccount();
       final StringBuilder identbuf = new StringBuilder();
       if (acc.getFullName() != null && acc.getFullName().length() > 0) {
         if (identbuf.length() > 0) {
@@ -313,8 +323,7 @@ public class MergeUtil {
         }
         identbuf.append(acc.getFullName());
       }
-      if (acc.getPreferredEmail() != null
-          && acc.getPreferredEmail().length() > 0) {
+      if (acc.getPreferredEmail() != null && acc.getPreferredEmail().length() > 0) {
         if (isSignedOffBy(footers, acc.getPreferredEmail())) {
           continue;
         }
@@ -366,8 +375,7 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private Iterable<PatchSetApproval> safeGetApprovals(
-      ChangeControl ctl, PatchSet.Id psId) {
+  private Iterable<PatchSetApproval> safeGetApprovals(ChangeControl ctl, PatchSet.Id psId) {
     try {
       return approvalsUtil.byPatchSet(db.get(), ctl, psId);
     } catch (OrmException e) {
@@ -387,16 +395,17 @@ public class MergeUtil {
 
   private static boolean isSignedOffBy(List<FooterLine> footers, String email) {
     for (final FooterLine line : footers) {
-      if (line.matches(FooterKey.SIGNED_OFF_BY)
-          && email.equals(line.getEmailAddress())) {
+      if (line.matches(FooterKey.SIGNED_OFF_BY) && email.equals(line.getEmailAddress())) {
         return true;
       }
     }
     return false;
   }
 
-  public boolean canMerge(final MergeSorter mergeSorter,
-      final Repository repo, final CodeReviewCommit mergeTip,
+  public boolean canMerge(
+      final MergeSorter mergeSorter,
+      final Repository repo,
+      final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge)
       throws IntegrationException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
@@ -404,8 +413,7 @@ public class MergeUtil {
     }
 
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(repo, ins)
-          .merge(new AnyObjectId[] {mergeTip, toMerge});
+      return newThreeWayMerger(repo, ins).merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (LargeObjectException e) {
       log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
       return false;
@@ -416,8 +424,11 @@ public class MergeUtil {
     }
   }
 
-  public boolean canFastForward(MergeSorter mergeSorter,
-      CodeReviewCommit mergeTip, CodeReviewRevWalk rw, CodeReviewCommit toMerge)
+  public boolean canFastForward(
+      MergeSorter mergeSorter,
+      CodeReviewCommit mergeTip,
+      CodeReviewRevWalk rw,
+      CodeReviewCommit toMerge)
       throws IntegrationException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
@@ -430,8 +441,12 @@ public class MergeUtil {
     }
   }
 
-  public boolean canCherryPick(MergeSorter mergeSorter, Repository repo,
-      CodeReviewCommit mergeTip, CodeReviewRevWalk rw, CodeReviewCommit toMerge)
+  public boolean canCherryPick(
+      MergeSorter mergeSorter,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewRevWalk rw,
+      CodeReviewCommit toMerge)
       throws IntegrationException {
     if (mergeTip == null) {
       // The branch is unborn. Fast-forward is possible.
@@ -457,8 +472,8 @@ public class MergeUtil {
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
         throw new IntegrationException(
-            String.format("Cannot merge commit %s with mergetip %s",
-                toMerge.name(), mergeTip.name()),
+            String.format(
+                "Cannot merge commit %s with mergetip %s", toMerge.name(), mergeTip.name()),
             e);
       }
     }
@@ -473,8 +488,8 @@ public class MergeUtil {
         || canMerge(mergeSorter, repo, mergeTip, toMerge);
   }
 
-  public boolean hasMissingDependencies(final MergeSorter mergeSorter,
-      final CodeReviewCommit toMerge) throws IntegrationException {
+  public boolean hasMissingDependencies(
+      final MergeSorter mergeSorter, final CodeReviewCommit toMerge) throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
     } catch (IOException e) {
@@ -482,16 +497,21 @@ public class MergeUtil {
     }
   }
 
-  public CodeReviewCommit mergeOneCommit(PersonIdent author,
-      PersonIdent committer, Repository repo, CodeReviewRevWalk rw,
-      ObjectInserter inserter, Branch.NameKey destBranch,
-      CodeReviewCommit mergeTip, CodeReviewCommit n)
+  public CodeReviewCommit mergeOneCommit(
+      PersonIdent author,
+      PersonIdent committer,
+      Repository repo,
+      CodeReviewRevWalk rw,
+      ObjectInserter inserter,
+      Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit n)
       throws IntegrationException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(author, committer, rw, inserter, destBranch,
-            mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(
+            author, committer, rw, inserter, destBranch, mergeTip, m.getResultTreeId(), n);
       }
       failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
     } catch (NoMergeBaseException e) {
@@ -506,8 +526,7 @@ public class MergeUtil {
     return mergeTip;
   }
 
-  private static CommitMergeStatus getCommitMergeStatus(
-      MergeBaseFailureReason reason) {
+  private static CommitMergeStatus getCommitMergeStatus(MergeBaseFailureReason reason) {
     switch (reason) {
       case MULTIPLE_MERGE_BASES_NOT_SUPPORTED:
       case TOO_MANY_MERGE_BASES:
@@ -518,8 +537,11 @@ public class MergeUtil {
     }
   }
 
-  private static CodeReviewCommit failed(CodeReviewRevWalk rw,
-      CodeReviewCommit mergeTip, CodeReviewCommit n, CommitMergeStatus failure)
+  private static CodeReviewCommit failed(
+      CodeReviewRevWalk rw,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit n,
+      CommitMergeStatus failure)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
     rw.reset();
     rw.markStart(n);
@@ -531,11 +553,16 @@ public class MergeUtil {
     return failed;
   }
 
-  public CodeReviewCommit writeMergeCommit(PersonIdent author,
-      PersonIdent committer, CodeReviewRevWalk rw, ObjectInserter inserter,
-      Branch.NameKey destBranch, CodeReviewCommit mergeTip, ObjectId treeId,
-      CodeReviewCommit n) throws IOException, MissingObjectException,
-      IncorrectObjectTypeException {
+  public CodeReviewCommit writeMergeCommit(
+      PersonIdent author,
+      PersonIdent committer,
+      CodeReviewRevWalk rw,
+      ObjectInserter inserter,
+      Branch.NameKey destBranch,
+      CodeReviewCommit mergeTip,
+      ObjectId treeId,
+      CodeReviewCommit n)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<>();
     rw.reset();
     rw.markStart(n);
@@ -570,14 +597,12 @@ public class MergeUtil {
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
 
-    CodeReviewCommit mergeResult =
-        rw.parseCommit(inserter.insert(mergeCommit));
+    CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
     mergeResult.setControl(n.getControl());
     return mergeResult;
   }
 
-  private String summarize(RevWalk rw, List<CodeReviewCommit> merged)
-      throws IOException {
+  private String summarize(RevWalk rw, List<CodeReviewCommit> merged) throws IOException {
     if (merged.size() == 1) {
       CodeReviewCommit c = merged.get(0);
       rw.parseBody(c);
@@ -592,13 +617,12 @@ public class MergeUtil {
     }
 
     if (topics.size() == 1) {
-      return String.format("Merge changes from topic '%s'",
-          Iterables.getFirst(topics, null));
+      return String.format("Merge changes from topic '%s'", Iterables.getFirst(topics, null));
     } else if (topics.size() > 1) {
-      return String.format("Merge changes from topics '%s'",
-          Joiner.on("', '").join(topics));
+      return String.format("Merge changes from topics '%s'", Joiner.on("', '").join(topics));
     } else {
-      return String.format("Merge changes %s%s",
+      return String.format(
+          "Merge changes %s%s",
           FluentIterable.from(merged)
               .limit(5)
               .transform(c -> c.change().getKey().abbreviate())
@@ -607,8 +631,7 @@ public class MergeUtil {
     }
   }
 
-  public ThreeWayMerger newThreeWayMerger(final Repository repo,
-      final ObjectInserter inserter) {
+  public ThreeWayMerger newThreeWayMerger(final Repository repo, final ObjectInserter inserter) {
     return newThreeWayMerger(repo, inserter, mergeStrategyName());
   }
 
@@ -616,8 +639,7 @@ public class MergeUtil {
     return mergeStrategyName(useContentMerge, useRecursiveMerge);
   }
 
-  public static String mergeStrategyName(boolean useContentMerge,
-      boolean useRecursiveMerge) {
+  public static String mergeStrategyName(boolean useContentMerge, boolean useRecursiveMerge) {
     if (useContentMerge) {
       // Settings for this project allow us to try and automatically resolve
       // conflicts within files if needed. Use either the old resolve merger or
@@ -632,39 +654,43 @@ public class MergeUtil {
     return MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
   }
 
-  public static ThreeWayMerger newThreeWayMerger(Repository repo,
-      final ObjectInserter inserter, String strategyName) {
+  public static ThreeWayMerger newThreeWayMerger(
+      Repository repo, final ObjectInserter inserter, String strategyName) {
     Merger m = newMerger(repo, inserter, strategyName);
-    checkArgument(m instanceof ThreeWayMerger,
-        "merge strategy %s does not support three-way merging", strategyName);
+    checkArgument(
+        m instanceof ThreeWayMerger,
+        "merge strategy %s does not support three-way merging",
+        strategyName);
     return (ThreeWayMerger) m;
   }
 
-  public static Merger newMerger(Repository repo,
-      final ObjectInserter inserter, String strategyName) {
+  public static Merger newMerger(
+      Repository repo, final ObjectInserter inserter, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
     checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
     Merger m = strategy.newMerger(repo, true);
-    m.setObjectInserter(new ObjectInserter.Filter() {
-      @Override
-      protected ObjectInserter delegate() {
-        return inserter;
-      }
+    m.setObjectInserter(
+        new ObjectInserter.Filter() {
+          @Override
+          protected ObjectInserter delegate() {
+            return inserter;
+          }
 
-      @Override
-      public void flush() {
-      }
+          @Override
+          public void flush() {}
 
-      @Override
-      public void close() {
-      }
-    });
+          @Override
+          public void close() {}
+        });
     return m;
   }
 
-  public void markCleanMerges(final RevWalk rw,
-      final RevFlag canMergeFlag, final CodeReviewCommit mergeTip,
-      final Set<RevCommit> alreadyAccepted) throws IntegrationException {
+  public void markCleanMerges(
+      final RevWalk rw,
+      final RevFlag canMergeFlag,
+      final CodeReviewCommit mergeTip,
+      final Set<RevCommit> alreadyAccepted)
+      throws IntegrationException {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch
       // at the start of the merge process. We also elected to merge nothing,
@@ -693,9 +719,13 @@ public class MergeUtil {
     }
   }
 
-  public Set<Change.Id> findUnmergedChanges(Set<Change.Id> expected,
-      CodeReviewRevWalk rw, RevFlag canMergeFlag, CodeReviewCommit oldTip,
-      CodeReviewCommit mergeTip, Iterable<Change.Id> alreadyMerged)
+  public Set<Change.Id> findUnmergedChanges(
+      Set<Change.Id> expected,
+      CodeReviewRevWalk rw,
+      RevFlag canMergeFlag,
+      CodeReviewCommit oldTip,
+      CodeReviewCommit mergeTip,
+      Iterable<Change.Id> alreadyMerged)
       throws IntegrationException {
     if (mergeTip == null) {
       return expected;
@@ -731,8 +761,9 @@ public class MergeUtil {
     }
   }
 
-  public static CodeReviewCommit findAnyMergedInto(CodeReviewRevWalk rw,
-      Iterable<CodeReviewCommit> commits, CodeReviewCommit tip) throws IOException {
+  public static CodeReviewCommit findAnyMergedInto(
+      CodeReviewRevWalk rw, Iterable<CodeReviewCommit> commits, CodeReviewCommit tip)
+      throws IOException {
     for (CodeReviewCommit c : commits) {
       // TODO(dborowitz): Seems like this could get expensive for many patch
       // sets. Is there a more efficient implementation?
@@ -748,12 +779,10 @@ public class MergeUtil {
     try {
       ObjectId commitId = repo.resolve(str);
       if (commitId == null) {
-        throw new BadRequestException(
-            "Cannot resolve '" + str + "' to a commit");
+        throw new BadRequestException("Cannot resolve '" + str + "' to a commit");
       }
       return rw.parseCommit(commitId);
-    } catch (AmbiguousObjectException | IncorrectObjectTypeException |
-        RevisionSyntaxException e) {
+    } catch (AmbiguousObjectException | IncorrectObjectTypeException | RevisionSyntaxException e) {
       throw new BadRequestException(e.getMessage());
     } catch (MissingObjectException e) {
       throw new ResourceNotFoundException(e.getMessage());

@@ -21,7 +21,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import org.easymock.EasyMockSupport;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -32,9 +33,6 @@ import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
 
@@ -114,8 +112,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   }
 
   @Test(expected = RepositoryNotFoundException.class)
-  public void testProjectCreationWithPathSegmentEndingByDotGit()
-      throws Exception {
+  public void testProjectCreationWithPathSegmentEndingByDotGit() throws Exception {
     repoManager.createRepository(new Project.NameKey("a/b.git/projectA"));
   }
 
@@ -193,8 +190,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager.getBasePath(null).resolve(".git").toFile().mkdir();
     // create an invalid repo name
     createRepository(repoManager.getBasePath(null), "project?A");
-    assertThat(repoManager.list())
-        .containsExactly(projectA, projectB, projectC);
+    assertThat(repoManager.list()).containsExactly(projectA, projectB, projectC);
   }
 
   @Test
@@ -206,21 +202,18 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
 
     assertThat(repoManager.getProjectDescription(projectA)).isNull();
     repoManager.setProjectDescription(projectA, "projectA description");
-    assertThat(repoManager.getProjectDescription(projectA)).isEqualTo(
-        "projectA description");
+    assertThat(repoManager.getProjectDescription(projectA)).isEqualTo("projectA description");
 
     repoManager.setProjectDescription(projectA, "");
     assertThat(repoManager.getProjectDescription(projectA)).isNull();
   }
 
   @Test(expected = RepositoryNotFoundException.class)
-  public void testGetProjectDescriptionFromUnexistingRepository()
-      throws Exception {
+  public void testGetProjectDescriptionFromUnexistingRepository() throws Exception {
     repoManager.getProjectDescription(new Project.NameKey("projectA"));
   }
 
-  private void createRepository(Path directory, String projectName)
-      throws IOException {
+  private void createRepository(Path directory, String projectName) throws IOException {
     String n = projectName + Constants.DOT_GIT_EXT;
     FileKey loc = FileKey.exact(directory.resolve(n).toFile(), FS.DETECTED);
     try (Repository db = RepositoryCache.open(loc, false)) {

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,8 +65,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden()
-      throws Exception {
+  public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
     grantOwner();
     blockForcePush();
     setApiUser(user);
@@ -105,17 +103,14 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get());
+    return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
   }
 
   private void assertDeleteSucceeds() throws Exception {
     String branchRev = branch().get().revision;
     branch().delete();
-    eventRecorder.assertRefUpdatedEvents(project.get(), branch.get(),
-        null, branchRev,
-        branchRev, null);
+    eventRecorder.assertRefUpdatedEvents(
+        project.get(), branch.get(), null, branchRev, branchRev, null);
     exception.expect(ResourceNotFoundException.class);
     branch().get();
   }

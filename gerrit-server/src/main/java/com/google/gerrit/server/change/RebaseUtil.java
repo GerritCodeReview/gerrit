@@ -34,7 +34,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -42,8 +42,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /** Utility methods related to rebasing changes. */
 public class RebaseUtil {
@@ -55,7 +53,8 @@ public class RebaseUtil {
   private final PatchSetUtil psUtil;
 
   @Inject
-  RebaseUtil(Provider<InternalChangeQuery> queryProvider,
+  RebaseUtil(
+      Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider,
       PatchSetUtil psUtil) {
@@ -65,17 +64,17 @@ public class RebaseUtil {
     this.psUtil = psUtil;
   }
 
-  public boolean canRebase(PatchSet patchSet, Branch.NameKey dest,
-      Repository git, RevWalk rw) {
+  public boolean canRebase(PatchSet patchSet, Branch.NameKey dest, Repository git, RevWalk rw) {
     try {
       findBaseRevision(patchSet, dest, git, rw);
       return true;
     } catch (RestApiException e) {
       return false;
     } catch (OrmException | IOException e) {
-      log.warn(String.format(
-          "Error checking if patch set %s on %s can be rebased",
-          patchSet.getId(), dest), e);
+      log.warn(
+          String.format(
+              "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest),
+          e);
       return false;
     }
   }
@@ -90,11 +89,11 @@ public class RebaseUtil {
     }
 
     abstract ChangeControl control();
+
     abstract PatchSet patchSet();
   }
 
-  Base parseBase(RevisionResource rsrc, String base)
-      throws OrmException, NoSuchChangeException {
+  Base parseBase(RevisionResource rsrc, String base) throws OrmException, NoSuchChangeException {
     ReviewDb db = dbProvider.get();
 
     // Try parsing the base as a ref string.
@@ -120,16 +119,13 @@ public class RebaseUtil {
 
     // Try parsing as SHA-1.
     Base ret = null;
-    for (ChangeData cd : queryProvider.get()
-        .byProjectCommit(rsrc.getProject(), base)) {
+    for (ChangeData cd : queryProvider.get().byProjectCommit(rsrc.getProject(), base)) {
       for (PatchSet ps : cd.patchSets()) {
         if (!ps.getRevision().matches(base)) {
           continue;
         }
         if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
-          ret = Base.create(
-              rsrc.getControl().getProjectControl().controlFor(cd.notes()),
-              ps);
+          ret = Base.create(rsrc.getControl().getProjectControl().controlFor(cd.notes()), ps);
         }
       }
     }
@@ -141,17 +137,15 @@ public class RebaseUtil {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getControl();
     }
-    ChangeNotes notes =
-        notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
+    ChangeNotes notes = notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
     return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 
   /**
    * Find the commit onto which a patch set should be rebased.
-   * <p>
-   * This is defined as the latest patch set of the change corresponding to
-   * this commit's parent, or the destination branch tip in the case where the
-   * parent's change is merged.
+   *
+   * <p>This is defined as the latest patch set of the change corresponding to this commit's parent,
+   * or the destination branch tip in the case where the parent's change is merged.
    *
    * @param patchSet patch set for which the new base commit should be found.
    * @param destBranch the destination branch.
@@ -162,26 +156,23 @@ public class RebaseUtil {
    * @throws IOException if accessing the repository fails.
    * @throws OrmException if accessing the database fails.
    */
-  ObjectId findBaseRevision(PatchSet patchSet, Branch.NameKey destBranch,
-      Repository git, RevWalk rw)
+  ObjectId findBaseRevision(
+      PatchSet patchSet, Branch.NameKey destBranch, Repository git, RevWalk rw)
       throws RestApiException, IOException, OrmException {
     String baseRev = null;
-    RevCommit commit = rw.parseCommit(
-        ObjectId.fromString(patchSet.getRevision().get()));
+    RevCommit commit = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
 
     if (commit.getParentCount() > 1) {
-      throw new UnprocessableEntityException(
-          "Cannot rebase a change with multiple parents.");
+      throw new UnprocessableEntityException("Cannot rebase a change with multiple parents.");
     } else if (commit.getParentCount() == 0) {
       throw new UnprocessableEntityException(
-          "Cannot rebase a change without any parents"
-          + " (is this the initial commit?).");
+          "Cannot rebase a change without any parents" + " (is this the initial commit?).");
     }
 
     RevId parentRev = new RevId(commit.getParent(0).name());
 
-    CHANGES: for (ChangeData cd : queryProvider.get()
-        .byBranchCommit(destBranch, parentRev.get())) {
+    CHANGES:
+    for (ChangeData cd : queryProvider.get().byBranchCommit(destBranch, parentRev.get())) {
       for (PatchSet depPatchSet : cd.patchSets()) {
         if (!depPatchSet.getRevision().equals(parentRev)) {
           continue;
@@ -189,15 +180,13 @@ public class RebaseUtil {
         Change depChange = cd.change();
         if (depChange.getStatus() == Status.ABANDONED) {
           throw new ResourceConflictException(
-              "Cannot rebase a change with an abandoned parent: "
-              + depChange.getKey());
+              "Cannot rebase a change with an abandoned parent: " + depChange.getKey());
         }
 
         if (depChange.getStatus().isOpen()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
             throw new ResourceConflictException(
-                "Change is already based on the latest patch set of the"
-                + " dependent change.");
+                "Change is already based on the latest patch set of the" + " dependent change.");
           }
           baseRev = cd.currentPatchSet().getRevision().get();
         }

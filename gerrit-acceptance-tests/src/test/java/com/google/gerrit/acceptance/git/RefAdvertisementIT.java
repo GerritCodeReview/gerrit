@@ -50,7 +50,10 @@ import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -60,35 +63,21 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
-  @Inject
-  private ChangeEditModifier editModifier;
+  @Inject private ChangeEditModifier editModifier;
 
-  @Inject
-  private ProjectControl.GenericFactory projectControlFactory;
+  @Inject private ProjectControl.GenericFactory projectControlFactory;
 
-  @Inject
-  @Nullable
-  private SearchingChangeCacheImpl changeCache;
+  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
-  @Inject
-  private TagCache tagCache;
+  @Inject private TagCache tagCache;
 
-  @Inject
-  private Provider<CurrentUser> userProvider;
+  @Inject private Provider<CurrentUser> userProvider;
 
-  @Inject
-  private ChangeNoteUtil noteUtil;
+  @Inject private ChangeNoteUtil noteUtil;
 
-  @Inject
-  @AnonymousCowardName
-  private String anonymousCowardName;
+  @Inject @AnonymousCowardName private String anonymousCowardName;
 
   private AccountGroup.UUID admins;
 
@@ -103,8 +92,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admins = groupCache.get(new AccountGroup.NameKey("Administrators"))
-        .getGroupUUID();
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
     setUpPermissions();
     setUpChanges();
   }
@@ -126,33 +114,28 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private void setUpChanges() throws Exception {
-    gApi.projects()
-        .name(project.get())
-        .branch("branch")
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
     allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
-    PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/master%submit");
+    PushOneCommit.Result mr =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     c1 = mr.getChange();
     r1 = changeRefPrefix(c1.getId());
-    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/branch%submit");
+    PushOneCommit.Result br =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     c2 = br.getChange();
     r2 = changeRefPrefix(c2.getId());
 
     // Second 2 changes are unmerged.
-    mr = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/master");
+    mr = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     c3 = mr.getChange();
     r3 = changeRefPrefix(c3.getId());
-    br = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/branch");
+    br = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     c4 = br.getChange();
     r4 = changeRefPrefix(c4.getId());
@@ -318,8 +301,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackDraftRefs() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
 
-    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/drafts/master");
+    PushOneCommit.Result br =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
     br.assertOkStatus();
     Change.Id c5 = br.getChange().getId();
     String r5 = changeRefPrefix(c5);
@@ -370,8 +353,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          new VisibleRefFilter(tagCache, notesFactory, null, repo,
-              projectControl(), db, true),
+          new VisibleRefFilter(tagCache, notesFactory, null, repo, projectControl(), db, true),
           // Can't use stored values from the index so DB must be enabled.
           false,
           "HEAD",
@@ -397,16 +379,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       setApiUser(user);
       assertRefs(repo, newFilter(db, repo, allProjects), true);
 
-      allowGlobalCapabilities(
-          REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       try {
         setApiUser(user);
-        assertRefs(
-            repo, newFilter(db, repo, allProjects), true,
-            "refs/sequences/changes");
+        assertRefs(repo, newFilter(db, repo, allProjects), true, "refs/sequences/changes");
       } finally {
-        removeGlobalCapabilities(
-            REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+        removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       }
     }
   }
@@ -414,14 +392,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
-    assertThat(r.allRefs().keySet()).containsExactly(
-        // meta refs are excluded even when NoteDb is enabled.
-        "HEAD",
-        "refs/heads/branch",
-        "refs/heads/master",
-        "refs/meta/config",
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+    assertThat(r.allRefs().keySet())
+        .containsExactly(
+            // meta refs are excluded even when NoteDb is enabled.
+            "HEAD",
+            "refs/heads/branch",
+            "refs/heads/master",
+            "refs/meta/config",
+            "refs/tags/branch-tag",
+            "refs/tags/master-tag");
     assertThat(r.additionalHaves()).containsExactly(obj(c3, 1), obj(c4, 1));
   }
 
@@ -431,8 +410,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
     setApiUser(user);
 
-    assertThat(getReceivePackRefs().additionalHaves())
-        .containsExactly(obj(c3, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c3, 1));
   }
 
   @Test
@@ -441,8 +419,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PushOneCommit.Result r = amendChange(c3.change().getKey().get());
     r.assertOkStatus();
     c3 = r.getChange();
-    assertThat(getReceivePackRefs().additionalHaves())
-        .containsExactly(obj(c3, 2), obj(c4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c3, 2), obj(c4, 1));
   }
 
   @Test
@@ -463,52 +440,66 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();
-        PersonIdent author = noteUtil.newIdent(
-            accountCache.get(admin.getId()).getAccount(),
-            committer.getWhen(),
-            committer,
-            anonymousCowardName);
+        PersonIdent author =
+            noteUtil.newIdent(
+                accountCache.get(admin.getId()).getAccount(),
+                committer.getWhen(),
+                committer,
+                anonymousCowardName);
         tr.branch(RefNames.changeMetaRef(c3.getId()))
             .commit()
             .author(author)
             .committer(committer)
             .message(
-                "Update patch set " + psId.get() + "\n"
+                "Update patch set "
+                    + psId.get()
                     + "\n"
-                    + "Patch-set: " + psId.get() + "\n"
-                    + "Commit: " + rev + "\n"
-                    + "Subject: " + subject + "\n")
+                    + "\n"
+                    + "Patch-set: "
+                    + psId.get()
+                    + "\n"
+                    + "Commit: "
+                    + rev
+                    + "\n"
+                    + "Subject: "
+                    + subject
+                    + "\n")
             .create();
       }
       indexer.index(db, c.getProject(), c.getId());
     }
 
-    assertThat(getReceivePackRefs().additionalHaves())
-        .containsExactly(obj(c4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c4, 1));
   }
 
   /**
    * Assert that refs seen by a non-admin user match expected.
    *
-   * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by
-   *     the configuration, any NoteDb refs (i.e. ending in "/meta") are removed
-   *     from the expected list before comparing to the actual results.
+   * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by the configuration,
+   *     any NoteDb refs (i.e. ending in "/meta") are removed from the expected list before
+   *     comparing to the actual results.
    * @throws Exception
    */
-  private void assertUploadPackRefs(String... expectedWithMeta)
-      throws Exception {
+  private void assertUploadPackRefs(String... expectedWithMeta) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          new VisibleRefFilter(tagCache, notesFactory, changeCache, repo,
-              projectControl(), new DisabledReviewDb(), true),
+          new VisibleRefFilter(
+              tagCache,
+              notesFactory,
+              changeCache,
+              repo,
+              projectControl(),
+              new DisabledReviewDb(),
+              true),
           true,
           expectedWithMeta);
     }
   }
 
-  private void assertRefs(Repository repo, VisibleRefFilter filter,
-      boolean disableDb, String... expectedWithMeta) throws Exception {
+  private void assertRefs(
+      Repository repo, VisibleRefFilter filter, boolean disableDb, String... expectedWithMeta)
+      throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
       if (notesMigration.writeChanges() || !r.endsWith(RefNames.META_SUFFIX)) {
@@ -522,8 +513,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
     try {
       Map<String, Ref> all = repo.getAllRefs();
-      assertThat(filter.filter(all, false).keySet())
-          .containsExactlyElementsIn(expected);
+      assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expected);
     } finally {
       if (disableDb) {
         enableDb(ctx);
@@ -531,8 +521,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs()
-      throws Exception {
+  private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs() throws Exception {
     ReceiveCommitsAdvertiseRefsHook hook =
         new ReceiveCommitsAdvertiseRefsHook(queryProvider, project);
     try (Repository repo = repoManager.openRepository(project)) {
@@ -544,19 +533,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     return projectControlFactory.controlFor(project, userProvider.get());
   }
 
-  private VisibleRefFilter newFilter(ReviewDb db, Repository repo,
-      Project.NameKey project) throws Exception {
+  private VisibleRefFilter newFilter(ReviewDb db, Repository repo, Project.NameKey project)
+      throws Exception {
     return new VisibleRefFilter(
-        tagCache, notesFactory, null, repo,
+        tagCache,
+        notesFactory,
+        null,
+        repo,
         projectControlFactory.controlFor(project, userProvider.get()),
-        db, true);
+        db,
+        true);
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {
     PatchSet.Id psId = new PatchSet.Id(cd.getId(), psNum);
     PatchSet ps = cd.patchSet(psId);
-    assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps)
-        .isNotNull();
+    assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
     return ObjectId.fromString(ps.getRevision().get());
   }
 }

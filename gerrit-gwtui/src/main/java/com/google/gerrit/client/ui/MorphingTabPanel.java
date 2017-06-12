@@ -18,14 +18,13 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/** A TabPanel which allows entries to be hidden.  This class is not yet
- *  designed to handle removes or any other add methods than the one
- *  overridden here.  It is also not designed to handle anything other
- *  than text for the tab.
+/**
+ * A TabPanel which allows entries to be hidden. This class is not yet designed to handle removes or
+ * any other add methods than the one overridden here. It is also not designed to handle anything
+ * other than text for the tab.
  */
 public class MorphingTabPanel extends TabPanel {
   // Keep track of the order the widgets/texts should be in when not hidden.
@@ -38,12 +37,13 @@ public class MorphingTabPanel extends TabPanel {
   private int selection;
 
   public MorphingTabPanel() {
-    addSelectionHandler(new SelectionHandler<Integer>() {
-        @Override
-        public void onSelection(SelectionEvent<Integer> ev) {
-          selection = ev.getSelectedItem();
-        }
-      });
+    addSelectionHandler(
+        new SelectionHandler<Integer>() {
+          @Override
+          public void onSelection(SelectionEvent<Integer> ev) {
+            selection = ev.getSelectedItem();
+          }
+        });
   }
 
   public int getSelectedIndex() {
@@ -80,8 +80,8 @@ public class MorphingTabPanel extends TabPanel {
         int origPos = widgets.indexOf(w);
 
         /* Re-insert the widget right after the first visible widget found
-           when scanning backwards from the current widget */
-        for (int pos = origPos - 1; pos >= 0 ; pos--) {
+        when scanning backwards from the current widget */
+        for (int pos = origPos - 1; pos >= 0; pos--) {
           int visiblePos = visibles.indexOf(widgets.get(pos));
           if (visiblePos != -1) {
             visibles.add(visiblePos + 1, w);

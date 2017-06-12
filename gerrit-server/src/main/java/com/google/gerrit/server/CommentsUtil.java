@@ -51,15 +51,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,28 +59,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.StreamSupport;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Utility functions to manipulate Comments.
- * <p>
- * These methods either query for and update Comments in the NoteDb or
- * ReviewDb, depending on the state of the NotesMigration.
+ *
+ * <p>These methods either query for and update Comments in the NoteDb or ReviewDb, depending on the
+ * state of the NotesMigration.
  */
 @Singleton
 public class CommentsUtil {
   public static final Ordering<Comment> COMMENT_ORDER =
       new Ordering<Comment>() {
-    @Override
-    public int compare(Comment c1, Comment c2) {
-      return ComparisonChain.start()
-          .compare(c1.key.filename, c2.key.filename)
-          .compare(c1.key.patchSetId, c2.key.patchSetId)
-          .compare(c1.side, c2.side)
-          .compare(c1.lineNbr, c2.lineNbr)
-          .compare(c1.writtenOn, c2.writtenOn)
-          .result();
-    }
-  };
+        @Override
+        public int compare(Comment c1, Comment c2) {
+          return ComparisonChain.start()
+              .compare(c1.key.filename, c2.key.filename)
+              .compare(c1.key.patchSetId, c2.key.patchSetId)
+              .compare(c1.side, c2.side)
+              .compare(c1.lineNbr, c2.lineNbr)
+              .compare(c1.writtenOn, c2.writtenOn)
+              .result();
+        }
+      };
 
   public static final Ordering<CommentInfo> COMMENT_INFO_ORDER =
       new Ordering<CommentInfo>() {
@@ -109,13 +107,11 @@ public class CommentsUtil {
         }
       };
 
-  public static PatchSet.Id getCommentPsId(Change.Id changeId,
-      Comment comment) {
+  public static PatchSet.Id getCommentPsId(Change.Id changeId, Comment comment) {
     return new PatchSet.Id(changeId, comment.key.patchSetId);
   }
 
-  private static final Ordering<Comparable<?>> NULLS_FIRST =
-      Ordering.natural().nullsFirst();
+  private static final Ordering<Comparable<?>> NULLS_FIRST = Ordering.natural().nullsFirst();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
@@ -123,7 +119,8 @@ public class CommentsUtil {
   private final String serverId;
 
   @Inject
-  CommentsUtil(GitRepositoryManager repoManager,
+  CommentsUtil(
+      GitRepositoryManager repoManager,
       AllUsersName allUsers,
       NotesMigration migration,
       @GerritServerId String serverId) {
@@ -133,56 +130,70 @@ public class CommentsUtil {
     this.serverId = serverId;
   }
 
-  public Comment newComment(ChangeContext ctx, String path, PatchSet.Id psId,
-      short side, String message) throws OrmException {
-    Comment c = new Comment(
-        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
-        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId);
+  public Comment newComment(
+      ChangeContext ctx, String path, PatchSet.Id psId, short side, String message)
+      throws OrmException {
+    Comment c =
+        new Comment(
+            new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+            ctx.getUser().getAccountId(),
+            ctx.getWhen(),
+            side,
+            message,
+            serverId);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }
 
-  public RobotComment newRobotComment(ChangeContext ctx, String path,
-      PatchSet.Id psId, short side, String message, String robotId,
-      String robotRunId) throws OrmException {
-    RobotComment c = new RobotComment(
-        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
-        ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
-        robotId, robotRunId);
+  public RobotComment newRobotComment(
+      ChangeContext ctx,
+      String path,
+      PatchSet.Id psId,
+      short side,
+      String message,
+      String robotId,
+      String robotRunId)
+      throws OrmException {
+    RobotComment c =
+        new RobotComment(
+            new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+            ctx.getUser().getAccountId(),
+            ctx.getWhen(),
+            side,
+            message,
+            serverId,
+            robotId,
+            robotRunId);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }
 
-  public Optional<Comment> get(ReviewDb db, ChangeNotes notes,
-      Comment.Key key) throws OrmException {
+  public Optional<Comment> get(ReviewDb db, ChangeNotes notes, Comment.Key key)
+      throws OrmException {
     if (!migration.readChanges()) {
       return Optional.ofNullable(
-              db.patchComments()
-                  .get(PatchLineComment.Key.from(notes.getChangeId(), key)))
+              db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
           .map(plc -> plc.asComment(serverId));
     }
     Predicate<Comment> p = c -> key.equals(c.key);
-    Optional<Comment> c =
-        publishedByChange(db, notes).stream().filter(p).findFirst();
+    Optional<Comment> c = publishedByChange(db, notes).stream().filter(p).findFirst();
     if (c.isPresent()) {
       return c;
     }
     return draftByChange(db, notes).stream().filter(p).findFirst();
   }
 
-  public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes)
-      throws OrmException {
+  public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(byCommentStatus(
-          db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
+      return sort(
+          byCommentStatus(db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
     }
 
     notes.load();
     return sort(Lists.newArrayList(notes.getComments().values()));
   }
 
-  public List<RobotComment> robotCommentsByChange(ChangeNotes notes)
-      throws OrmException {
+  public List<RobotComment> robotCommentsByChange(ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
       return ImmutableList.of();
     }
@@ -191,11 +202,9 @@ public class CommentsUtil {
     return sort(Lists.newArrayList(notes.getRobotComments().values()));
   }
 
-  public List<Comment> draftByChange(ReviewDb db, ChangeNotes notes)
-      throws OrmException {
+  public List<Comment> draftByChange(ReviewDb db, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(byCommentStatus(
-          db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
+      return sort(byCommentStatus(db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
     }
 
     List<Comment> comments = new ArrayList<>();
@@ -208,17 +217,16 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  private List<Comment> byCommentStatus(ResultSet<PatchLineComment> comments,
-      final PatchLineComment.Status status) {
-    return toComments(serverId, Lists.newArrayList(
-      Iterables.filter(comments, c -> c.getStatus() == status)));
+  private List<Comment> byCommentStatus(
+      ResultSet<PatchLineComment> comments, final PatchLineComment.Status status) {
+    return toComments(
+        serverId, Lists.newArrayList(Iterables.filter(comments, c -> c.getStatus() == status)));
   }
 
-  public List<Comment> byPatchSet(ReviewDb db,
-      ChangeNotes notes, PatchSet.Id psId) throws OrmException {
+  public List<Comment> byPatchSet(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
+      throws OrmException {
     if (!migration.readChanges()) {
-      return sort(toComments(serverId,
-          db.patchComments().byPatchSet(psId).toList()));
+      return sort(toComments(serverId, db.patchComments().byPatchSet(psId).toList()));
     }
     List<Comment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(db, notes, psId));
@@ -232,27 +240,27 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public List<Comment> publishedByChangeFile(ReviewDb db, ChangeNotes notes,
-      Change.Id changeId, String file) throws OrmException {
+  public List<Comment> publishedByChangeFile(
+      ReviewDb db, ChangeNotes notes, Change.Id changeId, String file) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(toComments(serverId,
-          db.patchComments().publishedByChangeFile(changeId, file).toList()));
+      return sort(
+          toComments(serverId, db.patchComments().publishedByChangeFile(changeId, file).toList()));
     }
     return commentsOnFile(notes.load().getComments().values(), file);
   }
 
-  public List<Comment> publishedByPatchSet(ReviewDb db,
-      ChangeNotes notes, PatchSet.Id psId) throws OrmException {
+  public List<Comment> publishedByPatchSet(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
+      throws OrmException {
     if (!migration.readChanges()) {
-      return removeCommentsOnAncestorOfCommitMessage(sort(toComments(serverId,
-          db.patchComments().publishedByPatchSet(psId).toList())));
+      return removeCommentsOnAncestorOfCommitMessage(
+          sort(toComments(serverId, db.patchComments().publishedByPatchSet(psId).toList())));
     }
     return removeCommentsOnAncestorOfCommitMessage(
         commentsOnPatchSet(notes.load().getComments().values(), psId));
   }
 
-  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes,
-      PatchSet.Id psId) throws OrmException {
+  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId)
+      throws OrmException {
     if (!migration.readChanges()) {
       return ImmutableList.of();
     }
@@ -260,49 +268,45 @@ public class CommentsUtil {
   }
 
   /**
-   * For the commit message the A side in a diff view is always empty when a
-   * comparison against an ancestor is done, so there can't be any comments on
-   * this ancestor. However earlier we showed the auto-merge commit message on
-   * side A when for a merge commit a comparison against the auto-merge was
-   * done. From that time there may still be comments on the auto-merge commit
+   * For the commit message the A side in a diff view is always empty when a comparison against an
+   * ancestor is done, so there can't be any comments on this ancestor. However earlier we showed
+   * the auto-merge commit message on side A when for a merge commit a comparison against the
+   * auto-merge was done. From that time there may still be comments on the auto-merge commit
    * message and those we want to filter out.
    */
-  private List<Comment> removeCommentsOnAncestorOfCommitMessage(
-      List<Comment> list) {
+  private List<Comment> removeCommentsOnAncestorOfCommitMessage(List<Comment> list) {
     return list.stream()
         .filter(c -> c.side != 0 || !Patch.COMMIT_MSG.equals(c.key.filename))
         .collect(toList());
   }
 
-  public List<Comment> draftByPatchSetAuthor(ReviewDb db, PatchSet.Id psId,
-      Account.Id author, ChangeNotes notes) throws OrmException {
+  public List<Comment> draftByPatchSetAuthor(
+      ReviewDb db, PatchSet.Id psId, Account.Id author, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(toComments(serverId,
-          db.patchComments().draftByPatchSetAuthor(psId, author).toList()));
+      return sort(
+          toComments(serverId, db.patchComments().draftByPatchSetAuthor(psId, author).toList()));
     }
     return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
   }
 
-  public List<Comment> draftByChangeFileAuthor(ReviewDb db,
-      ChangeNotes notes, String file, Account.Id author)
-      throws OrmException {
+  public List<Comment> draftByChangeFileAuthor(
+      ReviewDb db, ChangeNotes notes, String file, Account.Id author) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(toComments(serverId,
-          db.patchComments()
-            .draftByChangeFileAuthor(notes.getChangeId(), file, author)
-            .toList()));
+      return sort(
+          toComments(
+              serverId,
+              db.patchComments()
+                  .draftByChangeFileAuthor(notes.getChangeId(), file, author)
+                  .toList()));
     }
     return commentsOnFile(notes.load().getDraftComments(author).values(), file);
   }
 
-  public List<Comment> draftByChangeAuthor(ReviewDb db,
-      ChangeNotes notes, Account.Id author)
+  public List<Comment> draftByChangeAuthor(ReviewDb db, ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return StreamSupport
-          .stream(db.patchComments().draftByAuthor(author).spliterator(), false)
-          .filter(c -> c.getPatchSetId().getParentKey()
-              .equals(notes.getChangeId()))
+      return StreamSupport.stream(db.patchComments().draftByAuthor(author).spliterator(), false)
+          .filter(c -> c.getPatchSetId().getParentKey().equals(notes.getChangeId()))
           .map(plc -> plc.asComment(serverId))
           .sorted(COMMENT_ORDER)
           .collect(toList());
@@ -313,17 +317,17 @@ public class CommentsUtil {
   }
 
   @Deprecated // To be used only by HasDraftByLegacyPredicate.
-  public List<Change.Id> changesWithDraftsByAuthor(ReviewDb db,
-      Account.Id author) throws OrmException {
+  public List<Change.Id> changesWithDraftsByAuthor(ReviewDb db, Account.Id author)
+      throws OrmException {
     if (!migration.readChanges()) {
       return FluentIterable.from(db.patchComments().draftByAuthor(author))
-          .transform(plc -> plc.getPatchSetId().getParentKey()).toList();
+          .transform(plc -> plc.getPatchSetId().getParentKey())
+          .toList();
     }
 
     List<Change.Id> changes = new ArrayList<>();
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      for (String refName : repo.getRefDatabase()
-          .getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
+      for (String refName : repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
         Account.Id accountId = Account.Id.fromRefSuffix(refName);
         Change.Id changeId = Change.Id.fromRefPart(refName);
         if (accountId == null || changeId == null) {
@@ -337,59 +341,54 @@ public class CommentsUtil {
     return changes;
   }
 
-  public void putComments(ReviewDb db, ChangeUpdate update,
-      PatchLineComment.Status status, Iterable<Comment> comments)
-          throws OrmException {
+  public void putComments(
+      ReviewDb db, ChangeUpdate update, PatchLineComment.Status status, Iterable<Comment> comments)
+      throws OrmException {
     for (Comment c : comments) {
       update.putComment(status, c);
     }
-    db.patchComments()
-        .upsert(toPatchLineComments(update.getId(), status, comments));
+    db.patchComments().upsert(toPatchLineComments(update.getId(), status, comments));
   }
 
-  public void putRobotComments(ChangeUpdate update,
-      Iterable<RobotComment> comments) {
+  public void putRobotComments(ChangeUpdate update, Iterable<RobotComment> comments) {
     for (RobotComment c : comments) {
       update.putRobotComment(c);
     }
   }
 
-  public void deleteComments(ReviewDb db, ChangeUpdate update,
-      Iterable<Comment> comments) throws OrmException {
+  public void deleteComments(ReviewDb db, ChangeUpdate update, Iterable<Comment> comments)
+      throws OrmException {
     for (Comment c : comments) {
       update.deleteComment(c);
     }
     if (PrimaryStorage.of(update.getChange()) == REVIEW_DB) {
       // Avoid OrmConcurrencyException trying to delete non-existent entities.
-      db.patchComments().delete(toPatchLineComments(update.getId(),
-          PatchLineComment.Status.DRAFT, comments));
+      db.patchComments()
+          .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
     }
   }
 
-  public void deleteAllDraftsFromAllUsers(Change.Id changeId)
-      throws IOException {
+  public void deleteAllDraftsFromAllUsers(Change.Id changeId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
       for (Ref ref : getDraftRefs(repo, changeId)) {
-        bru.addCommand(new ReceiveCommand(
-            ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+        bru.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
       }
       bru.setRefLogMessage("Delete drafts from NoteDb", false);
       bru.execute(rw, NullProgressMonitor.INSTANCE);
       for (ReceiveCommand cmd : bru.getCommands()) {
         if (cmd.getResult() != ReceiveCommand.Result.OK) {
-          throw new IOException(String.format(
-              "Failed to delete draft comment ref %s at %s: %s (%s)",
-              cmd.getRefName(), cmd.getOldId(), cmd.getResult(),
-              cmd.getMessage()));
+          throw new IOException(
+              String.format(
+                  "Failed to delete draft comment ref %s at %s: %s (%s)",
+                  cmd.getRefName(), cmd.getOldId(), cmd.getResult(), cmd.getMessage()));
         }
       }
     }
   }
 
-  private static List<Comment> commentsOnFile(Collection<Comment> allComments,
-      String file) {
+  private static List<Comment> commentsOnFile(Collection<Comment> allComments, String file) {
     List<Comment> result = new ArrayList<>(allComments.size());
     for (Comment c : allComments) {
       String currentFilename = c.key.filename;
@@ -401,8 +400,7 @@ public class CommentsUtil {
   }
 
   private static <T extends Comment> List<T> commentsOnPatchSet(
-      Collection<T> allComments,
-      PatchSet.Id psId) {
+      Collection<T> allComments, PatchSet.Id psId) {
     List<T> result = new ArrayList<>(allComments.size());
     for (T c : allComments) {
       if (c.key.patchSetId == psId.get()) {
@@ -412,10 +410,13 @@ public class CommentsUtil {
     return sort(result);
   }
 
-  public static void setCommentRevId(Comment c,
-      PatchListCache cache, Change change, PatchSet ps) throws OrmException {
-    checkArgument(c.key.patchSetId == ps.getId().get(),
-        "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
+  public static void setCommentRevId(Comment c, PatchListCache cache, Change change, PatchSet ps)
+      throws OrmException {
+    checkArgument(
+        c.key.patchSetId == ps.getId().get(),
+        "cannot set RevId for patch set %s on comment %s",
+        ps.getId(),
+        c);
     if (c.revId == null) {
       try {
         if (Side.fromShort(c.side) == Side.PARENT) {
@@ -433,8 +434,7 @@ public class CommentsUtil {
     }
   }
 
-  public Collection<Ref> getDraftRefs(Change.Id changeId)
-      throws OrmException {
+  public Collection<Ref> getDraftRefs(Change.Id changeId) throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return getDraftRefs(repo, changeId);
     } catch (IOException e) {
@@ -442,10 +442,8 @@ public class CommentsUtil {
     }
   }
 
-  private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId)
-      throws IOException {
-    return repo.getRefDatabase().getRefs(
-        RefNames.refsDraftCommentsPrefix(changeId)).values();
+  private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId) throws IOException {
+    return repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(changeId)).values();
   }
 
   private static <T extends Comment> List<T> sort(List<T> comments) {
@@ -454,15 +452,13 @@ public class CommentsUtil {
   }
 
   public static Iterable<PatchLineComment> toPatchLineComments(
-      Change.Id changeId, PatchLineComment.Status status,
-      Iterable<Comment> comments) {
-    return FluentIterable.from(comments)
-        .transform(c -> PatchLineComment.from(changeId, status, c));
+      Change.Id changeId, PatchLineComment.Status status, Iterable<Comment> comments) {
+    return FluentIterable.from(comments).transform(c -> PatchLineComment.from(changeId, status, c));
   }
 
-  public static List<Comment> toComments(final String serverId,
-      Iterable<PatchLineComment> comments) {
-    return COMMENT_ORDER.sortedCopy(FluentIterable.from(comments)
-        .transform(plc -> plc.asComment(serverId)));
+  public static List<Comment> toComments(
+      final String serverId, Iterable<PatchLineComment> comments) {
+    return COMMENT_ORDER.sortedCopy(
+        FluentIterable.from(comments).transform(plc -> plc.asComment(serverId)));
   }
 }

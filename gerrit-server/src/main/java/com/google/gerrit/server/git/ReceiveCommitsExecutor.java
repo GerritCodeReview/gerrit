@@ -17,14 +17,9 @@ package com.google.gerrit.server.git;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
-/**
- * Marker on the global {@link WorkQueue.Executor} used by
- * {@link ReceiveCommits}.
- */
+/** Marker on the global {@link WorkQueue.Executor} used by {@link ReceiveCommits}. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ReceiveCommitsExecutor {
-}
+public @interface ReceiveCommitsExecutor {}

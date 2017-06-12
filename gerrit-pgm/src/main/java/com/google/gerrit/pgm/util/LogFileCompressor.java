@@ -23,12 +23,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,11 +30,14 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Compresses the old error logs. */
 public class LogFileCompressor implements Runnable {
-  private static final Logger log =
-      LoggerFactory.getLogger(LogFileCompressor.class);
+  private static final Logger log = LoggerFactory.getLogger(LogFileCompressor.class);
 
   public static class Module extends LifecycleModule {
     @Override
@@ -54,8 +51,7 @@ public class LogFileCompressor implements Runnable {
     private final LogFileCompressor compressor;
 
     @Inject
-    Lifecycle(WorkQueue queue,
-        LogFileCompressor compressor) {
+    Lifecycle(WorkQueue queue, LogFileCompressor compressor) {
       this.queue = queue;
       this.compressor = compressor;
     }
@@ -66,15 +62,14 @@ public class LogFileCompressor implements Runnable {
       queue.getDefaultQueue().execute(compressor);
       DateTime now = DateTime.now();
       long milliSecondsUntil11am =
-          new Duration(now, now.withTimeAtStartOfDay().plusHours(23))
-              .getMillis();
-      queue.getDefaultQueue().scheduleAtFixedRate(compressor,
-          milliSecondsUntil11am, HOURS.toMillis(24), MILLISECONDS);
+          new Duration(now, now.withTimeAtStartOfDay().plusHours(23)).getMillis();
+      queue
+          .getDefaultQueue()
+          .scheduleAtFixedRate(compressor, milliSecondsUntil11am, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override
-    public void stop() {
-    }
+    public void stop() {}
   }
 
   private final Path logs_dir;

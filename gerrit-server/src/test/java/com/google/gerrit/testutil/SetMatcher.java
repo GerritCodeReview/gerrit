@@ -15,20 +15,18 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.collect.Sets;
-
+import java.util.Set;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
-
-import java.util.Set;
 
 /**
  * Match for Iterables via set equals
  *
- * Converts both expected and actual parameter to a set and compares those two
- * sets via equals to determine whether or not they match.
+ * <p>Converts both expected and actual parameter to a set and compares those two sets via equals to
+ * determine whether or not they match.
  */
 public class SetMatcher<T> implements IArgumentMatcher {
-  public static <S extends Iterable<T>,T> S setEq(S expected) {
+  public static <S extends Iterable<T>, T> S setEq(S expected) {
     EasyMock.reportMatcher(new SetMatcher<>(expected));
     return null;
   }
@@ -42,7 +40,7 @@ public class SetMatcher<T> implements IArgumentMatcher {
   @Override
   public boolean matches(Object actual) {
     if (actual instanceof Iterable<?>) {
-      Set<?> actualSet = Sets.newHashSet((Iterable<?>)actual);
+      Set<?> actualSet = Sets.newHashSet((Iterable<?>) actual);
       return expected.equals(actualSet);
     }
     return false;

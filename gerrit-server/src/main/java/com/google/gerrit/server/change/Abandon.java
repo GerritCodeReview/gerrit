@@ -46,15 +46,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-
 @Singleton
-public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
-    UiAction<ChangeResource> {
+public class Abandon
+    implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
   private final AbandonedSender.Factory abandonedSenderFactory;
@@ -66,7 +64,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeAbandoned changeAbandoned;
 
   @Inject
-  Abandon(AbandonedSender.Factory abandonedSenderFactory,
+  Abandon(
+      AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
@@ -93,8 +92,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
-  public Change abandon(ChangeControl control)
-      throws RestApiException, UpdateException {
+  public Change abandon(ChangeControl control) throws RestApiException, UpdateException {
     return abandon(control, "", NotifyHandling.ALL);
   }
 
@@ -103,8 +101,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     return abandon(control, msgTxt, NotifyHandling.ALL);
   }
 
-  public Change abandon(ChangeControl control, String msgTxt,
-      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+  public Change abandon(ChangeControl control, String msgTxt, NotifyHandling notifyHandling)
+      throws RestApiException, UpdateException {
     Op op = new Op(msgTxt, notifyHandling);
     try (BatchUpdate u =
         batchUpdateFactory.create(
@@ -118,28 +116,30 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   /**
-   * If an extension has more than one changes to abandon that belong to the
-   * same project, they should use the batch instead of abandoning one by one.
-   * <p>
-   * It's the caller's responsibility to ensure that all jobs inside the same
-   * batch have the matching project from its ChangeControl. Violations will
-   * result in a ResourceConflictException.
+   * If an extension has more than one changes to abandon that belong to the same project, they
+   * should use the batch instead of abandoning one by one.
+   *
+   * <p>It's the caller's responsibility to ensure that all jobs inside the same batch have the
+   * matching project from its ChangeControl. Violations will result in a ResourceConflictException.
    */
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls, String msgTxt,
-      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+  public void batchAbandon(
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeControl> controls,
+      String msgTxt,
+      NotifyHandling notifyHandling)
+      throws RestApiException, UpdateException {
     if (controls.isEmpty()) {
       return;
     }
-    try (BatchUpdate u = batchUpdateFactory.create(
-        dbProvider.get(), project, user, TimeUtil.nowTs())) {
+    try (BatchUpdate u =
+        batchUpdateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
       for (ChangeControl control : controls) {
         if (!project.equals(control.getProject().getNameKey())) {
           throw new ResourceConflictException(
               String.format(
                   "Project name \"%s\" doesn't match \"%s\"",
-                  control.getProject().getNameKey().get(),
-                  project.get()));
+                  control.getProject().getNameKey().get(), project.get()));
         }
         u.addOp(control.getId(), new Op(msgTxt, notifyHandling));
       }
@@ -147,14 +147,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
   }
 
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls, String msgTxt)
+  public void batchAbandon(
+      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls, String msgTxt)
       throws RestApiException, UpdateException {
     batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL);
   }
 
-  public void batchAbandon(Project.NameKey project, CurrentUser user,
-      Collection<ChangeControl> controls)
+  public void batchAbandon(
+      Project.NameKey project, CurrentUser user, Collection<ChangeControl> controls)
       throws RestApiException, UpdateException {
     batchAbandon(project, user, controls, "", NotifyHandling.ALL);
   }
@@ -173,16 +173,14 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
       if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {
-        throw new ResourceConflictException(
-            "draft changes cannot be abandoned");
+        throw new ResourceConflictException("draft changes cannot be abandoned");
       }
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       change.setStatus(Change.Status.ABANDONED);
@@ -202,18 +200,15 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         msg.append(msgTxt.trim());
       }
 
-      return ChangeMessagesUtil.newMessage(
-          ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
+      return ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
     }
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      Account account = ctx.getUser().isIdentifiedUser()
-          ? ctx.getUser().asIdentifiedUser().getAccount()
-          : null;
+      Account account =
+          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().getAccount() : null;
       try {
-        ReplyToChangeSender cm =
-            abandonedSenderFactory.create(ctx.getProject(), change.getId());
+        ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
         if (account != null) {
           cm.setFrom(account.getId());
         }
@@ -223,8 +218,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
-      changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(),
-          notifyHandling);
+      changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(), notifyHandling);
     }
   }
 
@@ -237,11 +231,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       log.error("Cannot check canAbandon status. Assuming false.", e);
     }
     return new UiAction.Description()
-      .setLabel("Abandon")
-      .setTitle("Abandon the change")
-      .setVisible(resource.getChange().getStatus().isOpen()
-          && resource.getChange().getStatus() != Change.Status.DRAFT
-          && canAbandon);
+        .setLabel("Abandon")
+        .setTitle("Abandon the change")
+        .setVisible(
+            resource.getChange().getStatus().isOpen()
+                && resource.getChange().getStatus() != Change.Status.DRAFT
+                && canAbandon);
   }
 
   private static String status(Change change) {

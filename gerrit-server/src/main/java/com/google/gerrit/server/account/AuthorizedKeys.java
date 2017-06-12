@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,14 +25,11 @@ import java.util.Optional;
 public class AuthorizedKeys {
   public static final String FILE_NAME = "authorized_keys";
 
-  @VisibleForTesting
-  public static final String INVALID_KEY_COMMENT_PREFIX = "# INVALID ";
+  @VisibleForTesting public static final String INVALID_KEY_COMMENT_PREFIX = "# INVALID ";
 
-  @VisibleForTesting
-  public static final String DELETED_KEY_COMMENT = "# DELETED";
+  @VisibleForTesting public static final String DELETED_KEY_COMMENT = "# DELETED";
 
-  public static List<Optional<AccountSshKey>> parse(
-      Account.Id accountId, String s) {
+  public static List<Optional<AccountSshKey>> parse(Account.Id accountId, String s) {
     List<Optional<AccountSshKey>> keys = new ArrayList<>();
     int seq = 1;
     for (String line : s.split("\\r?\\n")) {
@@ -42,8 +38,7 @@ public class AuthorizedKeys {
         continue;
       } else if (line.startsWith(INVALID_KEY_COMMENT_PREFIX)) {
         String pub = line.substring(INVALID_KEY_COMMENT_PREFIX.length());
-        AccountSshKey key =
-            new AccountSshKey(new AccountSshKey.Id(accountId, seq++), pub);
+        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq++), pub);
         key.setInvalid();
         keys.add(Optional.of(key));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
@@ -52,8 +47,7 @@ public class AuthorizedKeys {
       } else if (line.startsWith("#")) {
         continue;
       } else {
-        AccountSshKey key =
-            new AccountSshKey(new AccountSshKey.Id(accountId, seq++), line);
+        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq++), line);
         keys.add(Optional.of(key));
       }
     }

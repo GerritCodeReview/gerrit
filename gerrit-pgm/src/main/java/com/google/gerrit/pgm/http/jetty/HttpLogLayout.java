@@ -14,12 +14,11 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.apache.log4j.Layout;
+import org.apache.log4j.spi.LoggingEvent;
 
 public final class HttpLogLayout extends Layout {
   private final SimpleDateFormat dateFormat;
@@ -116,7 +115,5 @@ public final class HttpLogLayout extends Layout {
   }
 
   @Override
-  public void activateOptions() {
-  }
+  public void activateOptions() {}
 }
-

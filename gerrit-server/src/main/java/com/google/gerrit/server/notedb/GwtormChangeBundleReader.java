@@ -22,22 +22,18 @@ import com.google.gerrit.server.notedb.ChangeBundle.Source;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.List;
 
 @Singleton
 public class GwtormChangeBundleReader implements ChangeBundleReader {
   @Inject
-  GwtormChangeBundleReader() {
-  }
+  GwtormChangeBundleReader() {}
 
   @Override
-  public ChangeBundle fromReviewDb(ReviewDb db, Change.Id id)
-      throws OrmException {
+  public ChangeBundle fromReviewDb(ReviewDb db, Change.Id id) throws OrmException {
     db.changes().beginTransaction(id);
     try {
-      List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(id).toList();
+      List<PatchSetApproval> approvals = db.patchSetApprovals().byChange(id).toList();
       return new ChangeBundle(
           db.changes().get(id),
           db.changeMessages().byChange(id),

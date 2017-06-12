@@ -34,15 +34,13 @@ import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
-
+import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
-
-import java.net.SocketAddress;
-import java.util.HashMap;
-import java.util.Map;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
@@ -72,12 +70,15 @@ public class SshModule extends LifecycleModule {
     factory(QueryShell.Factory.class);
     factory(PeerDaemonUser.Factory.class);
 
-    bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
+    bind(DispatchCommandProvider.class)
+        .annotatedWith(Commands.CMD_ROOT)
         .toInstance(new DispatchCommandProvider(Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
-    bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
-        .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
+    bind(WorkQueue.Executor.class)
+        .annotatedWith(StreamCommandExecutor.class)
+        .toProvider(StreamCommandExecutorProvider.class)
+        .in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
     bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
@@ -86,12 +87,12 @@ public class SshModule extends LifecycleModule {
     bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
     bind(SshPluginStarterCallback.class);
     bind(StartPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(SshPluginStarterCallback.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(SshPluginStarterCallback.class);
 
     bind(ReloadPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(SshPluginStarterCallback.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(SshPluginStarterCallback.class);
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);
@@ -108,21 +109,23 @@ public class SshModule extends LifecycleModule {
       for (int i = 1; i < dest.length; i++) {
         cmd = Commands.named(cmd, dest[i]);
       }
-      bind(Commands.key(gerrit, name))
-        .toProvider(new AliasCommandProvider(cmd));
+      bind(Commands.key(gerrit, name)).toProvider(new AliasCommandProvider(cmd));
     }
   }
 
   private void configureRequestScope() {
     bind(SshScope.Context.class).toProvider(SshScope.ContextProvider.class);
 
-    bind(SshSession.class).toProvider(SshScope.SshSessionProvider.class).in(
-        SshScope.REQUEST);
-    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-        SshRemotePeerProvider.class).in(SshScope.REQUEST);
+    bind(SshSession.class).toProvider(SshScope.SshSessionProvider.class).in(SshScope.REQUEST);
+    bind(SocketAddress.class)
+        .annotatedWith(RemotePeer.class)
+        .toProvider(SshRemotePeerProvider.class)
+        .in(SshScope.REQUEST);
 
-    bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
-        .toProvider(CommandExecutorProvider.class).in(SshScope.REQUEST);
+    bind(WorkQueue.Executor.class)
+        .annotatedWith(CommandExecutor.class)
+        .toProvider(CommandExecutorProvider.class)
+        .in(SshScope.REQUEST);
 
     install(new GerritRequestModule());
   }

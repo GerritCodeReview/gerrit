@@ -20,12 +20,14 @@ import com.google.gwt.core.client.JsArray;
 
 public class BlameInfo extends JavaScriptObject {
   public final native String author() /*-{ return this.author; }-*/;
+
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String commitMsg() /*-{ return this.commit_msg; }-*/;
+
   public final native int time() /*-{ return this.time; }-*/;
+
   public final native JsArray<RangeInfo> ranges() /*-{ return this.ranges; }-*/;
 
-  protected BlameInfo() {
-  }
-
+  protected BlameInfo() {}
 }

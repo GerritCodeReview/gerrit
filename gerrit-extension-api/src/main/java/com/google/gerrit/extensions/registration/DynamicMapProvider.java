@@ -19,14 +19,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-
 import java.util.List;
 
 class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
   private final TypeLiteral<T> type;
 
-  @Inject
-  private Injector injector;
+  @Inject private Injector injector;
 
   DynamicMapProvider(TypeLiteral<T> type) {
     this.type = type;
@@ -34,8 +32,7 @@ class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
 
   @Override
   public DynamicMap<T> get() {
-    PrivateInternals_DynamicMapImpl<T> m =
-        new PrivateInternals_DynamicMapImpl<>();
+    PrivateInternals_DynamicMapImpl<T> m = new PrivateInternals_DynamicMapImpl<>();
     List<Binding<T>> bindings = injector.findBindingsByType(type);
     if (bindings != null) {
       for (Binding<T> b : bindings) {

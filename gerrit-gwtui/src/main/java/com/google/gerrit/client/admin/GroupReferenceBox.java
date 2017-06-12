@@ -29,9 +29,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Focusable;
 
-public class GroupReferenceBox extends Composite implements
-    LeafValueEditor<GroupReference>, HasSelectionHandlers<GroupReference>,
-    HasCloseHandlers<GroupReferenceBox>, Focusable {
+public class GroupReferenceBox extends Composite
+    implements LeafValueEditor<GroupReference>,
+        HasSelectionHandlers<GroupReference>,
+        HasCloseHandlers<GroupReferenceBox>,
+        Focusable {
   private final AccountGroupSuggestOracle oracle;
   private final RemoteSuggestBox suggestBox;
 
@@ -40,20 +42,21 @@ public class GroupReferenceBox extends Composite implements
     suggestBox = new RemoteSuggestBox(oracle);
     initWidget(suggestBox);
 
-    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        SelectionEvent.fire(GroupReferenceBox.this,
-            toValue(event.getSelectedItem()));
-      }
-    });
-    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        suggestBox.setText("");
-        CloseEvent.fire(GroupReferenceBox.this, GroupReferenceBox.this);
-      }
-    });
+    suggestBox.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            SelectionEvent.fire(GroupReferenceBox.this, toValue(event.getSelectedItem()));
+          }
+        });
+    suggestBox.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            suggestBox.setText("");
+            CloseEvent.fire(GroupReferenceBox.this, GroupReferenceBox.this);
+          }
+        });
   }
 
   public void setVisibleLength(int len) {
@@ -61,14 +64,12 @@ public class GroupReferenceBox extends Composite implements
   }
 
   @Override
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<GroupReference> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<GroupReference> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
   @Override
-  public HandlerRegistration addCloseHandler(
-      CloseHandler<GroupReferenceBox> handler) {
+  public HandlerRegistration addCloseHandler(CloseHandler<GroupReferenceBox> handler) {
     return addHandler(handler, CloseEvent.getType());
   }
 

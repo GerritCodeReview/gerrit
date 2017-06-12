@@ -36,7 +36,7 @@ public class HttpResponse<T> {
   /**
    * Content type supplied by the server.
    *
-   * This helper simplifies the common {@code getHeader("Content-Type")} case.
+   * <p>This helper simplifies the common {@code getHeader("Content-Type")} case.
    */
   public String getContentType() {
     return contentType;

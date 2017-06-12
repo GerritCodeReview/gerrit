@@ -64,8 +64,7 @@ class DefaultActions {
     };
   }
 
-  private static void invoke(ActionInfo action, RestApi api,
-      AsyncCallback<JavaScriptObject> cb) {
+  private static void invoke(ActionInfo action, RestApi api, AsyncCallback<JavaScriptObject> cb) {
     if ("GET".equalsIgnoreCase(action.method())) {
       api.get(cb);
     } else if ("PUT".equalsIgnoreCase(action.method())) {
@@ -77,18 +76,19 @@ class DefaultActions {
     }
   }
 
-  private DefaultActions() {
-  }
+  private DefaultActions() {}
 
   private static class UiResult extends JavaScriptObject {
     static native UiResult alert(String m) /*-{ return {'alert':m} }-*/;
+
     static native UiResult none() /*-{ return {} }-*/;
 
     final native String alert() /*-{ return this.alert }-*/;
+
     final native String redirectUrl() /*-{ return this.url }-*/;
+
     final native boolean openWindow() /*-{ return this.open_window || false }-*/;
 
-    protected UiResult() {
-    }
+    protected UiResult() {}
   }
 }

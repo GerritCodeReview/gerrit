@@ -27,14 +27,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class RobotComments
-    implements ChildCollection<RevisionResource, RobotCommentResource> {
+public class RobotComments implements ChildCollection<RevisionResource, RobotCommentResource> {
   private final DynamicMap<RestView<RobotCommentResource>> views;
   private final ListRobotComments list;
   private final CommentsUtil commentsUtil;
 
   @Inject
-  RobotComments(DynamicMap<RestView<RobotCommentResource>> views,
+  RobotComments(
+      DynamicMap<RestView<RobotCommentResource>> views,
       ListRobotComments list,
       CommentsUtil commentsUtil) {
     this.views = views;
@@ -58,8 +58,7 @@ public class RobotComments
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (RobotComment c : commentsUtil.robotCommentsByPatchSet(
-        notes, rev.getPatchSet().getId())) {
+    for (RobotComment c : commentsUtil.robotCommentsByPatchSet(notes, rev.getPatchSet().getId())) {
       if (uuid.equals(c.key.uuid)) {
         return new RobotCommentResource(rev, c);
       }

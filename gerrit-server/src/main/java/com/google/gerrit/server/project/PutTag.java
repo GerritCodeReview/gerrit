@@ -22,9 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 public class PutTag implements RestModifyView<TagResource, TagInput> {
 
   @Override
-  public TagInfo apply(TagResource resource, TagInput input)
-      throws ResourceConflictException {
-    throw new ResourceConflictException("Tag \"" + resource.getTagInfo().ref
-        + "\" already exists");
+  public TagInfo apply(TagResource resource, TagInput input) throws ResourceConflictException {
+    throw new ResourceConflictException("Tag \"" + resource.getTagInfo().ref + "\" already exists");
   }
 }

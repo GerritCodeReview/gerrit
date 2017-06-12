@@ -24,13 +24,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class ProjectGlue {
   public static void onAction(
-      Project.NameKey project,
-      BranchInfo branch,
-      ActionInfo action,
-      ActionButton button) {
-    RestApi api = ProjectApi.project(project)
-        .view("branches").id(branch.ref())
-        .view(action.id());
+      Project.NameKey project, BranchInfo branch, ActionInfo action, ActionButton button) {
+    RestApi api = ProjectApi.project(project).view("branches").id(branch.ref()).view(action.id());
     JavaScriptObject f = branchAction(action.id());
     if (f != null) {
       ActionContext c = ActionContext.create(api);
@@ -44,10 +39,7 @@ public class ProjectGlue {
     }
   }
 
-  public static void onAction(
-      Project.NameKey project,
-      ActionInfo action,
-      ActionButton button) {
+  public static void onAction(Project.NameKey project, ActionInfo action, ActionButton button) {
     RestApi api = ProjectApi.project(project).view(action.id());
     JavaScriptObject f = projectAction(action.id());
     if (f != null) {
@@ -69,6 +61,5 @@ public class ProjectGlue {
     return $wnd.Gerrit.branch_actions[id];
   }-*/;
 
-  private ProjectGlue() {
-  }
+  private ProjectGlue() {}
 }

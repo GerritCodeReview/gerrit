@@ -15,8 +15,7 @@
 package com.google.gerrit.extensions.restapi;
 
 /**
- * Any type of view, see {@link RestReadView} for reads, {@link RestModifyView}
- * for updates, and {@link RestCollection} for nested collections.
+ * Any type of view, see {@link RestReadView} for reads, {@link RestModifyView} for updates, and
+ * {@link RestCollection} for nested collections.
  */
-public interface RestView<R extends RestResource> {
-}
+public interface RestView<R extends RestResource> {}

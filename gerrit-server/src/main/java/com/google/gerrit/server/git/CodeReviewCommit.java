@@ -22,7 +22,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -31,25 +32,22 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.List;
-
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {
   /**
    * Default ordering when merging multiple topologically-equivalent commits.
-   * <p>
-   * Operates only on these commits and does not take ancestry into account.
-   * <p>
-   * Use this in preference to the default order, which comes from {@link
-   * AnyObjectId} and only orders on SHA-1.
+   *
+   * <p>Operates only on these commits and does not take ancestry into account.
+   *
+   * <p>Use this in preference to the default order, which comes from {@link AnyObjectId} and only
+   * orders on SHA-1.
    */
-  public static final Ordering<CodeReviewCommit> ORDER = Ordering.natural()
-      .onResultOf((CodeReviewCommit c) ->
-          c.getPatchsetId() != null
-              ? c.getPatchsetId().getParentKey().get()
-              : null)
-      .nullsFirst();
+  public static final Ordering<CodeReviewCommit> ORDER =
+      Ordering.natural()
+          .onResultOf(
+              (CodeReviewCommit c) ->
+                  c.getPatchsetId() != null ? c.getPatchsetId().getParentKey().get() : null)
+          .nullsFirst();
 
   public static CodeReviewRevWalk newRevWalk(Repository repo) {
     return new CodeReviewRevWalk(repo);
@@ -74,22 +72,21 @@ public class CodeReviewCommit extends RevCommit {
     }
 
     @Override
-    public CodeReviewCommit next() throws MissingObjectException,
-         IncorrectObjectTypeException, IOException {
+    public CodeReviewCommit next()
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       return (CodeReviewCommit) super.next();
     }
 
     @Override
-    public void markStart(RevCommit c) throws MissingObjectException,
-        IncorrectObjectTypeException, IOException {
+    public void markStart(RevCommit c)
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof CodeReviewCommit);
       super.markStart(c);
     }
 
     @Override
     public void markUninteresting(final RevCommit c)
-        throws MissingObjectException, IncorrectObjectTypeException,
-        IOException {
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof CodeReviewCommit);
       super.markUninteresting(c);
     }
@@ -101,17 +98,16 @@ public class CodeReviewCommit extends RevCommit {
 
     @Override
     public CodeReviewCommit parseCommit(AnyObjectId id)
-        throws MissingObjectException, IncorrectObjectTypeException,
-        IOException {
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       return (CodeReviewCommit) super.parseCommit(id);
     }
   }
 
   /**
    * Unique key of the PatchSet entity from the code review system.
-   * <p>
-   * This value is only available on commits that have a PatchSet represented in
-   * the code review system.
+   *
+   * <p>This value is only available on commits that have a PatchSet represented in the code review
+   * system.
    */
   private PatchSet.Id patchsetId;
 
@@ -120,8 +116,8 @@ public class CodeReviewCommit extends RevCommit {
 
   /**
    * The result status for this commit.
-   * <p>
-   * Only valid if {@link #patchsetId} is not null.
+   *
+   * <p>Only valid if {@link #patchsetId} is not null.
    */
   private CommitMergeStatus statusCode;
 

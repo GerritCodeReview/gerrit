@@ -21,7 +21,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -31,8 +30,7 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
   private final Path path;
 
   @Inject
-  SitePathFromSystemConfigProvider(SchemaFactory<ReviewDb> schemaFactory)
-      throws OrmException {
+  SitePathFromSystemConfigProvider(SchemaFactory<ReviewDb> schemaFactory) throws OrmException {
     path = read(schemaFactory);
   }
 
@@ -41,8 +39,7 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
     return path;
   }
 
-  private static Path read(SchemaFactory<ReviewDb> schemaFactory)
-      throws OrmException {
+  private static Path read(SchemaFactory<ReviewDb> schemaFactory) throws OrmException {
     try (ReviewDb db = schemaFactory.open()) {
       List<SystemConfig> all = db.systemConfig().all().toList();
       switch (all.size()) {
@@ -51,8 +48,8 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
         case 0:
           throw new OrmException("system_config table is empty");
         default:
-          throw new OrmException("system_config must have exactly 1 row;"
-              + " found " + all.size() + " rows instead");
+          throw new OrmException(
+              "system_config must have exactly 1 row;" + " found " + all.size() + " rows instead");
       }
     }
   }

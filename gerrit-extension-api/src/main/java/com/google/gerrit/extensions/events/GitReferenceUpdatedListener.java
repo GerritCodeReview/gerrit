@@ -23,15 +23,19 @@ import com.google.gerrit.extensions.common.AccountInfo;
 public interface GitReferenceUpdatedListener {
   interface Event extends ProjectEvent {
     String getRefName();
+
     String getOldObjectId();
+
     String getNewObjectId();
+
     boolean isCreate();
+
     boolean isDelete();
+
     boolean isNonFastForward();
-    /**
-     * The updater, could be null if it's the server.
-     */
-    @Nullable AccountInfo getUpdater();
+    /** The updater, could be null if it's the server. */
+    @Nullable
+    AccountInfo getUpdater();
   }
 
   void onGitReferenceUpdated(Event event);

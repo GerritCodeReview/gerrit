@@ -15,24 +15,19 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.common.Nullable;
-
 import java.util.Map;
 
-/**
- * Result object representing the outcome of a review request.
- */
+/** Result object representing the outcome of a review request. */
 public class ReviewResult {
   /**
-   * Map of labels to values after the review was posted. Null if any
-   * reviewer additions were rejected.
+   * Map of labels to values after the review was posted. Null if any reviewer additions were
+   * rejected.
    */
-  @Nullable
-  public Map<String, Short> labels;
+  @Nullable public Map<String, Short> labels;
 
   /**
-   * Map of account or group identifier to outcome of adding as a reviewer.
-   * Null if no reviewer additions were requested.
+   * Map of account or group identifier to outcome of adding as a reviewer. Null if no reviewer
+   * additions were requested.
    */
-  @Nullable
-  public Map<String, AddReviewerResult> reviewers;
+  @Nullable public Map<String, AddReviewerResult> reviewers;
 }

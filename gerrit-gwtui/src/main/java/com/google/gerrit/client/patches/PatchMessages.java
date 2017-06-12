@@ -18,7 +18,10 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface PatchMessages extends Messages {
   String expandBefore(int cnt);
+
   String expandAfter(int cnt);
+
   String patchSkipRegion(String lineNumber);
+
   String fileNameWithShortcutKey(String file, String key);
 }

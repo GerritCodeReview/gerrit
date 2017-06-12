@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,8 @@ class ListReviewers implements RestReadView<ChangeResource> {
   private final ReviewerResource.Factory resourceFactory;
 
   @Inject
-  ListReviewers(Provider<ReviewDb> dbProvider,
+  ListReviewers(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       ReviewerResource.Factory resourceFactory,
       ReviewerJson json) {
@@ -50,8 +50,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
   public List<ReviewerInfo> apply(ChangeResource rsrc) throws OrmException {
     Map<Account.Id, ReviewerResource> reviewers = new LinkedHashMap<>();
     ReviewDb db = dbProvider.get();
-    for (Account.Id accountId
-        : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
+    for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId)) {
         reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }

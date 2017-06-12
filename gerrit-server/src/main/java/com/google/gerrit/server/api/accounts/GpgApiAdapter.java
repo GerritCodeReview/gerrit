@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
-
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +31,11 @@ public interface GpgApiAdapter {
   Map<String, GpgKeyInfo> listGpgKeys(AccountResource account)
       throws RestApiException, GpgException;
 
-  Map<String, GpgKeyInfo> putGpgKeys(AccountResource account, List<String> add,
-      List<String> delete) throws RestApiException, GpgException;
-
-  GpgKeyApi gpgKey(AccountResource account, IdString idStr)
+  Map<String, GpgKeyInfo> putGpgKeys(AccountResource account, List<String> add, List<String> delete)
       throws RestApiException, GpgException;
 
-  PushCertificateInfo checkPushCertificate(String certStr,
-      IdentifiedUser expectedUser) throws GpgException;
+  GpgKeyApi gpgKey(AccountResource account, IdString idStr) throws RestApiException, GpgException;
+
+  PushCertificateInfo checkPushCertificate(String certStr, IdentifiedUser expectedUser)
+      throws GpgException;
 }

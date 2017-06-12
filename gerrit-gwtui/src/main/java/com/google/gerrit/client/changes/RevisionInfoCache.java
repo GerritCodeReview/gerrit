@@ -17,7 +17,6 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,9 +26,7 @@ public class RevisionInfoCache {
   private static final RevisionInfoCache IMPL = new RevisionInfoCache();
 
   public static void add(Change.Id change, RevisionInfo info) {
-    IMPL.psToCommit.put(
-        new PatchSet.Id(change, info._number()),
-        info.name());
+    IMPL.psToCommit.put(new PatchSet.Id(change, info._number()), info.name());
   }
 
   static String get(PatchSet.Id id) {
@@ -40,11 +37,12 @@ public class RevisionInfoCache {
 
   @SuppressWarnings("serial")
   private RevisionInfoCache() {
-    psToCommit = new LinkedHashMap<PatchSet.Id, String>(LIMIT) {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<PatchSet.Id, String> e) {
-        return size() > LIMIT;
-      }
-    };
+    psToCommit =
+        new LinkedHashMap<PatchSet.Id, String>(LIMIT) {
+          @Override
+          protected boolean removeEldestEntry(Map.Entry<PatchSet.Id, String> e) {
+            return size() > LIMIT;
+          }
+        };
   }
 }

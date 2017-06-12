@@ -41,6 +41,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 /** Displays (and edits) the change topic string. */
 class Topic extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Topic> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private PatchSet.Id psId;
@@ -58,21 +59,19 @@ class Topic extends Composite {
   Topic() {
     initWidget(uiBinder.createAndBindUi(this));
     editIcon.addDomHandler(
-      new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          onEdit();
-        }
-      },
-      ClickEvent.getType());
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            onEdit();
+          }
+        },
+        ClickEvent.getType());
   }
 
   void set(ChangeInfo info, String revision) {
     canEdit = info.hasActions() && info.actions().containsKey("topic");
 
-    psId = new PatchSet.Id(
-        info.legacyId(),
-        info.revisions().get(revision)._number());
+    psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
 
     initTopicLink(info);
     editIcon.setVisible(canEdit);

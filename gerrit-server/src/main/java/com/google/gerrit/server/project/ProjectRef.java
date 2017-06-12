@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Project;
 @AutoValue
 abstract class ProjectRef {
   public abstract Project.NameKey project();
+
   public abstract String ref();
 
   static ProjectRef create(Project.NameKey project, String ref) {

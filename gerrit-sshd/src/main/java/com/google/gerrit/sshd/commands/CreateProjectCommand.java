@@ -33,35 +33,59 @@ import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
-/** Create a new project. **/
+/** Create a new project. * */
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
-@CommandMetaData(name = "create-project", description = "Create a new project and associated Git repository")
+@CommandMetaData(
+  name = "create-project",
+  description = "Create a new project and associated Git repository"
+)
 final class CreateProjectCommand extends SshCommand {
-  @Option(name = "--suggest-parents", aliases = {"-S"}, usage = "suggest parent candidates, "
-      + "if this option is used all other options and arguments are ignored")
+  @Option(
+    name = "--suggest-parents",
+    aliases = {"-S"},
+    usage =
+        "suggest parent candidates, "
+            + "if this option is used all other options and arguments are ignored"
+  )
   private boolean suggestParent;
 
-  @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
+  @Option(
+    name = "--owner",
+    aliases = {"-o"},
+    usage = "owner(s) of project"
+  )
   private List<AccountGroup.UUID> ownerIds;
 
-  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
+  @Option(
+    name = "--parent",
+    aliases = {"-p"},
+    metaVar = "NAME",
+    usage = "parent project"
+  )
   private ProjectControl newParent;
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
 
-  @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
+  @Option(
+    name = "--description",
+    aliases = {"-d"},
+    metaVar = "DESCRIPTION",
+    usage = "description of project"
+  )
   private String projectDescription = "";
 
-  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type")
+  @Option(
+    name = "--submit-type",
+    aliases = {"-t"},
+    usage = "project submit type"
+  )
   private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
@@ -76,15 +100,26 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--change-id", usage = "if change-id is required")
   private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
 
-  @Option(name = "--new-change-for-all-not-in-target", usage = "if a new change will be created for every commit not in target branch")
+  @Option(
+    name = "--new-change-for-all-not-in-target",
+    usage = "if a new change will be created for every commit not in target branch"
+  )
   private InheritableBoolean createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
 
-  @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
+  @Option(
+    name = "--use-contributor-agreements",
+    aliases = {"--ca"},
+    usage = "if contributor agreement is required"
+  )
   void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
+  @Option(
+    name = "--use-signed-off-by",
+    aliases = {"--so"},
+    usage = "if signed-off-by is required"
+  )
   void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
@@ -94,19 +129,30 @@ final class CreateProjectCommand extends SshCommand {
     contentMerge = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
+  @Option(
+    name = "--require-change-id",
+    aliases = {"--id"},
+    usage = "if change-id is required"
+  )
   void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--create-new-change-for-all-not-in-target", aliases = {"--ncfa"},
-      usage = "if a new change will be created for every commit not in target branch")
+  @Option(
+    name = "--create-new-change-for-all-not-in-target",
+    aliases = {"--ncfa"},
+    usage = "if a new change will be created for every commit not in target branch"
+  )
   void setNewChangeForAllNotInTarget(@SuppressWarnings("unused") boolean on) {
     createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
   }
 
-  @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
-      + "(default: master)")
+  @Option(
+    name = "--branch",
+    aliases = {"-b"},
+    metaVar = "BRANCH",
+    usage = "initial branch name\n" + "(default: master)"
+  )
   private List<String> branch;
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
@@ -115,18 +161,18 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
-  @Option(name = "--plugin-config",
-      usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
+  @Option(
+    name = "--plugin-config",
+    usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'"
+  )
   private List<String> pluginConfigValues;
 
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
-  @Inject
-  private GerritApi gApi;
+  @Inject private GerritApi gApi;
 
-  @Inject
-  private SuggestParentCandidates suggestParentCandidates;
+  @Inject private SuggestParentCandidates suggestParentCandidates;
 
   @Override
   protected void run() throws UnloggedFailure {
@@ -161,8 +207,7 @@ final class CreateProjectCommand extends SshCommand {
 
         gApi.projects().create(input);
       } else {
-        List<Project.NameKey> parentCandidates =
-            suggestParentCandidates.getNameKeys();
+        List<Project.NameKey> parentCandidates = suggestParentCandidates.getNameKeys();
 
         for (Project.NameKey parent : parentCandidates) {
           stdout.print(parent + "\n");
@@ -174,17 +219,18 @@ final class CreateProjectCommand extends SshCommand {
   }
 
   @VisibleForTesting
-  Map<String, Map<String, ConfigValue>> parsePluginConfigValues(
-      List<String> pluginConfigValues) throws UnloggedFailure {
+  Map<String, Map<String, ConfigValue>> parsePluginConfigValues(List<String> pluginConfigValues)
+      throws UnloggedFailure {
     Map<String, Map<String, ConfigValue>> m = new HashMap<>();
     for (String pluginConfigValue : pluginConfigValues) {
       String[] s = pluginConfigValue.split("=");
       String[] s2 = s[0].split("\\.");
       if (s.length != 2 || s2.length != 2) {
-        throw die("Invalid plugin config value '"
-            + pluginConfigValue
-            + "', expected format '<plugin-name>.<parameter-name>=<value>'"
-            + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");
+        throw die(
+            "Invalid plugin config value '"
+                + pluginConfigValue
+                + "', expected format '<plugin-name>.<parameter-name>=<value>'"
+                + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");
       }
       ConfigValue value = new ConfigValue();
       String v = s[1];

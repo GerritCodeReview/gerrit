@@ -36,16 +36,14 @@ import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class NoteDbChecker {
@@ -60,7 +58,8 @@ public class NoteDbChecker {
   private final CommentsUtil commentsUtil;
 
   @Inject
-  NoteDbChecker(Provider<ReviewDb> dbProvider,
+  NoteDbChecker(
+      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       TestNotesMigration notesMigration,
       ChangeBundleReader bundleReader,
@@ -77,16 +76,14 @@ public class NoteDbChecker {
   }
 
   public void rebuildAndCheckAllChanges() throws Exception {
-    rebuildAndCheckChanges(
-        getUnwrappedDb().changes().all().toList().stream().map(Change::getId));
+    rebuildAndCheckChanges(getUnwrappedDb().changes().all().toList().stream().map(Change::getId));
   }
 
   public void rebuildAndCheckChanges(Change.Id... changeIds) throws Exception {
     rebuildAndCheckChanges(Arrays.stream(changeIds));
   }
 
-  private void rebuildAndCheckChanges(Stream<Change.Id> changeIds)
-      throws Exception {
+  private void rebuildAndCheckChanges(Stream<Change.Id> changeIds) throws Exception {
     ReviewDb db = getUnwrappedDb();
 
     List<ChangeBundle> allExpected = readExpected(changeIds);
@@ -117,20 +114,20 @@ public class NoteDbChecker {
     checkActual(readExpected(Arrays.stream(changeIds)), new ArrayList<>());
   }
 
-  public void assertNoChangeRef(Project.NameKey project, Change.Id changeId)
-      throws Exception {
+  public void assertNoChangeRef(Project.NameKey project, Change.Id changeId) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(RefNames.changeMetaRef(changeId))).isNull();
     }
   }
 
-  private List<ChangeBundle> readExpected(Stream<Change.Id> changeIds)
-      throws Exception {
+  private List<ChangeBundle> readExpected(Stream<Change.Id> changeIds) throws Exception {
     boolean old = notesMigration.readChanges();
     try {
       notesMigration.setReadChanges(false);
-      return changeIds.sorted(comparing(IntKey::get))
-          .map(this::readBundleUnchecked).collect(toList());
+      return changeIds
+          .sorted(comparing(IntKey::get))
+          .map(this::readBundleUnchecked)
+          .collect(toList());
     } finally {
       notesMigration.setReadChanges(old);
     }
@@ -144,8 +141,7 @@ public class NoteDbChecker {
     }
   }
 
-  private void checkActual(List<ChangeBundle> allExpected, List<String> msgs)
-      throws Exception {
+  private void checkActual(List<ChangeBundle> allExpected, List<String> msgs) throws Exception {
     ReviewDb db = getUnwrappedDb();
     boolean oldRead = notesMigration.readChanges();
     boolean oldWrite = notesMigration.writeChanges();
@@ -156,8 +152,9 @@ public class NoteDbChecker {
         Change c = expected.getChange();
         ChangeBundle actual;
         try {
-          actual = ChangeBundle.fromNotes(
-              commentsUtil, notesFactory.create(db, c.getProject(), c.getId()));
+          actual =
+              ChangeBundle.fromNotes(
+                  commentsUtil, notesFactory.create(db, c.getProject(), c.getId()));
         } catch (Throwable t) {
           String msg = "Error converting change: " + c;
           msgs.add(msg);
@@ -170,8 +167,7 @@ public class NoteDbChecker {
           msgs.addAll(diff);
           msgs.add("");
         } else {
-          System.err.println(
-              "NoteDb conversion of change " + c.getId() + " successful");
+          System.err.println("NoteDb conversion of change " + c.getId() + " successful");
         }
       }
     } finally {
@@ -185,6 +181,6 @@ public class NoteDbChecker {
 
   private ReviewDb getUnwrappedDb() {
     ReviewDb db = dbProvider.get();
-    return  ReviewDbUtil.unwrapDb(db);
+    return ReviewDbUtil.unwrapDb(db);
   }
 }

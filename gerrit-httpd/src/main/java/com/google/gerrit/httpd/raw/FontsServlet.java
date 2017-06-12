@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.launcher.GerritLauncher;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,24 +26,20 @@ class FontsServlet extends ResourceServlet {
   private final Path zip;
   private final Path fonts;
 
-  FontsServlet(Cache<Path, Resource> cache, Path buckOut)
-      throws IOException {
+  FontsServlet(Cache<Path, Resource> cache, Path buckOut) throws IOException {
     super(cache, true);
     zip = getZipPath(buckOut);
     if (zip == null || !Files.exists(zip)) {
       fonts = null;
     } else {
-      fonts = GerritLauncher
-          .newZipFileSystem(zip)
-          .getPath("/");
+      fonts = GerritLauncher.newZipFileSystem(zip).getPath("/");
     }
   }
 
   @Override
   protected Path getResourcePath(String pathInfo) throws IOException {
     if (fonts == null) {
-      throw new IOException("No fonts found: " + zip
-          + ". Run `buck build //polygerrit-ui:fonts`?");
+      throw new IOException("No fonts found: " + zip + ". Run `buck build //polygerrit-ui:fonts`?");
     }
     return fonts.resolve(pathInfo);
   }
@@ -53,9 +48,6 @@ class FontsServlet extends ResourceServlet {
     if (buckOut == null) {
       return null;
     }
-    return buckOut.resolve("gen")
-        .resolve("polygerrit-ui")
-        .resolve("fonts")
-        .resolve("fonts.zip");
+    return buckOut.resolve("gen").resolve("polygerrit-ui").resolve("fonts").resolve("fonts.zip");
   }
 }

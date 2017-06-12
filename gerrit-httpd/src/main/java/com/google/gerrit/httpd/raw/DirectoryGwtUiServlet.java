@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.TimeUtil;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,8 +28,8 @@ class DirectoryGwtUiServlet extends ResourceServlet {
 
   private final Path ui;
 
-  DirectoryGwtUiServlet(Cache<Path, Resource> cache, Path unpackedWar,
-      boolean dev) throws IOException {
+  DirectoryGwtUiServlet(Cache<Path, Resource> cache, Path unpackedWar, boolean dev)
+      throws IOException {
     super(cache, false);
     ui = unpackedWar.resolve("gerrit_ui");
     if (!Files.exists(ui)) {

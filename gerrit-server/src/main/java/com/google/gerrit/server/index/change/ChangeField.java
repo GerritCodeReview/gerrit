@@ -52,9 +52,6 @@ import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
-
-import org.eclipse.jgit.revwalk.FooterLine;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -64,18 +61,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
  * Fields indexed on change documents.
- * <p>
- * Each field corresponds to both a field name supported by
- * {@link ChangeQueryBuilder} for querying that field, and a method on
- * {@link ChangeData} used for populating the corresponding document fields in
- * the secondary index.
- * <p>
- * Field names are all lowercase alphanumeric plus underscore; index
- * implementations may create unambiguous derived field names containing other
- * characters.
+ *
+ * <p>Each field corresponds to both a field name supported by {@link ChangeQueryBuilder} for
+ * querying that field, and a method on {@link ChangeData} used for populating the corresponding
+ * document fields in the secondary index.
+ *
+ * <p>Field names are all lowercase alphanumeric plus underscore; index implementations may create
+ * unambiguous derived field names containing other characters.
  */
 public class ChangeField {
   public static final int NO_ASSIGNEE = -1;
@@ -84,8 +80,7 @@ public class ChangeField {
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      new FieldDef.Single<ChangeData, Integer>("legacy_id",
-          FieldType.INTEGER, true) {
+      new FieldDef.Single<ChangeData, Integer>("legacy_id", FieldType.INTEGER, true) {
         @Override
         public Integer get(ChangeData input, FillArgs args) {
           return input.getId().get();
@@ -94,11 +89,10 @@ public class ChangeField {
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
-      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_CHANGE_ID,
-          FieldType.PREFIX, false) {
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_CHANGE_ID, FieldType.PREFIX, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -109,11 +103,10 @@ public class ChangeField {
 
   /** Change status string, in the same format as {@code status:}. */
   public static final FieldDef<ChangeData, String> STATUS =
-      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_STATUS,
-          FieldType.EXACT, false) {
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_STATUS, FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -127,8 +120,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_PROJECT, FieldType.EXACT, true) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -142,8 +134,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_PROJECTS, FieldType.PREFIX, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -157,8 +148,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_REF, FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -169,22 +159,18 @@ public class ChangeField {
 
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> EXACT_TOPIC =
-      new FieldDef.Single<ChangeData, String>(
-          "topic4", FieldType.EXACT, false) {
+      new FieldDef.Single<ChangeData, String>("topic4", FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           return getTopic(input);
         }
       };
 
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> FUZZY_TOPIC =
-      new FieldDef.Single<ChangeData, String>(
-          "topic5", FieldType.FULL_TEXT, false) {
+      new FieldDef.Single<ChangeData, String>("topic5", FieldType.FULL_TEXT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           return getTopic(input);
         }
       };
@@ -194,8 +180,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_SUBMISSIONID, FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -206,11 +191,9 @@ public class ChangeField {
 
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
-      new FieldDef.Single<ChangeData, Timestamp>(
-          "updated2", FieldType.TIMESTAMP, true) {
+      new FieldDef.Single<ChangeData, Timestamp>("updated2", FieldType.TIMESTAMP, true) {
         @Override
-        public Timestamp get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Timestamp get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -225,10 +208,8 @@ public class ChangeField {
           // Named for backwards compatibility.
           ChangeQueryBuilder.FIELD_FILE, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return firstNonNull(input.currentFilePaths(),
-              ImmutableList.<String> of());
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
+          return firstNonNull(input.currentFilePaths(), ImmutableList.<String>of());
         }
       };
 
@@ -252,24 +233,17 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_HASHTAG, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.hashtags().stream()
-              .map(String::toLowerCase)
-              .collect(toSet());
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
+          return input.hashtags().stream().map(String::toLowerCase).collect(toSet());
         }
       };
 
   /** Hashtags with original case. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE =
-      new FieldDef.Repeatable<ChangeData, byte[]>(
-          "_hashtag", FieldType.STORED_ONLY, true) {
+      new FieldDef.Repeatable<ChangeData, byte[]>("_hashtag", FieldType.STORED_ONLY, true) {
         @Override
-        public Iterable<byte[]> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.hashtags().stream()
-              .map(t -> t.getBytes(UTF_8))
-              .collect(toSet());
+        public Iterable<byte[]> get(ChangeData input, FillArgs args) throws OrmException {
+          return input.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet());
         }
       };
 
@@ -278,8 +252,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_FILEPART, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getFileParts(input);
         }
       };
@@ -289,8 +262,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_OWNER, FieldType.INTEGER, false) {
         @Override
-        public Integer get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Integer get(ChangeData input, FillArgs args) throws OrmException {
           Change c = input.change();
           if (c == null) {
             return null;
@@ -304,8 +276,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_ASSIGNEE, FieldType.INTEGER, false) {
         @Override
-        public Integer get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Integer get(ChangeData input, FillArgs args) throws OrmException {
           Account.Id id = input.change().getAssignee();
           return id != null ? id.get() : NO_ASSIGNEE;
         }
@@ -313,11 +284,9 @@ public class ChangeField {
 
   /** Reviewer(s) associated with the change. */
   public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
-      new FieldDef.Repeatable<ChangeData, String>(
-          "reviewer2", FieldType.EXACT, true) {
+      new FieldDef.Repeatable<ChangeData, String>("reviewer2", FieldType.EXACT, true) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getReviewerFieldValues(input.reviewers());
         }
       };
@@ -325,8 +294,8 @@ public class ChangeField {
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
-    for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c
-        : reviewers.asTable().cellSet()) {
+    for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c :
+        reviewers.asTable().cellSet()) {
       String v = getReviewerFieldValue(c.getRowKey(), c.getColumnKey());
       r.add(v);
       r.add(v + ',' + c.getValue().getTime());
@@ -334,8 +303,7 @@ public class ChangeField {
     return r;
   }
 
-  public static String getReviewerFieldValue(ReviewerStateInternal state,
-      Account.Id id) {
+  public static String getReviewerFieldValue(ReviewerStateInternal state, Account.Id id) {
     return state.toString() + ',' + id;
   }
 
@@ -364,8 +332,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_COMMIT, FieldType.PREFIX, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getRevisions(input);
         }
       };
@@ -375,8 +342,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_EXACTCOMMIT, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getRevisions(input);
         }
       };
@@ -396,15 +362,13 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_TR, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           try {
             List<FooterLine> footers = input.commitFooters();
             if (footers == null) {
               return ImmutableSet.of();
             }
-            return Sets.newHashSet(
-                args.trackingFooters.extract(footers).values());
+            return Sets.newHashSet(args.trackingFooters.extract(footers).values());
           } catch (IOException e) {
             throw new OrmException(e);
           }
@@ -417,34 +381,29 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_LABEL, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getLabels(input, false);
         }
       };
 
   /** List of labels on the current patch set including change owner votes. */
   public static final FieldDef<ChangeData, Iterable<String>> LABEL2 =
-      new FieldDef.Repeatable<ChangeData, String>(
-          "label2", FieldType.EXACT, false) {
+      new FieldDef.Repeatable<ChangeData, String>("label2", FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getLabels(input, true);
         }
       };
 
-  private static Iterable<String> getLabels(ChangeData input, boolean owners)
-      throws OrmException {
+  private static Iterable<String> getLabels(ChangeData input, boolean owners) throws OrmException {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : input.currentApprovals()) {
       if (a.getValue() != 0 && !a.isLegacySubmit()) {
-        allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
-            a.getAccountId()));
+        allApprovals.add(formatLabel(a.getLabel(), a.getValue(), a.getAccountId()));
         if (owners && input.change().getOwner().equals(a.getAccountId())) {
-          allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
-              ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+          allApprovals.add(
+              formatLabel(a.getLabel(), a.getValue(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
         }
         distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
       }
@@ -470,44 +429,40 @@ public class ChangeField {
   }
 
   /**
-   * The exact email address, or any part of the author name or email address,
-   * in the current patch set.
+   * The exact email address, or any part of the author name or email address, in the current patch
+   * set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_AUTHOR, FieldType.FULL_TEXT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getAuthorParts(input);
         }
       };
 
   /**
-   * The exact email address, or any part of the committer name or email address,
-   * in the current patch set.
+   * The exact email address, or any part of the committer name or email address, in the current
+   * patch set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_COMMITTER, FieldType.FULL_TEXT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return getCommitterParts(input);
         }
       };
 
   public static class ChangeProtoField extends FieldDef.Single<ChangeData, byte[]> {
-    public static final ProtobufCodec<Change> CODEC =
-        CodecFactory.encoder(Change.class);
+    public static final ProtobufCodec<Change> CODEC = CodecFactory.encoder(Change.class);
 
     private ChangeProtoField() {
       super("_change", FieldType.STORED_ONLY, true);
     }
 
     @Override
-    public byte[] get(ChangeData input, FieldDef.FillArgs args)
-        throws OrmException {
+    public byte[] get(ChangeData input, FieldDef.FillArgs args) throws OrmException {
       Change c = input.change();
       if (c == null) {
         return null;
@@ -519,8 +474,7 @@ public class ChangeField {
   /** Serialized change object, used for pre-populating results. */
   public static final ChangeProtoField CHANGE = new ChangeProtoField();
 
-  public static class PatchSetApprovalProtoField
-      extends FieldDef.Repeatable<ChangeData, byte[]> {
+  public static class PatchSetApprovalProtoField extends FieldDef.Repeatable<ChangeData, byte[]> {
     public static final ProtobufCodec<PatchSetApproval> CODEC =
         CodecFactory.encoder(PatchSetApproval.class);
 
@@ -529,25 +483,22 @@ public class ChangeField {
     }
 
     @Override
-    public Iterable<byte[]> get(ChangeData input, FillArgs args)
-        throws OrmException {
+    public Iterable<byte[]> get(ChangeData input, FillArgs args) throws OrmException {
       return toProtos(CODEC, input.currentApprovals());
     }
   }
 
-  /**
-   * Serialized approvals for the current patch set, used for pre-populating
-   * results.
-   */
-  public static final PatchSetApprovalProtoField APPROVAL =
-      new PatchSetApprovalProtoField();
+  /** Serialized approvals for the current patch set, used for pre-populating results. */
+  public static final PatchSetApprovalProtoField APPROVAL = new PatchSetApprovalProtoField();
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, null);
   }
 
   public static String formatLabel(String label, int value, Account.Id accountId) {
-    return label.toLowerCase() + (value >= 0 ? "+" : "") + value
+    return label.toLowerCase()
+        + (value >= 0 ? "+" : "")
+        + value
         + (accountId != null ? "," + formatAccount(accountId) : "");
   }
 
@@ -560,8 +511,8 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
-      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_MESSAGE,
-          FieldType.FULL_TEXT, false) {
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_MESSAGE, FieldType.FULL_TEXT, false) {
         @Override
         public String get(ChangeData input, FillArgs args) throws OrmException {
           try {
@@ -574,11 +525,10 @@ public class ChangeField {
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
-      new FieldDef.Repeatable<ChangeData, String>(ChangeQueryBuilder.FIELD_COMMENT,
-          FieldType.FULL_TEXT, false) {
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_COMMENT, FieldType.FULL_TEXT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           Set<String> r = new HashSet<>();
           for (Comment c : input.publishedComments()) {
             r.add(c.message);
@@ -595,8 +545,7 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, true) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           Boolean m = input.isMergeable();
           if (m == null) {
             return null;
@@ -610,11 +559,8 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_ADDED, FieldType.INTEGER_RANGE, true) {
         @Override
-        public Integer get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.changedLines().isPresent()
-              ? input.changedLines().get().insertions
-              : null;
+        public Integer get(ChangeData input, FillArgs args) throws OrmException {
+          return input.changedLines().isPresent() ? input.changedLines().get().insertions : null;
         }
       };
 
@@ -623,11 +569,8 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_DELETED, FieldType.INTEGER_RANGE, true) {
         @Override
-        public Integer get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.changedLines().isPresent()
-              ? input.changedLines().get().deletions
-              : null;
+        public Integer get(ChangeData input, FillArgs args) throws OrmException {
+          return input.changedLines().isPresent() ? input.changedLines().get().deletions : null;
         }
       };
 
@@ -636,11 +579,8 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_DELTA, FieldType.INTEGER_RANGE, false) {
         @Override
-        public Integer get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.changedLines()
-              .map(c -> c.insertions + c.deletions)
-              .orElse(null);
+        public Integer get(ChangeData input, FillArgs args) throws OrmException {
+          return input.changedLines().map(c -> c.insertions + c.deletions).orElse(null);
         }
       };
 
@@ -649,8 +589,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_COMMENTBY, FieldType.INTEGER, false) {
         @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<Integer> get(ChangeData input, FillArgs args) throws OrmException {
           Set<Integer> r = new HashSet<>();
           for (ChangeMessage m : input.messages()) {
             if (m.getAuthor() != null) {
@@ -664,20 +603,16 @@ public class ChangeField {
         }
       };
 
-  /**
-   * Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt;
-   */
+  /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_STAR, FieldType.EXACT, true) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return Iterables.transform(
               input.stars().entries(),
               (Map.Entry<Account.Id, String> e) -> {
-                return StarredChangesUtil.StarField.create(
-                    e.getKey(), e.getValue()).toString();
+                return StarredChangesUtil.StarField.create(e.getKey(), e.getValue()).toString();
               });
         }
       };
@@ -687,8 +622,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_STARBY, FieldType.INTEGER, false) {
         @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<Integer> get(ChangeData input, FillArgs args) throws OrmException {
           return Iterables.transform(input.stars().keySet(), Account.Id::get);
         }
       };
@@ -698,8 +632,7 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, String>(
           ChangeQueryBuilder.FIELD_GROUP, FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           Set<String> r = Sets.newHashSetWithExpectedSize(1);
           for (PatchSet ps : input.patchSets()) {
             r.addAll(ps.getGroups());
@@ -708,18 +641,15 @@ public class ChangeField {
         }
       };
 
-  public static class PatchSetProtoField
-      extends FieldDef.Repeatable<ChangeData, byte[]> {
-    public static final ProtobufCodec<PatchSet> CODEC =
-        CodecFactory.encoder(PatchSet.class);
+  public static class PatchSetProtoField extends FieldDef.Repeatable<ChangeData, byte[]> {
+    public static final ProtobufCodec<PatchSet> CODEC = CodecFactory.encoder(PatchSet.class);
 
     private PatchSetProtoField() {
       super("_patch_set", FieldType.STORED_ONLY, true);
     }
 
     @Override
-    public Iterable<byte[]> get(ChangeData input, FieldDef.FillArgs args)
-        throws OrmException {
+    public Iterable<byte[]> get(ChangeData input, FieldDef.FillArgs args) throws OrmException {
       return toProtos(CODEC, input.patchSets());
     }
   }
@@ -732,44 +662,36 @@ public class ChangeField {
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_EDITBY, FieldType.INTEGER, false) {
         @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.editsByUser().stream()
-              .map(Account.Id::get)
-              .collect(toSet());
+        public Iterable<Integer> get(ChangeData input, FillArgs args) throws OrmException {
+          return input.editsByUser().stream().map(Account.Id::get).collect(toSet());
         }
       };
-
 
   /** Users who have draft comments on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> DRAFTBY =
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_DRAFTBY, FieldType.INTEGER, false) {
         @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.draftsByUser().stream()
-              .map(Account.Id::get)
-              .collect(toSet());
+        public Iterable<Integer> get(ChangeData input, FillArgs args) throws OrmException {
+          return input.draftsByUser().stream().map(Account.Id::get).collect(toSet());
         }
       };
 
   /**
    * Users the change was reviewed by since the last author update.
-   * <p>
-   * A change is considered reviewed by a user if the latest update by that user
-   * is newer than the latest update by the change author. Both top-level change
-   * messages and new patch sets are considered to be updates.
-   * <p>
-   * If the latest update is by the change owner, then the special value {@link
-   * #NOT_REVIEWED} is emitted.
+   *
+   * <p>A change is considered reviewed by a user if the latest update by that user is newer than
+   * the latest update by the change author. Both top-level change messages and new patch sets are
+   * considered to be updates.
+   *
+   * <p>If the latest update is by the change owner, then the special value {@link #NOT_REVIEWED} is
+   * emitted.
    */
   public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWEDBY =
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_REVIEWEDBY, FieldType.INTEGER, true) {
         @Override
-        public Iterable<Integer> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<Integer> get(ChangeData input, FillArgs args) throws OrmException {
           Set<Account.Id> reviewedBy = input.reviewedBy();
           if (reviewedBy.isEmpty()) {
             return ImmutableSet.of(NOT_REVIEWED);
@@ -785,19 +707,16 @@ public class ChangeField {
   // Submit rule options in this class should never use fastEvalLabels. This
   // slows down indexing slightly but produces correct search results.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.defaults()
-          .allowClosed(true)
-          .allowDraft(true)
-          .build();
+      SubmitRuleOptions.defaults().allowClosed(true).allowDraft(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       SubmitRuleOptions.defaults().build();
 
   /**
    * JSON type for storing SubmitRecords.
-   * <p>
-   * Stored fields need to use a stable format over a long period; this type
-   * insulates the index from implementation changes in SubmitRecord itself.
+   *
+   * <p>Stored fields need to use a stable format over a long period; this type insulates the index
+   * from implementation changes in SubmitRecord itself.
    */
   static class StoredSubmitRecord {
     static class StoredLabel {
@@ -819,8 +738,7 @@ public class ChangeField {
           StoredLabel sl = new StoredLabel();
           sl.label = label.label;
           sl.status = label.status;
-          sl.appliedBy =
-              label.appliedBy != null ? label.appliedBy.get() : null;
+          sl.appliedBy = label.appliedBy != null ? label.appliedBy.get() : null;
           this.labels.add(sl);
         }
       }
@@ -836,9 +754,7 @@ public class ChangeField {
           SubmitRecord.Label srl = new SubmitRecord.Label();
           srl.label = label.label;
           srl.status = label.status;
-          srl.appliedBy = label.appliedBy != null
-              ? new Account.Id(label.appliedBy)
-              : null;
+          srl.appliedBy = label.appliedBy != null ? new Account.Id(label.appliedBy) : null;
           rec.labels.add(srl);
         }
       }
@@ -847,36 +763,30 @@ public class ChangeField {
   }
 
   public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      new FieldDef.Repeatable<ChangeData, String>(
-          "submit_record", FieldType.EXACT, false) {
+      new FieldDef.Repeatable<ChangeData, String>("submit_record", FieldType.EXACT, false) {
         @Override
-        public Iterable<String> get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
           return formatSubmitRecordValues(input);
         }
       };
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>>
-      STORED_SUBMIT_RECORD_STRICT =
-          new FieldDef.Repeatable<ChangeData, byte[]>(
-              "full_submit_record_strict", FieldType.STORED_ONLY, true) {
-            @Override
-            public Iterable<byte[]> get(ChangeData input, FillArgs args)
-                throws OrmException {
-              return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_STRICT);
-            }
-          };
+  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
+      new FieldDef.Repeatable<ChangeData, byte[]>(
+          "full_submit_record_strict", FieldType.STORED_ONLY, true) {
+        @Override
+        public Iterable<byte[]> get(ChangeData input, FillArgs args) throws OrmException {
+          return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_STRICT);
+        }
+      };
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>>
-      STORED_SUBMIT_RECORD_LENIENT =
-          new FieldDef.Repeatable<ChangeData, byte[]>(
-              "full_submit_record_lenient", FieldType.STORED_ONLY, true) {
-            @Override
-            public Iterable<byte[]> get(ChangeData input, FillArgs args)
-                throws OrmException {
-              return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_LENIENT);
-            }
-          };
+  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
+      new FieldDef.Repeatable<ChangeData, byte[]>(
+          "full_submit_record_lenient", FieldType.STORED_ONLY, true) {
+        @Override
+        public Iterable<byte[]> get(ChangeData input, FillArgs args) throws OrmException {
+          return storedSubmitRecords(input, SUBMIT_RULE_OPTIONS_LENIENT);
+        }
+      };
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
@@ -891,39 +801,34 @@ public class ChangeField {
 
     // Cache the fastEvalLabels variant as well so it can be used by
     // ChangeJson.
-    out.setSubmitRecords(
-        opts.toBuilder().fastEvalLabels(true).build(),
-        records);
+    out.setSubmitRecords(opts.toBuilder().fastEvalLabels(true).build(), records);
   }
 
   @VisibleForTesting
   static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values.stream()
+    return values
+        .stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
         .collect(toList());
   }
 
   @VisibleForTesting
   static List<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
-    return Lists.transform(
-        records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
+    return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(
-      ChangeData cd, SubmitRuleOptions opts) throws OrmException {
+  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts)
+      throws OrmException {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd)
-      throws OrmException {
+  public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
     return formatSubmitRecordValues(
-        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT),
-        cd.change().getOwner());
+        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
 
   @VisibleForTesting
-  static List<String> formatSubmitRecordValues(List<SubmitRecord> records,
-      Account.Id changeOwner) {
+  static List<String> formatSubmitRecordValues(List<SubmitRecord> records, Account.Id changeOwner) {
     List<String> result = new ArrayList<>();
     for (SubmitRecord rec : records) {
       result.add(rec.status.name());

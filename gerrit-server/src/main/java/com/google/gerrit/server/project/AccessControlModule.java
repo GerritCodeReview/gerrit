@@ -27,16 +27,15 @@ import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroupsProvider;
 import com.google.inject.TypeLiteral;
-
 import java.util.Set;
 
 public class AccessControlModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
-      .annotatedWith(AdministrateServerGroups.class)
-      .toProvider(AdministrateServerGroupsProvider.class)
-      .in(SINGLETON);
+        .annotatedWith(AdministrateServerGroups.class)
+        .toProvider(AdministrateServerGroupsProvider.class)
+        .in(SINGLETON);
 
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitUploadPackGroups.class)

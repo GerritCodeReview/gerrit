@@ -17,11 +17,9 @@ package com.google.gerrit.acceptance;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.eclipse.jgit.lib.Config;
 
 class ConfigAnnotationParser {
   private static Splitter splitter = Splitter.on(".").trimResults();
@@ -57,13 +55,11 @@ class ConfigAnnotationParser {
       if (!Strings.isNullOrEmpty(c.value())) {
         cfg.setString(l.get(0), l.get(1), l.get(2), c.value());
       } else {
-        cfg.setStringList(l.get(0), l.get(1), l.get(2),
-            Arrays.asList(c.value()));
+        cfg.setStringList(l.get(0), l.get(1), l.get(2), Arrays.asList(c.value()));
       }
     } else {
       throw new IllegalArgumentException(
-          "GerritConfig.name must be of the format"
-              + " section.subsection.name or section.name");
+          "GerritConfig.name must be of the format" + " section.subsection.name or section.name");
     }
   }
 }

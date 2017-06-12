@@ -30,18 +30,16 @@ import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.Logger;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
-  private static final Logger log = org.slf4j.LoggerFactory
-      .getLogger(DbGroupMemberAuditListener.class);
+  private static final Logger log =
+      org.slf4j.LoggerFactory.getLogger(DbGroupMemberAuditListener.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache accountCache;
@@ -49,8 +47,10 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   private final UniversalGroupBackend groupBackend;
 
   @Inject
-  DbGroupMemberAuditListener(SchemaFactory<ReviewDb> schema,
-      AccountCache accountCache, GroupCache groupCache,
+  DbGroupMemberAuditListener(
+      SchemaFactory<ReviewDb> schema,
+      AccountCache accountCache,
+      GroupCache groupCache,
       UniversalGroupBackend groupBackend) {
     this.schema = schema;
     this.accountCache = accountCache;
@@ -59,33 +59,29 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onAddAccountsToGroup(Account.Id me,
-      Collection<AccountGroupMember> added) {
+  public void onAddAccountsToGroup(Account.Id me, Collection<AccountGroupMember> added) {
     List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
     for (AccountGroupMember m : added) {
-      AccountGroupMemberAudit audit =
-          new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
+      AccountGroupMemberAudit audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
       auditInserts.add(audit);
     }
     try (ReviewDb db = schema.open()) {
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
-          "Cannot log add accounts to group event performed by user", me,
-          added, e);
+          "Cannot log add accounts to group event performed by user", me, added, e);
     }
   }
 
   @Override
-  public void onDeleteAccountsFromGroup(Account.Id me,
-      Collection<AccountGroupMember> removed) {
+  public void onDeleteAccountsFromGroup(Account.Id me, Collection<AccountGroupMember> removed) {
     List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
     List<AccountGroupMemberAudit> auditUpdates = new LinkedList<>();
     try (ReviewDb db = schema.open()) {
       for (AccountGroupMember m : removed) {
         AccountGroupMemberAudit audit = null;
-        for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
-            .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
+        for (AccountGroupMemberAudit a :
+            db.accountGroupMembersAudit().byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
           if (a.isActive()) {
             audit = a;
             break;
@@ -105,38 +101,33 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
-          "Cannot log delete accounts from group event performed by user", me,
-          removed, e);
+          "Cannot log delete accounts from group event performed by user", me, removed, e);
     }
   }
 
   @Override
-  public void onAddGroupsToGroup(Account.Id me,
-      Collection<AccountGroupById> added) {
+  public void onAddGroupsToGroup(Account.Id me, Collection<AccountGroupById> added) {
     List<AccountGroupByIdAud> includesAudit = new ArrayList<>();
     for (AccountGroupById groupInclude : added) {
-      AccountGroupByIdAud audit =
-          new AccountGroupByIdAud(groupInclude, me, TimeUtil.nowTs());
+      AccountGroupByIdAud audit = new AccountGroupByIdAud(groupInclude, me, TimeUtil.nowTs());
       includesAudit.add(audit);
     }
     try (ReviewDb db = schema.open()) {
       db.accountGroupByIdAud().insert(includesAudit);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
-          "Cannot log add groups to group event performed by user", me, added,
-          e);
+          "Cannot log add groups to group event performed by user", me, added, e);
     }
   }
 
   @Override
-  public void onDeleteGroupsFromGroup(Account.Id me,
-      Collection<AccountGroupById> removed) {
+  public void onDeleteGroupsFromGroup(Account.Id me, Collection<AccountGroupById> removed) {
     final List<AccountGroupByIdAud> auditUpdates = new LinkedList<>();
     try (ReviewDb db = schema.open()) {
       for (final AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;
-        for (AccountGroupByIdAud a : db.accountGroupByIdAud()
-            .byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
+        for (AccountGroupByIdAud a :
+            db.accountGroupByIdAud().byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
           if (a.isActive()) {
             audit = a;
             break;
@@ -151,13 +142,12 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupByIdAud().update(auditUpdates);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
-          "Cannot log delete groups from group event performed by user", me,
-          removed, e);
+          "Cannot log delete groups from group event performed by user", me, removed, e);
     }
   }
 
-  private void logOrmExceptionForAccounts(String header, Account.Id me,
-      Collection<AccountGroupMember> values, OrmException e) {
+  private void logOrmExceptionForAccounts(
+      String header, Account.Id me, Collection<AccountGroupMember> values, OrmException e) {
     List<String> descriptions = new ArrayList<>();
     for (AccountGroupMember m : values) {
       Account.Id accountId = m.getAccountId();
@@ -165,14 +155,15 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroup.Id groupId = m.getAccountGroupId();
       String groupName = groupCache.get(groupId).getName();
 
-      descriptions.add(MessageFormat.format("account {0}/{1}, group {2}/{3}",
-          accountId, userName, groupId, groupName));
+      descriptions.add(
+          MessageFormat.format(
+              "account {0}/{1}, group {2}/{3}", accountId, userName, groupId, groupName));
     }
     logOrmException(header, me, descriptions, e);
   }
 
-  private void logOrmExceptionForGroups(String header, Account.Id me,
-      Collection<AccountGroupById> values, OrmException e) {
+  private void logOrmExceptionForGroups(
+      String header, Account.Id me, Collection<AccountGroupById> values, OrmException e) {
     List<String> descriptions = new ArrayList<>();
     for (AccountGroupById m : values) {
       AccountGroup.UUID groupUuid = m.getIncludeUUID();
@@ -180,14 +171,15 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroup.Id targetGroupId = m.getGroupId();
       String targetGroupName = groupCache.get(targetGroupId).getName();
 
-      descriptions.add(MessageFormat.format("group {0}/{1}, group {2}/{3}",
-          groupUuid, groupName, targetGroupId, targetGroupName));
+      descriptions.add(
+          MessageFormat.format(
+              "group {0}/{1}, group {2}/{3}",
+              groupUuid, groupName, targetGroupId, targetGroupName));
     }
     logOrmException(header, me, descriptions, e);
   }
 
-  private void logOrmException(String header, Account.Id me,
-      Iterable<?> values, OrmException e) {
+  private void logOrmException(String header, Account.Id me, Iterable<?> values, OrmException e) {
     StringBuilder message = new StringBuilder(header);
     message.append(" ");
     message.append(me);

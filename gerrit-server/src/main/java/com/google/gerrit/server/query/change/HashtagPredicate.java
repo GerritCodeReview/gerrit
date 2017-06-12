@@ -38,4 +38,3 @@ class HashtagPredicate extends ChangeIndexPredicate {
     return 1;
   }
 }
-

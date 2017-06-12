@@ -17,7 +17,14 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -30,25 +37,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-/**
- * Resolve in which tags and branches a commit is included.
- */
+/** Resolve in which tags and branches a commit is included. */
 public class IncludedInResolver {
 
-  private static final Logger log = LoggerFactory
-      .getLogger(IncludedInResolver.class);
+  private static final Logger log = LoggerFactory.getLogger(IncludedInResolver.class);
 
-  public static Result resolve(final Repository repo,
-      final RevWalk rw, final RevCommit commit) throws IOException {
+  public static Result resolve(final Repository repo, final RevWalk rw, final RevCommit commit)
+      throws IOException {
     RevFlag flag = newFlag(rw);
     try {
       return new IncludedInResolver(repo, rw, commit, flag).resolve();
@@ -57,8 +52,9 @@ public class IncludedInResolver {
     }
   }
 
-  public static boolean includedInOne(final Repository repo, final RevWalk rw,
-      final RevCommit commit, final Collection<Ref> refs) throws IOException {
+  public static boolean includedInOne(
+      final Repository repo, final RevWalk rw, final RevCommit commit, final Collection<Ref> refs)
+      throws IOException {
     RevFlag flag = newFlag(rw);
     try {
       return new IncludedInResolver(repo, rw, commit, flag).includedInOne(refs);
@@ -79,8 +75,8 @@ public class IncludedInResolver {
   private Multimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
 
-  private IncludedInResolver(Repository repo, RevWalk rw, RevCommit target,
-      RevFlag containsTarget) {
+  private IncludedInResolver(
+      Repository repo, RevWalk rw, RevCommit target, RevFlag containsTarget) {
     this.repo = repo;
     this.rw = rw;
     this.target = target;
@@ -91,16 +87,14 @@ public class IncludedInResolver {
     RefDatabase refDb = repo.getRefDatabase();
     Collection<Ref> tags = refDb.getRefs(Constants.R_TAGS).values();
     Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
-    List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(
-        tags.size() + branches.size());
+    List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(tags.size() + branches.size());
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);
     parseCommits(allTagsAndBranches);
     Set<String> allMatchingTagsAndBranches = includedIn(tipsByCommitTime, 0);
 
     Result detail = new Result();
-    detail
-        .setBranches(getMatchingRefNames(allMatchingTagsAndBranches, branches));
+    detail.setBranches(getMatchingRefNames(allMatchingTagsAndBranches, branches));
     detail.setTags(getMatchingRefNames(allMatchingTagsAndBranches, tags));
 
     return detail;
@@ -117,9 +111,7 @@ public class IncludedInResolver {
     return !includedIn(after, 1).isEmpty() || !includedIn(before, 1).isEmpty();
   }
 
-  /**
-   * Resolves which tip refs include the target commit.
-   */
+  /** Resolves which tip refs include the target commit. */
   private Set<String> includedIn(final Collection<RevCommit> tips, int limit)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     Set<String> result = new HashSet<>();
@@ -146,9 +138,10 @@ public class IncludedInResolver {
 
   /**
    * Partition the reference tips into two sets:
+   *
    * <ul>
-   * <li> before = commits with time <  target.getCommitTime()
-   * <li> after  = commits with time >= target.getCommitTime()
+   *   <li>before = commits with time < target.getCommitTime()
+   *   <li>after = commits with time >= target.getCommitTime()
    * </ul>
    *
    * Each of the before/after lists is sorted by the the commit time.
@@ -156,17 +149,19 @@ public class IncludedInResolver {
    * @param before
    * @param after
    */
-  private void partition(final List<RevCommit> before,
-      final List<RevCommit> after) {
-    int insertionPoint = Collections.binarySearch(tipsByCommitTime, target,
-        new Comparator<RevCommit>() {
-      @Override
-      public int compare(RevCommit c1, RevCommit c2) {
-        return c1.getCommitTime() - c2.getCommitTime();
-      }
-    });
+  private void partition(final List<RevCommit> before, final List<RevCommit> after) {
+    int insertionPoint =
+        Collections.binarySearch(
+            tipsByCommitTime,
+            target,
+            new Comparator<RevCommit>() {
+              @Override
+              public int compare(RevCommit c1, RevCommit c2) {
+                return c1.getCommitTime() - c2.getCommitTime();
+              }
+            });
     if (insertionPoint < 0) {
-      insertionPoint = - (insertionPoint + 1);
+      insertionPoint = -(insertionPoint + 1);
     }
     if (0 < insertionPoint) {
       before.addAll(tipsByCommitTime.subList(0, insertionPoint));
@@ -177,11 +172,11 @@ public class IncludedInResolver {
   }
 
   /**
-   * Returns the short names of refs which are as well in the matchingRefs list
-   * as well as in the allRef list.
+   * Returns the short names of refs which are as well in the matchingRefs list as well as in the
+   * allRef list.
    */
-  private static List<String> getMatchingRefNames(Set<String> matchingRefs,
-      Collection<Ref> allRefs) {
+  private static List<String> getMatchingRefNames(
+      Set<String> matchingRefs, Collection<Ref> allRefs) {
     List<String> refNames = Lists.newArrayListWithCapacity(matchingRefs.size());
     for (Ref r : allRefs) {
       if (matchingRefs.contains(r.getName())) {
@@ -191,9 +186,7 @@ public class IncludedInResolver {
     return refNames;
   }
 
-  /**
-   * Parse commit of ref and store the relation between ref and commit.
-   */
+  /** Parse commit of ref and store the relation between ref and commit. */
   private void parseCommits(final Collection<Ref> refs) throws IOException {
     if (commitToRef != null) {
       return;
@@ -211,8 +204,13 @@ public class IncludedInResolver {
       } catch (MissingObjectException notHere) {
         // Log the problem with this branch, but keep processing.
         //
-        log.warn("Reference " + ref.getName() + " in " + repo.getDirectory()
-            + " points to dangling object " + ref.getObjectId());
+        log.warn(
+            "Reference "
+                + ref.getName()
+                + " in "
+                + repo.getDirectory()
+                + " points to dangling object "
+                + ref.getObjectId());
         continue;
       }
       commitToRef.put(commit, ref.getName());
@@ -222,20 +220,21 @@ public class IncludedInResolver {
   }
 
   private void sortOlderFirst(final List<RevCommit> tips) {
-    Collections.sort(tips, new Comparator<RevCommit>() {
-      @Override
-      public int compare(RevCommit c1, RevCommit c2) {
-        return c1.getCommitTime() - c2.getCommitTime();
-      }
-    });
+    Collections.sort(
+        tips,
+        new Comparator<RevCommit>() {
+          @Override
+          public int compare(RevCommit c1, RevCommit c2) {
+            return c1.getCommitTime() - c2.getCommitTime();
+          }
+        });
   }
 
   public static class Result {
     private List<String> branches;
     private List<String> tags;
 
-    public Result() {
-    }
+    public Result() {}
 
     public void setBranches(final List<String> b) {
       Collections.sort(b);

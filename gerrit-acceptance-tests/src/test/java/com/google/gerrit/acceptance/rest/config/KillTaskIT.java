@@ -20,17 +20,15 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
-
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class KillTaskIT extends AbstractDaemonTest {
 
   private void killTask() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
-    List<TaskInfo> result = newGson().fromJson(r.getReader(),
-        new TypeToken<List<TaskInfo>>() {}.getType());
+    List<TaskInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     int taskCount = result.size();
     assertThat(taskCount).isGreaterThan(0);
@@ -40,22 +38,19 @@ public class KillTaskIT extends AbstractDaemonTest {
     r.consume();
 
     r = adminRestSession.get("/config/server/tasks/");
-    result = newGson().fromJson(r.getReader(),
-        new TypeToken<List<TaskInfo>>() {}.getType());
+    result = newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     assertThat(result).hasSize(taskCount - 1);
   }
 
   private void killTask_NotFound() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
-    List<TaskInfo> result = newGson().fromJson(r.getReader(),
-        new TypeToken<List<TaskInfo>>() {}.getType());
+    List<TaskInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     assertThat(result.size()).isGreaterThan(0);
 
-    userRestSession
-        .delete("/config/server/tasks/" + result.get(0).id)
-        .assertNotFound();
+    userRestSession.delete("/config/server/tasks/" + result.get(0).id).assertNotFound();
   }
 
   @Test

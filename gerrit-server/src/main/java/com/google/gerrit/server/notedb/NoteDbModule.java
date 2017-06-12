@@ -24,7 +24,6 @@ import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-
 import org.eclipse.jgit.lib.Config;
 
 public class NoteDbModule extends FactoryModule {
@@ -62,39 +61,38 @@ public class NoteDbModule extends FactoryModule {
         bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
       }
     } else {
-      bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
-        @Override
-        public Result rebuild(ReviewDb db, Change.Id changeId) {
-          return null;
-        }
+      bind(ChangeRebuilder.class)
+          .toInstance(
+              new ChangeRebuilder(null) {
+                @Override
+                public Result rebuild(ReviewDb db, Change.Id changeId) {
+                  return null;
+                }
 
-        @Override
-        public Result rebuild(NoteDbUpdateManager manager,
-            ChangeBundle bundle) {
-          return null;
-        }
+                @Override
+                public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle) {
+                  return null;
+                }
 
-        @Override
-        public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
-          return null;
-        }
+                @Override
+                public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
+                  return null;
+                }
 
-        @Override
-        public Result execute(ReviewDb db, Change.Id changeId,
-            NoteDbUpdateManager manager) {
-          return null;
-        }
+                @Override
+                public Result execute(
+                    ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager) {
+                  return null;
+                }
 
-        @Override
-        public void buildUpdates(NoteDbUpdateManager manager,
-            ChangeBundle bundle) {
-          // Do nothing.
-        }
-      });
+                @Override
+                public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle) {
+                  // Do nothing.
+                }
+              });
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
           .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))
-          .toInstance(CacheBuilder.newBuilder()
-              .<ChangeNotesCache.Key, ChangeNotesState>build());
+          .toInstance(CacheBuilder.newBuilder().<ChangeNotesCache.Key, ChangeNotesState>build());
     }
   }
 }

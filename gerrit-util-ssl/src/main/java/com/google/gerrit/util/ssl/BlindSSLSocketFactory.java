@@ -21,7 +21,6 @@ import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -33,20 +32,19 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
   private static final BlindSSLSocketFactory INSTANCE;
 
   static {
-    final X509TrustManager dummyTrustManager = new X509TrustManager() {
-      @Override
-      public X509Certificate[] getAcceptedIssuers() {
-        return null;
-      }
+    final X509TrustManager dummyTrustManager =
+        new X509TrustManager() {
+          @Override
+          public X509Certificate[] getAcceptedIssuers() {
+            return null;
+          }
 
-      @Override
-      public void checkClientTrusted(X509Certificate[] chain, String authType) {
-      }
+          @Override
+          public void checkClientTrusted(X509Certificate[] chain, String authType) {}
 
-      @Override
-      public void checkServerTrusted(X509Certificate[] chain, String authType) {
-      }
-    };
+          @Override
+          public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+        };
 
     try {
       final SSLContext context = SSLContext.getInstance("SSL");
@@ -91,8 +89,7 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
   }
 
   @Override
-  public Socket createSocket(String host, int port) throws IOException,
-      UnknownHostException {
+  public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
     return sslFactory.createSocket(host, port);
   }
 
@@ -102,14 +99,14 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
   }
 
   @Override
-  public Socket createSocket(String host, int port, InetAddress localHost,
-      int localPort) throws IOException, UnknownHostException {
+  public Socket createSocket(String host, int port, InetAddress localHost, int localPort)
+      throws IOException, UnknownHostException {
     return sslFactory.createSocket(host, port, localHost, localPort);
   }
 
   @Override
-  public Socket createSocket(InetAddress address, int port,
-      InetAddress localAddress, int localPort) throws IOException {
+  public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort)
+      throws IOException {
     return sslFactory.createSocket(address, port, localAddress, localPort);
   }
 }

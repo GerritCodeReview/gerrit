@@ -19,7 +19,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -29,18 +28,22 @@ public @interface TestProjectInput {
   // Fields from ProjectInput for creating the project.
 
   String parent() default "";
+
   boolean createEmptyCommit() default true;
+
   String description() default "";
 
   // These may be null in a ProjectInput, but annotations do not allow null
   // default values. Thus these defaults should match ProjectConfig.
   SubmitType submitType() default SubmitType.MERGE_IF_NECESSARY;
-  InheritableBoolean useContributorAgreements()
-      default InheritableBoolean.INHERIT;
-  InheritableBoolean useSignedOffBy() default InheritableBoolean.INHERIT;
-  InheritableBoolean useContentMerge() default InheritableBoolean.INHERIT;
-  InheritableBoolean requireChangeId() default InheritableBoolean.INHERIT;
 
+  InheritableBoolean useContributorAgreements() default InheritableBoolean.INHERIT;
+
+  InheritableBoolean useSignedOffBy() default InheritableBoolean.INHERIT;
+
+  InheritableBoolean useContentMerge() default InheritableBoolean.INHERIT;
+
+  InheritableBoolean requireChangeId() default InheritableBoolean.INHERIT;
 
   // Fields specific to acceptance test behavior.
 

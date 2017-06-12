@@ -15,15 +15,13 @@
 package com.google.gerrit.server.auth;
 
 /**
- * An authentication exception that is thrown when the user credentials are
- * valid, but not allowed to authenticate for other reasons i.e. account
- * disabled.
+ * An authentication exception that is thrown when the user credentials are valid, but not allowed
+ * to authenticate for other reasons i.e. account disabled.
  */
 public class UserNotAllowedException extends AuthException {
   private static final long serialVersionUID = -1531411999932922558L;
 
-  public UserNotAllowedException() {
-  }
+  public UserNotAllowedException() {}
 
   public UserNotAllowedException(String msg) {
     super(msg);

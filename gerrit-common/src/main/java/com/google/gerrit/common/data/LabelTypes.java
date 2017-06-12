@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.LabelId;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,12 +27,10 @@ public class LabelTypes {
   private transient volatile Map<String, LabelType> byLabel;
   private transient volatile Map<String, Integer> positions;
 
-  protected LabelTypes() {
-  }
+  protected LabelTypes() {}
 
   public LabelTypes(final List<? extends LabelType> approvals) {
-    labelTypes =
-        Collections.unmodifiableList(new ArrayList<>(approvals));
+    labelTypes = Collections.unmodifiableList(new ArrayList<>(approvals));
   }
 
   public List<LabelType> getLabelTypes() {

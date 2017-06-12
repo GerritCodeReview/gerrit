@@ -19,6 +19,5 @@ import com.google.gerrit.server.query.QueryParseException;
 
 public interface IndexRewriter<T> {
 
-  Predicate<T> rewrite(Predicate<T> in, QueryOptions opts)
-      throws QueryParseException;
+  Predicate<T> rewrite(Predicate<T> in, QueryOptions opts) throws QueryParseException;
 }

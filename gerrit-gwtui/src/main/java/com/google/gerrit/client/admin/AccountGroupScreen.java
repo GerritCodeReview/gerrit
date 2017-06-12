@@ -41,7 +41,9 @@ public abstract class AccountGroupScreen extends MenuScreen {
     this.auditLogTabToken = getTabToken(token, AUDIT_LOG);
 
     link(Util.C.groupTabGeneral(), getTabToken(token, INFO));
-    link(Util.C.groupTabMembers(), membersTabToken,
+    link(
+        Util.C.groupTabMembers(),
+        membersTabToken,
         AccountGroup.isInternalGroup(group.getGroupUUID()));
   }
 
@@ -57,17 +59,21 @@ public abstract class AccountGroupScreen extends MenuScreen {
     super.onLoad();
     setPageTitle(Util.M.group(group.name()));
     display();
-    GroupApi.isGroupOwner(group.name(), new GerritCallback<Boolean>() {
-      @Override
-      public void onSuccess(Boolean result) {
-        if (result) {
-          link(Util.C.groupTabAuditLog(), auditLogTabToken,
-              AccountGroup.isInternalGroup(group.getGroupUUID()));
-          setToken(token);
-        }
-        display(group, result);
-      }
-    });
+    GroupApi.isGroupOwner(
+        group.name(),
+        new GerritCallback<Boolean>() {
+          @Override
+          public void onSuccess(Boolean result) {
+            if (result) {
+              link(
+                  Util.C.groupTabAuditLog(),
+                  auditLogTabToken,
+                  AccountGroup.isInternalGroup(group.getGroupUUID()));
+              setToken(token);
+            }
+            display(group, result);
+          }
+        });
   }
 
   protected abstract void display(final GroupInfo group, final boolean canModify);

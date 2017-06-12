@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.Date;
 
 public class AfterPredicate extends TimestampRangeChangePredicate {

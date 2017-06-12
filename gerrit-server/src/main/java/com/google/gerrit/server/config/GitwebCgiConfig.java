@@ -19,18 +19,15 @@ import static java.nio.file.Files.isRegularFile;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 @Singleton
 public class GitwebCgiConfig {
-  private static final Logger log =
-      LoggerFactory.getLogger(GitwebCgiConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(GitwebCgiConfig.class);
 
   public GitwebCgiConfig disabled() {
     return new GitwebCgiConfig();
@@ -54,10 +51,7 @@ public class GitwebCgiConfig {
     String cfgCgi = cfg.getString("gitweb", null, "cgi");
     Path pkgCgi = Paths.get("/usr/lib/cgi-bin/gitweb.cgi");
     String[] resourcePaths = {
-        "/usr/share/gitweb/static",
-        "/usr/share/gitweb",
-        "/var/www/static",
-        "/var/www",
+      "/usr/share/gitweb/static", "/usr/share/gitweb", "/var/www/static", "/var/www",
     };
     Path cgi;
 

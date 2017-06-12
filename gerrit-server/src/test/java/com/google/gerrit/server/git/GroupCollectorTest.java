@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -38,8 +37,7 @@ public class GroupCollectorTest {
 
   @Before
   public void setUp() throws Exception {
-    tr = new TestRepository<>(
-        new InMemoryRepository(new DfsRepositoryDescription("repo")));
+    tr = new TestRepository<>(new InMemoryRepository(new DfsRepositoryDescription("repo")));
   }
 
   @Test
@@ -47,58 +45,46 @@ public class GroupCollectorTest {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(a, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups = collectGroups(newWalk(a, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
   }
 
   @Test
-  public void commitWhoseParentIsNewPatchSetGetsParentsGroup()
-      throws Exception {
+  public void commitWhoseParentIsNewPatchSetGetsParentsGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(b, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups = collectGroups(newWalk(b, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
   }
 
   @Test
-  public void commitWhoseParentIsExistingPatchSetGetsParentsGroup()
-      throws Exception {
+  public void commitWhoseParentIsExistingPatchSetGetsParentsGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(b, branchTip),
-        patchSets().put(a, psId(1, 1)),
-        groups().put(psId(1, 1), group));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(b, branchTip), patchSets().put(a, psId(1, 1)), groups().put(psId(1, 1), group));
 
     assertThat(groups).containsEntry(a, group);
     assertThat(groups).containsEntry(b, group);
   }
 
   @Test
-  public void commitWhoseParentIsExistingPatchSetWithNoGroup()
-      throws Exception {
+  public void commitWhoseParentIsExistingPatchSetWithNoGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(b, branchTip),
-        patchSets().put(a, psId(1, 1)),
-        groups());
+    Multimap<ObjectId, String> groups =
+        collectGroups(newWalk(b, branchTip), patchSets().put(a, psId(1, 1)), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -111,10 +97,7 @@ public class GroupCollectorTest {
     RevCommit b = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -129,10 +112,9 @@ public class GroupCollectorTest {
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets().put(b, psId(1, 1)),
-        groups().put(psId(1, 1), group));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(m, branchTip), patchSets().put(b, psId(1, 1)), groups().put(psId(1, 1), group));
 
     // Merge commit and other parent get the existing group.
     assertThat(groups).containsEntry(a, group);
@@ -141,8 +123,7 @@ public class GroupCollectorTest {
   }
 
   @Test
-  public void mergeCommitWhereBothParentsHaveDifferentGroups()
-      throws Exception {
+  public void mergeCommitWhereBothParentsHaveDifferentGroups() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(branchTip).create();
@@ -150,20 +131,16 @@ public class GroupCollectorTest {
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2 = "1234567812345678123456781234567812345678";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets()
-            .put(a, psId(1, 1))
-            .put(b, psId(2, 1)),
-        groups()
-            .put(psId(1, 1), group1)
-            .put(psId(2, 1), group2));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(m, branchTip),
+            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
+            groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
 
     assertThat(groups).containsEntry(a, group1);
     assertThat(groups).containsEntry(b, group2);
     // Merge commit gets joined group of parents.
-    assertThat(groups.asMap())
-        .containsEntry(m, ImmutableSet.of(group1, group2));
+    assertThat(groups.asMap()).containsEntry(m, ImmutableSet.of(group1, group2));
   }
 
   @Test
@@ -176,60 +153,47 @@ public class GroupCollectorTest {
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2a = "1234567812345678123456781234567812345678";
     String group2b = "ef123456ef123456ef123456ef123456ef123456";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets()
-            .put(a, psId(1, 1))
-            .put(b, psId(2, 1)),
-        groups()
-            .put(psId(1, 1), group1)
-            .put(psId(2, 1), group2a)
-            .put(psId(2, 1), group2b));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(m, branchTip),
+            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
+            groups().put(psId(1, 1), group1).put(psId(2, 1), group2a).put(psId(2, 1), group2b));
 
     assertThat(groups).containsEntry(a, group1);
-    assertThat(groups.asMap())
-        .containsEntry(b, ImmutableSet.of(group2a, group2b));
+    assertThat(groups.asMap()).containsEntry(b, ImmutableSet.of(group2a, group2b));
     // Joined parent groups are split and resorted.
-    assertThat(groups.asMap())
-        .containsEntry(m, ImmutableSet.of(group1, group2a, group2b));
+    assertThat(groups.asMap()).containsEntry(m, ImmutableSet.of(group1, group2a, group2b));
   }
 
   @Test
-  public void mergeCommitWithOneUninterestingParentAndOtherParentIsExisting()
-      throws Exception {
+  public void mergeCommitWithOneUninterestingParentAndOtherParentIsExisting() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets().put(a, psId(1, 1)),
-        groups().put(psId(1, 1), group));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(m, branchTip), patchSets().put(a, psId(1, 1)), groups().put(psId(1, 1), group));
 
     assertThat(groups).containsEntry(a, group);
     assertThat(groups).containsEntry(m, group);
   }
 
   @Test
-  public void mergeCommitWithOneUninterestingParentAndOtherParentIsNew()
-      throws Exception {
+  public void mergeCommitWithOneUninterestingParentAndOtherParentIsNew() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(m, a.name());
   }
 
   @Test
-  public void multipleMergeCommitsInHistoryAllResolveToSameGroup()
-      throws Exception {
+  public void multipleMergeCommitsInHistoryAllResolveToSameGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(branchTip).create();
@@ -237,10 +201,8 @@ public class GroupCollectorTest {
     RevCommit m1 = tr.commit().parent(b).parent(c).create();
     RevCommit m2 = tr.commit().parent(a).parent(m1).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m2, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups =
+        collectGroups(newWalk(m2, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -250,8 +212,7 @@ public class GroupCollectorTest {
   }
 
   @Test
-  public void mergeCommitWithDuplicatedParentGetsParentsGroup()
-      throws Exception {
+  public void mergeCommitWithDuplicatedParentGetsParentsGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(a).parent(a).create();
@@ -259,18 +220,14 @@ public class GroupCollectorTest {
     assertThat(m.getParentCount()).isEqualTo(2);
     assertThat(m.getParent(0)).isEqualTo(m.getParent(1));
 
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets(),
-        groups());
+    Multimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), patchSets(), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(m, a.name());
   }
 
   @Test
-  public void mergeCommitWithOneNewParentAndTwoExistingPatchSets()
-      throws Exception {
+  public void mergeCommitWithOneNewParentAndTwoExistingPatchSets() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(branchTip).create();
@@ -279,20 +236,16 @@ public class GroupCollectorTest {
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2 = "1234567812345678123456781234567812345678";
-    Multimap<ObjectId, String> groups = collectGroups(
-        newWalk(m, branchTip),
-        patchSets()
-            .put(a, psId(1, 1))
-            .put(b, psId(2, 1)),
-        groups()
-            .put(psId(1, 1), group1)
-            .put(psId(2, 1), group2));
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            newWalk(m, branchTip),
+            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
+            groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
 
     assertThat(groups).containsEntry(a, group1);
     assertThat(groups).containsEntry(b, group2);
     assertThat(groups).containsEntry(c, group2);
-    assertThat(groups.asMap())
-        .containsEntry(m, ImmutableSet.of(group1, group2));
+    assertThat(groups.asMap()).containsEntry(m, ImmutableSet.of(group1, group2));
   }
 
   @Test
@@ -307,15 +260,16 @@ public class GroupCollectorTest {
     rw.markStart(rw.parseCommit(d));
     // Schema upgrade case: all commits are existing patch sets, but none have
     // groups assigned yet.
-    Multimap<ObjectId, String> groups = collectGroups(
-        rw,
-        patchSets()
-            .put(branchTip, psId(1, 1))
-            .put(a, psId(2, 1))
-            .put(b, psId(3, 1))
-            .put(c, psId(4, 1))
-            .put(d, psId(5, 1)),
-        groups());
+    Multimap<ObjectId, String> groups =
+        collectGroups(
+            rw,
+            patchSets()
+                .put(branchTip, psId(1, 1))
+                .put(a, psId(2, 1))
+                .put(b, psId(3, 1))
+                .put(c, psId(4, 1))
+                .put(d, psId(5, 1)),
+            groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -344,8 +298,7 @@ public class GroupCollectorTest {
       ImmutableMultimap.Builder<ObjectId, PatchSet.Id> patchSetsBySha,
       ImmutableListMultimap.Builder<PatchSet.Id, String> groupLookup)
       throws Exception {
-    GroupCollector gc =
-        new GroupCollector(patchSetsBySha.build(), groupLookup.build());
+    GroupCollector gc = new GroupCollector(patchSetsBySha.build(), groupLookup.build());
     RevCommit c;
     while ((c = rw.next()) != null) {
       gc.visit(c);

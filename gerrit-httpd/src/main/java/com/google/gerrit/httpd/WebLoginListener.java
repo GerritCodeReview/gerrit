@@ -16,22 +16,18 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.IdentifiedUser;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Allows to listen and override the reponse to login/logout web actions.
  *
- * Allows to intercept and act when a Gerrit user logs in or logs out of
- * the Web interface to perform actions or to override the output response
- * status code.
+ * <p>Allows to intercept and act when a Gerrit user logs in or logs out of the Web interface to
+ * perform actions or to override the output response status code.
  *
- * Typical use can be multi-factor authentication (on login) or global sign-out
- * from SSO systems (on logout).
- *
+ * <p>Typical use can be multi-factor authentication (on login) or global sign-out from SSO systems
+ * (on logout).
  */
 @ExtensionPoint
 public interface WebLoginListener {
@@ -43,8 +39,8 @@ public interface WebLoginListener {
    * @param request request of the latest login action
    * @param response response of the latest login action
    */
-  void onLogin(IdentifiedUser userId, HttpServletRequest request,
-               HttpServletResponse response) throws IOException;
+  void onLogin(IdentifiedUser userId, HttpServletRequest request, HttpServletResponse response)
+      throws IOException;
 
   /**
    * Invoked after a user's web logout.
@@ -53,6 +49,6 @@ public interface WebLoginListener {
    * @param request request of the latest logout action
    * @param response response of the latest logout action
    */
-  void onLogout(IdentifiedUser userId, HttpServletRequest request,
-                HttpServletResponse response) throws IOException;
+  void onLogout(IdentifiedUser userId, HttpServletRequest request, HttpServletResponse response)
+      throws IOException;
 }

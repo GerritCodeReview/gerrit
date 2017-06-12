@@ -19,11 +19,11 @@ import com.google.gwtorm.client.StringKey;
 
 /**
  * Defining a project/branch subscription to a project/branch project.
- * <p>
- * This means a class instance represents a repo/branch subscription to a
- * project/branch (the subscriber).
- * <p>
- * A subscriber operates a submodule in defined path.
+ *
+ * <p>This means a class instance represents a repo/branch subscription to a project/branch (the
+ * subscriber).
+ *
+ * <p>A subscriber operates a submodule in defined path.
  */
 public final class SubmoduleSubscription {
   /** Subscription key */
@@ -31,8 +31,8 @@ public final class SubmoduleSubscription {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Indicates the super project, aka subscriber: the project owner of the
-     * gitlinks to the submodules.
+     * Indicates the super project, aka subscriber: the project owner of the gitlinks to the
+     * submodules.
      */
     @Column(id = 1)
     protected Branch.NameKey superProject;
@@ -71,12 +71,9 @@ public final class SubmoduleSubscription {
   @Column(id = 2)
   protected Branch.NameKey submodule;
 
-  protected SubmoduleSubscription() {
-  }
+  protected SubmoduleSubscription() {}
 
-  public SubmoduleSubscription(Branch.NameKey superProject,
-      Branch.NameKey submodule,
-      String path) {
+  public SubmoduleSubscription(Branch.NameKey superProject, Branch.NameKey submodule, String path) {
     this.key = new Key(superProject, path);
     this.submodule = submodule;
   }

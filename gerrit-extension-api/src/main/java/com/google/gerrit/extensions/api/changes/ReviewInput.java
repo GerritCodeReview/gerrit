@@ -19,7 +19,6 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,8 +26,7 @@ import java.util.Map;
 
 /** Input passed to {@code POST /changes/[id]/revisions/[id]/review}. */
 public class ReviewInput {
-  @DefaultInput
-  public String message;
+  @DefaultInput public String message;
 
   public String tag;
 
@@ -37,48 +35,40 @@ public class ReviewInput {
   public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
-   * If true require all labels to be within the user's permitted ranges based
-   * on access controls, attempting to use a label not granted to the user
-   * will fail the entire modify operation early. If false the operation will
-   * execute anyway, but the proposed labels given by the user will be
-   * modified to be the "best" value allowed by the access controls, or
-   * ignored if the label does not exist.
+   * If true require all labels to be within the user's permitted ranges based on access controls,
+   * attempting to use a label not granted to the user will fail the entire modify operation early.
+   * If false the operation will execute anyway, but the proposed labels given by the user will be
+   * modified to be the "best" value allowed by the access controls, or ignored if the label does
+   * not exist.
    */
   public boolean strictLabels = true;
 
   /**
-   * How to process draft comments already in the database that were not also
-   * described in this input request.
-   * <p>
-   * Defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it
-   * defaults to KEEP and any other value is disallowed.
+   * How to process draft comments already in the database that were not also described in this
+   * input request.
+   *
+   * <p>Defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it defaults to KEEP and
+   * any other value is disallowed.
    */
   public DraftHandling drafts;
 
   /** Who to send email notifications to after review is stored. */
   public NotifyHandling notify = NotifyHandling.ALL;
 
-  /**
-   * If true check to make sure that the comments being posted aren't already
-   * present.
-   */
+  /** If true check to make sure that the comments being posted aren't already present. */
   public boolean omitDuplicateComments;
 
   /**
-   * Account ID, name, email address or username of another user. The review
-   * will be posted/updated on behalf of this named user instead of the
-   * caller. Caller must have the labelAs-$NAME permission granted for each
-   * label that appears in {@link #labels}. This is in addition to the named
-   * user also needing to have permission to use the labels.
-   * <p>
-   * {@link #strictLabels} impacts how labels is processed for the named user,
-   * not the caller.
+   * Account ID, name, email address or username of another user. The review will be posted/updated
+   * on behalf of this named user instead of the caller. Caller must have the labelAs-$NAME
+   * permission granted for each label that appears in {@link #labels}. This is in addition to the
+   * named user also needing to have permission to use the labels.
+   *
+   * <p>{@link #strictLabels} impacts how labels is processed for the named user, not the caller.
    */
   public String onBehalfOf;
 
-  /**
-   * Reviewers that should be added to this change.
-   */
+  /** Reviewers that should be added to this change. */
   public List<AddReviewerInput> reviewers;
 
   public enum DraftHandling {
@@ -95,8 +85,7 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public static class CommentInput extends Comment {
-  }
+  public static class CommentInput extends Comment {}
 
   public static class RobotCommentInput extends CommentInput {
     public String robotId;
@@ -136,8 +125,7 @@ public class ReviewInput {
     return reviewer(reviewer, REVIEWER, false);
   }
 
-  public ReviewInput reviewer(String reviewer, ReviewerState state,
-      boolean confirmed) {
+  public ReviewInput reviewer(String reviewer, ReviewerState state, boolean confirmed) {
     AddReviewerInput input = new AddReviewerInput();
     input.reviewer = reviewer;
     input.state = state;

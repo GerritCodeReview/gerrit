@@ -39,18 +39,19 @@ class DocTable extends NavigationTable<DocInfo> {
     FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_TITLE, Gerrit.RESOURCES.css().dataHeader());
 
-    table.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        Cell cell = table.getCellForEvent(event);
-        if (cell == null) {
-          return;
-        }
-        if (getRowItem(cell.getRowIndex()) != null) {
-          movePointerTo(cell.getRowIndex());
-        }
-      }
-    });
+    table.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            Cell cell = table.getCellForEvent(event);
+            if (cell == null) {
+              return;
+            }
+            if (getRowItem(cell.getRowIndex()) != null) {
+              movePointerTo(cell.getRowIndex());
+            }
+          }
+        });
   }
 
   @Override

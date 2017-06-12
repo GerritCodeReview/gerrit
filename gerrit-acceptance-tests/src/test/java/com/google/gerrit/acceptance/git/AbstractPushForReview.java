@@ -57,7 +57,13 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -70,18 +76,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // TODO(dborowitz): TEST.
-    SSH, HTTP
+    SSH,
+    HTTP
   }
 
   private String sshUrl;
@@ -103,10 +102,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
-    AccountGroup.UUID anonymousUsers =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers,
-        "refs/heads/*");
+    AccountGroup.UUID anonymousUsers = SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    Util.allow(
+        cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers, "refs/heads/*");
     saveProjectConfig(cfg);
     grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
   }
@@ -136,8 +134,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void pushInitialCommitForMasterBranch() throws Exception {
-    RevCommit c =
-        testRepo.commit().message("Initial commit").insertChangeId().create();
+    RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();
     String id = GitUtil.getChangeId(testRepo, c).get();
     testRepo.reset(c);
 
@@ -163,28 +160,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r1.assertOkStatus();
     r1.assertChange(Change.Status.NEW, null);
     r1.assertMessage(
-        "New changes:\n"
-        + "  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
+        "New changes:\n" + "  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
 
     testRepo.reset(initialHead);
     String newMsg = r1.getCommit().getShortMessage() + " v2";
-    testRepo.branch("HEAD").commit()
+    testRepo
+        .branch("HEAD")
+        .commit()
         .message(newMsg)
         .insertChangeId(r1.getChangeId().substring(1))
         .create();
-    PushOneCommit.Result r2 = pushFactory.create(
-            db, admin.getIdent(), testRepo, "another commit", "b.txt", "bbb")
-        .to("refs/for/master");
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, "another commit", "b.txt", "bbb")
+            .to("refs/for/master");
     Change.Id id2 = r2.getChange().getId();
     r2.assertOkStatus();
     r2.assertChange(Change.Status.NEW, null);
     r2.assertMessage(
         "New changes:\n"
-        + "  " + url + id2 + " another commit\n"
-        + "\n"
-        + "\n"
-        + "Updated changes:\n"
-        + "  " + url + id1 + " " + newMsg + "\n");
+            + "  "
+            + url
+            + id2
+            + " another commit\n"
+            + "\n"
+            + "\n"
+            + "Updated changes:\n"
+            + "  "
+            + url
+            + id1
+            + " "
+            + newMsg
+            + "\n");
   }
 
   @Test
@@ -219,13 +226,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushForMasterWithNotify() throws Exception {
     TestAccount user2 = accounts.user2();
-    String pushSpec = "refs/for/master"
-        + "%reviewer=" + user.email
-        + ",cc=" + user2.email;
+    String pushSpec = "refs/for/master" + "%reviewer=" + user.email + ",cc=" + user2.email;
 
     sender.clear();
-    PushOneCommit.Result r =
-        pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
+    PushOneCommit.Result r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(0);
 
@@ -259,17 +263,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, topic);
 
     // cc several users
-    TestAccount user2 =
-        accounts.create("another-user", "another.user@example.com", "Another User");
-    r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
-        + user.email + ",cc=" + user2.email);
+    TestAccount user2 = accounts.create("another-user", "another.user@example.com", "Another User");
+    r =
+        pushTo(
+            "refs/for/master/"
+                + topic
+                + "%cc="
+                + admin.email
+                + ",cc="
+                + user.email
+                + ",cc="
+                + user2.email);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
 
     // cc non-existing user
     String nonExistingEmail = "non.existing@example.com";
-    r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
-        + nonExistingEmail + ",cc=" + user.email);
+    r =
+        pushTo(
+            "refs/for/master/"
+                + topic
+                + "%cc="
+                + admin.email
+                + ",cc="
+                + nonExistingEmail
+                + ",cc="
+                + user.email);
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
@@ -282,18 +301,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, topic, user);
 
     // add several reviewers
-    TestAccount user2 =
-        accounts.create("another-user", "another.user@example.com", "Another User");
-    r = pushTo("refs/for/master/" + topic + "%r=" + admin.email + ",r=" + user.email
-        + ",r=" + user2.email);
+    TestAccount user2 = accounts.create("another-user", "another.user@example.com", "Another User");
+    r =
+        pushTo(
+            "refs/for/master/"
+                + topic
+                + "%r="
+                + admin.email
+                + ",r="
+                + user.email
+                + ",r="
+                + user2.email);
     r.assertOkStatus();
     // admin is the owner of the change and should not appear as reviewer
     r.assertChange(Change.Status.NEW, topic, user, user2);
 
     // add non-existing user as reviewer
     String nonExistingEmail = "non.existing@example.com";
-    r = pushTo("refs/for/master/" + topic + "%r=" + admin.email + ",r="
-        + nonExistingEmail + ",r=" + user.email);
+    r =
+        pushTo(
+            "refs/for/master/"
+                + topic
+                + "%r="
+                + admin.email
+                + ",r="
+                + nonExistingEmail
+                + ",r="
+                + user.email);
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
@@ -335,10 +369,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     edit = getEdit(r.getChangeId());
     assertThat(edit).isNotNull();
-    r.assertMessage("Updated Changes:\n  "
-        + canonicalWebUrl.get()
-        + r.getChange().getId()
-        + " " + edit.commit.subject + " [EDIT]\n");
+    r.assertMessage(
+        "Updated Changes:\n  "
+            + canonicalWebUrl.get()
+            + r.getChange().getId()
+            + " "
+            + edit.commit.subject
+            + " [EDIT]\n");
   }
 
   @Test
@@ -350,8 +387,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Collection<ChangeMessageInfo> changeMessages = ci.messages;
     assertThat(changeMessages).hasSize(1);
     for (ChangeMessageInfo cm : changeMessages) {
-      assertThat(cm.message).isEqualTo(
-          "Uploaded patch set 1.\nmy test message");
+      assertThat(cm.message).isEqualTo("Uploaded patch set 1.\nmy test message");
     }
   }
 
@@ -364,52 +400,63 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(1);
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
-        "Uploaded patch set 1: Code-Review+1.");
+    assertThat(Iterables.getLast(ci.messages).message)
+        .isEqualTo("Uploaded patch set 1: Code-Review+1.");
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
 
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
-        "Uploaded patch set 2: Code-Review+2.");
+    assertThat(Iterables.getLast(ci.messages).message)
+        .isEqualTo("Uploaded patch set 2: Code-Review+2.");
 
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(2);
 
     push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "c.txt", "moreContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "c.txt",
+            "moreContent",
+            r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
     ci = get(r.getChangeId());
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
-        "Uploaded patch set 3.");
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
   }
 
   /**
-   * There was a bug that allowed a user with Forge Committer Identity access
-   * right to upload a commit and put *votes on behalf of another user* on it.
-   * This test checks that this is not possible, but that the votes that are
-   * specified on push are applied only on behalf of the uploader.
+   * There was a bug that allowed a user with Forge Committer Identity access right to upload a
+   * commit and put *votes on behalf of another user* on it. This test checks that this is not
+   * possible, but that the votes that are specified on push are applied only on behalf of the
+   * uploader.
    *
-   * This particular bug only occurred when there was more than one label
-   * defined. However to test that the votes that are specified on push are
-   * applied on behalf of the uploader a single label is sufficient.
+   * <p>This particular bug only occurred when there was more than one label defined. However to
+   * test that the votes that are specified on push are applied on behalf of the uploader a single
+   * label is sufficient.
    */
   @Test
-  public void pushForMasterWithApprovalsForgeCommitterButNoForgeVote()
-      throws Exception {
+  public void pushForMasterWithApprovalsForgeCommitterButNoForgeVote() throws Exception {
     // Create a commit with "User" as author and committer
-    RevCommit c = commitBuilder()
-        .author(user.getIdent())
-        .committer(user.getIdent())
-        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
-        .message(PushOneCommit.SUBJECT)
-        .create();
+    RevCommit c =
+        commitBuilder()
+            .author(user.getIdent())
+            .committer(user.getIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
 
     // Push this commit as "Administrator" (requires Forge Committer Identity)
     pushHead(testRepo, "refs/for/master/%l=Code-Review+1", false);
@@ -430,31 +477,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(indexAdmin).value.intValue()).isEqualTo(1);
     assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName);
     assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
-        "Uploaded patch set 1: Code-Review+1.");
+    assertThat(Iterables.getLast(ci.messages).message)
+        .isEqualTo("Uploaded patch set 1: Code-Review+1.");
   }
 
   @Test
-  public void pushWithMultipleApprovals()
-      throws Exception {
-    LabelType Q = category("Custom-Label",
-        value(1, "Positive"),
-        value(0, "No score"),
-        value(-1, "Negative"));
+  public void pushWithMultipleApprovals() throws Exception {
+    LabelType Q =
+        category("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    AccountGroup.UUID anon =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    AccountGroup.UUID anon = SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     String heads = "refs/heads/*";
     Util.allow(config, Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
     config.getLabelSections().put(Q.getName(), Q);
     saveProjectConfig(project, config);
 
-    RevCommit c = commitBuilder()
-        .author(admin.getIdent())
-        .committer(admin.getIdent())
-        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
-        .message(PushOneCommit.SUBJECT)
-        .create();
+    RevCommit c =
+        commitBuilder()
+            .author(admin.getIdent())
+            .committer(admin.getIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
 
     pushHead(testRepo, "refs/for/master/%l=Code-Review+1,l=Custom-Label-1", false);
 
@@ -470,8 +514,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     r = push.to("refs/changes/" + r.getChange().change().getId().get());
     r.assertOkStatus();
   }
@@ -480,19 +530,27 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushNewPatchsetToPatchSetLockedChange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT, "b.txt", "anotherContent", r.getChangeId());
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
     r = push.to("refs/for/master");
-    r.assertErrorStatus("cannot add patch set to "
-        + r.getChange().change().getChangeId()
-        + ". Change is patch set locked.");
+    r.assertErrorStatus(
+        "cannot add patch set to "
+            + r.getChange().change().getChangeId()
+            + ". Change is patch set locked.");
   }
 
   @Test
   public void pushForMasterWithApprovals_MissingLabel() throws Exception {
-      PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
-      r.assertErrorStatus("label \"Verify\" is not a configured label");
+    PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
+    r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
   @Test
@@ -526,8 +584,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     r = push.to("refs/for/master/%hashtag=" + hashtag2);
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
@@ -544,8 +608,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String hashtag1 = "tag1";
     String hashtag2 = "tag2";
     Set<String> expected = ImmutableSet.of(hashtag1, hashtag2);
-    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1
-        + ",hashtag=##" + hashtag2);
+    PushOneCommit.Result r =
+        pushTo("refs/for/master%hashtag=#" + hashtag1 + ",hashtag=##" + hashtag2);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
 
@@ -556,8 +620,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String hashtag3 = "tag3";
     String hashtag4 = "tag4";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     r = push.to("refs/for/master%hashtag=" + hashtag3 + ",hashtag=" + hashtag4);
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
@@ -576,26 +646,31 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushCommitUsingSignedOffBy() throws Exception {
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
     setUseSignedOffBy(InheritableBoolean.TRUE);
     blockForgeCommitter(project, "refs/heads/master");
 
-    push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT + String.format(
-            "\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
-        "b.txt", "anotherContent");
+    push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT
+                + String.format("\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
+            "b.txt",
+            "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+    push =
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
-    r.assertErrorStatus(
-        "not Signed-off-by author/committer/uploader in commit message footer");
+    r.assertErrorStatus("not Signed-off-by author/committer/uploader in commit message footer");
   }
 
   @Test
@@ -605,21 +680,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     saveProjectConfig(project, config);
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "a.txt", "content");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
     push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    gApi.projects()
-        .name(project.get())
-        .branch("otherBranch")
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch("otherBranch").create(new BranchInput());
 
     PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
     r2.assertOkStatus();
@@ -627,26 +699,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushSameCommitTwiceUsingMagicBranchBaseOption()
-      throws Exception {
+  public void pushSameCommitTwiceUsingMagicBranchBaseOption() throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
     rBase.assertOkStatus();
 
-    gApi.projects()
-        .name(project.get())
-        .branch("foo")
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
 
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
 
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    PushResult pr = GitUtil.pushHead(
-        testRepo, "refs/for/foo%base=" + rBase.getCommit().name(), false, false);
+    PushResult pr =
+        GitUtil.pushHead(testRepo, "refs/for/foo%base=" + rBase.getCommit().name(), false, false);
     assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
 
     assertTwoChangesWithSameRevision(r);
@@ -655,57 +723,54 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushSameCommitTwice() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject()
-        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
 
     PushOneCommit push =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-                "a.txt", "content");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
     push =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-                "b.txt", "anotherContent");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    assertPushRejected(pushHead(testRepo, "refs/for/master", false),
-        "refs/for/master", "commit(s) already exists (as current patchset)");
+    assertPushRejected(
+        pushHead(testRepo, "refs/for/master", false),
+        "refs/for/master",
+        "commit(s) already exists (as current patchset)");
   }
 
   @Test
   public void pushSameCommitTwiceWhenIndexFailed() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject()
-        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
 
     PushOneCommit push =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-                "a.txt", "content");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
 
     push =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-                "b.txt", "anotherContent");
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
     indexer.delete(r.getChange().getId());
 
-    assertPushRejected(pushHead(testRepo, "refs/for/master", false),
-        "refs/for/master", "commit(s) already exists (as current patchset)");
+    assertPushRejected(
+        pushHead(testRepo, "refs/for/master", false),
+        "refs/for/master",
+        "commit(s) already exists (as current patchset)");
   }
 
-  private void assertTwoChangesWithSameRevision(PushOneCommit.Result result)
-      throws Exception {
+  private void assertTwoChangesWithSameRevision(PushOneCommit.Result result) throws Exception {
     List<ChangeInfo> changes = query(result.getCommit().name());
     assertThat(changes).hasSize(2);
     ChangeInfo c1 = get(changes.get(0).id);
@@ -738,11 +803,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       RevCommit c2 = commits2.get(i);
       String name = "change for " + c2.name();
       ChangeData cd = byCommit(c);
-      assertThat(cd.change().getSubject())
+      assertThat(cd.change().getSubject()).named(name).isEqualTo(c2.getShortMessage());
+      assertThat(getPatchSetRevisions(cd))
           .named(name)
-          .isEqualTo(c2.getShortMessage());
-      assertThat(getPatchSetRevisions(cd)).named(name).containsExactlyEntriesIn(
-          ImmutableMap.of(1, c.name(), 2, c2.name()));
+          .containsExactlyEntriesIn(ImmutableMap.of(1, c.name(), 2, c2.name()));
     }
 
     // Pushing again results in "no new changes".
@@ -762,20 +826,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       tr.branch("refs/heads/master").update(r1.getCommit());
     }
 
-    assertThat(gApi.changes().id(id1.get()).info().status)
-        .isEqualTo(ChangeStatus.NEW);
-    assertThat(gApi.changes().id(id2.get()).info().status)
-        .isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
     r2 = amendChange(r2.getChangeId());
     r2.assertOkStatus();
 
     // Change 1 is still new despite being merged into the branch, because
     // ReceiveCommits only considers commits between the branch tip (which is
     // now the merged change 1) and the push tip (new patch set of change 2).
-    assertThat(gApi.changes().id(id1.get()).info().status)
-        .isEqualTo(ChangeStatus.NEW);
-    assertThat(gApi.changes().id(id2.get()).info().status)
-        .isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test
@@ -783,8 +843,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev =
-        Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
 
     String r = "refs/changes/" + id;
     assertPushOk(pushHead(testRepo, r, false), r);
@@ -792,10 +851,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Added a new patch set and auto-closed the change.
     cd = byChangeId(id);
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
-    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
-        ImmutableMap.of(
-            1, ps1Rev,
-            2, testRepo.getRepository().resolve("HEAD").name()));
+    assertThat(getPatchSetRevisions(cd))
+        .containsExactlyEntriesIn(
+            ImmutableMap.of(1, ps1Rev, 2, testRepo.getRepository().resolve("HEAD").name()));
   }
 
   @Test
@@ -803,8 +861,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
-    String ps1Rev =
-        Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+    String ps1Rev = Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
 
     String r = "refs/for/master";
     assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
@@ -812,12 +869,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Change not updated.
     cd = byChangeId(id);
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
-    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
-        ImmutableMap.of(1, ps1Rev));
+    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(ImmutableMap.of(1, ps1Rev));
   }
 
-  private Change.Id accidentallyPushNewPatchSetDirectlyToBranch()
-      throws Exception {
+  private Change.Id accidentallyPushNewPatchSetDirectlyToBranch() throws Exception {
     PushOneCommit.Result r = createChange();
     RevCommit ps1Commit = r.getCommit();
     Change c = r.getChange().change();
@@ -829,20 +884,21 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       // create and push this behind Gerrit's back (e.g. an admin accidentally
       // using direct ssh access to the repo), but that's harder to do in tests.
       TestRepository<?> tr = new TestRepository<>(repo);
-      ps2Commit = tr.branch("refs/heads/master").commit()
-          .message(ps1Commit.getShortMessage() + " v2")
-          .insertChangeId(r.getChangeId().substring(1))
-          .create();
+      ps2Commit =
+          tr.branch("refs/heads/master")
+              .commit()
+              .message(ps1Commit.getShortMessage() + " v2")
+              .insertChangeId(r.getChangeId().substring(1))
+              .create();
     }
 
-    testRepo.git().fetch()
-        .setRefSpecs(new RefSpec("refs/heads/master")).call();
+    testRepo.git().fetch().setRefSpecs(new RefSpec("refs/heads/master")).call();
     testRepo.reset(ps2Commit);
 
     ChangeData cd = byCommit(ps1Commit);
     assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
-    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
-        ImmutableMap.of(1, ps1Commit.name()));
+    assertThat(getPatchSetRevisions(cd))
+        .containsExactlyEntriesIn(ImmutableMap.of(1, ps1Commit.name()));
     return c.getId();
   }
 
@@ -858,9 +914,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithEmailInFooterNotFound() throws Exception {
-    pushWithReviewerInFooter(
-        new Address("No Body", "notarealuser@example.com").toString(),
-        null);
+    pushWithReviewerInFooter(new Address("No Body", "notarealuser@example.com").toString(), null);
   }
 
   @Test
@@ -887,8 +941,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review+2");
     r.assertOkStatus();
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+1");
     r.assertOkStatus();
   }
@@ -899,31 +959,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     grant(Permission.PUSH, project, master, true);
 
     // Update master with a direct push.
-    RevCommit c1 = testRepo.commit()
-        .message("Non-change 1")
-        .create();
-    RevCommit c2 = testRepo.parseBody(
-        testRepo.commit()
-            .parent(c1)
-            .message("Non-change 2")
-            .insertChangeId()
-            .create());
+    RevCommit c1 = testRepo.commit().message("Non-change 1").create();
+    RevCommit c2 =
+        testRepo.parseBody(
+            testRepo.commit().parent(c1).message("Non-change 2").insertChangeId().create());
     String changeId = Iterables.getOnlyElement(c2.getFooterLines(CHANGE_ID));
 
     testRepo.reset(c2);
     assertPushOk(pushHead(testRepo, master, false, true), master);
 
-    String q = "commit:" + c1.name()
-        + " OR commit:" + c2.name()
-        + " OR change:" + changeId;
+    String q = "commit:" + c1.name() + " OR commit:" + c2.name() + " OR change:" + changeId;
     assertThat(gApi.changes().query(q).get()).isEmpty();
 
     // Push c2 as a merged change.
     String r = "refs/for/master%merged";
     assertPushOk(pushHead(testRepo, r, false), r);
 
-    EnumSet<ListChangesOption> opts =
-        EnumSet.of(ListChangesOption.CURRENT_REVISION);
+    EnumSet<ListChangesOption> opts = EnumSet.of(ListChangesOption.CURRENT_REVISION);
     ChangeInfo info = gApi.changes().id(changeId).get(opts);
     assertThat(info.currentRevision).isEqualTo(c2.name());
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
@@ -935,8 +987,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Push c1 as a merged change.
     testRepo.reset(c1);
     assertPushOk(pushHead(testRepo, r, false), r);
-    List<ChangeInfo> infos =
-        gApi.changes().query(q1).withOptions(opts).get();
+    List<ChangeInfo> infos = gApi.changes().query(q1).withOptions(opts).get();
     assertThat(infos).hasSize(1);
     info = infos.get(0);
     assertThat(info.currentRevision).isEqualTo(c1.name());
@@ -950,8 +1001,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void mergedOptionFailsWhenCommitIsMergedOnOtherBranch()
-      throws Exception {
+  public void mergedOptionFailsWhenCommitIsMergedOnOtherBranch() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
@@ -959,14 +1009,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<?> tr = new TestRepository<>(repo);
-      tr.branch("refs/heads/branch")
-          .commit()
-          .message("Initial commit on branch")
-          .create();
+      tr.branch("refs/heads/branch").commit().message("Initial commit on branch").create();
     }
 
-    pushTo("refs/for/master%merged")
-        .assertErrorStatus("not merged into branch");
+    pushTo("refs/for/master%merged").assertErrorStatus("not merged into branch");
   }
 
   @Test
@@ -980,36 +1026,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String ref = "refs/for/master%merged";
     PushResult pr = pushHead(testRepo, ref, false);
     RemoteRefUpdate rru = pr.getRemoteUpdate(ref);
-    assertThat(rru.getStatus())
-        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     assertThat(rru.getMessage()).contains("no new changes");
   }
 
   @Test
-  public void mergedOptionWithNewCommitWithSameChangeIdFails()
-      throws Exception {
+  public void mergedOptionWithNewCommitWithSameChangeIdFails() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
 
-    RevCommit c2 = testRepo.amend(r.getCommit())
-        .message("New subject")
-        .insertChangeId(r.getChangeId().substring(1))
-        .create();
+    RevCommit c2 =
+        testRepo
+            .amend(r.getCommit())
+            .message("New subject")
+            .insertChangeId(r.getChangeId().substring(1))
+            .create();
     testRepo.reset(c2);
 
     String ref = "refs/for/master%merged";
     PushResult pr = pushHead(testRepo, ref, false);
     RemoteRefUpdate rru = pr.getRemoteUpdate(ref);
-    assertThat(rru.getStatus())
-        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
     assertThat(rru.getMessage()).contains("not merged into branch");
   }
 
   @Test
-  public void mergedOptionWithExistingChangeInsertsPatchSet()
-      throws Exception {
+  public void mergedOptionWithExistingChangeInsertsPatchSet() throws Exception {
     String master = "refs/heads/master";
     grant(Permission.PUSH, project, master, true);
 
@@ -1024,49 +1068,39 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ObjectId c2;
     try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<?> tr = new TestRepository<>(repo);
-      RevCommit commit2 = tr.amend(c1)
-          .message("New subject")
-          .insertChangeId(r.getChangeId().substring(1))
-          .create();
+      RevCommit commit2 =
+          tr.amend(c1).message("New subject").insertChangeId(r.getChangeId().substring(1)).create();
       c2 = commit2.copy();
       tr.update(master, c2);
     }
 
-    testRepo.git().fetch()
-        .setRefSpecs(new RefSpec("refs/heads/master")).call();
+    testRepo.git().fetch().setRefSpecs(new RefSpec("refs/heads/master")).call();
     testRepo.reset(c2);
 
     String ref = "refs/for/master%merged";
     assertPushOk(pushHead(testRepo, ref, false), ref);
 
-    EnumSet<ListChangesOption> opts =
-        EnumSet.of(ListChangesOption.ALL_REVISIONS);
+    EnumSet<ListChangesOption> opts = EnumSet.of(ListChangesOption.ALL_REVISIONS);
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get(opts);
     assertThat(info.currentRevision).isEqualTo(c2.name());
-    assertThat(info.revisions.keySet())
-        .containsExactly(c1.name(), c2.name());
+    assertThat(info.revisions.keySet()).containsExactly(c1.name(), c2.name());
     // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
-  private void pushWithReviewerInFooter(String nameEmail,
-      TestAccount expectedReviewer) throws Exception {
+  private void pushWithReviewerInFooter(String nameEmail, TestAccount expectedReviewer)
+      throws Exception {
     int n = 5;
     String r = "refs/for/master";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
-    List<RevCommit> commits =
-        createChanges(n, r, ImmutableList.of("Acked-By: " + nameEmail));
+    List<RevCommit> commits = createChanges(n, r, ImmutableList.of("Acked-By: " + nameEmail));
     for (int i = 0; i < n; i++) {
       RevCommit c = commits.get(i);
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name)
-            .containsExactly(expectedReviewer.getId());
-        gApi.changes()
-            .id(cd.getId().get())
-            .reviewer(expectedReviewer.getId().toString())
-            .remove();
+        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
+        gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.getId().toString()).remove();
       }
       assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
     }
@@ -1077,21 +1111,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       ChangeData cd = byCommit(c);
       String name = "reviewers for " + (i + 1);
       if (expectedReviewer != null) {
-        assertThat(cd.reviewers().all()).named(name)
-            .containsExactly(expectedReviewer.getId());
+        assertThat(cd.reviewers().all()).named(name).containsExactly(expectedReviewer.getId());
       } else {
         assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
       }
     }
   }
 
-  private List<RevCommit> createChanges(int n, String refsFor)
-      throws Exception {
+  private List<RevCommit> createChanges(int n, String refsFor) throws Exception {
     return createChanges(n, refsFor, ImmutableList.<String>of());
   }
 
-  private List<RevCommit> createChanges(int n, String refsFor,
-      List<String> footerLines) throws Exception {
+  private List<RevCommit> createChanges(int n, String refsFor, List<String> footerLines)
+      throws Exception {
     List<RevCommit> commits = new ArrayList<>(n);
     for (int i = 1; i <= n; i++) {
       String msg = "Change " + i;
@@ -1102,8 +1134,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         }
         msg = sb.toString();
       }
-      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
-          .message(msg).insertChangeId();
+      TestRepository<?>.CommitBuilder cb =
+          testRepo.branch("HEAD").commit().message(msg).insertChangeId();
       if (!commits.isEmpty()) {
         cb.parent(commits.get(commits.size() - 1));
       }
@@ -1115,8 +1147,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return commits;
   }
 
-  private List<RevCommit> amendChanges(ObjectId initialHead,
-      List<RevCommit> origCommits, String refsFor) throws Exception {
+  private List<RevCommit> amendChanges(
+      ObjectId initialHead, List<RevCommit> origCommits, String refsFor) throws Exception {
     testRepo.reset(initialHead);
     List<RevCommit> newCommits = new ArrayList<>(origCommits.size());
     for (RevCommit c : origCommits) {
@@ -1124,8 +1156,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       if (!c.getShortMessage().equals(c.getFullMessage())) {
         msg = msg + c.getFullMessage().substring(c.getShortMessage().length());
       }
-      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
-          .message(msg);
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit().message(msg);
       if (!newCommits.isEmpty()) {
         cb.parent(origCommits.get(newCommits.size() - 1));
       }
@@ -1137,8 +1168,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return newCommits;
   }
 
-  private static Map<Integer, String> getPatchSetRevisions(ChangeData cd)
-      throws Exception {
+  private static Map<Integer, String> getPatchSetRevisions(ChangeData cd) throws Exception {
     Map<Integer, String> revisions = new HashMap<>();
     for (PatchSet ps : cd.patchSets()) {
       revisions.put(ps.getPatchSetId(), ps.getRevision().get());

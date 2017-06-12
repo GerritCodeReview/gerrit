@@ -95,20 +95,17 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Stage;
-
-import org.eclipse.jgit.lib.Config;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
@@ -148,8 +145,11 @@ public class Daemon extends SiteProgram {
   @Option(name = "--polygerrit-dev", usage = "Force PolyGerrit UI for development")
   private boolean polyGerritDev;
 
-  @Option(name = "--init", aliases = {"-i"},
-      usage = "Init site before starting the daemon")
+  @Option(
+    name = "--init",
+    aliases = {"-i"},
+    usage = "Init site before starting the daemon"
+  )
   private boolean doInit;
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
@@ -171,12 +171,11 @@ public class Daemon extends SiteProgram {
   private Runnable serverStarted;
   private IndexType indexType;
 
-  public Daemon() {
-  }
+  public Daemon() {}
 
   @VisibleForTesting
   public Daemon(Runnable serverStarted, Path sitePath) {
-    super (sitePath);
+    super(sitePath);
     this.serverStarted = serverStarted;
   }
 
@@ -198,12 +197,13 @@ public class Daemon extends SiteProgram {
       }
     }
     mustHaveValidSite();
-    Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-      @Override
-      public void uncaughtException(Thread t, Throwable e) {
-        log.error("Thread " + t.getName() + " threw exception", e);
-      }
-    });
+    Thread.setDefaultUncaughtExceptionHandler(
+        new UncaughtExceptionHandler() {
+          @Override
+          public void uncaughtException(Thread t, Throwable e) {
+            log.error("Thread " + t.getName() + " threw exception", e);
+          }
+        });
 
     if (runId != null) {
       runFile = getSitePath().resolve("logs").resolve("gerrit.run");
@@ -219,13 +219,14 @@ public class Daemon extends SiteProgram {
 
     try {
       start();
-      RuntimeShutdown.add(new Runnable() {
-        @Override
-        public void run() {
-          log.info("caught shutdown, cleaning up");
-          stop();
-        }
-      });
+      RuntimeShutdown.add(
+          new Runnable() {
+            @Override
+            public void run() {
+              log.info("caught shutdown, cleaning up");
+              stop();
+            }
+          });
 
       log.info("Gerrit Code Review " + myVersion() + " ready");
       if (runId != null) {
@@ -287,14 +288,12 @@ public class Daemon extends SiteProgram {
       dbInjector = createDbInjector(true /* enableMetrics */, MULTI_USER);
     }
     cfgInjector = createCfgInjector();
-    config = cfgInjector.getInstance(
-        Key.get(Config.class, GerritServerConfig.class));
+    config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     if (!slave) {
       initIndexType();
     }
     sysInjector = createSysInjector();
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-      .setDbCfgInjector(dbInjector, cfgInjector);
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
 
     if (!consoleLog) {
@@ -352,9 +351,10 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());
-    modules.add(test
-        ? new H2AccountPatchReviewStore.InMemoryModule()
-        : new H2AccountPatchReviewStore.Module());
+    modules.add(
+        test
+            ? new H2AccountPatchReviewStore.InMemoryModule()
+            : new H2AccountPatchReviewStore.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
@@ -372,37 +372,41 @@ public class Daemon extends SiteProgram {
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     if (MoreObjects.firstNonNull(httpd, true)) {
-      modules.add(new CanonicalWebUrlModule() {
-        @Override
-        protected Class<? extends Provider<String>> provider() {
-          return HttpCanonicalWebUrlProvider.class;
-        }
-      });
+      modules.add(
+          new CanonicalWebUrlModule() {
+            @Override
+            protected Class<? extends Provider<String>> provider() {
+              return HttpCanonicalWebUrlProvider.class;
+            }
+          });
     } else {
-      modules.add(new CanonicalWebUrlModule() {
-        @Override
-        protected Class<? extends Provider<String>> provider() {
-          return CanonicalWebUrlProvider.class;
-        }
-      });
+      modules.add(
+          new CanonicalWebUrlModule() {
+            @Override
+            protected Class<? extends Provider<String>> provider() {
+              return CanonicalWebUrlProvider.class;
+            }
+          });
     }
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {
       modules.add(NoSshKeyCache.module());
     }
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(GerritOptions.class).toInstance(
-            new GerritOptions(config, headless, slave, polyGerritDev));
-        if (test) {
-          bind(String.class).annotatedWith(SecureStoreClassName.class)
-              .toInstance(DefaultSecureStore.class.getName());
-          bind(SecureStore.class).toProvider(SecureStoreProvider.class);
-        }
-      }
-    });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(GerritOptions.class)
+                .toInstance(new GerritOptions(config, headless, slave, polyGerritDev));
+            if (test) {
+              bind(String.class)
+                  .annotatedWith(SecureStoreClassName.class)
+                  .toInstance(DefaultSecureStore.class.getName());
+              bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+            }
+          }
+        });
     modules.add(new GarbageCollectionModule());
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
@@ -440,8 +444,7 @@ public class Daemon extends SiteProgram {
 
   private void initSshd() {
     sshInjector = createSshInjector();
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setSshInjector(sshInjector);
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setSshInjector(sshInjector);
     manager.add(sshInjector);
   }
 
@@ -451,8 +454,7 @@ public class Daemon extends SiteProgram {
     if (!test) {
       modules.add(new SshHostKeyModule());
     }
-    modules.add(new DefaultCommandModule(slave,
-        sysInjector.getInstance(DownloadConfig.class)));
+    modules.add(new DefaultCommandModule(slave, sysInjector.getInstance(DownloadConfig.class)));
     if (!slave && indexType == IndexType.LUCENE) {
       modules.add(new IndexCommandsModule());
     }
@@ -462,12 +464,11 @@ public class Daemon extends SiteProgram {
   private void initHttpd() {
     webInjector = createWebInjector();
 
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setHttpInjector(webInjector);
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setHttpInjector(webInjector);
 
-    sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
-        .setHttpServletRequest(
-            webInjector.getProvider(HttpServletRequest.class));
+    sysInjector
+        .getInstance(HttpCanonicalWebUrlProvider.class)
+        .setHttpServletRequest(webInjector.getProvider(HttpServletRequest.class));
 
     httpdInjector = createHttpdInjector();
     manager.add(webInjector, httpdInjector);
@@ -493,8 +494,8 @@ public class Daemon extends SiteProgram {
     }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID ||
-        authConfig.getAuthType() == AuthType.OPENID_SSO) {
+    if (authConfig.getAuthType() == AuthType.OPENID
+        || authConfig.getAuthType() == AuthType.OPENID_SSO) {
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());

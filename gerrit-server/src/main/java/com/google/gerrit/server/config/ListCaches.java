@@ -28,21 +28,20 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Option;
 
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 public class ListCaches implements RestReadView<ConfigResource> {
   private final DynamicMap<Cache<?, ?>> cacheMap;
 
   public enum OutputFormat {
-    LIST, TEXT_LIST
+    LIST,
+    TEXT_LIST
   }
 
   @Option(name = "--format", usage = "output format")
@@ -61,8 +60,8 @@ public class ListCaches implements RestReadView<ConfigResource> {
   public Map<String, CacheInfo> getCacheInfos() {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
     for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-      cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
-          new CacheInfo(e.getProvider().get()));
+      cacheInfos.put(
+          cacheNameOf(e.getPluginName(), e.getExportName()), new CacheInfo(e.getProvider().get()));
     }
     return cacheInfos;
   }
@@ -88,7 +87,8 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   public enum CacheType {
-    MEM, DISK
+    MEM,
+    DISK
   }
 
   public static class CacheInfo {
@@ -98,11 +98,11 @@ public class ListCaches implements RestReadView<ConfigResource> {
     public String averageGet;
     public HitRatioInfo hitRatio;
 
-    public CacheInfo(Cache<?,?> cache) {
+    public CacheInfo(Cache<?, ?> cache) {
       this(null, cache);
     }
 
-    public CacheInfo(String name, Cache<?,?> cache) {
+    public CacheInfo(String name, Cache<?, ?> cache) {
       this.name = name;
 
       CacheStats stat = cache.stats();
@@ -117,8 +117,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
 
       if (cache instanceof PersistentCache) {
         type = CacheType.DISK;
-        PersistentCache.DiskStats diskStats =
-            ((PersistentCache) cache).diskStats();
+        PersistentCache.DiskStats diskStats = ((PersistentCache) cache).diskStats();
         entries.setDisk(diskStats.size());
         entries.setSpace(diskStats.space());
         hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());

@@ -15,14 +15,13 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.user.client.Timer;
-
 import net.codemirror.lib.CodeMirror;
 
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * When a comment is placed on a line a CommentWidget is created.
- * The group tracks all comment boxes on a line in unified diff view.
+ * <p>When a comment is placed on a line a CommentWidget is created. The group tracks all comment
+ * boxes on a line in unified diff view.
  */
 class UnifiedCommentGroup extends CommentGroup {
   UnifiedCommentGroup(UnifiedCommentManager manager, CodeMirror cm, DisplaySide side, int line) {
@@ -49,30 +48,33 @@ class UnifiedCommentGroup extends CommentGroup {
 
   @Override
   void handleRedraw() {
-    getLineWidget().onRedraw(new Runnable() {
-      @Override
-      public void run() {
-        if (canComputeHeight()) {
-          if (getResizeTimer() != null) {
-            getResizeTimer().cancel();
-            setResizeTimer(null);
-          }
-          reportHeightChange();
-        } else if (getResizeTimer() == null) {
-          setResizeTimer(new Timer() {
-            @Override
-            public void run() {
-              if (canComputeHeight()) {
-                cancel();
-                setResizeTimer(null);
-                reportHeightChange();
+    getLineWidget()
+        .onRedraw(
+            new Runnable() {
+              @Override
+              public void run() {
+                if (canComputeHeight()) {
+                  if (getResizeTimer() != null) {
+                    getResizeTimer().cancel();
+                    setResizeTimer(null);
+                  }
+                  reportHeightChange();
+                } else if (getResizeTimer() == null) {
+                  setResizeTimer(
+                      new Timer() {
+                        @Override
+                        public void run() {
+                          if (canComputeHeight()) {
+                            cancel();
+                            setResizeTimer(null);
+                            reportHeightChange();
+                          }
+                        }
+                      });
+                  getResizeTimer().scheduleRepeating(5);
+                }
               }
-            }
-          });
-          getResizeTimer().scheduleRepeating(5);
-        }
-      }
-    });
+            });
   }
 
   @Override

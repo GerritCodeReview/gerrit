@@ -20,7 +20,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -32,16 +31,17 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
   private final GroupBackend groupBackend;
 
   @Inject
-  public AccountGroupUUIDHandler(final GroupBackend groupBackend,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
+  public AccountGroupUUIDHandler(
+      final GroupBackend groupBackend,
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
       @Assisted final Setter<AccountGroup.UUID> setter) {
     super(parser, option, setter);
     this.groupBackend = groupBackend;
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
     GroupReference group = GroupBackends.findExactSuggestion(groupBackend, n);
     if (group == null) {

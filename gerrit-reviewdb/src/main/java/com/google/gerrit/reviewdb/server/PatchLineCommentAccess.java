@@ -24,8 +24,7 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface PatchLineCommentAccess extends
-    Access<PatchLineComment, PatchLineComment.Key> {
+public interface PatchLineCommentAccess extends Access<PatchLineComment, PatchLineComment.Key> {
   @Override
   @PrimaryKey("key")
   PatchLineComment get(PatchLineComment.Key id) throws OrmException;
@@ -36,33 +35,32 @@ public interface PatchLineCommentAccess extends
   @Query("WHERE key.patchKey.patchSetId = ?")
   ResultSet<PatchLineComment> byPatchSet(PatchSet.Id id) throws OrmException;
 
-  @Query("WHERE key.patchKey.patchSetId.changeId = ?"
-      + " AND key.patchKey.fileName = ? AND status = '"
-      + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file)
+  @Query(
+      "WHERE key.patchKey.patchSetId.changeId = ?"
+          + " AND key.patchKey.fileName = ? AND status = '"
+          + PatchLineComment.STATUS_PUBLISHED
+          + "' ORDER BY lineNbr,writtenOn")
+  ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file) throws OrmException;
+
+  @Query(
+      "WHERE key.patchKey.patchSetId = ? AND status = '" + PatchLineComment.STATUS_PUBLISHED + "'")
+  ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset) throws OrmException;
+
+  @Query(
+      "WHERE key.patchKey.patchSetId = ? AND status = '"
+          + PatchLineComment.STATUS_DRAFT
+          + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
+  ResultSet<PatchLineComment> draftByPatchSetAuthor(PatchSet.Id patchset, Account.Id author)
       throws OrmException;
 
-  @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
-      + PatchLineComment.STATUS_PUBLISHED + "'")
-  ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset)
+  @Query(
+      "WHERE key.patchKey.patchSetId.changeId = ?"
+          + " AND key.patchKey.fileName = ? AND author = ? AND status = '"
+          + PatchLineComment.STATUS_DRAFT
+          + "' ORDER BY lineNbr,writtenOn")
+  ResultSet<PatchLineComment> draftByChangeFileAuthor(Change.Id id, String file, Account.Id author)
       throws OrmException;
 
-  @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
-      + PatchLineComment.STATUS_DRAFT
-      + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draftByPatchSetAuthor
-      (PatchSet.Id patchset, Account.Id author)
-      throws OrmException;
-
-  @Query("WHERE key.patchKey.patchSetId.changeId = ?"
-      + " AND key.patchKey.fileName = ? AND author = ? AND status = '"
-      + PatchLineComment.STATUS_DRAFT + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draftByChangeFileAuthor
-      (Change.Id id, String file, Account.Id author)
-      throws OrmException;
-
-  @Query("WHERE status = '" + PatchLineComment.STATUS_DRAFT
-      + "' AND author = ?")
-  ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
-      throws OrmException;
+  @Query("WHERE status = '" + PatchLineComment.STATUS_DRAFT + "' AND author = ?")
+  ResultSet<PatchLineComment> draftByAuthor(Account.Id author) throws OrmException;
 }

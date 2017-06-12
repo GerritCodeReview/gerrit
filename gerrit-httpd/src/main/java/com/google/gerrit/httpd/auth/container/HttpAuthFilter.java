@@ -30,12 +30,10 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Locale;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -47,12 +45,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Watches request for the host page and requires login if not yet signed in.
- * <p>
- * If HTTP authentication has been enabled on this server this filter is bound
- * in front of the {@link HostPageServlet} and redirects users who are not yet
- * signed in to visit {@code /login/}, so the web container can force login.
- * This redirect is performed with JavaScript, such that any existing anchor
- * token in the URL can be rewritten and preserved through the authentication
+ *
+ * <p>If HTTP authentication has been enabled on this server this filter is bound in front of the
+ * {@link HostPageServlet} and redirects users who are not yet signed in to visit {@code /login/},
+ * so the web container can force login. This redirect is performed with JavaScript, such that any
+ * existing anchor token in the URL can be rewritten and preserved through the authentication
  * process of any enterprise single sign-on solutions.
  */
 @Singleton
@@ -67,8 +64,8 @@ class HttpAuthFilter implements Filter {
   private final boolean userNameToLowerCase;
 
   @Inject
-  HttpAuthFilter(final DynamicItem<WebSession> webSession,
-      final AuthConfig authConfig) throws IOException {
+  HttpAuthFilter(final DynamicItem<WebSession> webSession, final AuthConfig authConfig)
+      throws IOException {
     this.sessionProvider = webSession;
 
     final String pageName = "LoginRedirect.html";
@@ -79,9 +76,7 @@ class HttpAuthFilter implements Filter {
 
     signInRaw = doc.getBytes(HtmlDomUtil.ENC);
     signInGzip = HtmlDomUtil.compress(signInRaw);
-    loginHeader = firstNonNull(
-        emptyToNull(authConfig.getLoginHttpHeader()),
-        AUTHORIZATION);
+    loginHeader = firstNonNull(emptyToNull(authConfig.getLoginHttpHeader()), AUTHORIZATION);
     displaynameHeader = emptyToNull(authConfig.getHttpDisplaynameHeader());
     emailHeader = emptyToNull(authConfig.getHttpEmailHeader());
     externalIdHeader = emptyToNull(authConfig.getHttpExternalIdHeader());
@@ -89,8 +84,8 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void doFilter(final ServletRequest request,
-      final ServletResponse response, final FilterChain chain)
+  public void doFilter(
+      final ServletRequest request, final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     if (isSessionValid((HttpServletRequest) request)) {
       chain.doFilter(request, response);
@@ -131,14 +126,14 @@ class HttpAuthFilter implements Filter {
 
   private static boolean correctUser(String user, WebSession session) {
     AccountExternalId.Key id = session.getLastLoginExternalId();
-    return id != null
-        && id.equals(new AccountExternalId.Key(SCHEME_GERRIT, user));
+    return id != null && id.equals(new AccountExternalId.Key(SCHEME_GERRIT, user));
   }
 
   String getRemoteUser(HttpServletRequest req) {
     String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader);
-    return (userNameToLowerCase && remoteUser != null) ?
-        remoteUser.toLowerCase(Locale.US) : remoteUser;
+    return (userNameToLowerCase && remoteUser != null)
+        ? remoteUser.toLowerCase(Locale.US)
+        : remoteUser;
   }
 
   String getRemoteDisplayname(HttpServletRequest req) {
@@ -167,10 +162,8 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void init(final FilterConfig filterConfig) {
-  }
+  public void init(final FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 }

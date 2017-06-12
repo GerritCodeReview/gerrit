@@ -23,37 +23,29 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
-
 public class TopicEdited {
-  private static final Logger log =
-      LoggerFactory.getLogger(TopicEdited.class);
+  private static final Logger log = LoggerFactory.getLogger(TopicEdited.class);
 
   private final DynamicSet<TopicEditedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  TopicEdited(DynamicSet<TopicEditedListener> listeners,
-      EventUtil util) {
+  TopicEdited(DynamicSet<TopicEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, Account account, String oldTopicName,
-      Timestamp when) {
+  public void fire(Change change, Account account, String oldTopicName, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.accountInfo(account),
-          oldTopicName,
-          when);
+      Event event =
+          new Event(util.changeInfo(change), util.accountInfo(account), oldTopicName, when);
       for (TopicEditedListener l : listeners) {
         try {
           l.onTopicEdited(event);
@@ -66,12 +58,10 @@ public class TopicEdited {
     }
   }
 
-  private static class Event extends AbstractChangeEvent
-      implements TopicEditedListener.Event {
+  private static class Event extends AbstractChangeEvent implements TopicEditedListener.Event {
     private final String oldTopic;
 
-    Event(ChangeInfo change, AccountInfo editor, String oldTopic,
-        Timestamp when) {
+    Event(ChangeInfo change, AccountInfo editor, String oldTopic, Timestamp when) {
       super(change, editor, when, NotifyHandling.ALL);
       this.oldTopic = oldTopic;
     }

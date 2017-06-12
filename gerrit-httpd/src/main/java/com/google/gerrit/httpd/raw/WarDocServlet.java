@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 

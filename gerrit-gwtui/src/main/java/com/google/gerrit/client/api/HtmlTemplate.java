@@ -84,11 +84,7 @@ final class HtmlTemplate {
     return new SafeHtmlBuilder().append(opts.str(id)).asString();
   }
 
-  private static Node parseHtml(
-      String html,
-      IdMap ids,
-      ReplacementMap opts,
-      boolean wantElements) {
+  private static Node parseHtml(String html, IdMap ids, ReplacementMap opts, boolean wantElements) {
     Element div = Document.get().createDivElement();
     div.setInnerHTML(html);
     if (!ids.isEmpty()) {
@@ -101,10 +97,7 @@ final class HtmlTemplate {
   }
 
   private static void attachHandlers(
-      Element e,
-      IdMap ids,
-      ReplacementMap opts,
-      boolean wantElements) {
+      Element e, IdMap ids, ReplacementMap opts, boolean wantElements) {
     if (e.getId() != null) {
       String key = ids.get(e.getId());
       if (key != null) {
@@ -116,7 +109,7 @@ final class HtmlTemplate {
         opts.map(key).attachHandlers(e);
       }
     }
-    for (Element c = e.getFirstChildElement(); c != null;) {
+    for (Element c = e.getFirstChildElement(); c != null; ) {
       attachHandlers(c, ids, opts, wantElements);
       c = c.getNextSiblingElement();
     }
@@ -124,7 +117,9 @@ final class HtmlTemplate {
 
   private static class ReplacementMap extends JavaScriptObject {
     final native ReplacementMap map(String n) /*-{ return this[n] }-*/;
+
     final native String str(String n) /*-{ return ''+this[n] }-*/;
+
     final native void attachHandlers(Element e) /*-{
       for (var k in this) {
         var f = this[k];
@@ -133,25 +128,26 @@ final class HtmlTemplate {
       }
     }-*/;
 
-    protected ReplacementMap() {
-    }
+    protected ReplacementMap() {}
   }
 
   private static class IdMap extends JavaScriptObject {
     final native String get(String i) /*-{ return this[i] }-*/;
+
     final native void remove(String i) /*-{ delete this[i] }-*/;
+
     final native void put(String i, String k) /*-{ this[i] = k }-*/;
+
     final native void put(String k, Element e) /*-{ this[k] = e }-*/;
+
     final native boolean isEmpty() /*-{
       for (var i in this)
         return false;
       return true;
     }-*/;
 
-    protected IdMap() {
-    }
+    protected IdMap() {}
   }
 
-  private HtmlTemplate() {
-  }
+  private HtmlTemplate() {}
 }

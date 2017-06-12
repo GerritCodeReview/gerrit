@@ -18,9 +18,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class EmailInfo extends JavaScriptObject {
   public final native String email() /*-{ return this.email; }-*/;
-  public final native boolean isPreferred() /*-{ return this['preferred'] ? true : false; }-*/;
-  public final native boolean isConfirmationPending() /*-{ return this['pending_confirmation'] ? true : false; }-*/;
 
-  protected EmailInfo() {
-  }
+  public final native boolean isPreferred() /*-{ return this['preferred'] ? true : false; }-*/;
+
+  public final native boolean
+      isConfirmationPending() /*-{ return this['pending_confirmation'] ? true : false; }-*/;
+
+  protected EmailInfo() {}
 }

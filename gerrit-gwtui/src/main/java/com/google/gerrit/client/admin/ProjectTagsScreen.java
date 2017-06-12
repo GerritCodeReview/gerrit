@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-
 import java.util.List;
 
 public class ProjectTagsScreen extends PaginatedProjectScreen {
@@ -89,18 +88,19 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
     filterTxt.setValue(match);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        Query q = new Query(filterTxt.getValue());
-        if (match.equals(q.qMatch)) {
-          q.start(start);
-        } else if (query == null) {
-          q.run();
-          query = q;
-        }
-      }
-    });
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q = new Query(filterTxt.getValue());
+            if (match.equals(q.qMatch)) {
+              q.start(start);
+            } else if (query == null) {
+              q.run();
+              query = q;
+            }
+          }
+        });
     hp.add(filterTxt);
     add(hp);
   }
@@ -189,7 +189,11 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     Query run() {
       // Retrieve one more tag than page size to determine if there are more
       // tags to display
-      ProjectApi.getTags(getProjectKey(), pageSize + 1, qStart, qMatch,
+      ProjectApi.getTags(
+          getProjectKey(),
+          pageSize + 1,
+          qStart,
+          qMatch,
           new ScreenLoadCallback<JsArray<TagInfo>>(ProjectTagsScreen.this) {
             @Override
             public void preDisplay(JsArray<TagInfo> result) {
@@ -215,8 +219,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
         tagsTable.display(Natives.asList(result));
         next.setVisible(false);
       } else {
-        tagsTable.displaySubset(Natives.asList(result), 0,
-            result.length() - 1);
+        tagsTable.displaySubset(Natives.asList(result), 0, result.length() - 1);
         setupNavigationLink(next, qMatch, qStart + pageSize);
       }
       if (qStart > 0) {

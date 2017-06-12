@@ -22,13 +22,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
-import java.util.Map;
 
 @Singleton
 public class ChangeUtil {
@@ -47,8 +45,7 @@ public class ChangeUtil {
   /**
    * Generate a new unique identifier for change message entities.
    *
-   * @param db the database connection, used to increment the change message
-   *        allocation sequence.
+   * @param db the database connection, used to increment the change message allocation sequence.
    * @return the new unique identifier.
    * @throws OrmException the database couldn't be incremented.
    */
@@ -68,8 +65,7 @@ public class ChangeUtil {
     return u + '_' + l;
   }
 
-  public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,
-      PatchSet.Id id) {
+  public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs, PatchSet.Id id) {
     PatchSet.Id next = nextPatchSetId(id);
     while (allRefs.containsKey(next.toRefName())) {
       next = nextPatchSetId(next);
@@ -81,8 +77,7 @@ public class ChangeUtil {
     return new PatchSet.Id(id.getParentKey(), id.get() + 1);
   }
 
-  public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id)
-      throws IOException {
+  public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) throws IOException {
     return nextPatchSetId(git.getRefDatabase().getRefs(RefDatabase.ALL), id);
   }
 
@@ -90,7 +85,8 @@ public class ChangeUtil {
     if (subject.length() > SUBJECT_MAX_LENGTH) {
       int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
       for (int cropPosition = maxLength;
-          cropPosition > maxLength - SUBJECT_CROP_RANGE; cropPosition--) {
+          cropPosition > maxLength - SUBJECT_CROP_RANGE;
+          cropPosition--) {
         if (Character.isWhitespace(subject.charAt(cropPosition - 1))) {
           return subject.substring(0, cropPosition) + SUBJECT_CROP_APPENDIX;
         }
@@ -100,6 +96,5 @@ public class ChangeUtil {
     return subject;
   }
 
-  private ChangeUtil() {
-  }
+  private ChangeUtil() {}
 }

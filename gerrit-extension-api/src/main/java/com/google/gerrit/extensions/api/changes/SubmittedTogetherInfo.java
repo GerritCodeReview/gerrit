@@ -14,7 +14,6 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
-
 import java.util.List;
 
 public class SubmittedTogetherInfo {

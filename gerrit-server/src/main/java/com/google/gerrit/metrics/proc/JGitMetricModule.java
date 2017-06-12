@@ -18,31 +18,28 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
-
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 
 public class JGitMetricModule extends MetricModule {
   @Override
   protected void configure(MetricMaker metrics) {
     metrics.newCallbackMetric(
-      "jgit/block_cache/cache_used",
-      Long.class,
-      new Description("Bytes of memory retained in JGit block cache.")
-        .setGauge()
-        .setUnit(Units.BYTES),
-      new Supplier<Long>() {
-        @Override
-        public Long get() {
-          return WindowCacheStatAccessor.getOpenBytes();
-        }
-      });
+        "jgit/block_cache/cache_used",
+        Long.class,
+        new Description("Bytes of memory retained in JGit block cache.")
+            .setGauge()
+            .setUnit(Units.BYTES),
+        new Supplier<Long>() {
+          @Override
+          public Long get() {
+            return WindowCacheStatAccessor.getOpenBytes();
+          }
+        });
 
     metrics.newCallbackMetric(
         "jgit/block_cache/open_files",
         Integer.class,
-        new Description("File handles held open by JGit block cache.")
-          .setGauge()
-          .setUnit("fds"),
+        new Description("File handles held open by JGit block cache.").setGauge().setUnit("fds"),
         new Supplier<Integer>() {
           @Override
           public Integer get() {

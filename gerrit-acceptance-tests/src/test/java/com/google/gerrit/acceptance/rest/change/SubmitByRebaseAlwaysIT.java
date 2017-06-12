@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
-
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 

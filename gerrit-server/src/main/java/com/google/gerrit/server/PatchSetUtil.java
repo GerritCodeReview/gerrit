@@ -34,14 +34,12 @@ import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Utilities for manipulating patch sets. */
 @Singleton
@@ -53,13 +51,11 @@ public class PatchSetUtil {
     this.migration = migration;
   }
 
-  public PatchSet current(ReviewDb db, ChangeNotes notes)
-      throws OrmException {
+  public PatchSet current(ReviewDb db, ChangeNotes notes) throws OrmException {
     return get(db, notes, notes.getChange().currentPatchSetId());
   }
 
-  public PatchSet get(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
-      throws OrmException {
+  public PatchSet get(ReviewDb db, ChangeNotes notes, PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
       return db.patchSets().get(psId);
     }
@@ -75,13 +71,12 @@ public class PatchSetUtil {
     return notes.load().getPatchSets().values();
   }
 
-  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ReviewDb db,
-        ChangeNotes notes) throws OrmException {
+  public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
     if (!migration.readChanges()) {
-      ImmutableMap.Builder<PatchSet.Id, PatchSet> result =
-          ImmutableMap.builder();
-      for (PatchSet ps : ChangeUtil.PS_ID_ORDER.sortedCopy(
-          db.patchSets().byChange(notes.getChangeId()))) {
+      ImmutableMap.Builder<PatchSet.Id, PatchSet> result = ImmutableMap.builder();
+      for (PatchSet ps :
+          ChangeUtil.PS_ID_ORDER.sortedCopy(db.patchSets().byChange(notes.getChangeId()))) {
         result.put(ps.getId(), ps);
       }
       return result.build();
@@ -89,9 +84,15 @@ public class PatchSetUtil {
     return notes.load().getPatchSets();
   }
 
-  public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,
-      PatchSet.Id psId, ObjectId commit, boolean draft,
-      List<String> groups, String pushCertificate)
+  public PatchSet insert(
+      ReviewDb db,
+      RevWalk rw,
+      ChangeUpdate update,
+      PatchSet.Id psId,
+      ObjectId commit,
+      boolean draft,
+      List<String> groups,
+      String pushCertificate)
       throws OrmException, IOException {
     checkNotNull(groups, "groups may not be null");
     ensurePatchSetMatches(psId, update);
@@ -114,19 +115,16 @@ public class PatchSetUtil {
     return ps;
   }
 
-  public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps)
-      throws OrmException {
+  public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
     ensurePatchSetMatches(ps.getId(), update);
     ps.setDraft(false);
     update.setPatchSetState(PUBLISHED);
     db.patchSets().update(Collections.singleton(ps));
   }
 
-  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps)
-      throws OrmException {
+  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
     ensurePatchSetMatches(ps.getId(), update);
-    checkArgument(ps.isDraft(),
-        "cannot delete non-draft patch set %s", ps.getId());
+    checkArgument(ps.isDraft(), "cannot delete non-draft patch set %s", ps.getId());
     update.setPatchSetState(PatchSetState.DELETED);
     if (PrimaryStorage.of(update.getChange()) == REVIEW_DB) {
       // Avoid OrmConcurrencyException trying to delete non-existent entities.
@@ -136,19 +134,24 @@ public class PatchSetUtil {
 
   private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
     Change.Id changeId = update.getChange().getId();
-    checkArgument(psId.getParentKey().equals(changeId),
-        "cannot modify patch set %s on update for change %s", psId, changeId);
+    checkArgument(
+        psId.getParentKey().equals(changeId),
+        "cannot modify patch set %s on update for change %s",
+        psId,
+        changeId);
     if (update.getPatchSetId() != null) {
-      checkArgument(update.getPatchSetId().equals(psId),
+      checkArgument(
+          update.getPatchSetId().equals(psId),
           "cannot modify patch set %s on update for %s",
-          psId, update.getPatchSetId());
+          psId,
+          update.getPatchSetId());
     } else {
       update.setPatchSetId(psId);
     }
   }
 
-  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps,
-      List<String> groups) throws OrmException {
+  public void setGroups(ReviewDb db, ChangeUpdate update, PatchSet ps, List<String> groups)
+      throws OrmException {
     ps.setGroups(groups);
     update.setGroups(groups);
     db.patchSets().update(Collections.singleton(ps));

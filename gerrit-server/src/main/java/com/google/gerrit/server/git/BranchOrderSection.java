@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.RefNames;
-
 import java.util.List;
 
 public class BranchOrderSection {
@@ -24,7 +23,7 @@ public class BranchOrderSection {
   /**
    * Branch names ordered from least to the most stable.
    *
-   * Typically the order will be like: master, stable-M.N, stable-M.N-1, ...
+   * <p>Typically the order will be like: master, stable-M.N, stable-M.N-1, ...
    */
   private final ImmutableList<String> order;
 

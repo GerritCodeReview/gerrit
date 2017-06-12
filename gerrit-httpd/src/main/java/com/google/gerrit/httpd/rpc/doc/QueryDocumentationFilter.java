@@ -23,13 +23,8 @@ import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQuer
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -38,11 +33,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class QueryDocumentationFilter implements Filter {
-  private final Logger log =
-      LoggerFactory.getLogger(QueryDocumentationFilter.class);
+  private final Logger log = LoggerFactory.getLogger(QueryDocumentationFilter.class);
 
   private final QueryDocumentationExecutor searcher;
 
@@ -52,19 +48,16 @@ public class QueryDocumentationFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {
-  }
+  public void init(FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    if ("GET".equals(req.getMethod())
-        && !Strings.isNullOrEmpty(req.getParameter("q"))) {
+    if ("GET".equals(req.getMethod()) && !Strings.isNullOrEmpty(req.getParameter("q"))) {
       HttpServletResponse rsp = (HttpServletResponse) response;
       try {
         List<DocResult> result = searcher.doQuery(request.getParameter("q"));

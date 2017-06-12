@@ -38,10 +38,7 @@ public class ChangeGlue {
     return true;
   }
 
-  public static void onAction(
-      ChangeInfo change,
-      ActionInfo action,
-      ActionButton button) {
+  public static void onAction(ChangeInfo change, ActionInfo action, ActionButton button) {
     RestApi api = ChangeApi.change(change.legacyId().get()).view(action.id());
     JavaScriptObject f = get(action.id());
     if (f != null) {
@@ -59,10 +56,8 @@ public class ChangeGlue {
     return $wnd.Gerrit.change_actions[id];
   }-*/;
 
-  private static native boolean invoke(JavaScriptObject h,
-      ChangeInfo a, RevisionInfo r)
-  /*-{ return h(a,r) }-*/;
+  private static native boolean invoke(JavaScriptObject h, ChangeInfo a, RevisionInfo r)
+      /*-{ return h(a,r) }-*/ ;
 
-  private ChangeGlue() {
-  }
+  private ChangeGlue() {}
 }

@@ -22,15 +22,22 @@ import com.google.gwt.resources.client.ImageResource;
 interface Resources extends ClientBundle {
   Resources I = GWT.create(Resources.class);
 
-  @Source("CommentBox.css") CommentBox.Style style();
-  @Source("Scrollbar.css") Scrollbar.Style scrollbarStyle();
-  @Source("DiffTable.css") DiffTable.Style diffTableStyle();
+  @Source("CommentBox.css")
+  CommentBox.Style style();
 
-  /**
-   * tango icon library (public domain):
-   * http://tango.freedesktop.org/Tango_Icon_Library
-   */
-  @Source("goPrev.png") ImageResource goPrev();
-  @Source("goNext.png") ImageResource goNext();
-  @Source("goUp.png") ImageResource goUp();
+  @Source("Scrollbar.css")
+  Scrollbar.Style scrollbarStyle();
+
+  @Source("DiffTable.css")
+  DiffTable.Style diffTableStyle();
+
+  /** tango icon library (public domain): http://tango.freedesktop.org/Tango_Icon_Library */
+  @Source("goPrev.png")
+  ImageResource goPrev();
+
+  @Source("goNext.png")
+  ImageResource goNext();
+
+  @Source("goUp.png")
+  ImageResource goUp();
 }

@@ -36,17 +36,14 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
-  private static final Logger log = LoggerFactory
-      .getLogger(ReindexAfterUpdate.class);
+  private static final Logger log = LoggerFactory.getLogger(ReindexAfterUpdate.class);
 
   private final OneOffRequestContext requestContext;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -127,14 +124,15 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       if (ref.equals(RefNames.REFS_CONFIG)) {
         return asChanges(queryProvider.get().byProjectOpen(project));
       }
-      return asChanges(queryProvider.get().byBranchNew(
-          new Branch.NameKey(project, ref)));
+      return asChanges(queryProvider.get().byBranchNew(new Branch.NameKey(project, ref)));
     }
 
     @Override
     public String toString() {
-      return "Get changes to reindex caused by " + event.getRefName()
-          + " update of project " + event.getProjectName();
+      return "Get changes to reindex caused by "
+          + event.getRefName()
+          + " update of project "
+          + event.getProjectName();
     }
   }
 
@@ -152,9 +150,10 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
       try {
-        Change c = notesFactory
-            .createChecked(db, new Project.NameKey(event.getProjectName()), id)
-            .getChange();
+        Change c =
+            notesFactory
+                .createChecked(db, new Project.NameKey(event.getProjectName()), id)
+                .getChange();
         indexerFactory.create(executor, indexes).index(db, c);
       } catch (NoSuchChangeException e) {
         indexerFactory.create(executor, indexes).delete(id);
@@ -164,8 +163,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
 
     @Override
     public String toString() {
-      return "Index change " + id.get() + " of project "
-          + event.getProjectName();
+      return "Index change " + id.get() + " of project " + event.getProjectName();
     }
   }
 }

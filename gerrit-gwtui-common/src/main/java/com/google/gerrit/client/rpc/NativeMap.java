@@ -17,7 +17,6 @@ package com.google.gerrit.client.rpc;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,21 +29,18 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
   }
 
   /**
-   * Loop through the result map's entries and copy the key strings into the
-   * "name" property of the corresponding child object. This only runs on the
-   * top level map of the result, and requires the children to be JSON objects
-   * and not a JSON primitive (e.g. boolean or string).
+   * Loop through the result map's entries and copy the key strings into the "name" property of the
+   * corresponding child object. This only runs on the top level map of the result, and requires the
+   * children to be JSON objects and not a JSON primitive (e.g. boolean or string).
    */
-  public static <T extends JavaScriptObject,
-      M extends NativeMap<T>> AsyncCallback<M> copyKeysIntoChildren(
-      AsyncCallback<M> callback) {
+  public static <T extends JavaScriptObject, M extends NativeMap<T>>
+      AsyncCallback<M> copyKeysIntoChildren(AsyncCallback<M> callback) {
     return copyKeysIntoChildren("name", callback);
   }
 
   /** Loop through the result map and set asProperty on the children. */
-  public static <T extends JavaScriptObject,
-      M extends NativeMap<T>> AsyncCallback<M> copyKeysIntoChildren(
-      final String asProperty, AsyncCallback<M> callback) {
+  public static <T extends JavaScriptObject, M extends NativeMap<T>>
+      AsyncCallback<M> copyKeysIntoChildren(final String asProperty, AsyncCallback<M> callback) {
     return new TransformCallback<M, M>(callback) {
       @Override
       protected M transform(M result) {
@@ -54,8 +50,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
     };
   }
 
-  protected NativeMap() {
-  }
+  protected NativeMap() {}
 
   public final Set<String> keySet() {
     return Natives.keys(this);
@@ -68,8 +63,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
     return sorted;
   }
 
-  public final native JsArray<T> values()
-  /*-{
+  public final native JsArray<T> values()/*-{
     var s = this;
     var v = [];
     var i = 0;
@@ -79,7 +73,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
       }
     }
     return v;
-  }-*/;
+  }-*/ ;
 
   public final int size() {
     return keySet().size();
@@ -94,10 +88,10 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
   }
 
   public final native T get(String n) /*-{ return this[n]; }-*/;
+
   public final native void put(String n, T v) /*-{ this[n] = v; }-*/;
 
-  public final native void copyKeysIntoChildren(String p)
-  /*-{
+  public final native void copyKeysIntoChildren(String p)/*-{
     var s = this;
     for (var k in s) {
       if (s.hasOwnProperty(k)) {
@@ -105,5 +99,5 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
         c[p] = k;
       }
     }
-  }-*/;
+  }-*/ ;
 }

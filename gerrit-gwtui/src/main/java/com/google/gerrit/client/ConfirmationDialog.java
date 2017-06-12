@@ -28,9 +28,9 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
   private Button cancelButton;
   private Button okButton;
 
-  public ConfirmationDialog(final String dialogTitle, final SafeHtml message,
-      final ConfirmationCallback callback) {
-    super(/* auto hide */false, /* modal */true);
+  public ConfirmationDialog(
+      final String dialogTitle, final SafeHtml message, final ConfirmationCallback callback) {
+    super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     setText(dialogTitle);
 
@@ -38,25 +38,27 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
 
     okButton = new Button();
     okButton.setText(Gerrit.C.confirmationDialogOk());
-    okButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        hide();
-        callback.onOk();
-      }
-    });
+    okButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            hide();
+            callback.onOk();
+          }
+        });
     buttons.add(okButton);
 
     cancelButton = new Button();
     cancelButton.getElement().getStyle().setProperty("marginLeft", "300px");
     cancelButton.setText(Gerrit.C.confirmationDialogCancel());
-    cancelButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        hide();
-        callback.onCancel();
-      }
-    });
+    cancelButton.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            hide();
+            callback.onCancel();
+          }
+        });
     buttons.add(cancelButton);
 
     final FlowPanel center = new FlowPanel();

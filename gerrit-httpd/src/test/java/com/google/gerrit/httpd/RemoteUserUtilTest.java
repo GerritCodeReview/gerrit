@@ -24,9 +24,7 @@ public class RemoteUserUtilTest {
   public void testExtractUsername() {
     assertThat(extractUsername(null)).isNull();
     assertThat(extractUsername("")).isNull();
-    assertThat(extractUsername("Basic dXNlcjpwYXNzd29yZA=="))
-        .isEqualTo("user");
-    assertThat(extractUsername("Digest username=\"user\", realm=\"test\""))
-        .isEqualTo("user");
+    assertThat(extractUsername("Basic dXNlcjpwYXNzd29yZA==")).isEqualTo("user");
+    assertThat(extractUsername("Digest username=\"user\", realm=\"test\"")).isEqualTo("user");
   }
 }

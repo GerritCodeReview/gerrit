@@ -24,56 +24,53 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Objects;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchListKey implements Serializable {
   public static final long serialVersionUID = 24L;
 
-  public static final BiMap<Whitespace, Character> WHITESPACE_TYPES = ImmutableBiMap.of(
-      Whitespace.IGNORE_NONE, 'N',
-      Whitespace.IGNORE_TRAILING, 'E',
-      Whitespace.IGNORE_LEADING_AND_TRAILING, 'S',
-      Whitespace.IGNORE_ALL, 'A');
+  public static final BiMap<Whitespace, Character> WHITESPACE_TYPES =
+      ImmutableBiMap.of(
+          Whitespace.IGNORE_NONE, 'N',
+          Whitespace.IGNORE_TRAILING, 'E',
+          Whitespace.IGNORE_LEADING_AND_TRAILING, 'S',
+          Whitespace.IGNORE_ALL, 'A');
 
   static {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
   }
 
-  public static PatchListKey againstDefaultBase(AnyObjectId newId,
-      Whitespace ws) {
+  public static PatchListKey againstDefaultBase(AnyObjectId newId, Whitespace ws) {
     return new PatchListKey(null, newId, ws);
   }
 
-  public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId,
-      Whitespace ws) {
+  public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId, Whitespace ws) {
     return new PatchListKey(parentNum, newId, ws);
   }
 
   /**
    * Old patch-set ID
-   * <p>
-   * When null, it represents the Base of the newId for a non-merge commit.
-   * <p>
-   * When newId is a merge commit, null value of the oldId represents either
-   * the auto-merge commit of the newId or a parent commit of the newId.
-   * These two cases are distinguished by the parentNum.
+   *
+   * <p>When null, it represents the Base of the newId for a non-merge commit.
+   *
+   * <p>When newId is a merge commit, null value of the oldId represents either the auto-merge
+   * commit of the newId or a parent commit of the newId. These two cases are distinguished by the
+   * parentNum.
    */
   private transient ObjectId oldId;
 
   /**
    * 1-based parent number when newId is a merge commit
-   * <p>
-   * For the auto-merge case this field is null.
-   * <p>
-   * Used only when oldId is null and newId is a merge commit
+   *
+   * <p>For the auto-merge case this field is null.
+   *
+   * <p>Used only when oldId is null and newId is a merge commit
    */
   private transient Integer parentNum;
 
@@ -93,8 +90,7 @@ public class PatchListKey implements Serializable {
   }
 
   /** For use only by DiffSummaryKey. */
-  PatchListKey(ObjectId oldId, Integer parentNum, ObjectId newId,
-      Whitespace whitespace) {
+  PatchListKey(ObjectId oldId, Integer parentNum, ObjectId newId, Whitespace whitespace) {
     this.oldId = oldId;
     this.parentNum = parentNum;
     this.newId = newId;

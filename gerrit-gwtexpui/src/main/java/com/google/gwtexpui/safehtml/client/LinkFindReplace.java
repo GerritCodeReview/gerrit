@@ -18,14 +18,15 @@ import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * A Find/Replace pair whose replacement string is a link.
- * <p>
- * It is safe to pass arbitrary user-provided links to this class. Links are
- * sanitized as follows:
+ *
+ * <p>It is safe to pass arbitrary user-provided links to this class. Links are sanitized as
+ * follows:
+ *
  * <ul>
- * <li>Only http(s) and mailto links are supported; any other scheme results in
- * an {@link IllegalArgumentException} from {@link #replace(String)}.
- * <li>Special characters in the link after regex replacement are escaped with
- * {@link SafeHtmlBuilder}.</li>
+ *   <li>Only http(s) and mailto links are supported; any other scheme results in an {@link
+ *       IllegalArgumentException} from {@link #replace(String)}.
+ *   <li>Special characters in the link after regex replacement are escaped with {@link
+ *       SafeHtmlBuilder}.
  * </ul>
  */
 public class LinkFindReplace implements FindReplace {
@@ -43,13 +44,12 @@ public class LinkFindReplace implements FindReplace {
   private RegExp pat;
   private String link;
 
-  protected LinkFindReplace() {
-  }
+  protected LinkFindReplace() {}
 
   /**
    * @param find regular expression pattern to match substrings with.
-   * @param link replacement link href. Capture groups within
-   *        {@code find} can be referenced with {@code $<i>n</i>}.
+   * @param link replacement link href. Capture groups within {@code find} can be referenced with
+   *     {@code $<i>n</i>}.
    */
   public LinkFindReplace(String find, String link) {
     this.pat = RegExp.compile(find);
@@ -65,8 +65,7 @@ public class LinkFindReplace implements FindReplace {
   public String replace(String input) {
     String href = pat.replace(input, link);
     if (!hasValidScheme(href)) {
-      throw new IllegalArgumentException(
-          "Invalid scheme (" + toString() + "): " + href);
+      throw new IllegalArgumentException("Invalid scheme (" + toString() + "): " + href);
     }
     return new SafeHtmlBuilder()
         .openAnchor()

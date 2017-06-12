@@ -83,7 +83,13 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Config;
@@ -96,14 +102,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
 public class ChangeRebuilderIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
@@ -112,35 +110,25 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     return cfg;
   }
 
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
-  @Inject
-  private NoteDbChecker checker;
+  @Inject private NoteDbChecker checker;
 
-  @Inject
-  private Rebuild rebuildHandler;
+  @Inject private Rebuild rebuildHandler;
 
-  @Inject
-  private Provider<ReviewDb> dbProvider;
+  @Inject private Provider<ReviewDb> dbProvider;
 
-  @Inject
-  private CommentsUtil commentsUtil;
+  @Inject private CommentsUtil commentsUtil;
 
-  @Inject
-  private Provider<PostReview> postReview;
+  @Inject private Provider<PostReview> postReview;
 
-  @Inject
-  private TestChangeRebuilderWrapper rebuilderWrapper;
+  @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
 
-  @Inject
-  private BatchUpdate.Factory batchUpdateFactory;
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
 
-  @Inject
-  private Sequences seq;
+  @Inject private Sequences seq;
 
-  @Inject
-  private ChangeBundleReader bundleReader;
+  @Inject private ChangeBundleReader bundleReader;
 
   @Before
   public void setUp() throws Exception {
@@ -155,8 +143,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @SuppressWarnings("deprecation")
-  private void setNotesMigration(boolean writeChanges, boolean readChanges)
-      throws Exception {
+  private void setNotesMigration(boolean writeChanges, boolean readChanges) throws Exception {
     notesMigration.setWriteChanges(writeChanges);
     notesMigration.setReadChanges(readChanges);
     db = atrScope.reopenDb().getReviewDbProvider().get();
@@ -200,9 +187,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change c = TestChanges.newChange(project, user.getId(), seq.nextChangeId());
     c.setCreatedOn(ts);
     c.setLastUpdatedOn(ts);
-    PatchSet ps = TestChanges.newPatchSet(
-        c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
-        user.getId());
+    PatchSet ps =
+        TestChanges.newPatchSet(
+            c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", user.getId());
     ps.setCreatedOn(ts);
     db.changes().insert(Collections.singleton(c));
     db.patchSets().insert(Collections.singleton(ps));
@@ -244,8 +231,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = psId.getParentKey();
 
     // Events need to be otherwise identical for the account ID to be compared.
-    ChangeMessage msg1 =
-        insertMessage(id, psId, user.getId(), TimeUtil.nowTs(), "message 1");
+    ChangeMessage msg1 = insertMessage(id, psId, user.getId(), TimeUtil.nowTs(), "message 1");
     insertMessage(id, psId, null, msg1.getWrittenOn(), "message 2");
 
     checker.rebuildAndCheckChanges(id);
@@ -258,14 +244,12 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = psId1.getParentKey();
 
     // Events need to be otherwise identical for the PatchSet.ID to be compared.
-    ChangeMessage msg1 =
-        insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 1");
+    ChangeMessage msg1 = insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 1");
     insertMessage(id, null, user.getId(), msg1.getWrittenOn(), "message 2");
 
     PatchSet.Id psId2 = amendChange(r.getChangeId()).getPatchSetId();
 
-    ChangeMessage msg3 =
-        insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 3");
+    ChangeMessage msg3 = insertMessage(id, null, user.getId(), TimeUtil.nowTs(), "message 3");
     insertMessage(id, null, user.getId(), msg3.getWrittenOn(), "message 4");
 
     checker.rebuildAndCheckChanges(id);
@@ -311,9 +295,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void restApiNotFoundWhenNoteDbDisabled() throws Exception {
     PushOneCommit.Result r = createChange();
     exception.expect(ResourceNotFoundException.class);
-    rebuildHandler.apply(
-        parseChangeResource(r.getChangeId()),
-        new Rebuild.Input());
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Rebuild.Input());
   }
 
   @Test
@@ -323,9 +305,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     setNotesMigration(true, false);
 
     checker.assertNoChangeRef(project, id);
-    rebuildHandler.apply(
-        parseChangeResource(r.getChangeId()),
-        new Rebuild.Input());
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Rebuild.Input());
     checker.checkChanges(id);
   }
 
@@ -356,32 +336,41 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
 
     ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
-    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
-        changeMetaId.name());
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
 
     putDraft(user, id, 1, "comment by user");
-    ObjectId userDraftsId = getMetaRef(
-        allUsers, refsDraftComments(id, user.getId()));
-    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
-        changeMetaId.name()
-        + "," + user.getId() + "=" + userDraftsId.name());
+    ObjectId userDraftsId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
+        .isEqualTo(changeMetaId.name() + "," + user.getId() + "=" + userDraftsId.name());
 
     putDraft(admin, id, 2, "comment by admin");
-    ObjectId adminDraftsId = getMetaRef(
-        allUsers, refsDraftComments(id, admin.getId()));
+    ObjectId adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.getId()));
     assertThat(admin.getId().get()).isLessThan(user.getId().get());
-    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
-        changeMetaId.name()
-        + "," + admin.getId() + "=" + adminDraftsId.name()
-        + "," + user.getId() + "=" + userDraftsId.name());
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
+        .isEqualTo(
+            changeMetaId.name()
+                + ","
+                + admin.getId()
+                + "="
+                + adminDraftsId.name()
+                + ","
+                + user.getId()
+                + "="
+                + userDraftsId.name());
 
     putDraft(admin, id, 2, "revised comment by admin");
-    adminDraftsId = getMetaRef(
-        allUsers, refsDraftComments(id, admin.getId()));
-    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
-        changeMetaId.name()
-        + "," + admin.getId() + "=" + adminDraftsId.name()
-        + "," + user.getId() + "=" + userDraftsId.name());
+    adminDraftsId = getMetaRef(allUsers, refsDraftComments(id, admin.getId()));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState())
+        .isEqualTo(
+            changeMetaId.name()
+                + ","
+                + admin.getId()
+                + "="
+                + adminDraftsId.name()
+                + ","
+                + user.getId()
+                + "="
+                + userDraftsId.name());
   }
 
   @Test
@@ -400,13 +389,12 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // On next NoteDb read, the change is transparently rebuilt.
     setNotesMigration(true, true);
-    assertThat(gApi.changes().id(id.get()).info().topic)
-        .isEqualTo(name("a-topic"));
+    assertThat(gApi.changes().id(id.get()).info().topic).isEqualTo(name("a-topic"));
     assertChangeUpToDate(true, id);
 
     // Check that the bundles are equal.
-    ChangeBundle actual = ChangeBundle.fromNotes(
-        commentsUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle actual =
+        ChangeBundle.fromNotes(commentsUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
@@ -432,21 +420,27 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // through an API handler.
     setNotesMigration(true, true);
     final String msg = "message from BatchUpdate";
-    try (BatchUpdate bu = batchUpdateFactory.create(db, project,
-          identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
-      bu.addOp(id, new BatchUpdate.Op() {
-        @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
-          PatchSet.Id psId = ctx.getChange().currentPatchSetId();
-          ChangeMessage cm = new ChangeMessage(
-              new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),
-                  ctx.getAccountId(), ctx.getWhen(), psId);
-          cm.setMessage(msg);
-          ctx.getDb().changeMessages().insert(Collections.singleton(cm));
-          ctx.getUpdate(psId).setChangeMessage(msg);
-          return true;
-        }
-      });
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db, project, identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
+      bu.addOp(
+          id,
+          new BatchUpdate.Op() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) throws OrmException {
+              PatchSet.Id psId = ctx.getChange().currentPatchSetId();
+              ChangeMessage cm =
+                  new ChangeMessage(
+                      new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),
+                      ctx.getAccountId(),
+                      ctx.getWhen(),
+                      psId);
+              cm.setMessage(msg);
+              ctx.getDb().changeMessages().insert(Collections.singleton(cm));
+              ctx.getUpdate(psId).setChangeMessage(msg);
+              return true;
+            }
+          });
       bu.execute();
     }
     // As an implementation detail, change wasn't actually rebuilt inside the
@@ -460,10 +454,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
-    assertThat(
-            Iterables.transform(
-                notes.getChangeMessages(),
-                ChangeMessage::getMessage))
+    assertThat(Iterables.transform(notes.getChangeMessages(), ChangeMessage::getMessage))
         .contains(msg);
   }
 
@@ -485,20 +476,18 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // background.
     rebuilderWrapper.stealNextUpdate();
     setNotesMigration(true, true);
-    assertThat(gApi.changes().id(id.get()).info().topic)
-        .isEqualTo(name("a-topic"));
+    assertThat(gApi.changes().id(id.get()).info().topic).isEqualTo(name("a-topic"));
     assertChangeUpToDate(true, id);
 
     // Check that the bundles are equal.
-    ChangeBundle actual = ChangeBundle.fromNotes(
-        commentsUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle actual =
+        ChangeBundle.fromNotes(commentsUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
 
   @Test
-  public void rebuildReturnsCorrectResultEvenIfSavingToNoteDbFailed()
-      throws Exception {
+  public void rebuildReturnsCorrectResultEvenIfSavingToNoteDbFailed() throws Exception {
     setNotesMigration(true, true);
 
     PushOneCommit.Result r = createChange();
@@ -533,8 +522,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebuildReturnsDraftResultWhenRebuildingInChangeNotesFails()
-      throws Exception {
+  public void rebuildReturnsDraftResultWhenRebuildingInChangeNotesFails() throws Exception {
     setNotesMigration(true, true);
 
     PushOneCommit.Result r = createChange();
@@ -542,24 +530,21 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     putDraft(user, id, 1, "comment by user");
     assertChangeUpToDate(true, id);
 
-    ObjectId oldMetaId =
-        getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
     putDraft(user, id, 1, "second comment by user");
     setInvalidNoteDbState(id);
     assertDraftsUpToDate(false, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
 
     // Force the next rebuild attempt to fail (in ChangeNotes).
     rebuilderWrapper.failNextUpdate();
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
     notes.getDraftComments(user.getId());
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
 
     // Not up to date, but the actual returned state matches anyway.
     assertDraftsUpToDate(false, id, user);
@@ -571,13 +556,11 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     notesFactory.create(dbProvider.get(), project, id);
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(true, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isNotEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isNotEqualTo(oldMetaId);
   }
 
   @Test
-  public void rebuildReturnsDraftResultWhenRebuildingInDraftCommentNotesFails()
-      throws Exception {
+  public void rebuildReturnsDraftResultWhenRebuildingInDraftCommentNotesFails() throws Exception {
     setNotesMigration(true, true);
 
     PushOneCommit.Result r = createChange();
@@ -585,8 +568,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     putDraft(user, id, 1, "comment by user");
     assertChangeUpToDate(true, id);
 
-    ObjectId oldMetaId =
-        getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+    ObjectId oldMetaId = getMetaRef(allUsers, refsDraftComments(id, user.getId()));
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
@@ -595,29 +577,27 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ReviewDb db = getUnwrappedDb();
     Change c = db.changes().get(id);
     // Leave change meta ID alone so DraftCommentNotes does the rebuild.
-    ObjectId badSha =
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-    NoteDbChangeState bogusState = new NoteDbChangeState(
-        id,
-        PrimaryStorage.REVIEW_DB,
-        Optional.of(
-          NoteDbChangeState.RefState.create(
-              NoteDbChangeState.parse(c).getChangeMetaId(),
-              ImmutableMap.of(user.getId(), badSha))));
+    ObjectId badSha = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    NoteDbChangeState bogusState =
+        new NoteDbChangeState(
+            id,
+            PrimaryStorage.REVIEW_DB,
+            Optional.of(
+                NoteDbChangeState.RefState.create(
+                    NoteDbChangeState.parse(c).getChangeMetaId(),
+                    ImmutableMap.of(user.getId(), badSha))));
     c.setNoteDbState(bogusState.toString());
     db.changes().update(Collections.singleton(c));
 
     assertDraftsUpToDate(false, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
 
     // Force the next rebuild attempt to fail (in DraftCommentNotes).
     rebuilderWrapper.failNextUpdate();
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
     notes.getDraftComments(user.getId());
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isEqualTo(oldMetaId);
 
     // Not up to date, but the actual returned state matches anyway.
     assertChangeUpToDate(true, id);
@@ -627,12 +607,10 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(actual.differencesFrom(expected)).isEmpty();
 
     // Another rebuild attempt succeeds
-    notesFactory.create(dbProvider.get(), project, id)
-        .getDraftComments(user.getId());
+    notesFactory.create(dbProvider.get(), project, id).getDraftComments(user.getId());
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(true, id, user);
-    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
-        .isNotEqualTo(oldMetaId);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId()))).isNotEqualTo(oldMetaId);
   }
 
   @Test
@@ -653,8 +631,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // On next NoteDb read, the drafts are transparently rebuilt.
     setNotesMigration(true, true);
-    assertThat(gApi.changes().id(id.get()).current().drafts())
-        .containsKey(PushOneCommit.FILE_NAME);
+    assertThat(gApi.changes().id(id.get()).current().drafts()).containsKey(PushOneCommit.FILE_NAME);
     assertDraftsUpToDate(true, id, user);
   }
 
@@ -663,25 +640,26 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // We don't have the code in our test harness to do signed pushes, so just
     // use a hard-coded cert. This cert was actually generated by C git 2.2.0
     // (albeit not for sending to Gerrit).
-    String cert = "certificate version 0.1\n"
-        + "pusher Dave Borowitz <dborowitz@google.com> 1433954361 -0700\n"
-        + "pushee git://localhost/repo.git\n"
-        + "nonce 1433954361-bde756572d665bba81d8\n"
-        + "\n"
-        + "0000000000000000000000000000000000000000"
-        + "b981a177396fb47345b7df3e4d3f854c6bea7"
-        + "s/heads/master\n"
-        + "-----BEGIN PGP SIGNATURE-----\n"
-        + "Version: GnuPG v1\n"
-        + "\n"
-        + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
-        + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
-        + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
-        + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
-        + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
-        + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
-        + "=XFeC\n"
-        + "-----END PGP SIGNATURE-----\n";
+    String cert =
+        "certificate version 0.1\n"
+            + "pusher Dave Borowitz <dborowitz@google.com> 1433954361 -0700\n"
+            + "pushee git://localhost/repo.git\n"
+            + "nonce 1433954361-bde756572d665bba81d8\n"
+            + "\n"
+            + "0000000000000000000000000000000000000000"
+            + "b981a177396fb47345b7df3e4d3f854c6bea7"
+            + "s/heads/master\n"
+            + "-----BEGIN PGP SIGNATURE-----\n"
+            + "Version: GnuPG v1\n"
+            + "\n"
+            + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
+            + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
+            + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
+            + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
+            + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
+            + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
+            + "=XFeC\n"
+            + "-----END PGP SIGNATURE-----\n";
 
     PushOneCommit.Result r = createChange();
     PatchSet.Id psId = r.getPatchSetId();
@@ -756,14 +734,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noteDbUsesOriginalSubjectFromPatchSetAndIgnoresChangeField()
-      throws Exception {
+  public void noteDbUsesOriginalSubjectFromPatchSetAndIgnoresChangeField() throws Exception {
     PushOneCommit.Result r = createChange();
     String orig = r.getChange().change().getSubject();
-    r = pushFactory.create(
-            db, admin.getIdent(), testRepo, orig + " v2",
-            PushOneCommit.FILE_NAME, "new contents", r.getChangeId())
-        .to("refs/heads/master");
+    r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                testRepo,
+                orig + " v2",
+                PushOneCommit.FILE_NAME,
+                "new contents",
+                r.getChangeId())
+            .to("refs/heads/master");
     r.assertOkStatus();
 
     PatchSet.Id psId = r.getPatchSetId();
@@ -788,8 +772,15 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void deleteDraftPS1WithNoOtherEntities() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/drafts/master");
-    push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT, "b.txt", "4711", r.getChangeId());
+    push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "4711",
+            r.getChangeId());
     r = push.to("refs/drafts/master");
     PatchSet.Id psId = r.getPatchSetId();
     Change.Id id = psId.getParentKey();
@@ -809,11 +800,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change change = r.getChange().change();
     Change.Id id = change.getId();
 
-    PatchLineComment comment = new PatchLineComment(
-        new PatchLineComment.Key(
-            new Patch.Key(new PatchSet.Id(id, 0), PushOneCommit.FILE_NAME),
-            "uuid"),
-        0, user.getId(), null, TimeUtil.nowTs());
+    PatchLineComment comment =
+        new PatchLineComment(
+            new PatchLineComment.Key(
+                new Patch.Key(new PatchSet.Id(id, 0), PushOneCommit.FILE_NAME), "uuid"),
+            0,
+            user.getId(),
+            null,
+            TimeUtil.nowTs());
     comment.setSide((short) 1);
     comment.setMessage("message");
     comment.setStatus(PatchLineComment.Status.PUBLISHED);
@@ -833,8 +827,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change change = r.getChange().change();
     Change.Id id = change.getId();
 
-    PatchSet badPs =
-        new PatchSet(new PatchSet.Id(id, change.currentPatchSetId().get() + 1));
+    PatchSet badPs = new PatchSet(new PatchSet.Id(id, change.currentPatchSetId().get() + 1));
     badPs.setCreatedOn(TimeUtil.nowTs());
     badPs.setUploader(new Account.Id(12345));
     badPs.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
@@ -845,15 +838,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getPatchSets().keySet())
-        .containsExactly(change.currentPatchSetId());
+    assertThat(notes.getPatchSets().keySet()).containsExactly(change.currentPatchSetId());
   }
 
   @Test
   public void leadingSpacesInSubject() throws Exception {
     String subj = "   " + PushOneCommit.SUBJECT;
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        subj, PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            subj,
+            PushOneCommit.FILE_NAME,
+            PushOneCommit.FILE_CONTENT);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     Change change = r.getChange().change();
@@ -885,11 +883,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     oldDb.changes().update(Collections.singleton(c));
 
     c = oldDb.changes().get(c.getId());
-    ChangeNotes newNotes =
-        notesFactory.createWithAutoRebuildingDisabled(c, null);
+    ChangeNotes newNotes = notesFactory.createWithAutoRebuildingDisabled(c, null);
     assertThat(newNotes.getChange().getTopic()).isNotEqualTo(topic);
-    assertThat(newNotes.getChange().getTopic())
-        .isEqualTo(oldNotes.getChange().getTopic());
+    assertThat(newNotes.getChange().getTopic()).isEqualTo(oldNotes.getChange().getTopic());
   }
 
   @Test
@@ -957,8 +953,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // On next NoteDb read, change is rebuilt in-memory but not stored.
     setNotesMigration(false, true);
-    assertThat(gApi.changes().id(id.get()).info().topic)
-        .isEqualTo(name("a-topic"));
+    assertThat(gApi.changes().id(id.get()).info().topic).isEqualTo(name("a-topic"));
     assertChangeUpToDate(false, id);
 
     // Attempting to write directly causes failure.
@@ -970,8 +965,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
 
     // Update was not written.
-    assertThat(gApi.changes().id(id.get()).info().topic)
-        .isEqualTo(name("a-topic"));
+    assertThat(gApi.changes().id(id.get()).info().topic).isEqualTo(name("a-topic"));
     assertChangeUpToDate(false, id);
   }
 
@@ -1028,18 +1022,17 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       adminRestSession.postWithHeader(prefix + "review", ri, runAs).assertOK();
 
       di.message = "draft with impersonation";
-      adminRestSession.putWithHeader(prefix + "drafts", runAs, di)
-          .assertCreated();
+      adminRestSession.putWithHeader(prefix + "drafts", runAs, di).assertCreated();
     } finally {
       removeRunAs();
     }
 
     List<ChangeMessage> msgs =
-        Ordering.natural().onResultOf(ChangeMessage::getWrittenOn)
+        Ordering.natural()
+            .onResultOf(ChangeMessage::getWrittenOn)
             .sortedCopy(db.changeMessages().byChange(id));
     assertThat(msgs).hasSize(3);
-    assertThat(msgs.get(1).getMessage())
-        .endsWith("message without impersonation");
+    assertThat(msgs.get(1).getMessage()).endsWith("message without impersonation");
     assertThat(msgs.get(1).getAuthor()).isEqualTo(user.id);
     assertThat(msgs.get(1).getRealAuthor()).isEqualTo(user.id);
     assertThat(msgs.get(2).getMessage()).endsWith("message with impersonation");
@@ -1055,23 +1048,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     Ordering<PatchLineComment> commentOrder =
         Ordering.natural().onResultOf(PatchLineComment::getWrittenOn);
-    List<PatchLineComment> drafts = commentOrder.sortedCopy(
-        db.patchComments().draftByPatchSetAuthor(psId, user.id));
+    List<PatchLineComment> drafts =
+        commentOrder.sortedCopy(db.patchComments().draftByPatchSetAuthor(psId, user.id));
     assertThat(drafts).hasSize(2);
-    assertThat(drafts.get(0).getMessage())
-        .isEqualTo("draft without impersonation");
+    assertThat(drafts.get(0).getMessage()).isEqualTo("draft without impersonation");
     assertThat(drafts.get(0).getAuthor()).isEqualTo(user.id);
     assertThat(drafts.get(0).getRealAuthor()).isEqualTo(user.id);
-    assertThat(drafts.get(1).getMessage())
-        .isEqualTo("draft with impersonation");
+    assertThat(drafts.get(1).getMessage()).isEqualTo("draft with impersonation");
     assertThat(drafts.get(1).getAuthor()).isEqualTo(user.id);
     assertThat(drafts.get(1).getRealAuthor()).isEqualTo(admin.id);
 
-    List<PatchLineComment> pub = commentOrder.sortedCopy(
-        db.patchComments().publishedByPatchSet(psId));
+    List<PatchLineComment> pub =
+        commentOrder.sortedCopy(db.patchComments().publishedByPatchSet(psId));
     assertThat(pub).hasSize(2);
-    assertThat(pub.get(0).getMessage())
-        .isEqualTo("comment without impersonation");
+    assertThat(pub.get(0).getMessage()).isEqualTo("comment without impersonation");
     assertThat(pub.get(0).getAuthor()).isEqualTo(user.id);
     assertThat(pub.get(0).getRealAuthor()).isEqualTo(user.id);
     assertThat(pub.get(1).getMessage()).isEqualTo("comment with impersonation");
@@ -1125,8 +1115,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
     assertThat(cause.getCause()).isInstanceOf(OrmException.class);
-    assertThat(cause.getCause())
-        .hasMessage(NoteDbUpdateManager.CHANGES_READ_ONLY);
+    assertThat(cause.getCause()).hasMessage(NoteDbUpdateManager.CHANGES_READ_ONLY);
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
@@ -1140,27 +1129,24 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     db.changes().update(Collections.singleton(c));
   }
 
-  private void assertChangeUpToDate(boolean expected, Change.Id id)
-      throws Exception {
+  private void assertChangeUpToDate(boolean expected, Change.Id id) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       Change c = getUnwrappedDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
-      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(
-              new RepoRefCache(repo)))
+      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(new RepoRefCache(repo)))
           .isEqualTo(expected);
     }
   }
 
-  private void assertDraftsUpToDate(boolean expected, Change.Id changeId,
-      TestAccount account) throws Exception {
+  private void assertDraftsUpToDate(boolean expected, Change.Id changeId, TestAccount account)
+      throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       Change c = getUnwrappedDb().changes().get(changeId);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
       NoteDbChangeState state = NoteDbChangeState.parse(c);
-      assertThat(state.areDraftsUpToDate(
-              new RepoRefCache(repo), account.getId()))
+      assertThat(state.areDraftsUpToDate(new RepoRefCache(repo), account.getId()))
           .isEqualTo(expected);
     }
   }
@@ -1172,8 +1158,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private void putDraft(TestAccount account, Change.Id id, int line, String msg)
-      throws Exception {
+  private void putDraft(TestAccount account, Change.Id id, int line, String msg) throws Exception {
     DraftInput in = new DraftInput();
     in.line = line;
     in.message = msg;
@@ -1203,8 +1188,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private void publishDrafts(TestAccount account, Change.Id id)
-      throws Exception {
+  private void publishDrafts(TestAccount account, Change.Id id) throws Exception {
     ReviewInput rin = new ReviewInput();
     rin.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
     AcceptanceTestRequestScope.Context old = setApiUser(account);
@@ -1215,11 +1199,11 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private ChangeMessage insertMessage(Change.Id id, PatchSet.Id psId,
-      Account.Id author, Timestamp ts, String message) throws Exception {
-    ChangeMessage msg = new ChangeMessage(
-        new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
-        author, ts, psId);
+  private ChangeMessage insertMessage(
+      Change.Id id, PatchSet.Id psId, Account.Id author, Timestamp ts, String message)
+      throws Exception {
+    ChangeMessage msg =
+        new ChangeMessage(new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)), author, ts, psId);
     msg.setMessage(message);
     db.changeMessages().insert(Collections.singleton(msg));
 
@@ -1239,16 +1223,15 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private void allowRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.allow(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    Util.allow(
+        cfg, GlobalCapability.RUN_AS, SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 
   private void removeRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.remove(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    Util.remove(
+        cfg, GlobalCapability.RUN_AS, SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
-
 }

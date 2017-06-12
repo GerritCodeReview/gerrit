@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,9 +35,9 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
   private List<BranchInfo> branches;
 
   public CherryPickDialog(Project.NameKey project) {
-    super(Util.C.cherryPickTitle(), Util.C
-        .cherryPickCommitMessage());
-    ProjectApi.getBranches(project,
+    super(Util.C.cherryPickTitle(), Util.C.cherryPickCommitMessage());
+    ProjectApi.getBranches(
+        project,
         new GerritCallback<JsArray<BranchInfo>>() {
           @Override
           public void onSuccess(JsArray<BranchInfo> result) {
@@ -46,18 +45,20 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
           }
         });
 
-    newBranch = new SuggestBox(new HighlightSuggestOracle() {
-      @Override
-      protected void onRequestSuggestions(Request request, Callback done) {
-        LinkedList<BranchSuggestion> suggestions = new LinkedList<>();
-        for (final BranchInfo b : branches) {
-          if (b.ref().contains(request.getQuery())) {
-            suggestions.add(new BranchSuggestion(b));
-          }
-        }
-        done.onSuggestionsReady(request, new Response(suggestions));
-      }
-    });
+    newBranch =
+        new SuggestBox(
+            new HighlightSuggestOracle() {
+              @Override
+              protected void onRequestSuggestions(Request request, Callback done) {
+                LinkedList<BranchSuggestion> suggestions = new LinkedList<>();
+                for (final BranchInfo b : branches) {
+                  if (b.ref().contains(request.getQuery())) {
+                    suggestions.add(new BranchSuggestion(b));
+                  }
+                }
+                done.onSuggestionsReady(request, new Response(suggestions));
+              }
+            });
 
     newBranch.setWidth("100%");
     newBranch.getElement().getStyle().setProperty("boxSizing", "border-box");

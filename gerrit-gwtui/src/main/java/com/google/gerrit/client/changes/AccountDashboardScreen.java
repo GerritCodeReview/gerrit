@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -37,6 +36,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   // If changing default options, also update in
   // ChangeIT#defaultSearchDoesNotTouchDatabase().
   private static final Set<ListChangesOption> MY_DASHBOARD_OPTIONS;
+
   static {
     EnumSet<ListChangesOption> options = EnumSet.copyOf(ChangeTable.OPTIONS);
     options.add(ListChangesOption.REVIEWED);
@@ -58,16 +58,18 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable() {
-      {
-        keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
-          @Override
-          public void onKeyPress(final KeyPressEvent event) {
-            Gerrit.display(getToken());
+    table =
+        new ChangeTable() {
+          {
+            keysNavigation.add(
+                new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
+                  @Override
+                  public void onKeyPress(final KeyPressEvent event) {
+                    Gerrit.display(getToken());
+                  }
+                });
           }
-        });
-      }
-    };
+        };
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
     outgoing = new ChangeTable.Section();
@@ -75,13 +77,13 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     closed = new ChangeTable.Section();
 
     String who = mine ? "self" : ownerId.toString();
-    outgoing.setTitleWidget(new InlineHyperlink(Util.C.outgoingReviews(),
-        PageLinks.toChangeQuery(queryOutgoing(who))));
-    incoming.setTitleWidget(new InlineHyperlink(Util.C.incomingReviews(),
-        PageLinks.toChangeQuery(queryIncoming(who))));
+    outgoing.setTitleWidget(
+        new InlineHyperlink(Util.C.outgoingReviews(), PageLinks.toChangeQuery(queryOutgoing(who))));
+    incoming.setTitleWidget(
+        new InlineHyperlink(Util.C.incomingReviews(), PageLinks.toChangeQuery(queryIncoming(who))));
     incoming.setHighlightUnreviewed(mine);
-    closed.setTitleWidget(new InlineHyperlink(Util.C.recentlyClosed(),
-        PageLinks.toChangeQuery(queryClosed(who))));
+    closed.setTitleWidget(
+        new InlineHyperlink(Util.C.recentlyClosed(), PageLinks.toChangeQuery(queryClosed(who))));
 
     table.addSection(outgoing);
     table.addSection(incoming);

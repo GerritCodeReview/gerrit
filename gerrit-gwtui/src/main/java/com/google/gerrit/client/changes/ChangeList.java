@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
-
 import java.util.Set;
 
 /** List of changes available from {@code /changes/}. */
@@ -43,34 +42,36 @@ public class ChangeList extends JsArray<ChangeInfo> {
     if (queries.length == 1) {
       // Server unwraps a single query, so wrap it back in an array for the
       // callback.
-      call.get(new AsyncCallback<ChangeList>() {
-        @Override
-        public void onSuccess(ChangeList result) {
-          JsArray<ChangeList> wrapped = JsArray.createArray(1).cast();
-          wrapped.set(0, result);
-          callback.onSuccess(wrapped);
-        }
+      call.get(
+          new AsyncCallback<ChangeList>() {
+            @Override
+            public void onSuccess(ChangeList result) {
+              JsArray<ChangeList> wrapped = JsArray.createArray(1).cast();
+              wrapped.set(0, result);
+              callback.onSuccess(wrapped);
+            }
 
-        @Override
-        public void onFailure(Throwable caught) {
-          callback.onFailure(caught);
-        }
-      });
+            @Override
+            public void onFailure(Throwable caught) {
+              callback.onFailure(caught);
+            }
+          });
     } else {
       call.get(callback);
     }
   }
 
-  public static void query(String query,
-      Set<ListChangesOption> options,
-      AsyncCallback<ChangeList> callback) {
+  public static void query(
+      String query, Set<ListChangesOption> options, AsyncCallback<ChangeList> callback) {
     query(query, options, callback, 0, 0);
   }
 
-  public static void query(String query,
+  public static void query(
+      String query,
       Set<ListChangesOption> options,
       AsyncCallback<ChangeList> callback,
-      int start, int limit) {
+      int start,
+      int limit) {
     RestApi call = newQuery(query);
     if (limit > 0) {
       call.addParameter("n", limit);
@@ -95,6 +96,5 @@ public class ChangeList extends JsArray<ChangeInfo> {
     return call;
   }
 
-  protected ChangeList() {
-  }
+  protected ChangeList() {}
 }

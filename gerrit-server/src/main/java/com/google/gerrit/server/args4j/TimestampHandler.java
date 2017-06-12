@@ -16,7 +16,11 @@ package com.google.gerrit.server.args4j;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -24,18 +28,14 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
 public class TimestampHandler extends OptionHandler<Timestamp> {
   public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";
 
   @Inject
-  public TimestampHandler(@Assisted CmdLineParser parser,
-      @Assisted OptionDef option, @Assisted Setter<Timestamp> setter) {
+  public TimestampHandler(
+      @Assisted CmdLineParser parser,
+      @Assisted OptionDef option,
+      @Assisted Setter<Timestamp> setter) {
     super(parser, option, setter);
   }
 
@@ -48,9 +48,10 @@ public class TimestampHandler extends OptionHandler<Timestamp> {
       setter.addValue(new Timestamp(fmt.parse(timestamp).getTime()));
       return 1;
     } catch (ParseException e) {
-      throw new CmdLineException(owner,
-          String.format("Invalid timestamp: %s; expected format: %s",
-              timestamp, TIMESTAMP_FORMAT), e);
+      throw new CmdLineException(
+          owner,
+          String.format("Invalid timestamp: %s; expected format: %s", timestamp, TIMESTAMP_FORMAT),
+          e);
     }
   }
 

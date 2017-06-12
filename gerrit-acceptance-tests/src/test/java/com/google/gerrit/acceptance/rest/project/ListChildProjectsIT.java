@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -35,8 +34,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listNoChildren() throws Exception {
-    assertThatNameList(gApi.projects().name(project.get()).children())
-        .isEmpty();
+    assertThatNameList(gApi.projects().name(project.get()).children()).isEmpty();
   }
 
   @Test
@@ -46,7 +44,8 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     Project.NameKey child1_2 = createProject("p1.2", child1);
 
     assertThatNameList(gApi.projects().name(child1.get()).children())
-        .containsExactly(child1_1, child1_2).inOrder();
+        .containsExactly(child1_1, child1_2)
+        .inOrder();
   }
 
   @Test

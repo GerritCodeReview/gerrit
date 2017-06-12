@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-
 import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
@@ -27,10 +26,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,6 +39,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
@@ -55,8 +52,7 @@ public class PatchList implements Serializable {
         }
       };
 
-  @Nullable
-  private transient ObjectId oldId;
+  @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient boolean isMerge;
   private transient ComparisonType comparisonType;
@@ -64,8 +60,11 @@ public class PatchList implements Serializable {
   private transient int deletions;
   private transient PatchListEntry[] patches;
 
-  public PatchList(@Nullable AnyObjectId oldId, AnyObjectId newId,
-      boolean isMerge, ComparisonType comparisonType,
+  public PatchList(
+      @Nullable AnyObjectId oldId,
+      AnyObjectId newId,
+      boolean isMerge,
+      ComparisonType comparisonType,
       PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
@@ -117,17 +116,18 @@ public class PatchList implements Serializable {
 
   /**
    * Get a sorted, modifiable list of all files in this list.
-   * <p>
-   * The returned list items do not populate:
+   *
+   * <p>The returned list items do not populate:
+   *
    * <ul>
-   * <li>{@link Patch#getCommentCount()}
-   * <li>{@link Patch#getDraftCount()}
-   * <li>{@link Patch#isReviewedByCurrentUser()}
+   *   <li>{@link Patch#getCommentCount()}
+   *   <li>{@link Patch#getDraftCount()}
+   *   <li>{@link Patch#isReviewedByCurrentUser()}
    * </ul>
    *
-   * @param setId the patch set identity these patches belong to. This really
-   *        should not need to be specified, but is a current legacy artifact of
-   *        how the cache is keyed versus how the database is keyed.
+   * @param setId the patch set identity these patches belong to. This really should not need to be
+   *     specified, but is a current legacy artifact of how the cache is keyed versus how the
+   *     database is keyed.
    */
   public List<Patch> toPatchList(final PatchSet.Id setId) {
     final ArrayList<Patch> r = new ArrayList<>(patches.length);

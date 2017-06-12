@@ -19,13 +19,11 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class RepositoryConfig {
@@ -43,18 +41,20 @@ public class RepositoryConfig {
   }
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {
-    return cfg.getEnum(SECTION_NAME, findSubSection(project.get()),
-        DEFAULT_SUBMIT_TYPE_NAME, SubmitType.MERGE_IF_NECESSARY);
+    return cfg.getEnum(
+        SECTION_NAME,
+        findSubSection(project.get()),
+        DEFAULT_SUBMIT_TYPE_NAME,
+        SubmitType.MERGE_IF_NECESSARY);
   }
 
   public List<String> getOwnerGroups(Project.NameKey project) {
-    return ImmutableList.copyOf(cfg.getStringList(SECTION_NAME,
-        findSubSection(project.get()), OWNER_GROUP_NAME));
+    return ImmutableList.copyOf(
+        cfg.getStringList(SECTION_NAME, findSubSection(project.get()), OWNER_GROUP_NAME));
   }
 
   public Path getBasePath(Project.NameKey project) {
-    String basePath = cfg.getString(SECTION_NAME, findSubSection(project.get()),
-        BASE_PATH_NAME);
+    String basePath = cfg.getString(SECTION_NAME, findSubSection(project.get()), BASE_PATH_NAME);
     return basePath != null ? Paths.get(basePath) : null;
   }
 
@@ -71,10 +71,9 @@ public class RepositoryConfig {
 
   /**
    * Find the subSection to get repository configuration from.
-   * <p>
-   * SubSection can use the * pattern so if project name matches more than one
-   * section, return the more precise one. E.g if the following subSections are
-   * defined:
+   *
+   * <p>SubSection can use the * pattern so if project name matches more than one section, return
+   * the more precise one. E.g if the following subSections are defined:
    *
    * <pre>
    * [repository "somePath/*"]
@@ -83,8 +82,8 @@ public class RepositoryConfig {
    *   name = value
    * </pre>
    *
-   * and this method is called with "somePath/somePath/someProject" as project
-   * name, it will return the subSection "somePath/somePath/*"
+   * and this method is called with "somePath/somePath/someProject" as project name, it will return
+   * the subSection "somePath/somePath/*"
    *
    * @param project Name of the project
    * @return the name of the subSection, null if none is found
@@ -93,8 +92,7 @@ public class RepositoryConfig {
     String subSectionFound = null;
     for (String subSection : cfg.getSubsections(SECTION_NAME)) {
       if (isMatch(subSection, project)
-          && (subSectionFound == null || subSectionFound.length() < subSection
-              .length())) {
+          && (subSectionFound == null || subSectionFound.length() < subSection.length())) {
         subSectionFound = subSection;
       }
     }
@@ -103,7 +101,7 @@ public class RepositoryConfig {
 
   private boolean isMatch(String subSection, String project) {
     return project.equals(subSection)
-        || (subSection.endsWith("*") && project.startsWith(subSection
-            .substring(0, subSection.length() - 1)));
+        || (subSection.endsWith("*")
+            && project.startsWith(subSection.substring(0, subSection.length() - 1)));
   }
 }

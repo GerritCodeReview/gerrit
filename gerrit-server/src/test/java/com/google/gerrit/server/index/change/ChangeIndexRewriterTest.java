@@ -38,13 +38,11 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.testutil.GerritBaseTests;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ChangeIndexRewriterTest extends GerritBaseTests {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
@@ -60,8 +58,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new ChangeIndexRewriter(indexes,
-        IndexConfig.create(0, 0, 3));
+    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.create(0, 0, 3));
   }
 
   @Test
@@ -101,19 +98,13 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
-    assertThat(out.getChildren())
-        .containsExactly(
-            query(in.getChild(1)),
-            in.getChild(0))
-        .inOrder();
+    assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
   }
 
   @Test
   public void testThreeLevelTreeWithAllIndexPredicates() throws Exception {
-    Predicate<ChangeData> in =
-        parse("-status:abandoned (file:a OR file:b)");
-    assertThat(rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT)))
-        .isEqualTo(query(in));
+    Predicate<ChangeData> in = parse("-status:abandoned (file:a OR file:b)");
+    assertThat(rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT))).isEqualTo(query(in));
   }
 
   @Test
@@ -121,24 +112,16 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameAs(AndChangeSource.class);
-    assertThat(out.getChildren())
-        .containsExactly(
-          query(in.getChild(1)),
-          in.getChild(0))
-        .inOrder();
+    assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
   }
 
   @Test
   public void testMultipleIndexPredicates() throws Exception {
-    Predicate<ChangeData> in =
-        parse("file:a OR foo:b OR file:c OR foo:d");
+    Predicate<ChangeData> in = parse("file:a OR foo:b OR file:c OR foo:d");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameAs(OrSource.class);
     assertThat(out.getChildren())
-        .containsExactly(
-          query(or(in.getChild(0), in.getChild(2))),
-          in.getChild(1),
-          in.getChild(3))
+        .containsExactly(query(or(in.getChild(0), in.getChild(2))), in.getChild(1), in.getChild(3))
         .inOrder();
   }
 
@@ -148,49 +131,37 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(
-          query(and(in.getChild(0), in.getChild(2))),
-          in.getChild(1))
+        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
         .inOrder();
   }
 
   @Test
   public void testDuplicateCompoundNonIndexOnlyPredicates() throws Exception {
-    Predicate<ChangeData> in =
-        parse("(status:new OR status:draft) bar:p file:a");
+    Predicate<ChangeData> in = parse("(status:new OR status:draft) bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(
-          query(and(in.getChild(0), in.getChild(2))),
-          in.getChild(1))
+        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
         .inOrder();
   }
 
   @Test
   public void testDuplicateCompoundIndexOnlyPredicates() throws Exception {
-    Predicate<ChangeData> in =
-        parse("(status:new OR file:a) bar:p file:b");
+    Predicate<ChangeData> in = parse("(status:new OR file:a) bar:p file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(
-          query(and(in.getChild(0), in.getChild(2))),
-          in.getChild(1))
+        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
         .inOrder();
   }
 
   @Test
-  public void testOptionsArgumentOverridesAllLimitPredicates()
-      throws Exception {
+  public void testOptionsArgumentOverridesAllLimitPredicates() throws Exception {
     Predicate<ChangeData> in = parse("limit:1 file:a limit:3");
     Predicate<ChangeData> out = rewrite(in, options(0, 5));
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(
-          query(in.getChild(1), 5),
-          parse("limit:5"),
-          parse("limit:5"))
+        .containsExactly(query(in.getChild(1), 5), parse("limit:5"), parse("limit:5"))
         .inOrder();
   }
 
@@ -200,28 +171,23 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> f = parse("file:a");
     Predicate<ChangeData> l = parse("limit:" + n);
     Predicate<ChangeData> in = andSource(f, l);
-    assertThat(rewrite.rewrite(in, options(0, n)))
-        .isEqualTo(andSource(query(f, 3), l));
-    assertThat(rewrite.rewrite(in, options(1, n)))
-        .isEqualTo(andSource(query(f, 4), l));
-    assertThat(rewrite.rewrite(in, options(2, n)))
-        .isEqualTo(andSource(query(f, 5), l));
+    assertThat(rewrite.rewrite(in, options(0, n))).isEqualTo(andSource(query(f, 3), l));
+    assertThat(rewrite.rewrite(in, options(1, n))).isEqualTo(andSource(query(f, 4), l));
+    assertThat(rewrite.rewrite(in, options(2, n))).isEqualTo(andSource(query(f, 5), l));
   }
 
   @Test
   public void testGetPossibleStatus() throws Exception {
     assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
     assertThat(status("is:new")).containsExactly(NEW);
-    assertThat(status("-is:new"))
-        .containsExactly(DRAFT, MERGED, ABANDONED);
+    assertThat(status("-is:new")).containsExactly(DRAFT, MERGED, ABANDONED);
     assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
 
     assertThat(status("is:new is:merged")).isEmpty();
     assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
     assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
 
-    assertThat(status("(is:new is:draft) OR (is:merged)"))
-        .containsExactly(MERGED);
+    assertThat(status("(is:new is:draft) OR (is:merged)")).containsExactly(MERGED);
   }
 
   @Test
@@ -232,11 +198,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     indexes.setSearchIndex(new FakeChangeIndex(FakeChangeIndex.V1));
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out).isInstanceOf(AndPredicate.class);
-    assertThat(out.getChildren())
-        .containsExactly(
-          query(in.getChild(0)),
-          in.getChild(1))
-        .inOrder();
+    assertThat(out.getChildren()).containsExactly(query(in.getChild(0)), in.getChild(1)).inOrder();
   }
 
   @Test
@@ -275,29 +237,25 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     return new AndChangeSource(Arrays.asList(preds));
   }
 
-  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
-      throws QueryParseException {
+  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in) throws QueryParseException {
     return rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT));
   }
 
-  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
-      QueryOptions opts) throws QueryParseException {
+  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in, QueryOptions opts)
+      throws QueryParseException {
     return rewrite.rewrite(in, opts);
   }
 
-  private IndexedChangeQuery query(Predicate<ChangeData> p)
-      throws QueryParseException {
+  private IndexedChangeQuery query(Predicate<ChangeData> p) throws QueryParseException {
     return query(p, DEFAULT_MAX_QUERY_LIMIT);
   }
 
-  private IndexedChangeQuery query(Predicate<ChangeData> p, int limit)
-      throws QueryParseException {
+  private IndexedChangeQuery query(Predicate<ChangeData> p, int limit) throws QueryParseException {
     return new IndexedChangeQuery(index, p, options(0, limit));
   }
 
   private static QueryOptions options(int start, int limit) {
-    return IndexedChangeQuery.createOptions(CONFIG, start, limit,
-        ImmutableSet.<String> of());
+    return IndexedChangeQuery.createOptions(CONFIG, start, limit, ImmutableSet.<String>of());
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

@@ -17,13 +17,9 @@ package com.google.gerrit.server;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
-/**
- * Marker on a boolean indicating whether signed push is enabled on the server.
- */
+/** Marker on a boolean indicating whether signed push is enabled on the server. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface EnableSignedPush {
-}
+public @interface EnableSignedPush {}

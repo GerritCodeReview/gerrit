@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -30,16 +29,17 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   private final GroupCache groupCache;
 
   @Inject
-  public AccountGroupIdHandler(final GroupCache groupCache,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
+  public AccountGroupIdHandler(
+      final GroupCache groupCache,
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
       @Assisted final Setter<AccountGroup.Id> setter) {
     super(parser, option, setter);
     this.groupCache = groupCache;
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
     final AccountGroup group = groupCache.get(new AccountGroup.NameKey(n));
     if (group == null) {

@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -44,7 +43,8 @@ public class AccountState {
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
-  public AccountState(Account account,
+  public AccountState(
+      Account account,
       Set<AccountGroup.UUID> actualGroups,
       Collection<AccountExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
@@ -62,9 +62,9 @@ public class AccountState {
 
   /**
    * Get the username, if one has been declared for this user.
-   * <p>
-   * The username is the {@link AccountExternalId} using the scheme
-   * {@link AccountExternalId#SCHEME_USERNAME}.
+   *
+   * <p>The username is the {@link AccountExternalId} using the scheme {@link
+   * AccountExternalId#SCHEME_USERNAME}.
    */
   public String getUserName() {
     return account.getUserName();
@@ -73,8 +73,7 @@ public class AccountState {
   /** @return the password matching the requested username; or null. */
   public String getPassword(String username) {
     for (AccountExternalId id : getExternalIds()) {
-      if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
-          && username.equals(id.getSchemeRest())) {
+      if (id.isScheme(AccountExternalId.SCHEME_USERNAME) && username.equals(id.getSchemeRest())) {
         return id.getPassword();
       }
     }
@@ -117,9 +116,9 @@ public class AccountState {
 
   /**
    * Lookup a previously stored property.
-   * <p>
-   * All properties are automatically cleared when the account cache invalidates
-   * the {@code AccountState}. This method is thread-safe.
+   *
+   * <p>All properties are automatically cleared when the account cache invalidates the {@code
+   * AccountState}. This method is thread-safe.
    *
    * @param key unique property key.
    * @return previously stored value, or {@code null}.
@@ -137,8 +136,8 @@ public class AccountState {
 
   /**
    * Store a property for later retrieval.
-   * <p>
-   * This method is thread-safe.
+   *
+   * <p>This method is thread-safe.
    *
    * @param key unique property key.
    * @param value value to store; or {@code null} to clear the value.
@@ -156,16 +155,16 @@ public class AccountState {
     }
   }
 
-  private synchronized Cache<PropertyKey<Object>, Object> properties(
-      boolean allocate) {
+  private synchronized Cache<PropertyKey<Object>, Object> properties(boolean allocate) {
     if (properties == null && allocate) {
-      properties = CacheBuilder.newBuilder()
-          .concurrencyLevel(1)
-          .initialCapacity(16)
-          // Use weakKeys to ensure plugins that garbage collect will also
-          // eventually release data held in any still live AccountState.
-          .weakKeys()
-          .build();
+      properties =
+          CacheBuilder.newBuilder()
+              .concurrencyLevel(1)
+              .initialCapacity(16)
+              // Use weakKeys to ensure plugins that garbage collect will also
+              // eventually release data held in any still live AccountState.
+              .weakKeys()
+              .build();
     }
     return properties;
   }

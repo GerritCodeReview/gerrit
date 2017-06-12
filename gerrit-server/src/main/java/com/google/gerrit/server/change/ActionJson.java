@@ -28,7 +28,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -57,8 +56,7 @@ public class ActionJson {
     return to;
   }
 
-  public RevisionInfo addRevisionActions(RevisionInfo to,
-      RevisionResource rsrc) {
+  public RevisionInfo addRevisionActions(RevisionInfo to, RevisionResource rsrc) {
     to.actions = toActionMap(rsrc);
     return to;
   }
@@ -70,10 +68,8 @@ public class ActionJson {
     }
 
     Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
-    for (UiAction.Description d : UiActions.from(
-        changeViews,
-        changeResourceFactory.create(ctl),
-        userProvider)) {
+    for (UiAction.Description d :
+        UiActions.from(changeViews, changeResourceFactory.create(ctl), userProvider)) {
       out.put(d.getId(), new ActionInfo(d));
     }
 
@@ -94,10 +90,8 @@ public class ActionJson {
   private Map<String, ActionInfo> toActionMap(RevisionResource rsrc) {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     if (rsrc.getControl().getUser().isIdentifiedUser()) {
-      Provider<CurrentUser> userProvider = Providers.of(
-          rsrc.getControl().getUser());
-      for (UiAction.Description d : UiActions.from(
-          revisions, rsrc, userProvider)) {
+      Provider<CurrentUser> userProvider = Providers.of(rsrc.getControl().getUser());
+      for (UiAction.Description d : UiActions.from(revisions, rsrc, userProvider)) {
         out.put(d.getId(), new ActionInfo(d));
       }
     }

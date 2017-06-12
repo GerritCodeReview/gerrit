@@ -18,11 +18,10 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import org.apache.http.HttpStatus;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import org.apache.http.HttpStatus;
 
 public class RestResponse extends HttpResponse {
 
@@ -33,8 +32,7 @@ public class RestResponse extends HttpResponse {
   @Override
   public Reader getReader() throws IllegalStateException, IOException {
     if (reader == null && response.getEntity() != null) {
-      reader = new InputStreamReader(
-          response.getEntity().getContent(), UTF_8);
+      reader = new InputStreamReader(response.getEntity().getContent(), UTF_8);
       reader.skip(JSON_MAGIC.length);
     }
     return reader;

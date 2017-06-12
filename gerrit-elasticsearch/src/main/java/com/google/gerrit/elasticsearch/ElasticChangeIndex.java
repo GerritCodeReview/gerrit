@@ -62,7 +62,17 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import io.searchbox.client.JestResult;
+import io.searchbox.core.Bulk;
+import io.searchbox.core.Bulk.Builder;
+import io.searchbox.core.Search;
+import io.searchbox.core.search.sort.Sort;
+import io.searchbox.core.search.sort.Sort.Sorting;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -70,24 +80,10 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.Search;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
-
 /** Secondary index implementation using Elasticsearch. */
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
-  private static final Logger log =
-      LoggerFactory.getLogger(ElasticChangeIndex.class);
+  private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
   static class ChangeMapping {
     MappingProperties openChanges;
@@ -111,8 +107,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
             || fieldType == FieldType.STORED_ONLY) {
           mappingBuilder.addString(name);
         } else {
-          throw new IllegalArgumentException(
-              "Unsupported filed type " + fieldType.getName());
+          throw new IllegalArgumentException("Unsupported filed type " + fieldType.getName());
         }
       }
       MappingProperties mapping = mappingBuilder.build();
@@ -144,12 +139,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     mapping = new ChangeMapping(schema);
 
     this.queryBuilder = new ElasticQueryBuilder();
-    this.gson = new GsonBuilder()
-        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+    this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
   }
 
-  private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
-      ProtobufCodec<T> codec) {
+  private static <T> List<T> decodeProtos(
+      JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
     return FluentIterable.from(doc.getAsJsonArray(fieldName))
         .transform(i -> codec.decode(decodeBase64(i.toString())))
         .toList();
@@ -172,18 +166,20 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throw new IOException(e);
     }
 
-    Bulk bulk = new Bulk.Builder()
-        .defaultIndex(indexName)
-        .defaultType("changes")
-        .addAction(insert(insertIndex, cd))
-        .addAction(delete(deleteIndex, cd.getId()))
-        .refresh(refresh)
-        .build();
+    Bulk bulk =
+        new Bulk.Builder()
+            .defaultIndex(indexName)
+            .defaultType("changes")
+            .addAction(insert(insertIndex, cd))
+            .addAction(delete(deleteIndex, cd.getId()))
+            .refresh(refresh)
+            .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
-      throw new IOException(String.format(
-          "Failed to replace change %s in index %s: %s", cd.getId(), indexName,
-          result.getErrorMessage()));
+      throw new IOException(
+          String.format(
+              "Failed to replace change %s in index %s: %s",
+              cd.getId(), indexName, result.getErrorMessage()));
     }
   }
 
@@ -203,9 +199,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   protected Builder addActions(Builder builder, Id c) {
-    return builder
-        .addAction(delete(OPEN_CHANGES, c))
-        .addAction(delete(OPEN_CHANGES, c));
+    return builder.addAction(delete(OPEN_CHANGES, c)).addAction(delete(OPEN_CHANGES, c));
   }
 
   @Override
@@ -222,27 +216,30 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     private final Search search;
     private final Set<String> fields;
 
-    QuerySource(List<String> types, Predicate<ChangeData> p,
-        QueryOptions opts) throws QueryParseException {
-      List<Sort> sorts = ImmutableList.of(
-          new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
-          new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
+    QuerySource(List<String> types, Predicate<ChangeData> p, QueryOptions opts)
+        throws QueryParseException {
+      List<Sort> sorts =
+          ImmutableList.of(
+              new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
+              new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
       for (Sort sort : sorts) {
         sort.setIgnoreUnmapped();
       }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.fields(opts);
-      SearchSourceBuilder searchSource = new SearchSourceBuilder()
-          .query(qb)
-          .from(opts.start())
-          .size(opts.limit())
-          .fields(Lists.newArrayList(fields));
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder()
+              .query(qb)
+              .from(opts.start())
+              .size(opts.limit())
+              .fields(Lists.newArrayList(fields));
 
-      search = new Search.Builder(searchSource.toString())
-          .addType(types)
-          .addSort(sorts)
-          .addIndex(indexName)
-          .build();
+      search =
+          new Search.Builder(searchSource.toString())
+              .addType(types)
+              .addSort(sorts)
+              .addIndex(indexName)
+              .build();
     }
 
     @Override
@@ -309,27 +306,26 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       if (c == null) {
         int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
-        String projectName =
-            source.get(ChangeField.PROJECT.getName()).getAsString();
+        String projectName = source.get(ChangeField.PROJECT.getName()).getAsString();
         if (projectName == null) {
-          return changeDataFactory.createOnlyWhenNoteDbDisabled(
-              db.get(), new Change.Id(id));
+          return changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), new Change.Id(id));
         }
         return changeDataFactory.create(
             db.get(), new Project.NameKey(projectName), new Change.Id(id));
       }
 
-      ChangeData cd = changeDataFactory.create(db.get(),
-          ChangeProtoField.CODEC.decode(Base64.decodeBase64(c.getAsString())));
+      ChangeData cd =
+          changeDataFactory.create(
+              db.get(), ChangeProtoField.CODEC.decode(Base64.decodeBase64(c.getAsString())));
 
       // Patch sets.
-      cd.setPatchSets(decodeProtos(
-          source, ChangeField.PATCH_SET.getName(), PatchSetProtoField.CODEC));
+      cd.setPatchSets(
+          decodeProtos(source, ChangeField.PATCH_SET.getName(), PatchSetProtoField.CODEC));
 
       // Approvals.
       if (source.get(ChangeField.APPROVAL.getName()) != null) {
-        cd.setCurrentApprovals(decodeProtos(source,
-            ChangeField.APPROVAL.getName(), PatchSetApprovalProtoField.CODEC));
+        cd.setCurrentApprovals(
+            decodeProtos(source, ChangeField.APPROVAL.getName(), PatchSetApprovalProtoField.CODEC));
       } else if (fields.contains(ChangeField.APPROVAL.getName())) {
         cd.setCurrentApprovals(Collections.emptyList());
       }
@@ -358,12 +354,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       // Reviewed-by.
       if (source.get(ChangeField.REVIEWEDBY.getName()) != null) {
-        JsonArray reviewedBy =
-            source.get(ChangeField.REVIEWEDBY.getName()).getAsJsonArray();
+        JsonArray reviewedBy = source.get(ChangeField.REVIEWEDBY.getName()).getAsJsonArray();
         if (reviewedBy.size() > 0) {
-          Set<Account.Id> accounts =
-              Sets.newHashSetWithExpectedSize(reviewedBy.size());
-          for (int i = 0; i < reviewedBy.size() ; i++) {
+          Set<Account.Id> accounts = Sets.newHashSetWithExpectedSize(reviewedBy.size());
+          for (int i = 0; i < reviewedBy.size(); i++) {
             int aId = reviewedBy.get(i).getAsInt();
             if (reviewedBy.size() == 1 && aId == ChangeField.NOT_REVIEWED) {
               break;
@@ -378,26 +372,29 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       if (source.get(ChangeField.REVIEWER.getName()) != null) {
         cd.setReviewers(
-            ChangeField.parseReviewerFieldValues(FluentIterable
-                .from(
-                    source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
-                .transform(JsonElement::getAsString)));
+            ChangeField.parseReviewerFieldValues(
+                FluentIterable.from(source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
+                    .transform(JsonElement::getAsString)));
       } else if (fields.contains(ChangeField.REVIEWER.getName())) {
         cd.setReviewers(ReviewerSet.empty());
       }
 
-      decodeSubmitRecords(source,
+      decodeSubmitRecords(
+          source,
           ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
-          ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
-      decodeSubmitRecords(source,
+          ChangeField.SUBMIT_RULE_OPTIONS_STRICT,
+          cd);
+      decodeSubmitRecords(
+          source,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
-          ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+          ChangeField.SUBMIT_RULE_OPTIONS_LENIENT,
+          cd);
 
       return cd;
     }
 
-    private void decodeSubmitRecords(JsonObject doc, String fieldName,
-        SubmitRuleOptions opts, ChangeData out) {
+    private void decodeSubmitRecords(
+        JsonObject doc, String fieldName, SubmitRuleOptions opts, ChangeData out) {
       JsonArray records = doc.getAsJsonArray(fieldName);
       if (records == null) {
         return;
@@ -406,7 +403,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           FluentIterable.from(records)
               .transform(i -> new String(decodeBase64(i.toString()), UTF_8))
               .toList(),
-          opts, out);
+          opts,
+          out);
     }
   }
 }

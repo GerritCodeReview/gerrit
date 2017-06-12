@@ -18,7 +18,6 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.net.SocketAddress;
 
 /** Identity of a peer daemon process that isn't this JVM. */
@@ -33,8 +32,8 @@ public class PeerDaemonUser extends CurrentUser {
   private final SocketAddress peer;
 
   @Inject
-  protected PeerDaemonUser(CapabilityControl.Factory capabilityControlFactory,
-      @Assisted SocketAddress peer) {
+  protected PeerDaemonUser(
+      CapabilityControl.Factory capabilityControlFactory, @Assisted SocketAddress peer) {
     super(capabilityControlFactory);
     this.peer = peer;
   }

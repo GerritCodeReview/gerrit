@@ -78,6 +78,5 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
     match(match, 0, 0, cb);
   }
 
-  protected ProjectMap() {
-  }
+  protected ProjectMap() {}
 }

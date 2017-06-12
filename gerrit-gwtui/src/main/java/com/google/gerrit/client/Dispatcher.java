@@ -108,13 +108,12 @@ import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  public static String toPatch(DiffObject diffBase,
-      PatchSet.Id revision, String fileName) {
+  public static String toPatch(DiffObject diffBase, PatchSet.Id revision, String fileName) {
     return toPatch("", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toPatch(DiffObject diffBase,
-      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+  public static String toPatch(
+      DiffObject diffBase, PatchSet.Id revision, String fileName, DisplaySide side, int line) {
     return toPatch("", diffBase, revision, fileName, side, line);
   }
 
@@ -122,13 +121,11 @@ public class Dispatcher {
     return toPatch("sidebyside", diffBase, id);
   }
 
-  public static String toSideBySide(DiffObject diffBase, PatchSet.Id revision,
-      String fileName) {
+  public static String toSideBySide(DiffObject diffBase, PatchSet.Id revision, String fileName) {
     return toPatch("sidebyside", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toUnified(DiffObject diffBase,
-      PatchSet.Id revision, String fileName) {
+  public static String toUnified(DiffObject diffBase, PatchSet.Id revision, String fileName) {
     return toPatch("unified", diffBase, revision, fileName, null, 0);
   }
 
@@ -148,8 +145,13 @@ public class Dispatcher {
     return toPatch("edit", DiffObject.base(), revision, fileName, null, line);
   }
 
-  private static String toPatch(String type, DiffObject diffBase,
-      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+  private static String toPatch(
+      String type,
+      DiffObject diffBase,
+      PatchSet.Id revision,
+      String fileName,
+      DisplaySide side,
+      int line) {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
@@ -157,8 +159,7 @@ public class Dispatcher {
       p.append(diffBase.asString()).append("..");
     }
     p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
-    if (type != null && !type.isEmpty()
-        && (!"sidebyside".equals(type) || preferUnified())) {
+    if (type != null && !type.isEmpty() && (!"sidebyside".equals(type) || preferUnified())) {
       p.append(",").append(type);
     }
     if (side == DisplaySide.A && line > 0) {
@@ -252,7 +253,8 @@ public class Dispatcher {
         || matchExact("register", token)
         || matchExact(REGISTER, token)
         || matchPrefix("/register/", token)
-        || matchPrefix("/VE/", token) || matchPrefix("VE,", token)
+        || matchPrefix("/VE/", token)
+        || matchPrefix("VE,", token)
         || matchPrefix("/SignInFailure,", token)) {
       settings(token);
 
@@ -325,27 +327,28 @@ public class Dispatcher {
       rest = rest.substring(c);
       if (matchPrefix(DASHBOARDS, rest)) {
         final String dashboardId = skip(rest);
-        GerritCallback<DashboardInfo> cb = new GerritCallback<DashboardInfo>() {
-          @Override
-          public void onSuccess(DashboardInfo result) {
-            if (matchPrefix("/dashboard/", result.url())) {
-              String params = skip(result.url()).substring(1);
-              ProjectDashboardScreen dash = new ProjectDashboardScreen(
-                  new Project.NameKey(project), params);
-              Gerrit.display(token, dash);
-            }
-          }
+        GerritCallback<DashboardInfo> cb =
+            new GerritCallback<DashboardInfo>() {
+              @Override
+              public void onSuccess(DashboardInfo result) {
+                if (matchPrefix("/dashboard/", result.url())) {
+                  String params = skip(result.url()).substring(1);
+                  ProjectDashboardScreen dash =
+                      new ProjectDashboardScreen(new Project.NameKey(project), params);
+                  Gerrit.display(token, dash);
+                }
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
-              Gerrit.display(toChangeQuery(
-                  PageLinks.projectQuery(new Project.NameKey(project))));
-            } else {
-              super.onFailure(caught);
-            }
-          }
-        };
+              @Override
+              public void onFailure(Throwable caught) {
+                if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
+                  Gerrit.display(
+                      toChangeQuery(PageLinks.projectQuery(new Project.NameKey(project))));
+                } else {
+                  super.onFailure(caught);
+                }
+              }
+            };
         if ("default".equals(dashboardId)) {
           DashboardList.getDefault(new Project.NameKey(project), cb);
           return;
@@ -389,14 +392,15 @@ public class Dispatcher {
 
     if (rest.isEmpty()) {
       FileTable.Mode mode = FileTable.Mode.REVIEW;
-      if (panel != null
-          && (panel.equals("edit") || panel.startsWith("edit/"))) {
+      if (panel != null && (panel.equals("edit") || panel.startsWith("edit/"))) {
         mode = FileTable.Mode.EDIT;
         panel = null;
       }
-      Gerrit.display(token, panel == null
-          ? new ChangeScreen(id, DiffObject.base(), null, false, mode)
-          : new NotFoundScreen());
+      Gerrit.display(
+          token,
+          panel == null
+              ? new ChangeScreen(id, DiffObject.base(), null, false, mode)
+              : new NotFoundScreen());
       return;
     }
 
@@ -439,10 +443,9 @@ public class Dispatcher {
       patch(token, base, p, side, line, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token,
-            new ChangeScreen(id,
-                base,
-                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
+        Gerrit.display(
+            token,
+            new ChangeScreen(id, base, String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -450,9 +453,7 @@ public class Dispatcher {
   }
 
   private static PatchSet.Id toPsId(Change.Id id, String psIdStr) {
-    return new PatchSet.Id(id, psIdStr.equals("edit")
-        ? 0
-        : Integer.parseInt(psIdStr));
+    return new PatchSet.Id(id, psIdStr.equals("edit") ? 0 : Integer.parseInt(psIdStr));
   }
 
   private static void extension(final String token) {
@@ -464,19 +465,15 @@ public class Dispatcher {
     }
   }
 
-  private static void patch(String token,
-      DiffObject base,
-      Patch.Key id,
-      DisplaySide side,
-      int line,
-      String panelType) {
+  private static void patch(
+      String token, DiffObject base, Patch.Key id, DisplaySide side, int line, String panelType) {
     String panel = panelType;
     if (panel == null) {
       int c = token.lastIndexOf(',');
       panel = 0 <= c ? token.substring(c + 1) : "";
     }
 
-    if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
+    if ("".equals(panel) || /* DEPRECATED URL */ "cm".equals(panel)) {
       if (preferUnified()) {
         unified(token, base, id, side, line);
       } else {
@@ -502,296 +499,307 @@ public class Dispatcher {
         || (UserAgent.isPortrait() && UserAgent.isMobile());
   }
 
-  private static void unified(final String token, final DiffObject base,
-      final Patch.Key id, final DisplaySide side, final int line) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, new Unified(base,
-            DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
-      }
-    });
-  }
-
-  private static void codemirror(final String token, final DiffObject base,
-      final Patch.Key id, final DisplaySide side, final int line) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, new SideBySide(base,
-            DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
-      }
-    });
-  }
-
-  private static void codemirrorForEdit(final String token, final Patch.Key id,
+  private static void unified(
+      final String token,
+      final DiffObject base,
+      final Patch.Key id,
+      final DisplaySide side,
       final int line) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, new EditScreen(id, line));
-      }
-    });
+    GWT.runAsync(
+        new AsyncSplit(token) {
+          @Override
+          public void onSuccess() {
+            Gerrit.display(
+                token,
+                new Unified(base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
+          }
+        });
+  }
+
+  private static void codemirror(
+      final String token,
+      final DiffObject base,
+      final Patch.Key id,
+      final DisplaySide side,
+      final int line) {
+    GWT.runAsync(
+        new AsyncSplit(token) {
+          @Override
+          public void onSuccess() {
+            Gerrit.display(
+                token,
+                new SideBySide(base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
+          }
+        });
+  }
+
+  private static void codemirrorForEdit(final String token, final Patch.Key id, final int line) {
+    GWT.runAsync(
+        new AsyncSplit(token) {
+          @Override
+          public void onSuccess() {
+            Gerrit.display(token, new EditScreen(id, line));
+          }
+        });
   }
 
   private static void settings(String token) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        if (matchExact(SETTINGS, token)) {
-          return new MyProfileScreen();
-        }
-
-        if (matchExact(SETTINGS_PREFERENCES, token)) {
-          return new MyPreferencesScreen();
-        }
-
-        if (matchExact(SETTINGS_DIFF_PREFERENCES, token)) {
-          return new MyDiffPreferencesScreen();
-        }
-
-        if (matchExact(SETTINGS_EDIT_PREFERENCES, token)) {
-          return new MyEditPreferencesScreen();
-        }
-
-        if (matchExact(SETTINGS_PROJECTS, token)) {
-          return new MyWatchedProjectsScreen();
-        }
-
-        if (matchExact(SETTINGS_CONTACT, token)) {
-          return new MyContactInformationScreen();
-        }
-
-        if (matchExact(SETTINGS_SSHKEYS, token)) {
-          return new MySshKeysScreen();
-        }
-
-        if (matchExact(SETTINGS_GPGKEYS, token)
-            && Gerrit.info().gerrit().editGpgKeys()) {
-          return new MyGpgKeysScreen();
-        }
-
-        if (matchExact(SETTINGS_WEBIDENT, token)) {
-          return new MyIdentitiesScreen();
-        }
-
-        if (matchExact(SETTINGS_HTTP_PASSWORD, token)) {
-          return new MyPasswordScreen();
-        }
-
-        if (matchExact(SETTINGS_OAUTH_TOKEN, token)
-            && Gerrit.info().auth().isOAuth()
-            && Gerrit.info().auth().isGitBasicAuth()) {
-          return new MyOAuthTokenScreen();
-        }
-
-        if (matchExact(MY_GROUPS, token)
-            || matchExact(SETTINGS_MYGROUPS, token)) {
-          return new MyGroupsScreen();
-        }
-
-        if (matchExact(SETTINGS_AGREEMENTS, token)
-            && Gerrit.info().auth().useContributorAgreements()) {
-          return new MyAgreementsScreen();
-        }
-
-        if (matchExact(REGISTER, token)
-            || matchExact("/register/", token)
-            || matchExact("register", token)) {
-          return new RegisterScreen(MINE);
-        } else if (matchPrefix("/register/", token)) {
-          return new RegisterScreen("/" + skip(token));
-        }
-
-        if (matchPrefix("/VE/", token) || matchPrefix("VE,", token)) {
-          return new ValidateEmailScreen(skip(token));
-        }
-
-        if (matchExact(SETTINGS_NEW_AGREEMENT, token)) {
-          return new NewAgreementScreen();
-        }
-
-        if (matchPrefix(SETTINGS_NEW_AGREEMENT + "/", token)) {
-          return new NewAgreementScreen(skip(token));
-        }
-
-        if (matchPrefix(SETTINGS_EXTENSION, token)) {
-          ExtensionSettingsScreen view =
-              new ExtensionSettingsScreen(skip(token));
-          if (view.isFound()) {
-            return view;
+    GWT.runAsync(
+        new AsyncSplit(token) {
+          @Override
+          public void onSuccess() {
+            Gerrit.display(token, select());
           }
-          return new NotFoundScreen();
-        }
 
-        return new NotFoundScreen();
-      }
-    });
+          private Screen select() {
+            if (matchExact(SETTINGS, token)) {
+              return new MyProfileScreen();
+            }
+
+            if (matchExact(SETTINGS_PREFERENCES, token)) {
+              return new MyPreferencesScreen();
+            }
+
+            if (matchExact(SETTINGS_DIFF_PREFERENCES, token)) {
+              return new MyDiffPreferencesScreen();
+            }
+
+            if (matchExact(SETTINGS_EDIT_PREFERENCES, token)) {
+              return new MyEditPreferencesScreen();
+            }
+
+            if (matchExact(SETTINGS_PROJECTS, token)) {
+              return new MyWatchedProjectsScreen();
+            }
+
+            if (matchExact(SETTINGS_CONTACT, token)) {
+              return new MyContactInformationScreen();
+            }
+
+            if (matchExact(SETTINGS_SSHKEYS, token)) {
+              return new MySshKeysScreen();
+            }
+
+            if (matchExact(SETTINGS_GPGKEYS, token) && Gerrit.info().gerrit().editGpgKeys()) {
+              return new MyGpgKeysScreen();
+            }
+
+            if (matchExact(SETTINGS_WEBIDENT, token)) {
+              return new MyIdentitiesScreen();
+            }
+
+            if (matchExact(SETTINGS_HTTP_PASSWORD, token)) {
+              return new MyPasswordScreen();
+            }
+
+            if (matchExact(SETTINGS_OAUTH_TOKEN, token)
+                && Gerrit.info().auth().isOAuth()
+                && Gerrit.info().auth().isGitBasicAuth()) {
+              return new MyOAuthTokenScreen();
+            }
+
+            if (matchExact(MY_GROUPS, token) || matchExact(SETTINGS_MYGROUPS, token)) {
+              return new MyGroupsScreen();
+            }
+
+            if (matchExact(SETTINGS_AGREEMENTS, token)
+                && Gerrit.info().auth().useContributorAgreements()) {
+              return new MyAgreementsScreen();
+            }
+
+            if (matchExact(REGISTER, token)
+                || matchExact("/register/", token)
+                || matchExact("register", token)) {
+              return new RegisterScreen(MINE);
+            } else if (matchPrefix("/register/", token)) {
+              return new RegisterScreen("/" + skip(token));
+            }
+
+            if (matchPrefix("/VE/", token) || matchPrefix("VE,", token)) {
+              return new ValidateEmailScreen(skip(token));
+            }
+
+            if (matchExact(SETTINGS_NEW_AGREEMENT, token)) {
+              return new NewAgreementScreen();
+            }
+
+            if (matchPrefix(SETTINGS_NEW_AGREEMENT + "/", token)) {
+              return new NewAgreementScreen(skip(token));
+            }
+
+            if (matchPrefix(SETTINGS_EXTENSION, token)) {
+              ExtensionSettingsScreen view = new ExtensionSettingsScreen(skip(token));
+              if (view.isFound()) {
+                return view;
+              }
+              return new NotFoundScreen();
+            }
+
+            return new NotFoundScreen();
+          }
+        });
   }
 
   private static void admin(String token) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        if (matchExact(ADMIN_GROUPS, token)
-            || matchExact("/admin/groups", token)) {
-          Gerrit.display(token, new GroupListScreen());
-
-        } else if (matchPrefix(ADMIN_GROUPS, token)) {
-          String rest = skip(token);
-          if (rest.startsWith("?")) {
-            Gerrit.display(token, new GroupListScreen(rest.substring(1)));
-          } else {
-            group();
-          }
-
-        } else if (matchPrefix("/admin/groups", token)) {
-          String rest = skip(token);
-          if (rest.startsWith("?")) {
-            Gerrit.display(token, new GroupListScreen(rest.substring(1)));
-          }
-
-        } else if (matchExact(ADMIN_PROJECTS, token)
-            || matchExact("/admin/projects", token)) {
-          Gerrit.display(token, new ProjectListScreen());
-
-        } else if (matchPrefix(ADMIN_PROJECTS, token)) {
-            String rest = skip(token);
-            if (rest.startsWith("?")) {
-              Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
-            } else {
-              Gerrit.display(token, selectProject());
-            }
-
-        } else if (matchPrefix("/admin/projects", token)) {
-          String rest = skip(token);
-          if (rest.startsWith("?")) {
-            Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
-          }
-
-        } else if (matchPrefix(ADMIN_PLUGINS, token)
-            || matchExact("/admin/plugins", token)) {
-          Gerrit.display(token, new PluginListScreen());
-
-        } else if (matchExact(ADMIN_CREATE_PROJECT, token)
-            || matchExact("/admin/create-project", token)) {
-          Gerrit.display(token, new CreateProjectScreen());
-
-        } else if (matchExact(ADMIN_CREATE_GROUP, token)
-            || matchExact("/admin/create-group", token)) {
-          Gerrit.display(token, new CreateGroupScreen());
-
-        } else {
-          Gerrit.display(token, new NotFoundScreen());
-        }
-      }
-
-      private void group() {
-        final String panel;
-        final String group;
-
-        if (matchPrefix("/admin/groups/uuid-", token)) {
-          String p = skip(token);
-          int c = p.indexOf(',');
-          if (c < 0) {
-            group = p;
-            panel = null;
-          } else {
-            group = p.substring(0, c);
-            panel = p.substring(c + 1);
-          }
-        } else if (matchPrefix(ADMIN_GROUPS, token)) {
-          String p = skip(token);
-          int c = p.indexOf(',');
-          if (c < 0) {
-            group = p;
-            panel = null;
-          } else {
-            group = p.substring(0, c);
-            panel = p.substring(c + 1);
-          }
-        } else {
-          Gerrit.display(token, new NotFoundScreen());
-          return;
-        }
-
-        GroupApi.getGroupDetail(group, new GerritCallback<GroupInfo>() {
+    GWT.runAsync(
+        new AsyncSplit(token) {
           @Override
-          public void onSuccess(GroupInfo group) {
-            if (panel == null || panel.isEmpty()) {
-              // The token does not say which group screen should be shown,
-              // as default for internal groups show the members, as default
-              // for external and system groups show the info screen (since
-              // for external and system groups the members cannot be
-              // shown in the web UI).
-              //
-              if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
-                    new AccountGroupMembersScreen(group, token));
+          public void onSuccess() {
+            if (matchExact(ADMIN_GROUPS, token) || matchExact("/admin/groups", token)) {
+              Gerrit.display(token, new GroupListScreen());
+
+            } else if (matchPrefix(ADMIN_GROUPS, token)) {
+              String rest = skip(token);
+              if (rest.startsWith("?")) {
+                Gerrit.display(token, new GroupListScreen(rest.substring(1)));
               } else {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.INFO),
-                    new AccountGroupInfoScreen(group, token));
+                group();
               }
-            } else if (AccountGroupScreen.INFO.equals(panel)) {
-              Gerrit.display(token, new AccountGroupInfoScreen(group, token));
-            } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
-              Gerrit.display(token, new AccountGroupMembersScreen(group, token));
-            } else if (AccountGroupScreen.AUDIT_LOG.equals(panel)) {
-              Gerrit.display(token, new AccountGroupAuditLogScreen(group, token));
+
+            } else if (matchPrefix("/admin/groups", token)) {
+              String rest = skip(token);
+              if (rest.startsWith("?")) {
+                Gerrit.display(token, new GroupListScreen(rest.substring(1)));
+              }
+
+            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/projects", token)) {
+              Gerrit.display(token, new ProjectListScreen());
+
+            } else if (matchPrefix(ADMIN_PROJECTS, token)) {
+              String rest = skip(token);
+              if (rest.startsWith("?")) {
+                Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
+              } else {
+                Gerrit.display(token, selectProject());
+              }
+
+            } else if (matchPrefix("/admin/projects", token)) {
+              String rest = skip(token);
+              if (rest.startsWith("?")) {
+                Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
+              }
+
+            } else if (matchPrefix(ADMIN_PLUGINS, token) || matchExact("/admin/plugins", token)) {
+              Gerrit.display(token, new PluginListScreen());
+
+            } else if (matchExact(ADMIN_CREATE_PROJECT, token)
+                || matchExact("/admin/create-project", token)) {
+              Gerrit.display(token, new CreateProjectScreen());
+
+            } else if (matchExact(ADMIN_CREATE_GROUP, token)
+                || matchExact("/admin/create-group", token)) {
+              Gerrit.display(token, new CreateGroupScreen());
+
             } else {
               Gerrit.display(token, new NotFoundScreen());
             }
           }
-        });
-      }
 
-      private Screen selectProject() {
-        if (matchPrefix(ADMIN_PROJECTS, token)) {
-          String rest = skip(token);
-          int c = rest.lastIndexOf(',');
-          if (c < 0) {
-            return new ProjectInfoScreen(Project.NameKey.parse(rest));
-          } else if (c == 0) {
+          private void group() {
+            final String panel;
+            final String group;
+
+            if (matchPrefix("/admin/groups/uuid-", token)) {
+              String p = skip(token);
+              int c = p.indexOf(',');
+              if (c < 0) {
+                group = p;
+                panel = null;
+              } else {
+                group = p.substring(0, c);
+                panel = p.substring(c + 1);
+              }
+            } else if (matchPrefix(ADMIN_GROUPS, token)) {
+              String p = skip(token);
+              int c = p.indexOf(',');
+              if (c < 0) {
+                group = p;
+                panel = null;
+              } else {
+                group = p.substring(0, c);
+                panel = p.substring(c + 1);
+              }
+            } else {
+              Gerrit.display(token, new NotFoundScreen());
+              return;
+            }
+
+            GroupApi.getGroupDetail(
+                group,
+                new GerritCallback<GroupInfo>() {
+                  @Override
+                  public void onSuccess(GroupInfo group) {
+                    if (panel == null || panel.isEmpty()) {
+                      // The token does not say which group screen should be shown,
+                      // as default for internal groups show the members, as default
+                      // for external and system groups show the info screen (since
+                      // for external and system groups the members cannot be
+                      // shown in the web UI).
+                      //
+                      if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
+                        Gerrit.display(
+                            toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
+                            new AccountGroupMembersScreen(group, token));
+                      } else {
+                        Gerrit.display(
+                            toGroup(group.getGroupId(), AccountGroupScreen.INFO),
+                            new AccountGroupInfoScreen(group, token));
+                      }
+                    } else if (AccountGroupScreen.INFO.equals(panel)) {
+                      Gerrit.display(token, new AccountGroupInfoScreen(group, token));
+                    } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
+                      Gerrit.display(token, new AccountGroupMembersScreen(group, token));
+                    } else if (AccountGroupScreen.AUDIT_LOG.equals(panel)) {
+                      Gerrit.display(token, new AccountGroupAuditLogScreen(group, token));
+                    } else {
+                      Gerrit.display(token, new NotFoundScreen());
+                    }
+                  }
+                });
+          }
+
+          private Screen selectProject() {
+            if (matchPrefix(ADMIN_PROJECTS, token)) {
+              String rest = skip(token);
+              int c = rest.lastIndexOf(',');
+              if (c < 0) {
+                return new ProjectInfoScreen(Project.NameKey.parse(rest));
+              } else if (c == 0) {
+                return new NotFoundScreen();
+              }
+
+              int q = rest.lastIndexOf('?');
+              if (q > 0 && rest.lastIndexOf(',', q) > 0) {
+                c = rest.substring(0, q - 1).lastIndexOf(',');
+              }
+
+              Project.NameKey k = Project.NameKey.parse(rest.substring(0, c));
+              String panel = rest.substring(c + 1);
+
+              if (ProjectScreen.INFO.equals(panel)) {
+                return new ProjectInfoScreen(k);
+              }
+
+              if (ProjectScreen.BRANCHES.equals(panel)
+                  || matchPrefix(ProjectScreen.BRANCHES, panel)) {
+                return new ProjectBranchesScreen(k);
+              }
+
+              if (ProjectScreen.TAGS.equals(panel) || matchPrefix(ProjectScreen.TAGS, panel)) {
+                return new ProjectTagsScreen(k);
+              }
+
+              if (ProjectScreen.ACCESS.equals(panel)) {
+                return new ProjectAccessScreen(k);
+              }
+
+              if (ProjectScreen.DASHBOARDS.equals(panel)) {
+                return new ProjectDashboardsScreen(k);
+              }
+            }
             return new NotFoundScreen();
           }
-
-          int q = rest.lastIndexOf('?');
-          if (q > 0 && rest.lastIndexOf(',', q) > 0) {
-            c = rest.substring(0, q - 1).lastIndexOf(',');
-          }
-
-          Project.NameKey k = Project.NameKey.parse(rest.substring(0, c));
-          String panel = rest.substring(c + 1);
-
-          if (ProjectScreen.INFO.equals(panel)) {
-            return new ProjectInfoScreen(k);
-          }
-
-          if (ProjectScreen.BRANCHES.equals(panel)
-              || matchPrefix(ProjectScreen.BRANCHES, panel)) {
-            return new ProjectBranchesScreen(k);
-          }
-
-          if (ProjectScreen.TAGS.equals(panel)
-              || matchPrefix(ProjectScreen.TAGS, panel)) {
-            return new ProjectTagsScreen(k);
-          }
-
-          if (ProjectScreen.ACCESS.equals(panel)) {
-            return new ProjectAccessScreen(k);
-          }
-
-          if (ProjectScreen.DASHBOARDS.equals(panel)) {
-            return new ProjectDashboardsScreen(k);
-          }
-        }
-        return new NotFoundScreen();
-      }
-    });
+        });
   }
 
   private static boolean matchExact(String want, String token) {
@@ -823,8 +831,7 @@ public class Dispatcher {
 
     @Override
     public final void onFailure(Throwable reason) {
-      if (!isReloadUi
-          && "HTTP download failed with status 404".equals(reason.getMessage())) {
+      if (!isReloadUi && "HTTP download failed with status 404".equals(reason.getMessage())) {
         // The server was upgraded since we last download the main script,
         // so the pointers to the splits aren't valid anymore.  Force the
         // page to reload itself and pick up the new code.
@@ -837,11 +844,12 @@ public class Dispatcher {
   }
 
   private static void docSearch(final String token) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, new DocScreen(skip(token)));
-      }
-    });
+    GWT.runAsync(
+        new AsyncSplit(token) {
+          @Override
+          public void onSuccess() {
+            Gerrit.display(token, new DocScreen(skip(token)));
+          }
+        });
   }
 }

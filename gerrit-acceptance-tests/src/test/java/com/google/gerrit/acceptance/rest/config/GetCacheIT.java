@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
-
 import org.junit.Test;
 
 public class GetCacheIT extends AbstractDaemonTest {
@@ -51,22 +50,16 @@ public class GetCacheIT extends AbstractDaemonTest {
 
   @Test
   public void getCache_Forbidden() throws Exception {
-    userRestSession
-        .get("/config/server/caches/accounts")
-        .assertForbidden();
+    userRestSession.get("/config/server/caches/accounts").assertForbidden();
   }
 
   @Test
   public void getCache_NotFound() throws Exception {
-    adminRestSession
-        .get("/config/server/caches/nonExisting")
-        .assertNotFound();
+    adminRestSession.get("/config/server/caches/nonExisting").assertNotFound();
   }
 
   @Test
   public void getCacheWithGerritPrefix() throws Exception {
-    adminRestSession
-        .get("/config/server/caches/gerrit-accounts")
-        .assertOK();
+    adminRestSession.get("/config/server/caches/gerrit-accounts").assertOK();
   }
 }

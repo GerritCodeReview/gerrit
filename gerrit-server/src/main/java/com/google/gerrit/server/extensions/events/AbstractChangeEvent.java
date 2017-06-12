@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeEvent;
-
 import java.sql.Timestamp;
 
 public abstract class AbstractChangeEvent implements ChangeEvent {
@@ -27,8 +26,8 @@ public abstract class AbstractChangeEvent implements ChangeEvent {
   private final Timestamp when;
   private final NotifyHandling notify;
 
-  protected AbstractChangeEvent(ChangeInfo change, AccountInfo who,
-      Timestamp when, NotifyHandling notify) {
+  protected AbstractChangeEvent(
+      ChangeInfo change, AccountInfo who, Timestamp when, NotifyHandling notify) {
     this.changeInfo = change;
     this.who = who;
     this.when = when;

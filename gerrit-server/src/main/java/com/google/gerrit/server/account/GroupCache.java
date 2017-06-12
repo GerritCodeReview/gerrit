@@ -25,9 +25,8 @@ public interface GroupCache {
   AccountGroup get(AccountGroup.NameKey name);
 
   /**
-   * Lookup a group definition by its UUID. The returned definition may be null
-   * if the group has been deleted and the UUID reference is stale, or was
-   * copied from another server.
+   * Lookup a group definition by its UUID. The returned definition may be null if the group has
+   * been deleted and the UUID reference is stale, or was copied from another server.
    */
   @Nullable
   AccountGroup get(AccountGroup.UUID uuid);
@@ -40,6 +39,5 @@ public interface GroupCache {
 
   void evict(AccountGroup group);
 
-  void evictAfterRename(final AccountGroup.NameKey oldName,
-      final AccountGroup.NameKey newName);
+  void evictAfterRename(final AccountGroup.NameKey oldName, final AccountGroup.NameKey newName);
 }

@@ -28,41 +28,38 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReviewerAdded {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewerAdded.class);
+  private static final Logger log = LoggerFactory.getLogger(ReviewerAdded.class);
 
   private final DynamicSet<ReviewerAddedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ReviewerAdded(DynamicSet<ReviewerAddedListener> listeners,
-      EventUtil util) {
+  ReviewerAdded(DynamicSet<ReviewerAddedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, List<Account> reviewers,
-      Account adder, Timestamp when) {
+  public void fire(
+      Change change, PatchSet patchSet, List<Account> reviewers, Account adder, Timestamp when) {
     if (!listeners.iterator().hasNext() || reviewers.isEmpty()) {
       return;
     }
 
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), patchSet),
-          Lists.transform(reviewers, util::accountInfo),
-          util.accountInfo(adder),
-          when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), patchSet),
+              Lists.transform(reviewers, util::accountInfo),
+              util.accountInfo(adder),
+              when);
       for (ReviewerAddedListener l : listeners) {
         try {
           l.onReviewersAdded(event);
@@ -70,18 +67,20 @@ public class ReviewerAdded {
           util.logEventListenerError(this, l, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
 
-  private static class Event extends AbstractRevisionEvent
-      implements ReviewerAddedListener.Event {
+  private static class Event extends AbstractRevisionEvent implements ReviewerAddedListener.Event {
     private final List<AccountInfo> reviewers;
 
-    Event(ChangeInfo change, RevisionInfo revision, List<AccountInfo> reviewers,
-        AccountInfo adder, Timestamp when) {
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        List<AccountInfo> reviewers,
+        AccountInfo adder,
+        Timestamp when) {
       super(change, revision, adder, when, NotifyHandling.ALL);
       this.reviewers = reviewers;
     }

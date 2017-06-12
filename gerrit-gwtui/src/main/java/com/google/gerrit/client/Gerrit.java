@@ -94,7 +94,6 @@ import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
 import com.google.gwtorm.client.KeyUtil;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,8 +101,7 @@ import java.util.Map;
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
-  public static final GerritResources RESOURCES =
-      GWT.create(GerritResources.class);
+  public static final GerritResources RESOURCES = GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
   public static final Themer THEMER = GWT.create(Themer.class);
@@ -165,10 +163,9 @@ public class Gerrit implements EntryPoint {
 
   /**
    * Load the screen at the given location, displaying when ready.
-   * <p>
-   * If the URL is not already pointing at this location, a new item will be
-   * added to the browser's history when the screen is fully loaded and
-   * displayed on the UI.
+   *
+   * <p>If the URL is not already pointing at this location, a new item will be added to the
+   * browser's history when the screen is fully loaded and displayed on the UI.
    *
    * @param token location to parse, load, and render.
    */
@@ -180,14 +177,14 @@ public class Gerrit implements EntryPoint {
 
   /**
    * Load the screen passed, assuming token can be used to locate it.
-   * <p>
-   * The screen is loaded in the background. When it is ready to be visible a
-   * new item will be added to the browser's history, the screen will be made
-   * visible, and the window title may be updated.
-   * <p>
-   * If {@link Screen#isRequiresSignIn()} is true and the user is not signed in
-   * yet the screen instance will be discarded, sign-in will take place, and
-   * will redirect to this location upon success.
+   *
+   * <p>The screen is loaded in the background. When it is ready to be visible a new item will be
+   * added to the browser's history, the screen will be made visible, and the window title may be
+   * updated.
+   *
+   * <p>If {@link Screen#isRequiresSignIn()} is true and the user is not signed in yet the screen
+   * instance will be discarded, sign-in will take place, and will redirect to this location upon
+   * success.
    *
    * @param token location that refers to {@code view}.
    * @param view the view to load.
@@ -210,11 +207,10 @@ public class Gerrit implements EntryPoint {
 
   /**
    * Update the current history token after a screen change.
-   * <p>
-   * The caller has already updated the UI, but wants to publish a different
-   * history token for the current browser state. This really only makes sense
-   * if the caller is a {@code TabPanel} and is firing an event when the tab
-   * changed to a different part.
+   *
+   * <p>The caller has already updated the UI, but wants to publish a different history token for
+   * the current browser state. This really only makes sense if the caller is a {@code TabPanel} and
+   * is firing an event when the tab changed to a different part.
    *
    * @param token new location that is already visible.
    */
@@ -293,7 +289,10 @@ public class Gerrit implements EntryPoint {
     return xGerritAuth;
   }
 
-  /** @return the preferences of the currently signed in user, the default preferences if not signed in */
+  /**
+   * @return the preferences of the currently signed in user, the default preferences if not signed
+   *     in
+   */
   public static GeneralPreferences getUserPreferences() {
     return myPrefs;
   }
@@ -393,17 +392,18 @@ public class Gerrit implements EntryPoint {
 
   private void setXsrfToken() {
     xGerritAuth = Cookies.getCookie(XSRF_COOKIE_NAME);
-    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
-      @Override
-      public String getToken(JsonDefTarget proxy) {
-        return xGerritAuth;
-      }
+    JsonUtil.setDefaultXsrfManager(
+        new XsrfManager() {
+          @Override
+          public String getToken(JsonDefTarget proxy) {
+            return xGerritAuth;
+          }
 
-      @Override
-      public void setToken(JsonDefTarget proxy, String token) {
-        // Ignore the request, we always rely upon the cookie.
-      }
-    });
+          @Override
+          public void setToken(JsonDefTarget proxy, String token) {
+            // Ignore the request, we always rely upon the cookie.
+          }
+        });
   }
 
   @Override
@@ -413,103 +413,117 @@ public class Gerrit implements EntryPoint {
     }
     setXsrfToken();
 
-    KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
-      @Override
-      public String encode(String e) {
-        e = URL.encodeQueryString(e);
-        e = fixPathImpl(e);
-        e = fixColonImpl(e);
-        e = fixDoubleQuote(e);
-        return e;
-      }
+    KeyUtil.setEncoderImpl(
+        new KeyUtil.Encoder() {
+          @Override
+          public String encode(String e) {
+            e = URL.encodeQueryString(e);
+            e = fixPathImpl(e);
+            e = fixColonImpl(e);
+            e = fixDoubleQuote(e);
+            return e;
+          }
 
-      @Override
-      public String decode(final String e) {
-        return URL.decodeQueryString(e);
-      }
+          @Override
+          public String decode(final String e) {
+            return URL.decodeQueryString(e);
+          }
 
-      private native String fixPathImpl(String path)
-      /*-{ return path.replace(/%2F/g, "/"); }-*/;
+          private native String fixPathImpl(String path)
+              /*-{ return path.replace(/%2F/g, "/"); }-*/ ;
 
-      private native String fixColonImpl(String path)
-      /*-{ return path.replace(/%3A/g, ":"); }-*/;
+          private native String fixColonImpl(String path)
+              /*-{ return path.replace(/%3A/g, ":"); }-*/ ;
 
-      private native String fixDoubleQuote(String path)
-      /*-{ return path.replace(/%22/g, '"'); }-*/;
-    });
+          private native String fixDoubleQuote(String path)
+              /*-{ return path.replace(/%22/g, '"'); }-*/ ;
+        });
 
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
 
     RpcStatus.INSTANCE = new RpcStatus();
     CallbackGroup cbg = new CallbackGroup();
-    getDocIndex(cbg.add(new GerritCallback<DocInfo>() {
-      @Override
-      public void onSuccess(DocInfo indexInfo) {
-        hasDocumentation = indexInfo != null;
-        docUrl = selfRedirect("/Documentation/");
-      }
-    }));
-    ConfigServerApi.serverInfo(cbg.add(new GerritCallback<ServerInfo>() {
-      @Override
-      public void onSuccess(ServerInfo info) {
-        myServerInfo = info;
-        urlAliasMatcher = new UrlAliasMatcher(info.urlAliases());
-        String du = info.gerrit().docUrl();
-        if (du != null && !du.isEmpty()) {
-          hasDocumentation = true;
-          docUrl = du;
-        }
-        docSearch = info.gerrit().docSearch();
-      }
-    }));
-    HostPageDataService hpd = GWT.create(HostPageDataService.class);
-    hpd.load(cbg.addFinal(new GerritCallback<HostPageData>() {
-      @Override
-      public void onSuccess(final HostPageData result) {
-        Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
-        myTheme = result.theme;
-        isNoteDbEnabled = result.isNoteDbEnabled;
-        if (result.accountDiffPref != null) {
-          myAccountDiffPref = result.accountDiffPref;
-        }
-        if (result.accountDiffPref != null) {
-          // TODO: Support options on the GetDetail REST endpoint so that it can
-          // also return the preferences. Then we can fetch everything with a
-          // single request and we don't need the callback group anymore.
-          CallbackGroup cbg = new CallbackGroup();
-          AccountApi.self().view("detail")
-              .get(cbg.add(new GerritCallback<AccountInfo>() {
-                @Override
-                public void onSuccess(AccountInfo result) {
-                  myAccount = result;
+    getDocIndex(
+        cbg.add(
+            new GerritCallback<DocInfo>() {
+              @Override
+              public void onSuccess(DocInfo indexInfo) {
+                hasDocumentation = indexInfo != null;
+                docUrl = selfRedirect("/Documentation/");
+              }
+            }));
+    ConfigServerApi.serverInfo(
+        cbg.add(
+            new GerritCallback<ServerInfo>() {
+              @Override
+              public void onSuccess(ServerInfo info) {
+                myServerInfo = info;
+                urlAliasMatcher = new UrlAliasMatcher(info.urlAliases());
+                String du = info.gerrit().docUrl();
+                if (du != null && !du.isEmpty()) {
+                  hasDocumentation = true;
+                  docUrl = du;
                 }
-          }));
-          AccountApi.self().view("preferences")
-              .get(cbg.add(new GerritCallback<GeneralPreferences>() {
-            @Override
-            public void onSuccess(GeneralPreferences prefs) {
-              myPrefs = prefs;
-              onModuleLoad2(result);
-            }
-          }));
-          AccountApi.getEditPreferences(
-              cbg.addFinal(new GerritCallback<EditPreferences>() {
-            @Override
-            public void onSuccess(EditPreferences prefs) {
-              EditPreferencesInfo prefsInfo = new EditPreferencesInfo();
-              prefs.copyTo(prefsInfo);
-              editPrefs = prefsInfo;
-            }
-          }));
-        } else {
-          myAccount = AccountInfo.create(0, null, null, null);
-          myPrefs = GeneralPreferences.createDefault();
-          editPrefs = null;
-          onModuleLoad2(result);
-        }
-      }
-    }));
+                docSearch = info.gerrit().docSearch();
+              }
+            }));
+    HostPageDataService hpd = GWT.create(HostPageDataService.class);
+    hpd.load(
+        cbg.addFinal(
+            new GerritCallback<HostPageData>() {
+              @Override
+              public void onSuccess(final HostPageData result) {
+                Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
+                myTheme = result.theme;
+                isNoteDbEnabled = result.isNoteDbEnabled;
+                if (result.accountDiffPref != null) {
+                  myAccountDiffPref = result.accountDiffPref;
+                }
+                if (result.accountDiffPref != null) {
+                  // TODO: Support options on the GetDetail REST endpoint so that it can
+                  // also return the preferences. Then we can fetch everything with a
+                  // single request and we don't need the callback group anymore.
+                  CallbackGroup cbg = new CallbackGroup();
+                  AccountApi.self()
+                      .view("detail")
+                      .get(
+                          cbg.add(
+                              new GerritCallback<AccountInfo>() {
+                                @Override
+                                public void onSuccess(AccountInfo result) {
+                                  myAccount = result;
+                                }
+                              }));
+                  AccountApi.self()
+                      .view("preferences")
+                      .get(
+                          cbg.add(
+                              new GerritCallback<GeneralPreferences>() {
+                                @Override
+                                public void onSuccess(GeneralPreferences prefs) {
+                                  myPrefs = prefs;
+                                  onModuleLoad2(result);
+                                }
+                              }));
+                  AccountApi.getEditPreferences(
+                      cbg.addFinal(
+                          new GerritCallback<EditPreferences>() {
+                            @Override
+                            public void onSuccess(EditPreferences prefs) {
+                              EditPreferencesInfo prefsInfo = new EditPreferencesInfo();
+                              prefs.copyTo(prefsInfo);
+                              editPrefs = prefsInfo;
+                            }
+                          }));
+                } else {
+                  myAccount = AccountInfo.create(0, null, null, null);
+                  myPrefs = GeneralPreferences.createDefault();
+                  editPrefs = null;
+                  onModuleLoad2(result);
+                }
+              }
+            }));
   }
 
   private native boolean canLoadInIFrame() /*-{
@@ -542,8 +556,7 @@ public class Gerrit implements EntryPoint {
 
     if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
       btmmenu.add(new InlineLabel(" | "));
-      Anchor a = new Anchor(
-          C.polyGerrit(), GWT.getHostPageBaseURL() + "?polygerrit=1");
+      Anchor a = new Anchor(C.polyGerrit(), GWT.getHostPageBaseURL() + "?polygerrit=1");
       a.setStyleName("");
       btmmenu.add(a);
     }
@@ -551,9 +564,7 @@ public class Gerrit implements EntryPoint {
     String reportBugUrl = info().gerrit().reportBugUrl();
     if (reportBugUrl != null) {
       String reportBugText = info().gerrit().reportBugText();
-      Anchor a = new Anchor(
-          reportBugText == null ? C.reportBug() : reportBugText,
-          reportBugUrl);
+      Anchor a = new Anchor(reportBugText == null ? C.reportBug() : reportBugText, reportBugUrl);
       a.setTarget("_blank");
       a.setStyleName("");
       btmmenu.add(new InlineLabel(" | "));
@@ -597,29 +608,29 @@ public class Gerrit implements EntryPoint {
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
 
-    body = new ViewSite<Screen>() {
-      @Override
-      protected void onShowView(Screen view) {
-        String token = view.getToken();
-        History.newItem(token, false);
-        dispatchHistoryHooks(token);
+    body =
+        new ViewSite<Screen>() {
+          @Override
+          protected void onShowView(Screen view) {
+            String token = view.getToken();
+            History.newItem(token, false);
+            dispatchHistoryHooks(token);
 
-        if (view instanceof ChangeListScreen) {
-          lastChangeListToken = token;
-        }
+            if (view instanceof ChangeListScreen) {
+              lastChangeListToken = token;
+            }
 
-        super.onShowView(view);
-        view.onShowView();
-        lastViewToken = token;
-      }
-    };
+            super.onShowView(view);
+            view.onShowView();
+            lastViewToken = token;
+          }
+        };
     gBody.add(body);
 
     JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
     JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
 
-    gStarting.getElement().getParentElement().removeChild(
-        gStarting.getElement());
+    gStarting.getElement().getParentElement().removeChild(gStarting.getElement());
     RootPanel.detachNow(gStarting);
     ApiGlue.init();
 
@@ -627,28 +638,28 @@ public class Gerrit implements EntryPoint {
     populateBottomMenu(bottomMenu, hpd);
     refreshMenuBar();
 
-    History.addValueChangeHandler(new ValueChangeHandler<String>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        display(event.getValue());
-      }
-    });
+    History.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            display(event.getValue());
+          }
+        });
     JumpKeys.register(body);
 
     saveDefaultTheme();
     if (hpd.messages != null) {
       new MessageOfTheDayBar(hpd.messages).show();
     }
-    PluginLoader.load(hpd.plugins,
+    PluginLoader.load(
+        hpd.plugins,
         hpd.pluginsLoadTimeout,
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
             String token = History.getToken();
             if (token.isEmpty()) {
-              token = isSignedIn()
-                  ? PageLinks.MINE
-                  : PageLinks.toChangeQuery("status:open");
+              token = isSignedIn() ? PageLinks.MINE : PageLinks.toChangeQuery("status:open");
             }
             display(token);
           }
@@ -656,7 +667,8 @@ public class Gerrit implements EntryPoint {
   }
 
   private void saveDefaultTheme() {
-    THEMER.init(Document.get().getElementById("gerrit_sitecss"),
+    THEMER.init(
+        Document.get().getElementById("gerrit_sitecss"),
         Document.get().getElementById("gerrit_header"),
         Document.get().getElementById("gerrit_footer"));
   }
@@ -711,14 +723,14 @@ public class Gerrit implements EntryPoint {
     projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsTags(), ProjectScreen.TAGS));
     projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsAccess(), ProjectScreen.ACCESS));
     final LinkMenuItem dashboardsMenuItem =
-        new ProjectLinkMenuItem(C.menuProjectsDashboards(),
-            ProjectScreen.DASHBOARDS) {
-      @Override
-      protected boolean match(String token) {
-        return super.match(token) ||
-            (!getTargetHistoryToken().isEmpty() && ("/admin" + token).startsWith(getTargetHistoryToken()));
-      }
-    };
+        new ProjectLinkMenuItem(C.menuProjectsDashboards(), ProjectScreen.DASHBOARDS) {
+          @Override
+          protected boolean match(String token) {
+            return super.match(token)
+                || (!getTargetHistoryToken().isEmpty()
+                    && ("/admin" + token).startsWith(getTargetHistoryToken()));
+          }
+        };
     projectsBar.addItem(dashboardsMenuItem);
     menuLeft.add(projectsBar, C.menuProjects());
 
@@ -731,27 +743,34 @@ public class Gerrit implements EntryPoint {
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.PLUGINS.menuName, pluginsBar);
-      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-        @Override
-        public void onSuccess(AccountCapabilities result) {
-          if (result.canPerform(CREATE_PROJECT)) {
-            insertLink(projectsBar, C.menuProjectsCreate(),
-                PageLinks.ADMIN_CREATE_PROJECT,
-                projectsBar.getWidgetIndex(dashboardsMenuItem) + 1);
-          }
-          if (result.canPerform(CREATE_GROUP)) {
-            insertLink(peopleBar, C.menuPeopleGroupsCreate(),
-                PageLinks.ADMIN_CREATE_GROUP,
-                peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
-          }
-          if (result.canPerform(VIEW_PLUGINS)) {
-            insertLink(pluginsBar, C.menuPluginsInstalled(),
-                PageLinks.ADMIN_PLUGINS, 0);
-            menuLeft.insert(pluginsBar, C.menuPlugins(),
-                menuLeft.getWidgetIndex(peopleBar) + 1);
-          }
-        }
-      }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
+      AccountCapabilities.all(
+          new GerritCallback<AccountCapabilities>() {
+            @Override
+            public void onSuccess(AccountCapabilities result) {
+              if (result.canPerform(CREATE_PROJECT)) {
+                insertLink(
+                    projectsBar,
+                    C.menuProjectsCreate(),
+                    PageLinks.ADMIN_CREATE_PROJECT,
+                    projectsBar.getWidgetIndex(dashboardsMenuItem) + 1);
+              }
+              if (result.canPerform(CREATE_GROUP)) {
+                insertLink(
+                    peopleBar,
+                    C.menuPeopleGroupsCreate(),
+                    PageLinks.ADMIN_CREATE_GROUP,
+                    peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
+              }
+              if (result.canPerform(VIEW_PLUGINS)) {
+                insertLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS, 0);
+                menuLeft.insert(
+                    pluginsBar, C.menuPlugins(), menuLeft.getWidgetIndex(peopleBar) + 1);
+              }
+            }
+          },
+          CREATE_PROJECT,
+          CREATE_GROUP,
+          VIEW_PLUGINS);
     }
 
     if (hasDocumentation) {
@@ -774,48 +793,55 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OPENID:
-          menuRight.addItem(C.menuRegister(), new Command() {
-            @Override
-            public void execute() {
-              String t = History.getToken();
-              if (t == null) {
-                t = "";
-              }
-              doSignIn(PageLinks.REGISTER + t);
-            }
-          });
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            @Override
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuRight.addItem(
+              C.menuRegister(),
+              new Command() {
+                @Override
+                public void execute() {
+                  String t = History.getToken();
+                  if (t == null) {
+                    t = "";
+                  }
+                  doSignIn(PageLinks.REGISTER + t);
+                }
+              });
+          menuRight.addItem(
+              C.menuSignIn(),
+              new Command() {
+                @Override
+                public void execute() {
+                  doSignIn(History.getToken());
+                }
+              });
           break;
 
         case OAUTH:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            @Override
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuRight.addItem(
+              C.menuSignIn(),
+              new Command() {
+                @Override
+                public void execute() {
+                  doSignIn(History.getToken());
+                }
+              });
           break;
 
         case OPENID_SSO:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            @Override
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuRight.addItem(
+              C.menuSignIn(),
+              new Command() {
+                @Override
+                public void execute() {
+                  doSignIn(History.getToken());
+                }
+              });
           break;
 
         case HTTP:
         case HTTP_LDAP:
           if (authInfo.loginUrl() != null) {
-            String signinText = authInfo.loginText() == null
-                ? C.menuSignIn()
-                : authInfo.loginText();
+            String signinText =
+                authInfo.loginText() == null ? C.menuSignIn() : authInfo.loginText();
             menuRight.add(anchor(signinText, authInfo.loginUrl()));
           }
           break;
@@ -824,17 +850,18 @@ public class Gerrit implements EntryPoint {
         case LDAP_BIND:
         case CUSTOM_EXTENSION:
           if (authInfo.registerUrl() != null) {
-            String registerText = authInfo.registerText() == null
-                ? C.menuRegister()
-                : authInfo.registerText();
+            String registerText =
+                authInfo.registerText() == null ? C.menuRegister() : authInfo.registerText();
             menuRight.add(anchor(registerText, authInfo.registerUrl()));
           }
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            @Override
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuRight.addItem(
+              C.menuSignIn(),
+              new Command() {
+                @Override
+                public void execute() {
+                  doSignIn(History.getToken());
+                }
+              });
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -842,36 +869,38 @@ public class Gerrit implements EntryPoint {
           break;
       }
     }
-    ConfigServerApi.topMenus(new GerritCallback<TopMenuList>() {
-      @Override
-      public void onSuccess(TopMenuList result) {
-        List<TopMenu> topMenuExtensions = Natives.asList(result);
-        for (TopMenu menu : topMenuExtensions) {
-          String name = menu.getName();
-          LinkMenuBar existingBar = menuBars.get(name);
-          LinkMenuBar bar =
-              existingBar != null ? existingBar : new LinkMenuBar();
-          for (TopMenuItem item : Natives.asList(menu.getItems())) {
-            addMenuLink(bar, item);
+    ConfigServerApi.topMenus(
+        new GerritCallback<TopMenuList>() {
+          @Override
+          public void onSuccess(TopMenuList result) {
+            List<TopMenu> topMenuExtensions = Natives.asList(result);
+            for (TopMenu menu : topMenuExtensions) {
+              String name = menu.getName();
+              LinkMenuBar existingBar = menuBars.get(name);
+              LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
+              for (TopMenuItem item : Natives.asList(menu.getItems())) {
+                addMenuLink(bar, item);
+              }
+              if (existingBar == null) {
+                menuBars.put(name, bar);
+                menuLeft.add(bar, name);
+              }
+            }
           }
-          if (existingBar == null) {
-            menuBars.put(name, bar);
-            menuLeft.add(bar, name);
-          }
-        }
-      }
-    });
+        });
   }
 
   public static void refreshUserPreferences() {
     if (isSignedIn()) {
-      AccountApi.self().view("preferences")
-          .get(new GerritCallback<GeneralPreferences>() {
-            @Override
-            public void onSuccess(GeneralPreferences prefs) {
-              setUserPreferences(prefs);
-            }
-          });
+      AccountApi.self()
+          .view("preferences")
+          .get(
+              new GerritCallback<GeneralPreferences>() {
+                @Override
+                public void onSuccess(GeneralPreferences prefs) {
+                  setUserPreferences(prefs);
+                }
+              });
     } else {
       setUserPreferences(GeneralPreferences.createDefault());
     }
@@ -900,29 +929,28 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
-    RequestBuilder req =
-        new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL()
-            + INDEX);
-    req.setCallback(new RequestCallback() {
-      @Override
-      public void onResponseReceived(Request req, Response resp) {
-        switch (resp.getStatusCode()) {
-          case Response.SC_OK:
-          case Response.SC_MOVED_PERMANENTLY:
-          case Response.SC_MOVED_TEMPORARILY:
-            cb.onSuccess(DocInfo.create());
-            break;
-          default:
-            cb.onSuccess(null);
-            break;
-        }
-      }
+    RequestBuilder req = new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL() + INDEX);
+    req.setCallback(
+        new RequestCallback() {
+          @Override
+          public void onResponseReceived(Request req, Response resp) {
+            switch (resp.getStatusCode()) {
+              case Response.SC_OK:
+              case Response.SC_MOVED_PERMANENTLY:
+              case Response.SC_MOVED_TEMPORARILY:
+                cb.onSuccess(DocInfo.create());
+                break;
+              default:
+                cb.onSuccess(null);
+                break;
+            }
+          }
 
-      @Override
-      public void onError(Request request, Throwable e) {
-        cb.onFailure(e);
-      }
-    });
+          @Override
+          public void onError(Request request, Throwable e) {
+            cb.onFailure(e);
+          }
+        });
     try {
       req.send();
     } catch (RequestException e) {
@@ -932,8 +960,7 @@ public class Gerrit implements EntryPoint {
 
   private static void whoAmI(boolean canLogOut) {
     AccountInfo account = getUserAccount();
-    final UserPopupPanel userPopup =
-        new UserPopupPanel(account, canLogOut, true);
+    final UserPopupPanel userPopup = new UserPopupPanel(account, canLogOut, true);
     final FlowPanel userSummaryPanel = new FlowPanel();
     class PopupHandler implements KeyDownHandler, ClickHandler {
       private void showHidePopup() {
@@ -982,49 +1009,48 @@ public class Gerrit implements EntryPoint {
     return a;
   }
 
-  private static LinkMenuItem addLink(final LinkMenuBar m, final String text,
-      final String historyToken) {
+  private static LinkMenuItem addLink(
+      final LinkMenuBar m, final String text, final String historyToken) {
     LinkMenuItem i = new LinkMenuItem(text, historyToken);
     m.addItem(i);
     return i;
   }
 
-  private static void insertLink(final LinkMenuBar m, final String text,
-      final String historyToken, final int beforeIndex) {
+  private static void insertLink(
+      final LinkMenuBar m, final String text, final String historyToken, final int beforeIndex) {
     m.insertItem(new LinkMenuItem(text, historyToken), beforeIndex);
   }
 
   private static LinkMenuItem addProjectLink(LinkMenuBar m, TopMenuItem item) {
-    LinkMenuItem i = new ProjectLinkMenuItem(item.getName(), item.getUrl()) {
-        @Override
-        protected void onScreenLoad(Project.NameKey project) {
-        String p =
-            panel.replace(PROJECT_NAME_MENU_VAR,
-                URL.encodeQueryString(project.get()));
-          if (!panel.startsWith("/x/") && !isAbsolute(panel)) {
-            UrlBuilder builder = new UrlBuilder();
-            builder.setProtocol(Location.getProtocol());
-            builder.setHost(Location.getHost());
-            String port = Location.getPort();
-            if (port != null && !port.isEmpty()) {
-              builder.setPort(Integer.parseInt(port));
+    LinkMenuItem i =
+        new ProjectLinkMenuItem(item.getName(), item.getUrl()) {
+          @Override
+          protected void onScreenLoad(Project.NameKey project) {
+            String p = panel.replace(PROJECT_NAME_MENU_VAR, URL.encodeQueryString(project.get()));
+            if (!panel.startsWith("/x/") && !isAbsolute(panel)) {
+              UrlBuilder builder = new UrlBuilder();
+              builder.setProtocol(Location.getProtocol());
+              builder.setHost(Location.getHost());
+              String port = Location.getPort();
+              if (port != null && !port.isEmpty()) {
+                builder.setPort(Integer.parseInt(port));
+              }
+              builder.setPath(Location.getPath());
+              p = builder.buildString() + p;
             }
-            builder.setPath(Location.getPath());
-            p = builder.buildString() + p;
+            getElement().setPropertyString("href", p);
           }
-          getElement().setPropertyString("href", p);
-        }
 
-        @Override
-        public void go() {
-          String href = getElement().getPropertyString("href");
-          if (href.startsWith("#")) {
-            super.go();
-          } else {
-            Window.open(href, getElement().getPropertyString("target"), "");
+          @Override
+          public void go() {
+            String href = getElement().getPropertyString("href");
+            if (href.startsWith("#")) {
+              super.go();
+            } else {
+              Window.open(href, getElement().getPropertyString("target"), "");
+            }
           }
-        }
-      };
+        };
     if (item.getTarget() != null && !item.getTarget().isEmpty()) {
       i.getElement().setAttribute("target", item.getTarget());
     }
@@ -1035,8 +1061,7 @@ public class Gerrit implements EntryPoint {
     return i;
   }
 
-  private static void addDocLink(final LinkMenuBar m, final String text,
-      final String href) {
+  private static void addDocLink(final LinkMenuBar m, final String text, final String href) {
     final Anchor atag = anchor(text, docUrl + href);
     atag.setTarget("_blank");
     m.add(atag);
@@ -1051,18 +1076,17 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
-    if (item.getUrl().startsWith("#")
-        && (item.getTarget() == null || item.getTarget().isEmpty())) {
-      LinkMenuItem a =
-          new LinkMenuItem(item.getName(), item.getUrl().substring(1));
+    if (item.getUrl().startsWith("#") && (item.getTarget() == null || item.getTarget().isEmpty())) {
+      LinkMenuItem a = new LinkMenuItem(item.getName(), item.getUrl().substring(1));
       if (item.getId() != null) {
         a.getElement().setAttribute("id", item.getId());
       }
       m.addItem(a);
     } else {
-      Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
-          ? item.getUrl()
-          : selfRedirect(item.getUrl()));
+      Anchor atag =
+          anchor(
+              item.getName(),
+              isAbsolute(item.getUrl()) ? item.getUrl() : selfRedirect(item.getUrl()));
       if (item.getTarget() != null && !item.getTarget().isEmpty()) {
         atag.setTarget(item.getTarget());
       }

@@ -27,49 +27,46 @@ import java.util.jar.Manifest;
 /**
  * Scans the plugin returning classes and resources.
  *
- * Gerrit uses the scanner to automatically discover the classes
- * and resources exported by the plugin for auto discovery
- * of exported SSH commands, Servlets and listeners.
+ * <p>Gerrit uses the scanner to automatically discover the classes and resources exported by the
+ * plugin for auto discovery of exported SSH commands, Servlets and listeners.
  */
 public interface PluginContentScanner {
 
-  /**
-   * Scanner without resources.
-   */
-  PluginContentScanner EMPTY = new PluginContentScanner() {
-    @Override
-    public Manifest getManifest() throws IOException {
-      return new Manifest();
-    }
+  /** Scanner without resources. */
+  PluginContentScanner EMPTY =
+      new PluginContentScanner() {
+        @Override
+        public Manifest getManifest() throws IOException {
+          return new Manifest();
+        }
 
-    @Override
-    public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
-        String pluginName, Iterable<Class<? extends Annotation>> annotations)
-        throws InvalidPluginException {
-     return Collections.emptyMap();
-    }
+        @Override
+        public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
+            String pluginName, Iterable<Class<? extends Annotation>> annotations)
+            throws InvalidPluginException {
+          return Collections.emptyMap();
+        }
 
-    @Override
-    public Optional<PluginEntry> getEntry(String resourcePath) {
-      return Optional.empty();
-    }
+        @Override
+        public Optional<PluginEntry> getEntry(String resourcePath) {
+          return Optional.empty();
+        }
 
-    @Override
-    public InputStream getInputStream(PluginEntry entry) throws IOException {
-      throw new NoSuchFileException("Empty plugin");
-    }
+        @Override
+        public InputStream getInputStream(PluginEntry entry) throws IOException {
+          throw new NoSuchFileException("Empty plugin");
+        }
 
-    @Override
-    public Enumeration<PluginEntry> entries() {
-      return Collections.emptyEnumeration();
-    }
-  };
+        @Override
+        public Enumeration<PluginEntry> entries() {
+          return Collections.emptyEnumeration();
+        }
+      };
 
   /**
    * Plugin class extension meta-data
    *
-   * Class name and annotation value of the class
-   * provided by a plugin to extend an existing
+   * <p>Class name and annotation value of the class provided by a plugin to extend an existing
    * extension point in Gerrit.
    */
   class ExtensionMetaData {

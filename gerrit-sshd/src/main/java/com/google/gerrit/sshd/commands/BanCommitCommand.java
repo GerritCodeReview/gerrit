@@ -26,37 +26,51 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "ban-commit",
+  description = "Ban a commit from a project's repository",
+  runsAt = MASTER_OR_SLAVE
+)
 public class BanCommitCommand extends SshCommand {
-  @Option(name = "--reason", aliases = {"-r"}, metaVar = "REASON", usage = "reason for banning the commit")
+  @Option(
+    name = "--reason",
+    aliases = {"-r"},
+    metaVar = "REASON",
+    usage = "reason for banning the commit"
+  )
   private String reason;
 
-  @Argument(index = 0, required = true, metaVar = "PROJECT",
-      usage = "name of the project for which the commit should be banned")
+  @Argument(
+    index = 0,
+    required = true,
+    metaVar = "PROJECT",
+    usage = "name of the project for which the commit should be banned"
+  )
   private ProjectControl projectControl;
 
-  @Argument(index = 1, required = true, multiValued = true, metaVar = "COMMIT",
-      usage = "commit(s) that should be banned")
+  @Argument(
+    index = 1,
+    required = true,
+    multiValued = true,
+    metaVar = "COMMIT",
+    usage = "commit(s) that should be banned"
+  )
   private List<ObjectId> commitsToBan = new ArrayList<>();
 
-  @Inject
-  private BanCommit banCommit;
+  @Inject private BanCommit banCommit;
 
   @Override
   protected void run() throws Failure {
     try {
-      BanCommit.Input input = BanCommit.Input.fromCommits(
-          Lists.transform(commitsToBan, ObjectId::getName));
+      BanCommit.Input input =
+          BanCommit.Input.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
       BanResultInfo r = banCommit.apply(new ProjectResource(projectControl), input);

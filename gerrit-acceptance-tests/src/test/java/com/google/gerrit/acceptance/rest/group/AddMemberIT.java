@@ -15,14 +15,11 @@
 package com.google.gerrit.acceptance.rest.group;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-
 import org.junit.Test;
 
 public class AddMemberIT extends AbstractDaemonTest {
   @Test
   public void addNonExistingMember_NotFound() throws Exception {
-    adminRestSession
-        .put("/groups/Administrators/members/non-existing")
-        .assertNotFound();
+    adminRestSession.put("/groups/Administrators/members/non-existing").assertNotFound();
   }
 }

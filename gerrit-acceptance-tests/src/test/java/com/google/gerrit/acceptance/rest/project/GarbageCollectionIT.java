@@ -20,14 +20,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
-
 import org.junit.Before;
 import org.junit.Test;
 
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
-  @Inject
-  private GcAssert gcAssert;
+  @Inject private GcAssert gcAssert;
 
   private Project.NameKey project2;
 
@@ -43,9 +41,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   public void testGcNotAllowed_Forbidden() throws Exception {
-    userRestSession
-        .post("/projects/" + allProjects.get() + "/gc")
-        .assertForbidden();
+    userRestSession.post("/projects/" + allProjects.get() + "/gc").assertForbidden();
   }
 
   @Test

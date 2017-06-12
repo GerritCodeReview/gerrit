@@ -29,12 +29,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-
 import net.codemirror.lib.CodeMirror;
 
-/**
- * Base class for SideBySideTable2 and UnifiedTable2
- */
+/** Base class for SideBySideTable2 and UnifiedTable2 */
 abstract class DiffTable extends Composite {
   static {
     Resources.I.diffTableStyle().ensureInjected();
@@ -42,11 +39,17 @@ abstract class DiffTable extends Composite {
 
   interface Style extends CssResource {
     String fullscreen();
+
     String dark();
+
     String noIntraline();
+
     String range();
+
     String rangeHighlight();
+
     String diffHeader();
+
     String showLineNumbers();
   }
 
@@ -67,12 +70,13 @@ abstract class DiffTable extends Composite {
   private ChangeType changeType;
   Scrollbar scrollbar;
 
-  DiffTable(DiffScreen parent, DiffObject base, DiffObject revision,
-      String path) {
-    patchSetSelectBoxA = new PatchSetSelectBox(parent, DisplaySide.A,
-        revision.asPatchSetId().getParentKey(), base, path);
-    patchSetSelectBoxB = new PatchSetSelectBox(parent, DisplaySide.B,
-        revision.asPatchSetId().getParentKey(), revision, path);
+  DiffTable(DiffScreen parent, DiffObject base, DiffObject revision, String path) {
+    patchSetSelectBoxA =
+        new PatchSetSelectBox(
+            parent, DisplaySide.A, revision.asPatchSetId().getParentKey(), base, path);
+    patchSetSelectBoxB =
+        new PatchSetSelectBox(
+            parent, DisplaySide.B, revision.asPatchSetId().getParentKey(), revision, path);
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     this.scrollbar = new Scrollbar(this);
@@ -100,23 +104,28 @@ abstract class DiffTable extends Composite {
     return changeType;
   }
 
-  void setUpBlameIconA(CodeMirror cm, boolean isBase, PatchSet.Id rev,
-      String path) {
+  void setUpBlameIconA(CodeMirror cm, boolean isBase, PatchSet.Id rev, String path) {
     patchSetSelectBoxA.setUpBlame(cm, isBase, rev, path);
   }
 
-  void setUpBlameIconB(CodeMirror cm, PatchSet.Id rev,
-      String path) {
+  void setUpBlameIconB(CodeMirror cm, PatchSet.Id rev, String path) {
     patchSetSelectBoxB.setUpBlame(cm, false, rev, path);
   }
 
-  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, int parents, DiffInfo info,
-      boolean editExists, boolean current, boolean open, boolean binary) {
+  void set(
+      DiffPreferences prefs,
+      JsArray<RevisionInfo> list,
+      int parents,
+      DiffInfo info,
+      boolean editExists,
+      boolean current,
+      boolean open,
+      boolean binary) {
     this.changeType = info.changeType();
-    patchSetSelectBoxA.setUpPatchSetNav(list, parents, info.metaA(), editExists,
-        current, open, binary);
-    patchSetSelectBoxB.setUpPatchSetNav(list, parents, info.metaB(), editExists,
-        current, open, binary);
+    patchSetSelectBoxA.setUpPatchSetNav(
+        list, parents, info.metaA(), editExists, current, open, binary);
+    patchSetSelectBoxB.setUpPatchSetNav(
+        list, parents, info.metaB(), editExists, current, open, binary);
 
     JsArrayString hdr = info.diffHeader();
     if (hdr != null) {
@@ -125,9 +134,9 @@ abstract class DiffTable extends Composite {
         String s = hdr.get(i);
         if (!info.binary()
             && (s.startsWith("diff --git ")
-            || s.startsWith("index ")
-            || s.startsWith("+++ ")
-            || s.startsWith("--- "))) {
+                || s.startsWith("index ")
+                || s.startsWith("+++ ")
+                || s.startsWith("--- "))) {
           continue;
         }
         b.append(s).append('\n');
@@ -149,9 +158,7 @@ abstract class DiffTable extends Composite {
   void refresh() {
     if (header) {
       CodeMirror cm = getDiffScreen().getCmFromSide(DisplaySide.A);
-      diffHeaderText.getStyle().setMarginLeft(
-          cm.getGutterElement().getOffsetWidth(),
-          Unit.PX);
+      diffHeaderText.getStyle().setMarginLeft(cm.getGutterElement().getOffsetWidth(), Unit.PX);
     }
   }
 

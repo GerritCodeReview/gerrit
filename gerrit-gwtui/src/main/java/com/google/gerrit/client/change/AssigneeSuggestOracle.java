@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountSuggestOracle.AccountSuggestion;
 import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +29,9 @@ import java.util.List;
 public class AssigneeSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   protected void _onRequestSuggestions(Request req, Callback cb) {
-    AccountApi.suggest(req.getQuery(), req.getLimit(),
+    AccountApi.suggest(
+        req.getQuery(),
+        req.getLimit(),
         new GerritCallback<JsArray<AccountInfo>>() {
           @Override
           public void onSuccess(JsArray<AccountInfo> result) {

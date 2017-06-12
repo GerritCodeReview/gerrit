@@ -17,22 +17,18 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
-  PatchList get(PatchListKey key, Project.NameKey project)
-      throws PatchListNotAvailableException;
+  PatchList get(PatchListKey key, Project.NameKey project) throws PatchListNotAvailableException;
 
-  PatchList get(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException;
+  PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException;
 
   ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException;
 
-  IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
-      IntraLineDiffArgs args);
+  IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 
   DiffSummary getDiffSummary(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;

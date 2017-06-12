@@ -20,7 +20,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -31,15 +32,14 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.List;
-
 /**
  * Commit implementation with some optimizations for change notes parsing.
+ *
  * <p>
+ *
  * <ul>
- *   <li>Caches the result of {@link #getFooterLines()}, which is
- *     otherwise very wasteful with allocations.</li>
+ *   <li>Caches the result of {@link #getFooterLines()}, which is otherwise very wasteful with
+ *       allocations.
  * </ul>
  */
 public class ChangeNotesCommit extends RevCommit {
@@ -47,8 +47,8 @@ public class ChangeNotesCommit extends RevCommit {
     return new ChangeNotesRevWalk(repo);
   }
 
-  public static ChangeNotesRevWalk newStagedRevWalk(Repository repo,
-      Iterable<InsertedObject> stagedObjs) {
+  public static ChangeNotesRevWalk newStagedRevWalk(
+      Repository repo, Iterable<InsertedObject> stagedObjs) {
     final InMemoryInserter ins = new InMemoryInserter(repo);
     for (InsertedObject obj : stagedObjs) {
       ins.insert(obj);
@@ -77,21 +77,21 @@ public class ChangeNotesCommit extends RevCommit {
     }
 
     @Override
-    public ChangeNotesCommit next() throws MissingObjectException,
-         IncorrectObjectTypeException, IOException {
+    public ChangeNotesCommit next()
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       return (ChangeNotesCommit) super.next();
     }
 
     @Override
-    public void markStart(RevCommit c) throws MissingObjectException,
-        IncorrectObjectTypeException, IOException {
+    public void markStart(RevCommit c)
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof ChangeNotesCommit);
       super.markStart(c);
     }
 
     @Override
-    public void markUninteresting(RevCommit c) throws MissingObjectException,
-        IncorrectObjectTypeException, IOException {
+    public void markUninteresting(RevCommit c)
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof ChangeNotesCommit);
       super.markUninteresting(c);
     }
@@ -103,8 +103,7 @@ public class ChangeNotesCommit extends RevCommit {
 
     @Override
     public ChangeNotesCommit parseCommit(AnyObjectId id)
-        throws MissingObjectException, IncorrectObjectTypeException,
-        IOException {
+        throws MissingObjectException, IncorrectObjectTypeException, IOException {
       return (ChangeNotesCommit) super.parseCommit(id);
     }
   }

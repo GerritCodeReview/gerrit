@@ -18,8 +18,7 @@ public class UnifiedDiffChunkInfo extends DiffChunkInfo {
 
   private int cmLine;
 
-  UnifiedDiffChunkInfo(DisplaySide side,
-      int start, int end, int cmLine, boolean edit) {
+  UnifiedDiffChunkInfo(DisplaySide side, int start, int end, int cmLine, boolean edit) {
     super(side, start, end, edit);
     this.cmLine = cmLine;
   }

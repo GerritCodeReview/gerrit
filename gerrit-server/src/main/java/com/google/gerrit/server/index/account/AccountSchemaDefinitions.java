@@ -21,23 +21,21 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
-  static final Schema<AccountState> V1 = schema(
-      AccountField.ID,
-      AccountField.ACTIVE,
-      AccountField.EMAIL,
-      AccountField.EXTERNAL_ID,
-      AccountField.NAME_PART,
-      AccountField.REGISTERED,
-      AccountField.USERNAME);
+  static final Schema<AccountState> V1 =
+      schema(
+          AccountField.ID,
+          AccountField.ACTIVE,
+          AccountField.EMAIL,
+          AccountField.EXTERNAL_ID,
+          AccountField.NAME_PART,
+          AccountField.REGISTERED,
+          AccountField.USERNAME);
 
-  static final Schema<AccountState> V2 =
-      schema(V1, AccountField.WATCHED_PROJECT);
+  static final Schema<AccountState> V2 = schema(V1, AccountField.WATCHED_PROJECT);
 
-  static final Schema<AccountState> V3 =
-      schema(V2, AccountField.FULL_NAME);
+  static final Schema<AccountState> V3 = schema(V2, AccountField.FULL_NAME);
 
-  public static final AccountSchemaDefinitions INSTANCE =
-      new AccountSchemaDefinitions();
+  public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 
   private AccountSchemaDefinitions() {
     super("accounts", AccountState.class);

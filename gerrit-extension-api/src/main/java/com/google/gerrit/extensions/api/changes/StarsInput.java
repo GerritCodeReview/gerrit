@@ -20,8 +20,7 @@ public class StarsInput {
   public Set<String> add;
   public Set<String> remove;
 
-  public StarsInput() {
-  }
+  public StarsInput() {}
 
   public StarsInput(Set<String> add) {
     this.add = add;

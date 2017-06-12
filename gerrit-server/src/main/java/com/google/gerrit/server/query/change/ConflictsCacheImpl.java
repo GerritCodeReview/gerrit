@@ -29,8 +29,7 @@ public class ConflictsCacheImpl implements ConflictsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(NAME, ConflictKey.class, Boolean.class)
-            .maximumWeight(37400);
+        persist(NAME, ConflictKey.class, Boolean.class).maximumWeight(37400);
         bind(ConflictsCache.class).to(ConflictsCacheImpl.class);
       }
     };
@@ -39,8 +38,7 @@ public class ConflictsCacheImpl implements ConflictsCache {
   private final Cache<ConflictKey, Boolean> conflictsCache;
 
   @Inject
-  public ConflictsCacheImpl(
-      @Named(NAME) Cache<ConflictKey, Boolean> conflictsCache) {
+  public ConflictsCacheImpl(@Named(NAME) Cache<ConflictKey, Boolean> conflictsCache) {
     this.conflictsCache = conflictsCache;
   }
 

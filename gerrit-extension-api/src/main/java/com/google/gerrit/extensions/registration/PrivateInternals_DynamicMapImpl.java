@@ -20,8 +20,7 @@ import com.google.inject.Provider;
 
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
-  PrivateInternals_DynamicMapImpl() {
-  }
+  PrivateInternals_DynamicMapImpl() {}
 
   /**
    * Store one new element into the map.
@@ -31,9 +30,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle put(
-      String pluginName, String exportName,
-      final Provider<T> item) {
+  public RegistrationHandle put(String pluginName, String exportName, final Provider<T> item) {
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
     return new RegistrationHandle() {
@@ -48,17 +45,14 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * Store one new element that may be hot-replaceable in the future.
    *
    * @param pluginName unique name of the plugin providing the export.
-   * @param key unique description from the item's Guice binding. This can be
-   *        later obtained from the registration handle to facilitate matching
-   *        with the new equivalent instance during a hot reload. The key must
-   *        use an {@link Export} annotation.
+   * @param key unique description from the item's Guice binding. This can be later obtained from
+   *     the registration handle to facilitate matching with the new equivalent instance during a
+   *     hot reload. The key must use an {@link Export} annotation.
    * @param item the item to add to the collection right now. Must not be null.
-   * @return a handle that can remove this item later, or hot-swap the item
-   *         without it ever leaving the collection.
+   * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
+   *     the collection.
    */
-  public ReloadableRegistrationHandle<T> put(
-      String pluginName, Key<T> key,
-      Provider<T> item) {
+  public ReloadableRegistrationHandle<T> put(String pluginName, Key<T> key, Provider<T> item) {
     String exportName = ((Export) key.getAnnotation()).value();
     NamePair np = new NamePair(pluginName, exportName);
     items.put(np, item);

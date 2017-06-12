@@ -25,7 +25,11 @@ import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.FileMode;
@@ -35,15 +39,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-
 /**
- * Loads the .gitmodules file of the specified project/branch.
- * It can be queried which submodules this branch is subscribed to.
+ * Loads the .gitmodules file of the specified project/branch. It can be queried which submodules
+ * this branch is subscribed to.
  */
 public class GitModules {
   private static final Logger log = LoggerFactory.getLogger(GitModules.class);
@@ -61,7 +59,8 @@ public class GitModules {
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
-      @Assisted MergeOpRepoManager orm) throws IOException {
+      @Assisted MergeOpRepoManager orm)
+      throws IOException {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
@@ -79,8 +78,7 @@ public class GitModules {
     RevCommit commit = or.rw.parseCommit(id);
 
     TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree());
-    if (tw == null
-        || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
+    if (tw == null || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
       subscriptions = Collections.emptySet();
       logDebug("The .gitmodules file doesn't exist in " + branch);
       return;
@@ -89,11 +87,10 @@ public class GitModules {
     try {
       bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
     } catch (ConfigInvalidException e) {
-      throw new IOException("Could not read .gitmodules of super project: " +
-              branch.getParentKey(), e);
+      throw new IOException(
+          "Could not read .gitmodules of super project: " + branch.getParentKey(), e);
     }
-    subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl,
-          branch).parseAllSections();
+    subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl, branch).parseAllSections();
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {

@@ -23,16 +23,14 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class ProjectConfigSchemaUpdate extends VersionedMetaData {
 
@@ -67,7 +65,8 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
       if (names.contains(name)) {
         List<String> values =
             Arrays.stream(config.getStringList(ACCESS, subsection, name))
-                .map(r -> {
+                .map(
+                    r -> {
                       PermissionRule rule = PermissionRule.fromString(r, false);
                       if (rule.getForce()) {
                         rule.setForce(false);
@@ -82,14 +81,12 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit)
-      throws IOException, ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     saveConfig(ProjectConfig.PROJECT_CONFIG, config);
     return true;
   }
 
-  public void save(PersonIdent personIdent, String commitMessage)
-      throws OrmException {
+  public void save(PersonIdent personIdent, String commitMessage) throws OrmException {
     if (!updated) {
       return;
     }

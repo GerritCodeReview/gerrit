@@ -24,14 +24,12 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.Iterator;
 import java.util.List;
 
 /** Immutable string safely placed as HTML without further escaping. */
 @SuppressWarnings("serial")
-public abstract class SafeHtml
-    implements com.google.gwt.safehtml.shared.SafeHtml {
+public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtml {
   public static final SafeHtmlResources RESOURCES;
 
   static {
@@ -40,42 +38,43 @@ public abstract class SafeHtml
       RESOURCES.css().ensureInjected();
 
     } else {
-      RESOURCES = new SafeHtmlResources() {
-        @Override
-        public SafeHtmlCss css() {
-          return new SafeHtmlCss() {
+      RESOURCES =
+          new SafeHtmlResources() {
             @Override
-            public String wikiList() {
-              return "wikiList";
-            }
+            public SafeHtmlCss css() {
+              return new SafeHtmlCss() {
+                @Override
+                public String wikiList() {
+                  return "wikiList";
+                }
 
-            @Override
-            public String wikiPreFormat() {
-              return "wikiPreFormat";
-            }
+                @Override
+                public String wikiPreFormat() {
+                  return "wikiPreFormat";
+                }
 
-            @Override
-            public String wikiQuote() {
-              return "wikiQuote";
-            }
+                @Override
+                public String wikiQuote() {
+                  return "wikiQuote";
+                }
 
-            @Override
-            public boolean ensureInjected() {
-              return false;
-            }
+                @Override
+                public boolean ensureInjected() {
+                  return false;
+                }
 
-            @Override
-            public String getName() {
-              return null;
-            }
+                @Override
+                public String getName() {
+                  return null;
+                }
 
-            @Override
-            public String getText() {
-              return null;
+                @Override
+                public String getText() {
+                  return null;
+                }
+              };
             }
           };
-        }
-      };
     }
   }
 
@@ -112,8 +111,8 @@ public abstract class SafeHtml
   }
 
   /** Set the inner HTML of a table cell. */
-  public static <T extends HTMLTable> T set(final T t, final int row,
-      final int col, final SafeHtml str) {
+  public static <T extends HTMLTable> T set(
+      final T t, final int row, final int col, final SafeHtml str) {
     t.setHTML(row, col, str.asString());
     return t;
   }
@@ -127,25 +126,18 @@ public abstract class SafeHtml
 
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
-    final String part = "(?:" +
-    "[a-zA-Z0-9$_+!*'%;:@=?#/~-]" +
-    "|&(?!lt;|gt;)" +
-    "|[.,](?!(?:\\s|$))" +
-    ")";
+    final String part =
+        "(?:" + "[a-zA-Z0-9$_+!*'%;:@=?#/~-]" + "|&(?!lt;|gt;)" + "|[.,](?!(?:\\s|$))" + ")";
     return replaceAll(
-        "(https?://" +
-          part + "{2,}" +
-          "(?:[(]" + part + "*" + "[)])*" +
-          part + "*" +
-        ")",
+        "(https?://" + part + "{2,}" + "(?:[(]" + part + "*" + "[)])*" + part + "*" + ")",
         "<a href=\"$1\" target=\"_blank\" rel=\"nofollow\">$1</a>");
   }
 
   /**
    * Apply {@link #linkify()}, and "\n\n" to &lt;p&gt;.
-   * <p>
-   * Lines that start with whitespace are assumed to be preformatted, and are
-   * formatted by the {@link SafeHtmlCss#wikiPreFormat()} CSS class.
+   *
+   * <p>Lines that start with whitespace are assumed to be preformatted, and are formatted by the
+   * {@link SafeHtmlCss#wikiPreFormat()} CSS class.
    */
   public SafeHtml wikify() {
     final SafeHtmlBuilder r = new SafeHtmlBuilder();
@@ -242,25 +234,23 @@ public abstract class SafeHtml
   }
 
   private static boolean isPreFormat(final String p) {
-    return p.contains("\n ") || p.contains("\n\t") || p.startsWith(" ")
-        || p.startsWith("\t");
+    return p.contains("\n ") || p.contains("\n\t") || p.startsWith(" ") || p.startsWith("\t");
   }
 
   private static boolean isList(final String p) {
-    return p.contains("\n- ") || p.contains("\n* ") || p.startsWith("- ")
-        || p.startsWith("* ");
+    return p.contains("\n- ") || p.contains("\n* ") || p.startsWith("- ") || p.startsWith("* ");
   }
 
   /**
    * Replace first occurrence of {@code regex} with {@code repl} .
-   * <p>
-   * <b>WARNING:</b> This replacement is being performed against an otherwise
-   * safe HTML string. The caller must ensure that the replacement does not
-   * introduce cross-site scripting attack entry points.
+   *
+   * <p><b>WARNING:</b> This replacement is being performed against an otherwise safe HTML string.
+   * The caller must ensure that the replacement does not introduce cross-site scripting attack
+   * entry points.
    *
    * @param regex regular expression pattern to match the substring with.
-   * @param repl replacement expression. Capture groups within
-   *        {@code regex} can be referenced with {@code $<i>n</i>}.
+   * @param repl replacement expression. Capture groups within {@code regex} can be referenced with
+   *     {@code $<i>n</i>}.
    * @return a new string, after the replacement has been made.
    */
   public SafeHtml replaceFirst(final String regex, final String repl) {
@@ -269,14 +259,14 @@ public abstract class SafeHtml
 
   /**
    * Replace each occurrence of {@code regex} with {@code repl} .
-   * <p>
-   * <b>WARNING:</b> This replacement is being performed against an otherwise
-   * safe HTML string. The caller must ensure that the replacement does not
-   * introduce cross-site scripting attack entry points.
+   *
+   * <p><b>WARNING:</b> This replacement is being performed against an otherwise safe HTML string.
+   * The caller must ensure that the replacement does not introduce cross-site scripting attack
+   * entry points.
    *
    * @param regex regular expression pattern to match substrings with.
-   * @param repl replacement expression. Capture groups within
-   *        {@code regex} can be referenced with {@code $<i>n</i>}.
+   * @param repl replacement expression. Capture groups within {@code regex} can be referenced with
+   *     {@code $<i>n</i>}.
    * @return a new string, after the replacements have been made.
    */
   public SafeHtml replaceAll(final String regex, final String repl) {

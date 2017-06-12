@@ -32,7 +32,8 @@ import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -41,16 +42,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Map;
-
 @Singleton
 public class SetHead implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(SetHead.class);
 
   public static class Input {
-    @DefaultInput
-    public String ref;
+    @DefaultInput public String ref;
   }
 
   private final GitRepositoryManager repoManager;
@@ -58,7 +55,8 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   private final DynamicSet<HeadUpdatedListener> headUpdatedListeners;
 
   @Inject
-  SetHead(GitRepositoryManager repoManager,
+  SetHead(
+      GitRepositoryManager repoManager,
       Provider<IdentifiedUser> identifiedUser,
       DynamicSet<HeadUpdatedListener> headUpdatedListeners) {
     this.repoManager = repoManager;
@@ -67,9 +65,9 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(final ProjectResource rsrc, Input input) throws AuthException,
-      ResourceNotFoundException, BadRequestException,
-      UnprocessableEntityException, IOException {
+  public String apply(final ProjectResource rsrc, Input input)
+      throws AuthException, ResourceNotFoundException, BadRequestException,
+          UnprocessableEntityException, IOException {
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("restricted to project owner");
     }
@@ -79,11 +77,9 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     String ref = RefNames.fullName(input.ref);
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      Map<String, Ref> cur =
-          repo.getRefDatabase().exactRef(Constants.HEAD, ref);
+      Map<String, Ref> cur = repo.getRefDatabase().exactRef(Constants.HEAD, ref);
       if (!cur.containsKey(ref)) {
-        throw new UnprocessableEntityException(String.format(
-            "Ref Not Found: %s", ref));
+        throw new UnprocessableEntityException(String.format("Ref Not Found: %s", ref));
       }
 
       final String oldHead = cur.get(Constants.HEAD).getTarget().getName();
@@ -130,8 +126,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  static class Event extends AbstractNoNotifyEvent
-      implements HeadUpdatedListener.Event {
+  static class Event extends AbstractNoNotifyEvent implements HeadUpdatedListener.Event {
     private final Project.NameKey nameKey;
     private final String oldHead;
     private final String newHead;

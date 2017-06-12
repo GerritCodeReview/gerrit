@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,18 +74,19 @@ public class NewAgreementScreen extends AccountScreen {
   protected void onLoad() {
     super.onLoad();
     AccountApi.getAgreements(
-        "self", new GerritCallback<JsArray<AgreementInfo>>() {
-      @Override
-      public void onSuccess(JsArray<AgreementInfo> result) {
-        if (isAttached()) {
-          mySigned = new HashSet<>();
-          for (AgreementInfo info: Natives.asList(result)) {
-            mySigned.add(info.name());
+        "self",
+        new GerritCallback<JsArray<AgreementInfo>>() {
+          @Override
+          public void onSuccess(JsArray<AgreementInfo> result) {
+            if (isAttached()) {
+              mySigned = new HashSet<>();
+              for (AgreementInfo info : Natives.asList(result)) {
+                mySigned.add(info.name());
+              }
+              postRPC();
+            }
           }
-          postRPC();
-        }
-      }
-    });
+        });
 
     available = Gerrit.info().auth().contributorAgreements();
     postRPC();
@@ -102,8 +102,7 @@ public class NewAgreementScreen extends AccountScreen {
     formBody.add(radios);
 
     agreementGroup = new FlowPanel();
-    agreementGroup
-        .add(new SmallHeading(Util.C.newAgreementReviewLegalHeading()));
+    agreementGroup.add(new SmallHeading(Util.C.newAgreementReviewLegalHeading()));
 
     agreementHtml = new HTML();
     agreementHtml.setStyleName(Gerrit.RESOURCES.css().contributorAgreementLegal());
@@ -120,12 +119,13 @@ public class NewAgreementScreen extends AccountScreen {
     fp.add(new InlineLabel(Util.M.enterIAGREE(Util.C.newAgreementIAGREE())));
     finalGroup.add(fp);
     submit = new Button(Util.C.buttonSubmitNewAgreement());
-    submit.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doSign();
-      }
-    });
+    submit.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doSign();
+          }
+        });
     finalGroup.add(submit);
     formBody.add(finalGroup);
     new OnEditEnabler(submit, yesIAgreeBox);
@@ -167,12 +167,13 @@ public class NewAgreementScreen extends AccountScreen {
         l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementAlreadySubmitted());
         radios.add(l);
       } else {
-        r.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            showCLA(cla);
-          }
-        });
+        r.addClickHandler(
+            new ClickHandler() {
+              @Override
+              public void onClick(final ClickEvent event) {
+                showCLA(cla);
+              }
+            });
       }
 
       if (cla.description() != null && !cla.description().equals("")) {
@@ -186,9 +187,7 @@ public class NewAgreementScreen extends AccountScreen {
   private void doSign() {
     submit.setEnabled(false);
 
-    if (current == null
-        || !Util.C.newAgreementIAGREE()
-            .equalsIgnoreCase(yesIAgreeBox.getText())) {
+    if (current == null || !Util.C.newAgreementIAGREE().equalsIgnoreCase(yesIAgreeBox.getText())) {
       yesIAgreeBox.setText("");
       yesIAgreeBox.setFocus(true);
       return;
@@ -197,7 +196,9 @@ public class NewAgreementScreen extends AccountScreen {
   }
 
   private void doEnterAgreement() {
-    AccountApi.enterAgreement("self", current.name(),
+    AccountApi.enterAgreement(
+        "self",
+        current.name(),
         new GerritCallback<NativeString>() {
           @Override
           public void onSuccess(NativeString result) {
@@ -222,23 +223,25 @@ public class NewAgreementScreen extends AccountScreen {
         url = GWT.getHostPageBaseURL() + url;
       }
       final RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
-      rb.setCallback(new RequestCallback() {
-        @Override
-        public void onError(Request request, Throwable exception) {
-          new ErrorDialog(exception).center();
-        }
+      rb.setCallback(
+          new RequestCallback() {
+            @Override
+            public void onError(Request request, Throwable exception) {
+              new ErrorDialog(exception).center();
+            }
 
-        @Override
-        public void onResponseReceived(Request request, Response response) {
-          final String ct = response.getHeader("Content-Type");
-          if (response.getStatusCode() == 200 && ct != null
-              && (ct.equals("text/html") || ct.startsWith("text/html;"))) {
-            agreementHtml.setHTML(response.getText());
-          } else {
-            new ErrorDialog(response.getStatusText()).center();
-          }
-        }
-      });
+            @Override
+            public void onResponseReceived(Request request, Response response) {
+              final String ct = response.getHeader("Content-Type");
+              if (response.getStatusCode() == 200
+                  && ct != null
+                  && (ct.equals("text/html") || ct.startsWith("text/html;"))) {
+                agreementHtml.setHTML(response.getText());
+              } else {
+                new ErrorDialog(response.getStatusText()).center();
+              }
+            }
+          });
       try {
         rb.send();
       } catch (RequestException e) {

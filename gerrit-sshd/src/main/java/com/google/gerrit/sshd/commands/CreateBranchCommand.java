@@ -21,10 +21,9 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
 import org.kohsuke.args4j.Argument;
 
-/** Create a new branch. **/
+/** Create a new branch. * */
 @CommandMetaData(name = "create-branch", description = "Create a new branch")
 public final class CreateBranchCommand extends SshCommand {
 
@@ -34,19 +33,22 @@ public final class CreateBranchCommand extends SshCommand {
   @Argument(index = 1, required = true, metaVar = "NAME", usage = "name of branch to be created")
   private String name;
 
-  @Argument(index = 2, required = true, metaVar = "REVISION", usage = "base revision of the new branch")
+  @Argument(
+    index = 2,
+    required = true,
+    metaVar = "REVISION",
+    usage = "base revision of the new branch"
+  )
   private String revision;
 
-  @Inject
-  GerritApi gApi;
+  @Inject GerritApi gApi;
 
   @Override
   protected void run() throws UnloggedFailure {
     try {
       BranchInput in = new BranchInput();
       in.revision = revision;
-      gApi.projects().name(project.getProject().getNameKey().get())
-          .branch(name).create(in);
+      gApi.projects().name(project.getProject().getNameKey().get()).branch(name).create(in);
     } catch (RestApiException e) {
       throw die(e);
     }

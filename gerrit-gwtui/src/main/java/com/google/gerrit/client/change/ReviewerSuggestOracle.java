@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,24 +35,24 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
 
   @Override
   protected void onRequestSuggestions(final Request req, final Callback cb) {
-    ChangeApi
-        .suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), false)
-        .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
-          @Override
-          public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-            List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
-            for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
-              r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
-            }
-            cb.onSuggestionsReady(req, new Response(r));
-          }
+    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), false)
+        .get(
+            new GerritCallback<JsArray<SuggestReviewerInfo>>() {
+              @Override
+              public void onSuccess(JsArray<SuggestReviewerInfo> result) {
+                List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
+                for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
+                  r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
+                }
+                cb.onSuggestionsReady(req, new Response(r));
+              }
 
-          @Override
-          public void onFailure(Throwable err) {
-            List<Suggestion> r = Collections.emptyList();
-            cb.onSuggestionsReady(req, new Response(r));
-          }
-        });
+              @Override
+              public void onFailure(Throwable err) {
+                List<Suggestion> r = Collections.emptyList();
+                cb.onSuggestionsReady(req, new Response(r));
+              }
+            });
   }
 
   @Override
@@ -71,13 +70,12 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
 
     RestReviewerSuggestion(SuggestReviewerInfo reviewer, String query) {
       if (reviewer.account() != null) {
-        this.replacementString = AccountSuggestOracle.AccountSuggestion
-            .format(reviewer.account(), query);
+        this.replacementString =
+            AccountSuggestOracle.AccountSuggestion.format(reviewer.account(), query);
         this.displayString = replacementString;
       } else {
         this.replacementString = reviewer.group().name();
-        this.displayString =
-            replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
+        this.displayString = replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
       }
     }
 
@@ -94,8 +92,9 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
 
   public static class SuggestReviewerInfo extends JavaScriptObject {
     public final native AccountInfo account() /*-{ return this.account; }-*/;
+
     public final native GroupBaseInfo group() /*-{ return this.group; }-*/;
-    protected SuggestReviewerInfo() {
-    }
+
+    protected SuggestReviewerInfo() {}
   }
 }

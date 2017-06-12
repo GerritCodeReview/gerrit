@@ -24,13 +24,11 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
-
 import java.util.List;
 
 public class AccountPredicates {
   public static boolean hasActive(Predicate<AccountState> p) {
-    return QueryBuilder.find(p, AccountPredicate.class,
-        AccountField.ACTIVE.getName()) != null;
+    return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;
   }
 
   static Predicate<AccountState> defaultPredicate(String query) {
@@ -48,18 +46,18 @@ public class AccountPredicates {
   }
 
   static Predicate<AccountState> id(Account.Id accountId) {
-    return new AccountPredicate(AccountField.ID,
-        AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
+    return new AccountPredicate(
+        AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
   static Predicate<AccountState> email(String email) {
-    return new AccountPredicate(AccountField.EMAIL,
-        AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
+    return new AccountPredicate(
+        AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
 
   static Predicate<AccountState> equalsName(String name) {
-    return new AccountPredicate(AccountField.NAME_PART,
-        AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
+    return new AccountPredicate(
+        AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
   static Predicate<AccountState> externalId(String externalId) {
@@ -79,8 +77,8 @@ public class AccountPredicates {
   }
 
   static Predicate<AccountState> username(String username) {
-    return new AccountPredicate(AccountField.USERNAME,
-        AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
+    return new AccountPredicate(
+        AccountField.USERNAME, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
   }
 
   static Predicate<AccountState> watchedProject(Project.NameKey project) {
@@ -97,6 +95,5 @@ public class AccountPredicates {
     }
   }
 
-  private AccountPredicates() {
-  }
+  private AccountPredicates() {}
 }

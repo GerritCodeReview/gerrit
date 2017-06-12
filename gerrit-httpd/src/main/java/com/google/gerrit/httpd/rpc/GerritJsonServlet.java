@@ -33,43 +33,35 @@ import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.MethodHandle;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Base JSON servlet to ensure the current user is not forged.
- */
+/** Base JSON servlet to ensure the current user is not forged. */
 @SuppressWarnings("serial")
 final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
   private static final Logger log = LoggerFactory.getLogger(GerritJsonServlet.class);
-  private static final ThreadLocal<GerritCall> currentCall =
-      new ThreadLocal<>();
-  private static final ThreadLocal<MethodHandle> currentMethod =
-      new ThreadLocal<>();
+  private static final ThreadLocal<GerritCall> currentCall = new ThreadLocal<>();
+  private static final ThreadLocal<MethodHandle> currentMethod = new ThreadLocal<>();
   private final DynamicItem<WebSession> session;
   private final RemoteJsonService service;
   private final AuditService audit;
 
-
   @Inject
-  GerritJsonServlet(final DynamicItem<WebSession> w, final RemoteJsonService s,
-      final AuditService a) {
+  GerritJsonServlet(
+      final DynamicItem<WebSession> w, final RemoteJsonService s, final AuditService a) {
     session = w;
     service = s;
     audit = a;
   }
 
   @Override
-  protected GerritCall createActiveCall(final HttpServletRequest req,
-      final HttpServletResponse rsp) {
+  protected GerritCall createActiveCall(
+      final HttpServletRequest req, final HttpServletResponse rsp) {
     final GerritCall call = new GerritCall(session.get(), req, new AuditedHttpServletResponse(rsp));
     currentCall.set(call);
     return call;
@@ -83,8 +75,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   private static GsonBuilder gerritDefaultGsonBuilder() {
     final GsonBuilder g = defaultGsonBuilder();
 
-    g.registerTypeAdapter(org.eclipse.jgit.diff.Edit.class,
-        new org.eclipse.jgit.diff.EditDeserializer());
+    g.registerTypeAdapter(
+        org.eclipse.jgit.diff.Edit.class, new org.eclipse.jgit.diff.EditDeserializer());
 
     return g;
   }
@@ -114,8 +106,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   }
 
   @Override
-  protected void service(final HttpServletRequest req,
-      final HttpServletResponse resp) throws IOException {
+  protected void service(final HttpServletRequest req, final HttpServletResponse resp)
+      throws IOException {
     try {
       super.service(req, resp);
     } finally {
@@ -135,15 +127,21 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       if (note != null) {
         final String sid = call.getWebSession().getSessionId();
         final CurrentUser username = call.getWebSession().getUser();
-        final Multimap<String, ?> args =
-            extractParams(note, call);
+        final Multimap<String, ?> args = extractParams(note, call);
         final String what = extractWhat(note, call);
         final Object result = call.getResult();
 
-        audit.dispatch(new RpcAuditEvent(sid, username, what, call.getWhen(),
-            args, call.getHttpServletRequest().getMethod(), call.getHttpServletRequest().getMethod(),
-            ((AuditedHttpServletResponse) (call.getHttpServletResponse()))
-                .getStatus(), result));
+        audit.dispatch(
+            new RpcAuditEvent(
+                sid,
+                username,
+                what,
+                call.getWhen(),
+                args,
+                call.getHttpServletRequest().getMethod(),
+                call.getHttpServletRequest().getMethod(),
+                ((AuditedHttpServletResponse) (call.getHttpServletResponse())).getStatus(),
+                result));
       }
     } catch (Throwable all) {
       log.error("Unable to log the call", all);
@@ -167,11 +165,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
 
   private String extractWhat(final Audit note, final GerritCall call) {
     Class<?> methodClass = call.getMethodClass();
-    String methodClassName = methodClass != null
-        ? methodClass.getName()
-        : "<UNKNOWN_CLASS>";
-    methodClassName =
-        methodClassName.substring(methodClassName.lastIndexOf(".") + 1);
+    String methodClassName = methodClass != null ? methodClass.getName() : "<UNKNOWN_CLASS>";
+    methodClassName = methodClassName.substring(methodClassName.lastIndexOf(".") + 1);
     String what = note.action();
     if (what.length() == 0) {
       what = call.getMethod().getName();
@@ -238,8 +233,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       return null;
     }
 
-    GerritCall(final WebSession session, final HttpServletRequest i,
-        final HttpServletResponse o) {
+    GerritCall(final WebSession session, final HttpServletRequest i, final HttpServletResponse o) {
       super(i, o);
       this.session = session;
       this.when = TimeUtil.nowMs();
@@ -255,11 +249,9 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
 
     @Override
     public void onFailure(final Throwable error) {
-      if (error instanceof IllegalArgumentException
-          || error instanceof IllegalStateException) {
+      if (error instanceof IllegalArgumentException || error instanceof IllegalStateException) {
         super.onFailure(error);
-      } else if (error instanceof OrmException
-          || error instanceof RuntimeException) {
+      } else if (error instanceof OrmException || error instanceof RuntimeException) {
         onInternalFailure(error);
       } else {
         super.onFailure(error);
@@ -296,5 +288,4 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       return TimeUtil.nowMs() - when;
     }
   }
-
 }

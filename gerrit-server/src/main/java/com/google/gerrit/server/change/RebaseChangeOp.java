@@ -38,7 +38,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -46,12 +46,10 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-
 public class RebaseChangeOp extends BatchUpdate.Op {
   public interface Factory {
-    RebaseChangeOp create(ChangeControl ctl, PatchSet originalPatchSet,
-        @Nullable String baseCommitish);
+    RebaseChangeOp create(
+        ChangeControl ctl, PatchSet originalPatchSet, @Nullable String baseCommitish);
   }
 
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -124,9 +122,9 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void updateRepo(RepoContext ctx) throws MergeConflictException,
-       InvalidChangeOperationException, RestApiException, IOException,
-       OrmException, NoSuchChangeException {
+  public void updateRepo(RepoContext ctx)
+      throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
+          OrmException, NoSuchChangeException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevId oldRev = originalPatchSet.getRevision();
@@ -136,33 +134,42 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     rw.parseBody(original);
     RevCommit baseCommit;
     if (baseCommitish != null) {
-       baseCommit = rw.parseCommit(ctx.getRepository().resolve(baseCommitish));
+      baseCommit = rw.parseCommit(ctx.getRepository().resolve(baseCommitish));
     } else {
-       baseCommit = rw.parseCommit(rebaseUtil.findBaseRevision(
-           originalPatchSet, ctl.getChange().getDest(),
-           ctx.getRepository(), ctx.getRevWalk()));
+      baseCommit =
+          rw.parseCommit(
+              rebaseUtil.findBaseRevision(
+                  originalPatchSet,
+                  ctl.getChange().getDest(),
+                  ctx.getRepository(),
+                  ctx.getRevWalk()));
     }
 
     rebasedCommit = rebaseCommit(ctx, original, baseCommit);
 
-    RevId baseRevId = new RevId((baseCommitish != null) ? baseCommitish
-        : ObjectId.toString(baseCommit.getId()));
-    Base base = rebaseUtil.parseBase(
-        new RevisionResource(
-            changeResourceFactory.create(ctl), originalPatchSet),
-        baseRevId.get());
+    RevId baseRevId =
+        new RevId((baseCommitish != null) ? baseCommitish : ObjectId.toString(baseCommit.getId()));
+    Base base =
+        rebaseUtil.parseBase(
+            new RevisionResource(changeResourceFactory.create(ctl), originalPatchSet),
+            baseRevId.get());
 
-    rebasedPatchSetId = ChangeUtil.nextPatchSetId(
-        ctx.getRepository(), ctl.getChange().currentPatchSetId());
-    patchSetInserter = patchSetInserterFactory
-        .create(ctl, rebasedPatchSetId, rebasedCommit)
-        .setDraft(originalPatchSet.isDraft())
-        .setNotify(NotifyHandling.NONE)
-        .setFireRevisionCreated(fireRevisionCreated)
-        .setCopyApprovals(copyApprovals);
+    rebasedPatchSetId =
+        ChangeUtil.nextPatchSetId(ctx.getRepository(), ctl.getChange().currentPatchSetId());
+    patchSetInserter =
+        patchSetInserterFactory
+            .create(ctl, rebasedPatchSetId, rebasedCommit)
+            .setDraft(originalPatchSet.isDraft())
+            .setNotify(NotifyHandling.NONE)
+            .setFireRevisionCreated(fireRevisionCreated)
+            .setCopyApprovals(copyApprovals);
     if (postMessage) {
-      patchSetInserter.setMessage("Patch Set " + rebasedPatchSetId.get()
-          + ": Patch Set " + originalPatchSet.getId().get() + " was rebased");
+      patchSetInserter.setMessage(
+          "Patch Set "
+              + rebasedPatchSetId.get()
+              + ": Patch Set "
+              + originalPatchSet.getId().get()
+              + " was rebased");
     }
 
     if (base != null) {
@@ -188,20 +195,17 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   }
 
   public RevCommit getRebasedCommit() {
-    checkState(rebasedCommit != null,
-        "getRebasedCommit() only valid after updateRepo");
+    checkState(rebasedCommit != null, "getRebasedCommit() only valid after updateRepo");
     return rebasedCommit;
   }
 
   public PatchSet.Id getPatchSetId() {
-    checkState(rebasedPatchSetId != null,
-        "getPatchSetId() only valid after updateRepo");
+    checkState(rebasedPatchSetId != null, "getPatchSetId() only valid after updateRepo");
     return rebasedPatchSetId;
   }
 
   public PatchSet getPatchSet() {
-    checkState(rebasedPatchSet != null,
-        "getPatchSet() only valid after executing update");
+    checkState(rebasedPatchSet != null, "getPatchSet() only valid after executing update");
     return rebasedPatchSet;
   }
 
@@ -222,17 +226,16 @@ public class RebaseChangeOp extends BatchUpdate.Op {
    * @throws MergeConflictException the rebase failed due to a merge conflict.
    * @throws IOException the merge failed for another reason.
    */
-  private RevCommit rebaseCommit(RepoContext ctx, RevCommit original,
-      ObjectId base) throws ResourceConflictException, MergeConflictException,
-      IOException {
+  private RevCommit rebaseCommit(RepoContext ctx, RevCommit original, ObjectId base)
+      throws ResourceConflictException, MergeConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {
       throw new ResourceConflictException("Change is already up to date.");
     }
 
-    ThreeWayMerger merger = newMergeUtil().newThreeWayMerger(
-        ctx.getRepository(), ctx.getInserter());
+    ThreeWayMerger merger =
+        newMergeUtil().newThreeWayMerger(ctx.getRepository(), ctx.getInserter());
     merger.setBase(parentCommit);
     merger.merge(original, base);
 
@@ -249,8 +252,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     if (committerIdent != null) {
       cb.setCommitter(committerIdent);
     } else {
-      cb.setCommitter(ctx.getIdentifiedUser()
-          .newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
+      cb.setCommitter(ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();

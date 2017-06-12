@@ -22,11 +22,6 @@ import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gwtexpui.server.CacheHeaders;
-
-import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -36,21 +31,22 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class BuckUtils {
-  private static final Logger log =
-      LoggerFactory.getLogger(BuckUtils.class);
+  private static final Logger log = LoggerFactory.getLogger(BuckUtils.class);
 
-  static void build(Path root, Path gen, String target)
-      throws IOException, BuildFailureException {
+  static void build(Path root, Path gen, String target) throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
     String buck = firstNonNull(properties.getProperty("buck"), "buck");
-    ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
-        .directory(root.toFile())
-        .redirectErrorStream(true);
+    ProcessBuilder proc =
+        new ProcessBuilder(buck, "build", target)
+            .directory(root.toFile())
+            .redirectErrorStream(true);
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }
@@ -88,8 +84,7 @@ class BuckUtils {
     return properties;
   }
 
-  static void displayFailure(String rule, byte[] why, HttpServletResponse res)
-      throws IOException {
+  static void displayFailure(String rule, byte[] why, HttpServletResponse res) throws IOException {
     res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     res.setContentType("text/html");
     res.setCharacterEncoding(UTF_8.name());

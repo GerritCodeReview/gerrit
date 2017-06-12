@@ -86,18 +86,12 @@ import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -108,12 +102,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Configures the web application environment for Gerrit Code Review. */
-public class WebAppInitializer extends GuiceServletContextListener
-    implements Filter {
-  private static final Logger log =
-      LoggerFactory.getLogger(WebAppInitializer.class);
+public class WebAppInitializer extends GuiceServletContextListener implements Filter {
+  private static final Logger log = LoggerFactory.getLogger(WebAppInitializer.class);
 
   private Path sitePath;
   private Injector dbInjector;
@@ -129,8 +124,8 @@ public class WebAppInitializer extends GuiceServletContextListener
   private IndexType indexType;
 
   @Override
-  public void doFilter(ServletRequest req, ServletResponse res,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
     filter.doFilter(req, res, chain);
   }
 
@@ -147,11 +142,15 @@ public class WebAppInitializer extends GuiceServletContextListener
         if (installPlugins == null) {
           pluginsToInstall = null;
         } else {
-          pluginsToInstall = Splitter.on(",").trimResults().omitEmptyStrings()
-              .splitToList(installPlugins);
+          pluginsToInstall =
+              Splitter.on(",").trimResults().omitEmptyStrings().splitToList(installPlugins);
         }
-        new SiteInitializer(path, System.getProperty("gerrit.init_path"),
-            new UnzippedDistribution(servletContext), pluginsToInstall).init();
+        new SiteInitializer(
+                path,
+                System.getProperty("gerrit.init_path"),
+                new UnzippedDistribution(servletContext),
+                pluginsToInstall)
+            .init();
       }
 
       try {
@@ -177,8 +176,7 @@ public class WebAppInitializer extends GuiceServletContextListener
 
       cfgInjector = createCfgInjector();
       initIndexType();
-      config = cfgInjector.getInstance(
-          Key.get(Config.class, GerritServerConfig.class));
+      config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
       sysInjector = createSysInjector();
       if (!sshdOff()) {
         sshInjector = createSshInjector();
@@ -201,9 +199,9 @@ public class WebAppInitializer extends GuiceServletContextListener
       // injection here because the HTTP environment is not visible
       // to the core server modules.
       //
-      sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
-          .setHttpServletRequest(
-              webInjector.getProvider(HttpServletRequest.class));
+      sysInjector
+          .getInstance(HttpCanonicalWebUrlProvider.class)
+          .setHttpServletRequest(webInjector.getProvider(HttpServletRequest.class));
 
       filter = webInjector.getInstance(GuiceFilter.class);
       manager = new LifecycleManager();
@@ -226,46 +224,50 @@ public class WebAppInitializer extends GuiceServletContextListener
     AbstractModule secureStore = createSecureStoreModule();
     modules.add(secureStore);
     if (sitePath != null) {
-      Module sitePathModule = new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        }
-      };
+      Module sitePathModule =
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+            }
+          };
       modules.add(sitePathModule);
 
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
 
       Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, secureStore);
-      Config cfg = cfgInjector.getInstance(Key.get(Config.class,
-          GerritServerConfig.class));
+      Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
       String dbType = cfg.getString("database", null, "type");
 
-      final DataSourceType dst = Guice.createInjector(new DataSourceModule(),
-          configModule, sitePathModule, secureStore).getInstance(
-            Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
-      modules.add(new LifecycleModule() {
-        @Override
-        protected void configure() {
-          bind(DataSourceType.class).toInstance(dst);
-          bind(DataSourceProvider.Context.class).toInstance(
-              DataSourceProvider.Context.MULTI_USER);
-          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
-              DataSourceProvider.class).in(SINGLETON);
-          listener().to(DataSourceProvider.class);
-        }
-      });
+      final DataSourceType dst =
+          Guice.createInjector(new DataSourceModule(), configModule, sitePathModule, secureStore)
+              .getInstance(Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
+      modules.add(
+          new LifecycleModule() {
+            @Override
+            protected void configure() {
+              bind(DataSourceType.class).toInstance(dst);
+              bind(DataSourceProvider.Context.class)
+                  .toInstance(DataSourceProvider.Context.MULTI_USER);
+              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+                  .toProvider(DataSourceProvider.class)
+                  .in(SINGLETON);
+              listener().to(DataSourceProvider.class);
+            }
+          });
 
     } else {
-      modules.add(new LifecycleModule() {
-        @Override
-        protected void configure() {
-          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
-              ReviewDbDataSourceProvider.class).in(SINGLETON);
-          listener().to(ReviewDbDataSourceProvider.class);
-        }
-      });
+      modules.add(
+          new LifecycleModule() {
+            @Override
+            protected void configure() {
+              bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+                  .toProvider(ReviewDbDataSourceProvider.class)
+                  .in(SINGLETON);
+              listener().to(ReviewDbDataSourceProvider.class);
+            }
+          });
     }
     modules.add(new DatabaseModule());
     modules.add(new DropWizardMetricMaker.ApiModule());
@@ -279,13 +281,16 @@ public class WebAppInitializer extends GuiceServletContextListener
       // we need to get it from the database, as that's our old
       // method of locating the site path on disk.
       //
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(Path.class).annotatedWith(SitePath.class).toProvider(
-              SitePathFromSystemConfigProvider.class).in(SINGLETON);
-        }
-      });
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(Path.class)
+                  .annotatedWith(SitePath.class)
+                  .toProvider(SitePathFromSystemConfigProvider.class)
+                  .in(SINGLETON);
+            }
+          });
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
@@ -321,20 +326,21 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(createIndexModule());
 
     modules.add(new WorkQueue.Module());
-    modules.add(new CanonicalWebUrlModule() {
-      @Override
-      protected Class<? extends Provider<String>> provider() {
-        return HttpCanonicalWebUrlProvider.class;
-      }
-    });
+    modules.add(
+        new CanonicalWebUrlModule() {
+          @Override
+          protected Class<? extends Provider<String>> provider() {
+            return HttpCanonicalWebUrlProvider.class;
+          }
+        });
     modules.add(SshKeyCacheImpl.module());
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(GerritOptions.class)
-            .toInstance(new GerritOptions(config, false, false, false));
-      }
-    });
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(GerritOptions.class).toInstance(new GerritOptions(config, false, false, false));
+          }
+        });
     modules.add(new GarbageCollectionModule());
     modules.add(new ChangeCleanupRunner.Module());
     return cfgInjector.createChildInjector(modules);
@@ -359,8 +365,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
-    modules.add(new DefaultCommandModule(false,
-        sysInjector.getInstance(DownloadConfig.class)));
+    modules.add(new DefaultCommandModule(false, sysInjector.getInstance(DownloadConfig.class)));
     if (indexType == IndexType.LUCENE) {
       modules.add(new IndexCommandsModule());
     }
@@ -423,10 +428,10 @@ public class WebAppInitializer extends GuiceServletContextListener
     return new AbstractModule() {
       @Override
       public void configure() {
-        String secureStoreClassName =
-            GerritServerConfigModule.getSecureStoreClassName(sitePath);
-        bind(String.class).annotatedWith(SecureStoreClassName.class).toProvider(
-            Providers.of(secureStoreClassName));
+        String secureStoreClassName = GerritServerConfigModule.getSecureStoreClassName(sitePath);
+        bind(String.class)
+            .annotatedWith(SecureStoreClassName.class)
+            .toProvider(Providers.of(secureStoreClassName));
       }
     };
   }

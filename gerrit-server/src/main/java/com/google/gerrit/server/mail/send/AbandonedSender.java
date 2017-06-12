@@ -24,16 +24,14 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedSender extends ReplyToChangeSender {
-  public interface Factory extends
-      ReplyToChangeSender.Factory<AbandonedSender> {
+  public interface Factory extends ReplyToChangeSender.Factory<AbandonedSender> {
     @Override
     AbandonedSender create(Project.NameKey project, Change.Id change);
   }
 
   @Inject
-  public AbandonedSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public AbandonedSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "abandon", ChangeEmail.newChangeData(ea, project, id));
   }

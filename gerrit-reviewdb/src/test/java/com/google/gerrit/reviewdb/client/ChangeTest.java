@@ -75,10 +75,8 @@ public class ChangeTest {
 
   @Test
   public void toRefPrefix() {
-    assertThat(new Change.Id(1).toRefPrefix())
-        .isEqualTo("refs/changes/01/1/");
-    assertThat(new Change.Id(1234).toRefPrefix())
-        .isEqualTo("refs/changes/34/1234/");
+    assertThat(new Change.Id(1).toRefPrefix()).isEqualTo("refs/changes/01/1/");
+    assertThat(new Change.Id(1234).toRefPrefix()).isEqualTo("refs/changes/34/1234/");
   }
 
   @Test

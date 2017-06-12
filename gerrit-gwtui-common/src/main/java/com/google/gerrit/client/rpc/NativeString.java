@@ -34,13 +34,11 @@ public final class NativeString extends JavaScriptObject {
     return wrap0(TYPE, s);
   }
 
-  private static native NativeString wrap0(JavaScriptObject T, String s)
-  /*-{ return new T(s) }-*/;
+  private static native NativeString wrap0(JavaScriptObject T, String s)/*-{ return new T(s) }-*/ ;
 
   public native String asString() /*-{ return this.s; }-*/;
 
-  public static AsyncCallback<NativeString>
-  unwrap(final AsyncCallback<String> cb) {
+  public static AsyncCallback<NativeString> unwrap(final AsyncCallback<String> cb) {
     return new AsyncCallback<NativeString>() {
       @Override
       public void onSuccess(NativeString result) {
@@ -59,8 +57,7 @@ public final class NativeString extends JavaScriptObject {
   }
 
   private static native boolean is(JavaScriptObject T, JavaScriptObject o)
-  /*-{ return o instanceof T }-*/;
+      /*-{ return o instanceof T }-*/ ;
 
-  protected NativeString() {
-  }
+  protected NativeString() {}
 }

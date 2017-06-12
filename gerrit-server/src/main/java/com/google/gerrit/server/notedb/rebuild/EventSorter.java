@@ -21,7 +21,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.SetMultimap;
-
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,18 +28,18 @@ import java.util.PriorityQueue;
 
 /**
  * Helper to sort a list of events.
- * <p>
- * Events are sorted in two passes:
+ *
+ * <p>Events are sorted in two passes:
+ *
  * <ol>
- * <li>Sort by natural order (timestamp, patch set, author, etc.)</li>
- * <li>Postpone any events with dependencies to occur only after all of their
- *   dependencies, where this violates natural order.</li>
+ *   <li>Sort by natural order (timestamp, patch set, author, etc.)
+ *   <li>Postpone any events with dependencies to occur only after all of their dependencies, where
+ *       this violates natural order.
  * </ol>
  *
- * {@link #sort()} modifies the event list in place (similar to {@link
- * Collections#sort(List)}), but does not modify any event. In particular,
- * events might end up out of order with respect to timestamp; callers are
- * responsible for adjusting timestamps later if they prefer monotonicity.
+ * {@link #sort()} modifies the event list in place (similar to {@link Collections#sort(List)}), but
+ * does not modify any event. In particular, events might end up out of order with respect to
+ * timestamp; callers are responsible for adjusting timestamps later if they prefer monotonicity.
  */
 class EventSorter {
   private final List<Event> out;
@@ -81,8 +80,8 @@ class EventSorter {
     while (!todo.isEmpty()) {
       process(todo.remove(), todo);
     }
-    checkState(sorted.size() == size,
-        "event sort expected %s elements, got %s", size, sorted.size());
+    checkState(
+        sorted.size() == size, "event sort expected %s elements, got %s", size, sorted.size());
 
     // Modify out in-place a la Collections#sort.
     out.clear();

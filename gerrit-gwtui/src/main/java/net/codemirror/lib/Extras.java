@@ -16,8 +16,8 @@ package net.codemirror.lib;
 
 import static com.google.gwt.dom.client.Style.Display.INLINE_BLOCK;
 import static com.google.gwt.dom.client.Style.Unit.PX;
-import static net.codemirror.lib.CodeMirror.style;
 import static net.codemirror.lib.CodeMirror.LineClassWhere.WRAP;
+import static net.codemirror.lib.CodeMirror.style;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.RangeInfo;
@@ -31,11 +31,9 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
-
-import net.codemirror.lib.CodeMirror.LineHandle;
-
 import java.util.Date;
 import java.util.Objects;
+import net.codemirror.lib.CodeMirror.LineHandle;
 
 /** Additional features added to CodeMirror by Gerrit Code Review. */
 public class Extras {
@@ -43,8 +41,8 @@ public class Extras {
   private static final BlameConfig C = GWT.create(BlameConfig.class);
 
   static final native Extras get(CodeMirror c) /*-{ return c.gerritExtras }-*/;
-  private static native void set(CodeMirror c, Extras e)
-  /*-{ c.gerritExtras = e }-*/;
+
+  private static native void set(CodeMirror c, Extras e)/*-{ c.gerritExtras = e }-*/ ;
 
   static void attach(CodeMirror c) {
     set(c, new Extras(c));
@@ -172,21 +170,23 @@ public class Extras {
       gutters.push(ANNOTATION_GUTTER_ID);
       cm.setOption("gutters", gutters);
       annotated = true;
-      DateTimeFormat format = DateTimeFormat.getFormat(
-          DateTimeFormat.PredefinedFormat.DATE_SHORT);
+      DateTimeFormat format = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT);
       JsArray<LintLine> annotations = JsArray.createArray().cast();
       for (BlameInfo blameInfo : Natives.asList(blameInfos)) {
         for (RangeInfo range : Natives.asList(blameInfo.ranges())) {
           Date commitTime = new Date(blameInfo.time() * 1000L);
           String shortId = blameInfo.id().substring(0, 8);
-          String shortBlame = C.shortBlameMsg(
-              shortId, format.format(commitTime), blameInfo.author());
-          String detailedBlame = C.detailedBlameMsg(blameInfo.id(),
-              blameInfo.author(), FormatUtil.mediumFormat(commitTime),
-              blameInfo.commitMsg());
+          String shortBlame =
+              C.shortBlameMsg(shortId, format.format(commitTime), blameInfo.author());
+          String detailedBlame =
+              C.detailedBlameMsg(
+                  blameInfo.id(),
+                  blameInfo.author(),
+                  FormatUtil.mediumFormat(commitTime),
+                  blameInfo.commitMsg());
 
-          annotations.push(LintLine.create(shortBlame, detailedBlame, shortId,
-              Pos.create(range.start() - 1)));
+          annotations.push(
+              LintLine.create(shortBlame, detailedBlame, shortId, Pos.create(range.start() - 1)));
         }
       }
       cm.setOption("lint", getAnnotation(annotations));

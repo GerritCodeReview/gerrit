@@ -15,7 +15,12 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.MoreObjects;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -46,25 +51,16 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.RawParseUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * Support for metadata stored within a version controlled branch.
- * <p>
- * Implementors are responsible for supplying implementations of the onLoad and
- * onSave methods to read from the repository, or format an update that can
- * later be written back to the repository.
+ *
+ * <p>Implementors are responsible for supplying implementations of the onLoad and onSave methods to
+ * read from the repository, or format an update that can later be written back to the repository.
  */
 public abstract class VersionedMetaData {
   /**
-   * Path information that does not hold references to any repository
-   * data structures, allowing the application to retain this object
-   * for long periods of time.
+   * Path information that does not hold references to any repository data structures, allowing the
+   * application to retain this object for long periods of time.
    */
   public static class PathInfo {
     public final FileMode fileMode;
@@ -96,8 +92,8 @@ public abstract class VersionedMetaData {
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  protected abstract boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException;
+  protected abstract boolean onSave(CommitBuilder commit)
+      throws IOException, ConfigInvalidException;
 
   /** @return revision of the metadata that was loaded. */
   public ObjectId getRevision() {
@@ -106,9 +102,9 @@ public abstract class VersionedMetaData {
 
   /**
    * Load the current version from the branch.
-   * <p>
-   * The repository is not held after the call completes, allowing the
-   * application to retain this object for long periods of time.
+   *
+   * <p>The repository is not held after the call completes, allowing the application to retain this
+   * object for long periods of time.
    *
    * @param db repository to access.
    * @throws IOException
@@ -121,22 +117,20 @@ public abstract class VersionedMetaData {
 
   /**
    * Load a specific version from the repository.
-   * <p>
-   * This method is primarily useful for applying updates to a specific revision
-   * that was shown to an end-user in the user interface. If there are conflicts
-   * with another user's concurrent changes, these will be automatically
-   * detected at commit time.
-   * <p>
-   * The repository is not held after the call completes, allowing the
-   * application to retain this object for long periods of time.
+   *
+   * <p>This method is primarily useful for applying updates to a specific revision that was shown
+   * to an end-user in the user interface. If there are conflicts with another user's concurrent
+   * changes, these will be automatically detected at commit time.
+   *
+   * <p>The repository is not held after the call completes, allowing the application to retain this
+   * object for long periods of time.
    *
    * @param db repository to access.
    * @param id revision to load.
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(Repository db, ObjectId id) throws IOException,
-      ConfigInvalidException {
+  public void load(Repository db, ObjectId id) throws IOException, ConfigInvalidException {
     try (RevWalk walk = new RevWalk(db)) {
       load(walk, id);
     }
@@ -144,24 +138,21 @@ public abstract class VersionedMetaData {
 
   /**
    * Load a specific version from an open walk.
-   * <p>
-   * This method is primarily useful for applying updates to a specific revision
-   * that was shown to an end-user in the user interface. If there are conflicts
-   * with another user's concurrent changes, these will be automatically
-   * detected at commit time.
-   * <p>
-   * The caller retains ownership of the walk and is responsible for closing
-   * it. However, this instance does not hold a reference to the walk or the
-   * repository after the call completes, allowing the application to retain
-   * this object for long periods of time.
+   *
+   * <p>This method is primarily useful for applying updates to a specific revision that was shown
+   * to an end-user in the user interface. If there are conflicts with another user's concurrent
+   * changes, these will be automatically detected at commit time.
+   *
+   * <p>The caller retains ownership of the walk and is responsible for closing it. However, this
+   * instance does not hold a reference to the walk or the repository after the call completes,
+   * allowing the application to retain this object for long periods of time.
    *
    * @param walk open walk to access to access.
    * @param id revision to load.
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(RevWalk walk, ObjectId id) throws IOException,
-     ConfigInvalidException {
+  public void load(RevWalk walk, ObjectId id) throws IOException, ConfigInvalidException {
     this.reader = walk.getObjectReader();
     try {
       revision = id != null ? new RevWalk(reader).parseCommit(id) : null;
@@ -171,13 +162,11 @@ public abstract class VersionedMetaData {
     }
   }
 
-  public void load(MetaDataUpdate update) throws IOException,
-      ConfigInvalidException {
+  public void load(MetaDataUpdate update) throws IOException, ConfigInvalidException {
     load(update.getRepository());
   }
 
-  public void load(MetaDataUpdate update, ObjectId id) throws IOException,
-      ConfigInvalidException {
+  public void load(MetaDataUpdate update, ObjectId id) throws IOException, ConfigInvalidException {
     load(update.getRepository(), id);
   }
 
@@ -186,9 +175,8 @@ public abstract class VersionedMetaData {
    *
    * @param update helper information to define the update that will occur.
    * @return the commit that was created
-   * @throws IOException if there is a storage problem and the update cannot be
-   *         executed as requested or if it failed because of a concurrent
-   *         update to the same reference
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
    */
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     BatchMetaDataUpdate batch = openUpdate(update);
@@ -206,9 +194,8 @@ public abstract class VersionedMetaData {
    * @param update helper information to define the update that will occur.
    * @param refName name of the ref that should be created
    * @return the commit that was created
-   * @throws IOException if there is a storage problem and the update cannot be
-   *         executed as requested or if it failed because of a concurrent
-   *         update to the same reference
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
    */
   public RevCommit commitToNewRef(MetaDataUpdate update, String refName) throws IOException {
     BatchMetaDataUpdate batch = openUpdate(update);
@@ -222,25 +209,31 @@ public abstract class VersionedMetaData {
 
   public interface BatchMetaDataUpdate {
     void write(CommitBuilder commit) throws IOException;
+
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
+
     RevCommit createRef(String refName) throws IOException;
+
     void removeRef(String refName) throws IOException;
+
     RevCommit commit() throws IOException;
+
     RevCommit commitAt(ObjectId revision) throws IOException;
+
     void close();
   }
 
   /**
    * Open a batch of updates to the same metadata ref.
-   * <p>
-   * This allows making multiple commits to a single metadata ref, at the end of
-   * which is a single ref update. For batching together updates to multiple
-   * refs (each consisting of one or more commits against their respective
-   * refs), create the {@link MetaDataUpdate} with a {@link BatchRefUpdate}.
-   * <p>
-   * A ref update produced by this {@link BatchMetaDataUpdate} is only committed
-   * if there is no associated {@link BatchRefUpdate}. As a result, the
-   * configured ref updated event is not fired if there is an associated batch.
+   *
+   * <p>This allows making multiple commits to a single metadata ref, at the end of which is a
+   * single ref update. For batching together updates to multiple refs (each consisting of one or
+   * more commits against their respective refs), create the {@link MetaDataUpdate} with a {@link
+   * BatchRefUpdate}.
+   *
+   * <p>A ref update produced by this {@link BatchMetaDataUpdate} is only committed if there is no
+   * associated {@link BatchRefUpdate}. As a result, the configured ref updated event is not fired
+   * if there is an associated batch.
    *
    * @param update helper info about the update.
    * @throws IOException if the update failed.
@@ -272,8 +265,9 @@ public abstract class VersionedMetaData {
           config.inserter = inserter;
           return config.onSave(commit);
         } catch (ConfigInvalidException e) {
-          throw new IOException("Cannot update " + getRefName() + " in "
-              + db.getDirectory() + ": " + e.getMessage(), e);
+          throw new IOException(
+              "Cannot update " + getRefName() + " in " + db.getDirectory() + ": " + e.getMessage(),
+              e);
         } finally {
           config.newTree = nt;
           config.reader = r;
@@ -289,10 +283,11 @@ public abstract class VersionedMetaData {
 
         // Reuse tree from parent commit unless there are contents in newTree or
         // there is no tree for a parent commit.
-        ObjectId res = newTree.getEntryCount() != 0 || srcTree == null
-            ? newTree.writeTree(inserter) : srcTree.copy();
-        if (res.equals(srcTree) && !update.allowEmpty()
-            && (commit.getTreeId() == null)) {
+        ObjectId res =
+            newTree.getEntryCount() != 0 || srcTree == null
+                ? newTree.writeTree(inserter)
+                : srcTree.copy();
+        if (res.equals(srcTree) && !update.allowEmpty() && (commit.getTreeId() == null)) {
           // If there are no changes to the content, don't create the commit.
           return;
         }
@@ -317,8 +312,11 @@ public abstract class VersionedMetaData {
 
         if (update.insertChangeId()) {
           ObjectId id =
-              ChangeIdUtil.computeChangeId(res, getRevision(),
-                  commit.getAuthor(), commit.getCommitter(),
+              ChangeIdUtil.computeChangeId(
+                  res,
+                  getRevision(),
+                  commit.getAuthor(),
+                  commit.getCommitter(),
                   commit.getMessage());
           commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
         }
@@ -357,8 +355,13 @@ public abstract class VersionedMetaData {
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
           default:
-            throw new IOException("Cannot delete " + ru.getName() + " in "
-                + db.getDirectory() + ": " + ru.getResult());
+            throw new IOException(
+                "Cannot delete "
+                    + ru.getName()
+                    + " in "
+                    + db.getDirectory()
+                    + ": "
+                    + ru.getResult());
         }
       }
 
@@ -372,8 +375,7 @@ public abstract class VersionedMetaData {
         if (Objects.equals(src, expected)) {
           return revision;
         }
-        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()),
-            src, getRefName());
+        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName());
       }
 
       @Override
@@ -392,12 +394,11 @@ public abstract class VersionedMetaData {
         }
       }
 
-      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId,
-          String refName) throws IOException {
+      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
+          throws IOException {
         BatchRefUpdate bru = update.getBatch();
         if (bru != null) {
-          bru.addCommand(new ReceiveCommand(
-              oldId.toObjectId(), newId.toObjectId(), refName));
+          bru.addCommand(new ReceiveCommand(oldId.toObjectId(), newId.toObjectId(), refName));
           inserter.flush();
           revision = rw.parseCommit(newId);
           return revision;
@@ -411,8 +412,7 @@ public abstract class VersionedMetaData {
         if (message == null) {
           message = "meta data update";
         }
-        try (BufferedReader reader = new BufferedReader(
-            new StringReader(message))) {
+        try (BufferedReader reader = new BufferedReader(new StringReader(message))) {
           // read the subject line and use it as reflog message
           ru.setRefLogMessage("commit: " + reader.readLine(), true);
         }
@@ -433,15 +433,20 @@ public abstract class VersionedMetaData {
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
           default:
-            throw new IOException("Cannot update " + ru.getName() + " in "
-                + db.getDirectory() + ": " + ru.getResult());
+            throw new IOException(
+                "Cannot update "
+                    + ru.getName()
+                    + " in "
+                    + db.getDirectory()
+                    + ": "
+                    + ru.getResult());
         }
       }
     };
   }
 
-  protected DirCache readTree(RevTree tree) throws IOException,
-      MissingObjectException, IncorrectObjectTypeException {
+  protected DirCache readTree(RevTree tree)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
     DirCache dc = DirCache.newInCore();
     if (tree != null) {
       DirCacheBuilder b = dc.builder();
@@ -451,16 +456,15 @@ public abstract class VersionedMetaData {
     return dc;
   }
 
-  protected Config readConfig(String fileName) throws IOException,
-      ConfigInvalidException {
+  protected Config readConfig(String fileName) throws IOException, ConfigInvalidException {
     Config rc = new Config();
     String text = readUTF8(fileName);
     if (!text.isEmpty()) {
       try {
         rc.fromText(text);
       } catch (ConfigInvalidException err) {
-        throw new ConfigInvalidException("Invalid config file " + fileName
-            + " in commit " + revision.name(), err);
+        throw new ConfigInvalidException(
+            "Invalid config file " + fileName + " in commit " + revision.name(), err);
       }
     }
     return rc;
@@ -480,7 +484,6 @@ public abstract class VersionedMetaData {
     if (tw != null) {
       ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
       return obj.getCachedBytes(Integer.MAX_VALUE);
-
     }
     return new byte[] {};
   }
@@ -492,7 +495,7 @@ public abstract class VersionedMetaData {
 
     TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
     if (tw != null) {
-     return tw.getObjectId(0);
+      return tw.getObjectId(0);
     }
 
     return null;
@@ -509,8 +512,8 @@ public abstract class VersionedMetaData {
     return paths;
   }
 
-  protected static void set(Config rc, String section, String subsection,
-      String name, String value) {
+  protected static void set(
+      Config rc, String section, String subsection, String name, String value) {
     if (value != null) {
       rc.setString(section, subsection, name, value);
     } else {
@@ -518,8 +521,8 @@ public abstract class VersionedMetaData {
     }
   }
 
-  protected static void set(Config rc, String section, String subsection,
-      String name, boolean value) {
+  protected static void set(
+      Config rc, String section, String subsection, String name, boolean value) {
     if (value) {
       rc.setBoolean(section, subsection, name, value);
     } else {
@@ -527,8 +530,8 @@ public abstract class VersionedMetaData {
     }
   }
 
-  protected static <E extends Enum<?>> void set(Config rc, String section,
-      String subsection, String name, E value, E defaultValue) {
+  protected static <E extends Enum<?>> void set(
+      Config rc, String section, String subsection, String name, E value, E defaultValue) {
     if (value != defaultValue) {
       rc.setEnum(section, subsection, name, value);
     } else {
@@ -548,13 +551,14 @@ public abstract class VersionedMetaData {
     DirCacheEditor editor = newTree.editor();
     if (raw != null && 0 < raw.length) {
       final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);
-      editor.add(new PathEdit(fileName) {
-        @Override
-        public void apply(DirCacheEntry ent) {
-          ent.setFileMode(FileMode.REGULAR_FILE);
-          ent.setObjectId(blobId);
-        }
-      });
+      editor.add(
+          new PathEdit(fileName) {
+            @Override
+            public void apply(DirCacheEntry ent) {
+              ent.setFileMode(FileMode.REGULAR_FILE);
+              ent.setObjectId(blobId);
+            }
+          });
     } else {
       editor.add(new DeletePath(fileName));
     }

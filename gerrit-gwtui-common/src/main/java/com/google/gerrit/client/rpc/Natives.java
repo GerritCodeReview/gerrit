@@ -18,7 +18,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.json.client.JSONObject;
-
 import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +25,8 @@ import java.util.Set;
 
 public class Natives {
   /**
-   * Get the names of defined properties on the object. The returned set
-   * iterates in the native iteration order, which may match the source order.
+   * Get the names of defined properties on the object. The returned set iterates in the native
+   * iteration order, which may match the source order.
    */
   public static Set<String> keys(JavaScriptObject obj) {
     if (obj != null) {
@@ -60,8 +59,7 @@ public class Natives {
     };
   }
 
-  public static <T extends JavaScriptObject> List<T> asList(
-      final JsArray<T> arr) {
+  public static <T extends JavaScriptObject> List<T> asList(final JsArray<T> arr) {
     if (arr == null) {
       return null;
     }
@@ -105,6 +103,5 @@ public class Natives {
     return arr;
   }
 
-  private Natives() {
-  }
+  private Natives() {}
 }

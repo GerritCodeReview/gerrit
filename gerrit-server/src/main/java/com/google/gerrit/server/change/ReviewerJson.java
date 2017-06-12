@@ -37,7 +37,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
@@ -50,7 +49,8 @@ public class ReviewerJson {
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  ReviewerJson(Provider<ReviewDb> db,
+  ReviewerJson(
+      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       AccountLoader.Factory accountLoaderFactory) {
@@ -60,14 +60,14 @@ public class ReviewerJson {
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
-      throws OrmException {
+  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs) throws OrmException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountLoader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
-      ReviewerInfo info = format(new ReviewerInfo(
-          rsrc.getReviewerUser().getAccountId().get()),
-          rsrc.getReviewerControl());
+      ReviewerInfo info =
+          format(
+              new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
+              rsrc.getReviewerControl());
       loader.put(info);
       infos.add(info);
     }
@@ -76,18 +76,20 @@ public class ReviewerJson {
   }
 
   public List<ReviewerInfo> format(ReviewerResource rsrc) throws OrmException {
-    return format(ImmutableList.<ReviewerResource> of(rsrc));
+    return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
   public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
-    return format(out, ctl,
-        approvalsUtil.byPatchSetUser(db.get(), ctl, psId,
-            new Account.Id(out._accountId)));
+    return format(
+        out,
+        ctl,
+        approvalsUtil.byPatchSetUser(db.get(), ctl, psId, new Account.Id(out._accountId)));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
-      Iterable<PatchSetApproval> approvals) throws OrmException {
+  public ReviewerInfo format(
+      ReviewerInfo out, ChangeControl ctl, Iterable<PatchSetApproval> approvals)
+      throws OrmException {
     LabelTypes labelTypes = ctl.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
@@ -108,10 +110,8 @@ public class ReviewerJson {
     ChangeData cd = changeDataFactory.create(db.get(), ctl);
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : new SubmitRuleEvaluator(cd)
-          .setFastEvalLabels(true)
-          .setAllowDraft(true)
-          .evaluate()) {
+      for (SubmitRecord rec :
+          new SubmitRuleEvaluator(cd).setFastEvalLabels(true).setAllowDraft(true).evaluate()) {
         if (rec.labels == null) {
           continue;
         }

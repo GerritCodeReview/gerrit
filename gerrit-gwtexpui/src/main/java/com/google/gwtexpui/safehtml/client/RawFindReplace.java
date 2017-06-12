@@ -18,20 +18,19 @@ import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * A Find/Replace pair whose replacement string is arbitrary HTML.
- * <p>
- * <b>WARNING:</b> This class is not safe used with user-provided patterns.
+ *
+ * <p><b>WARNING:</b> This class is not safe used with user-provided patterns.
  */
 public class RawFindReplace implements FindReplace {
   private RegExp pat;
   private String replace;
 
-  protected RawFindReplace() {
-  }
+  protected RawFindReplace() {}
 
   /**
    * @param find regular expression pattern to match substrings with.
-   * @param replace replacement expression. Capture groups within
-   *        {@code find} can be referenced with {@code $<i>n</i>}.
+   * @param replace replacement expression. Capture groups within {@code find} can be referenced
+   *     with {@code $<i>n</i>}.
    */
   public RawFindReplace(String find, String replace) {
     this.pat = RegExp.compile(find);

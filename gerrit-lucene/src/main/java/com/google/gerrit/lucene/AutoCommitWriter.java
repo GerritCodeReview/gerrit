@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import java.io.IOException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -22,26 +23,22 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 
-import java.io.IOException;
-
 /** Writer that optionally flushes/commits after every write. */
 public class AutoCommitWriter extends IndexWriter {
   private boolean autoCommit;
 
-  AutoCommitWriter(Directory dir, IndexWriterConfig config)
-      throws IOException {
+  AutoCommitWriter(Directory dir, IndexWriterConfig config) throws IOException {
     this(dir, config, false);
   }
 
-  AutoCommitWriter(Directory dir, IndexWriterConfig config, boolean autoCommit)
-      throws IOException {
+  AutoCommitWriter(Directory dir, IndexWriterConfig config, boolean autoCommit) throws IOException {
     super(dir, config);
     setAutoCommit(autoCommit);
   }
 
   /**
-   * This method will override Gerrit configuration index.name.commitWithin
-   * until next Gerrit restart (or reconfiguration through this method).
+   * This method will override Gerrit configuration index.name.commitWithin until next Gerrit
+   * restart (or reconfiguration through this method).
    *
    * @param enable auto commit
    */
@@ -50,23 +47,21 @@ public class AutoCommitWriter extends IndexWriter {
   }
 
   @Override
-  public void addDocument(Iterable<? extends IndexableField> doc)
-      throws IOException {
+  public void addDocument(Iterable<? extends IndexableField> doc) throws IOException {
     super.addDocument(doc);
     autoFlush();
   }
 
   @Override
-  public void addDocuments(
-      Iterable<? extends Iterable<? extends IndexableField>> docs)
+  public void addDocuments(Iterable<? extends Iterable<? extends IndexableField>> docs)
       throws IOException {
     super.addDocuments(docs);
     autoFlush();
   }
 
   @Override
-  public void updateDocuments(Term delTerm,
-      Iterable<? extends Iterable<? extends IndexableField>> docs)
+  public void updateDocuments(
+      Term delTerm, Iterable<? extends Iterable<? extends IndexableField>> docs)
       throws IOException {
     super.updateDocuments(delTerm, docs);
     autoFlush();
@@ -95,8 +90,7 @@ public class AutoCommitWriter extends IndexWriter {
   }
 
   @Override
-  public void updateDocument(Term term, Iterable<? extends IndexableField> doc)
-      throws IOException {
+  public void updateDocument(Term term, Iterable<? extends IndexableField> doc) throws IOException {
     super.updateDocument(term, doc);
     autoFlush();
   }

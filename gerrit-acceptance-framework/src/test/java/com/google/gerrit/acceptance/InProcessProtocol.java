@@ -55,7 +55,11 @@ import com.google.inject.Provides;
 import com.google.inject.Scope;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
-
+import java.io.IOException;
+import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostReceiveHookChain;
@@ -67,12 +71,6 @@ import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-
-import java.io.IOException;
-import java.net.SocketAddress;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 class InProcessProtocol extends TestProtocol<Context> {
   static Module module() {
@@ -94,36 +92,37 @@ class InProcessProtocol extends TestProtocol<Context> {
     };
   }
 
-  private static final Scope REQUEST = new Scope() {
-    @Override
-    public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
-      return new Provider<T>() {
+  private static final Scope REQUEST =
+      new Scope() {
         @Override
-        public T get() {
-          Context ctx = current.get();
-          if (ctx == null) {
-            throw new OutOfScopeException("Not in TestProtocol scope");
-          }
-          return ctx.get(key, creator);
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+          return new Provider<T>() {
+            @Override
+            public T get() {
+              Context ctx = current.get();
+              if (ctx == null) {
+                throw new OutOfScopeException("Not in TestProtocol scope");
+              }
+              return ctx.get(key, creator);
+            }
+
+            @Override
+            public String toString() {
+              return String.format("%s[%s]", creator, REQUEST);
+            }
+          };
         }
 
         @Override
         public String toString() {
-          return String.format("%s[%s]", creator, REQUEST);
+          return "InProcessProtocol.REQUEST";
         }
       };
-    }
 
-    @Override
-    public String toString() {
-      return "InProcessProtocol.REQUEST";
-    }
-  };
-
-  private static class Propagator
-      extends ThreadLocalRequestScopePropagator<Context> {
+  private static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
     @Inject
-    Propagator(ThreadLocalRequestContext local,
+    Propagator(
+        ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
     }
@@ -139,22 +138,20 @@ class InProcessProtocol extends TestProtocol<Context> {
   // TODO(dborowitz): Merge this with AcceptanceTestRequestScope.
   /**
    * Multi-purpose session/context object.
-   * <p>
-   * Confusingly, Gerrit has two ideas of what a "context" object is:
-   * one for Guice {@link RequestScoped}, and one for its own simplified
-   * version of request scoping using {@link ThreadLocalRequestContext}.
-   * This class provides both, in essence just delegating the {@code
+   *
+   * <p>Confusingly, Gerrit has two ideas of what a "context" object is: one for Guice {@link
+   * RequestScoped}, and one for its own simplified version of request scoping using {@link
+   * ThreadLocalRequestContext}. This class provides both, in essence just delegating the {@code
    * ThreadLocalRequestContext} scoping to the Guice scoping mechanism.
-   * <p>
-   * It is also used as the session type for {@code UploadPackFactory} and
-   * {@code ReceivePackFactory}, since, after all, it encapsulates all the
-   * information about a single request.
+   *
+   * <p>It is also used as the session type for {@code UploadPackFactory} and {@code
+   * ReceivePackFactory}, since, after all, it encapsulates all the information about a single
+   * request.
    */
   static class Context implements RequestContext {
     private static final Key<RequestScopedReviewDbProvider> DB_KEY =
         Key.get(RequestScopedReviewDbProvider.class);
-    private static final Key<RequestCleanup> RC_KEY =
-        Key.get(RequestCleanup.class);
+    private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
     private static final Key<CurrentUser> USER_KEY = Key.get(CurrentUser.class);
 
     private final SchemaFactory<ReviewDb> schemaFactory;
@@ -164,7 +161,8 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final RequestCleanup cleanup;
     private final Map<Key<?>, Object> map;
 
-    Context(SchemaFactory<ReviewDb> schemaFactory,
+    Context(
+        SchemaFactory<ReviewDb> schemaFactory,
         IdentifiedUser.GenericFactory userFactory,
         Account.Id accountId,
         Project.NameKey project) {
@@ -174,9 +172,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.project = project;
       map = new HashMap<>();
       cleanup = new RequestCleanup();
-      map.put(DB_KEY,
-          new RequestScopedReviewDbProvider(
-            schemaFactory, Providers.of(cleanup)));
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
       map.put(RC_KEY, cleanup);
 
       IdentifiedUser user = userFactory.create(accountId);
@@ -255,8 +251,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
       try {
-        ProjectControl ctl = projectControlFactory.controlFor(
-            req.project, userProvider.get());
+        ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
         if (!ctl.canRunUploadPack()) {
           throw new ServiceNotAuthorizedException();
         }
@@ -264,12 +259,11 @@ class InProcessProtocol extends TestProtocol<Context> {
         UploadPack up = new UploadPack(repo);
         up.setPackConfig(transferConfig.getPackConfig());
         up.setTimeout(transferConfig.getTimeout());
-        up.setAdvertiseRefsHook(new VisibleRefFilter(
-            tagCache, changeNotesFactory, changeCache, repo, ctl,
-            dbProvider.get(), true));
+        up.setAdvertiseRefsHook(
+            new VisibleRefFilter(
+                tagCache, changeNotesFactory, changeCache, repo, ctl, dbProvider.get(), true));
         List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-        hooks.add(uploadValidatorsFactory.create(
-            ctl.getProject(), repo, "localhost-test"));
+        hooks.add(uploadValidatorsFactory.create(ctl.getProject(), repo, "localhost-test"));
         up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
         return up;
       } catch (NoSuchProjectException | IOException e) {
@@ -315,8 +309,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
       try {
-        ProjectControl ctl =
-            projectControlFactory.controlFor(req.project, userProvider.get());
+        ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
         if (!ctl.canRunReceivePack()) {
           throw new ServiceNotAuthorizedException();
         }
@@ -337,8 +330,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           initializer.init(ctl.getProject().getNameKey(), rp);
         }
 
-        rp.setPostReceiveHook(PostReceiveHookChain.newChain(
-            Lists.newArrayList(postReceiveHooks)));
+        rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;
       } catch (NoSuchProjectException | IOException e) {
         throw new RuntimeException(e);
@@ -347,8 +339,7 @@ class InProcessProtocol extends TestProtocol<Context> {
   }
 
   @Inject
-  InProcessProtocol(Upload uploadPackFactory,
-      Receive receivePackFactory) {
+  InProcessProtocol(Upload uploadPackFactory, Receive receivePackFactory) {
     super(uploadPackFactory, receivePackFactory);
   }
 }

@@ -19,16 +19,13 @@ import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
+import java.util.List;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.util.List;
-
 @CommandMetaData(name = "query", description = "Query the change database")
 class Query extends SshCommand {
-  @Inject
-  private OutputStreamQuery processor;
+  @Inject private OutputStreamQuery processor;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   void setFormat(OutputFormat format) {
@@ -45,7 +42,10 @@ class Query extends SshCommand {
     processor.setIncludePatchSets(on);
   }
 
-  @Option(name = "--all-approvals", usage = "Include information about all patch sets and approvals")
+  @Option(
+    name = "--all-approvals",
+    usage = "Include information about all patch sets and approvals"
+  )
   void setApprovals(boolean on) {
     if (on) {
       processor.setIncludePatchSets(on);
@@ -83,12 +83,22 @@ class Query extends SshCommand {
     processor.setIncludeSubmitRecords(on);
   }
 
-  @Option(name = "--start", aliases = {"-S"}, usage = "Number of changes to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    usage = "Number of changes to skip"
+  )
   void setStart(int start) {
     processor.setStart(start);
   }
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
+  @Argument(
+    index = 0,
+    required = true,
+    multiValued = true,
+    metaVar = "QUERY",
+    usage = "Query to execute"
+  )
   private List<String> query;
 
   @Override
@@ -100,8 +110,8 @@ class Query extends SshCommand {
   protected void parseCommandLine() throws UnloggedFailure {
     processor.setOutput(out, OutputFormat.TEXT);
     super.parseCommandLine();
-    if (processor.getIncludeFiles() &&
-        !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
+    if (processor.getIncludeFiles()
+        && !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
       throw die("--files option needs --patch-sets or --current-patch-set");
     }
   }

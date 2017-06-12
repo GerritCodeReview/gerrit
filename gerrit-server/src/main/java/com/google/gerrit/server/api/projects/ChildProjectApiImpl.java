@@ -31,9 +31,7 @@ public class ChildProjectApiImpl implements ChildProjectApi {
   private final ChildProjectResource rsrc;
 
   @AssistedInject
-  ChildProjectApiImpl(
-      GetChildProject getChildProject,
-      @Assisted ChildProjectResource rsrc) {
+  ChildProjectApiImpl(GetChildProject getChildProject, @Assisted ChildProjectResource rsrc) {
     this.getChildProject = getChildProject;
     this.rsrc = rsrc;
   }

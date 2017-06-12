@@ -88,12 +88,13 @@ class ContactPanelShort extends Composite {
 
     registerNewEmail = new Button(Util.C.buttonOpenRegisterNewEmail());
     registerNewEmail.setEnabled(false);
-    registerNewEmail.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doRegisterNewEmail();
-      }
-    });
+    registerNewEmail.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doRegisterNewEmail();
+          }
+        });
     final FlowPanel emailLine = new FlowPanel();
     emailLine.add(emailPick);
     if (canRegisterNewEmail()) {
@@ -112,21 +113,23 @@ class ContactPanelShort extends Composite {
       nameLine.add(nameTxt);
       if (Gerrit.info().auth().editFullNameUrl() != null) {
         Button edit = new Button(Util.C.linkEditFullName());
-        edit.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            Window.open(Gerrit.info().auth().editFullNameUrl(), "_blank", null);
-          }
-        });
+        edit.addClickHandler(
+            new ClickHandler() {
+              @Override
+              public void onClick(ClickEvent event) {
+                Window.open(Gerrit.info().auth().editFullNameUrl(), "_blank", null);
+              }
+            });
         nameLine.add(edit);
       }
       Button reload = new Button(Util.C.linkReloadContact());
-      reload.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          Window.Location.replace(Gerrit.loginRedirect(PageLinks.SETTINGS_CONTACT));
-        }
-      });
+      reload.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              Window.Location.replace(Gerrit.loginRedirect(PageLinks.SETTINGS_CONTACT));
+            }
+          });
       nameLine.add(reload);
       row(infoPlainText, row++, Util.C.contactFieldFullName(), nameLine);
     } else {
@@ -136,35 +139,39 @@ class ContactPanelShort extends Composite {
 
     infoPlainText.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     infoPlainText.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    infoPlainText.getCellFormatter().addStyleName(row - 1, 0, Gerrit.RESOURCES.css().bottomheader());
+    infoPlainText
+        .getCellFormatter()
+        .addStyleName(row - 1, 0, Gerrit.RESOURCES.css().bottomheader());
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
-    save.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doSave();
-      }
-    });
+    save.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doSave();
+          }
+        });
 
-    emailPick.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        final int idx = emailPick.getSelectedIndex();
-        final String v = 0 <= idx ? emailPick.getValue(idx) : null;
-        if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
-          for (int i = 0; i < emailPick.getItemCount(); i++) {
-            if (currentEmail.equals(emailPick.getValue(i))) {
-              emailPick.setSelectedIndex(i);
-              break;
+    emailPick.addChangeHandler(
+        new ChangeHandler() {
+          @Override
+          public void onChange(final ChangeEvent event) {
+            final int idx = emailPick.getSelectedIndex();
+            final String v = 0 <= idx ? emailPick.getValue(idx) : null;
+            if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
+              for (int i = 0; i < emailPick.getItemCount(); i++) {
+                if (currentEmail.equals(emailPick.getValue(i))) {
+                  emailPick.setSelectedIndex(i);
+                  break;
+                }
+              }
+              doRegisterNewEmail();
+            } else {
+              save.setEnabled(true);
             }
           }
-          doRegisterNewEmail();
-        } else {
-          save.setEnabled(true);
-        }
-      }
-    });
+        });
 
     onEditEnabler = new OnEditEnabler(save, nameTxt);
   }
@@ -197,32 +204,37 @@ class ContactPanelShort extends Composite {
     haveEmails = false;
 
     CallbackGroup group = new CallbackGroup();
-    AccountApi.getName("self", group.add(new GerritCallback<NativeString>() {
+    AccountApi.getName(
+        "self",
+        group.add(
+            new GerritCallback<NativeString>() {
 
-      @Override
-      public void onSuccess(NativeString result) {
-        nameTxt.setText(result.asString());
-        haveAccount = true;
-      }
+              @Override
+              public void onSuccess(NativeString result) {
+                nameTxt.setText(result.asString());
+                haveAccount = true;
+              }
 
-      @Override
-      public void onFailure(Throwable caught) {
-      }
-    }));
+              @Override
+              public void onFailure(Throwable caught) {}
+            }));
 
-    AccountApi.getEmails("self", group.addFinal(new GerritCallback<JsArray<EmailInfo>>() {
-      @Override
-      public void onSuccess(JsArray<EmailInfo> result) {
-        for (EmailInfo i : Natives.asList(result)) {
-          emailPick.addItem(i.email());
-          if (i.isPreferred()) {
-            currentEmail = i.email();
-          }
-        }
-        haveEmails = true;
-        postLoad();
-      }
-    }));
+    AccountApi.getEmails(
+        "self",
+        group.addFinal(
+            new GerritCallback<JsArray<EmailInfo>>() {
+              @Override
+              public void onSuccess(JsArray<EmailInfo> result) {
+                for (EmailInfo i : Natives.asList(result)) {
+                  emailPick.addItem(i.email());
+                  if (i.isPreferred()) {
+                    currentEmail = i.email();
+                  }
+                }
+                haveEmails = true;
+                postLoad();
+              }
+            }));
   }
 
   private void postLoad() {
@@ -235,11 +247,9 @@ class ContactPanelShort extends Composite {
     display();
   }
 
-  void display() {
-  }
+  void display() {}
 
-  protected void row(final Grid info, final int row, final String name,
-      final Widget field) {
+  protected void row(final Grid info, final int row, final String name, final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
     info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
@@ -266,66 +276,72 @@ class ContactPanelShort extends Composite {
     final Button register = new Button(Util.C.buttonSendRegisterNewEmail());
     final Button cancel = new Button(Util.C.buttonCancel());
     final FormPanel form = new FormPanel();
-    form.addSubmitHandler(new FormPanel.SubmitHandler() {
-      @Override
-      public void onSubmit(final SubmitEvent event) {
-        event.cancel();
-        final String addr = inEmail.getText().trim();
-        if (!addr.contains("@")) {
-          new ErrorDialog(Util.C.invalidUserEmail()).center();
-          return;
-        }
-
-        inEmail.setEnabled(false);
-        register.setEnabled(false);
-        AccountApi.registerEmail("self", addr, new GerritCallback<EmailInfo>() {
+    form.addSubmitHandler(
+        new FormPanel.SubmitHandler() {
           @Override
-          public void onSuccess(EmailInfo result) {
-            box.hide();
-            if (Gerrit.info().auth().isDev()) {
-              currentEmail = addr;
-              if (emailPick.getItemCount() == 0) {
-                AccountInfo me = Gerrit.getUserAccount();
-                me.email(addr);
-                onSaveSuccess(me);
-              } else {
-                save.setEnabled(true);
-              }
-              updateEmailList();
+          public void onSubmit(final SubmitEvent event) {
+            event.cancel();
+            final String addr = inEmail.getText().trim();
+            if (!addr.contains("@")) {
+              new ErrorDialog(Util.C.invalidUserEmail()).center();
+              return;
             }
-          }
 
-          @Override
-          public void onFailure(final Throwable caught) {
-            inEmail.setEnabled(true);
-            register.setEnabled(true);
-            if (caught.getMessage().startsWith(EmailException.MESSAGE)) {
-              final ErrorDialog d =
-                  new ErrorDialog(caught.getMessage().substring(
-                      EmailException.MESSAGE.length()));
-              d.setText(Util.C.errorDialogTitleRegisterNewEmail());
-              d.center();
-            } else {
-              super.onFailure(caught);
-            }
+            inEmail.setEnabled(false);
+            register.setEnabled(false);
+            AccountApi.registerEmail(
+                "self",
+                addr,
+                new GerritCallback<EmailInfo>() {
+                  @Override
+                  public void onSuccess(EmailInfo result) {
+                    box.hide();
+                    if (Gerrit.info().auth().isDev()) {
+                      currentEmail = addr;
+                      if (emailPick.getItemCount() == 0) {
+                        AccountInfo me = Gerrit.getUserAccount();
+                        me.email(addr);
+                        onSaveSuccess(me);
+                      } else {
+                        save.setEnabled(true);
+                      }
+                      updateEmailList();
+                    }
+                  }
+
+                  @Override
+                  public void onFailure(final Throwable caught) {
+                    inEmail.setEnabled(true);
+                    register.setEnabled(true);
+                    if (caught.getMessage().startsWith(EmailException.MESSAGE)) {
+                      final ErrorDialog d =
+                          new ErrorDialog(
+                              caught.getMessage().substring(EmailException.MESSAGE.length()));
+                      d.setText(Util.C.errorDialogTitleRegisterNewEmail());
+                      d.center();
+                    } else {
+                      super.onFailure(caught);
+                    }
+                  }
+                });
           }
         });
-      }
-    });
     form.setWidget(body);
 
-    register.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        form.submit();
-      }
-    });
-    cancel.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        box.hide();
-      }
-    });
+    register.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            form.submit();
+          }
+        });
+    cancel.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            box.hide();
+          }
+        });
 
     final FlowPanel buttons = new FlowPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
@@ -370,38 +386,43 @@ class ContactPanelShort extends Composite {
 
     CallbackGroup group = new CallbackGroup();
     if (currentEmail != null && !newEmail.equals(currentEmail)) {
-      AccountApi.setPreferredEmail("self", newEmail,
-          group.add(new GerritCallback<NativeString>() {
-        @Override
-        public void onSuccess(NativeString result) {
-        }
-      }));
+      AccountApi.setPreferredEmail(
+          "self",
+          newEmail,
+          group.add(
+              new GerritCallback<NativeString>() {
+                @Override
+                public void onSuccess(NativeString result) {}
+              }));
     }
-    AccountApi.setName("self", newName,
-        group.add(new GerritCallback<NativeString>() {
-      @Override
-      public void onSuccess(NativeString result) {
-      }
+    AccountApi.setName(
+        "self",
+        newName,
+        group.add(
+            new GerritCallback<NativeString>() {
+              @Override
+              public void onSuccess(NativeString result) {}
 
-      @Override
-      public void onFailure(Throwable caught) {
-        save.setEnabled(true);
-        registerNewEmail.setEnabled(true);
-        super.onFailure(caught);
-      }
-    }));
+              @Override
+              public void onFailure(Throwable caught) {
+                save.setEnabled(true);
+                registerNewEmail.setEnabled(true);
+                super.onFailure(caught);
+              }
+            }));
     group.done();
-    group.addListener(new GerritCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        currentEmail = newEmail;
-        AccountInfo me = Gerrit.getUserAccount();
-        me.email(currentEmail);
-        me.name(newName);
-        onSaveSuccess(me);
-        registerNewEmail.setEnabled(true);
-      }
-    });
+    group.addListener(
+        new GerritCallback<Void>() {
+          @Override
+          public void onSuccess(Void result) {
+            currentEmail = newEmail;
+            AccountInfo me = Gerrit.getUserAccount();
+            me.email(currentEmail);
+            me.name(newName);
+            onSaveSuccess(me);
+            registerNewEmail.setEnabled(true);
+          }
+        });
   }
 
   void onSaveSuccess(AccountInfo result) {

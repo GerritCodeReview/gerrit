@@ -32,13 +32,11 @@ import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-
-import java.io.IOException;
-import java.util.List;
 
 class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   interface Factory {
@@ -55,9 +53,11 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   private final ProjectCache projectCache;
 
   @Inject
-  ChangeProjectAccess(ProjectAccessFactory.Factory projectAccessFactory,
+  ChangeProjectAccess(
+      ProjectAccessFactory.Factory projectAccessFactory,
       ProjectControl.Factory projectControlFactory,
-      ProjectCache projectCache, GroupBackend groupBackend,
+      ProjectCache projectCache,
+      GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
@@ -67,22 +67,35 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       @Assisted List<AccessSection> sectionList,
       @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
-    super(projectControlFactory, groupBackend, metaDataUpdateFactory,
-        allProjects, setParent, projectName, base, sectionList,
-        parentProjectName, message, true);
+    super(
+        projectControlFactory,
+        groupBackend,
+        metaDataUpdateFactory,
+        allProjects,
+        setParent,
+        projectName,
+        base,
+        sectionList,
+        parentProjectName,
+        message,
+        true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
     this.gitRefUpdated = gitRefUpdated;
   }
 
   @Override
-  protected ProjectAccess updateProjectConfig(CurrentUser user,
-      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
+  protected ProjectAccess updateProjectConfig(
+      CurrentUser user, ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException {
     RevCommit commit = config.commit(md);
 
-    gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
-        base, commit.getId(), user.asIdentifiedUser().getAccount());
+    gitRefUpdated.fire(
+        config.getProject().getNameKey(),
+        RefNames.REFS_CONFIG,
+        base,
+        commit.getId(),
+        user.asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

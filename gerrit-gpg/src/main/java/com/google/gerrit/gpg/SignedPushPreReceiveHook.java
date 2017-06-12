@@ -19,20 +19,18 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.util.Collection;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 
-import java.util.Collection;
-
 /**
  * Pre-receive hook to check signed pushes.
- * <p>
- * If configured, prior to processing any push using
- * {@link com.google.gerrit.server.git.ReceiveCommits}, requires that any push
- * certificate present must be valid.
+ *
+ * <p>If configured, prior to processing any push using {@link
+ * com.google.gerrit.server.git.ReceiveCommits}, requires that any push certificate present must be
+ * valid.
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {
@@ -47,8 +45,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       }
     }
 
-    private Required() {
-    }
+    private Required() {}
   }
 
   private final Provider<IdentifiedUser> user;
@@ -56,23 +53,19 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
 
   @Inject
   public SignedPushPreReceiveHook(
-      Provider<IdentifiedUser> user,
-      GerritPushCertificateChecker.Factory checkerFactory) {
+      Provider<IdentifiedUser> user, GerritPushCertificateChecker.Factory checkerFactory) {
     this.user = user;
     this.checkerFactory = checkerFactory;
   }
 
   @Override
-  public void onPreReceive(ReceivePack rp,
-      Collection<ReceiveCommand> commands) {
+  public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
     PushCertificate cert = rp.getPushCertificate();
     if (cert == null) {
       return;
     }
-    CheckResult result = checkerFactory.create(user.get())
-        .setCheckNonce(true)
-        .check(cert)
-        .getCheckResult();
+    CheckResult result =
+        checkerFactory.create(user.get()).setCheckNonce(true).check(cert).getCheckResult();
     if (!isAllowed(result, commands)) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);
@@ -81,8 +74,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     }
   }
 
-  private static boolean isAllowed(CheckResult result,
-      Collection<ReceiveCommand> commands) {
+  private static boolean isAllowed(CheckResult result, Collection<ReceiveCommand> commands) {
     if (onlyMagicBranches(commands)) {
       // Only pushing magic branches: allow a valid push certificate even if the
       // key is not ultimately trusted. Assume anyone with Submit permission to
@@ -102,8 +94,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     return true;
   }
 
-  private static void reject(Collection<ReceiveCommand> commands,
-      String reason) {
+  private static void reject(Collection<ReceiveCommand> commands, String reason) {
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
         cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, reason);

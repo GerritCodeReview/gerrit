@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -26,23 +25,19 @@ import java.util.List;
 public interface Accounts {
   /**
    * Look up an account by ID.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the account. Methods that
-   * mutate the account do not necessarily re-read the account. Therefore, calling
-   * a getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code AccountApi} instances.
    *
-   * @param id any identifier supported by the REST API, including numeric ID,
-   *     email, or username.
+   * <p><strong>Note:</strong> This method eagerly reads the account. Methods that mutate the
+   * account do not necessarily re-read the account. Therefore, calling a getter method on an
+   * instance after calling a mutation method on that same instance is not guaranteed to reflect the
+   * mutation. It is not recommended to store references to {@code AccountApi} instances.
+   *
+   * @param id any identifier supported by the REST API, including numeric ID, email, or username.
    * @return API for accessing the account.
    * @throws RestApiException if an error occurred.
    */
   AccountApi id(String id) throws RestApiException;
 
-  /**
-   * @see #id(String)
-   */
+  /** @see #id(String) */
   AccountApi id(int id) throws RestApiException;
 
   /**
@@ -60,9 +55,8 @@ public interface Accounts {
 
   /**
    * Suggest users for a given query.
-   * <p>
-   * Example code:
-   * {@code suggestAccounts().withQuery("Reviewer").withLimit(5).get()}
+   *
+   * <p>Example code: {@code suggestAccounts().withQuery("Reviewer").withLimit(5).get()}
    *
    * @return API for setting parameters and getting result.
    */
@@ -70,19 +64,17 @@ public interface Accounts {
 
   /**
    * Suggest users for a given query.
-   * <p>
-   * Shortcut API for {@code suggestAccounts().withQuery(String)}.
+   *
+   * <p>Shortcut API for {@code suggestAccounts().withQuery(String)}.
    *
    * @see #suggestAccounts()
    */
-  SuggestAccountsRequest suggestAccounts(String query)
-    throws RestApiException;
+  SuggestAccountsRequest suggestAccounts(String query) throws RestApiException;
 
   /**
    * Queries users.
-   * <p>
-   * Example code:
-   * {@code query().withQuery("name:John email:example.com").withLimit(5).get()}
+   *
+   * <p>Example code: {@code query().withQuery("name:John email:example.com").withLimit(5).get()}
    *
    * @return API for setting parameters and getting result.
    */
@@ -90,16 +82,15 @@ public interface Accounts {
 
   /**
    * Queries users.
-   * <p>
-   * Shortcut API for {@code query().withQuery(String)}.
+   *
+   * <p>Shortcut API for {@code query().withQuery(String)}.
    *
    * @see #query()
    */
   QueryRequest query(String query) throws RestApiException;
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code suggestAccounts()}.
+   * API for setting parameters and getting result. Used for {@code suggestAccounts()}.
    *
    * @see #suggestAccounts()
    */
@@ -107,9 +98,7 @@ public interface Accounts {
     private String query;
     private int limit;
 
-    /**
-     * Executes query and returns a list of accounts.
-     */
+    /** Executes query and returns a list of accounts. */
     public abstract List<AccountInfo> get() throws RestApiException;
 
     /**
@@ -123,8 +112,7 @@ public interface Accounts {
     }
 
     /**
-     * Set limit for returned list of accounts.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of accounts. Optional; server-default is used when not provided.
      */
     public SuggestAccountsRequest withLimit(int limit) {
       this.limit = limit;
@@ -141,8 +129,7 @@ public interface Accounts {
   }
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code query()}.
+   * API for setting parameters and getting result. Used for {@code query()}.
    *
    * @see #query()
    */
@@ -150,12 +137,9 @@ public interface Accounts {
     private String query;
     private int limit;
     private int start;
-    private EnumSet<ListAccountsOption> options =
-        EnumSet.noneOf(ListAccountsOption.class);
+    private EnumSet<ListAccountsOption> options = EnumSet.noneOf(ListAccountsOption.class);
 
-    /**
-     * Executes query and returns a list of accounts.
-     */
+    /** Executes query and returns a list of accounts. */
     public abstract List<AccountInfo> get() throws RestApiException;
 
     /**
@@ -169,18 +153,14 @@ public interface Accounts {
     }
 
     /**
-     * Set limit for returned list of accounts.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of accounts. Optional; server-default is used when not provided.
      */
     public QueryRequest withLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    /**
-     * Set number of accounts to skip.
-     * Optional; no accounts are skipped when not provided.
-     */
+    /** Set number of accounts to skip. Optional; no accounts are skipped when not provided. */
     public QueryRequest withStart(int start) {
       this.start = start;
       return this;
@@ -219,9 +199,9 @@ public interface Accounts {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements Accounts {
     @Override
     public AccountApi id(String id) throws RestApiException {
@@ -254,8 +234,7 @@ public interface Accounts {
     }
 
     @Override
-    public SuggestAccountsRequest suggestAccounts(String query)
-      throws RestApiException {
+    public SuggestAccountsRequest suggestAccounts(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

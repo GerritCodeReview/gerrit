@@ -17,14 +17,12 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 
 /** Configuration file in the projects refs/meta/config branch. */
 public class ProjectLevelConfig extends VersionedMetaData {
@@ -68,8 +66,8 @@ public class ProjectLevelConfig extends VersionedMetaData {
         Set<String> allNames = get().getNames(section);
         for (String name : parentCfg.getNames(section)) {
           if (!allNames.contains(name)) {
-            cfgWithInheritance.setStringList(section, null, name,
-                Arrays.asList(parentCfg.getStringList(section, null, name)));
+            cfgWithInheritance.setStringList(
+                section, null, name, Arrays.asList(parentCfg.getStringList(section, null, name)));
           }
         }
 
@@ -77,7 +75,10 @@ public class ProjectLevelConfig extends VersionedMetaData {
           allNames = get().getNames(section, subsection);
           for (String name : parentCfg.getNames(section, subsection)) {
             if (!allNames.contains(name)) {
-              cfgWithInheritance.setStringList(section, subsection, name,
+              cfgWithInheritance.setStringList(
+                  section,
+                  subsection,
+                  name,
                   Arrays.asList(parentCfg.getStringList(section, subsection, name)));
             }
           }
@@ -88,8 +89,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated configuration\n");
     }

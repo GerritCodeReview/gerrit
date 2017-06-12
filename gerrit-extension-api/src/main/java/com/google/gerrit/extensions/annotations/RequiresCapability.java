@@ -21,9 +21,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation on {@code com.google.gerrit.sshd.SshCommand} or
- * {@code com.google.gerrit.httpd.restapi.RestApiServlet} declaring a
- * capability must be granted.
+ * Annotation on {@code com.google.gerrit.sshd.SshCommand} or {@code
+ * com.google.gerrit.httpd.restapi.RestApiServlet} declaring a capability must be granted.
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)

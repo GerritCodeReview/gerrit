@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,25 +38,26 @@ class PathSuggestOracle extends HighlightSuggestOracle {
   @Override
   protected void onRequestSuggestions(final Request req, final Callback cb) {
     ChangeApi.revision(changeId.get(), revision.name())
-      .view("files")
-      .addParameter("q", req.getQuery())
-      .background()
-      .get(new AsyncCallback<JsArrayString>() {
-          @Override
-          public void onSuccess(JsArrayString result) {
-            List<Suggestion> r = new ArrayList<>();
-            for (String path : Natives.asList(result)) {
-              r.add(new PathSuggestion(path));
-            }
-            cb.onSuggestionsReady(req, new Response(r));
-          }
+        .view("files")
+        .addParameter("q", req.getQuery())
+        .background()
+        .get(
+            new AsyncCallback<JsArrayString>() {
+              @Override
+              public void onSuccess(JsArrayString result) {
+                List<Suggestion> r = new ArrayList<>();
+                for (String path : Natives.asList(result)) {
+                  r.add(new PathSuggestion(path));
+                }
+                cb.onSuggestionsReady(req, new Response(r));
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            List<Suggestion> none = Collections.emptyList();
-            cb.onSuggestionsReady(req, new Response(none));
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                List<Suggestion> none = Collections.emptyList();
+                cb.onSuggestionsReady(req, new Response(none));
+              }
+            });
   }
 
   private static class PathSuggestion implements Suggestion {

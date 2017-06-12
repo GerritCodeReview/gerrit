@@ -44,8 +44,7 @@ public abstract class IntPredicate<T> extends OperatorPredicate<T> {
     }
     if (getClass() == other.getClass()) {
       final IntPredicate<?> p = (IntPredicate<?>) other;
-      return getOperator().equals(p.getOperator())
-          && intValue() == p.intValue();
+      return getOperator().equals(p.getOperator()) && intValue() == p.intValue();
     }
     return false;
   }

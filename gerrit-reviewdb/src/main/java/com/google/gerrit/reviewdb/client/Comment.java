@@ -18,36 +18,33 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * This class represents inline comments in NoteDb. This means it determines the
- * JSON format for inline comments in the revision notes that NoteDb uses to
- * persist inline comments.
- * <p>
- * Changing fields in this class changes the storage format of inline comments
- * in NoteDb and may require a corresponding data migration (adding new optional
- * fields is generally okay).
- * <p>
- * {@link PatchLineComment} also represents inline comments, but in ReviewDb.
- * There are a few notable differences:
+ * This class represents inline comments in NoteDb. This means it determines the JSON format for
+ * inline comments in the revision notes that NoteDb uses to persist inline comments.
+ *
+ * <p>Changing fields in this class changes the storage format of inline comments in NoteDb and may
+ * require a corresponding data migration (adding new optional fields is generally okay).
+ *
+ * <p>{@link PatchLineComment} also represents inline comments, but in ReviewDb. There are a few
+ * notable differences:
+ *
  * <ul>
- * <li>PatchLineComment knows the comment status (published or draft). For
- * comments in NoteDb the status is determined by the branch in which they are
- * stored (published comments are stored in the change meta ref; draft comments
- * are store in refs/draft-comments branches in All-Users). Hence Comment
- * doesn't need to contain the status, but the status is implicitly known by
- * where the comments are read from.
- * <li>PatchLineComment knows the change ID. For comments in NoteDb, the change
- * ID is determined by the branch in which they are stored (the ref name
- * contains the change ID). Hence Comment doesn't need to contain the change ID,
- * but the change ID is implicitly known by where the comments are read from.
+ *   <li>PatchLineComment knows the comment status (published or draft). For comments in NoteDb the
+ *       status is determined by the branch in which they are stored (published comments are stored
+ *       in the change meta ref; draft comments are store in refs/draft-comments branches in
+ *       All-Users). Hence Comment doesn't need to contain the status, but the status is implicitly
+ *       known by where the comments are read from.
+ *   <li>PatchLineComment knows the change ID. For comments in NoteDb, the change ID is determined
+ *       by the branch in which they are stored (the ref name contains the change ID). Hence Comment
+ *       doesn't need to contain the change ID, but the change ID is implicitly known by where the
+ *       comments are read from.
  * </ul>
- * <p>
- * For all utility classes and middle layer functionality using Comment over
- * PatchLineComment is preferred, as PatchLineComment will go away together with
- * ReviewDb. This means Comment should be used everywhere and only for storing
- * inline comment in ReviewDb a conversion to PatchLineComment is done.
- * Converting Comments to PatchLineComments and vice verse is done by
- * CommentsUtil#toPatchLineComments(Change.Id, PatchLineComment.Status, Iterable)
- * and CommentsUtil#toComments(String, Iterable).
+ *
+ * <p>For all utility classes and middle layer functionality using Comment over PatchLineComment is
+ * preferred, as PatchLineComment will go away together with ReviewDb. This means Comment should be
+ * used everywhere and only for storing inline comment in ReviewDb a conversion to PatchLineComment
+ * is done. Converting Comments to PatchLineComments and vice verse is done by
+ * CommentsUtil#toPatchLineComments(Change.Id, PatchLineComment.Status, Iterable) and
+ * CommentsUtil#toComments(String, Iterable).
  */
 public class Comment {
   public static class Key {
@@ -69,9 +66,14 @@ public class Comment {
     public String toString() {
       return new StringBuilder()
           .append("Comment.Key{")
-          .append("uuid=").append(uuid).append(',')
-          .append("filename=").append(filename).append(',')
-          .append("patchSetId=").append(patchSetId)
+          .append("uuid=")
+          .append(uuid)
+          .append(',')
+          .append("filename=")
+          .append(filename)
+          .append(',')
+          .append("patchSetId=")
+          .append(patchSetId)
           .append('}')
           .toString();
     }
@@ -121,7 +123,8 @@ public class Comment {
     public String toString() {
       return new StringBuilder()
           .append("Comment.Identity{")
-          .append("id=").append(id)
+          .append("id=")
+          .append(id)
           .append('}')
           .toString();
     }
@@ -169,10 +172,17 @@ public class Comment {
     public String toString() {
       return new StringBuilder()
           .append("Comment.Range{")
-          .append("startLine=").append(startLine).append(',')
-          .append("startChar=").append(startChar).append(',')
-          .append("endLine=").append(endLine).append(',')
-          .append("endChar=").append(endChar)
+          .append("startLine=")
+          .append(startLine)
+          .append(',')
+          .append("startChar=")
+          .append(startChar)
+          .append(',')
+          .append("endLine=")
+          .append(endLine)
+          .append(',')
+          .append("endChar=")
+          .append(endChar)
           .append('}')
           .toString();
     }
@@ -192,8 +202,13 @@ public class Comment {
   public String serverId;
 
   public Comment(Comment c) {
-    this(new Key(c.key), c.author.getId(), new Timestamp(c.writtenOn.getTime()),
-        c.side, c.message, c.serverId);
+    this(
+        new Key(c.key),
+        c.author.getId(),
+        new Timestamp(c.writtenOn.getTime()),
+        c.side,
+        c.message,
+        c.serverId);
     this.lineNbr = c.lineNbr;
     this.realAuthor = c.realAuthor;
     this.range = c.range != null ? new Range(c.range) : null;
@@ -201,8 +216,13 @@ public class Comment {
     this.revId = c.revId;
   }
 
-  public Comment(Key key, Account.Id author, Timestamp writtenOn,
-      short side, String message, String serverId) {
+  public Comment(
+      Key key,
+      Account.Id author,
+      Timestamp writtenOn,
+      short side,
+      String message,
+      String serverId) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
@@ -212,13 +232,9 @@ public class Comment {
     this.serverId = serverId;
   }
 
-  public void setLineNbrAndRange(Integer lineNbr,
-      com.google.gerrit.extensions.client.Comment.Range range) {
-    this.lineNbr = lineNbr != null
-        ? lineNbr
-        : range != null
-            ? range.endLine
-            : 0;
+  public void setLineNbrAndRange(
+      Integer lineNbr, com.google.gerrit.extensions.client.Comment.Range range) {
+    this.lineNbr = lineNbr != null ? lineNbr : range != null ? range.endLine : 0;
     if (range != null) {
       this.range = new Comment.Range(range);
     }
@@ -233,9 +249,7 @@ public class Comment {
   }
 
   public void setRealAuthor(Account.Id id) {
-    realAuthor = id != null && id.get() != author.id
-        ? new Comment.Identity(id)
-        : null;
+    realAuthor = id != null && id.get() != author.id ? new Comment.Identity(id) : null;
   }
 
   public Identity getRealAuthor() {
@@ -259,20 +273,37 @@ public class Comment {
   public String toString() {
     return new StringBuilder()
         .append("Comment{")
-        .append("key=").append(key).append(',')
-        .append("lineNbr=").append(lineNbr).append(',')
-        .append("author=").append(author.getId().get()).append(',')
+        .append("key=")
+        .append(key)
+        .append(',')
+        .append("lineNbr=")
+        .append(lineNbr)
+        .append(',')
+        .append("author=")
+        .append(author.getId().get())
+        .append(',')
         .append("realAuthor=")
-            .append(realAuthor != null ? realAuthor.getId().get() : "")
-            .append(',')
-        .append("writtenOn=").append(writtenOn.toString()).append(',')
-        .append("side=").append(side).append(',')
-        .append("message=").append(Objects.toString(message, "")).append(',')
+        .append(realAuthor != null ? realAuthor.getId().get() : "")
+        .append(',')
+        .append("writtenOn=")
+        .append(writtenOn.toString())
+        .append(',')
+        .append("side=")
+        .append(side)
+        .append(',')
+        .append("message=")
+        .append(Objects.toString(message, ""))
+        .append(',')
         .append("parentUuid=")
-            .append(Objects.toString(parentUuid, "")).append(',')
-        .append("range=").append(Objects.toString(range, "")).append(',')
-        .append("revId=").append(revId != null ? revId : "")
-        .append("tag=").append(Objects.toString(tag, ""))
+        .append(Objects.toString(parentUuid, ""))
+        .append(',')
+        .append("range=")
+        .append(Objects.toString(range, ""))
+        .append(',')
+        .append("revId=")
+        .append(revId != null ? revId : "")
+        .append("tag=")
+        .append(Objects.toString(tag, ""))
         .append('}')
         .toString();
   }

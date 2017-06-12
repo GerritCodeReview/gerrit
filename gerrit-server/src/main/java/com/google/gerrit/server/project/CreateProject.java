@@ -60,7 +60,10 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -75,19 +78,13 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
   public interface Factory {
     CreateProject create(String name);
   }
 
-  private static final Logger log = LoggerFactory
-      .getLogger(CreateProject.class);
+  private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
 
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
@@ -109,8 +106,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final String name;
 
   @Inject
-  CreateProject(Provider<ProjectsCollection> projectsCollection,
-      Provider<GroupsCollection> groupsCollection, ProjectJson json,
+  CreateProject(
+      Provider<ProjectsCollection> projectsCollection,
+      Provider<GroupsCollection> groupsCollection,
+      ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       ProjectControl.GenericFactory projectControlFactory,
       GitRepositoryManager repoManager,
@@ -147,10 +146,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   }
 
   @Override
-  public Response<ProjectInfo> apply(TopLevelResource resource,
-      ProjectInput input) throws BadRequestException,
-      UnprocessableEntityException, ResourceConflictException,
-      ResourceNotFoundException, IOException, ConfigInvalidException {
+  public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
+      throws BadRequestException, UnprocessableEntityException, ResourceConflictException,
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new ProjectInput();
     }
@@ -161,8 +159,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(ProjectUtil.stripGitSuffix(name));
 
-    String parentName = MoreObjects.firstNonNull(
-        Strings.emptyToNull(input.parent), allProjects.get());
+    String parentName =
+        MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     args.newParent = projectsCollection.get().parse(parentName).getControl();
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
@@ -170,34 +168,27 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
     if (input.owners == null || input.owners.isEmpty()) {
-      args.ownerIds =
-          new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
+      args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {
-      args.ownerIds =
-        Lists.newArrayListWithCapacity(input.owners.size());
+      args.ownerIds = Lists.newArrayListWithCapacity(input.owners.size());
       for (String owner : input.owners) {
         args.ownerIds.add(groupsCollection.get().parse(owner).getGroupUUID());
       }
     }
     args.contributorAgreements =
-        MoreObjects.firstNonNull(input.useContributorAgreements,
-            InheritableBoolean.INHERIT);
-    args.signedOffBy =
-        MoreObjects.firstNonNull(input.useSignedOffBy,
-            InheritableBoolean.INHERIT);
+        MoreObjects.firstNonNull(input.useContributorAgreements, InheritableBoolean.INHERIT);
+    args.signedOffBy = MoreObjects.firstNonNull(input.useSignedOffBy, InheritableBoolean.INHERIT);
     args.contentMerge =
         input.submitType == SubmitType.FAST_FORWARD_ONLY
-            ? InheritableBoolean.FALSE : MoreObjects.firstNonNull(
-                input.useContentMerge,
-                InheritableBoolean.INHERIT);
+            ? InheritableBoolean.FALSE
+            : MoreObjects.firstNonNull(input.useContentMerge, InheritableBoolean.INHERIT);
     args.newChangeForAllNotInTarget =
-        MoreObjects.firstNonNull(input.createNewChangeForAllNotInTarget,
-            InheritableBoolean.INHERIT);
+        MoreObjects.firstNonNull(
+            input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     try {
-      args.maxObjectSizeLimit =
-          ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
+      args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
       throw new BadRequestException(e.getMessage());
     }
@@ -214,8 +205,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     if (input.pluginConfigValues != null) {
       try {
-        ProjectControl projectControl = projectControlFactory.controlFor(
-            p.getNameKey(), identifiedUser.get());
+        ProjectControl projectControl =
+            projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
         putConfig.get().apply(projectControl, in);
@@ -228,13 +219,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   }
 
   private Project createProject(CreateProjectArgs args)
-      throws BadRequestException, ResourceConflictException, IOException,
-      ConfigInvalidException {
+      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
     try {
-      final String head =
-          args.permissionsOnly ? RefNames.REFS_CONFIG
-              : args.branch.get(0);
+      final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
       try (Repository repo = repoManager.openRepository(nameKey)) {
         if (repo.getObjectDatabase().exists()) {
           throw new ResourceConflictException("project \"" + nameKey + "\" exists");
@@ -249,8 +237,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
         createProjectConfig(args);
 
-        if (!args.permissionsOnly
-            && args.createEmptyCommit) {
+        if (!args.permissionsOnly && args.createEmptyCommit) {
           createEmptyCommits(repo, nameKey, args.branch);
         }
 
@@ -259,10 +246,12 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         return projectCache.get(nameKey).getProject();
       }
     } catch (RepositoryCaseMismatchException e) {
-      throw new ResourceConflictException("Cannot create " + nameKey.get()
-          + " because the name is already occupied by another project."
-          + " The other project has the same name, only spelled in a"
-          + " different case.");
+      throw new ResourceConflictException(
+          "Cannot create "
+              + nameKey.get()
+              + " because the name is already occupied by another project."
+              + " The other project has the same name, only spelled in a"
+              + " different case.");
     } catch (RepositoryNotFoundException badName) {
       throw new BadRequestException("invalid project name: " + nameKey);
     } catch (ConfigInvalidException e) {
@@ -272,35 +261,33 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     }
   }
 
-  private void createProjectConfig(CreateProjectArgs args) throws IOException, ConfigInvalidException {
+  private void createProjectConfig(CreateProjectArgs args)
+      throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = ProjectConfig.read(md);
 
       Project newProject = config.getProject();
       newProject.setDescription(args.projectDescription);
-      newProject.setSubmitType(MoreObjects.firstNonNull(args.submitType,
-          repositoryCfg.getDefaultSubmitType(args.getProject())));
-      newProject
-          .setUseContributorAgreements(args.contributorAgreements);
+      newProject.setSubmitType(
+          MoreObjects.firstNonNull(
+              args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
+      newProject.setUseContributorAgreements(args.contributorAgreements);
       newProject.setUseSignedOffBy(args.signedOffBy);
       newProject.setUseContentMerge(args.contentMerge);
       newProject.setCreateNewChangeForAllNotInTarget(args.newChangeForAllNotInTarget);
       newProject.setRequireChangeID(args.changeIdRequired);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
       if (args.newParent != null) {
-        newProject.setParentName(args.newParent.getProject()
-            .getNameKey());
+        newProject.setParentName(args.newParent.getProject().getNameKey());
       }
 
       if (!args.ownerIds.isEmpty()) {
-        AccessSection all =
-            config.getAccessSection(AccessSection.ALL, true);
+        AccessSection all = config.getAccessSection(AccessSection.ALL, true);
         for (AccountGroup.UUID ownerId : args.ownerIds) {
           GroupDescription.Basic g = groupBackend.get(ownerId);
           if (g != null) {
             GroupReference group = config.resolve(GroupReference.forGroup(g));
-            all.getPermission(Permission.OWNER, true).add(
-                new PermissionRule(group));
+            all.getPermission(Permission.OWNER, true).add(new PermissionRule(group));
           }
         }
       }
@@ -309,12 +296,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       config.commit(md);
     }
     projectCache.onCreateProject(args.getProject());
-    repoManager.setProjectDescription(args.getProject(),
-        args.projectDescription);
+    repoManager.setProjectDescription(args.getProject(), args.projectDescription);
   }
 
-  private List<String> normalizeBranchNames(List<String> branches)
-      throws BadRequestException {
+  private List<String> normalizeBranchNames(List<String> branches) throws BadRequestException {
     if (branches == null || branches.isEmpty()) {
       return Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
     }
@@ -326,8 +311,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
       branch = RefNames.fullName(branch);
       if (!Repository.isValidRefName(branch)) {
-        throw new BadRequestException(String.format(
-            "Branch \"%s\" is not a valid name.", branch));
+        throw new BadRequestException(String.format("Branch \"%s\" is not a valid name.", branch));
       }
       if (!normalizedBranches.contains(branch)) {
         normalizedBranches.add(branch);
@@ -336,8 +320,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     return normalizedBranches;
   }
 
-  private void createEmptyCommits(Repository repo, Project.NameKey project,
-      List<String> refs) throws IOException {
+  private void createEmptyCommits(Repository repo, Project.NameKey project, List<String> refs)
+      throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
@@ -354,8 +338,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         Result result = ru.update();
         switch (result) {
           case NEW:
-            referenceUpdated.fire(project, ru, ReceiveCommand.Type.CREATE,
-                identifiedUser.get().getAccount());
+            referenceUpdated.fire(
+                project, ru, ReceiveCommand.Type.CREATE, identifiedUser.get().getAccount());
             break;
           case FAST_FORWARD:
           case FORCED:
@@ -366,16 +350,15 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
-          default: {
-            throw new IOException(String.format(
-              "Failed to create ref \"%s\": %s", ref, result.name()));
-          }
+          default:
+            {
+              throw new IOException(
+                  String.format("Failed to create ref \"%s\": %s", ref, result.name()));
+            }
         }
       }
     } catch (IOException e) {
-      log.error(
-          "Cannot create empty commit for "
-              + project.get(), e);
+      log.error("Cannot create empty commit for " + project.get(), e);
       throw e;
     }
   }
@@ -395,8 +378,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     }
   }
 
-  static class Event extends AbstractNoNotifyEvent
-      implements NewProjectCreatedListener.Event {
+  static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {
     private final Project.NameKey name;
     private final String head;
 

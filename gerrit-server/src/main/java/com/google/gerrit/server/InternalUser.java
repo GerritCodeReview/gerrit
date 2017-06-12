@@ -21,11 +21,10 @@ import com.google.inject.Inject;
 
 /**
  * User identity for plugin code that needs an identity.
- * <p>
- * An InternalUser has no real identity, it acts as the server and can access
- * anything it wants, anytime it wants, given the JVM's own direct access to
- * data. Plugins may use this when they need to have a CurrentUser with read
- * permission on anything.
+ *
+ * <p>An InternalUser has no real identity, it acts as the server and can access anything it wants,
+ * anytime it wants, given the JVM's own direct access to data. Plugins may use this when they need
+ * to have a CurrentUser with read permission on anything.
  *
  * @see PluginUser
  */

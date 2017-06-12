@@ -19,7 +19,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,8 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
 class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
   private final TypeLiteral<T> type;
 
-  @Inject
-  private Injector injector;
+  @Inject private Injector injector;
 
   DynamicSetProvider(TypeLiteral<T> type) {
     this.type = type;
@@ -40,9 +38,7 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     return new DynamicSet<>(find(injector, type));
   }
 
-  private static <T> List<AtomicReference<Provider<T>>> find(
-      Injector src,
-      TypeLiteral<T> type) {
+  private static <T> List<AtomicReference<Provider<T>>> find(Injector src, TypeLiteral<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(type);
     int cnt = bindings != null ? bindings.size() : 0;
     if (cnt == 0) {

@@ -19,9 +19,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import java.util.Collections;
+import org.junit.Test;
 
 public class FieldPredicateTest extends PredicateTest {
   @Test
@@ -58,7 +57,7 @@ public class FieldPredicateTest extends PredicateTest {
   @Test
   public void testCopy() {
     final OperatorPredicate<String> f = f("author", "alice");
-    assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));
+    assertSame(f, f.copy(Collections.<Predicate<String>>emptyList()));
     assertSame(f, f.copy(f.getChildren()));
 
     exception.expect(IllegalArgumentException.class);

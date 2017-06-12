@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
-
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
@@ -29,15 +28,13 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
 /**
- * Given a regular expression, checks it against the file list in the most
- * recent patchset of a change. For all files that match the regex, returns the
- * (new) path of the file, the change type, and the old path of the file if
- * applicable (if the file was copied or renamed).
+ * Given a regular expression, checks it against the file list in the most recent patchset of a
+ * change. For all files that match the regex, returns the (new) path of the file, the change type,
+ * and the old path of the file if applicable (if the file was copied or renamed).
  *
  * <pre>
  *   'commit_delta'(+Regex, -ChangeType, -NewPath, -OldPath)
@@ -96,10 +93,9 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
       Term a4 = engine.r4;
       Term a5 = engine.r5;
 
-      Pattern regex = (Pattern)((JavaObjectTerm)a1).object();
+      Pattern regex = (Pattern) ((JavaObjectTerm) a1).object();
       @SuppressWarnings("unchecked")
-      Iterator<PatchListEntry> iter =
-        (Iterator<PatchListEntry>)((JavaObjectTerm)a5).object();
+      Iterator<PatchListEntry> iter = (Iterator<PatchListEntry>) ((JavaObjectTerm) a5).object();
       while (iter.hasNext()) {
         PatchListEntry patch = iter.next();
         String newName = patch.getNewName();
@@ -110,8 +106,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
           continue;
         }
 
-        if (regex.matcher(newName).find() ||
-            (oldName != null && regex.matcher(oldName).find())) {
+        if (regex.matcher(newName).find() || (oldName != null && regex.matcher(oldName).find())) {
           SymbolTerm changeSym = getTypeSymbol(changeType);
           SymbolTerm newSym = SymbolTerm.create(newName);
           SymbolTerm oldSym = Prolog.Nil;
@@ -148,8 +143,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
       Term a5 = engine.r5;
 
       @SuppressWarnings("unchecked")
-      Iterator<PatchListEntry> iter =
-        (Iterator<PatchListEntry>)((JavaObjectTerm)a5).object();
+      Iterator<PatchListEntry> iter = (Iterator<PatchListEntry>) ((JavaObjectTerm) a5).object();
       if (!iter.hasNext()) {
         return engine.fail();
       }

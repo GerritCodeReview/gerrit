@@ -18,21 +18,20 @@ import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-
 import java.util.concurrent.Callable;
 
 /**
- * {@link RequestScopePropagator} implementation for request scopes based on
- * a {@link ThreadLocal} context.
+ * {@link RequestScopePropagator} implementation for request scopes based on a {@link ThreadLocal}
+ * context.
  *
  * @param <C> "context" type stored in the {@link ThreadLocal}.
  */
-public abstract class ThreadLocalRequestScopePropagator<C>
-    extends RequestScopePropagator {
+public abstract class ThreadLocalRequestScopePropagator<C> extends RequestScopePropagator {
 
   private final ThreadLocal<C> threadLocal;
 
-  protected ThreadLocalRequestScopePropagator(Scope scope,
+  protected ThreadLocalRequestScopePropagator(
+      Scope scope,
       ThreadLocal<C> threadLocal,
       ThreadLocalRequestContext local,
       Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
@@ -40,9 +39,7 @@ public abstract class ThreadLocalRequestScopePropagator<C>
     this.threadLocal = threadLocal;
   }
 
-  /**
-   * @see RequestScopePropagator#wrap(Callable)
-   */
+  /** @see RequestScopePropagator#wrap(Callable) */
   @Override
   protected final <T> Callable<T> wrapImpl(final Callable<T> callable) {
     final C ctx = continuingContext(requireContext());
@@ -73,15 +70,13 @@ public abstract class ThreadLocalRequestScopePropagator<C>
   }
 
   /**
-   * Returns a new context object based on the passed in context that has no
-   * request scoped objects initialized.
-   * <p>
-   * Note that some code paths expect request-scoped objects like
-   * {@code CurrentUser} to be constructible starting from just the context
-   * object returned by this method. For example, in the SSH scope, the context
-   * includes the {@code SshSession}, which is used by
-   * {@code SshCurrentUserProvider} to construct a new {@code CurrentUser} in
-   * the new thread.
+   * Returns a new context object based on the passed in context that has no request scoped objects
+   * initialized.
+   *
+   * <p>Note that some code paths expect request-scoped objects like {@code CurrentUser} to be
+   * constructible starting from just the context object returned by this method. For example, in
+   * the SSH scope, the context includes the {@code SshSession}, which is used by {@code
+   * SshCurrentUserProvider} to construct a new {@code CurrentUser} in the new thread.
    *
    * @param ctx the context to continue.
    * @return a new context.

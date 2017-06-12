@@ -21,13 +21,11 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
   /**
    * Get the description of the action customized for the resource.
    *
-   * @param resource the resource the view would act upon if the action is
-   *        invoked by the client. Information from the resource can be used to
-   *        customize the description.
-   * @return a description of the action. The server will populate the
-   *         {@code id} and {@code method} properties. If null the action will
-   *         assumed unavailable and not presented. This is usually the same as
-   *         {@code setVisible(false)}.
+   * @param resource the resource the view would act upon if the action is invoked by the client.
+   *     Information from the resource can be used to customize the description.
+   * @return a description of the action. The server will populate the {@code id} and {@code method}
+   *     properties. If null the action will assumed unavailable and not presented. This is usually
+   *     the same as {@code setVisible(false)}.
    */
   Description getDescription(R resource);
 
@@ -83,8 +81,8 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     /**
-     * Set if the action's button is visible on screen for the current client.
-     * If not visible the action description may not be sent to the client.
+     * Set if the action's button is visible on screen for the current client. If not visible the
+     * action description may not be sent to the client.
      */
     public Description setVisible(boolean visible) {
       this.visible = visible;

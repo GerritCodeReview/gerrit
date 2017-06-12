@@ -34,14 +34,8 @@ import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Locale;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -51,22 +45,23 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Authenticates the current user by HTTP basic authentication.
- * <p>
- * The current HTTP request is authenticated by looking up the username and
- * password from the Base64 encoded Authorization header and validating them
- * against any username/password configured authentication system in Gerrit.
- * This filter is intended only to protect the {@link GitOverHttpServlet} and
- * its handled URLs, which provide remote repository access over HTTP.
+ *
+ * <p>The current HTTP request is authenticated by looking up the username and password from the
+ * Base64 encoded Authorization header and validating them against any username/password configured
+ * authentication system in Gerrit. This filter is intended only to protect the {@link
+ * GitOverHttpServlet} and its handled URLs, which provide remote repository access over HTTP.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>
  */
 @Singleton
 class ProjectBasicAuthFilter implements Filter {
-  private static final Logger log = LoggerFactory
-      .getLogger(ProjectBasicAuthFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectBasicAuthFilter.class);
 
   public static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
@@ -78,8 +73,10 @@ class ProjectBasicAuthFilter implements Filter {
   private final AuthConfig authConfig;
 
   @Inject
-  ProjectBasicAuthFilter(DynamicItem<WebSession> session,
-      AccountCache accountCache, AccountManager accountManager,
+  ProjectBasicAuthFilter(
+      DynamicItem<WebSession> session,
+      AccountCache accountCache,
+      AccountManager accountManager,
       AuthConfig authConfig) {
     this.session = session;
     this.accountCache = accountCache;
@@ -88,16 +85,14 @@ class ProjectBasicAuthFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig config) {
-  }
+  public void init(FilterConfig config) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     Response rsp = new Response((HttpServletResponse) response);
 
@@ -106,8 +101,7 @@ class ProjectBasicAuthFilter implements Filter {
     }
   }
 
-  private boolean verify(HttpServletRequest req, Response rsp)
-      throws IOException {
+  private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
     if (hdr == null || !hdr.startsWith(LIT_BASIC)) {
       // Allow an anonymous connection through, or it might be using a
@@ -115,8 +109,7 @@ class ProjectBasicAuthFilter implements Filter {
       return true;
     }
 
-    final byte[] decoded =
-        Base64.decodeBase64(hdr.substring(LIT_BASIC.length()));
+    final byte[] decoded = Base64.decodeBase64(hdr.substring(LIT_BASIC.length()));
     String usernamePassword = new String(decoded, encoding(req));
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1) {
@@ -136,8 +129,10 @@ class ProjectBasicAuthFilter implements Filter {
 
     final AccountState who = accountCache.getByUsername(username);
     if (who == null || !who.getAccount().isActive()) {
-      log.warn("Authentication failed for " + username
-          + ": account inactive or not provisioned in Gerrit");
+      log.warn(
+          "Authentication failed for "
+              + username
+              + ": account inactive or not provisioned in Gerrit");
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -184,10 +179,10 @@ class ProjectBasicAuthFilter implements Filter {
     return true;
   }
 
-  private boolean failAuthentication(Response rsp, String username)
-      throws IOException {
-    log.warn("Authentication failed for {}: password does not match the one"
-        + " stored in Gerrit", username);
+  private boolean failAuthentication(Response rsp, String username) throws IOException {
+    log.warn(
+        "Authentication failed for {}: password does not match the one" + " stored in Gerrit",
+        username);
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
   }
@@ -199,11 +194,10 @@ class ProjectBasicAuthFilter implements Filter {
     ws.setAccessPathOk(AccessPath.REST_API, true);
   }
 
-  private boolean passwordMatchesTheUserGeneratedOne(AccountState who,
-      String username, String password) {
+  private boolean passwordMatchesTheUserGeneratedOne(
+      AccountState who, String username, String password) {
     String accountPassword = who.getPassword(username);
-    return accountPassword != null && password != null
-        && accountPassword.equals(password);
+    return accountPassword != null && password != null && accountPassword.equals(password);
   }
 
   private String encoding(HttpServletRequest req) {

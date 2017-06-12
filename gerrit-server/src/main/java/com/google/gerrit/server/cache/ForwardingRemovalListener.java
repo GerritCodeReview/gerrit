@@ -22,8 +22,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * This listener dispatches removal events to all other RemovalListeners
- * attached via the DynamicSet API.
+ * This listener dispatches removal events to all other RemovalListeners attached via the DynamicSet
+ * API.
  *
  * @param <K>
  * @param <V>
@@ -39,8 +39,8 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
   private String pluginName = "gerrit";
 
   @Inject
-  ForwardingRemovalListener(DynamicSet<CacheRemovalListener> listeners,
-      @Assisted String cacheName) {
+  ForwardingRemovalListener(
+      DynamicSet<CacheRemovalListener> listeners, @Assisted String cacheName) {
     this.listeners = listeners;
     this.cacheName = cacheName;
   }

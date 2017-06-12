@@ -25,23 +25,20 @@ import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
-  private static final Logger log =
-      LoggerFactory.getLogger(CreateChangeSender.class);
+  private static final Logger log = LoggerFactory.getLogger(CreateChangeSender.class);
 
   public interface Factory {
     CreateChangeSender create(Project.NameKey project, Change.Id id);
   }
 
   @Inject
-  public CreateChangeSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  public CreateChangeSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, newChangeData(ea, project, id));
   }
@@ -54,10 +51,8 @@ public class CreateChangeSender extends NewChangeSender {
       try {
         // Try to mark interested owners with TO and CC or BCC line.
         Watchers matching = getWatchers(NotifyType.NEW_CHANGES);
-        for (Account.Id user : Iterables.concat(
-            matching.to.accounts,
-            matching.cc.accounts,
-            matching.bcc.accounts)) {
+        for (Account.Id user :
+            Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
           if (isOwnerOfProjectOrBranch(user)) {
             add(RecipientType.TO, user);
           }
@@ -80,8 +75,9 @@ public class CreateChangeSender extends NewChangeSender {
 
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {
     return projectState != null
-        && projectState.controlFor(args.identifiedUserFactory.create(user))
-          .controlForRef(change.getDest())
-          .isOwner();
+        && projectState
+            .controlFor(args.identifiedUserFactory.create(user))
+            .controlForRef(change.getDest())
+            .isOwner();
   }
 }

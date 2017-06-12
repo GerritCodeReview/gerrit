@@ -19,7 +19,6 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,11 +38,12 @@ public class DownloadInfo extends JavaScriptObject {
   }
 
   public final native DownloadSchemeInfo scheme(String n) /*-{ return this.schemes[n]; }-*/;
+
   private native NativeMap<DownloadSchemeInfo> _schemes() /*-{ return this.schemes; }-*/;
+
   private native JsArrayString _archives() /*-{ return this.archives; }-*/;
 
-  protected DownloadInfo() {
-  }
+  protected DownloadInfo() {}
 
   public static class DownloadSchemeInfo extends JavaScriptObject {
     public final List<String> commandNames() {
@@ -53,8 +53,7 @@ public class DownloadInfo extends JavaScriptObject {
     public final Set<DownloadCommandInfo> commands(String project) {
       Set<DownloadCommandInfo> commands = new HashSet<>();
       for (String commandName : commandNames()) {
-        commands.add(new DownloadCommandInfo(commandName, command(commandName,
-            project)));
+        commands.add(new DownloadCommandInfo(commandName, command(commandName, project)));
       }
       return commands;
     }
@@ -75,14 +74,14 @@ public class DownloadInfo extends JavaScriptObject {
       List<String> commandNames = cloneCommandNames();
       List<DownloadCommandInfo> commands = new ArrayList<>(commandNames.size());
       for (String commandName : commandNames) {
-        commands.add(new DownloadCommandInfo(commandName, cloneCommand(
-            commandName, project)));
+        commands.add(new DownloadCommandInfo(commandName, cloneCommand(commandName, project)));
       }
       return commands;
     }
 
     public final String cloneCommand(String commandName, String project) {
-      return cloneCommand(commandName).replaceAll("\\$\\{project\\}", project)
+      return cloneCommand(commandName)
+          .replaceAll("\\$\\{project\\}", project)
           .replaceAll("\\$\\{project-base-name\\}", projectBaseName(project));
     }
 
@@ -91,16 +90,22 @@ public class DownloadInfo extends JavaScriptObject {
     }
 
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native String url() /*-{ return this.url; }-*/;
+
     public final native boolean isAuthRequired() /*-{ return this.is_auth_required || false; }-*/;
+
     public final native boolean isAuthSupported() /*-{ return this.is_auth_supported || false; }-*/;
+
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
+
     public final native String cloneCommand(String n) /*-{ return this.clone_commands[n]; }-*/;
+
     private native NativeMap<NativeString> _commands() /*-{ return this.commands; }-*/;
+
     private native NativeMap<NativeString> _cloneCommands() /*-{ return this.clone_commands; }-*/;
 
-    protected DownloadSchemeInfo() {
-    }
+    protected DownloadSchemeInfo() {}
   }
 
   public static class DownloadCommandInfo {

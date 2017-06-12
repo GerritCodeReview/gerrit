@@ -17,12 +17,10 @@ package com.google.gerrit.server;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 import java.net.SocketAddress;
 
 /** Marker on a {@link SocketAddress} pointing to the remote client. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface RemotePeer {
-}
+public @interface RemotePeer {}

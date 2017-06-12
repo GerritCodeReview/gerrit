@@ -28,7 +28,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.testutil.TestTimeUtil;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -245,48 +244,37 @@ public class HashtagsIT extends AbstractDaemonTest {
     assertMessage(r, "Hashtag added: MyHashtag");
   }
 
-  private IterableSubject assertThatGet(PushOneCommit.Result r)
-      throws Exception {
-    return assertThat(gApi.changes()
-        .id(r.getChange().getId().get())
-        .getHashtags());
+  private IterableSubject assertThatGet(PushOneCommit.Result r) throws Exception {
+    return assertThat(gApi.changes().id(r.getChange().getId().get()).getHashtags());
   }
 
-  private void addHashtags(PushOneCommit.Result r, String... toAdd)
-      throws Exception {
+  private void addHashtags(PushOneCommit.Result r, String... toAdd) throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.add = Sets.newHashSet(toAdd);
-    gApi.changes()
-        .id(r.getChange().getId().get())
-        .setHashtags(input);
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
   }
 
-  private void removeHashtags(PushOneCommit.Result r, String... toRemove)
-      throws Exception {
+  private void removeHashtags(PushOneCommit.Result r, String... toRemove) throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.remove = Sets.newHashSet(toRemove);
-    gApi.changes()
-        .id(r.getChange().getId().get())
-        .setHashtags(input);
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
   }
 
-  private void assertMessage(PushOneCommit.Result r, String expectedMessage)
-      throws Exception {
+  private void assertMessage(PushOneCommit.Result r, String expectedMessage) throws Exception {
     assertThat(getLastMessage(r).message).isEqualTo(expectedMessage);
   }
 
-  private void assertNoNewMessageSince(PushOneCommit.Result r,
-      ChangeMessageInfo expected) throws Exception {
+  private void assertNoNewMessageSince(PushOneCommit.Result r, ChangeMessageInfo expected)
+      throws Exception {
     checkNotNull(expected);
     ChangeMessageInfo last = getLastMessage(r);
     assertThat(last.message).isEqualTo(expected.message);
     assertThat(last.id).isEqualTo(expected.id);
   }
 
-  private ChangeMessageInfo getLastMessage(PushOneCommit.Result r)
-      throws Exception {
-    ChangeMessageInfo lastMessage = Iterables.getLast(
-        gApi.changes().id(r.getChange().getId().get()).get().messages, null);
+  private ChangeMessageInfo getLastMessage(PushOneCommit.Result r) throws Exception {
+    ChangeMessageInfo lastMessage =
+        Iterables.getLast(gApi.changes().id(r.getChange().getId().get()).get().messages, null);
     assertThat(lastMessage).named(lastMessage.message).isNotNull();
     return lastMessage;
   }

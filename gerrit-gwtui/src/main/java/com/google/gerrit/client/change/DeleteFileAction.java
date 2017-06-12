@@ -31,8 +31,8 @@ class DeleteFileAction {
   private DeleteFileBox deleteBox;
   private PopupPanel popup;
 
-  DeleteFileAction(Change.Id changeId, RevisionInfo revision,
-      ChangeScreen.Style style, Widget deleteButton) {
+  DeleteFileAction(
+      Change.Id changeId, RevisionInfo revision, ChangeScreen.Style style, Widget deleteButton) {
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;
@@ -53,14 +53,15 @@ class DeleteFileAction {
     final PopupPanel p = new PopupPanel(true);
     p.setStyleName(style.replyBox());
     p.addAutoHidePartner(deleteButton.getElement());
-    p.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        if (popup == p) {
-          popup = null;
-        }
-      }
-    });
+    p.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            if (popup == p) {
+              popup = null;
+            }
+          }
+        });
     p.add(deleteBox);
     p.showRelativeTo(deleteButton);
     GlobalKey.dialog(p);

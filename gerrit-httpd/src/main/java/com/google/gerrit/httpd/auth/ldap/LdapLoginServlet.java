@@ -34,26 +34,22 @@ import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /** Handles username/password based authentication against the directory. */
 @SuppressWarnings("serial")
 @Singleton
 class LdapLoginServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory
-      .getLogger(LdapLoginServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(LdapLoginServlet.class);
 
   private final AccountManager accountManager;
   private final DynamicItem<WebSession> webSession;
@@ -61,7 +57,8 @@ class LdapLoginServlet extends HttpServlet {
   private final SiteHeaderFooter headers;
 
   @Inject
-  LdapLoginServlet(AccountManager accountManager,
+  LdapLoginServlet(
+      AccountManager accountManager,
       DynamicItem<WebSession> webSession,
       CanonicalWebUrl urlProvider,
       SiteHeaderFooter headers) {
@@ -71,8 +68,9 @@ class LdapLoginServlet extends HttpServlet {
     this.headers = headers;
   }
 
-  private void sendForm(HttpServletRequest req, HttpServletResponse res,
-      @Nullable String errorMessage) throws IOException {
+  private void sendForm(
+      HttpServletRequest req, HttpServletResponse res, @Nullable String errorMessage)
+      throws IOException {
     String self = req.getRequestURI();
     String cancel = MoreObjects.firstNonNull(urlProvider.get(req), "/");
     cancel += LoginUrlToken.getToken(req);
@@ -100,8 +98,7 @@ class LdapLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     sendForm(req, res, null);
   }
 

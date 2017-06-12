@@ -21,10 +21,10 @@ import com.google.inject.Provider;
 
 /**
  * Pulls objects from the SSH injector over the HTTP injector.
- * <p>
- * This mess is only necessary because we build up two different injectors, in
- * order to have different request scopes. But some HTTP RPCs can cause changes
- * to the SSH side of the house, and thus needs access to it.
+ *
+ * <p>This mess is only necessary because we build up two different injectors, in order to have
+ * different request scopes. But some HTTP RPCs can cause changes to the SSH side of the house, and
+ * thus needs access to it.
  */
 public class WebSshGlueModule extends AbstractModule {
   private final Provider<SshInfo> sshInfoProvider;

@@ -16,33 +16,26 @@ package com.google.gerrit.rules;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.registration.DynamicSet;
-
 import java.util.Collection;
 
-/**
- * Loads the classes for Prolog predicates.
- */
+/** Loads the classes for Prolog predicates. */
 public class PredicateClassLoader extends ClassLoader {
 
-  private final Multimap<String, ClassLoader> packageClassLoaderMap =
-      LinkedHashMultimap.create();
+  private final Multimap<String, ClassLoader> packageClassLoaderMap = LinkedHashMultimap.create();
 
   public PredicateClassLoader(
-      final DynamicSet<PredicateProvider> predicateProviders,
-      final ClassLoader parent) {
+      final DynamicSet<PredicateProvider> predicateProviders, final ClassLoader parent) {
     super(parent);
 
     for (PredicateProvider predicateProvider : predicateProviders) {
       for (String pkg : predicateProvider.getPackages()) {
-        packageClassLoaderMap.put(pkg, predicateProvider.getClass()
-            .getClassLoader());
+        packageClassLoaderMap.put(pkg, predicateProvider.getClass().getClassLoader());
       }
     }
   }
 
   @Override
-  protected Class<?> findClass(final String className)
-      throws ClassNotFoundException {
+  protected Class<?> findClass(final String className) throws ClassNotFoundException {
     final Collection<ClassLoader> classLoaders =
         packageClassLoaderMap.get(getPackageName(className));
     for (final ClassLoader cl : classLoaders) {

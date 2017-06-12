@@ -18,13 +18,11 @@ import com.google.gerrit.client.AccountFormatter;
 import com.google.gerrit.client.DateFormatter;
 import com.google.gerrit.client.RelativeDateFormatter;
 import com.google.gerrit.client.info.AccountInfo;
-
 import java.util.Date;
 
 public class FormatUtil {
   private static final AccountFormatter accountFormatter =
-      new AccountFormatter(Plugin.get().getServerInfo().user()
-          .anonymousCowardName());
+      new AccountFormatter(Plugin.get().getServerInfo().user().anonymousCowardName());
 
   /** Format a date using a really short format. */
   public static String shortFormat(Date dt) {
@@ -52,13 +50,14 @@ public class FormatUtil {
 
   /**
    * Formats an account as a name and an email address.
-   * <p>
-   * Example output:
+   *
+   * <p>Example output:
+   *
    * <ul>
-   * <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated</li>
-   * <li>{@code A U. Thor (12)}: missing email address</li>
-   * <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name</li>
-   * <li>{@code Anonymous Coward (12)}: missing name and email address</li>
+   *   <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated
+   *   <li>{@code A U. Thor (12)}: missing email address
+   *   <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name
+   *   <li>{@code Anonymous Coward (12)}: missing name and email address
    * </ul>
    */
   public static String nameEmail(AccountInfo info) {
@@ -67,9 +66,9 @@ public class FormatUtil {
 
   /**
    * Formats an account name.
-   * <p>
-   * If the account has a full name, it returns only the full name. Otherwise it
-   * returns a longer form that includes the email address.
+   *
+   * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
+   * form that includes the email address.
    */
   public static String name(AccountInfo info) {
     return accountFormatter.name(info);

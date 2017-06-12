@@ -19,15 +19,21 @@ import com.google.gwt.core.client.JsArrayString;
 
 public class GpgKeyInfo extends JavaScriptObject {
   public enum Status {
-    BAD, OK, TRUSTED;
+    BAD,
+    OK,
+    TRUSTED;
   }
 
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String fingerprint() /*-{ return this.fingerprint; }-*/;
+
   public final native JsArrayString userIds() /*-{ return this.user_ids; }-*/;
+
   public final native String key() /*-{ return this.key; }-*/;
 
   private native String statusRaw() /*-{ return this.status; }-*/;
+
   public final Status status() {
     String s = statusRaw();
     if (s == null) {
@@ -36,10 +42,9 @@ public class GpgKeyInfo extends JavaScriptObject {
     return Status.valueOf(s);
   }
 
-  public final native boolean hasProblems()
-  /*-{ return this.hasOwnProperty('problems'); }-*/;
+  public final native boolean hasProblems()/*-{ return this.hasOwnProperty('problems'); }-*/ ;
+
   public final native JsArrayString problems() /*-{ return this.problems; }-*/;
 
-  protected GpgKeyInfo() {
-  }
+  protected GpgKeyInfo() {}
 }

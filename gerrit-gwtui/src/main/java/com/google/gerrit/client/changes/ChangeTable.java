@@ -44,7 +44,6 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -56,8 +55,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   // If changing default options, also update in
   // ChangeIT#defaultSearchDoesNotTouchDatabase().
   static final Set<ListChangesOption> OPTIONS =
-      Collections.unmodifiableSet(EnumSet.of(
-          ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS));
+      Collections.unmodifiableSet(
+          EnumSet.of(ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS));
 
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
@@ -112,24 +111,25 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       fmt.addStyleName(0, C_ASSIGNEE, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
 
-    table.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final Cell cell = table.getCellForEvent(event);
-        if (cell == null) {
-          return;
-        }
-        if (cell.getCellIndex() == C_STAR) {
-          // Don't do anything (handled by star itself).
-        } else if (cell.getCellIndex() == C_STATUS) {
-          // Don't do anything.
-        } else if (cell.getCellIndex() == C_OWNER) {
-          // Don't do anything.
-        } else if (getRowItem(cell.getRowIndex()) != null) {
-          movePointerTo(cell.getRowIndex());
-        }
-      }
-    });
+    table.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            final Cell cell = table.getCellForEvent(event);
+            if (cell == null) {
+              return;
+            }
+            if (cell.getCellIndex() == C_STAR) {
+              // Don't do anything (handled by star itself).
+            } else if (cell.getCellIndex() == C_STATUS) {
+              // Don't do anything.
+            } else if (cell.getCellIndex() == C_OWNER) {
+              // Don't do anything.
+            } else if (getRowItem(cell.getRowIndex()) != null) {
+              movePointerTo(cell.getRowIndex());
+            }
+          }
+        });
   }
 
   @Override
@@ -171,8 +171,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
-    fmt.addStyleName(row, C_ASSIGNEE,
-        showAssignee ? Gerrit.RESOURCES.css().cASSIGNEE()
+    fmt.addStyleName(
+        row,
+        C_ASSIGNEE,
+        showAssignee
+            ? Gerrit.RESOURCES.css().cASSIGNEE()
             : Gerrit.RESOURCES.css().dataCellHidden());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
     fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
@@ -222,13 +225,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void populateChangeRow(final int row, final ChangeInfo c,
-      boolean highlightUnreviewed) {
+  private void populateChangeRow(final int row, final ChangeInfo c, boolean highlightUnreviewed) {
     CellFormatter fmt = table.getCellFormatter();
     if (Gerrit.isSignedIn()) {
-      table.setWidget(row, C_STAR, StarredChanges.createIcon(
-          c.legacyId(),
-          c.starred()));
+      table.setWidget(row, C_STAR, StarredChanges.createIcon(c.legacyId(), c.starred()));
     }
     table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacyId()), c));
 
@@ -243,21 +243,17 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     if (c.owner() != null) {
-      table.setWidget(row, C_OWNER,
-          AccountLinkPanel.withStatus(c.owner(), status));
+      table.setWidget(row, C_OWNER, AccountLinkPanel.withStatus(c.owner(), status));
     } else {
       table.setText(row, C_OWNER, "");
     }
 
     if (showAssignee) {
       if (c.assignee() != null) {
-        table.setWidget(row, C_ASSIGNEE,
-            AccountLinkPanel.forAssignee(c.assignee()));
+        table.setWidget(row, C_ASSIGNEE, AccountLinkPanel.forAssignee(c.assignee()));
         if (Gerrit.getUserPreferences().highlightAssigneeInChangeTable()
-            && Objects.equals(c.assignee().getId(),
-                Gerrit.getUserAccount().getId())) {
-          table.getRowFormatter().addStyleName(row,
-              Gerrit.RESOURCES.css().cASSIGNEDTOME());
+            && Objects.equals(c.assignee().getId(), Gerrit.getUserAccount().getId())) {
+          table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().cASSIGNEDTOME());
         }
       } else {
         table.setText(row, C_ASSIGNEE, "");
@@ -265,9 +261,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));
-    table.setWidget(row, C_BRANCH,
-        new BranchLink(c.projectNameKey(), c
-        .status(), c.branch(), c.topic()));
+    table.setWidget(
+        row, C_BRANCH, new BranchLink(c.projectNameKey(), c.status(), c.branch(), c.topic()));
     if (Gerrit.getUserPreferences().relativeDateInChangeTable()) {
       table.setText(row, C_LAST_UPDATE, relativeFormat(c.updated()));
     } else {
@@ -276,12 +271,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     int col = C_SIZE;
     if (!Gerrit.getUserPreferences().sizeBarInChangeTable()) {
-      table.setText(row, col,
-          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+      table.setText(row, col, Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     } else {
       table.setWidget(row, col, getSizeWidget(c));
-      fmt.getElement(row, col).setTitle(
-          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+      fmt.getElement(row, col)
+          .setTitle(Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     }
     col++;
 
@@ -301,8 +295,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           Gerrit.getUserPreferences().reviewCategoryStrategy();
       if (label.rejected() != null) {
         user = label.rejected().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.rejected());
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy, label.rejected());
         if (info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
@@ -313,8 +306,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         }
       } else if (label.approved() != null) {
         user = label.approved().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.approved());
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy, label.approved());
         if (info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
@@ -325,8 +317,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         }
       } else if (label.disliked() != null) {
         user = label.disliked().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.disliked());
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy, label.disliked());
         String vstr = String.valueOf(label._value());
         if (info != null) {
           vstr = vstr + " " + info;
@@ -335,8 +326,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         table.setText(row, col, vstr);
       } else if (label.recommended() != null) {
         user = label.recommended().name();
-        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
-            label.recommended());
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy, label.recommended());
         String vstr = "+" + label._value();
         if (info != null) {
           vstr = vstr + " " + info;
@@ -361,8 +351,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       needHighlight = true;
     }
     final Element tr = fmt.getElement(row, 0).getParentElement();
-    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(),
-        needHighlight);
+    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(), needHighlight);
 
     setRowItem(row, c);
   }
@@ -551,8 +540,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         rows++;
       }
       for (int i = 0; i < sz; i++) {
-        parent.populateChangeRow(dataBegin + i, changeList.get(i),
-            highlightUnreviewed);
+        parent.populateChangeRow(dataBegin + i, changeList.get(i), highlightUnreviewed);
       }
     }
   }

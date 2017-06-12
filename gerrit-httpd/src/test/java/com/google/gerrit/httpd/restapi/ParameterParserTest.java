@@ -22,19 +22,19 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
 import org.junit.Test;
 
 public class ParameterParserTest {
   @Test
   public void testConvertFormToJson() throws BadRequestException {
-    JsonObject obj = ParameterParser.formToJson(
-        ImmutableMap.of(
-            "message", new String[]{"this.is.text"},
-            "labels.Verified", new String[]{"-1"},
-            "labels.Code-Review", new String[]{"2"},
-            "a_list", new String[]{"a", "b"}),
-        ImmutableSet.of("q"));
+    JsonObject obj =
+        ParameterParser.formToJson(
+            ImmutableMap.of(
+                "message", new String[] {"this.is.text"},
+                "labels.Verified", new String[] {"-1"},
+                "labels.Code-Review", new String[] {"2"},
+                "a_list", new String[] {"a", "b"}),
+            ImmutableSet.of("q"));
 
     JsonObject labels = new JsonObject();
     labels.addProperty("Verified", "-1");

@@ -21,7 +21,9 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,13 +31,12 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.helpers.Loader;
 import org.kohsuke.args4j.Argument;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "set-level", description = "Change the level of loggers",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "set-level",
+  description = "Change the level of loggers",
+  runsAt = MASTER_OR_SLAVE
+)
 public class SetLoggingLevelCommand extends SshCommand {
   private static final String LOG_CONFIGURATION = "log4j.properties";
   private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
@@ -64,8 +65,9 @@ public class SetLoggingLevelCommand extends SshCommand {
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger
-          .hasMoreElements();) {
+      for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
+          logger.hasMoreElements();
+          ) {
         Logger log = logger.nextElement();
         if (name == null || log.getName().contains(name)) {
           log.setLevel(Level.toLevel(level.name()));
@@ -76,8 +78,7 @@ public class SetLoggingLevelCommand extends SshCommand {
 
   @SuppressWarnings("unchecked")
   private static void reset() throws MalformedURLException {
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
-        logger.hasMoreElements();) {
+    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
       logger.nextElement().setLevel(null);
     }
 

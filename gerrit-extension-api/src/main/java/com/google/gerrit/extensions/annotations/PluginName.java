@@ -17,16 +17,15 @@ package com.google.gerrit.extensions.annotations;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
  * Annotation applied to a String containing the plugin or extension name.
- * <p>
- * A plugin or extension may receive this string by Guice injection to discover
- * the name that an administrator has installed the plugin or extension under:
+ *
+ * <p>A plugin or extension may receive this string by Guice injection to discover the name that an
+ * administrator has installed the plugin or extension under:
  *
  * <pre>
  *  {@literal @Inject}
@@ -38,5 +37,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface PluginName {
-}
+public @interface PluginName {}

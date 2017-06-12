@@ -35,38 +35,32 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * 'authorized_keys' file in the refs/users/CD/ABCD branches of the All-Users
- * repository.
+ * 'authorized_keys' file in the refs/users/CD/ABCD branches of the All-Users repository.
  *
- * The `authorized_keys' files stores the public SSH keys of the user. The file
- * format matches the standard SSH file format, which means that each key is
- * stored on a separate line (see
+ * <p>The `authorized_keys' files stores the public SSH keys of the user. The file format matches
+ * the standard SSH file format, which means that each key is stored on a separate line (see
  * https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys).
  *
- * The order of the keys in the file determines the sequence numbers of the
- * keys. The first line corresponds to sequence number 1.
+ * <p>The order of the keys in the file determines the sequence numbers of the keys. The first line
+ * corresponds to sequence number 1.
  *
- * Invalid keys are marked with the prefix <code># INVALID</code>.
+ * <p>Invalid keys are marked with the prefix <code># INVALID</code>.
  *
- * To keep the sequence numbers intact when a key is deleted, a
- * <code># DELETED</code> line is inserted at the position where the key was
- * deleted.
+ * <p>To keep the sequence numbers intact when a key is deleted, a <code># DELETED</code> line is
+ * inserted at the position where the key was deleted.
  *
- * Other comment lines are ignored on read, and are not written back when the
- * file is modified.
+ * <p>Other comment lines are ignored on read, and are not written back when the file is modified.
  */
 public class VersionedAuthorizedKeys extends VersionedMetaData {
   @Singleton
@@ -128,17 +122,17 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     private VersionedAuthorizedKeys read(Account.Id accountId)
         throws IOException, ConfigInvalidException {
       try (Repository git = repoManager.openRepository(allUsersName)) {
-        VersionedAuthorizedKeys authorizedKeys =
-            authorizedKeysFactory.create(accountId);
+        VersionedAuthorizedKeys authorizedKeys = authorizedKeysFactory.create(accountId);
         authorizedKeys.load(git);
         return authorizedKeys;
       }
     }
 
-    private void commit(VersionedAuthorizedKeys authorizedKeys)
-        throws IOException {
-      try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName,
-          userFactory.create(authorizedKeys.accountId))) {
+    private void commit(VersionedAuthorizedKeys authorizedKeys) throws IOException {
+      try (MetaDataUpdate md =
+          metaDataUpdateFactory
+              .get()
+              .create(allUsersName, userFactory.create(authorizedKeys.accountId))) {
         authorizedKeys.commit(md);
       }
     }
@@ -161,9 +155,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
-  public VersionedAuthorizedKeys(
-      SshKeyCreator sshKeyCreator,
-      @Assisted Account.Id accountId) {
+  public VersionedAuthorizedKeys(SshKeyCreator sshKeyCreator, @Assisted Account.Id accountId) {
     this.sshKeyCreator = sshKeyCreator;
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);
@@ -192,17 +184,15 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /** Returns all SSH keys. */
   private List<AccountSshKey> getKeys() {
     checkLoaded();
-    return keys.stream().filter(Optional::isPresent).map(Optional::get)
-        .collect(toList());
+    return keys.stream().filter(Optional::isPresent).map(Optional::get).collect(toList());
   }
 
   /**
    * Returns the SSH key with the given sequence number.
    *
    * @param seq sequence number
-   * @return the SSH key, <code>null</code> if there is no SSH key with this
-   *         sequence number, or if the SSH key with this sequence number has
-   *         been deleted
+   * @return the SSH key, <code>null</code> if there is no SSH key with this sequence number, or if
+   *     the SSH key with this sequence number has been deleted
    */
   private AccountSshKey getKey(int seq) {
     checkLoaded();
@@ -212,7 +202,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /**
    * Adds a new public SSH key.
    *
-   * If the specified public key exists already, the existing key is returned.
+   * <p>If the specified public key exists already, the existing key is returned.
    *
    * @param pub the public SSH key to be added
    * @return the new SSH key
@@ -222,8 +212,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     checkLoaded();
 
     for (Optional<AccountSshKey> key : keys) {
-      if (key.isPresent()
-          && key.get().getSshPublicKey().trim().equals(pub.trim())) {
+      if (key.isPresent() && key.get().getSshPublicKey().trim().equals(pub.trim())) {
         return key.get();
       }
     }
@@ -239,9 +228,8 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * Deletes the SSH key with the given sequence number.
    *
    * @param seq the sequence number
-   * @return <code>true</code> if a key with this sequence number was found and
-   *         deleted, <code>false</code> if no key with the given sequence
-   *         number exists
+   * @return <code>true</code> if a key with this sequence number was found and deleted, <code>false
+   *     </code> if no key with the given sequence number exists
    */
   private boolean deleteKey(int seq) {
     checkLoaded();
@@ -256,9 +244,9 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * Marks the SSH key with the given sequence number as invalid.
    *
    * @param seq the sequence number
-   * @return <code>true</code> if a key with this sequence number was found and
-   *         marked as invalid, <code>false</code> if no key with the given
-   *         sequence number exists or if the key was already marked as invalid
+   * @return <code>true</code> if a key with this sequence number was found and marked as invalid,
+   *     <code>false</code> if no key with the given sequence number exists or if the key was
+   *     already marked as invalid
    */
   private boolean markKeyInvalid(int seq) {
     checkLoaded();
@@ -273,15 +261,13 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /**
    * Sets new SSH keys.
    *
-   * The existing SSH keys are overwritten.
+   * <p>The existing SSH keys are overwritten.
    *
    * @param newKeys the new public SSH keys
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
     Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
-    keys = new ArrayList<>(
-        Collections.nCopies(o.max(newKeys).getKey().get(),
-        Optional.empty()));
+    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(), Optional.empty()));
     for (AccountSshKey key : newKeys) {
       keys.set(key.getKey().get() - 1, Optional.of(key));
     }

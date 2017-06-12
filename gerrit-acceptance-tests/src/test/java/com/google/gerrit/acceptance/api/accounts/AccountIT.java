@@ -70,7 +70,15 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -87,16 +95,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 public class AccountIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config enableSignedPushConfig() {
@@ -105,11 +103,9 @@ public class AccountIT extends AbstractDaemonTest {
     return cfg;
   }
 
-  @Inject
-  private Provider<PublicKeyStore> publicKeyStoreProvider;
+  @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
 
-  @Inject
-  private AllUsersName allUsers;
+  @Inject private AllUsersName allUsers;
 
   private List<AccountExternalId> savedExternalIds;
 
@@ -141,8 +137,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
-  private Collection<AccountExternalId> getExternalIds(TestAccount account)
-      throws Exception {
+  private Collection<AccountExternalId> getExternalIds(TestAccount account) throws Exception {
     return accountCache.get(account.getId()).getExternalIds();
   }
 
@@ -153,18 +148,17 @@ public class AccountIT extends AbstractDaemonTest {
       if (repo.getRefDatabase().exactRef(ref) != null) {
         RefUpdate ru = repo.updateRef(ref);
         ru.setForceUpdate(true);
-        assert_().withFailureMessage("Failed to delete " + ref)
-            .that(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+        assert_()
+            .withFailureMessage("Failed to delete " + ref)
+            .that(ru.delete())
+            .isEqualTo(RefUpdate.Result.FORCED);
       }
     }
   }
 
   @Test
   public void get() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .id("admin")
-        .get();
+    AccountInfo info = gApi.accounts().id("admin").get();
     assertThat(info.name).isEqualTo("Administrator");
     assertThat(info.email).isEqualTo("admin@example.com");
     assertThat(info.username).isEqualTo("admin");
@@ -172,29 +166,17 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void getByIntId() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .id("admin")
-        .get();
-    AccountInfo infoByIntId = gApi
-        .accounts()
-        .id(info._accountId)
-        .get();
+    AccountInfo info = gApi.accounts().id("admin").get();
+    AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
     assertThat(info.name).isEqualTo(infoByIntId.name);
   }
 
   @Test
   public void self() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .self()
-        .get();
+    AccountInfo info = gApi.accounts().self().get();
     assertUser(info, admin);
 
-    info = gApi
-        .accounts()
-        .id("self")
-        .get();
+    info = gApi.accounts().id("self").get();
     assertUser(info, admin);
   }
 
@@ -232,16 +214,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
-    gApi.accounts()
-        .self()
-        .starChange(triplet);
+    gApi.accounts().self().starChange(triplet);
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
     assertThat(change.stars).contains(DEFAULT_LABEL);
 
-    gApi.accounts()
-        .self()
-        .unstarChange(triplet);
+    gApi.accounts().self().unstarChange(triplet);
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).isNull();
@@ -254,31 +232,31 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
     assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
 
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
-    assertThat(change.stars)
-        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+    assertThat(change.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     assertThat(gApi.accounts().self().getStars(triplet))
-        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
-    List<ChangeInfo> starredChanges =
-        gApi.accounts().self().getStarredChanges();
+        .containsExactly("blue", "red", DEFAULT_LABEL)
+        .inOrder();
+    List<ChangeInfo> starredChanges = gApi.accounts().self().getStarredChanges();
     assertThat(starredChanges).hasSize(1);
     ChangeInfo starredChange = starredChanges.get(0);
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isTrue();
-    assertThat(starredChange.stars)
-        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+    assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
 
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of("yellow"),
-            ImmutableSet.of(DEFAULT_LABEL, "blue")));
+    gApi.accounts()
+        .self()
+        .setStars(
+            triplet,
+            new StarsInput(ImmutableSet.of("yellow"), ImmutableSet.of(DEFAULT_LABEL, "blue")));
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).containsExactly("red", "yellow").inOrder();
-    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
-        "red", "yellow").inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly("red", "yellow").inOrder();
     starredChanges = gApi.accounts().self().getStarredChanges();
     assertThat(starredChanges).hasSize(1);
     starredChange = starredChanges.get(0);
@@ -297,11 +275,13 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
     exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "invalid labels: another invalid label, invalid label");
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "invalid label", "blue",
-            "another invalid label")));
+    exception.expectMessage("invalid labels: another invalid label, invalid label");
+    gApi.accounts()
+        .self()
+        .setStars(
+            triplet,
+            new StarsInput(
+                ImmutableSet.of(DEFAULT_LABEL, "invalid label", "blue", "another invalid label")));
   }
 
   @Test
@@ -309,11 +289,16 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
     exception.expect(BadRequestException.class);
-    exception.expectMessage("The labels " + DEFAULT_LABEL
-        + " and " + IGNORE_LABEL + " are mutually exclusive."
-        + " Only one of them can be set.");
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
+    exception.expectMessage(
+        "The labels "
+            + DEFAULT_LABEL
+            + " and "
+            + IGNORE_LABEL
+            + " are mutually exclusive."
+            + " Only one of them can be set.");
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
   }
 
   @Test
@@ -322,26 +307,19 @@ public class AccountIT extends AbstractDaemonTest {
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     TestAccount user2 = accounts.user2();
     in = new AddReviewerInput();
     in.reviewer = user2.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
-    gApi.accounts().self().setStars(r.getChangeId(),
-        new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+    gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
 
     sender.clear();
     setApiUser(admin);
-    gApi.changes()
-        .id(r.getChangeId())
-        .abandon();
+    gApi.changes().id(r.getChangeId()).abandon();
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
@@ -352,17 +330,14 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     setApiUser(user);
-    gApi.accounts().self().setStars(r.getChangeId(),
-        new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+    gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
 
     sender.clear();
     setApiUser(admin);
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message message = messages.get(0);
@@ -373,24 +348,20 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void suggestAccounts() throws Exception {
     String adminUsername = "admin";
-    List<AccountInfo> result = gApi.accounts()
-        .suggestAccounts().withQuery(adminUsername).get();
+    List<AccountInfo> result = gApi.accounts().suggestAccounts().withQuery(adminUsername).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).username).isEqualTo(adminUsername);
 
-    List<AccountInfo> resultShortcutApi = gApi.accounts()
-        .suggestAccounts(adminUsername).get();
+    List<AccountInfo> resultShortcutApi = gApi.accounts().suggestAccounts(adminUsername).get();
     assertThat(resultShortcutApi).hasSize(result.size());
 
-    List<AccountInfo> emptyResult = gApi.accounts()
-        .suggestAccounts("unknown").get();
+    List<AccountInfo> emptyResult = gApi.accounts().suggestAccounts("unknown").get();
     assertThat(emptyResult).isEmpty();
   }
 
   @Test
   public void addEmail() throws Exception {
-    List<String> emails = ImmutableList.of(
-        "new.email@example.com", "new.email@example.systems");
+    List<String> emails = ImmutableList.of("new.email@example.com", "new.email@example.systems");
     for (String email : emails) {
       EmailInput input = new EmailInput();
       input.email = email;
@@ -401,7 +372,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addInvalidEmail() throws Exception {
-    EmailInput input  = new EmailInput();
+    EmailInput input = new EmailInput();
     input.email = "invalid@";
     input.noConfirmation = true;
 
@@ -416,18 +387,15 @@ public class AccountIT extends AbstractDaemonTest {
     // is created
     setApiUser(user);
     GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage =
-        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
-    TestRepository<InMemoryRepository> allUsersRepo =
-        cloneProject(allUsers, user);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
     String userRefName = RefNames.refsUsers(user.id);
 
     // remove default READ permissions
     ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
-    cfg.getAccessSection(
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
+    cfg.getAccessSection(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
         .remove(new Permission(Permission.READ));
     saveProjectConfig(allUsers, cfg);
 
@@ -437,15 +405,17 @@ public class AccountIT extends AbstractDaemonTest {
     // fetching user branch without READ permission fails
     try {
       fetch(allUsersRepo, userRefName + ":userRef");
-      Assert.fail(
-          "user branch is visible although no READ permission is granted");
+      Assert.fail("user branch is visible although no READ permission is granted");
     } catch (TransportException e) {
       // expected because no READ granted on user branch
     }
 
     // allow each user to read its own user branch
-    grant(Permission.READ, allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", false,
+    grant(
+        Permission.READ,
+        allUsers,
+        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+        false,
         REGISTERED_USERS);
 
     // fetch user branch using refs/users/YY/XXXXXXX
@@ -455,16 +425,14 @@ public class AccountIT extends AbstractDaemonTest {
 
     // fetch user branch using refs/users/self
     fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userSelfRef");
-    Ref userSelfRef =
-        allUsersRepo.getRepository().getRefDatabase().exactRef("userSelfRef");
+    Ref userSelfRef = allUsersRepo.getRepository().getRefDatabase().exactRef("userSelfRef");
     assertThat(userSelfRef).isNotNull();
     assertThat(userSelfRef.getObjectId()).isEqualTo(userRef.getObjectId());
 
     // fetching user branch of another user fails
     String otherUserRefName = RefNames.refsUsers(admin.id);
     exception.expect(TransportException.class);
-    exception.expectMessage(
-        "Remote does not have " + otherUserRefName + " available for fetch.");
+    exception.expectMessage("Remote does not have " + otherUserRefName + " available for fetch.");
     fetch(allUsersRepo, otherUserRefName + ":otherUserRef");
   }
 
@@ -473,8 +441,7 @@ public class AccountIT extends AbstractDaemonTest {
     // change something in the user preferences to ensure that the user branch
     // is created
     GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage =
-        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -492,8 +459,7 @@ public class AccountIT extends AbstractDaemonTest {
     // change something in the user preferences to ensure that the user branch
     // is created
     GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage =
-        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
     String userRefName = RefNames.refsUsers(admin.id);
@@ -520,8 +486,7 @@ public class AccountIT extends AbstractDaemonTest {
     // change something in the user preferences to ensure that the user branch
     // is created
     GeneralPreferencesInfo input = new GeneralPreferencesInfo();
-    input.changesPerPage =
-        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    input.changesPerPage = GeneralPreferencesInfo.defaults().changesPerPage + 10;
     gApi.accounts().self().setPreferences(input);
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -529,24 +494,37 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config wc = new Config();
-    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY,
-        WatchConfig.NotifyValue
-            .create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
-        "Add project watch", WatchConfig.WATCH_CONFIG, wc.toText());
+    wc.setString(
+        WatchConfig.PROJECT,
+        project.get(),
+        WatchConfig.KEY_NOTIFY,
+        WatchConfig.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Add project watch",
+            WatchConfig.WATCH_CONFIG,
+            wc.toText());
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
 
     String invalidNotifyValue = "]invalid[";
-    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY,
-        invalidNotifyValue);
-    push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
-        "Add invalid project watch", WatchConfig.WATCH_CONFIG, wc.toText());
+    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY, invalidNotifyValue);
+    push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Add invalid project watch",
+            WatchConfig.WATCH_CONFIG,
+            wc.toText());
     PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid watch configuration");
-    r.assertMessage(String.format(
-        "%s: Invalid project watch of account %d for project %s: %s",
-        WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(),
-        invalidNotifyValue));
+    r.assertMessage(
+        String.format(
+            "%s: Invalid project watch of account %d for project %s: %s",
+            WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
   }
 
   @Test
@@ -585,8 +563,8 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    AccountExternalId extId = new AccountExternalId(
-        user.getId(), new AccountExternalId.Key("foo:myId"));
+    AccountExternalId extId =
+        new AccountExternalId(user.getId(), new AccountExternalId.Key("foo:myId"));
 
     db.accountExternalIds().insert(Collections.singleton(extId));
     accountCache.evict(user.getId());
@@ -605,11 +583,10 @@ public class AccountIT extends AbstractDaemonTest {
     List<TestKey> keys = allValidKeys();
     List<String> toAdd = new ArrayList<>(keys.size());
     for (TestKey key : keys) {
-      addExternalIdEmail(admin,
-          PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
+      addExternalIdEmail(admin, PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
       toAdd.add(key.getPublicKeyArmored());
     }
-    gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.<String> of());
+    gApi.accounts().self().putGpgKeys(toAdd, ImmutableList.<String>of());
     assertKeys(keys);
   }
 
@@ -632,37 +609,40 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void addAndRemoveGpgKeys() throws Exception {
     for (TestKey key : allValidKeys()) {
-      addExternalIdEmail(admin,
-          PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
+      addExternalIdEmail(admin, PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
     }
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key2 = validKeyWithExpiration();
     TestKey key5 = validKeyWithSecondUserId();
 
-    Map<String, GpgKeyInfo> infos = gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(
-          key1.getPublicKeyArmored(),
-          key2.getPublicKeyArmored()),
-        ImmutableList.of(key5.getKeyIdString()));
-    assertThat(infos.keySet())
-        .containsExactly(key1.getKeyIdString(), key2.getKeyIdString());
+    Map<String, GpgKeyInfo> infos =
+        gApi.accounts()
+            .self()
+            .putGpgKeys(
+                ImmutableList.of(key1.getPublicKeyArmored(), key2.getPublicKeyArmored()),
+                ImmutableList.of(key5.getKeyIdString()));
+    assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(), key2.getKeyIdString());
     assertKeys(key1, key2);
 
-    infos = gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(key5.getPublicKeyArmored()),
-        ImmutableList.of(key1.getKeyIdString()));
-    assertThat(infos.keySet())
-        .containsExactly(key1.getKeyIdString(), key5.getKeyIdString());
+    infos =
+        gApi.accounts()
+            .self()
+            .putGpgKeys(
+                ImmutableList.of(key5.getPublicKeyArmored()),
+                ImmutableList.of(key1.getKeyIdString()));
+    assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(), key5.getKeyIdString());
     assertKeyMapContains(key5, infos);
     assertThat(infos.get(key1.getKeyIdString()).key).isNull();
     assertKeys(key2, key5);
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage("Cannot both add and delete key: "
-        + keyToString(key2.getPublicKey()));
-    infos = gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(key2.getPublicKeyArmored()),
-        ImmutableList.of(key2.getKeyIdString()));
+    exception.expectMessage("Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
+    infos =
+        gApi.accounts()
+            .self()
+            .putGpgKeys(
+                ImmutableList.of(key2.getPublicKeyArmored()),
+                ImmutableList.of(key2.getKeyIdString()));
   }
 
   @Test
@@ -676,8 +656,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(key.sshPublicKey).isEqualTo(inital);
 
     // Add a new key
-    String newKey = AccountCreator.publicKey(
-        AccountCreator.genSshKey(), admin.email);
+    String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
@@ -690,8 +669,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertSequenceNumbers(info);
 
     // Add another new key
-    String newKey2 = AccountCreator.publicKey(
-        AccountCreator.genSshKey(), admin.email);
+    String newKey2 = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
@@ -733,8 +711,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(ImmutableList.copyOf(it)).hasSize(size);
   }
 
-  private static void assertKeyMapContains(TestKey expected,
-      Map<String, GpgKeyInfo> actualMap) {
+  private static void assertKeyMapContains(TestKey expected, Map<String, GpgKeyInfo> actualMap) {
     GpgKeyInfo actual = actualMap.get(expected.getKeyIdString());
     assertThat(actual).isNotNull();
     assertThat(actual.id).isNull();
@@ -755,22 +732,23 @@ public class AccountIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(expected.transform(TestKey::getKeyIdString));
 
     for (TestKey key : expected) {
-      assertKeyEquals(key, gApi.accounts().self().gpgKey(
-          key.getKeyIdString()).get());
-      assertKeyEquals(key, gApi.accounts().self().gpgKey(
-          Fingerprint.toString(key.getPublicKey().getFingerprint())).get());
+      assertKeyEquals(key, gApi.accounts().self().gpgKey(key.getKeyIdString()).get());
+      assertKeyEquals(
+          key,
+          gApi.accounts()
+              .self()
+              .gpgKey(Fingerprint.toString(key.getPublicKey().getFingerprint()))
+              .get());
       assertKeyMapContains(key, keyMap);
     }
 
     // Check raw external IDs.
     Account.Id currAccountId = atrScope.get().getUser().getAccountId();
-    Iterable<String> expectedFps = expected.transform(
-        k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
-    Iterable<String> actualFps = GpgKeys.getGpgExtIds(db, currAccountId)
-        .transform(AccountExternalId::getSchemeRest);
-    assertThat(actualFps)
-        .named("external IDs in database")
-        .containsExactlyElementsIn(expectedFps);
+    Iterable<String> expectedFps =
+        expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
+    Iterable<String> actualFps =
+        GpgKeys.getGpgExtIds(db, currAccountId).transform(AccountExternalId::getSchemeRest);
+    assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
     for (TestKey key : expected) {
@@ -781,23 +759,21 @@ public class AccountIT extends AbstractDaemonTest {
   private static void assertKeyEquals(TestKey expected, GpgKeyInfo actual) {
     String id = expected.getKeyIdString();
     assertThat(actual.id).named(id).isEqualTo(id);
-    assertThat(actual.fingerprint).named(id).isEqualTo(
-        Fingerprint.toString(expected.getPublicKey().getFingerprint()));
+    assertThat(actual.fingerprint)
+        .named(id)
+        .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
     @SuppressWarnings("unchecked")
-    List<String> userIds =
-        ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
+    List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
     assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
-    assertThat(actual.key).named(id)
-        .startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+    assertThat(actual.key).named(id).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
     assertThat(actual.status).isEqualTo(GpgKeyInfo.Status.TRUSTED);
     assertThat(actual.problems).isEmpty();
   }
 
-  private void addExternalIdEmail(TestAccount account, String email)
-      throws Exception {
+  private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
-    AccountExternalId extId = new AccountExternalId(
-        account.getId(), new AccountExternalId.Key(name("test"), email));
+    AccountExternalId extId =
+        new AccountExternalId(account.getId(), new AccountExternalId.Key(name("test"), email));
     extId.setEmailAddress(email);
     db.accountExternalIds().insert(Collections.singleton(extId));
     // Clear saved AccountState and AccountExternalIds.
@@ -806,13 +782,10 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
-    return gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(armored),
-        ImmutableList.<String> of());
+    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
   }
 
-  private void assertUser(AccountInfo info, TestAccount account)
-      throws Exception {
+  private void assertUser(AccountInfo info, TestAccount account) throws Exception {
     assertThat(info.name).isEqualTo(account.fullName);
     assertThat(info.email).isEqualTo(account.email);
     assertThat(info.username).isEqualTo(account.username);

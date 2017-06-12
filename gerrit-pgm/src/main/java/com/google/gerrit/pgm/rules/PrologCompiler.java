@@ -21,15 +21,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlecode.prolog_cafe.compiler.Compiler;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
-
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -48,18 +41,20 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
-
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /**
- * Helper class for Rulec: does the actual prolog -> java src -> class -> jar work
- * Finds rules.pl in refs/meta/config branch
- * Creates rules-(sha1 of rules.pl).jar in (site-path)/cache/rules
+ * Helper class for Rulec: does the actual prolog -> java src -> class -> jar work Finds rules.pl in
+ * refs/meta/config branch Creates rules-(sha1 of rules.pl).jar in (site-path)/cache/rules
  */
 public class PrologCompiler implements Callable<PrologCompiler.Status> {
   public interface Factory {
@@ -67,15 +62,16 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   public enum Status {
-    NO_RULES, COMPILED
+    NO_RULES,
+    COMPILED
   }
 
   private final Path ruleDir;
   private final Repository git;
 
   @Inject
-  PrologCompiler(@GerritServerConfig Config config, SitePaths site,
-      @Assisted Repository gitRepository) {
+  PrologCompiler(
+      @GerritServerConfig Config config, SitePaths site, @Assisted Repository gitRepository) {
     Path cacheDir = site.resolve(config.getString("cache", null, "directory"));
     ruleDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     git = gitRepository;
@@ -123,8 +119,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   /** Creates a copy of rules.pl and compiles it into Java sources. */
-  private void compileProlog(ObjectId prolog, File tempDir)
-      throws IOException, CompileException {
+  private void compileProlog(ObjectId prolog, File tempDir) throws IOException, CompileException {
     File tempRules = copyToTempFile(prolog, tempDir);
     try {
       Compiler comp = new Compiler();
@@ -152,12 +147,11 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       throw new CompileException("JDK required (running inside of JRE)");
     }
 
-    DiagnosticCollector<JavaFileObject> diagnostics =
-        new DiagnosticCollector<>();
+    DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
     try (StandardJavaFileManager fileManager =
         compiler.getStandardFileManager(diagnostics, null, null)) {
-      Iterable<? extends JavaFileObject> compilationUnits = fileManager
-        .getJavaFileObjectsFromFiles(getAllFiles(tempDir, ".java"));
+      Iterable<? extends JavaFileObject> compilationUnits =
+          fileManager.getJavaFileObjectsFromFiles(getAllFiles(tempDir, ".java"));
       ArrayList<String> options = new ArrayList<>();
       String classpath = getMyClasspath();
       if (classpath != null) {
@@ -166,13 +160,8 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       }
       options.add("-d");
       options.add(tempDir.getPath());
-      JavaCompiler.CompilationTask task = compiler.getTask(
-          null,
-          fileManager,
-          diagnostics,
-          options,
-          null,
-          compilationUnits);
+      JavaCompiler.CompilationTask task =
+          compiler.getTask(null, fileManager, diagnostics, options, null, compilationUnits);
       if (!task.call()) {
         Locale myLocale = Locale.getDefault();
         StringBuilder msg = new StringBuilder();
@@ -217,8 +206,9 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   /** Takes compiled prolog .class files, puts them into the jar file. */
-  private void createJar(Path archiveFile, List<String> toBeJared,
-      File tempDir, ObjectId metaConfig, ObjectId rulesId) throws IOException {
+  private void createJar(
+      Path archiveFile, List<String> toBeJared, File tempDir, ObjectId metaConfig, ObjectId rulesId)
+      throws IOException {
     long now = TimeUtil.nowMs();
     Manifest mf = new Manifest();
     mf.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
@@ -229,8 +219,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     mf.getMainAttributes().putValue("Source-Commit", metaConfig.name());
     mf.getMainAttributes().putValue("Source-Blob", rulesId.name());
 
-    Path tmpjar =
-        Files.createTempFile(archiveFile.getParent(), ".rulec_", ".jar");
+    Path tmpjar = Files.createTempFile(archiveFile.getParent(), ".rulec_", ".jar");
     try (OutputStream stream = Files.newOutputStream(tmpjar);
         JarOutputStream out = new JarOutputStream(stream, mf)) {
       byte[] buffer = new byte[10240];
@@ -262,15 +251,13 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
-  private List<File> getAllFiles(File dir, String extension)
-      throws IOException {
+  private List<File> getAllFiles(File dir, String extension) throws IOException {
     ArrayList<File> fileList = new ArrayList<>();
     getAllFiles(dir, extension, fileList);
     return fileList;
   }
 
-  private void getAllFiles(File dir, String extension, List<File> fileList)
-      throws IOException {
+  private void getAllFiles(File dir, String extension, List<File> fileList) throws IOException {
     for (File f : listFiles(dir)) {
       if (f.getName().endsWith(extension)) {
         fileList.add(f);
@@ -281,15 +268,14 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
-  private List<String> getRelativePaths(File dir, String extension)
-      throws IOException {
+  private List<String> getRelativePaths(File dir, String extension) throws IOException {
     ArrayList<String> pathList = new ArrayList<>();
     getRelativePaths(dir, extension, "", pathList);
     return pathList;
   }
 
-  private static void getRelativePaths(File dir, String extension, String path,
-      List<String> pathList) throws IOException {
+  private static void getRelativePaths(
+      File dir, String extension, String path, List<String> pathList) throws IOException {
     for (File f : listFiles(dir)) {
       if (f.getName().endsWith(extension)) {
         pathList.add(path + f.getName());

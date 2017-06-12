@@ -13,18 +13,6 @@
 // limitations under the License.
 
 import com.google.common.io.ByteStreams;
-
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.AttributesBuilder;
-import org.asciidoctor.Options;
-import org.asciidoctor.OptionsBuilder;
-import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +27,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.Options;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
+import org.asciidoctor.internal.JRubyAsciidoctor;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 public class AsciiDoctor {
 
@@ -67,16 +65,16 @@ public class AsciiDoctor {
   @Option(name = "--mktmp", usage = "create a temporary output path")
   private boolean mktmp;
 
-  @Option(name = "-a", usage =
-      "a list of attributes, in the form key or key=value pair")
+  @Option(name = "-a", usage = "a list of attributes, in the form key or key=value pair")
   private List<String> attributes = new ArrayList<>();
 
-  @Option(name = "--bazel", usage =
-      "bazel mode: generate multiple output files instead of a single zip file")
+  @Option(
+    name = "--bazel",
+    usage = "bazel mode: generate multiple output files instead of a single zip file"
+  )
   private boolean bazel;
 
-  @Option(name = "--revnumber-file", usage =
-      "the file contains revnumber string")
+  @Option(name = "--revnumber-file", usage = "the file contains revnumber string")
   private File revnumberFile;
 
   @Argument(usage = "input files")
@@ -84,8 +82,7 @@ public class AsciiDoctor {
 
   private String revnumber;
 
-  public static String mapInFileToOutFile(
-      String inFile, String inExt, String outExt) {
+  public static String mapInFileToOutFile(String inFile, String inExt, String outExt) {
     String basename = new File(inFile).getName();
     if (basename.endsWith(inExt)) {
       basename = basename.substring(0, basename.length() - inExt.length());
@@ -147,8 +144,7 @@ public class AsciiDoctor {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser,
-            "asciidoctor: FAILED: input file missing");
+        throw new CmdLineException(parser, "asciidoctor: FAILED: input file missing");
       }
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
@@ -158,8 +154,7 @@ public class AsciiDoctor {
     }
 
     if (revnumberFile != null) {
-      try (BufferedReader reader =
-          new BufferedReader(new FileReader(revnumberFile))) {
+      try (BufferedReader reader = new BufferedReader(new FileReader(revnumberFile))) {
         revnumber = reader.readLine();
       }
     }
@@ -171,16 +166,17 @@ public class AsciiDoctor {
     if (bazel) {
       renderFiles(inputFiles, null);
     } else {
-      try (ZipOutputStream zip =
-          new ZipOutputStream(new FileOutputStream(zipFile))) {
+      try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile))) {
         renderFiles(inputFiles, zip);
 
-        File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
-          @Override
-          public boolean accept(File dir, String name) {
-            return name.endsWith(".css");
-          }
-        });
+        File[] cssFiles =
+            tmpdir.listFiles(
+                new FilenameFilter() {
+                  @Override
+                  public boolean accept(File dir, String name) {
+                    return name.endsWith(".css");
+                  }
+                });
         for (File css : cssFiles) {
           zipFile(css, css.getName(), zip);
         }
@@ -188,8 +184,7 @@ public class AsciiDoctor {
     }
   }
 
-  private void renderFiles(List<String> inputFiles, ZipOutputStream zip)
-      throws IOException {
+  private void renderFiles(List<String> inputFiles, ZipOutputStream zip) throws IOException {
     Asciidoctor asciidoctor = JRubyAsciidoctor.create();
     for (String inputFile : inputFiles) {
       String outName = mapInFileToOutFile(inputFile, inExt, outExt);
@@ -198,8 +193,7 @@ public class AsciiDoctor {
         out.getParentFile().mkdirs();
       }
       File input = new File(inputFile);
-      Options options =
-          createOptions(basedir != null ? basedir : input.getParentFile(), out);
+      Options options = createOptions(basedir != null ? basedir : input.getParentFile(), out);
       asciidoctor.renderFile(input, options);
       if (zip != null) {
         zipFile(out, outName, zip);
@@ -207,8 +201,7 @@ public class AsciiDoctor {
     }
   }
 
-  public static void zipFile(File file, String name, ZipOutputStream zip)
-      throws IOException {
+  public static void zipFile(File file, String name, ZipOutputStream zip) throws IOException {
     zip.putNextEntry(new ZipEntry(name));
     try (FileInputStream input = new FileInputStream(file)) {
       ByteStreams.copy(input, zip);

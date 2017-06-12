@@ -24,7 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,8 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final CommentsUtil commentsUtil;
 
   @Inject
-  ListChangeComments(Provider<ReviewDb> db,
+  ListChangeComments(
+      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil) {
@@ -47,10 +47,11 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(
-      ChangeResource rsrc) throws AuthException, OrmException {
+  public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
+      throws AuthException, OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    return commentJson.get()
+    return commentJson
+        .get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
         .newCommentFormatter()

@@ -34,61 +34,80 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
-@CommandMetaData(name = "set-members", description = "Modify members of specific group or number of groups")
+@CommandMetaData(
+  name = "set-members",
+  description = "Modify members of specific group or number of groups"
+)
 public class SetMembersCommand extends SshCommand {
 
-  @Option(name = "--add", aliases = {"-a"}, metaVar = "USER", usage = "users that should be added as group member")
+  @Option(
+    name = "--add",
+    aliases = {"-a"},
+    metaVar = "USER",
+    usage = "users that should be added as group member"
+  )
   private List<Account.Id> accountsToAdd = new ArrayList<>();
 
-  @Option(name = "--remove", aliases = {"-r"}, metaVar = "USER", usage = "users that should be removed from the group")
+  @Option(
+    name = "--remove",
+    aliases = {"-r"},
+    metaVar = "USER",
+    usage = "users that should be removed from the group"
+  )
   private List<Account.Id> accountsToRemove = new ArrayList<>();
 
-  @Option(name = "--include", aliases = {"-i"}, metaVar = "GROUP", usage = "group that should be included as group member")
+  @Option(
+    name = "--include",
+    aliases = {"-i"},
+    metaVar = "GROUP",
+    usage = "group that should be included as group member"
+  )
   private List<AccountGroup.UUID> groupsToInclude = new ArrayList<>();
 
-  @Option(name = "--exclude", aliases = {"-e"}, metaVar = "GROUP", usage = "group that should be excluded from the group")
+  @Option(
+    name = "--exclude",
+    aliases = {"-e"},
+    metaVar = "GROUP",
+    usage = "group that should be excluded from the group"
+  )
   private List<AccountGroup.UUID> groupsToRemove = new ArrayList<>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "GROUP", usage = "groups to modify")
+  @Argument(
+    index = 0,
+    required = true,
+    multiValued = true,
+    metaVar = "GROUP",
+    usage = "groups to modify"
+  )
   private List<AccountGroup.UUID> groups = new ArrayList<>();
 
-  @Inject
-  private AddMembers addMembers;
+  @Inject private AddMembers addMembers;
 
-  @Inject
-  private DeleteMembers deleteMembers;
+  @Inject private DeleteMembers deleteMembers;
 
-  @Inject
-  private AddIncludedGroups addIncludedGroups;
+  @Inject private AddIncludedGroups addIncludedGroups;
 
-  @Inject
-  private DeleteIncludedGroups deleteIncludedGroups;
+  @Inject private DeleteIncludedGroups deleteIncludedGroups;
 
-  @Inject
-  private GroupsCollection groupsCollection;
+  @Inject private GroupsCollection groupsCollection;
 
-  @Inject
-  private GroupCache groupCache;
+  @Inject private GroupCache groupCache;
 
-  @Inject
-  private AccountCache accountCache;
+  @Inject private AccountCache accountCache;
 
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
     try {
       for (AccountGroup.UUID groupUuid : groups) {
         GroupResource resource =
-            groupsCollection.parse(TopLevelResource.INSTANCE,
-                IdString.fromUrl(groupUuid.get()));
+            groupsCollection.parse(TopLevelResource.INSTANCE, IdString.fromUrl(groupUuid.get()));
         if (!accountsToRemove.isEmpty()) {
           deleteMembers.apply(resource, fromMembers(accountsToRemove));
           reportMembersAction("removed from", resource, accountsToRemove);
@@ -111,31 +130,28 @@ public class SetMembersCommand extends SshCommand {
     }
   }
 
-  private void reportMembersAction(String action, GroupResource group,
-      List<Account.Id> accountIdList) throws UnsupportedEncodingException,
-      IOException {
-    String names = accountIdList.stream()
-        .map(accountId ->
-            MoreObjects.firstNonNull(
-                accountCache.get(accountId).getAccount().getPreferredEmail(),
-                "n/a"))
-        .collect(joining(", "));
+  private void reportMembersAction(
+      String action, GroupResource group, List<Account.Id> accountIdList)
+      throws UnsupportedEncodingException, IOException {
+    String names =
+        accountIdList
+            .stream()
+            .map(
+                accountId ->
+                    MoreObjects.firstNonNull(
+                        accountCache.get(accountId).getAccount().getPreferredEmail(), "n/a"))
+            .collect(joining(", "));
     out.write(
-        String.format(
-                "Members %s group %s: %s\n", action, group.getName(), names)
-            .getBytes(ENC));
+        String.format("Members %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
-  private void reportGroupsAction(String action, GroupResource group,
-      List<AccountGroup.UUID> groupUuidList)
+  private void reportGroupsAction(
+      String action, GroupResource group, List<AccountGroup.UUID> groupUuidList)
       throws UnsupportedEncodingException, IOException {
-    String names = groupUuidList.stream()
-      .map(uuid -> groupCache.get(uuid).getName())
-      .collect(joining(", "));
+    String names =
+        groupUuidList.stream().map(uuid -> groupCache.get(uuid).getName()).collect(joining(", "));
     out.write(
-        String.format(
-                "Groups %s group %s: %s\n", action, group.getName(), names)
-            .getBytes(ENC));
+        String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
   private AddIncludedGroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
@@ -144,7 +160,6 @@ public class SetMembersCommand extends SshCommand {
   }
 
   private AddMembers.Input fromMembers(List<Account.Id> accounts) {
-    return AddMembers.Input.fromMembers(
-        accounts.stream().map(Object::toString).collect(toList()));
+    return AddMembers.Input.fromMembers(accounts.stream().map(Object::toString).collect(toList()));
   }
 }

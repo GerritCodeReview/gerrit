@@ -22,31 +22,29 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
 import java.util.Collection;
 import java.util.List;
 
 /**
- * Wrapper combining an {@link IndexPredicate} together with a
- * {@link DataSource} that returns matching results from the index.
- * <p>
- * Appropriate to return as the rootmost predicate that can be processed using
- * the secondary index; such predicates must also implement {@link DataSource}
- * to be chosen by the query processor.
+ * Wrapper combining an {@link IndexPredicate} together with a {@link DataSource} that returns
+ * matching results from the index.
+ *
+ * <p>Appropriate to return as the rootmost predicate that can be processed using the secondary
+ * index; such predicates must also implement {@link DataSource} to be chosen by the query
+ * processor.
  *
  * @param <I> The type of the IDs by which the entities are stored in the index.
  * @param <T> The type of the entities that are stored in the index.
  */
-public class IndexedQuery<I, T> extends Predicate<T>
-    implements DataSource<T>, Paginated<T> {
+public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, Paginated<T> {
   protected final Index<I, T> index;
 
   private QueryOptions opts;
   private final Predicate<T> pred;
   protected DataSource<T> source;
 
-  public IndexedQuery(Index<I, T> index, Predicate<T> pred,
-      QueryOptions opts) throws QueryParseException {
+  public IndexedQuery(Index<I, T> index, Predicate<T> pred, QueryOptions opts)
+      throws QueryParseException {
     this.index = index;
     this.opts = opts;
     this.pred = pred;
@@ -118,15 +116,11 @@ public class IndexedQuery<I, T> extends Predicate<T>
       return false;
     }
     IndexedQuery<?, ?> o = (IndexedQuery<?, ?>) other;
-    return pred.equals(o.pred)
-        && opts.equals(o.opts);
+    return pred.equals(o.pred) && opts.equals(o.opts);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper("index")
-        .add("p", pred)
-        .add("opts", opts)
-        .toString();
+    return MoreObjects.toStringHelper("index").add("p", pred).add("opts", opts).toString();
   }
 }

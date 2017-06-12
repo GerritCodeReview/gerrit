@@ -21,21 +21,18 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet bound to {@code /login/*} to redirect after client SSL certificate
- * login.
- * <p>
- * When using client SSL certificate one should normally never see the sign in
- * dialog. However, this will happen if users session gets invalidated in some
- * way. Like in other authentication types, we need to force page to fully
- * reload in order to initialize a new session and create a valid xsrfKey.
+ * Servlet bound to {@code /login/*} to redirect after client SSL certificate login.
+ *
+ * <p>When using client SSL certificate one should normally never see the sign in dialog. However,
+ * this will happen if users session gets invalidated in some way. Like in other authentication
+ * types, we need to force page to fully reload in order to initialize a new session and create a
+ * valid xsrfKey.
  */
 @Singleton
 public class HttpsClientSslCertLoginServlet extends HttpServlet {
@@ -44,13 +41,14 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
   private final Provider<String> urlProvider;
 
   @Inject
-  public HttpsClientSslCertLoginServlet(@CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
+  public HttpsClientSslCertLoginServlet(
+      @CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append(LoginUrlToken.getToken(req));

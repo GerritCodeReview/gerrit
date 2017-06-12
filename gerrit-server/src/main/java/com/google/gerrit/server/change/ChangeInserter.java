@@ -61,14 +61,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,14 +68,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.ChangeIdUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public interface Factory {
     ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeInserter.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
   private final ProjectControl.GenericFactory projectControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -108,8 +105,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private String topic;
   private String message;
   private List<String> groups = Collections.emptyList();
-  private CommitValidators.Policy validatePolicy =
-      CommitValidators.Policy.GERRIT;
+  private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
@@ -128,7 +124,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private String pushCert;
 
   @Inject
-  ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
+  ChangeInserter(
+      ProjectControl.GenericFactory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -171,12 +168,13 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Override
   public Change createChange(Context ctx) {
-    change = new Change(
-        getChangeKey(commit),
-        changeId,
-        ctx.getAccountId(),
-        new Branch.NameKey(ctx.getProject(), refName),
-        ctx.getWhen());
+    change =
+        new Change(
+            getChangeKey(commit),
+            changeId,
+            ctx.getAccountId(),
+            new Branch.NameKey(ctx.getProject(), refName),
+            ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
     return change;
@@ -187,9 +185,13 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
-    ObjectId id = ChangeIdUtil.computeChangeId(commit.getTree(), commit,
-        commit.getAuthorIdent(), commit.getCommitterIdent(),
-        commit.getShortMessage());
+    ObjectId id =
+        ChangeIdUtil.computeChangeId(
+            commit.getTree(),
+            commit,
+            commit.getAuthorIdent(),
+            commit.getCommitterIdent(),
+            commit.getShortMessage());
     StringBuilder changeId = new StringBuilder();
     changeId.append("I").append(ObjectId.toString(id));
     return new Change.Key(changeId.toString());
@@ -240,22 +242,19 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   public ChangeInserter setDraft(boolean draft) {
-    checkState(change == null,
-        "setDraft(boolean) only valid before creating change");
+    checkState(change == null, "setDraft(boolean) only valid before creating change");
     return setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
   }
 
   public ChangeInserter setStatus(Change.Status status) {
-    checkState(change == null,
-        "setStatus(Change.Status) only valid before creating change");
+    checkState(change == null, "setStatus(Change.Status) only valid before creating change");
     this.status = status;
     return this;
   }
 
   public ChangeInserter setGroups(List<String> groups) {
     checkNotNull(groups, "groups may not be empty");
-    checkState(patchSet == null,
-        "setGroups(Iterable<String>) only valid before creating change");
+    checkState(patchSet == null, "setGroups(Iterable<String>) only valid before creating change");
     this.groups = groups;
     return this;
   }
@@ -284,8 +283,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   public PatchSet getPatchSet() {
-    checkState(patchSet != null,
-        "getPatchSet() only valid after creating change");
+    checkState(patchSet != null, "getPatchSet() only valid after creating change");
     return patchSet;
   }
 
@@ -303,21 +301,18 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (message == null) {
       return null;
     }
-    checkState(changeMessage != null,
-        "getChangeMessage() only valid after inserting change");
+    checkState(changeMessage != null, "getChangeMessage() only valid after inserting change");
     return changeMessage;
   }
 
   @Override
-  public void updateRepo(RepoContext ctx)
-      throws ResourceConflictException, IOException {
+  public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
     validate(ctx);
     if (!updateRef) {
       return;
     }
     if (updateRefCommand == null) {
-      ctx.addRefUpdate(
-          new ReceiveCommand(ObjectId.zeroId(), commit, psId.toRefName()));
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commit, psId.toRefName()));
     } else {
       ctx.addRefUpdate(updateRefCommand);
     }
@@ -342,8 +337,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (newGroups.isEmpty()) {
       newGroups = GroupCollector.getDefaultGroups(commit);
     }
-    patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,
-        commit, draft, newGroups, pushCert);
+    patchSet =
+        psUtil.insert(
+            ctx.getDb(), ctx.getRevWalk(), update, psId, commit, draft, newGroups, pushCert);
 
     /* TODO: fixStatus is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)
@@ -356,30 +352,40 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     update.fixStatus(change.getStatus());
 
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
-    approvalsUtil.addReviewers(db, update, labelTypes, change, patchSet,
+    approvalsUtil.addReviewers(
+        db,
+        update,
+        labelTypes,
+        change,
+        patchSet,
         patchSetInfo,
         filterOnChangeVisibility(db, ctx.getNotes(), reviewers),
-        Collections.<Account.Id> emptySet());
+        Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);
     if (message != null) {
-      changeMessage = ChangeMessagesUtil.newMessage(
-          db, patchSet.getId(), ctx.getUser(), patchSet.getCreatedOn(),
-          message, ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+      changeMessage =
+          ChangeMessagesUtil.newMessage(
+              db,
+              patchSet.getId(),
+              ctx.getUser(),
+              patchSet.getCreatedOn(),
+              message,
+              ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
     return true;
   }
 
-  private Set<Account.Id> filterOnChangeVisibility(final ReviewDb db,
-      final ChangeNotes notes, Set<Account.Id> accounts) {
-    return accounts.stream()
+  private Set<Account.Id> filterOnChangeVisibility(
+      final ReviewDb db, final ChangeNotes notes, Set<Account.Id> accounts) {
+    return accounts
+        .stream()
         .filter(
             accountId -> {
               try {
                 IdentifiedUser user = userFactory.create(accountId);
-                return changeControlFactory.controlFor(notes, user)
-                    .isVisible(db);
+                return changeControlFactory.controlFor(notes, user).isVisible(db);
               } catch (OrmException | NoSuchChangeException e) {
                 log.warn(
                     String.format(
@@ -395,28 +401,29 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   @Override
   public void postUpdate(Context ctx) throws OrmException, NoSuchChangeException {
     if (sendMail) {
-      Runnable sender = new Runnable() {
-        @Override
-        public void run() {
-          try {
-            CreateChangeSender cm = createChangeSenderFactory
-                .create(change.getProject(), change.getId());
-            cm.setFrom(change.getOwner());
-            cm.setPatchSet(patchSet, patchSetInfo);
-            cm.setNotify(notify);
-            cm.addReviewers(reviewers);
-            cm.addExtraCC(extraCC);
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new change " + change.getId(), e);
-          }
-        }
+      Runnable sender =
+          new Runnable() {
+            @Override
+            public void run() {
+              try {
+                CreateChangeSender cm =
+                    createChangeSenderFactory.create(change.getProject(), change.getId());
+                cm.setFrom(change.getOwner());
+                cm.setPatchSet(patchSet, patchSetInfo);
+                cm.setNotify(notify);
+                cm.addReviewers(reviewers);
+                cm.addExtraCC(extraCC);
+                cm.send();
+              } catch (Exception e) {
+                log.error("Cannot send email for new change " + change.getId(), e);
+              }
+            }
 
-        @Override
-        public String toString() {
-          return "send-email newchange";
-        }
-      };
+            @Override
+            public String toString() {
+              return "send-email newchange";
+            }
+          };
       if (requestScopePropagator != null) {
         sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
@@ -430,11 +437,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(),
-          ctx.getWhen(), notify);
+      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
-        ChangeControl changeControl = changeControlFactory.controlFor(
-            ctx.getDb(), change, ctx.getUser());
+        ChangeControl changeControl =
+            changeControlFactory.controlFor(ctx.getDb(), change, ctx.getUser());
         List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
@@ -448,35 +454,30 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             oldApprovals.put(entry.getKey(), (short) 0);
           }
         }
-        commentAdded.fire(change, patchSet,
-            ctx.getAccount(), null,
-            allApprovals, oldApprovals, ctx.getWhen());
+        commentAdded.fire(
+            change, patchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
       }
     }
   }
 
-  private void validate(RepoContext ctx)
-      throws IOException, ResourceConflictException {
+  private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
     if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }
 
     try {
-      RefControl refControl = projectControlFactory
-          .controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
+      RefControl refControl =
+          projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
       String refName = psId.toRefName();
-      CommitReceivedEvent event = new CommitReceivedEvent(
-          new ReceiveCommand(
-              ObjectId.zeroId(),
-              commit.getId(),
-              refName),
-          refControl.getProjectControl().getProject(),
-          change.getDest().get(),
-          commit,
-          ctx.getIdentifiedUser());
+      CommitReceivedEvent event =
+          new CommitReceivedEvent(
+              new ReceiveCommand(ObjectId.zeroId(), commit.getId(), refName),
+              refControl.getProjectControl().getProject(),
+              change.getDest().get(),
+              commit,
+              ctx.getIdentifiedUser());
       commitValidatorsFactory
-          .create(
-              validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
+          .create(validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
           .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

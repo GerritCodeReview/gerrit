@@ -35,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.SortedMap;
 
@@ -69,8 +68,7 @@ class GroupsImpl implements Groups {
 
   @Override
   public GroupApi id(String id) throws RestApiException {
-    return api.create(
-        groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
+    return api.create(groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
   }
 
   @Override
@@ -87,8 +85,7 @@ class GroupsImpl implements Groups {
     }
     checkRequiresCapability(user, null, CreateGroup.class);
     try {
-      GroupInfo info = createGroup.create(in.name)
-          .apply(TopLevelResource.INSTANCE, in);
+      GroupInfo info = createGroup.create(in.name).apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot create group " + in.name, e);
@@ -105,16 +102,14 @@ class GroupsImpl implements Groups {
     };
   }
 
-  private SortedMap<String, GroupInfo> list(ListRequest req)
-      throws RestApiException {
+  private SortedMap<String, GroupInfo> list(ListRequest req) throws RestApiException {
     TopLevelResource tlr = TopLevelResource.INSTANCE;
     ListGroups list = listGroups.get();
     list.setOptions(req.getOptions());
 
     for (String project : req.getProjects()) {
       try {
-        list.addProject(
-            projects.parse(tlr, IdString.fromDecoded(project)).getControl());
+        list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
       } catch (IOException e) {
         throw new RestApiException("Error looking up project " + project, e);
       }

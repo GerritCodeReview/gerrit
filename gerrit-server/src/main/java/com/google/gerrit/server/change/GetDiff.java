@@ -52,7 +52,10 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;
@@ -63,12 +66,6 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 public class GetDiff implements RestReadView<FileResource> {
   private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
@@ -110,7 +107,8 @@ public class GetDiff implements RestReadView<FileResource> {
   boolean webLinksOnly;
 
   @Inject
-  GetDiff(ProjectCache projectCache,
+  GetDiff(
+      ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
       Revisions revisions,
       WebLinks webLinks) {
@@ -122,8 +120,8 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException,
-      OrmException, AuthException, InvalidChangeOperationException, IOException {
+      throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
+          InvalidChangeOperationException, IOException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -138,29 +136,32 @@ public class GetDiff implements RestReadView<FileResource> {
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
     if (base != null) {
-      RevisionResource baseResource = revisions.parse(
-          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
+      RevisionResource baseResource =
+          revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
-      psf = patchScriptFactoryFactory.create(
-          resource.getRevision().getControl(),
-          resource.getPatchKey().getFileName(),
-          basePatchSet.getId(),
-          resource.getPatchKey().getParentKey(),
-          prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              basePatchSet.getId(),
+              resource.getPatchKey().getParentKey(),
+              prefs);
     } else if (parentNum > 0) {
-      psf = patchScriptFactoryFactory.create(
-          resource.getRevision().getControl(),
-          resource.getPatchKey().getFileName(),
-          parentNum - 1,
-          resource.getPatchKey().getParentKey(),
-          prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              parentNum - 1,
+              resource.getPatchKey().getParentKey(),
+              prefs);
     } else {
-      psf = patchScriptFactoryFactory.create(
-          resource.getRevision().getControl(),
-          resource.getPatchKey().getFileName(),
-          null,
-          resource.getPatchKey().getParentKey(),
-          prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              null,
+              resource.getPatchKey().getParentKey(),
+              prefs);
     }
 
     try {
@@ -174,17 +175,22 @@ public class GetDiff implements RestReadView<FileResource> {
         }
         content.addCommon(edit.getBeginA());
 
-        checkState(content.nextA == edit.getBeginA(),
-            "nextA = %s; want %s", content.nextA, edit.getBeginA());
-        checkState(content.nextB == edit.getBeginB(),
-            "nextB = %s; want %s", content.nextB, edit.getBeginB());
+        checkState(
+            content.nextA == edit.getBeginA(),
+            "nextA = %s; want %s",
+            content.nextA,
+            edit.getBeginA());
+        checkState(
+            content.nextB == edit.getBeginB(),
+            "nextB = %s; want %s",
+            content.nextB,
+            edit.getBeginB());
         switch (edit.getType()) {
           case DELETE:
           case INSERT:
           case REPLACE:
-            List<Edit> internalEdit = edit instanceof ReplaceEdit
-                ? ((ReplaceEdit) edit).getInternalEdits()
-                : null;
+            List<Edit> internalEdit =
+                edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
             content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
             break;
           case EMPTY:
@@ -194,21 +200,23 @@ public class GetDiff implements RestReadView<FileResource> {
       }
       content.addCommon(ps.getA().size());
 
-      ProjectState state =
-          projectCache.get(resource.getRevision().getChange().getProject());
+      ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
       // TODO referring to the parent commit by refs/changes/12/60012/1^1
       // will likely not work for inline edits
-      String revA = basePatchSet != null
-          ? basePatchSet.getRefName()
-          : resource.getRevision().getPatchSet().getRefName() + "^1";
-      String revB = resource.getRevision().getEdit().isPresent()
-           ? resource.getRevision().getEdit().get().getRefName()
-           : resource.getRevision().getPatchSet().getRefName();
+      String revA =
+          basePatchSet != null
+              ? basePatchSet.getRefName()
+              : resource.getRevision().getPatchSet().getRefName() + "^1";
+      String revB =
+          resource.getRevision().getEdit().isPresent()
+              ? resource.getRevision().getEdit().get().getRefName()
+              : resource.getRevision().getPatchSet().getRefName();
 
       FluentIterable<DiffWebLinkInfo> links =
-          webLinks.getDiffLinks(state.getProject().getName(),
+          webLinks.getDiffLinks(
+              state.getProject().getName(),
               resource.getPatchKey().getParentKey().getParentKey().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
               revA,
@@ -224,24 +232,23 @@ public class GetDiff implements RestReadView<FileResource> {
         }
         if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
           result.metaA = new FileMeta();
-          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
-              ps.getNewName());
-          result.metaA.contentType = FileContentUtil.resolveContentType(
-              state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
+          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
+          result.metaA.contentType =
+              FileContentUtil.resolveContentType(
+                  state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
           result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks =
-              getFileWebLinks(state.getProject(), revA, result.metaA.name);
+          result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
           result.metaA.commitId = content.commitIdA;
         }
 
         if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
           result.metaB = new FileMeta();
           result.metaB.name = ps.getNewName();
-          result.metaB.contentType = FileContentUtil.resolveContentType(
-              state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
+          result.metaB.contentType =
+              FileContentUtil.resolveContentType(
+                  state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
           result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks =
-              getFileWebLinks(state.getProject(), revB, result.metaB.name);
+          result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
           result.metaB.commitId = content.commitIdB;
         }
 
@@ -257,8 +264,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
         result.changeType = CHANGE_TYPE.get(ps.getChangeType());
         if (result.changeType == null) {
-          throw new IllegalStateException(
-              "unknown change type: " + ps.getChangeType());
+          throw new IllegalStateException("unknown change type: " + ps.getChangeType());
         }
 
         if (ps.getPatchHeader().size() > 0) {
@@ -279,10 +285,8 @@ public class GetDiff implements RestReadView<FileResource> {
     }
   }
 
-  private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
-      String file) {
-    FluentIterable<WebLinkInfo> links =
-        webLinks.getFileLinks(project.getName(), rev, file);
+  private List<WebLinkInfo> getFileWebLinks(Project project, String rev, String file) {
+    FluentIterable<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file);
     return links.isEmpty() ? null : links.toList();
   }
 
@@ -339,9 +343,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
       while (nextA < end) {
         if (!fileA.contains(nextA)) {
-          int endRegion = Math.min(
-              end,
-              nextA == 0 ? fileA.first() : fileA.next(nextA - 1));
+          int endRegion = Math.min(end, nextA == 0 ? fileA.first() : fileA.next(nextA - 1));
           int len = endRegion - nextA;
           entry().skip = len;
           nextA = endRegion;
@@ -350,9 +352,7 @@ public class GetDiff implements RestReadView<FileResource> {
         }
 
         ContentEntry e = null;
-        for (int i = nextA;
-            i == nextA && i < end;
-            i = fileA.next(i), nextA++, nextB++) {
+        for (int i = nextA; i == nextA && i < end; i = fileA.next(i), nextA++, nextB++) {
           if (ignoreWS && fileB.contains(nextB)) {
             if (e == null || e.common == null) {
               e = entry();
@@ -398,13 +398,13 @@ public class GetDiff implements RestReadView<FileResource> {
         int lastB = 0;
         for (Edit edit : internalEdit) {
           if (edit.getBeginA() != edit.getEndA()) {
-            e.editA.add(ImmutableList.of(
-                edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
+            e.editA.add(
+                ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
             lastA = edit.getEndA();
           }
           if (edit.getBeginB() != edit.getEndB()) {
-            e.editB.add(ImmutableList.of(
-                edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
+            e.editB.add(
+                ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
             lastB = edit.getEndB();
           }
         }
@@ -433,14 +433,12 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   public static class ContextOptionHandler extends OptionHandler<Short> {
-    public ContextOptionHandler(
-        CmdLineParser parser, OptionDef option, Setter<Short> setter) {
+    public ContextOptionHandler(CmdLineParser parser, OptionDef option, Setter<Short> setter) {
       super(parser, option, setter);
     }
 
     @Override
-    public final int parseArguments(final Parameters params)
-        throws CmdLineException {
+    public final int parseArguments(final Parameters params) throws CmdLineException {
       final String value = params.getParameter(0);
       short context;
       if ("all".equalsIgnoreCase(value)) {
@@ -452,8 +450,10 @@ public class GetDiff implements RestReadView<FileResource> {
             throw new NumberFormatException();
           }
         } catch (NumberFormatException e) {
-          throw new CmdLineException(owner,
-              String.format("\"%s\" is not a valid value for \"%s\"",
+          throw new CmdLineException(
+              owner,
+              String.format(
+                  "\"%s\" is not a valid value for \"%s\"",
                   value, ((NamedOptionDef) option).name()));
         }
       }

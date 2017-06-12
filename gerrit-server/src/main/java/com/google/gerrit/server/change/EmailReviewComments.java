@@ -35,12 +35,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
@@ -104,11 +102,9 @@ public class EmailReviewComments implements Runnable, RequestContext {
     RequestContext old = requestContext.setContext(this);
     try {
 
-      CommentSender cm = commentSenderFactory.create(notes.getProjectName(),
-          notes.getChangeId());
+      CommentSender cm = commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
       cm.setFrom(user.getAccountId());
-      cm.setPatchSet(patchSet,
-          patchSetInfoFactory.get(notes.getProjectName(), patchSet));
+      cm.setPatchSet(patchSet, patchSetInfoFactory.get(notes.getProjectName(), patchSet));
       cm.setChangeMessage(message.getMessage(), message.getWrittenOn());
       cm.setComments(comments);
       cm.setNotify(notify);

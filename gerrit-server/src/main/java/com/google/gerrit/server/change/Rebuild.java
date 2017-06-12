@@ -34,16 +34,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Rebuild implements RestModifyView<ChangeResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
@@ -53,7 +50,8 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
-  Rebuild(Provider<ReviewDb> db,
+  Rebuild(
+      Provider<ReviewDb> db,
       NotesMigration migration,
       ChangeRebuilder rebuilder,
       ChangeBundleReader bundleReader,
@@ -69,11 +67,11 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public BinaryResult apply(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, IOException, OrmException,
-      ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException {
     if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
-    } if (!migration.readChanges()) {
+    }
+    if (!migration.readChanges()) {
       // ChangeBundle#fromNotes currently doesn't work if reading isn't enabled,
       // so don't attempt a diff.
       rebuild(rsrc);
@@ -82,29 +80,25 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
 
     // Not the same transaction as the rebuild, so may result in spurious diffs
     // in the case of races. This should be easy enough to detect by rerunning.
-    ChangeBundle reviewDbBundle = bundleReader.fromReviewDb(
-        ReviewDbUtil.unwrapDb(db.get()), rsrc.getId());
+    ChangeBundle reviewDbBundle =
+        bundleReader.fromReviewDb(ReviewDbUtil.unwrapDb(db.get()), rsrc.getId());
     rebuild(rsrc);
-    ChangeNotes notes = notesFactory.create(
-        db.get(), rsrc.getChange().getProject(), rsrc.getId());
+    ChangeNotes notes = notesFactory.create(db.get(), rsrc.getChange().getProject(), rsrc.getId());
     ChangeBundle noteDbBundle = ChangeBundle.fromNotes(commentsUtil, notes);
     List<String> diffs = reviewDbBundle.differencesFrom(noteDbBundle);
     if (diffs.isEmpty()) {
       return BinaryResult.create("No differences between ReviewDb and NoteDb");
     }
     return BinaryResult.create(
-        diffs.stream()
-            .collect(joining(
-                "\n", "Differences between ReviewDb and NoteDb:\n", "\n")));
+        diffs.stream().collect(joining("\n", "Differences between ReviewDb and NoteDb:\n", "\n")));
   }
 
-  private void rebuild(ChangeResource rsrc) throws ResourceNotFoundException,
-      ConfigInvalidException, OrmException, IOException {
+  private void rebuild(ChangeResource rsrc)
+      throws ResourceNotFoundException, ConfigInvalidException, OrmException, IOException {
     try {
       rebuilder.rebuild(db.get(), rsrc.getId());
     } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(
-          IdString.fromDecoded(rsrc.getId().toString()));
+      throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getId().toString()));
     }
   }
 }

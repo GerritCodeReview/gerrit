@@ -17,7 +17,6 @@ package com.google.gerrit.metrics;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -40,8 +39,7 @@ public class Description {
 
     public static final String BYTES = "bytes";
 
-    private Units() {
-    }
+    private Units() {}
   }
 
   public enum FieldOrdering {
@@ -49,10 +47,9 @@ public class Description {
     AT_END,
 
     /**
-     * Splits the metric name by inserting field values before the last '/' in
-     * the metric name. For example {@code "plugins/replication/push_latency"}
-     * with a {@code Field.ofString("remote")} will create submetrics named
-     * {@code "plugins/replication/some-server/push_latency"}.
+     * Splits the metric name by inserting field values before the last '/' in the metric name. For
+     * example {@code "plugins/replication/push_latency"} with a {@code Field.ofString("remote")}
+     * will create submetrics named {@code "plugins/replication/some-server/push_latency"}.
      */
     PREFIX_FIELDS_BASENAME;
   }
@@ -62,16 +59,16 @@ public class Description {
   /**
    * Describe a metric.
    *
-   * @param helpText a short one-sentence string explaining the values captured
-   *        by the metric. This may be made available to administrators as
-   *        documentation in the reporting tools.
+   * @param helpText a short one-sentence string explaining the values captured by the metric. This
+   *     may be made available to administrators as documentation in the reporting tools.
    */
   public Description(String helpText) {
     annotations = Maps.newLinkedHashMapWithExpectedSize(4);
     annotations.put(DESCRIPTION, helpText);
   }
 
-  /** Set unit used to describe the value.
+  /**
+   * Set unit used to describe the value.
    *
    * @param unitName name of the unit, e.g. "requests", "seconds", etc.
    * @return this
@@ -82,9 +79,8 @@ public class Description {
   }
 
   /**
-   * Mark the value as constant for the life of this process. Typically used for
-   * software versions, command line arguments, etc. that cannot change without
-   * a process restart.
+   * Mark the value as constant for the life of this process. Typically used for software versions,
+   * command line arguments, etc. that cannot change without a process restart.
    *
    * @return this
    */
@@ -94,9 +90,8 @@ public class Description {
   }
 
   /**
-   * Indicates the metric may be usefully interpreted as a count over short
-   * periods of time, such as request arrival rate. May only be applied to a
-   * {@link Counter0}.
+   * Indicates the metric may be usefully interpreted as a count over short periods of time, such as
+   * request arrival rate. May only be applied to a {@link Counter0}.
    *
    * @return this
    */
@@ -106,8 +101,8 @@ public class Description {
   }
 
   /**
-   * Instantaneously sampled value that may increase or decrease at a later
-   * time. Memory allocated or open network connections are examples of gauges.
+   * Instantaneously sampled value that may increase or decrease at a later time. Memory allocated
+   * or open network connections are examples of gauges.
    *
    * @return this
    */
@@ -117,9 +112,8 @@ public class Description {
   }
 
   /**
-   * Indicates the metric accumulates over the lifespan of the process. A
-   * {@link Counter0} like total requests handled accumulates over the process
-   * and should be {@code setCumulative()}.
+   * Indicates the metric accumulates over the lifespan of the process. A {@link Counter0} like
+   * total requests handled accumulates over the process and should be {@code setCumulative()}.
    *
    * @return this
    */
@@ -175,11 +169,12 @@ public class Description {
     return getTimeUnit(annotations.get(UNIT));
   }
 
-  private static final ImmutableMap<String, TimeUnit> TIME_UNITS = ImmutableMap.of(
-      Units.NANOSECONDS, TimeUnit.NANOSECONDS,
-      Units.MICROSECONDS, TimeUnit.MICROSECONDS,
-      Units.MILLISECONDS, TimeUnit.MILLISECONDS,
-      Units.SECONDS, TimeUnit.SECONDS);
+  private static final ImmutableMap<String, TimeUnit> TIME_UNITS =
+      ImmutableMap.of(
+          Units.NANOSECONDS, TimeUnit.NANOSECONDS,
+          Units.MICROSECONDS, TimeUnit.MICROSECONDS,
+          Units.MILLISECONDS, TimeUnit.MILLISECONDS,
+          Units.SECONDS, TimeUnit.SECONDS);
 
   public static TimeUnit getTimeUnit(String unit) {
     if (Strings.isNullOrEmpty(unit)) {
@@ -187,8 +182,7 @@ public class Description {
     }
     TimeUnit u = TIME_UNITS.get(unit);
     if (u == null) {
-      throw new IllegalArgumentException(String.format(
-          "unit %s not TimeUnit", unit));
+      throw new IllegalArgumentException(String.format("unit %s not TimeUnit", unit));
     }
     return u;
   }

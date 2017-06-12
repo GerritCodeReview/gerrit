@@ -23,8 +23,7 @@ import java.net.UnknownHostException;
 public final class SocketUtil {
   /** True if this InetAddress is a raw IPv6 in dotted quad notation. */
   public static boolean isIPv6(final InetAddress ip) {
-    return ip instanceof Inet6Address
-        && ip.getHostName().equals(ip.getHostAddress());
+    return ip instanceof Inet6Address && ip.getHostName().equals(ip.getHostAddress());
   }
 
   /** Get the name or IP address, or {@code *} if this address is a wildcard IP. */
@@ -110,12 +109,10 @@ public final class SocketUtil {
   }
 
   /** Parse and resolve an address string, looking up the IP address. */
-  public static InetSocketAddress resolve(final String desc,
-      final int defaultPort) {
+  public static InetSocketAddress resolve(final String desc, final int defaultPort) {
     final InetSocketAddress addr = parse(desc, defaultPort);
     if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
       return addr;
-
     }
     try {
       final InetAddress host = InetAddress.getByName(addr.getHostName());
@@ -125,6 +122,5 @@ public final class SocketUtil {
     }
   }
 
-  private SocketUtil() {
-  }
+  private SocketUtil() {}
 }

@@ -52,7 +52,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +61,7 @@ import java.util.Set;
 /** Add reviewers. */
 public class Reviewers extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Reviewers> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Element reviewersText;
@@ -69,6 +69,7 @@ public class Reviewers extends Composite {
   @UiField Button addMe;
   @UiField Element form;
   @UiField Element error;
+
   @UiField(provided = true)
   RemoteSuggestBox suggestBox;
 
@@ -84,18 +85,20 @@ public class Reviewers extends Composite {
     suggestBox.enableDefaultSuggestions();
     suggestBox.setVisibleLength(55);
     suggestBox.setHintText(Util.C.approvalTableAddReviewerHint());
-    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
-      @Override
-      public void onClose(CloseEvent<RemoteSuggestBox> event) {
-        Reviewers.this.onCancel(null);
-      }
-    });
-    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        addReviewer(event.getSelectedItem(), false);
-      }
-    });
+    suggestBox.addCloseHandler(
+        new CloseHandler<RemoteSuggestBox>() {
+          @Override
+          public void onClose(CloseEvent<RemoteSuggestBox> event) {
+            Reviewers.this.onCancel(null);
+          }
+        });
+    suggestBox.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            addReviewer(event.getSelectedItem(), false);
+          }
+        });
 
     initWidget(uiBinder.createAndBindUi(this));
     addReviewerIcon.addDomHandler(
@@ -153,56 +156,59 @@ public class Reviewers extends Composite {
       return;
     }
 
-    ChangeApi.reviewers(changeId.get()).post(
-        PostInput.create(reviewer, confirmed),
-        new GerritCallback<PostResult>() {
-          @Override
-          public void onSuccess(PostResult result) {
-            if (result.confirm()) {
-              askForConfirmation(result.error());
-            } else if (result.error() != null) {
-              UIObject.setVisible(error, true);
-              error.setInnerText(result.error());
-            } else {
-              UIObject.setVisible(error, false);
-              error.setInnerText("");
-              suggestBox.setText("");
+    ChangeApi.reviewers(changeId.get())
+        .post(
+            PostInput.create(reviewer, confirmed),
+            new GerritCallback<PostResult>() {
+              @Override
+              public void onSuccess(PostResult result) {
+                if (result.confirm()) {
+                  askForConfirmation(result.error());
+                } else if (result.error() != null) {
+                  UIObject.setVisible(error, true);
+                  error.setInnerText(result.error());
+                } else {
+                  UIObject.setVisible(error, false);
+                  error.setInnerText("");
+                  suggestBox.setText("");
 
-              if (result.reviewers() != null
-                  && result.reviewers().length() > 0) {
-                updateReviewerList();
-              }
-            }
-          }
-
-          private void askForConfirmation(String text) {
-            new ConfirmationDialog(
-                Util.C.approvalTableAddManyReviewersConfirmationDialogTitle(),
-                new SafeHtmlBuilder().append(text),
-                new ConfirmationCallback() {
-                  @Override
-                  public void onOk() {
-                    addReviewer(reviewer, true);
+                  if (result.reviewers() != null && result.reviewers().length() > 0) {
+                    updateReviewerList();
                   }
-                }).center();
-          }
+                }
+              }
 
-          @Override
-          public void onFailure(Throwable err) {
-            if (isSigninFailure(err)) {
-              new NotSignedInDialog().center();
-            } else {
-              UIObject.setVisible(error, true);
-              error.setInnerText(err instanceof StatusCodeException
-                  ? ((StatusCodeException) err).getEncodedResponse()
-                  : err.getMessage());
-            }
-          }
-        });
+              private void askForConfirmation(String text) {
+                new ConfirmationDialog(
+                        Util.C.approvalTableAddManyReviewersConfirmationDialogTitle(),
+                        new SafeHtmlBuilder().append(text),
+                        new ConfirmationCallback() {
+                          @Override
+                          public void onOk() {
+                            addReviewer(reviewer, true);
+                          }
+                        })
+                    .center();
+              }
+
+              @Override
+              public void onFailure(Throwable err) {
+                if (isSigninFailure(err)) {
+                  new NotSignedInDialog().center();
+                } else {
+                  UIObject.setVisible(error, true);
+                  error.setInnerText(
+                      err instanceof StatusCodeException
+                          ? ((StatusCodeException) err).getEncodedResponse()
+                          : err.getMessage());
+                }
+              }
+            });
   }
 
   void updateReviewerList() {
-    ChangeApi.detail(changeId.get(),
+    ChangeApi.detail(
+        changeId.get(),
         new GerritCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {
@@ -222,18 +228,17 @@ public class Reviewers extends Composite {
     Set<Integer> removable = info.removableReviewerIds();
     Map<Integer, VotableInfo> votable = votable(info);
 
-    SafeHtml rHtml = Labels.formatUserList(style,
-        r.values(), removable, null, votable);
-    SafeHtml ccHtml = Labels.formatUserList(style,
-        cc.values(), removable, null, votable);
+    SafeHtml rHtml = Labels.formatUserList(style, r.values(), removable, null, votable);
+    SafeHtml ccHtml = Labels.formatUserList(style, cc.values(), removable, null, votable);
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
     if (Gerrit.isSignedIn()) {
       int currentUser = Gerrit.getUserAccount()._accountId();
-      boolean showAddMeButton = info.owner()._accountId() != currentUser
-          && !cc.containsKey(currentUser)
-          && !r.containsKey(currentUser);
+      boolean showAddMeButton =
+          info.owner()._accountId() != currentUser
+              && !cc.containsKey(currentUser)
+              && !r.containsKey(currentUser);
       addMe.setVisible(showAddMeButton);
     }
   }
@@ -272,7 +277,6 @@ public class Reviewers extends Composite {
     return d;
   }
 
-
   public static class PostInput extends JavaScriptObject {
     public static PostInput create(String reviewer, boolean confirmed) {
       PostInput input = createObject().cast();
@@ -287,27 +291,28 @@ public class Reviewers extends Composite {
       }
     }-*/;
 
-    protected PostInput() {
-    }
+    protected PostInput() {}
   }
 
   public static class ReviewerInfo extends AccountInfo {
     final Set<String> approvals() {
       return Natives.keys(_approvals());
     }
+
     final native String approval(String l) /*-{ return this.approvals[l]; }-*/;
+
     private native NativeMap<NativeString> _approvals() /*-{ return this.approvals; }-*/;
 
-    protected ReviewerInfo() {
-    }
+    protected ReviewerInfo() {}
   }
 
   public static class PostResult extends JavaScriptObject {
     public final native JsArray<ReviewerInfo> reviewers() /*-{ return this.reviewers; }-*/;
+
     public final native boolean confirm() /*-{ return this.confirm || false; }-*/;
+
     public final native String error() /*-{ return this.error; }-*/;
 
-    protected PostResult() {
-    }
+    protected PostResult() {}
   }
 }

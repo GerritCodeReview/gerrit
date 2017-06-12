@@ -25,25 +25,22 @@ import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import com.google.inject.Key;
 import com.google.inject.util.Providers;
-
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 public class AllRequestFilterFilterProxyTest {
   /**
    * Set of filters for FilterProxy
-   * <p/>
-   * This set is used to as set of filters when fetching an
-   * {@link AllRequestFilter.FilterProxy} instance through
-   * {@link #getFilterProxy()}.
+   *
+   * <p>This set is used to as set of filters when fetching an {@link AllRequestFilter.FilterProxy}
+   * instance through {@link #getFilterProxy()}.
    */
   private DynamicSet<AllRequestFilter> filters;
 
@@ -63,9 +60,9 @@ public class AllRequestFilterFilterProxyTest {
 
   /**
    * Obtain a FilterProxy with a known DynamicSet of filters
-   * <p/>
-   * The returned {@link AllRequestFilter.FilterProxy} can have new filters
-   * added dynamically by calling {@link #addFilter(AllRequestFilter)}.
+   *
+   * <p>The returned {@link AllRequestFilter.FilterProxy} can have new filters added dynamically by
+   * calling {@link #addFilter(AllRequestFilter)}.
    */
   private AllRequestFilter.FilterProxy getFilterProxy() {
     return new AllRequestFilter.FilterProxy(filters);
@@ -73,13 +70,11 @@ public class AllRequestFilterFilterProxyTest {
 
   /**
    * Add a filter to created FilterProxy instances
-   * <p/>
-   * This method adds the given filter to all
-   * {@link AllRequestFilter.FilterProxy} instances created by
-   * {@link #getFilterProxy()}.
+   *
+   * <p>This method adds the given filter to all {@link AllRequestFilter.FilterProxy} instances
+   * created by {@link #getFilterProxy()}.
    */
-  private ReloadableRegistrationHandle<AllRequestFilter> addFilter(
-      final AllRequestFilter filter) {
+  private ReloadableRegistrationHandle<AllRequestFilter> addFilter(final AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
     return filters.add(key, Providers.of(filter));
   }
@@ -333,10 +328,8 @@ public class AllRequestFilterFilterProxyTest {
     ems.replayAll();
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
-    ReloadableRegistrationHandle<AllRequestFilter> handleFilterA =
-        addFilter(filterA);
-    ReloadableRegistrationHandle<AllRequestFilter> handleFilterB =
-        addFilter(filterB);
+    ReloadableRegistrationHandle<AllRequestFilter> handleFilterA = addFilter(filterA);
+    ReloadableRegistrationHandle<AllRequestFilter> handleFilterB = addFilter(filterB);
 
     filterProxy.init(config);
 

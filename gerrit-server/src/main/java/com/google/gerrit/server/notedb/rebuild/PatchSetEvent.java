@@ -19,14 +19,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
-import java.util.List;
 
 class PatchSetEvent extends Event {
   private final Change change;
@@ -35,8 +33,13 @@ class PatchSetEvent extends Event {
   boolean createChange;
 
   PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
-    super(ps.getId(), ps.getUploader(), ps.getUploader(), ps.getCreatedOn(),
-        change.getCreatedOn(), null);
+    super(
+        ps.getId(),
+        ps.getUploader(),
+        ps.getUploader(),
+        ps.getCreatedOn(),
+        change.getCreatedOn(),
+        null);
     this.change = change;
     this.ps = ps;
     this.rw = rw;
@@ -66,8 +69,7 @@ class PatchSetEvent extends Event {
     }
   }
 
-  private void setRevision(ChangeUpdate update, PatchSet ps)
-      throws IOException {
+  private void setRevision(ChangeUpdate update, PatchSet ps) throws IOException {
     String rev = ps.getRevision().get();
     String cert = ps.getPushCertificate();
     ObjectId id;

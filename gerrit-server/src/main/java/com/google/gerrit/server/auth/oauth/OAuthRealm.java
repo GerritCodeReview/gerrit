@@ -27,12 +27,10 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class OAuthRealm extends AbstractRealm {
@@ -40,8 +38,7 @@ public class OAuthRealm extends AbstractRealm {
   private final Set<AccountFieldName> editableAccountFields;
 
   @Inject
-  OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders,
-      @GerritServerConfig Config config) {
+  OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders, @GerritServerConfig Config config) {
     this.loginProviders = loginProviders;
     this.editableAccountFields = new HashSet<>();
     // User name should be always editable, because not all OAuth providers
@@ -61,23 +58,17 @@ public class OAuthRealm extends AbstractRealm {
   }
 
   /**
-   * Authenticates with the {@link OAuthLoginProvider} specified
-   * in the authentication request.
+   * Authenticates with the {@link OAuthLoginProvider} specified in the authentication request.
    *
-   * {@link AccountManager} calls this method without password
-   * if authenticity of the user has already been established.
-   * In that case we can skip the authentication request to the
-   * {@code OAuthLoginService}.
+   * <p>{@link AccountManager} calls this method without password if authenticity of the user has
+   * already been established. In that case we can skip the authentication request to the {@code
+   * OAuthLoginService}.
    *
    * @param who the authentication request.
-   *
-   * @return the authentication request with resolved email address
-   * and display name in case the authenticity of the user could
-   * be established; otherwise {@code who} is returned unchanged.
-   *
-   * @throws AccountException if the authentication request with
-   * the OAuth2 server failed or no {@code OAuthLoginProvider} was
-   * available to handle the request.
+   * @return the authentication request with resolved email address and display name in case the
+   *     authenticity of the user could be established; otherwise {@code who} is returned unchanged.
+   * @throws AccountException if the authentication request with the OAuth2 server failed or no
+   *     {@code OAuthLoginProvider} was available to handle the request.
    */
   @Override
   public AuthRequest authenticate(AuthRequest who) throws AccountException {
@@ -118,8 +109,7 @@ public class OAuthRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(AuthRequest who, Account account) {
-  }
+  public void onCreateAccount(AuthRequest who, Account account) {}
 
   @Override
   public Account.Id lookup(String accountName) {

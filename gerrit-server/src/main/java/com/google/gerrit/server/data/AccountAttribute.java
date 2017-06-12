@@ -15,7 +15,7 @@
 package com.google.gerrit.server.data;
 
 public class AccountAttribute {
-    public String name;
-    public String email;
-    public String username;
+  public String name;
+  public String email;
+  public String username;
 }

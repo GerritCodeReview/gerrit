@@ -15,5 +15,7 @@
 package com.google.gerrit.httpd.auth.openid;
 
 enum SignInMode {
-  SIGN_IN, LINK_IDENTIY, REGISTER
+  SIGN_IN,
+  LINK_IDENTIY,
+  REGISTER
 }

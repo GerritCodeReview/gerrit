@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
-
 import org.eclipse.jgit.lib.Config;
 
 public class DashboardResource implements RestResource {
@@ -34,7 +33,8 @@ public class DashboardResource implements RestResource {
   private final Config config;
   private final boolean projectDefault;
 
-  public DashboardResource(ProjectControl control,
+  public DashboardResource(
+      ProjectControl control,
       String refName,
       String pathName,
       Config config,

@@ -31,15 +31,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
 public class PutName implements RestModifyView<AccountResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String name;
+    @DefaultInput public String name;
   }
 
   private final Provider<CurrentUser> self;
@@ -48,8 +46,11 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final AccountCache byIdCache;
 
   @Inject
-  PutName(Provider<CurrentUser> self, Realm realm,
-      Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutName(
+      Provider<CurrentUser> self,
+      Realm realm,
+      Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache) {
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
@@ -58,18 +59,16 @@ public class PutName implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws AuthException, MethodNotAllowedException,
-      ResourceNotFoundException, OrmException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
+          IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to change name");
     }
     return apply(rsrc.getUser(), input);
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws MethodNotAllowedException, ResourceNotFoundException, OrmException,
-      IOException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -86,7 +85,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return Strings.isNullOrEmpty(a.getFullName())
-        ? Response.<String> none()
+        ? Response.<String>none()
         : Response.ok(a.getFullName());
   }
 }

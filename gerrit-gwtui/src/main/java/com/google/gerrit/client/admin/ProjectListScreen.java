@@ -35,7 +35,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import java.util.List;
@@ -109,25 +108,8 @@ public class ProjectListScreen extends PaginatedProjectScreen {
           }
 
           @Override
-          protected void populate(final int row, final ProjectInfo k) {
-            Image state = new Image();
-            switch (k.state()) {
-              case HIDDEN:
-                state.setResource(Gerrit.RESOURCES.redNot());
-                state.setTitle(Util.toLongString(k.state()));
-                table.setWidget(row, ProjectsTable.C_STATE, state);
-                break;
-              case READ_ONLY:
-                state.setResource(Gerrit.RESOURCES.readOnly());
-                state.setTitle(Util.toLongString(k.state()));
-                table.setWidget(row, ProjectsTable.C_STATE, state);
-                break;
-              case ACTIVE:
-              default:
-                // Intentionally left blank, do not show an icon when active.
-                break;
-            }
-
+          protected void populate(int row, ProjectInfo k) {
+            populateState(row, k);
             FlowPanel fp = new FlowPanel();
             fp.add(new ProjectSearchLink(k.name_key()));
             fp.add(new HighlightingInlineHyperlink(k.name(), link(k), match));

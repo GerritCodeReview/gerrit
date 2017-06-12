@@ -19,6 +19,7 @@ import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.Image;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -98,10 +99,30 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   protected void populate(final int row, final ProjectInfo k) {
-    table.setText(row, C_STATE, k.state().toString());
+    populateState(row, k);
     table.setText(row, C_NAME, k.name());
     table.setText(row, C_DESCRIPTION, k.description());
 
     setRowItem(row, k);
+  }
+
+  protected void populateState(int row, ProjectInfo k) {
+    Image state = new Image();
+    switch (k.state()) {
+      case HIDDEN:
+        state.setResource(Gerrit.RESOURCES.redNot());
+        state.setTitle(com.google.gerrit.client.admin.Util.toLongString(k.state()));
+        table.setWidget(row, ProjectsTable.C_STATE, state);
+        break;
+      case READ_ONLY:
+        state.setResource(Gerrit.RESOURCES.readOnly());
+        state.setTitle(com.google.gerrit.client.admin.Util.toLongString(k.state()));
+        table.setWidget(row, ProjectsTable.C_STATE, state);
+        break;
+      case ACTIVE:
+      default:
+        // Intentionally left blank, do not show an icon when active.
+        break;
+    }
   }
 }

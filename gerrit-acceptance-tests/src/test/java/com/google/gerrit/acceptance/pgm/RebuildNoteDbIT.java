@@ -15,47 +15,48 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.FileWriteMode;
-import com.google.common.io.Files;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.testutil.TempFileUtil;
-import java.io.File;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class RebuildNoteDbIT {
-  private File sitePath;
+  private SitePaths sitePaths;
+  private String sitePath;
+  private StoredConfig gerritConfig;
 
   @Before
-  public void createTempDirectory() throws Exception {
-    sitePath = TempFileUtil.createTempDirectory();
+  public void setUp() throws Exception {
+    sitePaths = new SitePaths(TempFileUtil.createTempDirectory().toPath());
+    sitePath = sitePaths.site_path.toString();
+    gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
   }
 
   @After
-  public void destroySite() throws Exception {
-    if (sitePath != null) {
-      TempFileUtil.cleanup();
-    }
+  public void tearDown() throws Exception {
+    TempFileUtil.cleanup();
   }
 
   @Test
-  public void rebuildEmptySite() throws Exception {
+  public void rebuildEmptySiteStartingWithNoteDbEnabled() throws Exception {
     initSite();
-    Files.asCharSink(
-            new File(sitePath.toString(), "etc/gerrit.config"), UTF_8, FileWriteMode.APPEND)
-        .write(ConfigNotesMigration.allEnabledConfig().toText());
-    runGerrit("RebuildNoteDb", "-d", sitePath.toString(), "--show-stack-trace");
+    setNotesMigrationState(NotesMigrationState.NOTE_DB);
+    runGerrit("RebuildNoteDb", "-d", sitePath, "--show-stack-trace");
   }
 
   private void initSite() throws Exception {
     runGerrit(
         "init",
         "-d",
-        sitePath.getPath(),
+        sitePath,
         "--batch",
         "--no-auto-start",
         "--skip-plugins",
@@ -64,5 +65,11 @@ public class RebuildNoteDbIT {
 
   private static void runGerrit(String... args) throws Exception {
     assertThat(GerritLauncher.mainImpl(args)).isEqualTo(0);
+  }
+
+  private void setNotesMigrationState(NotesMigrationState state) throws Exception {
+    gerritConfig.load();
+    ConfigNotesMigration.setConfigValues(gerritConfig, state.migration());
+    gerritConfig.save();
   }
 }

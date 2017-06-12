@@ -63,6 +63,16 @@ public class ConfigNotesMigration extends NotesMigration {
     return cfg;
   }
 
+  public static void setConfigValues(Config cfg, NotesMigration migration) {
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, migration.rawWriteChangesSetting());
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, migration.readChanges());
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, migration.readChangeSequence());
+    cfg.setEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, migration.changePrimaryStorage());
+    cfg.setBoolean(
+        SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, migration.disableChangeReviewDb());
+    cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, migration.fuseUpdates());
+  }
+
   private final boolean writeChanges;
   private final boolean readChanges;
   private final boolean readChangeSequence;

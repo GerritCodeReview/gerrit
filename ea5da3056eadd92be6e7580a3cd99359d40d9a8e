@@ -16,6 +16,63 @@
       "revId": "ea5da3056eadd92be6e7580a3cd99359d40d9a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279b459e_6d4b607f",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T17:22:32Z",
+      "side": 1,
+      "message": "My question before was half can this be documented, half is this a public standard or something we just made up.",
+      "revId": "ea5da3056eadd92be6e7580a3cd99359d40d9a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2603a278_80fade96",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CorsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T17:22:32Z",
+      "side": 1,
+      "message": "Stream.of(...)",
+      "range": {
+        "startLine": 225,
+        "startChar": 14,
+        "endLine": 226,
+        "endChar": 27
+      },
+      "revId": "ea5da3056eadd92be6e7580a3cd99359d40d9a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a39f197_f8dd4215",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T17:22:32Z",
+      "side": 1,
+      "message": "I think these String fields need to be @Nullable, otherwise the generated constructor will choke if you pass them null. And shouldn\u0027t there be tests that catch that?",
+      "revId": "ea5da3056eadd92be6e7580a3cd99359d40d9a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -130,9 +130,14 @@ limitations under the License.
       assert.equal(element._computeProjectURL('combustible/stuff'),
           '/q/status:open+project:combustible%252Fstuff');
 
-      assert.equal(element._computeProjectBranchURL(
-          'combustible-stuff', 'le/mons'),
+      const change = {project: 'combustible-stuff', branch: 'le/mons'};
+      assert.equal(element._computeProjectBranchURL(change),
           '/q/status:open+project:combustible-stuff+branch:le%252Fmons');
+
+      change.topic = 'test/test';
+      assert.equal(element._computeProjectBranchURL(change),
+          '/q/status:open+project:combustible-stuff+branch:le%252Fmons' +
+              '+topic:test%252Ftest');
 
       element.change = {_number: 42};
       assert.equal(element.changeURL, '/c/42/');

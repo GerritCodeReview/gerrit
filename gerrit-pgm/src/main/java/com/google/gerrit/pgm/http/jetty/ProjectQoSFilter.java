@@ -22,8 +22,8 @@ import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.gerrit.sshd.CommandExecutorQueueProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -102,7 +102,7 @@ public class ProjectQoSFilter implements Filter {
     final HttpServletResponse rsp = (HttpServletResponse) response;
     final Continuation cont = ContinuationSupport.getContinuation(req);
 
-    WorkQueue.Executor executor = getExecutor();
+    ScheduledThreadPoolExecutor executor = getExecutor();
 
     if (cont.isInitial()) {
       TaskThunk task = new TaskThunk(executor, cont, req);
@@ -136,7 +136,7 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
-  private WorkQueue.Executor getExecutor() {
+  private ScheduledThreadPoolExecutor getExecutor() {
     return queue.getQueue(user.get().getCapabilities().getQueueType());
   }
 
@@ -148,7 +148,7 @@ public class ProjectQoSFilter implements Filter {
 
   private final class TaskThunk implements CancelableRunnable, ContinuationListener {
 
-    private final WorkQueue.Executor executor;
+    private final ScheduledThreadPoolExecutor executor;
     private final Continuation cont;
     private final String name;
     private final Object lock = new Object();
@@ -156,7 +156,7 @@ public class ProjectQoSFilter implements Filter {
     private Thread worker;
 
     TaskThunk(
-        final WorkQueue.Executor executor, final Continuation cont, final HttpServletRequest req) {
+        final ScheduledThreadPoolExecutor executor, final Continuation cont, final HttpServletRequest req) {
       this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);

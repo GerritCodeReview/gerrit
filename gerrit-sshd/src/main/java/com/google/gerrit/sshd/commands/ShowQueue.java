@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListTasks;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -108,7 +109,7 @@ final class ShowQueue extends SshCommand {
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);
       for (String queueName : byQueue.keySet()) {
-        WorkQueue.Executor e = workQueue.getExecutor(queueName);
+        ScheduledThreadPoolExecutor e = workQueue.getExecutor(queueName);
         stdout.print(String.format("Queue: %s\n", queueName));
         print(byQueue.get(queueName), now, viewAll, e.getCorePoolSize());
       }

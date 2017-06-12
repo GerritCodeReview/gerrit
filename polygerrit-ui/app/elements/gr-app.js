@@ -63,6 +63,7 @@
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _showEditorView: Boolean,
+      _showRegistrationView: Boolean,
       /** @type {?} */
       _viewState: Object,
       /** @type {?} */
@@ -142,6 +143,7 @@
 
     _viewChanged(view) {
       this.$.errorView.classList.remove('show');
+      this.set('_showRegistrationView', view === Gerrit.Nav.View.REGISTER);
       this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
       this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);
       this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
@@ -151,9 +153,6 @@
           view === Gerrit.Nav.View.GROUP);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
-      if (this.params.justRegistered) {
-        this.$.registration.open();
-      }
       this.$.header.unfloat();
     },
 
@@ -235,11 +234,6 @@
       if (this.params.view === Gerrit.Nav.View.SETTINGS) {
         this.$$('gr-settings-view').reloadAccountDetail();
       }
-    },
-
-    _handleRegistrationDialogClose(e) {
-      this.params.justRegistered = false;
-      this.$.registration.close();
     },
 
     _computeShadowClass(isShadowDom) {

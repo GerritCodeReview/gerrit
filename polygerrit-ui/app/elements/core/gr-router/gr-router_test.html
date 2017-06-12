@@ -140,6 +140,7 @@ limitations under the License.
         '_handlePluginListOffsetRoute',
         '_handlePluginListRoute',
         '_handleProjectCommandsRoute',
+        '_handleRegisterRoute',
         '_handleSettingsLegacyRoute',
         '_handleSettingsRoute',
       ];
@@ -162,7 +163,6 @@ limitations under the License.
         '_handleProjectListOffsetRoute',
         '_handleProjectRoute',
         '_handleQueryRoute',
-        '_handleRegisterRoute',
         '_handleTagListFilterOffsetRoute',
         '_handleTagListFilterRoute',
         '_handleTagListOffsetRoute',
@@ -593,28 +593,20 @@ limitations under the License.
       });
 
       suite('_handleRegisterRoute', () => {
-        test('happy path', () => {
-          const ctx = {params: ['/foo/bar']};
-          element._handleRegisterRoute(ctx);
-          assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
-          assert.isTrue(setParamsStub.calledOnce);
-          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        test('no path', () => {
+          const data = {params: {}};
+          assertDataToParams(data, '_handleRegisterRoute', {
+            view: Gerrit.Nav.View.REGISTER,
+            path: '/',
+          });
         });
 
-        test('no param', () => {
-          const ctx = {params: ['']};
-          element._handleRegisterRoute(ctx);
-          assert.isTrue(redirectStub.calledWithExactly('/'));
-          assert.isTrue(setParamsStub.calledOnce);
-          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
-        });
-
-        test('prevent redirect', () => {
-          const ctx = {params: ['/register']};
-          element._handleRegisterRoute(ctx);
-          assert.isTrue(redirectStub.calledWithExactly('/'));
-          assert.isTrue(setParamsStub.calledOnce);
-          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        test('path', () => {
+          const data = {params: {1: '/test/test/'}};
+          assertDataToParams(data, '_handleRegisterRoute', {
+            view: Gerrit.Nav.View.REGISTER,
+            path: '/test/test/',
+          });
         });
       });
 

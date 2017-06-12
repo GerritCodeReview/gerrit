@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,20 +15,23 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-confirm-set-username-dialog/gr-confirm-set-username-dialog.html">
 
-<dom-module id="gr-registration-dialog">
+<dom-module id="gr-registration-view">
   <template>
     <style include="gr-form-styles"></style>
     <style include="shared-styles">
       :host {
         display: block;
       }
-      main {
-        max-width: 46em;
+      h1 {
+        margin-bottom: .6em;
       }
       hr {
         margin-top: 1em;
@@ -39,7 +42,6 @@ limitations under the License.
         font-family: var(--font-family-bold);
       }
       header,
-      main,
       footer {
         padding: .5em 1.5em;
       }
@@ -47,8 +49,13 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
       }
+      main {
+        margin: 2em auto;
+        max-width: 50em;
+      }
     </style>
     <main class="gr-form-styles">
+      <h1>Welcome to Gerrit Code Review</h1>
       <header>Please confirm your contact information</header>
       <main>
         <p>
@@ -58,19 +65,43 @@ limitations under the License.
           or subscribed to.
         </p>
         <hr>
-        <section>
+        <section disabled$="[[!_serverConfig.editable_account_fields.USER_NAME]]">
+          <div class="title">Username</div>
+          <input
+              is="iron-input"
+              id="userNameInput"
+              bind-value="[[_account.username]]"
+              on-keydown="_handleUserNameKeydown"
+              disabled$="[[_account.username]]">
+          <gr-button
+              class="setUserName"
+              on-tap="_handleSetUsername"
+              hidden$="[[_account.username]]">
+            Select Username
+          </gr-button>
+        </section>
+        <section disabled$="[[!_serverConfig.editable_account_fields.FULL_NAME]]">
           <div class="title">Full Name</div>
           <input
               is="iron-input"
-              id="name"
-              bind-value="{{_account.name}}"
-              disabled="[[_saving]]"
-              on-keydown="_handleNameKeydown">
+              id="nameInput"
+              bind-value="[[_account.name]]"
+              on-keydown="_handleNameKeydown"
+              disabled$="[[_saving]]">
         </section>
         <section>
+          <div class="title">New Email</div>
+          <input
+              is="iron-input"
+              id="emailInput"
+              disabled$="[[_saving]]"
+              on-keydown="_handleEmailKeydown">
+        </section>
+        <section  hidden="[[!_account.email]]">
           <div class="title">Preferred Email</div>
           <select
-              id="email"
+              id="emailSelect"
+              bind-value="[[_account.email]]"
               disabled="[[_saving]]">
             <option value="[[_account.email]]">[[_account.email]]</option>
             <template is="dom-repeat" items="[[_account.secondary_emails]]">
@@ -86,12 +117,17 @@ limitations under the License.
             disabled="[[_saving]]"
             on-tap="_handleSave">Save</gr-button>
         <gr-button
-            id="closeButton"
-            disabled="[[_saving]]"
-            on-tap="_handleClose">Close</gr-button>
+            id="continueButton"
+            on-tap="_handleContinue">Continue</gr-button>
       </footer>
     </main>
+    <gr-overlay id="overlay" with-backdrop>
+      <gr-confirm-set-username-dialog
+          id="confirmDialog"
+          on-confirm="_handleSettingUsername"
+          on-cancel="_handleConfirmDialogCancel"></gr-confirm-set-username-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-registration-dialog.js"></script>
+  <script src="gr-registration-view.js"></script>
 </dom-module>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,18 +16,18 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-registration-dialog</title>
+<title>gr-registration-view</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-registration-dialog.html">
+<link rel="import" href="gr-registration-view.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-registration-dialog></gr-registration-dialog>
+    <gr-registration-view></gr-registration-view>
   </template>
 </test-fixture>
 
@@ -38,12 +38,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-registration-dialog tests', () => {
+  suite('gr-registration-view tests', () => {
     let element;
     let account;
+    let config;
     let _listeners;
+    let sandbox;
 
     setup(done => {
+      sandbox = sinon.sandbox.create();
       _listeners = {};
 
       account = {
@@ -55,11 +58,18 @@ limitations under the License.
         ],
       };
 
+      config = {auth: {editable_account_fields: []}};
+
       stub('gr-rest-api-interface', {
+        getLoggedIn() {
+          return Promise.resolve(true);
+        },
         getAccount() {
-        // Once the account is resolved, we can let the test proceed.
-          flush(done);
+          // Once the account is resolved, we can let the test proceed.
           return Promise.resolve(account);
+        },
+        getConfig() {
+          return Promise.resolve(config);
         },
         setAccountName(name) {
           account.name = name;
@@ -72,6 +82,13 @@ limitations under the License.
       });
 
       element = fixture('basic');
+
+      element.params = {
+        path: '/',
+      };
+
+      // Allow the element to render.
+      element._loadingPromise.then(done);
     });
 
     teardown(() => {
@@ -80,6 +97,7 @@ limitations under the License.
           element.removeEventListener(eventType, _listeners[eventType]);
         }
       }
+      sandbox.restore();
     });
 
     function listen(eventType) {
@@ -99,30 +117,13 @@ limitations under the License.
       return promise;
     }
 
-    function close(opt_action) {
-      const promise = listen('close');
-      if (opt_action) {
-        opt_action();
-      } else {
-        MockInteractions.tap(element.$.closeButton);
-      }
-      return promise;
-    }
-
-    test('fires the close event on close', done => {
-      close().then(done);
-    });
-
-    test('fires the close event on save', done => {
-      close(() => {
-        MockInteractions.tap(element.$.saveButton);
-      }).then(done);
-    });
-
     test('saves name and preferred email', done => {
+      const serverConfig = ['FULL_NAME', 'USER_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
       flush(() => {
-        element.$.name.value = 'new name';
-        element.$.email.value = 'email3';
+        element.$.nameInput.bindValue = 'new name';
+        element.$.emailSelect.bindValue = 'email3';
 
         // Nothing should be committed yet.
         assert.equal(account.name, 'name');
@@ -137,9 +138,13 @@ limitations under the License.
     });
 
     test('pressing enter saves name', done => {
-      element.$.name.value = 'entered name';
+      const serverConfig = ['FULL_NAME', 'USER_NAME', 'REGISTER_NEW_EMAIL'];
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: serverConfig}});
+      element.$.nameInput.bindValue = 'entered name';
       save(() => {
-        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13); // 'enter'
+        // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
       }).then(() => {
         assert.equal(account.name, 'entered name');
       }).then(done);
@@ -148,8 +153,22 @@ limitations under the License.
     test('email select properly populated', done => {
       element._account = {email: 'foo', secondary_emails: ['bar', 'baz']};
       flush(() => {
-        assert.equal(element.$.email.value, 'foo');
+        assert.equal(element.$.emailSelect.bindValue, 'foo');
         done();
+      });
+    });
+
+    suite('set username', () => {
+      test('_handleSetUsername opens modal', () => {
+        const openStub = sandbox.stub(element.$.overlay, 'open');
+        element._handleSetUsername();
+        assert.isTrue(openStub.called);
+      });
+
+      test('_handleConfirmDialogCancel called when cancel fired', () => {
+        sandbox.stub(element, '_handleConfirmDialogCancel');
+        element.$.confirmDialog.fire('cancel');
+        assert.isTrue(element._handleConfirmDialogCancel.called);
       });
     });
   });

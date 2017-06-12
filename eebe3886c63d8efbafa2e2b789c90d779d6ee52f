@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9296a64_17beee60",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T15:26:58Z",
+      "side": 1,
+      "message": "Can we make ALLOWED_CORS_REQUEST_HEADERS just contain all-lowercase headers? That would make this much easier:\n\n ALLOWED_CORS_REQUEST_HEADERS.contains(reqHdr.toLowerCase(ISO_8859_1))\n\nIf you prefer that ALLOWED_CORS_REQUEST_HEADERS have mixed case (e.g. for aesthetic reasons when sending it in a response), then this can just be:\n\n ALLOWED_CORS_REQUEST_HEADERS.stream().anyMatch(reqHdr::equalsIgnoreCase)",
+      "range": {
+        "startLine": 560,
+        "startChar": 39,
+        "endLine": 560,
+        "endChar": 0
+      },
+      "revId": "eebe3886c63d8efbafa2e2b789c90d779d6ee52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

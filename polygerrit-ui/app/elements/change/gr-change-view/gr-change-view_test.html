@@ -167,6 +167,14 @@ limitations under the License.
       });
     });
 
+    test('fetches the server config', done => {
+      sandbox.stub(element, '_getServerConfig').returns(Promise.resolve({test: 'value'}));
+      flush(() => {
+        assertIsTrue(element._serverConfig.test === 'value');
+        done();
+      });
+    });
+
     test('Diff preferences hidden when no prefs or logged out', () => {
       element._loggedIn = false;
       flushAsynchronousOperations();

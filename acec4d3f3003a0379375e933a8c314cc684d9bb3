@@ -16,6 +16,24 @@
       "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5283ef88_bf4ce8f2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-12T09:14:35Z",
+      "side": 1,
+      "message": "You are actually right: it is not the Rest API that needs to be loaded before but only the PluginModule which is loaded before that.\n\nLet me split this into two changes then:\n- Decoupling of the PluginRestApiModule from PluginModule\n- Reshuffling of the order of registration of PluginModule vs. IndexModule",
+      "parentUuid": "2dc9a651_f2a17b0b",
+      "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

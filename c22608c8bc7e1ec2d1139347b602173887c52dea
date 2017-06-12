@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7dfbe44d_67605529",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-12T09:14:35Z",
+      "side": 1,
+      "message": "Let me see if it easy enough to put a warning on the command itself, often the release notes are not read thoroughly :-(",
+      "parentUuid": "799223cc_1c18952c",
+      "revId": "c22608c8bc7e1ec2d1139347b602173887c52dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb61f6d0_a2c7a7c6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 3

@@ -26,7 +26,7 @@ import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.git.WorkQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -77,7 +77,7 @@ public class SshModule extends LifecycleModule {
         .toInstance(new DispatchCommandProvider(Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
-    bind(WorkQueue.Executor.class)
+    bind(ScheduledThreadPoolExecutor.class)
         .annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class)
         .in(SINGLETON);
@@ -126,7 +126,7 @@ public class SshModule extends LifecycleModule {
         .toProvider(SshRemotePeerProvider.class)
         .in(SshScope.REQUEST);
 
-    bind(WorkQueue.Executor.class)
+    bind(ScheduledThreadPoolExecutor.class)
         .annotatedWith(CommandExecutor.class)
         .toProvider(CommandExecutorProvider.class)
         .in(SshScope.REQUEST);

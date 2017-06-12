@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.GerritServerConfig;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.gerrit.server.update.ChangeUpdateExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -36,7 +37,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
-  public WorkQueue.Executor createReceiveCommitsExecutor(
+  public ScheduledThreadPoolExecutor createReceiveCommitsExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize =
         config.getInt(

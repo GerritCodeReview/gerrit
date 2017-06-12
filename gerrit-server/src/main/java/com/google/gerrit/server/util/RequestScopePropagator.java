@@ -23,6 +23,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.ProjectRunnable;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
@@ -64,7 +65,7 @@ public abstract class RequestScopePropagator {
    * request state when the returned Callable is invoked. The method must be called in a request
    * scope and the returned Callable may only be invoked in a thread that is not already in a
    * request scope or is in the same request scope. The returned Callable will inherit toString()
-   * from the passed in Callable. A {@link com.google.gerrit.server.git.WorkQueue.Executor} does not
+   * from the passed in Callable. A {@link ScheduledThreadPoolExecutor} does not
    * accept a Callable, so there is no ProjectCallable implementation. Implementations of this
    * method must be consistent with Guice's {@link ServletScopes#continueRequest(Callable,
    * java.util.Map)}.

@@ -82,7 +82,7 @@ public class WorkQueue {
         }
       };
 
-  private Executor defaultQueue;
+  private ScheduledThreadPoolExecutor defaultQueue;
   private int defaultQueueSize;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
@@ -99,7 +99,7 @@ public class WorkQueue {
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
-  public synchronized Executor getDefaultQueue() {
+  public synchronized ScheduledThreadPoolExecutor getDefaultQueue() {
     if (defaultQueue == null) {
       defaultQueue = createQueue(defaultQueueSize, "WorkQueue");
     }
@@ -107,7 +107,7 @@ public class WorkQueue {
   }
 
   /** Create a new executor queue. */
-  public Executor createQueue(int poolsize, String prefix) {
+  public ScheduledThreadPoolExecutor createQueue(int poolsize, String prefix) {
     final Executor r = new Executor(poolsize, prefix);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
@@ -150,7 +150,7 @@ public class WorkQueue {
     return result;
   }
 
-  public Executor getExecutor(String queueName) {
+  public ScheduledThreadPoolExecutor getExecutor(String queueName) {
     for (Executor e : queues) {
       if (e.queueName.equals(queueName)) {
         return e;
@@ -175,7 +175,7 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  public class Executor extends ScheduledThreadPoolExecutor {
+  class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 

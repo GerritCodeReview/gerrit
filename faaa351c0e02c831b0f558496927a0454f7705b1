@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f3df03c_e4a37c1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:44:05Z",
+      "side": 1,
+      "message": "A",
+      "range": {
+        "startLine": 465,
+        "startChar": 31,
+        "endLine": 465,
+        "endChar": 32
+      },
+      "revId": "faaa351c0e02c831b0f558496927a0454f7705b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d22ec9a_fe9427ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:44:05Z",
+      "side": 1,
+      "message": "Remove, for consistency with most other description texts.",
+      "range": {
+        "startLine": 469,
+        "startChar": 89,
+        "endLine": 469,
+        "endChar": 90
+      },
+      "revId": "faaa351c0e02c831b0f558496927a0454f7705b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8378aba2_e354aedd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:44:05Z",
+      "side": 1,
+      "message": "C",
+      "range": {
+        "startLine": 469,
+        "startChar": 31,
+        "endLine": 469,
+        "endChar": 32
+      },
+      "revId": "faaa351c0e02c831b0f558496927a0454f7705b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d934326_9fa74060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:44:05Z",
+      "side": 1,
+      "message": "submissions",
+      "range": {
+        "startLine": 469,
+        "startChar": 51,
+        "endLine": 469,
+        "endChar": 61
+      },
+      "revId": "faaa351c0e02c831b0f558496927a0454f7705b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

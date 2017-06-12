@@ -2546,7 +2546,7 @@ public class ReceiveCommits {
               RefNames.refsEdit(user.getAccountId(), notes.getChangeId(), psId));
     }
 
-    private void newPatchSet() throws IOException {
+    private void newPatchSet() throws IOException, OrmException {
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       psId =
           ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs, notes.getChange().currentPatchSetId());

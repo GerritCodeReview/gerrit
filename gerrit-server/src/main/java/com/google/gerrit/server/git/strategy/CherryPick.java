@@ -89,7 +89,8 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    protected void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
+    protected void updateRepoImpl(RepoContext ctx)
+        throws IntegrationException, IOException, OrmException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.

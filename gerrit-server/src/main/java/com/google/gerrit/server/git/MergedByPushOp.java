@@ -198,7 +198,7 @@ public class MergedByPushOp implements BatchUpdateOp {
         change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
   }
 
-  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
+  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException, OrmException {
     RevWalk rw = ctx.getRevWalk();
     RevCommit commit =
         rw.parseCommit(ObjectId.fromString(checkNotNull(patchSet).getRevision().get()));

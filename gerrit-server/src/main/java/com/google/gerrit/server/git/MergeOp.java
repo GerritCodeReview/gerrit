@@ -425,6 +425,7 @@ public class MergeOp implements AutoCloseable {
    * @throws OrmException an error occurred reading or writing the database.
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
+   * @throws IOException an error occurred reading from NoteDb.
    */
   public void merge(
       ReviewDb db,

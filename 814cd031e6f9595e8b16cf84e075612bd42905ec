@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d0585d8_605c0c32",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "Right you are. I meant to define it as an HTML import but not as an element. The gr-navigation definition has been simplified. Let me know if it seems more intuitive to you.",
+      "parentUuid": "b516f0b6_5fae22ef",
+      "range": {
+        "startLine": 846,
+        "startChar": 18,
+        "endLine": 846,
+        "endChar": 45
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1647c937_c459bf27",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0c1547a_24813a93",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "I just have a preference for vanilla JS files, but I don\u0027t feel strongly. Moved into the script.\n\nThe vulcanize output should be the same, anyway.",
+      "parentUuid": "1647c937_c459bf27",
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "00062682_3e42ccca",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "Neat idea: that nicely obviates the `_checkInit` function, too. Done.",
+      "parentUuid": "73b0d686_187147a4",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "490dcf41_64094921",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
         "patchSetId": 6
@@ -85,6 +151,30 @@
       "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d14abc67_9b292846",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "490dcf41_64094921",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "41268820_a6b9a0af",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "Yes, at the very least, there should be comments documenting what\u0027s required for each value of the view property.\n\nBut I agree that validating the objects for required params is also needed.",
+      "parentUuid": "a370f432_79f12e73",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8839015d_5af14df5",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 6
@@ -168,6 +282,30 @@
       "writtenOn": "2017-06-09T21:18:14Z",
       "side": 1,
       "message": "`page.show.bind(page)`?",
+      "range": {
+        "startLine": 92,
+        "startChar": 21,
+        "endLine": 92,
+        "endChar": 47
+      },
+      "revId": "814cd031e6f9595e8b16cf84e075612bd42905ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d32c0e_5e578288",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T21:54:14Z",
+      "side": 1,
+      "message": "I don\u0027t feel strongly about it, but if it\u0027s all the same to you, I\u0027d like to keep this single argument style in light of how we may also pass an object parameter to this callback -- in which case that would also be passed into `page.show`.",
+      "parentUuid": "8839015d_5af14df5",
       "range": {
         "startLine": 92,
         "startChar": 21,

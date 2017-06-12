@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9d9d0c16_02b60f21",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T17:19:02Z",
+      "side": 1,
+      "message": "Yep. It seems that some how it will only work like this. Tryed it a ton of different other ways which did not work.\n\nI\u0027ve changed this a bit per your feedback below.",
+      "parentUuid": "e1758fc9_36c62c71",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78386e80_51ad29bf",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 20
@@ -71,6 +95,30 @@
       "writtenOn": "2017-06-12T16:57:30Z",
       "side": 1,
       "message": "If there is a base URL, this test will always fail (unless the base starts with /VE/ in which case it would mistakenly always pass). Shouldn\u0027t this test the original value of base.hash -- before base is added to it?",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 9
+      },
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c336ee1_ad0187f8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T17:19:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "78386e80_51ad29bf",
       "range": {
         "startLine": 85,
         "startChar": 8,

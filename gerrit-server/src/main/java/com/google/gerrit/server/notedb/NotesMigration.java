@@ -17,21 +17,31 @@ package com.google.gerrit.server.notedb;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 
 /**
- * Holds the current state of the NoteDb migration.
+ * Current low-level settings of the NoteDb migration for changes.
  *
- * <p>The migration will proceed one root entity type at a time. A <em>root entity</em> is an entity
- * stored in ReviewDb whose key's {@code getParentKey()} method returns null. For an example of the
- * entity hierarchy rooted at Change, see the diagram in {@code
- * com.google.gerrit.reviewdb.client.Change}.
+ * <p>This class only describes the migration state of {@link
+ * com.google.gerrit.reviewdb.client.Change Change} and subtables, since it is possible for a given
+ * site at the same ReviewDb schema version to have varying migration states to NoteDb. It does
+ * <em>not</em> describe the migration state of non-Change tables; those are automatically migrated
+ * using the ReviewDb schema migration process, so the NoteDb migration state at a given ReviewDb
+ * schema cannot vary.
  *
- * <p>During a transitional period, each root entity group from ReviewDb may be either <em>written
- * to</em> or <em>both written to and read from</em> NoteDb.
+ * <p>Much core Gerrit code does not directly care about the NoteDb migration state: it can pass
+ * around {@link com.google.gerrit.server.notedb.ChangeNotes ChangeNotes} instances to high-level
+ * utility classes like {@link com.google.gerrit.server.ApprovalsUtil ApprovalsUtil} and it just
+ * works without worrying about the underlying migration state. The <em>implementation</em> of those
+ * utilities does care about the state, and should query the {@code NotesMigration} for the
+ * properties of the migration, for example, {@link #changePrimaryStorage() where new changes should
+ * be stored}.
  *
  * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
  * In general, any changes to these options should only be made by adventurous administrators, who
  * know what they're doing, on non-production data, for the purposes of testing the NoteDb
  * implementation. Changing options quite likely requires re-running {@code RebuildNoteDb}. For
  * these reasons, the options remain undocumented.
+ *
+ * <p><strong>Note:</strong> Callers should not assume the values returned by {@code
+ * NotesMigration}'s methods will not change in a running server.
  */
 public abstract class NotesMigration {
   /**

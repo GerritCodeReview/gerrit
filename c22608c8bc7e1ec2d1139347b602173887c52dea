@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a0b93c4e_694d368f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T07:51:39Z",
+      "side": 1,
+      "message": "I have to ask, the implication of this problem to offline reindexing. Given that offline reindexing site-program per design doesn\u0027t load plugins, the current behaviour is symmetric: offline reindexing and online reindexing have the same behaviour.\n\nI know, that to load plugins in offline reindexing program is a lot of work and you need a fix today. Still I would prefer, that we document this discrepancy at some place or even warn, that sites that depend on plugins, that influence reindexing operation shouldn\u0027t do offline reindexing. Ever.",
+      "revId": "c22608c8bc7e1ec2d1139347b602173887c52dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb61f6d0_a2c7a7c6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 3

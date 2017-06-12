@@ -35,8 +35,8 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
@@ -83,9 +83,9 @@ public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
 
   private final AccountCache accountCache;
+  private final Emails emails;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final AccountByEmailCache byEmailCache;
   private final PersonIdent myIdent;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -96,8 +96,8 @@ public class EventFactory {
   @Inject
   EventFactory(
       AccountCache accountCache,
+      Emails emails,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      AccountByEmailCache byEmailCache,
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent myIdent,
       ChangeData.Factory changeDataFactory,
@@ -106,9 +106,9 @@ public class EventFactory {
       Provider<InternalChangeQuery> queryProvider,
       SchemaFactory<ReviewDb> schema) {
     this.accountCache = accountCache;
+    this.emails = emails;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
-    this.byEmailCache = byEmailCache;
     this.myIdent = myIdent;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -497,7 +497,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (IOException e) {
+    } catch (IOException | OrmException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchListNotAvailableException e) {
       log.error(String.format("Cannot get size information for %s.", pId), e);
@@ -507,7 +507,7 @@ public class EventFactory {
 
   // TODO: The same method exists in PatchSetInfoFactory, find a common place
   // for it
-  private UserIdentity toUserIdentity(PersonIdent who) {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, OrmException {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
@@ -517,7 +517,7 @@ public class EventFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

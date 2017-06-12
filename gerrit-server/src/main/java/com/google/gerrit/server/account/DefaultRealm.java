@@ -19,20 +19,23 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Set;
 
 @Singleton
 public class DefaultRealm extends AbstractRealm {
   private final EmailExpander emailExpander;
-  private final AccountByEmailCache byEmail;
+  private final Provider<Emails> emails;
   private final AuthConfig authConfig;
 
   @Inject
-  DefaultRealm(EmailExpander emailExpander, AccountByEmailCache byEmail, AuthConfig authConfig) {
+  DefaultRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
     this.emailExpander = emailExpander;
-    this.byEmail = byEmail;
+    this.emails = emails;
     this.authConfig = authConfig;
   }
 
@@ -75,11 +78,15 @@ public class DefaultRealm extends AbstractRealm {
   public void onCreateAccount(AuthRequest who, Account account) {}
 
   @Override
-  public Account.Id lookup(String accountName) {
+  public Account.Id lookup(String accountName) throws IOException {
     if (emailExpander.canExpand(accountName)) {
-      final Set<Account.Id> c = byEmail.get(emailExpander.expand(accountName));
-      if (1 == c.size()) {
-        return c.iterator().next();
+      try {
+        Set<Account.Id> c = emails.get().getAccountFor(emailExpander.expand(accountName));
+        if (1 == c.size()) {
+          return c.iterator().next();
+        }
+      } catch (OrmException e) {
+        throw new IOException("Failed to query accounts by email", e);
       }
     }
     return null;

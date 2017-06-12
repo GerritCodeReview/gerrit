@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
@@ -45,17 +45,17 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
   private final PatchSetUtil psUtil;
-  private final AccountByEmailCache byEmailCache;
+  private final Emails emails;
 
   @Inject
-  public PatchSetInfoFactory(
-      GitRepositoryManager repoManager, PatchSetUtil psUtil, AccountByEmailCache byEmailCache) {
+  public PatchSetInfoFactory(GitRepositoryManager repoManager, PatchSetUtil psUtil, Emails emails) {
     this.repoManager = repoManager;
     this.psUtil = psUtil;
-    this.byEmailCache = byEmailCache;
+    this.emails = emails;
   }
 
-  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi) throws IOException {
+  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
+      throws IOException, OrmException {
     rw.parseBody(src);
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
@@ -84,13 +84,13 @@ public class PatchSetInfoFactory {
       PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
-    } catch (IOException e) {
+    } catch (IOException | OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
   }
 
   // TODO: The same method exists in EventFactory, find a common place for it
-  private UserIdentity toUserIdentity(PersonIdent who) {
+  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, OrmException {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
@@ -100,7 +100,7 @@ public class PatchSetInfoFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    final Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

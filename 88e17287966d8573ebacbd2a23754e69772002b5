@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "421f2317_6b317fd0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3920,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-12T17:09:11Z",
+      "side": 1,
+      "message": "Would it make sense to have two separate lists, one for GET and another for the full API?",
+      "revId": "88e17287966d8573ebacbd2a23754e69772002b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

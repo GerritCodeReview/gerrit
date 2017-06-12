@@ -1271,7 +1271,7 @@
               } else {
                 this._cancelUpdateCheckTimer();
                 this.fire('show-alert', {
-                  message: 'A newer patch has been uploaded.',
+                  message: 'A newer patch set has been uploaded.',
                   // Persist this alert.
                   dismissOnNavigation: true,
                   action: 'Reload',

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3c77dd57_5dc5f8ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3920,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T17:19:10Z",
+      "side": 1,
+      "message": "Weak +1 to separate lists. But I think if you do that, you should include a little more detail about the risk posture. Otherwise admins who are not experts on web security (which is many of them) are not going to understand how to decide.",
+      "parentUuid": "28653144_ee3f0e7c",
+      "revId": "88e17287966d8573ebacbd2a23754e69772002b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f04e69d_8a550d19",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 4

@@ -320,6 +320,30 @@
     },
     {
       "key": {
+        "uuid": "4a073fc7_96246ae5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-12T15:22:53Z",
+      "side": 1,
+      "message": "\u003e Not sure if I understand this correctly and if it\u0027s actually an issue.\n\nI don\u0027t think this is a big issue. The code in this class takes care to preserve\nlocal comments if your web session expires before you save the comments. In this\ncase the comment is preserved in a local cookie and will be restored after you get\na new web session.\n\nIn the worst case, this can affect you if you have an unsaved comment and the upgrade\nis done to a new version which changed the local cookie format.",
+      "parentUuid": "ac747389_d2d9dbcb",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4882276a_b3f3b5f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 2

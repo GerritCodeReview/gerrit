@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
+import com.google.gerrit.server.notedb.rebuild.SiteRebuilder;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import org.eclipse.jgit.lib.Config;
@@ -47,13 +48,15 @@ public class NoteDbModule extends FactoryModule {
 
   @Override
   public void configure() {
-    factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
+    factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);
-    factory(RobotCommentUpdate.Factory.class);
-    factory(RobotCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
+    factory(RobotCommentNotes.Factory.class);
+    factory(RobotCommentUpdate.Factory.class);
+    factory(SiteRebuilder.Factory.class);
+
     if (!useTestBindings) {
       install(ChangeNotesCache.module());
       if (cfg.getBoolean("noteDb", null, "testRebuilderWrapper", false)) {

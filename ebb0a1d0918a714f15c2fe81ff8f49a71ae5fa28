@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e840e82_ae8ccfde",
+        "filename": "rules.pl",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-12T10:59:40Z",
+      "side": 1,
+      "message": "\u003e Is this correct? What if is_no_code_style_branch(B) evaluates to true, but needs_library_compliance evaluates to false?\n\nIn that case, the evaluation of this predicate is stopped as there is no solution.\nProlog will then try the next one (line 15). This and the follow-up predicate can\nbe read as:\n\n  if (is_no_code_style_branch(B) \u0026\u0026 needs_library_compliance) {\n    output(CR, V, L);\n  } else if (is_no_code_style_branch(B)) {\n    output(CR, V);\n  } else if ...\n\n\n\u003e Shouldn\u0027t we duplicate have:\n\u003e \n\u003e    submit_rule(submit(CR, V)) :-\n\u003e       gerrit:change_branch(B),\n\u003e       is_no_code_style_branch(B),\n\u003e       !,\n\u003e       gerrit:max_with_block(-2, 2, \u0027Code-Review\u0027, CR),\n\u003e       gerrit:max_with_block(-1, 1, \u0027Verified\u0027, V).\n\nThis is exactly what we have in lines 15-20.",
+      "parentUuid": "cd0f0c68_dd424b60",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "ebb0a1d0918a714f15c2fe81ff8f49a71ae5fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6b67536_0fa5a629",
         "filename": "rules.pl",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2017-06-12T09:41:30Z",
       "side": 1,
       "message": "Nit: trailing blank.",
+      "revId": "ebb0a1d0918a714f15c2fe81ff8f49a71ae5fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98de2dad_513f1b7a",
+        "filename": "rules.pl",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-12T10:59:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b67536_0fa5a629",
       "revId": "ebb0a1d0918a714f15c2fe81ff8f49a71ae5fa28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

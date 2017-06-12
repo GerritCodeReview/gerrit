@@ -3769,25 +3769,26 @@ Use the notify property of the top-level link:#review-input[ReviewInput] instead
 For the purposes of this table, *everyone* means *owner, reviewers, CCs, stars, and ALL_COMMENTS
 watchers*.
 
-[options="header",cols="1,1,1,1,1,1,1"]
+[options="header",cols="2,1,1,2,2"]
 |=============================
-|WIP State       |Review Started|Tag Given|Default|notify=ALL|notify=OWNER_REVIEWERS|notify=OWNER
-|Ready for review|N/A|N/A|everyone|everyone|owner, reviewers, CCs|owner
-|Work in progress|no |no |not sent|everyone|owner, reviewers, CCs|owner
-|Work in progress|no |yes|owner   |everyone|owner, reviewers, CCs|owner
-|Work in progress|yes|no |everyone|everyone|owner, reviewers, CCs|owner
-|Work in progress|yes|yes|owner   |everyone|owner, reviewers, CCs|owner
+|WIP State       |Review Started|Tag Given|Default |notify=ALL
+|Ready for review|N/A           |N/A      |everyone|everyone
+|Work in progress|no            |no       |not sent|everyone
+|Work in progress|no            |yes      |owner   |everyone
+|Work in progress|yes           |no       |everyone|everyone
+|Work in progress|yes           |yes      |owner   |everyone
+
 |=============================
 
 If reviewers are added, then a second email will be sent using the "newchange"
 template. The notification logic for this email is the same as for
 link:#add-reviewer[Add Reviewer].
 
-[options="header",cols="1,1,1,1,1"]
+[options="header",cols="1,1,1"]
 |=============================
-|WIP State       |Default|notify=ALL|notify=OWNER_REVIEWERS|notify=OWNER
-|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs|owner, reviewers, CCs|owner
-|Work in progress|not sent|owner, reviewers, CCs|owner, reviewers, CCs|owner
+|WIP State       |Default              |notify=ALL
+|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs
+|Work in progress|not sent             |owner, reviewers, CCs
 |=============================
 
 

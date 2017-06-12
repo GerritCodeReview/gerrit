@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "397d8e46_9ca7f682",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T17:09:29Z",
+      "side": 1,
+      "message": "Hi, yep, https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6062",
+      "parentUuid": "76ab6b88_614a7f35",
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1758fc9_36c62c71",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 20

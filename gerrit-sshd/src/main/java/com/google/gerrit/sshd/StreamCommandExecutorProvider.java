@@ -16,12 +16,13 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.ThreadFactory;
 import org.eclipse.jgit.lib.Config;
 
-class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
+class StreamCommandExecutorProvider implements Provider<ScheduledThreadPoolExecutor> {
   private final int poolSize;
   private final WorkQueue queues;
 
@@ -33,8 +34,8 @@ class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
   }
 
   @Override
-  public WorkQueue.Executor get() {
-    final WorkQueue.Executor executor;
+  public ScheduledThreadPoolExecutor get() {
+    final ScheduledThreadPoolExecutor executor;
 
     executor = queues.createQueue(poolSize, "SSH-Stream-Worker");
 

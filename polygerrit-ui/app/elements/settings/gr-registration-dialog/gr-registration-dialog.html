@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -58,25 +58,52 @@ limitations under the License.
           or subscribed to.
         </p>
         <hr>
-        <section>
+        <section id="username" disabled$="[[!_serverConfig.editable_account_fields.USER_NAME]]">
+          <div class="title">Username</div>
+          <span disabled$="[[!_account.username]]">
+            <input
+                is="iron-input"
+                id="usernameInput"
+                bind-value="[[_account.username]]"
+                on-keydown="_handleUsernameKeydown"
+                disabled$="[[_saving]]">
+          </span>
+        </section>
+        <section id="name"
+              disabled$="[[!_serverConfig.editable_account_fields.FULL_NAME]]">
           <div class="title">Full Name</div>
-          <input
-              is="iron-input"
-              id="name"
-              bind-value="{{_account.name}}"
-              disabled="[[_saving]]"
-              on-keydown="_handleNameKeydown">
+          <span>
+            <input
+                is="iron-input"
+                id="nameInput"
+                bind-value="[[_account.name]]"
+                disabled$="[[_saving]]"
+                on-keydown="_handleNameKeydown">
+          </span>
         </section>
         <section>
+          <div class="title">New Email</div>
+          <span>
+            <input
+                is="iron-input"
+                id="emailInput"
+                disabled$="[[_saving]]"
+                on-keydown="_handleEmailKeydown">
+          </span>
+        </section>
+        <section  hidden="[[!_account.email]]">
           <div class="title">Preferred Email</div>
-          <select
-              id="email"
-              disabled="[[_saving]]">
-            <option value="[[_account.email]]">[[_account.email]]</option>
-            <template is="dom-repeat" items="[[_account.secondary_emails]]">
-              <option value="[[item]]">[[item]]</option>
-            </template>
-          </select>
+          <span>
+            <select
+                id="emailSelect"
+                bind-value="[[_account.email]]"
+                disabled="[[_saving]]">
+              <option value="[[_account.email]]">[[_account.email]]</option>
+              <template is="dom-repeat" items="[[_account.secondary_emails]]">
+                <option value="[[item]]">[[item]]</option>
+              </template>
+            </select>
+          </span>
         </section>
       </main>
       <footer>

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@
     properties: {
       /** @type {?} */
       _account: Object,
+      /** @type {?} */
+      _serverConfig: Object,
       _saving: Boolean,
     },
 
@@ -40,9 +42,26 @@
     },
 
     attached() {
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+        } else {
+          this._account = null;
+        }
       });
+
+      this.$.restAPI.getConfig().then(config => {
+        this._serverConfig = config;
+      });
+    },
+
+    _handleUsernameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
     },
 
     _handleNameKeydown(e) {
@@ -52,12 +71,36 @@
       }
     },
 
+    _handleEmailKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
+    },
+
     _save() {
       this._saving = true;
-      const promises = [
-        this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
-      ];
+      const promises = [];
+      if (this.$.usernameInput.bindValue &&
+          this._account.username !== this.$.usernameInput.bindValue) {
+        promises.push(
+            this.$.restAPI.setAccountUsername(this.$.usernameInput.bindValue));
+      }
+      if (this.$.nameInput.bindValue &&
+          this._account.name !== this.$.nameInput.bindValue) {
+        promises.push(
+            this.$.restAPI.setAccountName(this.$.nameInput.bindValue));
+      }
+      if (this.$.emailInput.value) {
+        promises.push(
+            this.$.restAPI.addAccountEmail(
+                this.$.emailInput.value));
+      }
+      if (this.$.emailSelect.bindValue) {
+        promises.push(
+            this.$.restAPI.setPreferredAccountEmail(
+                this.$.emailSelect.bindValue));
+      }
       return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');
@@ -75,6 +118,17 @@
       e.preventDefault();
       this._saving = true; // disable buttons indefinitely
       this.fire('close');
+    },
+
+    _isDisabled(config, save) {
+      return !config || save;
+    },
+
+    _computeDisableUsername(account, save) {
+      console.log(account);
+      console.log(save);
+      const checks = account || save;
+      return checks ? true : false;
     },
   });
 })();

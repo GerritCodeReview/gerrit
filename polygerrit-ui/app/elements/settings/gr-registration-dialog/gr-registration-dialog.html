@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -58,6 +58,15 @@ limitations under the License.
           or subscribed to.
         </p>
         <hr>
+        <section>
+          <div class="title">Username</div>
+          <input
+              is="iron-input"
+              id="username"
+              bind-value="{{_account.username}}"
+              disabled="[[_saving]]"
+              on-keydown="_handleUsernameKeydown">
+        </section>
         <section>
           <div class="title">Full Name</div>
           <input

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76ab6b88_614a7f35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T16:57:30Z",
+      "side": 1,
+      "message": "Is there an issue for this? Or can you describe the repro steps in a new issue?",
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1758fc9_36c62c71",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T16:57:30Z",
+      "side": 1,
+      "message": "These lines look like, if `data.hash` does not start with a slash, then `base` will appear in `newUrl` twice -- which looks odd. Is that intended?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78386e80_51ad29bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T16:57:30Z",
+      "side": 1,
+      "message": "If there is a base URL, this test will always fail (unless the base starts with /VE/ in which case it would mistakenly always pass). Shouldn\u0027t this test the original value of base.hash -- before base is added to it?",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 9
+      },
+      "revId": "73e4f571a4f02dcc0a2bfde8472b865fad75db98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

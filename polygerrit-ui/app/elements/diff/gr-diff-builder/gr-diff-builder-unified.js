@@ -29,6 +29,9 @@
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
     }
+    if (group.dueToRebase) {
+      sectionEl.classList.add('dueToRebase');
+    }
 
     for (let i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));

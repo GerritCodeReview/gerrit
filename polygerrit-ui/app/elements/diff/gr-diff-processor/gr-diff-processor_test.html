@@ -601,6 +601,16 @@ limitations under the License.
           assert.isTrue(element._breakdown.called);
         });
 
+        test('_breakdownGroup keeps due_to_rebase for broken down additions',
+            () => {
+              sandbox.spy(element, '_breakdown');
+              const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
+              const result = element._breakdownGroup(chunk);
+              for (const subResult of result) {
+                assert.isTrue(subResult.due_to_rebase);
+              }
+            });
+
         test('_breakdown common case', () => {
           const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
               .split(' ');

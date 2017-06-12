@@ -34,6 +34,10 @@ limitations under the License.
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
+        --light-rebased-remove-highlight-color: #fff6ea;
+        --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
+        --light-rebased-add-highlight-color: #edfffa;
+        --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       }
       :host(.no-left) .sideBySide ::content .left,
       :host(.no-left) .sideBySide ::content .left + td,
@@ -145,6 +149,20 @@ limitations under the License.
       }
       .content.remove {
         background-color: var(--light-remove-highlight-color);
+      }
+      .dueToRebase .content.add .intraline,
+      .delta.total.dueToRebase .content.add {
+        background-color: var(--dark-rebased-add-highlight-color);
+      }
+      .dueToRebase .content.add {
+        background-color: var(--light-rebased-add-highlight-color);
+      }
+      .dueToRebase .content.remove .intraline,
+      .delta.total.dueToRebase .content.remove {
+        background-color: var(--dark-rebased-remove-highlight-color);
+      }
+      .dueToRebase .content.remove {
+        background-color: var(--light-rebased-remove-highlight-color);
       }
       .content .contentText:after {
         /* Newline, to ensure all lines are one line-height tall. */

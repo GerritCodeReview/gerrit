@@ -63,7 +63,7 @@ branch.
 
 --json::
 -j::
-	Read review input from JSON file. See
+	Read review input json from stdin. See
 	link:rest-api-changes.html#review-input[ReviewInput] entity for the
 	format.
 	(option is mutually exclusive with --submit, --restore, --publish, --delete,

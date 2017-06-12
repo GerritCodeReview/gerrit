@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "ac747389_d2d9dbcb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-12T15:16:08Z",
+      "side": 1,
+      "message": "Hmm, maybe I don\u0027t understand this code well enough, but my understanding was that if I have comments in my local storage under key \"saveReplyComment-123\" and then this change is rolled out and I now access the 123 change with project in the URL it would read comments from the local storage with key \"saveReplyComment-MyProject/+/123\". This would mean my old comments which are stored under key \"saveReplyComment-123\" are not loaded anymore, and hence they are lost for me.\n\nNot sure if I understand this correctly and if it\u0027s actually an issue.",
+      "parentUuid": "93b9da42_2c318c9a",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4882276a_b3f3b5f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 2

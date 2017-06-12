@@ -3661,9 +3661,6 @@ link:#reviewer-input[ReviewerInput]. The corresponding result of
 adding each reviewer will be returned in a map of inputs to
 link:#add-reviewer-result[AddReviewerResult]s.
 
-NOTE: The notify property of each ReviewerInput is *ignored*. Use the notify
-property of the top-level link:#review-input[ReviewInput] instead.
-
 .Response
 ----
   HTTP/1.1 200 OK
@@ -3757,6 +3754,42 @@ the `errors` field set containing details of why they failed.
     }
   }
 ----
+
+.Notifications
+
+An email will be sent using the "comment" template.
+
+If the top-level notify property is null or not set, then notification behavior
+depends on whether the change is WIP, whether it has started review, and whether
+the tag property is null.
+
+NOTE: If adding reviewers, the notify property of each ReviewerInput is *ignored*.
+Use the notify property of the top-level link:#review-input[ReviewInput] instead.
+
+For the purposes of this table, *everyone* means *owner, reviewers, CCs, stars, and ALL_COMMENTS
+watchers*.
+
+[options="header",cols="1,1,1,1,1,1,1"]
+|=============================
+|WIP State       |Review Started|Tag Given|Default|notify=ALL|notify=OWNER_REVIEWERS|notify=OWNER
+|Ready for review|N/A|N/A|everyone|everyone|owner, reviewers, CCs|owner
+|Work in progress|no |no |not sent|everyone|owner, reviewers, CCs|owner
+|Work in progress|no |yes|owner   |everyone|owner, reviewers, CCs|owner
+|Work in progress|yes|no |everyone|everyone|owner, reviewers, CCs|owner
+|Work in progress|yes|yes|owner   |everyone|owner, reviewers, CCs|owner
+|=============================
+
+If reviewers are added, then a second email will be sent using the "newchange"
+template. The notification logic for this email is the same as for
+link:#add-reviewer[Add Reviewer].
+
+[options="header",cols="1,1,1,1,1"]
+|=============================
+|WIP State       |Default|notify=ALL|notify=OWNER_REVIEWERS|notify=OWNER
+|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs|owner, reviewers, CCs|owner
+|Work in progress|not sent|owner, reviewers, CCs|owner, reviewers, CCs|owner
+|=============================
+
 
 [[rebase-revision]]
 === Rebase Revision

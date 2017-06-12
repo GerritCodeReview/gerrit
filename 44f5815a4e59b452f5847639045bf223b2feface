@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c37d04a_5b740703",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T15:45:54Z",
+      "side": 1,
+      "message": "please add the \u0027loading\u0027 container.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "44f5815a4e59b452f5847639045bf223b2feface",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e4893d0_0703ea1d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T15:45:54Z",
+      "side": 1,
+      "message": "can fit in previous line",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 29
+      },
+      "revId": "44f5815a4e59b452f5847639045bf223b2feface",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc88126a_530ba116",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T15:45:54Z",
+      "side": 1,
+      "message": "please add the \u0027_loading\u0027 property.",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "44f5815a4e59b452f5847639045bf223b2feface",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8a2c9d7_bf15acd8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list_test.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T15:45:54Z",
+      "side": 1,
+      "message": "please add this test file to test/index.html",
+      "revId": "44f5815a4e59b452f5847639045bf223b2feface",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c3105cb_f579b650",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T15:45:54Z",
+      "side": 1,
+      "message": "Please add/modify route to support the filter/pagination.",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 7
+      },
+      "revId": "44f5815a4e59b452f5847639045bf223b2feface",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

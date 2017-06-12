@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b488512_1abe0f49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-12T12:55:28Z",
+      "side": 0,
+      "message": "this is used by plugins on plugin unload to unregister their work queue.\n\nhttp://cs.bazel.build/search?q\u003dunregisterWorkQueue+r%3Aplugins\u0026num\u003d50",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 209,
+        "endChar": 5
+      },
+      "revId": "f05ee3fc7372e7192554159747ad74fe0f0df720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

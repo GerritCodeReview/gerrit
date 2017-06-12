@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,9 +39,22 @@
     },
 
     attached() {
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+        } else {
+          this._account = null;
+        }
       });
+    },
+
+    _handleUsernameKeydown(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation();
+        this._save();
+      }
     },
 
     _handleNameKeydown(e) {
@@ -53,10 +66,20 @@
 
     _save() {
       this._saving = true;
-      const promises = [
-        this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value),
-      ];
+      const promises = [];
+      if (this.$.username.bindValue &&
+          this._account.username !== this.$.username.bindValue) {
+        promises.push(
+            this.$.restAPI.setAccountUsername(this.$.username.bindValue));
+      }
+      if (this.$.name.bindValue &&
+          this._account.name !== this.$.name.bindValue) {
+        promises.push(this.$.restAPI.setAccountName(this.$.name.bindValue));
+      }
+      if (this.$.email.bindValue) {
+        promises.push(
+            this.$.restAPI.setPreferredAccountEmail(this.$.email.bindValue));
+      }
       return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');

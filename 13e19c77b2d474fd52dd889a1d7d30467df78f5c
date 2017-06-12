@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17b01ee6_44bc9f76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:38:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "30b1b1c4_eebc5e01",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 63,
+        "endChar": 21
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4a0bfe5_3eea6bce",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 25
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-12T16:11:40Z",
       "side": 1,
       "message": "Instead of opening an overlay, let\u0027s just take the user to the new project page.",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ef412a_d8f030aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:38:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f4a0bfe5_3eea6bce",
       "range": {
         "startLine": 64,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "634e279f_cb9c4079",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:38:20Z",
+      "side": 1,
+      "message": "Not sure what you mean. I see here https://github.com/GerritCodeReview/gerrit/blob/73deebb9ef0eb2e52ec206c58150125be222ef25/polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html#L65 it doing the same.",
+      "parentUuid": "48c9f915_13c9711d",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 23
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6b18998_f0d6096d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 25
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-12T16:11:40Z",
       "side": 1,
       "message": "The new suggestions don\u0027t include \u0027All-Projects\u0027 etc. Please look at the API request GWT makes: /projects/?m\u003dal\u0026n\u003d20\u0026type\u003dALL\u0026d\n\nMulti should not be allowed (you can only pick one), also don\u0027t think we want tab-complete-without-commit as we would want it to get selected on tab.",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 91,
+        "endChar": 62
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "becbe650_d6144301",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:38:20Z",
+      "side": 1,
+      "message": "When typing in, it will get all projects. As you can use any project as a parent. Also if not parent is defined, the default is All-Project.",
+      "parentUuid": "e6b18998_f0d6096d",
       "range": {
         "startLine": 82,
         "startChar": 11,

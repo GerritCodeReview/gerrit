@@ -39,8 +39,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .sent("restore", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -53,8 +52,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .sent("restore", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -67,8 +65,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .sent("restore", sc)
         .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -82,8 +79,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .notTo(admin)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -96,8 +92,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .sent("restore", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }
@@ -110,8 +105,7 @@ public class RestoredSenderIT extends AbstractNotificationTest {
         .sent("restore", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer, admin)
-        .to(sc.reviewerByEmail) // TODO(logan): This is unintentionally TO, should be CC.
-        .cc(sc.ccerByEmail)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS);
   }

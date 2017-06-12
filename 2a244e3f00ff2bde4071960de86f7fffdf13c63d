@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cd426e6_7e826c97",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T10:45:44Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2a244e3f00ff2bde4071960de86f7fffdf13c63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

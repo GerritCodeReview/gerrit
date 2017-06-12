@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "414999ff_86a6c22e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b2365b9_7e88e633",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "18b057dc_f91b4ec6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "Good idea, but this will also remove Verified votes by CI which I think better be highlighted.",
+      "parentUuid": "cbf01a1a_37413080",
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0e11cac_724038d0",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fdb6be8_33c01d78",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0e11cac_724038d0",
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +188,78 @@
     },
     {
       "key": {
+        "uuid": "aa428620_b64ed541",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "Yes. But since only expected to contain one label at this point, it doesn\u0027t matter.\nRemoved since isn\u0027t required.",
+      "parentUuid": "283c4584_d7ea0c1f",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff27e17e_042bbecd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "This re essentially parses the following:\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java#1256\n\nAnd labels are formatted here:\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java#59\n\nThis produces is space separated list of label name to label score joined by + or -.",
+      "parentUuid": "d8dbe854_3d9c9384",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c88be2b1_dabc1c81",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure about custom and neutral votes, so added just in case.\nRemoved since isn\u0027t required.",
+      "parentUuid": "0762d971_6761afcc",
+      "range": {
+        "startLine": 176,
+        "startChar": 39,
+        "endLine": 176,
+        "endChar": 42
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8167579f_71a4449d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -148,6 +280,30 @@
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79fc7cb5_a355fd47",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T17:33:29Z",
+      "side": 1,
+      "message": "I don\u0027t see practical benefits, but done.",
+      "parentUuid": "8167579f_71a4449d",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

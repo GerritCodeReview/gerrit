@@ -22,6 +22,30 @@
       "revId": "e5f30f2ba7c1ddc52f8a25288af2e3212707b2eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b215dc4_75f619a9",
+        "filename": "polygerrit-ui/app/behaviors/gr-list-view-behavior/gr-list-view-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-12T15:59:27Z",
+      "side": 1,
+      "message": "I think the way we use behaviors isn\u0027t right, but we\u0027re on the slippery slope now, so let\u0027s keep going in hope this ends well.",
+      "parentUuid": "09a61ed3_03016087",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "e5f30f2ba7c1ddc52f8a25288af2e3212707b2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

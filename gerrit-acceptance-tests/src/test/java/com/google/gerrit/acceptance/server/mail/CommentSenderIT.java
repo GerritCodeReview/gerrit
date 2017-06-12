@@ -183,10 +183,58 @@ public class CommentSenderIT extends AbstractNotificationTest {
   }
 
   @Test
+  public void commentOnWipChangeByBot() throws Exception {
+    StagedChange sc = stageWipChange(ALL_COMMENTS);
+    TestAccount bot = sc.testAccount("bot");
+    review(bot, sc.changeId, ENABLED, null, "tag");
+    assertThat(sender)
+        .sent("comment", sc)
+        .to(sc.owner)
+        .notTo(sc.reviewer, sc.ccer)
+        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
+        .notTo(sc.starrer)
+        .notTo(ALL_COMMENTS);
+  }
+
+  @Test
+  public void commentOnReviewableWipChangeByBot() throws Exception {
+    StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
+    TestAccount bot = sc.testAccount("bot");
+    review(bot, sc.changeId, ENABLED, null, "tag");
+    assertThat(sender)
+        .sent("comment", sc)
+        .to(sc.owner)
+        .notTo(sc.reviewer, sc.ccer)
+        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
+        .notTo(sc.starrer)
+        .notTo(ALL_COMMENTS);
+  }
+
+  @Test
+  public void commentOnReviewableWipChangeByBotNotifyAll() throws Exception {
+    StagedChange sc = stageWipChange(ALL_COMMENTS);
+    TestAccount bot = sc.testAccount("bot");
+    review(bot, sc.changeId, ENABLED, ALL, "tag");
+    assertThat(sender)
+        .sent("comment", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS);
+  }
+
+  @Test
   public void commentOnReviewableWipChangeByOwner() throws Exception {
     StagedChange sc = stageReviewableWipChange(ALL_COMMENTS);
     review(sc.owner, sc.changeId, ENABLED);
-    assertThat(sender).notSent();
+    assertThat(sender)
+        .sent("comment", sc)
+        .notTo(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS);
   }
 
   private void review(TestAccount account, String changeId, EmailStrategy strategy)
@@ -197,9 +245,20 @@ public class CommentSenderIT extends AbstractNotificationTest {
   private void review(
       TestAccount account, String changeId, EmailStrategy strategy, @Nullable NotifyHandling notify)
       throws Exception {
+    review(account, changeId, strategy, notify, null);
+  }
+
+  private void review(
+      TestAccount account,
+      String changeId,
+      EmailStrategy strategy,
+      @Nullable NotifyHandling notify,
+      @Nullable String tag)
+      throws Exception {
     setEmailStrategy(account, strategy);
     ReviewInput in = ReviewInput.recommend();
     in.notify = notify;
+    in.tag = tag;
     gApi.changes().id(changeId).revision("current").review(in);
   }
 }

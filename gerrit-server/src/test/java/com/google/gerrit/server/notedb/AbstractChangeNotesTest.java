@@ -60,9 +60,11 @@ import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.TimeZone;
@@ -177,6 +179,18 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
+
+                // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
+                bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
+                    .toInstance(
+                        () -> {
+                          throw new UnsupportedOperationException();
+                        });
+                bind(ChangeBundleReader.class)
+                    .toInstance(
+                        (db, id) -> {
+                          throw new UnsupportedOperationException();
+                        });
               }
             });
 

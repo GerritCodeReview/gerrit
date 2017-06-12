@@ -16,11 +16,11 @@ package com.google.gerrit.sshd;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-/** Marker on {@link Executor} used by SSH threads. */
+/** Marker on {@link ScheduledThreadPoolExecutor} used by SSH threads. */
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface CommandExecutor {}

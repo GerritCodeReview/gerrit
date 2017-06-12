@@ -22,7 +22,6 @@ import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.CommandExecutorQueueProvider;
 import com.google.inject.Inject;
@@ -30,6 +29,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.Filter;
@@ -102,7 +102,7 @@ public class ProjectQoSFilter implements Filter {
     final HttpServletResponse rsp = (HttpServletResponse) response;
     final Continuation cont = ContinuationSupport.getContinuation(req);
 
-    WorkQueue.Executor executor = getExecutor();
+    ScheduledThreadPoolExecutor executor = getExecutor();
 
     if (cont.isInitial()) {
       TaskThunk task = new TaskThunk(executor, cont, req);
@@ -136,7 +136,7 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
-  private WorkQueue.Executor getExecutor() {
+  private ScheduledThreadPoolExecutor getExecutor() {
     return queue.getQueue(user.get().getCapabilities().getQueueType());
   }
 
@@ -148,14 +148,17 @@ public class ProjectQoSFilter implements Filter {
 
   private final class TaskThunk implements CancelableRunnable, ContinuationListener {
 
-    private final WorkQueue.Executor executor;
+    private final ScheduledThreadPoolExecutor executor;
     private final Continuation cont;
     private final String name;
     private final Object lock = new Object();
     private boolean done;
     private Thread worker;
 
-    TaskThunk(WorkQueue.Executor executor, Continuation cont, HttpServletRequest req) {
+    TaskThunk(
+        ScheduledThreadPoolExecutor executor,
+        Continuation cont,
+        HttpServletRequest req) {
       this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);

@@ -28,7 +28,6 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -50,6 +49,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.Command;
@@ -85,7 +85,7 @@ public abstract class BaseCommand implements Command {
 
   @Inject private RequestCleanup cleanup;
 
-  @Inject @CommandExecutor private WorkQueue.Executor executor;
+  @Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private CurrentUser user;

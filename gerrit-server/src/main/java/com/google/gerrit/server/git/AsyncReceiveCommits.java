@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
@@ -30,6 +29,7 @@ import com.google.inject.name.Named;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -125,7 +125,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private final ReceiveCommits rc;
-  private final Executor executor;
+  private final ScheduledThreadPoolExecutor executor;
   private final RequestScopePropagator scopePropagator;
   private final MultiProgressMonitor progress;
   private final long timeoutMillis;
@@ -133,7 +133,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   @Inject
   AsyncReceiveCommits(
       ReceiveCommits.Factory factory,
-      @ReceiveCommitsExecutor Executor executor,
+      @ReceiveCommitsExecutor ScheduledThreadPoolExecutor executor,
       RequestScopePropagator scopePropagator,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,

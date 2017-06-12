@@ -29,7 +29,6 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.gerrit.server.events.ProjectNameKeySerializer;
 import com.google.gerrit.server.events.SupplierSerializer;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -43,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ final class StreamEvents extends BaseCommand {
 
   @Inject private DynamicSet<UserScopedEventListener> eventListeners;
 
-  @Inject @StreamCommandExecutor private WorkQueue.Executor pool;
+  @Inject @StreamCommandExecutor private ScheduledThreadPoolExecutor pool;
 
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<Event> queue = new LinkedBlockingQueue<>(MAX_EVENTS);

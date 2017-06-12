@@ -296,6 +296,30 @@
     },
     {
       "key": {
+        "uuid": "943444de_340b7614",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-12T15:22:07Z",
+      "side": 1,
+      "message": "I think this should be fine, because when parsing back the comments, we use the ChangeIdParser.\n\nThat also has a test for just getting a numeric change ID and no project (see ChangeIdParserTest). So in case of your stored comments, they should load as usual. The project would be set to null, but that is fine for the moment.\n\nOr did I miss something?",
+      "parentUuid": "ac747389_d2d9dbcb",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "d9a40a4c4894eea919916b0ee120cd89b241b7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4882276a_b3f3b5f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 2

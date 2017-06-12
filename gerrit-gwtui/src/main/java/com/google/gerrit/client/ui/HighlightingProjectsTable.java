@@ -28,8 +28,10 @@ public class HighlightingProjectsTable extends ProjectsTable {
 
   @Override
   protected void populate(final int row, final ProjectInfo k) {
-    table.setWidget(row, 1, new InlineHTML(Util.highlight(k.name(), toHighlight)));
-    table.setText(row, 2, k.description());
+    populateState(row, k);
+    table.setWidget(
+        row, ProjectsTable.C_NAME, new InlineHTML(Util.highlight(k.name(), toHighlight)));
+    table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
 
     setRowItem(row, k);
   }

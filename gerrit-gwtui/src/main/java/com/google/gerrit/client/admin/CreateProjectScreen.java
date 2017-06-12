@@ -212,6 +212,7 @@ public class CreateProjectScreen extends Screen {
 
           @Override
           protected void populate(final int row, final ProjectInfo k) {
+            populateState(row, k);
             final Anchor projectLink = new Anchor(k.name());
             projectLink.addClickHandler(
                 new ClickHandler() {
@@ -222,8 +223,8 @@ public class CreateProjectScreen extends Screen {
                   }
                 });
 
-            table.setWidget(row, 2, projectLink);
-            table.setText(row, 3, k.description());
+            table.setWidget(row, ProjectsTable.C_NAME, projectLink);
+            table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
 
             setRowItem(row, k);
           }

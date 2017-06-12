@@ -74,6 +74,14 @@ public class CreateGroupScreen extends Screen {
     addCreateGroupPanel();
   }
 
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    if (addTxt != null) {
+      addTxt.setFocus(true);
+    }
+  }
+
   private void addCreateGroupPanel() {
     VerticalPanel addPanel = new VerticalPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());

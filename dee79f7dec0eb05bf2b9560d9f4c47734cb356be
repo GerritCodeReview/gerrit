@@ -22,6 +22,30 @@
       "revId": "dee79f7dec0eb05bf2b9560d9f4c47734cb356be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2955128_5df96884",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-12T17:18:09Z",
+      "side": 1,
+      "message": "Definitely the primary reason. I do think this makes the hyperlinks a bit more convenient, though... And the dashboard is pretty crowded for non fullscreen users already. \n\nI definitely wouldn\u0027t be opposed to making topic its own column in the future.",
+      "parentUuid": "7fd39a0d_f03f30a4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "dee79f7dec0eb05bf2b9560d9f4c47734cb356be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

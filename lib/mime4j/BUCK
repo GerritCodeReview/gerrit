@@ -1,0 +1,35 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '0.8.0'
+
+java_library(
+  name = 'core',
+  exported_deps = [
+    ':core_library',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'core_library',
+  id = 'org.apache.james:apache-mime4j-core:' + VERSION,
+  sha1 = 'd54f45fca44a2f210569656b4ca3574b42911c95',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'dom',
+  exported_deps = [
+    ':dom_library',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'dom_library',
+  id = 'org.apache.james:apache-mime4j-dom:' + VERSION,
+  sha1 = '6720c93d14225c3e12c4a69768a0370c80e376a3',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)

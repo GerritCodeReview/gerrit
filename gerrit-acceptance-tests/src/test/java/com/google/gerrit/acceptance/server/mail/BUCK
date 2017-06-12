@@ -1,0 +1,10 @@
+include_defs('//gerrit-acceptance-tests/tests.defs')
+
+acceptance_tests(
+  group = 'server_mail',
+  srcs = glob(['*IT.java']),
+  labels = ['server'],
+  deps = [
+    '//lib/joda:joda-time',
+  ],
+)

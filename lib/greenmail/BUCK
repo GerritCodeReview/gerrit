@@ -1,0 +1,21 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '1.5.2'
+
+java_library(
+  name = 'greenmail',
+  exported_deps = [
+    ':greenmail_library',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'greenmail_library',
+  id = 'com.icegreen:greenmail:' + VERSION,
+  sha1 = '6b4862a09f8642da58c109117b24ccc19a4a6d39',
+  license = 'Apache2.0',
+  exclude_java_sources = True,
+  visibility = ['PUBLIC'],
+)
+

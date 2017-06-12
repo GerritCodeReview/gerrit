@@ -1,0 +1,21 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '1.5.6'
+
+java_library(
+  name = 'mail',
+  exported_deps = [
+    ':mail_library',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'mail_library',
+  id = 'com.sun.mail:javax.mail:' + VERSION,
+  sha1 = 'ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe',
+  license = 'DO_NOT_DISTRIBUTE',
+  exclude_java_sources = True,
+  visibility = ['PUBLIC'],
+)
+

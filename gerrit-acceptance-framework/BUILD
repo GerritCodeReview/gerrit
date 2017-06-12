@@ -49,10 +49,12 @@ java_library2(
     '//lib:truth',
   ],
   deps = PROVIDED + [ # We want these deps to be exported_deps
+    '//lib/greenmail:greenmail',
     '//lib:gwtorm',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
+    '//lib/mail:mail',
   ],
   visibility = ['//visibility:public'],
 )

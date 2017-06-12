@@ -16,6 +16,24 @@
       "revId": "50e5fd8dad2ad037d0862d48e4db98658e3f4df5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a5f85d_ca296f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T17:14:16Z",
+      "side": 1,
+      "message": "I thought that this would clean the cache if something changes, but it looks like it is only for the rest api.\n\n+ this makes it constant so base urls can use the cache in rest api.",
+      "parentUuid": "0f2f8da2_dfd5e3ae",
+      "revId": "50e5fd8dad2ad037d0862d48e4db98658e3f4df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

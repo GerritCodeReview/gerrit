@@ -1,0 +1,611 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b01058a_2d60d500",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "I\u0027m not familiar with this naming convention. In google3 tests should end with \"Test\". Is that not the case in Gerrit?",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac642354_03efe33d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "This method tests multiple cases, if I understand it correctly. It is usually best to have one thing tested per method. This makes it easier to find exactly what is going wrong. Also, all the tests will run every time, while in this method the later tests won\u0027t run if the earlier ones fail.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9905efc7_42564faa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Trivial: Blank line needed.\n\nDo you use go/google-java-format? You might look into it.",
+      "range": {
+        "startLine": 36,
+        "startChar": 53,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff88a5c_f021978c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "@link?\n\n@link is superior to @code because the IDE can then generate a clickable link and, more important, can update this when using Refactor-\u003eRename.",
+      "range": {
+        "startLine": 28,
+        "startChar": 60,
+        "endLine": 28,
+        "endChar": 64
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67dd7317_eb3863eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Minor:\n\nProper formatting of @tag comments comes from the fact that these are sentence fragments, not entire sentences. So they shouldn\u0027t be formatted as sentences. That is, don\u0027t start with uppercase or end with punctuation.\n\nOne exception to \"end with punctuation\" is if the initial fragment is followed by a complete sentence (as you have here). In that case, end the fragment with punctuation and format the following sentence as a full sentence -- start with uppercase and end with punctuation.\n\nObviously, the content of the comment is far, far more important. :-)",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 92
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e74c47_c9e812e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Since all the methods in this class are static, this is a classic utility class which should never be instantiated. Usually, we enforce that by adding a private empty constructor.",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 15
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba84264a_abb839bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "I\u0027m concerned that all you are doing throughout this method is log and return (and sometimes just log).\n\nHow does the caller find out something went wrong? Do they need to know? I\u0027d be surprised if they don\u0027t, but if they really don\u0027t, please comment that.\n\nI would feel more comfortable about this if it were throwing exceptions instead of just logging errors.",
+      "range": {
+        "startLine": 63,
+        "startChar": 14,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c7ee84_be632be3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Wow, lots of nesting in this method! And it\u0027s over 100 lines long. Seems like it could be improved.\n\nSuggestions:\n* Extract a method or two. One place to look for good places to break them out is where you have comments that introduce a new section of the code.\n\n* Use guard checks. For example, I see a lot of if/else that could potentially be replaced with\nif (!xxx) {\n  return;\n}\n// happy path\n\n* Collapse the 3 try/catch sequences into one? try-with-resources might help here (depending on if it\u0027s available on Android and if the things you are \"closing\" in your finally clauses can be auto-closed.",
+      "range": {
+        "startLine": 141,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9be8bc_24d4febd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Why aren\u0027t these all private? Or public? I could see arguments for either choice, but using package-private doesn\u0027t make sense to me.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49132777_d4dac167",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "There are a lot of nullable fields in this. Are you using go/nullness to check for proper null handling?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9fc9d8_34783750",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Object? Seems more like a service.",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cdffaea_484a8ed5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "This method is also quite long. Please look into shortening it.\n\nA lot of this one is in error handling. Same question about why you aren\u0027t using exceptions.",
+      "range": {
+        "startLine": 170,
+        "startChar": 3,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85fc0050_9f0d84be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "This method is borderline. The main issue with it is not its length but that it seems to be doing 3 different things -- preparing an email, creating a PatchSet, and creating a Comment.",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 247,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f76fa42_1fc45d9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Why make it publicly visible instead of package-private or protected?",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eea81a4_65e81378",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Catch and log an error can be a problem since the caller can\u0027t discover something happened. Is that really the right choice here?",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25be7993_23899b16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ParserUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Also a util class that needs to be protected from instantiation.",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4e8881_38ef4136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "try-with-resources? BufferedReader supports it.",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 7
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f3b83a_40cf630d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Util class.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 26
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a96f3761_71893de9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Good, rethrowing the exception! So there may be a good reason for not doing this in the earlier classes.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 36
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926933c3_01f05b40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/TextParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "574ba30c_e63a4413",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/AbstractParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262ac342_83ab0edb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/GenericHtmlParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a08873_93ea867f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/AttachmentMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e9e511_a3dd0804",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/Base64HeaderMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "292c4bed_4eb38da1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/HtmlMimeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34f3f318_c4fc8c84",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/NonUTF8Message.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3572b642_7397ceb1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/QuotedPrintableHeaderMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3819766a_f3b48bc8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/RawMailMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e93bc90e_e12f6cdc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/data/SimpleTextMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-12T21:03:50Z",
+      "side": 1,
+      "message": "Skipping. There\u0027s plenty of code in the other files.",
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -40,6 +40,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -70,6 +73,7 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -235,6 +239,7 @@ public class MergeOp implements AutoCloseable {
   private ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
+  private TopicMetrics topicMetrics;
 
   @Inject
   MergeOp(
@@ -247,6 +252,7 @@ public class MergeOp implements AutoCloseable {
       SubmoduleOp.Factory subOpFactory,
       MergeOpRepoManager orm,
       NotifyUtil notifyUtil,
+      TopicMetrics topicMetrics,
       @Assisted BatchUpdate.Factory batchUpdateFactory) {
     this.cmUtil = cmUtil;
     this.internalUserFactory = internalUserFactory;
@@ -258,6 +264,7 @@ public class MergeOp implements AutoCloseable {
     this.orm = orm;
     this.notifyUtil = notifyUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.topicMetrics = topicMetrics;
   }
 
   @Override
@@ -445,6 +452,25 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  @Singleton
+  private static class TopicMetrics {
+    final Counter0 topicSubmissions;
+    final Counter0 topicSubmissionsCompleted;
+
+    @Inject
+    TopicMetrics(MetricMaker metrics) {
+      topicSubmissions =
+          metrics.newCounter(
+              "topic/cross_project_submit",
+              new Description("Attempts at cross project topic submission").setRate());
+      topicSubmissionsCompleted =
+          metrics.newCounter(
+              "topic/cross_project_submit_completed",
+              new Description("Cross project topic submissions that concluded successfully")
+                  .setRate());
+    }
+  }
+
   private void integrateIntoHistory(ChangeSet cs) throws IntegrationException, RestApiException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logDebug("Beginning merge attempt on {}", cs);
@@ -457,12 +483,23 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException("Error reading changes to submit", e);
     }
     Set<Branch.NameKey> branches = cbb.keySet();
+
+    int projects = 0;
     for (Branch.NameKey branch : branches) {
       OpenRepo or = openRepo(branch.getParentKey());
       if (or != null) {
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+        BranchBatch bb = validateChangeList(or, cbb.get(branch));
+        toSubmit.put(branch, bb);
+        if (!bb.commits().isEmpty()) {
+          projects++;
+        }
       }
     }
+
+    if (projects > 1) {
+      topicMetrics.topicSubmissions.increment();
+    }
+
     // Done checks that don't involve running submit strategies.
     commitStatus.maybeFailVerbose();
     try {
@@ -493,6 +530,10 @@ public class MergeOp implements AutoCloseable {
         msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
       }
       throw new IntegrationException(msg, e);
+    }
+
+    if (projects > 1) {
+      topicMetrics.topicSubmissionsCompleted.increment();
     }
   }
 

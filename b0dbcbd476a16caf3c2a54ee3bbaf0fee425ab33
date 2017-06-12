@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "083b5f4d_88e0cf96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T19:18:46Z",
+      "side": 1,
+      "message": "I found it\u0027s hard to follow what is going on here, as hasReviewerStarted was added to NoteDb in [1], and only added to ReviewDb in this change. pendingReviewers is added to NoteDb only and is a no-op in NoteDb. I think it would be more clear, if [1] would be parent of this change, or even separate addition again in 2 changes:\n\n* a) add hasReviewStarted to both ReviewDb and NoteDb\n* b) add pendingReviewers to both ReviewDb and NoteDb\n\n* [1] https://gerrit-review.googlesource.com/105650 Determine whether review started in NoteDb parser\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b0dbcbd476a16caf3c2a54ee3bbaf0fee425ab33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21c7b9fb_da789b86",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9

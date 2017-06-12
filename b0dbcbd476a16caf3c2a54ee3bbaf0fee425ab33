@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1622e671_879e6627",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-12T22:05:24Z",
+      "side": 1,
+      "message": "I\u0027ve basically squashed that change from earlier in the commit log into this one, and abandoned the earlier one.",
+      "parentUuid": "083b5f4d_88e0cf96",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b0dbcbd476a16caf3c2a54ee3bbaf0fee425ab33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21c7b9fb_da789b86",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9

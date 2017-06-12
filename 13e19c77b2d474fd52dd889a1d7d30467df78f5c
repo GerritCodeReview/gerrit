@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6b89e544_1c73ea5f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T21:07:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "498aeaa9_d5dd8327",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 100,
+        "endChar": 68
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "136a7baa_5a54354e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 25
@@ -224,6 +248,30 @@
       "writtenOn": "2017-06-12T16:11:40Z",
       "side": 1,
       "message": "this should be a dropdown with only True/False options.",
+      "range": {
+        "startLine": 105,
+        "startChar": 12,
+        "endLine": 111,
+        "endChar": 37
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf0d5cc_4ec3c230",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T21:07:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "136a7baa_5a54354e",
       "range": {
         "startLine": 105,
         "startChar": 12,

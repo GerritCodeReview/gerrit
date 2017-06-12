@@ -204,10 +204,6 @@ public class WorkQueue {
       queueName = prefix;
     }
 
-    public void unregisterWorkQueue() {
-      queues.remove(this);
-    }
-
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
         final Runnable runnable, RunnableScheduledFuture<V> r) {

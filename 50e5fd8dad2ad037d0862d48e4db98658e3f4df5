@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2f8da2_dfd5e3ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T16:30:30Z",
+      "side": 1,
+      "message": "In what context does this help with cleaning the cache?",
+      "revId": "50e5fd8dad2ad037d0862d48e4db98658e3f4df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

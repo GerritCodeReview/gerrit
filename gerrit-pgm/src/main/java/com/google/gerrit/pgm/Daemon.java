@@ -74,6 +74,7 @@ import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
+import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
@@ -378,6 +379,7 @@ public class Daemon extends SiteProgram {
       modules.add(new SmtpEmailSender.Module());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new PluginModule());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));

@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 public class PluginRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    install(new PluginModule());
     bind(PluginsCollection.class);
     DynamicMap.mapOf(binder(), PLUGIN_KIND);
     put(PLUGIN_KIND).to(InstallPlugin.Overwrite.class);

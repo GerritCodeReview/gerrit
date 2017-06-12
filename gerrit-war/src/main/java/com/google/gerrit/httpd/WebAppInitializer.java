@@ -61,6 +61,7 @@ import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
+import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -321,6 +322,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new PluginModule());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));

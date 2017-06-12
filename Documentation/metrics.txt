@@ -63,6 +63,12 @@ of the process.
 
 * `sql/connection_pool/connections`: SQL database connections.
 
+=== Topics
+
+* `topic/cross_project_submit`: number of cross-project topic submissions.
+* `topic/cross_project_submit_completed`: number of cross-project
+topic submissions that concluded successfully.
+
 === JGit
 
 * `jgit/block_cache/cache_used`: Bytes of memory retained in JGit block cache.

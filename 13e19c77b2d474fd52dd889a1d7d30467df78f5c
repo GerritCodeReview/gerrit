@@ -259,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "b94e8e0f_465cbb5e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:43:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a29cfb1f_2179786a",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 114,
+        "endChar": 68
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c5e62f6_6f0b120e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
         "patchSetId": 25
@@ -316,6 +340,30 @@
       "writtenOn": "2017-06-12T16:11:40Z",
       "side": 1,
       "message": "Is there a reason !config.name can\u0027t be used here?",
+      "range": {
+        "startLine": 152,
+        "startChar": 10,
+        "endLine": 152,
+        "endChar": 66
+      },
+      "revId": "13e19c77b2d474fd52dd889a1d7d30467df78f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c58db4f_d19c1174",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:43:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a2a3615a_492bae16",
       "range": {
         "startLine": 152,
         "startChar": 10,

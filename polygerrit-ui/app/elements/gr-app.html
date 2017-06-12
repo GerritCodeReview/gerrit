@@ -51,7 +51,7 @@ limitations under the License.
 <link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
-<link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
+<link rel="import" href="./settings/gr-registration-view/gr-registration-view.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 
 <script src="../scripts/util.js"></script>
@@ -134,6 +134,12 @@ limitations under the License.
       </gr-main-header>
     </gr-fixed-panel>
     <main>
+      <template is="dom-if" if="[[_showRegistrationView]]" restamp="true">
+        <gr-registration-view
+            params="[[params]]"
+            on-account-detail-update="_handleAccountDetailUpdate">
+        </gr-registration-view>
+      </template>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"
@@ -201,12 +207,6 @@ limitations under the License.
       <gr-keyboard-shortcuts-dialog
           view="[[params.view]]"
           on-close="_handleKeyboardShortcutDialogClose"></gr-keyboard-shortcuts-dialog>
-    </gr-overlay>
-    <gr-overlay id="registration" with-backdrop>
-      <gr-registration-dialog
-          on-account-detail-update="_handleAccountDetailUpdate"
-          on-close="_handleRegistrationDialogClose">
-      </gr-registration-dialog>
     </gr-overlay>
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager"></gr-error-manager>

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd0f0c68_dd424b60",
+        "filename": "rules.pl",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T09:41:30Z",
+      "side": 1,
+      "message": "Is this correct? What if is_no_code_style_branch(B) evaluates to true, but needs_library_compliance evaluates to false? Shouldn\u0027t we duplicate have:\n\n   submit_rule(submit(CR, V)) :-\n      gerrit:change_branch(B),\n      is_no_code_style_branch(B),\n      !,\n      gerrit:max_with_block(-2, 2, \u0027Code-Review\u0027, CR),\n      gerrit:max_with_block(-1, 1, \u0027Verified\u0027, V).",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "ebb0a1d0918a714f15c2fe81ff8f49a71ae5fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6b67536_0fa5a629",
+        "filename": "rules.pl",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T09:41:30Z",
+      "side": 1,
+      "message": "Nit: trailing blank.",
+      "revId": "ebb0a1d0918a714f15c2fe81ff8f49a71ae5fa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aabb02a_e5e96ffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:06:54Z",
+      "side": 1,
+      "message": "Nit: do not include period in first line of the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 68,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "848983a3ec0b44e8da7bb4dcd8b2d6118d150847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f2cf7a_d9bc25d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:06:54Z",
+      "side": 1,
+      "message": "Nit: use present tense to describe the functionality introduced by this change.\n\n Add ability\n\nor\n\n Adds ability",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "848983a3ec0b44e8da7bb4dcd8b2d6118d150847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6aadfff_fadea221",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:06:54Z",
+      "side": 1,
+      "message": "Nit: wrap this line at 80 characters. e.g.\n\nsandbox.stub(element, \u0027_getServerConfig\u0027)\n    .returns(Promise.resolve({test: \u0027value\u0027}));\n\nSide note: I did not know that .returns can be called in this way!",
+      "revId": "848983a3ec0b44e8da7bb4dcd8b2d6118d150847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82885af1_5fb4ded0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:06:54Z",
+      "side": 1,
+      "message": "Nit: use\n\n assert.equal(element._serverConfig.test, \u0027value\u0027);",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 61
+      },
+      "revId": "848983a3ec0b44e8da7bb4dcd8b2d6118d150847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

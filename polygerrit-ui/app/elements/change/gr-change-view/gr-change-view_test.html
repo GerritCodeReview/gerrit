@@ -46,6 +46,7 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getAccount() { return Promise.resolve(null); },
+        getConfig() { return Promise.resolve({test: 'config'}); },
       });
       element = fixture('basic');
     });
@@ -165,6 +166,11 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
         assert.isTrue(stub.called);
       });
+    });
+
+    test('fetches the server config on attached', () => {
+      flushAsynchronousOperations();
+      assert.equal(element._serverConfig.test, 'config');
     });
 
     test('Diff preferences hidden when no prefs or logged out', () => {
@@ -1125,7 +1131,7 @@ limitations under the License.
 
     test('reply button is disabled until server config is loaded', () => {
       assert.isTrue(element._replyDisabled);
-      element.serverConfig = {};
+      element._serverConfig = {};
       assert.isFalse(element._replyDisabled);
     });
 
@@ -1278,7 +1284,7 @@ limitations under the License.
         test('_startUpdateCheckTimer negative delay', () => {
           sandbox.stub(element, 'fetchIsLatestKnown');
 
-          element.serverConfig = {change: {update_delay: -1}};
+          element._serverConfig = {change: {update_delay: -1}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
           assert.isFalse(element.fetchIsLatestKnown.called);
@@ -1288,7 +1294,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchIsLatestKnown',
               () => { return Promise.resolve(true); });
 
-          element.serverConfig = {change: {update_delay: 12345}};
+          element._serverConfig = {change: {update_delay: 12345}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
           assert.isTrue(element.fetchIsLatestKnown.called);
@@ -1301,7 +1307,7 @@ limitations under the License.
           element.addEventListener('show-alert', () => {
             done();
           });
-          element.serverConfig = {change: {update_delay: 12345}};
+          element._serverConfig = {change: {update_delay: 12345}};
         });
       });
 

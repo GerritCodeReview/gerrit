@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -45,9 +46,9 @@ import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsExcept
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,21 +67,18 @@ import org.slf4j.LoggerFactory;
 public class SiteRebuilder implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(SiteRebuilder.class);
 
-  public interface Factory {
-    SiteRebuilder create(
-        int threads,
-        @Nullable Collection<Project.NameKey> projects,
-        @Nullable Collection<Change.Id> changes);
-  }
-
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeRebuilder rebuilder;
   private final ChangeBundleReader bundleReader;
+  private final WorkQueue workQueue;
 
-  private final ListeningExecutorService executor;
-  private final ImmutableList<Project.NameKey> projects;
-  private final ImmutableList<Change.Id> changes;
+  private ListeningExecutorService executor;
+  private ImmutableList<Project.NameKey> projects = ImmutableList.of();
+  private ImmutableList<Change.Id> changes = ImmutableList.of();
+  private OutputStream progressOut = NullOutputStream.INSTANCE;
+
+  private boolean started = false;
 
   @Inject
   SiteRebuilder(
@@ -87,30 +86,88 @@ public class SiteRebuilder implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeRebuilder rebuilder,
       ChangeBundleReader bundleReader,
-      WorkQueue workQueue,
-      @Assisted int threads,
-      @Assisted @Nullable Collection<Project.NameKey> projects,
-      @Assisted @Nullable Collection<Change.Id> changes) {
+      WorkQueue workQueue) {
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.rebuilder = rebuilder;
     this.bundleReader = bundleReader;
-    this.executor =
-        threads > 0
+    this.workQueue = workQueue;
+  }
+
+  /**
+   * Set the number of threads used by parallelizable phases of the migration, such as rebuilding
+   * all changes.
+   *
+   * <p>Not all phases are parallelizable, and calling {@link #rebuild()} directly will do
+   * substantial work in the calling thread regardless of the number of threads configured.
+   *
+   * @param threads thread count; if less than 2, all work happens in the calling thread.
+   * @return this.
+   */
+  public SiteRebuilder setThreads(int threads) {
+    executor =
+        threads > 1
             ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
             : MoreExecutors.newDirectExecutorService();
+    return this;
+  }
+
+  /**
+   * Limit the set of projects that are processed.
+   *
+   * <p>Incompatible with {@link #setChanges(Collection)}.
+   *
+   * @param projects set of projects; if null or empty, all projects will be processed.
+   * @return this.
+   */
+  public SiteRebuilder setProjects(@Nullable Collection<Project.NameKey> projects) {
     this.projects = projects != null ? ImmutableList.copyOf(projects) : ImmutableList.of();
+    return this;
+  }
+
+  /**
+   * Limit the set of changes that are processed.
+   *
+   * <p>Incompatible with {@link #setChanges(Collection)}.
+   *
+   * @param changes set of changes; if null or empty, all changes will be processed.
+   * @return this.
+   */
+  public SiteRebuilder setChanges(@Nullable Collection<Change.Id> changes) {
     this.changes = changes != null ? ImmutableList.copyOf(changes) : ImmutableList.of();
+    return this;
+  }
+
+  /**
+   * Set output stream for progress monitors.
+   *
+   * <p>Defaults to no progress monitor output (although there may be other logs).
+   *
+   * @param progressOut output stream.
+   * @return this.
+   */
+  public SiteRebuilder setProgressOut(OutputStream progressOut) {
+    this.progressOut = checkNotNull(progressOut);
+    return this;
   }
 
   @Override
   public void close() {
-    executor.shutdownNow();
+    if (executor != null) {
+      executor.shutdownNow();
+    }
   }
 
   public boolean rebuild() throws OrmException {
+    checkPreconditions();
+    started = true;
+    if (executor == null) {
+      setThreads(0);
+    }
+
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
+    log.info("Rebuilding changes in NoteDb");
 
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
     ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
@@ -138,10 +195,18 @@ public class SiteRebuilder implements AutoCloseable {
     }
 
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format(
-        "Rebuild %d changes in %.01fs (%.01f/s)\n",
-        changesByProject.size(), t, changesByProject.size() / t);
+    log.info(
+        String.format(
+            "Rebuilt %d changes in %.01fs (%.01f/s)\n",
+            changesByProject.size(), t, changesByProject.size() / t));
     return ok;
+  }
+
+  private void checkPreconditions() {
+    checkState(!started, "SiteRebuilder may only be used once");
+    boolean hasChanges = !changes.isEmpty();
+    boolean hasProjects = !projects.isEmpty();
+    checkState(!(hasChanges && hasProjects), "cannot set both changes and projects");
   }
 
   private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
@@ -154,11 +219,9 @@ public class SiteRebuilder implements AutoCloseable {
               .treeSetValues(comparing(Change.Id::get))
               .build();
       if (!projects.isEmpty()) {
-        checkState(changes.isEmpty());
         return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
       }
       if (!changes.isEmpty()) {
-        checkState(projects.isEmpty());
         return byProject(db.changes().get(changes), c -> true, out);
       }
       return byProject(db.changes().all(), c -> true, out);
@@ -182,7 +245,7 @@ public class SiteRebuilder implements AutoCloseable {
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
-            new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, UTF_8))));
+            new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
     pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
       for (Change.Id changeId : allChanges.get(project)) {

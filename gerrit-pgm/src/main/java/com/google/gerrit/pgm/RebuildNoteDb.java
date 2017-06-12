@@ -33,6 +33,7 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.rebuild.SiteRebuilder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -53,7 +54,7 @@ public class RebuildNoteDb extends SiteProgram {
   private Injector dbInjector;
   private Injector sysInjector;
 
-  @Inject private SiteRebuilder.Factory rebuilderFactory;
+  @Inject private Provider<SiteRebuilder> rebuilderProvider;
 
   @Inject private NotesMigration notesMigration;
 
@@ -76,13 +77,13 @@ public class RebuildNoteDb extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
-    System.out.println("Rebuilding the NoteDb");
-
     try (SiteRebuilder rebuilder =
-        rebuilderFactory.create(
-            threads,
-            projects.stream().map(Project.NameKey::new).collect(toList()),
-            changes.stream().map(Change.Id::new).collect(toList()))) {
+        rebuilderProvider
+            .get()
+            .setThreads(threads)
+            .setProgressOut(System.err)
+            .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
+            .setChanges(changes.stream().map(Change.Id::new).collect(toList()))) {
       return rebuilder.rebuild() ? 0 : 1;
     }
   }

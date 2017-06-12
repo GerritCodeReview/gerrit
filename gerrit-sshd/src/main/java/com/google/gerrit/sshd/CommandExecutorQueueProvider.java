@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import org.eclipse.jgit.lib.Config;
 
@@ -26,8 +27,8 @@ public class CommandExecutorQueueProvider implements QueueProvider {
 
   private int poolSize;
   private final int batchThreads;
-  private final WorkQueue.Executor interactiveExecutor;
-  private final WorkQueue.Executor batchExecutor;
+  private final ScheduledThreadPoolExecutor interactiveExecutor;
+  private final ScheduledThreadPoolExecutor batchExecutor;
 
   @Inject
   public CommandExecutorQueueProvider(
@@ -51,7 +52,7 @@ public class CommandExecutorQueueProvider implements QueueProvider {
     setThreadFactory(interactiveExecutor);
   }
 
-  private void setThreadFactory(WorkQueue.Executor executor) {
+  private void setThreadFactory(ScheduledThreadPoolExecutor executor) {
     final ThreadFactory parent = executor.getThreadFactory();
     executor.setThreadFactory(
         new ThreadFactory() {
@@ -65,7 +66,7 @@ public class CommandExecutorQueueProvider implements QueueProvider {
   }
 
   @Override
-  public WorkQueue.Executor getQueue(QueueType type) {
+  public ScheduledThreadPoolExecutor getQueue(QueueType type) {
     switch (type) {
       case INTERACTIVE:
         return interactiveExecutor;

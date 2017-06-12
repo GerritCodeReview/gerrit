@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
@@ -108,7 +109,7 @@ final class ShowQueue extends SshCommand {
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);
       for (String queueName : byQueue.keySet()) {
-        WorkQueue.Executor e = workQueue.getExecutor(queueName);
+        ScheduledThreadPoolExecutor e = workQueue.getExecutor(queueName);
         stdout.print(String.format("Queue: %s\n", queueName));
         print(byQueue.get(queueName), now, viewAll, e.getCorePoolSize());
       }

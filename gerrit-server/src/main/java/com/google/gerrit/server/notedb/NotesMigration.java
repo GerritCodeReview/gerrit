@@ -34,6 +34,9 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
  * properties of the migration, for example, {@link #changePrimaryStorage() where new changes should
  * be stored}.
  *
+ * <p>Core Gerrit code is mostly interested in one facet of the migration at a time (reading or
+ * writing, say), but not all combinations of return values are supported or even make sense.
+ *
  * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
  * In general, any changes to these options should only be made by adventurous administrators, who
  * know what they're doing, on non-production data, for the purposes of testing the NoteDb

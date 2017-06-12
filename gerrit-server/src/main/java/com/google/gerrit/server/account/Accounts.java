@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -21,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -50,17 +52,20 @@ public class Accounts {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final OutgoingEmailValidator emailValidator;
+  private final ExternalIds externalIds;
 
   @Inject
   Accounts(
       @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator) {
+      OutgoingEmailValidator emailValidator,
+      ExternalIds externalIds) {
     this.readFromGit = cfg.getBoolean("user", null, "readAccountsFromGit", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;
+    this.externalIds = externalIds;
   }
 
   public Account get(ReviewDb db, Account.Id accountId)
@@ -111,6 +116,10 @@ public class Accounts {
     }
 
     return db.accounts().all().toList();
+  }
+
+  public Set<Account.Id> byEmail(String email) throws IOException {
+    return externalIds.byEmail(email).stream().map(e -> e.accountId()).collect(toImmutableSet());
   }
 
   /**

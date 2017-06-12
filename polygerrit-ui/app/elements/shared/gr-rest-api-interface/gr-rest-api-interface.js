@@ -386,6 +386,21 @@
           });
     },
 
+    setAccountUsername(username, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/username', {username}, opt_errFn,
+          opt_ctx).then(response => {
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            const cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(newUsername => {
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {username: newUsername});
+              });
+            }
+          });
+    },
+
     setAccountName(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
           opt_ctx).then(response => {

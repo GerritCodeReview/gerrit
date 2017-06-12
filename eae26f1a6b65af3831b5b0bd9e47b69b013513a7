@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "9f95ecbf_89eb1312",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T16:11:40Z",
+      "side": 1,
+      "message": "The new suggestions don\u0027t include \u0027All-Projects\u0027 etc. Please look at the API request GWT makes: /projects/?m\u003dal\u0026n\u003d20\u0026type\u003dALL\u0026d",
+      "parentUuid": "72500a43_d1a26479",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 80
+      },
+      "revId": "eae26f1a6b65af3831b5b0bd9e47b69b013513a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34117503_521df6a5",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 14
@@ -460,6 +484,30 @@
       "side": 1,
       "message": "But then what if a user clicks the Old UI button, wont the redirect take them to the wrong place?\n\nThanks, done.",
       "parentUuid": "02ba9f21_49dc4ede",
+      "range": {
+        "startLine": 186,
+        "startChar": 9,
+        "endLine": 186,
+        "endChar": 41
+      },
+      "revId": "eae26f1a6b65af3831b5b0bd9e47b69b013513a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2002151_9f1646c3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-12T16:11:40Z",
+      "side": 1,
+      "message": "hmm. Ok, I suppose you can switch it back for now and can reassess later",
+      "parentUuid": "d8d83ee7_2e392d27",
       "range": {
         "startLine": 186,
         "startChar": 9,

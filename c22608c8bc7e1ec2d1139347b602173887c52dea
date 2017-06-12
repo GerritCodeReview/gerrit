@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70b59319_9aaab075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-12T08:24:05Z",
+      "side": 1,
+      "message": "Off-line reindexing is inherently broken with regards to Prolog rules calculation: this has been discussed on the mailing list (see: https://goo.gl/pvVscd). On-line reindex is correct and, yes, is not aligned in terms of business logic compared to the off-line reindex, unfortunately.\n\nThey do different things because of the triggering of different parts of the Gerrit core: on-line uses a fully working Gerrit infrastructure, whilst the off-line uses a reduced set of Guice bindings.\n\nThe issue here is when off-line reindex is triggered at startup: it gets activated *before* the plugins registration when used standalone but *after* when used with an external container (e.g. Tomcat).\n\nWhen triggered *after* Gerrit startup, then everything is normal because all the plugins have been fully loaded.\n\nShall we do a follow-up change on the off-line reindexing? Maybe posting a warning if we recognize that you have plugins installed?",
+      "parentUuid": "a0b93c4e_694d368f",
+      "revId": "c22608c8bc7e1ec2d1139347b602173887c52dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb61f6d0_a2c7a7c6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 3

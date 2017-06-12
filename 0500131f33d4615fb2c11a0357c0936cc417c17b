@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c8be076_b6f3efa5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T22:55:07Z",
+      "side": 1,
+      "message": "It strange to me why this would be an object that can be instantiated? Nothing about this needs to be scoped to the instance. Wouldn\u0027t it make more sense as a static object?\n\nlet GrGerritAuth \u003d {\n  _getCookie() { ... },\n  fetch() { ... },\n};",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "0500131f33d4615fb2c11a0357c0936cc417c17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f21853_524e0859",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T22:55:07Z",
+      "side": 1,
+      "message": "Will the way we fetch be different for other auth types? Or will we only need to construct the auth headers differently?\n\nIf it\u0027s the latter, then maybe this could be something like...\n\ngetFetchOptions() {\n  let options \u003d {};\n  // ...\n  return options;\n},",
+      "revId": "0500131f33d4615fb2c11a0357c0936cc417c17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49ca5fe_05be6f9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T22:55:07Z",
+      "side": 1,
+      "message": "While there\u0027s only the one, can this just be set on l.29?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 32
+      },
+      "revId": "0500131f33d4615fb2c11a0357c0936cc417c17b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

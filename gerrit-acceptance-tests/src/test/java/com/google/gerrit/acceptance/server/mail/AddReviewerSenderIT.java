@@ -93,14 +93,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageReviewableChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, sc.owner, reviewer.email);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.owner, sc.starrer);
         });
   }
@@ -113,14 +111,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageReviewableChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, sc.owner, reviewer.email, CC_ON_OWN_COMMENTS, null);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.owner, sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.starrer);
         });
   }
@@ -134,14 +130,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageReviewableChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, other, reviewer.email);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.owner, sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.starrer, other);
         });
   }
@@ -155,14 +149,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageReviewableChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, other, reviewer.email, CC_ON_OWN_COMMENTS, null);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.owner, sc.reviewer, other)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.starrer);
         });
   }
@@ -187,13 +179,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           String email = "addedbyemail@example.com";
           StagedChange sc = stageReviewableChange();
           addReviewer(adder, sc.changeId, sc.owner, email);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
-              .to(email, sc.reviewerByEmail)
+              .to(email)
               .cc(sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.owner, sc.starrer);
         });
   }
@@ -228,14 +219,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageWipChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, sc.owner, reviewer.email, NotifyHandling.ALL);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.owner, sc.starrer);
         });
   }
@@ -265,14 +254,12 @@ public class AddReviewerSenderIT extends AbstractNotificationTest {
           StagedChange sc = stageReviewableChange();
           TestAccount reviewer = accountCreator.create("added", "added@example.com", "added");
           addReviewer(adder, sc.changeId, sc.owner, reviewer.email, OWNER_REVIEWERS);
-          // TODO(logan): Existing reviewers by email should be CC.
           // TODO(logan): Should CCs be included?
           assertThat(sender)
               .sent("newchange", sc)
               .to(reviewer)
-              .to(sc.reviewerByEmail)
               .cc(sc.reviewer)
-              .cc(sc.ccerByEmail)
+              .cc(sc.reviewerByEmail, sc.ccerByEmail)
               .notTo(sc.owner, sc.starrer);
         });
   }

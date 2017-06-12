@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33385441_c0c1d80f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/RevertedSenderIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T18:39:30Z",
+      "side": 1,
+      "message": "I\u0027m guessing the goal with these, as with the other TODOs in this series, is to come back to them at the end?",
+      "revId": "be8d6dcf7d30e95658d58809ec5e08af279d23ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

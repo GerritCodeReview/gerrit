@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36625226_2fb5b470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:20:51Z",
+      "side": 1,
+      "message": "Nit: remove period.",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "8ee117929399b29ca1777d8ace84061bbf01f836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52f601f_d4674da2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-12T23:20:51Z",
+      "side": 1,
+      "message": "Very nitpicky nit: wrap these lines at 72 characters.\n\n NPM is required for wct, so put it first. Add links for install\n instructions.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "8ee117929399b29ca1777d8ace84061bbf01f836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

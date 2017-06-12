@@ -240,6 +240,28 @@
           });
     },
 
+    getAccountUsername() {
+      return this.fetchJSON('/accounts/self/username');
+    },
+
+    setAccountUsername(username, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/username', {username}, opt_errFn,
+          opt_ctx).then(response => {
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            const cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(newUsername => {
+                // Replace object in cache with new object to force UI updates.
+                // TODO(logan): Polyfill for Object.assign in IE
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {username: newUsername});
+              });
+            }
+          });
+    },
+
+
     setAccountName(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
           opt_ctx).then(response => {

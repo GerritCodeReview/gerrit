@@ -24,6 +24,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -36,7 +37,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
-  public WorkQueue.Executor createReceiveCommitsExecutor(
+  public ScheduledThreadPoolExecutor createReceiveCommitsExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize =
         config.getInt(

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ limitations under the License.
       _listeners = {};
 
       account = {
+        username: 'username',
         name: 'name',
         email: 'email',
         secondary_emails: [
@@ -56,10 +57,17 @@ limitations under the License.
       };
 
       stub('gr-rest-api-interface', {
+        getLoggedIn() {
+          return Promise.resolve(true);
+        },
         getAccount() {
-        // Once the account is resolved, we can let the test proceed.
+          // Once the account is resolved, we can let the test proceed.
           flush(done);
           return Promise.resolve(account);
+        },
+        setAccountUsername(username) {
+          account.username = username;
+          return Promise.resolve();
         },
         setAccountName(name) {
           account.name = name;
@@ -119,20 +127,24 @@ limitations under the License.
       }).then(done);
     });
 
-    test('saves name and preferred email', done => {
+    test('saves username, name and preferred email', done => {
       flush(() => {
+        element.$.username.value = 'new username';
         element.$.name.value = 'new name';
         element.$.email.value = 'email3';
 
         // Nothing should be committed yet.
+        assert.equal(account.username, 'username');
         assert.equal(account.name, 'name');
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
         save().then(() => {
+          assert.equal(account.username, 'new username');
           assert.equal(account.name, 'new name');
           assert.equal(account.email, 'email3');
         }).then(done);
+        done();
       });
     });
 
@@ -142,6 +154,15 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element.$.name, 13);  // 'enter'
       }).then(() => {
         assert.equal(account.name, 'entered name');
+      }).then(done);
+    });
+
+    test('pressing enter saves username', done => {
+      element.$.username.value = 'entered username';
+      save(() => {
+        MockInteractions.pressAndReleaseKeyOn(element.$.username, 13);  // 'enter'
+      }).then(() => {
+        assert.equal(account.username, 'entered username');
       }).then(done);
     });
   });

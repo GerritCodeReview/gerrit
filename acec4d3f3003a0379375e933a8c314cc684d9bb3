@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2622edf4_d1f93f6b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T12:52:21Z",
+      "side": 1,
+      "message": "\u003e Unfortunately, we do not have explicit dependencies between\n \u003e LifecycleListeners, and when they\n \u003e are declared from different modules it is hard to see the order in\n \u003e which they are started.\n \u003e This is a downside of using the LifecycleModule, IMHO.\n\nWe could easily fix that and not depend on the order of registration, as you pointed out, it\u0027s very hard to control, as it is related to the internal implementation details of Guice. The fix would be pretty straight forward: we would borrow, the initialization order approach from JEE (servlet and filter): http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd, load-on-startup element:\n\n   The load-on-startup element indicates that this\n    servlet should be loaded (instantiated and have\n    its init() called) on the startup of the web\n    application. The optional contents of these\n    element must be an integer indicating the order in\n    which the servlet should be loaded. If the value\n    is a negative integer, or the element is not\n    present, the container is free to load the servlet\n    whenever it chooses. If the value is a positive\n    integer or 0, the container must load and\n    initialize the servlet as the application is\n    deployed. The container must guarantee that\n    servlets marked with lower integers are loaded\n    before servlets marked with higher integers. The\n    container may choose the order of loading of\n    servlets with the same load-on-start-up value.\n\nbut would optionally define it programmatically in the corresponding LifecycleListener implementations. For that we would add a default method, say startOrder() to the LifecycleListener interface that should return the number from 0 to 9, or -1 if not particular oder. 0 is the highest priority, and the 9 is the lowest.\n\n  /** Listener interested in server startup and shutdown events. */\n @ExtensionPoint\n public interface LifecycleListener extends EventListener {\n   default int startOrder() {\n      return -1; // no particular order, i.e. registration order\n   }\n  [...]\n\nNow, we would overwrite IndexCollection to return say 9, and adapt LifecycleManager.start() to sort the listeners according to listener.startOrder() value before actually iterating over the provider list that was created according to default registration order:\n\n   /** Start all listeners, in the start order and registered order. */\n   public void start() {\n      // Get the listeners\n      List\u003cLifecycleListener\u003e actualListeners \u003d ... get Listeners from Provders.\n      List\u003cLifecycleListener\u003e sortedListeners \u003d ... sort according to startOrder() and/or registration order, if start order \u003d\u003d -1.\n      // start according to sorted order\n      for (LifecycleListener l : sortedListeners) {\n        l.start();\n      }\n   }\n\nI see, that the stop order should be done according to start order, but in reverse order.",
+      "parentUuid": "d7868271_5f5827c0",
+      "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dc9a651_f2a17b0b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

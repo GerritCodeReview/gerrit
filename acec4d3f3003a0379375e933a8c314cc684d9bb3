@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dc9a651_f2a17b0b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T08:53:57Z",
+      "side": 1,
+      "message": "The confusing part in this comment is that we are talking about plugin loading, but referencing PluginRestApi module. This is because PluginRestApiModule installs PluginModule, that is actually responsible for the plugin loading. Do you thing it would make it more clear, to decouple both modules, and put only PluginModule(), and preserve the old location of PluginRestApiModule?",
+      "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

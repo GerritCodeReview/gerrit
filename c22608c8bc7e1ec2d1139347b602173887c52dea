@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "799223cc_1c18952c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-12T08:53:57Z",
+      "side": 1,
+      "message": "To do follow-up is fine. A warning in the release notes should be enough.",
+      "parentUuid": "70b59319_9aaab075",
+      "revId": "c22608c8bc7e1ec2d1139347b602173887c52dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb61f6d0_a2c7a7c6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 3

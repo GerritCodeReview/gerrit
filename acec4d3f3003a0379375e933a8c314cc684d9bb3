@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7868271_5f5827c0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-12T09:15:14Z",
+      "side": 1,
+      "message": "AFAIK, the order of bindings declaration in Guice modules doesn\u0027t matter. Before creating an injector all bindings are put into a flat list and Guice figures out the order of instantiations based on dependencies between classes.\n\nWhile your change fixes the issue, the explanation here is too broad.\nWe have that concept of LifecycleModule, in Gerrit\u0027s own extension to Guice, which has these:\n\n  listener().to(SomeClassImplementingLifecycleListener.class);\n\nand the start() methods of each such listener are executed in the order they are declared.\nYour change actually makes sure that PluginLoader.start() is executed before the LuceneIndexModule.start(), this is the main point here.\n\nUnfortunately, we do not have explicit dependencies between LifecycleListeners, and when they\nare declared from different modules it is hard to see the order in which they are started.\nThis is a downside of using the LifecycleModule, IMHO.",
+      "revId": "acec4d3f3003a0379375e933a8c314cc684d9bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dc9a651_f2a17b0b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 5

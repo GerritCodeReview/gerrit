@@ -212,7 +212,7 @@ public class ReviewersUtil {
       SuggestReviewers suggestReviewers,
       ProjectControl projectControl,
       List<Account.Id> candidateList)
-      throws OrmException {
+      throws OrmException, IOException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           changeNotes, suggestReviewers, projectControl, candidateList);

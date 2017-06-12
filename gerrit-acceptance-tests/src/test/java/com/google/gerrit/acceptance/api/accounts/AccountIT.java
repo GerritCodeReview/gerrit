@@ -73,7 +73,6 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -131,8 +130,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
 
   @Inject private AllUsersName allUsers;
-
-  @Inject private AccountByEmailCache byEmailCache;
 
   @Inject private ExternalIds externalIds;
 
@@ -583,25 +580,25 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void lookUpFromCacheByEmail() throws Exception {
+  public void lookUpByEmail() throws Exception {
     // exact match with scheme "mailto:"
-    assertEmail(byEmailCache.get(admin.email), admin);
+    assertEmail(accounts.byEmail(admin.email), admin);
 
     // exact match with other scheme
     String email = "foo.bar@example.com";
     externalIdsUpdateFactory
         .create()
         .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    assertEmail(byEmailCache.get(email), admin);
+    assertEmail(accounts.byEmail(email), admin);
 
     // wrong case doesn't match
-    assertThat(byEmailCache.get(admin.email.toUpperCase(Locale.US))).isEmpty();
+    assertThat(accounts.byEmail(admin.email.toUpperCase(Locale.US))).isEmpty();
 
     // prefix doesn't match
-    assertThat(byEmailCache.get(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
+    assertThat(accounts.byEmail(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
 
     // non-existing doesn't match
-    assertThat(byEmailCache.get("non-existing@example.com")).isEmpty();
+    assertThat(accounts.byEmail("non-existing@example.com")).isEmpty();
   }
 
   @Test

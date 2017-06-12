@@ -355,7 +355,7 @@ public class PostReview
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, IOException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));

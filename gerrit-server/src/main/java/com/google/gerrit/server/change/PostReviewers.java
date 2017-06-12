@@ -219,7 +219,7 @@ public class PostReviewers
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       boolean allowGroup,
       boolean allowByEmail)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     Account.Id accountId = null;
     try {
       accountId = accounts.parse(reviewer).getAccountId();

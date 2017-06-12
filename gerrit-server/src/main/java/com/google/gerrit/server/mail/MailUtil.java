@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,7 +43,7 @@ public class MailUtil {
       AccountResolver accountResolver,
       boolean draftPatchSet,
       List<FooterLine> footerLines)
-      throws OrmException {
+      throws OrmException, IOException {
     MailRecipients recipients = new MailRecipients();
     if (!draftPatchSet) {
       for (FooterLine footerLine : footerLines) {
@@ -70,7 +71,7 @@ public class MailUtil {
 
   private static Account.Id toAccountId(
       ReviewDb db, AccountResolver accountResolver, String nameOrEmail)
-      throws OrmException, NoSuchAccountException {
+      throws OrmException, NoSuchAccountException, IOException {
     Account a = accountResolver.findByNameOrEmail(db, nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail + "\" is not registered");

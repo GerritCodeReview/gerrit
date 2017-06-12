@@ -36,8 +36,8 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -58,6 +58,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ import org.slf4j.LoggerFactory;
 public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
-  private final AccountByEmailCache accountByEmailCache;
+  private final Accounts accounts;
   private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
@@ -89,7 +90,7 @@ public class MailProcessor {
 
   @Inject
   public MailProcessor(
-      AccountByEmailCache accountByEmailCache,
+      Accounts accounts,
       RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -103,7 +104,7 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
-    this.accountByEmailCache = accountByEmailCache;
+    this.accounts = accounts;
     this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
@@ -133,7 +134,7 @@ public class MailProcessor {
   }
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)
-      throws OrmException, UpdateException, RestApiException {
+      throws OrmException, UpdateException, RestApiException, IOException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
@@ -153,15 +154,15 @@ public class MailProcessor {
       return;
     }
 
-    Set<Account.Id> accounts = accountByEmailCache.get(metadata.author);
-    if (accounts.size() != 1) {
+    Set<Account.Id> accountIds = accounts.byEmail(metadata.author);
+    if (accountIds.size() != 1) {
       log.error(
           String.format(
               "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
-              metadata.author, accounts));
+              metadata.author, accountIds));
       return;
     }
-    Account.Id account = accounts.iterator().next();
+    Account.Id account = accountIds.iterator().next();
     if (!accountCache.get(account).getAccount().isActive()) {
       log.warn(String.format("Mail: Account %s is inactive. Will delete message.", account));
       return;

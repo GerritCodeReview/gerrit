@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e70fb6b_027afa7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:41:07Z",
+      "side": 1,
+      "message": "Add some context here?",
+      "revId": "be592391b44aecf72c9edd15ba290aea470cd0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7c5168d_5cc577ad",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-12T23:41:07Z",
+      "side": 1,
+      "message": "nit: wrong import order.\n\nsame in most of the other files.",
+      "revId": "be592391b44aecf72c9edd15ba290aea470cd0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

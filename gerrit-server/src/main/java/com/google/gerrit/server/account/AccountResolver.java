@@ -36,7 +36,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class AccountResolver {
   private final Realm realm;
   private final Accounts accounts;
-  private final AccountByEmailCache byEmail;
   private final AccountCache byId;
   private final Provider<InternalAccountQuery> accountQueryProvider;
 
@@ -44,12 +43,10 @@ public class AccountResolver {
   AccountResolver(
       Realm realm,
       Accounts accounts,
-      AccountByEmailCache byEmail,
       AccountCache byId,
       Provider<InternalAccountQuery> accountQueryProvider) {
     this.realm = realm;
     this.accounts = accounts;
-    this.byEmail = byEmail;
     this.byId = byId;
     this.accountQueryProvider = accountQueryProvider;
   }
@@ -136,7 +133,8 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail) throws OrmException {
+  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail)
+      throws OrmException, IOException {
     Set<Account.Id> r = findAllByNameOrEmail(db, nameOrEmail);
     return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
   }
@@ -149,11 +147,12 @@ public class AccountResolver {
    *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail) throws OrmException {
+  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail)
+      throws OrmException, IOException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      Set<Account.Id> ids = byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      Set<Account.Id> ids = accounts.byEmail(nameOrEmail.substring(lt + 1, gt));
       if (ids.isEmpty() || ids.size() == 1) {
         return ids;
       }
@@ -171,7 +170,7 @@ public class AccountResolver {
     }
 
     if (nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail);
+      return accounts.byEmail(nameOrEmail);
     }
 
     Account.Id id = realm.lookup(nameOrEmail);

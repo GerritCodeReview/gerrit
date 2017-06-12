@@ -213,11 +213,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
           .revision(r.getCommit().name())
           .review(ReviewInput.approve());
 
-      if (state == ReviewerState.CC) {
-        assertNotifyCc(Address.parse(input.reviewer));
-      } else {
-        assertNotifyTo(Address.parse(input.reviewer));
-      }
+      assertNotifyCc(Address.parse(input.reviewer));
     }
   }
 

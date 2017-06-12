@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "338181fc_0f878663",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1046187
+      },
+      "writtenOn": "2017-06-12T17:52:29Z",
+      "side": 1,
+      "message": "aria-label looks redundant and shouldn\u0027t be necessary",
+      "revId": "e5e0630fa045d9d7b97a526d3158078dd9e36fcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

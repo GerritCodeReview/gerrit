@@ -29,6 +29,7 @@ import com.google.inject.Scope;
 import com.google.inject.servlet.ServletScopes;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Base class for propagating request-scoped data between threads.
@@ -64,10 +65,9 @@ public abstract class RequestScopePropagator {
    * request state when the returned Callable is invoked. The method must be called in a request
    * scope and the returned Callable may only be invoked in a thread that is not already in a
    * request scope or is in the same request scope. The returned Callable will inherit toString()
-   * from the passed in Callable. A {@link com.google.gerrit.server.git.WorkQueue.Executor} does not
-   * accept a Callable, so there is no ProjectCallable implementation. Implementations of this
-   * method must be consistent with Guice's {@link ServletScopes#continueRequest(Callable,
-   * java.util.Map)}.
+   * from the passed in Callable. A {@link ScheduledThreadPoolExecutor} does not accept a Callable,
+   * so there is no ProjectCallable implementation. Implementations of this method must be
+   * consistent with Guice's {@link ServletScopes#continueRequest(Callable, java.util.Map)}.
    *
    * <p>There are some limitations:
    *

@@ -18,8 +18,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-/** Marker on the global {@link WorkQueue.Executor} used to send email. */
+/** Marker on the global {@link ScheduledThreadPoolExecutor} used to send email. */
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface SendEmailExecutor {}

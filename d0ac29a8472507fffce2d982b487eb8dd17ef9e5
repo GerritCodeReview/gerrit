@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f8652d5_a11e18de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CorsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-12T18:09:59Z",
+      "side": 1,
+      "message": "optional nit: this would be clearer if spelled out: crossDomainPutTopic",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 16
+      },
+      "revId": "d0ac29a8472507fffce2d982b487eb8dd17ef9e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73434047_b031a3c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-12T18:09:59Z",
+      "side": 1,
+      "message": "Would this work if restricted to just POST and not GET?\n\nThat would make it easier to reason about --- e.g. GET can have different caching behavior which is not appropriate when using a method like DELETE.",
+      "revId": "d0ac29a8472507fffce2d982b487eb8dd17ef9e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1221d407_f042446c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-12T18:09:59Z",
+      "side": 1,
+      "message": "Good.\n\nThis is subtle: can there be a test to make sure this doesn\u0027t regress? E.g. if someone in the future skips the checkCors call in the same-origin case, then I don\u0027t think any of the current tests would fail.",
+      "revId": "d0ac29a8472507fffce2d982b487eb8dd17ef9e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196251d4_7ff3fa18",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-12T18:09:59Z",
+      "side": 1,
+      "message": "Is there a library function or a gerrit-wide common function that does this query string parsing?",
+      "revId": "d0ac29a8472507fffce2d982b487eb8dd17ef9e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

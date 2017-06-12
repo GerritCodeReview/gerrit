@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "3690dccd_6a3c4a38",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-12T19:05:06Z",
+      "side": 1,
+      "message": "Oh i see. According to rest api for projects, it defaults to All-Project if non is specified.",
+      "parentUuid": "cce3fa01_3ade8a36",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 80
+      },
+      "revId": "eae26f1a6b65af3831b5b0bd9e47b69b013513a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34117503_521df6a5",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 14

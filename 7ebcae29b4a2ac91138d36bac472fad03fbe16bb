@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8736beef_621e3e7a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3772,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-12T18:51:23Z",
+      "side": 1,
+      "message": "These columns seem somewhat redundant, you\u0027re just saying the notify property always wins. But they take up half the area of the table.",
+      "range": {
+        "startLine": 3772,
+        "startChar": 51,
+        "endLine": 3772,
+        "endChar": 97
+      },
+      "revId": "7ebcae29b4a2ac91138d36bac472fad03fbe16bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

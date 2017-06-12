@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb61f6d0_a2c7a7c6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-12T07:23:11Z",
+      "side": 1,
+      "message": "Should the same comment be added in WebAppinitializer?",
+      "range": {
+        "startLine": 356,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 31
+      },
+      "revId": "c22608c8bc7e1ec2d1139347b602173887c52dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

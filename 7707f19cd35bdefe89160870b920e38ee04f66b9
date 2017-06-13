@@ -872,6 +872,30 @@
     },
     {
       "key": {
+        "uuid": "5d9495c2_5c5e4588",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T19:47:35Z",
+      "side": 1,
+      "message": "Sorry, I just highlighted the wrong section accidentally. This is meant to replace the getSuggested Projects function. Please take a look at the API call GWT is making when a letter is typed: http://imgur.com/a/XkDV4",
+      "parentUuid": "96df409d_55bd5657",
+      "range": {
+        "startLine": 151,
+        "startChar": 3,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0daa2ca4_571f487d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 32

@@ -84,7 +84,7 @@ public class CodeReviewCommit extends RevCommit {
     }
 
     @Override
-    public void markUninteresting(final RevCommit c)
+    public void markUninteresting(RevCommit c)
         throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof CodeReviewCommit);
       super.markUninteresting(c);
@@ -120,7 +120,7 @@ public class CodeReviewCommit extends RevCommit {
    */
   private CommitMergeStatus statusCode;
 
-  public CodeReviewCommit(final AnyObjectId id) {
+  public CodeReviewCommit(AnyObjectId id) {
     super(id);
   }
 
@@ -144,7 +144,7 @@ public class CodeReviewCommit extends RevCommit {
     this.patchsetId = patchsetId;
   }
 
-  public void copyFrom(final CodeReviewCommit src) {
+  public void copyFrom(CodeReviewCommit src) {
     control = src.control;
     patchsetId = src.patchsetId;
     statusCode = src.statusCode;

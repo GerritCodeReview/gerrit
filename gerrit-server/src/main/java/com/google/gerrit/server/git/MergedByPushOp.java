@@ -166,7 +166,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(final Context ctx) {
+  public void postUpdate(Context ctx) {
     if (!correctBranch) {
       return;
     }

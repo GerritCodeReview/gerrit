@@ -192,7 +192,7 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit getFirstFastForward(
-      final CodeReviewCommit mergeTip, final RevWalk rw, final List<CodeReviewCommit> toMerge)
+      CodeReviewCommit mergeTip, RevWalk rw, List<CodeReviewCommit> toMerge)
       throws IntegrationException {
     for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
       try {
@@ -457,7 +457,7 @@ public class MergeUtil {
   }
 
   private static boolean contains(List<FooterLine> footers, FooterKey key, String val) {
-    for (final FooterLine line : footers) {
+    for (FooterLine line : footers) {
       if (line.matches(key) && val.equals(line.getValue())) {
         return true;
       }
@@ -466,7 +466,7 @@ public class MergeUtil {
   }
 
   private static boolean isSignedOffBy(List<FooterLine> footers, String email) {
-    for (final FooterLine line : footers) {
+    for (FooterLine line : footers) {
       if (line.matches(FooterKey.SIGNED_OFF_BY) && email.equals(line.getEmailAddress())) {
         return true;
       }
@@ -475,10 +475,10 @@ public class MergeUtil {
   }
 
   public boolean canMerge(
-      final MergeSorter mergeSorter,
-      final Repository repo,
-      final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge)
+      MergeSorter mergeSorter,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge)
       throws IntegrationException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
@@ -563,7 +563,7 @@ public class MergeUtil {
   }
 
   public boolean hasMissingDependencies(
-      final MergeSorter mergeSorter, final CodeReviewCommit toMerge) throws IntegrationException {
+      MergeSorter mergeSorter, CodeReviewCommit toMerge) throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
     } catch (IOException e) {
@@ -656,7 +656,7 @@ public class MergeUtil {
 
     if (merged.size() > 1) {
       msgbuf.append("\n\n* changes:\n");
-      for (final CodeReviewCommit c : merged) {
+      for (CodeReviewCommit c : merged) {
         rw.parseBody(c);
         msgbuf.append("  ");
         msgbuf.append(c.getShortMessage());
@@ -758,10 +758,10 @@ public class MergeUtil {
   }
 
   public void markCleanMerges(
-      final RevWalk rw,
-      final RevFlag canMergeFlag,
-      final CodeReviewCommit mergeTip,
-      final Set<RevCommit> alreadyAccepted)
+      RevWalk rw,
+      RevFlag canMergeFlag,
+      CodeReviewCommit mergeTip,
+      Set<RevCommit> alreadyAccepted)
       throws IntegrationException {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch

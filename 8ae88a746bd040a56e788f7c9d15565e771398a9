@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497365363 -0400\nnonce AH5c86A7LLISIVwbphF0iWDAtTJjojoIkaz0SIi04HSWzXvPp00miN4GIVMBYDZqJjrJ76bRlTw5\n\n0000000000000000000000000000000000000000 72387cffafc860b062ec46b5c2b03bd012bce334 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZP/tzAAoJEF/XxZqaEoiMtKEQAID5xzaSlR85jLDogrMG8jqv\nPjyxQ5JuyPWLWO09CoXUtsb9ONJweC5DOwRVDEEynMnbUvEn45hOnbMpm/HTTr8F\nWKdBhR4qR7j7vl31zmXAJjeKtnpp+4grk4dfDctn2UvCGLuHN69BY8d3K9Dp8cNq\nt5L1xycXQUFOZpj0VaNqSMK2JcD0u+oeoAvY9KQm5/m/s5qW3Kh4GGL21x9c89j+\nJzGV0/z+PQuumPoSnSJZLDACgUnA9Ch3/J2C5IrrD2FGyO0xYjsj91c7GVfTHjRA\nx2kKgGYC/8PnunSA6UxrN/AOVYk6OIhdoPC4NIdniY5RGFN0SwYyrUfUYV/SvN3/\nyU7tk0K4hB3xTbAh+iwVRxkPQbsJTgPaSZTzhit90UL9sV4r9HY50N3QQD8h3Ls7\nE7JuVdcbpAPWWNTlsa1sx6q0bArmHYRmtGFORwfQjKx2jt45HbvStUe8TuliyDv/\nSVSclVuMLe9PNCe6PcBJdApAapHAvmc34T/qo5fwd6PFlCSIltKDZBs1JIBqTNKB\nlm+hjquA85QajgOS3DFXBlcpTKdBC7/rJgs2TOiWgYoIecZRNrGEPM1Vg4s1Kp15\nI5T96ys0HS19iWCRwKbGFc5B01foocOfDAomBVp/3xGZEH1Qm0B4ueoQF4CgYPbi\nXHCFs7P52f2UGbNBFkgy\n\u003dYmo8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e756991_be3672f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/RebuildNoteDbIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:58:37Z",
+      "side": 1,
+      "message": "optional: Could be a local variable.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "8ae88a746bd040a56e788f7c9d15565e771398a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d84430_acadd879",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/RebuildNoteDbIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:58:37Z",
+      "side": 1,
+      "message": "The previous code used the unfused mode. Is the switch to the fused mode deliberate?",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 54
+      },
+      "revId": "8ae88a746bd040a56e788f7c9d15565e771398a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3142fd27_3ef6ac23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:58:37Z",
+      "side": 1,
+      "message": "Do you have any plans how to name a similar enum for migrating accounts or groups? Is your idea to adjust the name of this class (or the package) as soon as we add those other enums?",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "8ae88a746bd040a56e788f7c9d15565e771398a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5291ec9_6c12ae6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:58:37Z",
+      "side": 1,
+      "message": "optional: \u0027private\u0027 modifier is redundant for an enum.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "8ae88a746bd040a56e788f7c9d15565e771398a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

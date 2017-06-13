@@ -41,9 +41,7 @@ limitations under the License.
 <script>
   suite('gr-page-nav tests', () => {
     let element;
-    let groups;
     let sandbox;
-    let value;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -67,7 +65,7 @@ limitations under the License.
       sandbox.stub(element, '_getOffsetParent', () => 0);
       sandbox.stub(element, '_getOffsetTop', () => 10);
       sandbox.stub(element, '_getScrollY', () => 25);
-      window.scrollY = 100
+      window.scrollY = 100;
       element._handleBodyScroll();
       assert.isTrue(element.$.nav.classList.contains('pinned'));
     });
@@ -75,7 +73,7 @@ limitations under the License.
     test('header is not pinned just below top with header set', () => {
       element._headerHeight = 20;
       sandbox.stub(element, '_getScrollY', () => 15);
-      window.scrollY = 100
+      window.scrollY = 100;
       element._handleBodyScroll();
       assert.isFalse(element.$.nav.classList.contains('pinned'));
     });
@@ -83,7 +81,7 @@ limitations under the License.
     test('header is pinned when scroll down the page with header set', () => {
       element._headerHeight = 20;
       sandbox.stub(element, '_getScrollY', () => 25);
-      window.scrollY = 100
+      window.scrollY = 100;
       element._handleBodyScroll();
       assert.isTrue(element.$.nav.classList.contains('pinned'));
     });

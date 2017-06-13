@@ -54,7 +54,7 @@
     },
 
     _getScrollY() {
-      return window.scrollY
+      return window.scrollY;
     },
   });
 })();

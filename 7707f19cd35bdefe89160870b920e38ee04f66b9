@@ -413,6 +413,30 @@
       "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a6774a_d5bdc528",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T18:07:42Z",
+      "side": 1,
+      "message": "That\u0027s creating the projects. There\u0027s already getSuggestedProjects on line between 500 and 600.",
+      "parentUuid": "04a2a684_a223ebac",
+      "range": {
+        "startLine": 151,
+        "startChar": 3,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

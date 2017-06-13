@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e5d2c76_634c4190",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T23:55:47Z",
+      "side": 1,
+      "message": "I think this is a typo: should be _safetyBypass, right?",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 18
+      },
+      "revId": "c0ae4178c4137c0cdb126a5f144116ce1b4fb2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b14fceb_c670382b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T23:55:47Z",
+      "side": 1,
+      "message": "Maybe add a test for the first condition in _renderDiffTable (that the file is large but there is no bypass).",
+      "revId": "c0ae4178c4137c0cdb126a5f144116ce1b4fb2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

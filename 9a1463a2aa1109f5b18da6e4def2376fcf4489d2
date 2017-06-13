@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497303218 -0400\nnonce AH5c86A2hNdphdnVEEGJkK4pKwC1L/5rvEXgtUo2v4D+SzBhIR5LO9TXpeqK762UJNd4oe9zRUcB\n\n0000000000000000000000000000000000000000 053e1c3fc3ced828cef26a0fc80aa0431ebdb062 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZPwiyAAoJEF/XxZqaEoiMLDMP/iyBa1qmbecZEb91K+SWKk5C\nb1tT/pUY7BpBT2CJc7IT7/7SRlkZs4lFliGrBKIyd3uvHyANqGahIF+xZMeecWW1\nPTrjxQPvgCeJFezD0NsVS5eyI1YOOMGDYDkceOg7aUZsHauRxlm9dGKlj8VAVCQD\nz9RlcgoPzv9ZSThNEuMPV7RuVuGN/rmPP3bB22eVdj8Om776a/TjDCAem4F5WlQ3\nvug3sYBi10ybmmPXVOwlGu8DkJJgVZSOXfNBxpSwBs6oc1UZL1aLygaacs8+wzlX\nUmd3Q4bgrL2Mj3KFLg8r4L+rrNXbd3v5pLEbV9csVJPAbd/bulss1/oMUUCG25qI\nMdhuK0EfxzjUGsjf5HGJJJ6jKKwenCNHA0INgyL7NSzMn4Orszy9+FRFWAZlgAX6\nZ5hjXjDd6OhG0zwmU4z+XldHdVKMp3QXkwqqdnlHVSKWvXp2LUR89owixSJrzKhr\n/hY3rY5ekrg+7jctrNPZMa031BnB/T8TmjGviUp4BiRE+s72YidMJeuXkq0OzfPC\nZtBUwd/PesORcLckhXFSW5PvKhf4WvuLITNAwEkvYYiXTptiWyiOfStcCKC0Oc3w\nASJkykuzkS27rzS2AzoHXwkv6ppV4S1muse5NKwbWhNUhAXtYvV55DqT+YhjLjZn\nPt5Z4rnx6sl+bSfOHGu1\n\u003dJt22\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e2a46d2_3c913844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:30:08Z",
+      "side": 1,
+      "message": "I found the term \"entity group\", that was even explained in the base version clearer, but would be OK with never used else where \"subtables\" term.",
+      "range": {
+        "startLine": 23,
+        "startChar": 56,
+        "endLine": 23,
+        "endChar": 65
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3c7ac6_a13e98cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:30:08Z",
+      "side": 1,
+      "message": "I guess I understand what you meant here, but I think this statement would be much easier to grasp if you would use perception \"different sites\" instead of \"given site\":\n\n  ...it is possible for *different* sites at the same ReviewDb schema version \\\n  to have varying migration states to NoteDb.",
+      "range": {
+        "startLine": 23,
+        "startChar": 73,
+        "endLine": 24,
+        "endChar": 87
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd805ed_db1d69a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:30:08Z",
+      "side": 1,
+      "message": "ChangeNotes class doesn\u0027t have ReviewDb, so that all method signatures require ReviewDb to be passed in addition to work on ReviewDb, e.g.:\n\n  public ReviewerSet getReviewers(ReviewDb db, ChangeNotes notes) { ...\n\nNot sure such implementation details belong to this high level documentation.",
+      "range": {
+        "startLine": 30,
+        "startChar": 61,
+        "endLine": 30,
+        "endChar": 72
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6476b3f7_50ea5299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:30:08Z",
+      "side": 1,
+      "message": "Does this apply to open source gerrit? If not (or if not yet), why add it now?",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

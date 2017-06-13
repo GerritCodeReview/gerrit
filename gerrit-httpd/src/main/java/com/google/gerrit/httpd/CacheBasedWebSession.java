@@ -56,12 +56,12 @@ public abstract class CacheBasedWebSession implements WebSession {
   private CurrentUser user;
 
   protected CacheBasedWebSession(
-      final HttpServletRequest request,
-      final HttpServletResponse response,
-      final WebSessionManager manager,
-      final AuthConfig authConfig,
-      final Provider<AnonymousUser> anonymousProvider,
-      final IdentifiedUser.RequestFactory identified) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      WebSessionManager manager,
+      AuthConfig authConfig,
+      Provider<AnonymousUser> anonymousProvider,
+      IdentifiedUser.RequestFactory identified) {
     this.request = request;
     this.response = response;
     this.manager = manager;
@@ -91,7 +91,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private String readCookie() {
     final Cookie[] all = request.getCookies();
     if (all != null) {
-      for (final Cookie c : all) {
+      for (Cookie c : all) {
         if (ACCOUNT_COOKIE.equals(c.getName())) {
           final String v = c.getValue();
           return v != null && !"".equals(v) ? v : null;
@@ -229,7 +229,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     response.addCookie(outCookie);
   }
 
-  private static boolean isSecure(final HttpServletRequest req) {
+  private static boolean isSecure(HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
   }
 }

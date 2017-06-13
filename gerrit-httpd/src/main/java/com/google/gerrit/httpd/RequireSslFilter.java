@@ -52,7 +52,7 @@ public class RequireSslFilter implements Filter {
   private final Provider<String> urlProvider;
 
   @Inject
-  RequireSslFilter(@CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
+  RequireSslFilter(@CanonicalWebUrl @Nullable Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
   }
 
@@ -64,7 +64,7 @@ public class RequireSslFilter implements Filter {
 
   @Override
   public void doFilter(
-      final ServletRequest request, final ServletResponse response, final FilterChain chain)
+      ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;
@@ -91,11 +91,11 @@ public class RequireSslFilter implements Filter {
     }
   }
 
-  private static boolean isSecure(final HttpServletRequest req) {
+  private static boolean isSecure(HttpServletRequest req) {
     return "https".equals(req.getScheme()) || req.isSecure();
   }
 
-  private static boolean isLocalHost(final HttpServletRequest req) {
+  private static boolean isLocalHost(HttpServletRequest req) {
     return "localhost".equals(req.getServerName()) || "127.0.0.1".equals(req.getServerName());
   }
 }

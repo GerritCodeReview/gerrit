@@ -32,14 +32,14 @@ class CookieBase64 {
     enc[o] = '.';
   }
 
-  private static int fill(final char[] out, int o, final char f, final int l) {
+  private static int fill(char[] out, int o, char f, int l) {
     for (char c = f; c <= l; c++) {
       out[o++] = c;
     }
     return o;
   }
 
-  static String encode(final byte[] in) {
+  static String encode(byte[] in) {
     final StringBuilder out = new StringBuilder(in.length * 4 / 3);
     final int len2 = in.length - 2;
     int d = 0;
@@ -53,7 +53,7 @@ class CookieBase64 {
   }
 
   private static void encode3to4(
-      final StringBuilder out, final byte[] in, final int inOffset, final int numSigBytes) {
+      StringBuilder out, byte[] in, int inOffset, int numSigBytes) {
     //           1         2         3
     // 01234567890123456789012345678901 Bit position
     // --------000000001111111122222222 Array position from threeBytes

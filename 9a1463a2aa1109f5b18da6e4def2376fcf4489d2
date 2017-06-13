@@ -264,6 +264,30 @@
       "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83e56afc_59e6018a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T18:16:25Z",
+      "side": 1,
+      "message": "\u003e The reason to start emphasizing it now is this change is the start\n \u003e of a long series that will culminate in an online NoteDb migration\n \u003e tool :)\n\nI see, we define the final goal in the very first change in this series ;-)",
+      "parentUuid": "7b60bd66_7990eb16",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
+<link rel="import" href="./gr-styled-table.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
@@ -47,51 +47,6 @@ limitations under the License.
       nav a:first-of-type {
         margin-right: .5em;
       }
-      ::content {
-        display: flex;
-        flex-direction: column;
-      }
-
-      ::content .loading {
-        display: none;
-      }
-
-      ::content #list {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      ::content #list tr.table {
-        border-bottom: 1px solid #eee;
-      }
-      ::content #list td {
-        flex-shrink: 0;
-        padding: .3em .5em;
-      }
-      ::content #list th {
-        background-color: #ddd;
-        border-bottom: 1px solid #eee;
-        font-weight: bold;
-        padding: .3em .5em;
-        text-align: left;
-      }
-      ::content #list a {
-        color: var(--default-text-color);
-        text-decoration: none;
-      }
-      ::content #list a:hover {
-        text-decoration: underline;
-      }
-      ::content #list .description {
-        width: 70%;
-      }
-      ::content #list .loadingMsg {
-        color: #666;
-        display: block;
-        padding: 1em var(--default-horizontal-margin);
-      }
-      ::content #list .loadingMsg:not(.loading) {
-        display: none;
-      }
     </style>
     <div id="filterContainer">
       <label>Filter:</label>
@@ -100,7 +55,9 @@ limitations under the License.
           id="filter"
           bind-value="{{_filter}}">
     </div>
-    <content></content>
+    <gr-styled-table>
+      <content></content>
+    </gr-styled-table>
     <nav>
       <a id="prevArrow"
           href$="[[_computeNavLink(offset, -1, itemsPerPage, filter)]]"

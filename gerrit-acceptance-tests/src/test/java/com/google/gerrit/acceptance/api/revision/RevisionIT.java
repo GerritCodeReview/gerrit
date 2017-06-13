@@ -75,6 +75,7 @@ import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -674,6 +675,122 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToMergedChangeRevision() throws Exception {
+    createBranch(new NameKey(project, "foo"));
+
+    PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
+    dstChange.assertOkStatus();
+
+    merge(dstChange);
+
+    PushOneCommit.Result result = createChange(testRepo, "foo", SUBJECT, "b.txt", "c", "t");
+    result.assertOkStatus();
+    merge(result);
+
+    PushOneCommit.Result srcChange = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = dstChange.getCommit().name();
+    input.message = srcChange.getCommit().getFullMessage();
+    ChangeInfo changeInfo =
+        gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+    assertCherryPickResult(changeInfo, input, srcChange.getChangeId());
+  }
+
+  @Test
+  public void cherryPickToOpenChangeRevision() throws Exception {
+    createBranch(new NameKey(project, "foo"));
+
+    PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
+    dstChange.assertOkStatus();
+
+    PushOneCommit.Result srcChange = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = dstChange.getCommit().name();
+    input.message = srcChange.getCommit().getFullMessage();
+    ChangeInfo changeInfo =
+        gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+    assertCherryPickResult(changeInfo, input, srcChange.getChangeId());
+  }
+
+  @Test
+  public void cherryPickToNonVisibleChangeFails() throws Exception {
+    createBranch(new NameKey(project, "foo"));
+
+    PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
+    dstChange.assertOkStatus();
+
+    gApi.changes().id(dstChange.getChangeId()).setPrivate(true, null);
+
+    PushOneCommit.Result srcChange = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = dstChange.getCommit().name();
+    input.message = srcChange.getCommit().getFullMessage();
+
+    setApiUser(user);
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage(
+        String.format("Commit %s does not exist on branch refs/heads/foo", input.base));
+    gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+  }
+
+  @Test
+  public void cherryPickToAbandonedChangeFails() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    gApi.changes().id(change2.getChangeId()).abandon();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = change2.getCommit().name();
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format(
+            "Change %s with commit %s is %s",
+            change2.getChange().getId().get(), input.base, ChangeStatus.ABANDONED));
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
+  public void cherryPickWithInvalidBaseFails() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "master";
+    input.base = "invalid-sha1";
+    input.message = change1.getCommit().getFullMessage();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(String.format("Base %s doesn't represent a valid SHA-1", input.base));
+    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+  }
+
+  @Test
+  public void cherryPickToCommitWithoutChangeId() throws Exception {
+    RevCommit commit1 = createNewCommitWithoutChangeId("refs/heads/foo", "a.txt", "content 1");
+
+    createNewCommitWithoutChangeId("refs/heads/foo", "a.txt", "content 2");
+
+    PushOneCommit.Result srcChange = createChange("subject", "b.txt", "b");
+    srcChange.assertOkStatus();
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = "foo";
+    input.base = commit1.name();
+    input.message = srcChange.getCommit().getFullMessage();
+    ChangeInfo changeInfo =
+        gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+    assertCherryPickResult(changeInfo, input, srcChange.getChangeId());
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
@@ -1084,6 +1201,16 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  private static void assertCherryPickResult(
+      ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
+    assertThat(changeInfo.changeId).isEqualTo(srcChangeId);
+    assertThat(changeInfo.revisions.keySet()).containsExactly(changeInfo.currentRevision);
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.commit.message).isEqualTo(input.message);
+    assertThat(revisionInfo.commit.parents).hasSize(1);
+    assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)

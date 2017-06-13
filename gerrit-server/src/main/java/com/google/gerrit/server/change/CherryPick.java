@@ -84,8 +84,7 @@ public class CherryPick
       throw new AuthException(capable.getMessage());
     }
 
-    String refName = RefNames.fullName(input.destination);
-    RefControl refControl = projectControl.controlForRef(refName);
+    RefControl refControl = projectControl.controlForRef(RefNames.fullName(input.destination));
     if (!refControl.canUpload()) {
       throw new AuthException(
           "Not allowed to cherry pick "
@@ -97,12 +96,7 @@ public class CherryPick
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
-              updateFactory,
-              revision.getChange(),
-              revision.getPatchSet(),
-              input,
-              refName,
-              refControl);
+              updateFactory, revision.getChange(), revision.getPatchSet(), input, refControl);
       return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

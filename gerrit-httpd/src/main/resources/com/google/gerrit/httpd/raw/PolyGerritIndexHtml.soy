@@ -44,6 +44,12 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  // Content between webcomponents-lite and the load of the main app element
+  // run before polymer-resin is installed so may have security consequences.
+  // Contact your local security engineer if you have any questions, and
+  // CC them on any changes that load content before gr-app.html.
+  //
+  // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 

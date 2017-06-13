@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -77,13 +78,18 @@ public final class FieldDef<I, T> {
   public static class FillArgs {
     public final TrackingFooters trackingFooters;
     public final boolean allowsDrafts;
+    public final Accounts accounts;
     public final AllUsersName allUsers;
 
     @Inject
     FillArgs(
-        TrackingFooters trackingFooters, @GerritServerConfig Config cfg, AllUsersName allUsers) {
+        TrackingFooters trackingFooters,
+        @GerritServerConfig Config cfg,
+        Accounts accounts,
+        AllUsersName allUsers) {
       this.trackingFooters = trackingFooters;
       this.allowsDrafts = cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true);
+      this.accounts = accounts;
       this.allUsers = allUsers;
     }
   }

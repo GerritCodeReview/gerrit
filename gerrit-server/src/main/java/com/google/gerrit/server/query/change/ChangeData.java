@@ -58,6 +58,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -1048,13 +1049,14 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
+  public List<SubmitRecord> submitRecords(Accounts accounts, SubmitRuleOptions options)
+      throws OrmException {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = new SubmitRuleEvaluator(this).setOptions(options).evaluate();
+      records = new SubmitRuleEvaluator(accounts, this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -1069,9 +1071,9 @@ public class ChangeData {
     submitRecords.put(options, records);
   }
 
-  public SubmitTypeRecord submitTypeRecord() throws OrmException {
+  public SubmitTypeRecord submitTypeRecord(Accounts accounts) throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = new SubmitRuleEvaluator(this).getSubmitType();
+      submitTypeRecord = new SubmitRuleEvaluator(accounts, this).getSubmitType();
     }
     return submitTypeRecord;
   }
@@ -1080,7 +1082,7 @@ public class ChangeData {
     this.mergeable = mergeable;
   }
 
-  public Boolean isMergeable() throws OrmException {
+  public Boolean isMergeable(Accounts accounts) throws OrmException {
     if (mergeable == null) {
       Change c = change();
       if (c == null) {
@@ -1110,7 +1112,7 @@ public class ChangeData {
 
         try (Repository repo = repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
-          SubmitTypeRecord str = submitTypeRecord();
+          SubmitTypeRecord str = submitTypeRecord(accounts);
           if (!str.isOk()) {
             // If submit type rules are broken, it's definitely not mergeable.
             // No need to log, as SubmitRuleEvaluator already did it for us.

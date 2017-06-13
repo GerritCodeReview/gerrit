@@ -20,30 +20,37 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import java.util.Set;
 
 public class SubmitRecordPredicate extends ChangeIndexPredicate {
   public static Predicate<ChangeData> create(
-      String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
+      Arguments args, String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
     String lowerLabel = label.toLowerCase();
     if (accounts == null || accounts.isEmpty()) {
-      return new SubmitRecordPredicate(status.name() + ',' + lowerLabel);
+      return new SubmitRecordPredicate(args, status.name() + ',' + lowerLabel);
     }
     return Predicate.or(
         accounts
             .stream()
-            .map(a -> new SubmitRecordPredicate(status.name() + ',' + lowerLabel + ',' + a.get()))
+            .map(
+                a ->
+                    new SubmitRecordPredicate(
+                        args, status.name() + ',' + lowerLabel + ',' + a.get()))
             .collect(toList()));
   }
 
-  private SubmitRecordPredicate(String value) {
+  private final Arguments args;
+
+  private SubmitRecordPredicate(Arguments args, String value) {
     super(ChangeField.SUBMIT_RECORD, value);
+    this.args = args;
   }
 
   @Override
   public boolean match(ChangeData in) throws OrmException {
-    return ChangeField.formatSubmitRecordValues(in).contains(getValue());
+    return ChangeField.formatSubmitRecordValues(args.accounts, in).contains(getValue());
   }
 
   @Override

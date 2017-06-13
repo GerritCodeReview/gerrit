@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
@@ -214,6 +215,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  private final Accounts accounts;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final InternalUser.Factory internalUserFactory;
@@ -238,6 +240,7 @@ public class MergeOp implements AutoCloseable {
 
   @Inject
   MergeOp(
+      Accounts accounts,
       ChangeMessagesUtil cmUtil,
       InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
@@ -248,6 +251,7 @@ public class MergeOp implements AutoCloseable {
       MergeOpRepoManager orm,
       NotifyUtil notifyUtil,
       @Assisted BatchUpdate.Factory batchUpdateFactory) {
+    this.accounts = accounts;
     this.cmUtil = cmUtil;
     this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
@@ -265,12 +269,13 @@ public class MergeOp implements AutoCloseable {
     orm.close();
   }
 
-  public static void checkSubmitRule(ChangeData cd) throws ResourceConflictException, OrmException {
+  public static void checkSubmitRule(Accounts accounts, ChangeData cd)
+      throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd);
+    List<SubmitRecord> results = getSubmitRecords(accounts, cd);
     if (SubmitRecord.findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
       return;
@@ -304,8 +309,9 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd) throws OrmException {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS);
+  private static List<SubmitRecord> getSubmitRecords(Accounts accounts, ChangeData cd)
+      throws OrmException {
+    return cd.submitRecords(accounts, SUBMIT_RULE_OPTIONS);
   }
 
   private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
@@ -351,7 +357,7 @@ public class MergeOp implements AutoCloseable {
         } else if (cd.change().isWorkInProgress()) {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
-          checkSubmitRule(cd);
+          checkSubmitRule(accounts, cd);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());
@@ -370,7 +376,7 @@ public class MergeOp implements AutoCloseable {
     for (ChangeData cd : cs.changes()) {
       List<SubmitRecord> records;
       try {
-        records = new ArrayList<>(getSubmitRecords(cd));
+        records = new ArrayList<>(getSubmitRecords(accounts, cd));
       } catch (OrmException e) {
         log.warn("Error checking submit rules for change " + cd.getId(), e);
         records = new ArrayList<>(1);
@@ -731,7 +737,7 @@ public class MergeOp implements AutoCloseable {
 
   private SubmitType getSubmitType(ChangeData cd) {
     try {
-      SubmitTypeRecord str = cd.submitTypeRecord();
+      SubmitTypeRecord str = cd.submitTypeRecord(accounts);
       return str.isOk() ? str.type : null;
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);

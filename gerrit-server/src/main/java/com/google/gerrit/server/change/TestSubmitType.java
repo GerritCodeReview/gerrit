@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -34,6 +35,7 @@ import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
+  private final Accounts accounts;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
 
@@ -41,8 +43,13 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(Provider<ReviewDb> db, ChangeData.Factory changeDataFactory, RulesCache rules) {
+  TestSubmitType(
+      Provider<ReviewDb> db,
+      Accounts accounts,
+      ChangeData.Factory changeDataFactory,
+      RulesCache rules) {
     this.db = db;
+    this.accounts = accounts;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
   }
@@ -58,7 +65,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
+        new SubmitRuleEvaluator(accounts, changeDataFactory.create(db.get(), rsrc.getControl()));
 
     SubmitTypeRecord rec =
         evaluator

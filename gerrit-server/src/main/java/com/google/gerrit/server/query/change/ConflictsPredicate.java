@@ -102,7 +102,7 @@ public class ConflictsPredicate extends OrPredicate<ChangeData> {
               if (!otherChange.getDest().equals(c.getDest())) {
                 return false;
               }
-              SubmitTypeRecord str = object.submitTypeRecord();
+              SubmitTypeRecord str = object.submitTypeRecord(args.accounts);
               if (!str.isOk()) {
                 return false;
               }

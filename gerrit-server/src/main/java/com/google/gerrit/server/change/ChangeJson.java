@@ -99,6 +99,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -196,6 +197,7 @@ public class ChangeJson {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
   private final FileInfoJson fileInfoJson;
+  private final Accounts accounts;
   private final AccountLoader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
@@ -228,6 +230,7 @@ public class ChangeJson {
       IdentifiedUser.GenericFactory uf,
       ChangeData.Factory cdf,
       FileInfoJson fileInfoJson,
+      Accounts accounts,
       AccountLoader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
@@ -252,6 +255,7 @@ public class ChangeJson {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.fileInfoJson = fileInfoJson;
+    this.accounts = accounts;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
@@ -489,11 +493,11 @@ public class ChangeJson {
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.getStatus().isOpen()) {
-      SubmitTypeRecord str = cd.submitTypeRecord();
+      SubmitTypeRecord str = cd.submitTypeRecord(accounts);
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      out.mergeable = cd.isMergeable();
+      out.mergeable = cd.isMergeable(accounts);
       if (has(SUBMITTABLE)) {
         out.submittable = submittable(cd);
       }
@@ -618,11 +622,12 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) throws OrmException {
-    return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
+    return SubmitRecord.findOkRecord(cd.submitRecords(accounts, SUBMIT_RULE_OPTIONS_STRICT))
+        .isPresent();
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
+    return cd.submitRecords(accounts, SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
   private Map<String, LabelInfo> labelsFor(

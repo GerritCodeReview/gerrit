@@ -1931,7 +1931,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
     // necessary for NoteDb anyway.
-    cd.isMergeable();
+    cd.isMergeable(accounts);
 
     exception.expect(DisabledReviewDb.Disabled.class);
     cd.messages();

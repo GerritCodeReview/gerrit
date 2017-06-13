@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
@@ -45,8 +46,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
+  @Inject private Accounts accounts;
   @Inject private Provider<MergeSuperSet> mergeSuperSet;
-
   @Inject private Submit submit;
 
   @ConfigSuite.Default
@@ -311,12 +312,12 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
 
   private void assertMergeable(ChangeData change) throws Exception {
     change.setMergeable(null);
-    assertThat(change.isMergeable()).isTrue();
+    assertThat(change.isMergeable(accounts)).isTrue();
   }
 
   private void assertNotMergeable(ChangeData change) throws Exception {
     change.setMergeable(null);
-    assertThat(change.isMergeable()).isFalse();
+    assertThat(change.isMergeable(accounts)).isFalse();
   }
 
   private void assertMerged(String changeId) throws Exception {

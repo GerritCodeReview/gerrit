@@ -48,6 +48,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -437,8 +438,8 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_MERGEABLE)
           .stored()
           .build(
-              cd -> {
-                Boolean m = cd.isMergeable();
+              (ChangeData cd, FillArgs a) -> {
+                Boolean m = cd.isMergeable(a.accounts);
                 if (m == null) {
                   return null;
                 }
@@ -606,15 +607,20 @@ public class ChangeField {
   }
 
   public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      exact("submit_record").buildRepeatable(cd -> formatSubmitRecordValues(cd));
+      exact("submit_record")
+          .buildRepeatable((ChangeData cd, FillArgs a) -> formatSubmitRecordValues(a.accounts, cd));
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
       storedOnly("full_submit_record_strict")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_STRICT));
+          .buildRepeatable(
+              (ChangeData cd, FillArgs a) ->
+                  storedSubmitRecords(a.accounts, cd, SUBMIT_RULE_OPTIONS_STRICT));
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
       storedOnly("full_submit_record_lenient")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT));
+          .buildRepeatable(
+              (ChangeData cd, FillArgs a) ->
+                  storedSubmitRecords(a.accounts, cd, SUBMIT_RULE_OPTIONS_LENIENT));
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
@@ -645,14 +651,15 @@ public class ChangeField {
     return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts)
-      throws OrmException {
-    return storedSubmitRecords(cd.submitRecords(opts));
+  private static Iterable<byte[]> storedSubmitRecords(
+      Accounts accounts, ChangeData cd, SubmitRuleOptions opts) throws OrmException {
+    return storedSubmitRecords(cd.submitRecords(accounts, opts));
   }
 
-  public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
+  public static List<String> formatSubmitRecordValues(Accounts accounts, ChangeData cd)
+      throws OrmException {
     return formatSubmitRecordValues(
-        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
+        cd.submitRecords(accounts, SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
   }
 
   @VisibleForTesting

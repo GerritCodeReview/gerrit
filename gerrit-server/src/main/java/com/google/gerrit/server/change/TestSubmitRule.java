@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -39,6 +40,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
+  private final Accounts accounts;
   private final AccountLoader.Factory accountInfoFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
@@ -49,10 +51,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
+      Accounts accounts,
       AccountLoader.Factory infoFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
+    this.accounts = accounts;
     this.accountInfoFactory = infoFactory;
   }
 
@@ -67,7 +71,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
+        new SubmitRuleEvaluator(accounts, changeDataFactory.create(db.get(), rsrc.getControl()));
 
     List<SubmitRecord> records =
         evaluator

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -49,6 +50,7 @@ public class ReviewerJson {
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final Accounts accounts;
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
@@ -57,11 +59,13 @@ public class ReviewerJson {
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
+      Accounts accounts,
       AccountLoader.Factory accountLoaderFactory) {
     this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
+    this.accounts = accounts;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
@@ -128,7 +132,10 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec :
-          new SubmitRuleEvaluator(cd).setFastEvalLabels(true).setAllowDraft(true).evaluate()) {
+          new SubmitRuleEvaluator(accounts, cd)
+              .setFastEvalLabels(true)
+              .setAllowDraft(true)
+              .evaluate()) {
         if (rec.labels == null) {
           continue;
         }

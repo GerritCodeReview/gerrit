@@ -16,19 +16,22 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
 public class SubmittablePredicate extends ChangeIndexPredicate {
+  protected final Arguments args;
   protected final SubmitRecord.Status status;
 
-  public SubmittablePredicate(SubmitRecord.Status status) {
+  public SubmittablePredicate(Arguments args, SubmitRecord.Status status) {
     super(ChangeField.SUBMIT_RECORD, status.name());
+    this.args = args;
     this.status = status;
   }
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT)
+    return cd.submitRecords(args.accounts, ChangeField.SUBMIT_RULE_OPTIONS_STRICT)
         .stream()
         .anyMatch(r -> r.status == status);
   }

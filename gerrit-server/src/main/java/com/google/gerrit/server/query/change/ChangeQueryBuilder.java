@@ -41,6 +41,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
@@ -188,6 +189,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @VisibleForTesting
   public static class Arguments {
+    final Accounts accounts;
     final AccountCache accountCache;
     final AccountResolver accountResolver;
     final AllProjectsName allProjectsName;
@@ -254,6 +256,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
+        Accounts accounts,
         AccountCache accountCache,
         @GerritServerConfig Config cfg,
         NotesMigration notesMigration) {
@@ -287,6 +290,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           listMembers,
           starredChangesUtil,
+          accounts,
           accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration);
@@ -322,6 +326,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
+        Accounts accounts,
         AccountCache accountCache,
         boolean allowsDrafts,
         NotesMigration notesMigration) {
@@ -353,6 +358,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.indexConfig = indexConfig;
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
+      this.accounts = accounts;
       this.accountCache = accountCache;
       this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
@@ -390,6 +396,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           listMembers,
           starredChangesUtil,
+          accounts,
           accountCache,
           allowsDrafts,
           notesMigration);
@@ -613,7 +620,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("submittable".equalsIgnoreCase(value)) {
-      return new SubmittablePredicate(SubmitRecord.Status.OK);
+      return new SubmittablePredicate(args, SubmitRecord.Status.OK);
     }
 
     if ("ignored".equalsIgnoreCase(value)) {
@@ -814,7 +821,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         if (status == null) {
           throw error("Invalid label status " + statusName + " in " + name);
         }
-        return SubmitRecordPredicate.create(name.substring(0, eq), status, accounts);
+        return SubmitRecordPredicate.create(args, name.substring(0, eq), status, accounts);
       }
     }
 
@@ -1153,7 +1160,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (status == null) {
       throw error("invalid value for submittable:" + str);
     }
-    return new SubmittablePredicate(status);
+    return new SubmittablePredicate(args, status);
   }
 
   @Operator

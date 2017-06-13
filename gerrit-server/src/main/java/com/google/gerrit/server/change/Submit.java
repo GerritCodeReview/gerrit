@@ -44,6 +44,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.Submit.Output;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -136,7 +137,8 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
   private final ChangeNotes.Factory changeNotesFactory;
   private final MergeOp.Factory mergeOpFactory;
   private final Provider<MergeSuperSet> mergeSuperSet;
-  private final AccountsCollection accounts;
+  private final Accounts accounts;
+  private final AccountsCollection accountsCollection;
   private final String label;
   private final String labelWithParents;
   private final ParameterizedString titlePattern;
@@ -158,7 +160,8 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
       ChangeNotes.Factory changeNotesFactory,
       MergeOp.Factory mergeOpFactory,
       Provider<MergeSuperSet> mergeSuperSet,
-      AccountsCollection accounts,
+      Accounts accounts,
+      AccountsCollection accountsCollection,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil) {
@@ -172,6 +175,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
     this.mergeOpFactory = mergeOpFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
+    this.accountsCollection = accountsCollection;
     this.label =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "Submit");
@@ -291,7 +295,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
         if (c.change().isWorkInProgress()) {
           return BLOCKED_WORK_IN_PROGRESS;
         }
-        MergeOp.checkSubmitRule(c);
+        MergeOp.checkSubmitRule(accounts, c);
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -328,7 +332,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
               && resource.isCurrent()
               && !resource.getPatchSet().isDraft()
               && resource.permissions().test(ChangePermission.SUBMIT);
-      MergeOp.checkSubmitRule(cd);
+      MergeOp.checkSubmitRule(accounts, cd);
     } catch (ResourceConflictException e) {
       visible = false;
     } catch (PermissionBackendException e) {
@@ -369,7 +373,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
       // That was done in unmergeableChanges which was called by
       // problemsForSubmittingChangeset, so now it is safe to read from
       // the cache, as it yields the same result.
-      enabled = cd.isMergeable();
+      enabled = cd.isMergeable(accounts);
     } catch (OrmException e) {
       throw new OrmRuntimeException("Could not determine mergeability", e);
     }
@@ -448,7 +452,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
         // TODO(dborowitz): This is ugly; consider providing a way to not read
         // stored fields from the index in the first place.
         change.setMergeable(null);
-        Boolean mergeable = change.isMergeable();
+        Boolean mergeable = change.isMergeable(accounts);
         if (mergeable == null) {
           // Skip whole check, cannot determine if mergeable
           return null;
@@ -491,7 +495,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
-    IdentifiedUser submitter = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
+    IdentifiedUser submitter = accountsCollection.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
       perm.user(submitter).check(ChangePermission.READ);
     } catch (AuthException e) {

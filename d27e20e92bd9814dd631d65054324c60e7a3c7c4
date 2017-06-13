@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c060f74_c9315976",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T12:57:39Z",
+      "side": 1,
+      "message": "Could you add some separator comments between the different types of tests? I know it\u0027s already implied by the name prefixes, but comments would make it easier to see the structure while scrolling quickly through the file.",
+      "revId": "d27e20e92bd9814dd631d65054324c60e7a3c7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

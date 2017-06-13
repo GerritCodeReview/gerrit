@@ -580,7 +580,7 @@ public class MergeOp implements AutoCloseable {
                 ob.mergeTip,
                 commitStatus,
                 submissionId,
-                submitInput.notify,
+                submitInput,
                 accountsToNotify,
                 submoduleOp,
                 dryrun);

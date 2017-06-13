@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -61,7 +61,7 @@ public class SubmitStrategyFactory {
       MergeTip mergeTip,
       CommitStatus commitStatus,
       RequestId submissionId,
-      NotifyHandling notifyHandling,
+      SubmitInput submitInput,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp,
       boolean dryrun)
@@ -79,7 +79,7 @@ public class SubmitStrategyFactory {
             alreadyAccepted,
             incoming,
             submissionId,
-            notifyHandling,
+            submitInput,
             accountsToNotify,
             submoduleOp,
             dryrun);

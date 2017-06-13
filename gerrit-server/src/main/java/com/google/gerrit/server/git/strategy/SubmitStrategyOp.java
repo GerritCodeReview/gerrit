@@ -508,7 +508,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               ctx.getProject(),
               getId(),
               submitter.getAccountId(),
-              args.notifyHandling,
+              args.submitInput.notify,
               args.accountsToNotify)
           .sendAsync();
     } catch (Exception e) {

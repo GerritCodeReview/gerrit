@@ -130,14 +130,14 @@ limitations under the License.
     suite('loading', () => {
       test('correct contents are displayed', () => {
         assert.isTrue(element._loading);
-        assert.equal(element._computeLoadingClass(element._loading), 'loading');
+        assert.equal(element.computeLoadingClass(element._loading), 'loading');
         assert.equal(getComputedStyle(element.$.loading).display, 'block');
 
         element._loading = false;
         element._groups = _.times(25, groupGenerator);
 
         flushAsynchronousOperations();
-        assert.equal(element._computeLoadingClass(element._loading), '');
+        assert.equal(element.computeLoadingClass(element._loading), '');
         assert.equal(getComputedStyle(element.$.loading).display, 'none');
       });
     });

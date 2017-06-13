@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "040e126f_9f7da957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-13T14:02:27Z",
+      "side": 1,
+      "message": "it reduces the amount of API surface available to the non-constructor code.\n\nChanging the constructor makes GUICE not find the right thing to inject, so I want to leave it for a next change.",
+      "parentUuid": "7d9472a6_ca538abe",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069fef55_b6ceaf6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-13T13:56:51Z",
       "side": 1,
       "message": "Unrelated to this change but we have agreement to not use final for parameters and we remove finals whenever a method is changed for the first time. Since you are changing this constructor, remove the finals.",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c6ec52e_158e4d99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-13T14:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "069fef55_b6ceaf6e",
       "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

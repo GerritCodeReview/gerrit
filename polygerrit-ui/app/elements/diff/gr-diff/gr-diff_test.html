@@ -991,6 +991,38 @@ limitations under the License.
         assert.equal(element._diffHeaderItems.length, 0);
       });
     });
+
+    suite('safety and bypass', () => {
+      let renderStub;
+
+      setup(() => {
+        renderStub = sandbox.stub(element.$.diffBuilder, 'render',
+            () => Promise.resolve());
+        const mock = document.createElement('mock-diff-response');
+        element._diff = mock.diffResponse;
+        element._comments = {left: [], right: []};
+        element.noRenderOnPrefsChange = true;
+      });
+
+      test('lage render w/ context = 10', () => {
+        element.prefs = {context: 10};
+        sandbox.stub(element, '_diffLength', () => 10000);
+        return element._renderDiffTable().then(() => {
+          assert.isTrue(renderStub.called);
+          assert.isFalse(element._showWarning);
+        });
+      });
+
+      test('lage render w/ whole file and bypass', () => {
+        element.prefs = {context: -1};
+        element._safetyBypas = 10;
+        sandbox.stub(element, '_diffLength', () => 10000);
+        return element._renderDiffTable().then(() => {
+          assert.isTrue(renderStub.called);
+          assert.isFalse(element._showWarning);
+        });
+      });
+    })
   });
 
   a11ySuite('basic');

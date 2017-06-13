@@ -24,6 +24,8 @@
     RIGHT: 'right',
   };
 
+  const LARGE_DIFF_THRESHOLD = 10000;
+
   Polymer({
     is: 'gr-diff',
 
@@ -100,6 +102,19 @@
       _comments: Object,
       _baseImage: Object,
       _revisionImage: Object,
+
+      /**
+       * Whether the safety check for large diffs when whole-file is set has
+       * been bypassed. If the value is null, then the safety has not been
+       * bypassed. If the value is a number, then that number represents the
+       * context preference to use when rendering the bypassed diff.
+       */
+      _safetyBypas: {
+        type: Number,
+        value: null,
+      },
+
+      _showWarning: Boolean,
     },
 
     listeners: {
@@ -124,6 +139,8 @@
 
     reload() {
       this.$.diffBuilder.cancel();
+      this._safetyBypas = null;
+      this._showWarning = false;
       this._clearDiffContent();
 
       const promises = [];
@@ -447,7 +464,23 @@
     },
 
     _renderDiffTable() {
-      return this.$.diffBuilder.render(this._comments, this.prefs);
+      if (this.prefs.context === -1 &&
+          this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD &&
+          this._safetyBypas === null) {
+        this._showWarning = true;
+        return Promise.resolve();
+      }
+
+      this._showWarning = false;
+      return this.$.diffBuilder.render(this._comments, this._getOverridePrefs());
+    },
+
+    _getOverridePrefs() {
+      const prefs = Object.assign({}, this.prefs);
+      if (this._safetyBypas !== null) {
+        prefs.context = this._safetyBypas;
+      }
+      return prefs;
     },
 
     _clearDiffContent() {
@@ -599,6 +632,39 @@
 
     _computeDiffHeaderHidden(items) {
       return items.length === 0;
+    },
+
+    /**
+     * The number lines in the diff. For delta chunks that are different sizes
+     * on the left and the right, the longer side is used.
+     * @param  {Obkect} diff
+     * @return {Number}
+     */
+    _diffLength: function(diff) {
+      return diff.content.reduce((sum, sec) => {
+        if (sec.hasOwnProperty('ab')) {
+          return sum + sec.ab.length;
+        } else {
+          return sum + Math.max(
+            sec.hasOwnProperty('a') ? sec.a.length : 0,
+            sec.hasOwnProperty('b') ? sec.b.length : 0
+          );
+        }
+      }, 0);
+    },
+
+    _handleFullBypass: function() {
+      this._safetyBypas = -1;
+      this._renderDiffTable();
+    },
+
+    _handleLimitedBypass: function() {
+      this._safetyBypas = 10;
+      this._renderDiffTable();
+    },
+
+    _computeWarningClass(showWarning) {
+      return showWarning ? 'warn' : '';
     },
   });
 })();

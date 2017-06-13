@@ -206,6 +206,18 @@ limitations under the License.
         font-size: var(--font-size, 12px);
         padding: 0.5em 0 0.5em 4em;
       }
+      #sizeWarning {
+        display: none;
+        margin: 1em auto;
+        max-width: 60em;
+        text-align: center;
+      }
+      #sizeWarning gr-button {
+        margin: 1em;
+      }
+      #sizeWarning.warn {
+        display: block;
+      }
     </style>
     <style include="gr-theme-default"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
@@ -239,6 +251,14 @@ limitations under the License.
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>
+    </div>
+    <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
+      <p>
+        Prevented render because "Whole file" is enabled and this diff is very
+        large (about [[_diffLength(_diff)]] lines).
+      </p>
+      <gr-button on-tap="_handleLimitedBypass">Render with limited context</gr-button>
+      <gr-button on-tap="_handleFullBypass">Render anyway (may be slow)</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

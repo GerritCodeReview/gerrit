@@ -93,6 +93,30 @@
       "revId": "85ea3e703afab4f14a09bbe5c319f296a6b3ae33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "977b84e8_84392857",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T22:28:51Z",
+      "side": 1,
+      "message": "I guess my question was should there even be an override option. I don\u0027t know the answer for sure.",
+      "parentUuid": "a856241c_101e61d0",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "85ea3e703afab4f14a09bbe5c319f296a6b3ae33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

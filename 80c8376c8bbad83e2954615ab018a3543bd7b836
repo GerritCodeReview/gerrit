@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "fef0bb84_17daac6d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T16:12:30Z",
+      "side": 1,
+      "message": "I like the Javadoc description you chose for patch set 5.",
+      "parentUuid": "e7c228be_58c7450b",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5edd7b08_313d9448",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 4
@@ -366,6 +390,30 @@
       "side": 1,
       "message": "IIUC, \"theirs\" means the \u0027merger\u0027 will directly choose the tree of \u0027mergeTip\u0027. So it will always be identical in this case. I don\u0027t when will this strategy be useful.\n\n\n[1] https://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java#L67",
       "parentUuid": "364bd698_b4e5b9b4",
+      "range": {
+        "startLine": 256,
+        "startChar": 13,
+        "endLine": 256,
+        "endChar": 61
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53e6b265_85217612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T16:12:30Z",
+      "side": 1,
+      "message": "I wonder whether something like \u0027ours\u0027 or \u0027theirs\u0027 will be useful at all. The strategy \u0027theirs\u0027 does not apply any changes during the cherry-pick and hence the cherry-pick is futile. Allowing that operation might be confusing for users.\n\nOn the other hand, the strategy \u0027ours\u0027 ignores all other changes and overwrites the state of the tree. Thus, commits might be lost.\n\nIs this behavior really desired by users? Wasn\u0027t the original intention of this change maybe to be able to specify how to deal with conflicts (e.g. merge the trees but choose \u0027ours\u0027 or \u0027theirs\u0027 for conflicting chunks)?",
+      "parentUuid": "63030e5f_b59219fc",
       "range": {
         "startLine": 256,
         "startChar": 13,

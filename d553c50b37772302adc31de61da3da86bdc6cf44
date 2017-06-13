@@ -16,6 +16,24 @@
       "revId": "d553c50b37772302adc31de61da3da86bdc6cf44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aae1c18c_9e75ea75",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T17:27:46Z",
+      "side": 1,
+      "message": "Because importing scripts does not have the deduplication semantics that HTML imports do.\n\nIf we import it like a script in n elements, then vulcanize will include it in the resulting JS n times.",
+      "parentUuid": "bee95438_e4537689",
+      "revId": "d553c50b37772302adc31de61da3da86bdc6cf44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "968b2028d01545349bc26d6c93830c812bda5549",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23b29fe_049f111a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T17:27:46Z",
+      "side": 1,
+      "message": "I agree that this is where it can go. But rethinking state propagation is OOS for this change.\n\nThis change doesn\u0027t change the way state works. It only reorganizes the calls to page.show into a single place.",
+      "parentUuid": "ecbdc471_34e8033c",
+      "range": {
+        "startLine": 53,
+        "startChar": 21,
+        "endLine": 53,
+        "endChar": 47
+      },
+      "revId": "968b2028d01545349bc26d6c93830c812bda5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

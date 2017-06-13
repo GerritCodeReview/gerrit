@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8ea59495_c1ca62b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T22:51:05Z",
+      "side": 1,
+      "message": "Although I did suggest this, the resulting colors are very faint and difficult to see.\n\nIt shouldn\u0027t block this change, but I wonder if there\u0027s another place to put this color. I can\u0027t think of one immediately.",
+      "parentUuid": "414999ff_86a6c22e",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Good idea, but this will also remove Verified votes by CI which I think better be highlighted.",
       "parentUuid": "cbf01a1a_37413080",
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a895717_f1a3800d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T22:51:05Z",
+      "side": 1,
+      "message": "Do we definitely need to ignore these labels?\n\nI understand that this is a \"quick and dirty fix\" but it feels wrong to hard-code Chromium-specific label names in upstream Gerrit.",
+      "parentUuid": "18b057dc_f91b4ec6",
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -260,6 +302,54 @@
     },
     {
       "key": {
+        "uuid": "8efa03ae_8ff3a6ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T22:51:05Z",
+      "side": 1,
+      "message": "But the regex...\n\n (.+)\n\n...will match spaces. Is the intent to allow whitespace characters like space and tab to appear inside the label name?",
+      "parentUuid": "ff27e17e_042bbecd",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7890db96_f0d979e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T22:51:05Z",
+      "side": 1,
+      "message": "Why are they expected to only contain one label?",
+      "parentUuid": "aa428620_b64ed541",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8167579f_71a4449d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -318,6 +408,30 @@
       "writtenOn": "2017-06-06T23:37:22Z",
       "side": 1,
       "message": "Nit: these lines exceed 80 characters.",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 81
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27355755_fe8facf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T22:51:05Z",
+      "side": 1,
+      "message": "Ping.",
+      "parentUuid": "1021f8ef_bc6dd144",
       "range": {
         "startLine": 175,
         "startChar": 8,

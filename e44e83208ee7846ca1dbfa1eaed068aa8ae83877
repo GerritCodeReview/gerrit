@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e726316b_9aaa297b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-13T09:53:55Z",
+      "side": 1,
+      "message": "please document the new metrics in metrics.txt",
+      "range": {
+        "startLine": 462,
+        "startChar": 6,
+        "endLine": 470,
+        "endChar": 30
+      },
+      "revId": "e44e83208ee7846ca1dbfa1eaed068aa8ae83877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

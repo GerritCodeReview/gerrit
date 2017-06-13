@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fec5f183_e4d87b34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-13T09:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e70fb6b_027afa7e",
+      "revId": "be592391b44aecf72c9edd15ba290aea470cd0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7c5168d_5cc577ad",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
         "patchSetId": 3

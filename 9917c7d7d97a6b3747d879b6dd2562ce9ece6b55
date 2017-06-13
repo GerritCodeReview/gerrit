@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4225c1e6_1c6d0a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T12:55:54Z",
+      "side": 1,
+      "message": "Yeah, I think this should be better explained. I know what\u0027s going on only as the result of a long IM conversation with Logan :)",
+      "parentUuid": "b396c421_cbfdb93c",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e08aae69_b0fa93ca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14

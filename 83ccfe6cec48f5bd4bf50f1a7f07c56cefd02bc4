@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f9f34c31_5126aaca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T23:12:01Z",
+      "side": 1,
+      "message": "The benefit is that it does not need to be instantiated to be used. One could merely call `GrGerritAuth.fetch()` directly and not be concerned with getting an instance.\n\nMoreover, because nothing in this file is scoped to an instance (i.e. it\u0027s effectively static anyway) it feels misleading to suggest that there is instance-scoped state by requiring that it be instantiated.\n\nIs there a benefit to declaring this as an instantiable class?",
+      "parentUuid": "a442bae7_0d6bf579",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5fcfb95_cc6528c3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
         "patchSetId": 2
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "I\u0027m not sure what benefit this adds. Could you please add context?",
       "parentUuid": "8ffbf5ea_59ea08e4",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2fe794b_197e6c85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T23:12:01Z",
+      "side": 1,
+      "message": "Presumably you will be adding additional auth provider scripts (like OAuth). Is the idea that the future auth-type scripts will match this interface?\n\nIt like the main difference different between auth providers is the way the headers are computed.\n\nI\u0027d guess that, once we have figured out what the headers will be, the way that fetch is called will not differ. Is that right?",
+      "parentUuid": "2f43b773_246ce7f3",
       "range": {
         "startLine": 37,
         "startChar": 2,

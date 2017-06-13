@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79f10c5b_a9d65096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68cd3055_cbffd057",
+      "range": {
+        "startLine": 15,
+        "startChar": 53,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fef6ce25_d8a10896",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-13T13:37:30Z",
       "side": 1,
       "message": ". Allowed values are",
+      "range": {
+        "startLine": 5693,
+        "startChar": 37,
+        "endLine": 5693,
+        "endChar": 45
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b066e237_4e049dfc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5693,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef6ce25_d8a10896",
       "range": {
         "startLine": 5693,
         "startChar": 37,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "0a19e584_337d7b42",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b494b1da_bec7c004",
+      "range": {
+        "startLine": 5694,
+        "startChar": 44,
+        "endLine": 5694,
+        "endChar": 79
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0420e499_c4ac6085",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adec8330_448e6fa4",
+      "range": {
+        "startLine": 5694,
+        "startChar": 32,
+        "endLine": 5694,
+        "endChar": 35
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e67c761_de39e2d7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2017-06-13T13:37:30Z",
       "side": 1,
       "message": "If possible, I would prefer individual tests for the merge strategies \u0027ours\u0027 and \u0027theirs\u0027 instead of one large test.",
+      "range": {
+        "startLine": 672,
+        "startChar": 14,
+        "endLine": 672,
+        "endChar": 37
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ea0293f_062dc1d9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e67c761_de39e2d7",
       "range": {
         "startLine": 672,
         "startChar": 14,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "e7c228be_58c7450b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "JGit\u0027s name definition here is a little confusing.\n\nLower-case is not enough.The name of \"SIMPLE_TWO_WAY_IN_CORE\" is \"simple-two-way-in-core\". :(\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
+      "parentUuid": "2cfe9905_abe2fb65",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5edd7b08_313d9448",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 4
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "5b973c43_c7bf330c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "Nice! I\u0027m impressed by such a short implementation.",
+      "parentUuid": "5edd7b08_313d9448",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 5
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "364bd698_b4e5b9b4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 4
@@ -174,6 +342,30 @@
       "writtenOn": "2017-06-13T13:37:30Z",
       "side": 1,
       "message": "Is this a special requirement? I would assume that users still would like to know when their cherry-pick doesn\u0027t change anything as then they could simply not apply the cherry-pick at all.",
+      "range": {
+        "startLine": 256,
+        "startChar": 13,
+        "endLine": 256,
+        "endChar": 61
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63030e5f_b59219fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-13T14:49:58Z",
+      "side": 1,
+      "message": "IIUC, \"theirs\" means the \u0027merger\u0027 will directly choose the tree of \u0027mergeTip\u0027. So it will always be identical in this case. I don\u0027t when will this strategy be useful.\n\n\n[1] https://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java#L67",
+      "parentUuid": "364bd698_b4e5b9b4",
       "range": {
         "startLine": 256,
         "startChar": 13,

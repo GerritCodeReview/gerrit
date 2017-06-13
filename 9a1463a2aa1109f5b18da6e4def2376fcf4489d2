@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "0b76d1d6_f1894b0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:10:05Z",
+      "side": 1,
+      "message": "I understood the Javadoc comment to refer to different entities like changes, accounts, or groups. The migration for them is done individually and hence there are different migration states.",
+      "parentUuid": "1c3c7ac6_a13e98cf",
+      "range": {
+        "startLine": 23,
+        "startChar": 73,
+        "endLine": 24,
+        "endChar": 87
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "782c76c7_3817be8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T14:10:05Z",
+      "side": 1,
+      "message": "Wouldn\u0027t \u0027Most\u0027 sound better?",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "9a1463a2aa1109f5b18da6e4def2376fcf4489d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cd805ed_db1d69a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 2

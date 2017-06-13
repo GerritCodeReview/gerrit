@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "97f12efe_cfd1e57c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e68d8e41_b633b41a",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac642354_03efe33d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7957f5f_29617562",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d80ac44_59dcdea3",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -190,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "5538474a_144883a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Good.",
+      "parentUuid": "fde5bb6b_e191ac87",
+      "range": {
+        "startLine": 28,
+        "startChar": 60,
+        "endLine": 28,
+        "endChar": 64
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67dd7317_eb3863eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 1
@@ -225,6 +297,30 @@
       "side": 1,
       "message": "Done (here and for all other occurrences).",
       "parentUuid": "67dd7317_eb3863eb",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 92
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a73aca76_bf4a36f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "I see the changes in the other files, but not all of them here. I\u0027ll add comments on the ones where it doesn\u0027t yet look right.",
+      "parentUuid": "43d114dc_e4b016e4",
       "range": {
         "startLine": 39,
         "startChar": 21,
@@ -284,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "b6c3b66d_d2ced271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Good",
+      "parentUuid": "c3a71a48_c516b1b3",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 15
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba84264a_abb839bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
         "patchSetId": 1
@@ -328,6 +448,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d353d3_c5fd0342",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "I see. It\u0027s certainly justifiable to have done it like you did. I think it\u0027s a good habit to get into throwing exceptions, though. They usually result in more robust, easier to read code.",
+      "parentUuid": "31a0a629_720dd57a",
+      "range": {
+        "startLine": 63,
+        "startChar": 14,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -378,6 +522,30 @@
     },
     {
       "key": {
+        "uuid": "9452735f_e34e3796",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "It looks much better. Thanks!",
+      "parentUuid": "12e97fea_9431e220",
+      "range": {
+        "startLine": 141,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff9be8bc_24d4febd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailComment.java",
         "patchSetId": 1
@@ -425,6 +593,30 @@
     },
     {
       "key": {
+        "uuid": "a97d37ec_c53ea58b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Oh, I see. While that makes sense, it was confusing to me, coming fresh to the code. At least this way, the fact that you have public fields is very obvious, so someone might take a look in the future and clean that up as this class evolves.",
+      "parentUuid": "2c196a61_9cf3fb61",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49132777_d4dac167",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
         "patchSetId": 1
@@ -469,6 +661,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102fa875_d659f67b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Cool. It\u0027s a great tool, so I hope you\u0027re able to use it.",
+      "parentUuid": "fef043af_e67d1b59",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -542,6 +758,30 @@
     },
     {
       "key": {
+        "uuid": "06c8d92a_90387cff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Better. Thanks!",
+      "parentUuid": "7cdffaea_484a8ed5",
+      "range": {
+        "startLine": 170,
+        "startChar": 3,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85fc0050_9f0d84be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -586,6 +826,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8587da42_8cb79589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "5d4f9579_7f8ca0c3",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 247,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -636,6 +900,30 @@
     },
     {
       "key": {
+        "uuid": "e5eb0466_c0c5dfa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "No, that\u0027s fine. I\u0027m not sure if a comment is necessary. There is a way to indicate in the @VisibleForTesting annotation what the visibility should be in the absence of the annotation, but there\u0027s no way to tell it that \"public\" is really what you intended!\n\nI\u0027m deciding that it\u0027s fine without a comment. The comment would clutter things without providing any real value.",
+      "parentUuid": "7b2832d2_1d4284d3",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6eea81a4_65e81378",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -680,6 +968,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9383ff6b_0ec2a92a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Does the WorkQueue log runtime exceptions? If so, you could throw a runtime exception instead. But that seems to be doing some weird work just for the sake of a lofty principle. A comment would help, though.",
+      "parentUuid": "d4d39a4f_4132088c",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -820,6 +1132,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acbd8dec_880609ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Marking Resolved.",
+      "parentUuid": "a96f3761_71893de9",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 36
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4571dcf_c667cd60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Since the type can be learned from the method signature, it is redundant here. You are welcome to keep it if it makes writing the description easier, but personally, I try to avoid it. I would have phrased this as:\n@param email the message as received from the email service",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14cfa28_ac22a8d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Extremely trivial!\nThis one isn\u0027t quite right. Even though it may seem odd, this should actually start with lowercase, even though it ends with punctuation, since it\u0027s not a complete sentence.\n\nThe comments on changeUrl and the return need the same treatment.",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24fb454f_77540b6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1044950
+      },
+      "writtenOn": "2017-06-13T22:08:03Z",
+      "side": 1,
+      "message": "Extremely trivial!\nSince you follow this with an example, some type of punctuation is needed. A period would be fine.",
+      "range": {
+        "startLine": 43,
+        "startChar": 84,
+        "endLine": 43,
+        "endChar": 92
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

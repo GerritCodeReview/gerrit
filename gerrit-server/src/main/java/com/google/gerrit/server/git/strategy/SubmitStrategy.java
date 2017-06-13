@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -255,12 +257,21 @@ public abstract class SubmitStrategy {
     List<CodeReviewCommit> difference = new ArrayList<>(Sets.difference(toMerge, added));
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
+      Change.Id id = c.change().getId();
       bu.addOp(c.change().getId(), new ImplicitIntegrateOp(args, c));
+      maybeAddTestHelperOp(bu, id);
     }
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
       bu.addOp(op.getId(), op);
+      maybeAddTestHelperOp(bu, op.getId());
+    }
+  }
+
+  private void maybeAddTestHelperOp(BatchUpdate bu, Change.Id changeId) {
+    if (args.submitInput instanceof TestSubmitInput) {
+      bu.addOp(changeId, new TestHelperOp(changeId, args));
     }
   }
 

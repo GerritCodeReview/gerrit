@@ -58,6 +58,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -70,6 +71,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -117,6 +119,13 @@ public class Submit
   @VisibleForTesting
   public static class TestSubmitInput extends SubmitInput {
     public boolean failAfterRefUpdates;
+
+    /**
+     * For each change being submitted, an element is removed from this queue and, if the value is
+     * true, a bogus ref update is added to the batch, in order to generate a lock failure during
+     * execution.
+     */
+    public Queue<Boolean> generateLockFailures;
   }
 
   private final Provider<ReviewDb> dbProvider;
@@ -193,7 +202,7 @@ public class Submit
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, UpdateException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -207,7 +216,7 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException {
+      throws OrmException, RestApiException, IOException, UpdateException {
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -275,7 +284,7 @@ public class Submit
         if (c.change().isWorkInProgress()) {
           return BLOCKED_WORK_IN_PROGRESS;
         }
-        MergeOp.checkSubmitRule(c);
+        MergeOp.checkSubmitRule(c, false);
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -312,7 +321,7 @@ public class Submit
               && resource.isCurrent()
               && !resource.getPatchSet().isDraft()
               && resource.permissions().test(ChangePermission.SUBMIT);
-      MergeOp.checkSubmitRule(cd);
+      MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       visible = false;
     } catch (PermissionBackendException e) {
@@ -518,7 +527,7 @@ public class Submit
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, UpdateException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

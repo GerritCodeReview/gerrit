@@ -34,6 +34,24 @@
       "revId": "be8d6dcf7d30e95658d58809ec5e08af279d23ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2525f7c7_30f5cc88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/RevertedSenderIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T12:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "17017f4c_f07d0b58",
+      "revId": "be8d6dcf7d30e95658d58809ec5e08af279d23ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

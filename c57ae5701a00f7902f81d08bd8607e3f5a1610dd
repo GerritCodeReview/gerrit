@@ -16,6 +16,23 @@
       "revId": "c57ae5701a00f7902f81d08bd8607e3f5a1610dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a1b25c_167eb1b8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T19:53:32Z",
+      "side": 1,
+      "message": "I wonder if this can be used for the URLs in gr-list-view as well.",
+      "revId": "c57ae5701a00f7902f81d08bd8607e3f5a1610dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

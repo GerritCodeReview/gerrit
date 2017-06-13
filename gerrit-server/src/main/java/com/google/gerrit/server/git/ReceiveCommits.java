@@ -815,7 +815,7 @@ public class ReceiveCommits {
       } catch (ResourceConflictException e) {
         addMessage(e.getMessage());
         reject(magicBranchCmd, "conflict");
-      } catch (RestApiException | OrmException e) {
+      } catch (RestApiException | OrmException | UpdateException e) {
         logError("Error submitting changes to " + project.getName(), e);
         reject(magicBranchCmd, "error during submit");
       }
@@ -2261,7 +2261,7 @@ public class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, UpdateException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
       checkNotNull(r.change, "cannot submit new change %s; op may not have run", r.changeId);

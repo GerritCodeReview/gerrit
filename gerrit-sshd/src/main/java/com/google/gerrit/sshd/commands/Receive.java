@@ -61,7 +61,7 @@ final class Receive extends AbstractGitCommand {
     metaVar = "EMAIL",
     usage = "request reviewer for change(s)"
   )
-  void addReviewer(final Account.Id id) {
+  void addReviewer(Account.Id id) {
     reviewerId.add(id);
   }
 
@@ -71,7 +71,7 @@ final class Receive extends AbstractGitCommand {
     metaVar = "EMAIL",
     usage = "CC user on change(s)"
   )
-  void addCC(final Account.Id id) {
+  void addCC(Account.Id id) {
     ccId.add(id);
   }
 

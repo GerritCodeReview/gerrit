@@ -22,37 +22,37 @@ final class BufferDirect implements Buffer {
   }
 
   @Override
-  public void append(final boolean v) {
+  public void append(boolean v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final char v) {
+  public void append(char v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final int v) {
+  public void append(int v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final long v) {
+  public void append(long v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final float v) {
+  public void append(float v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final double v) {
+  public void append(double v) {
     strbuf.append(v);
   }
 
   @Override
-  public void append(final String v) {
+  public void append(String v) {
     strbuf.append(v);
   }
 

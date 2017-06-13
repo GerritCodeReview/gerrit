@@ -22,7 +22,7 @@ import javax.naming.directory.DirContext;
 abstract class LdapType {
   static final LdapType RFC_2307 = new Rfc2307();
 
-  static LdapType guessType(final DirContext ctx) throws NamingException {
+  static LdapType guessType(DirContext ctx) throws NamingException {
     final Attributes rootAtts = ctx.getAttributes("");
     Attribute supported = rootAtts.get("supportedCapabilities");
     if (supported != null

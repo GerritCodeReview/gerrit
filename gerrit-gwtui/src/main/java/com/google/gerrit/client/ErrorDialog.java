@@ -86,19 +86,19 @@ public class ErrorDialog extends PopupPanel {
   }
 
   /** Create a dialog box to show a single message string. */
-  public ErrorDialog(final String message) {
+  public ErrorDialog(String message) {
     this();
     body.add(new Label(message));
   }
 
   /** Create a dialog box to show a single message string. */
-  public ErrorDialog(final SafeHtml message) {
+  public ErrorDialog(SafeHtml message) {
     this();
     body.add(message.toBlockWidget());
   }
 
   /** Create a dialog box to nicely format an exception. */
-  public ErrorDialog(final Throwable what) {
+  public ErrorDialog(Throwable what) {
     this();
 
     String hdr;
@@ -151,7 +151,7 @@ public class ErrorDialog extends PopupPanel {
     }
   }
 
-  public ErrorDialog setText(final String t) {
+  public ErrorDialog setText(String t) {
     text.setText(t);
     return this;
   }

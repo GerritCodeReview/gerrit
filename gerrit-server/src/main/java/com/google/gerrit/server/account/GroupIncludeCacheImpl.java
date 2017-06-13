@@ -139,7 +139,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    SubgroupsLoader(final SchemaFactory<ReviewDb> sf) {
+    SubgroupsLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
@@ -165,7 +165,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    ParentGroupsLoader(final SchemaFactory<ReviewDb> sf) {
+    ParentGroupsLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
@@ -190,7 +190,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    AllExternalLoader(final SchemaFactory<ReviewDb> sf) {
+    AllExternalLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 

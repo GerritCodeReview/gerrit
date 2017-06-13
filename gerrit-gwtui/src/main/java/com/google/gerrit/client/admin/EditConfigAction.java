@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.user.client.ui.Button;
 
 public class EditConfigAction {
-  static void call(final Button b, final String project) {
+  static void call(Button b, String project) {
     b.setEnabled(false);
 
     ChangeApi.createChange(

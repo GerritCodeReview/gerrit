@@ -94,7 +94,7 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
     cleanup.clear();
   }
 
-  protected File getHook(final String name) throws IOException {
+  protected File getHook(String name) throws IOException {
     File hook = hooks.get(name);
     if (hook != null) {
       return hook;

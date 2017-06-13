@@ -68,7 +68,7 @@ class SshPanel extends Composite {
     showAddKeyBlock.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             showAddKeyBlock(true);
           }
         });
@@ -82,7 +82,7 @@ class SshPanel extends Composite {
       deleteKey.addClickHandler(
           new ClickHandler() {
             @Override
-            public void onClick(final ClickEvent event) {
+            public void onClick(ClickEvent event) {
               keys.deleteChecked();
             }
           });
@@ -114,7 +114,7 @@ class SshPanel extends Composite {
     clearNew.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             addTxt.setText("");
             addTxt.setFocus(true);
           }
@@ -125,7 +125,7 @@ class SshPanel extends Composite {
     addNew.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doAddNew();
           }
         });
@@ -135,7 +135,7 @@ class SshPanel extends Composite {
     closeAddKeyBlock.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             showAddKeyBlock(false);
           }
         });
@@ -151,7 +151,7 @@ class SshPanel extends Composite {
     initWidget(body);
   }
 
-  void setKeyTableVisible(final boolean on) {
+  void setKeyTableVisible(boolean on) {
     keys.setVisible(on);
     deleteKey.setVisible(on);
     closeAddKeyBlock.setVisible(on);
@@ -166,7 +166,7 @@ class SshPanel extends Composite {
           txt,
           new GerritCallback<SshKeyInfo>() {
             @Override
-            public void onSuccess(final SshKeyInfo k) {
+            public void onSuccess(SshKeyInfo k) {
               addNew.setEnabled(true);
               addTxt.setText("");
               keys.addOneKey(k);
@@ -178,7 +178,7 @@ class SshPanel extends Composite {
             }
 
             @Override
-            public void onFailure(final Throwable caught) {
+            public void onFailure(Throwable caught) {
               addNew.setEnabled(true);
 
               if (isInvalidSshKey(caught)) {
@@ -189,7 +189,7 @@ class SshPanel extends Composite {
               }
             }
 
-            private boolean isInvalidSshKey(final Throwable caught) {
+            private boolean isInvalidSshKey(Throwable caught) {
               if (caught instanceof InvalidSshKeyException) {
                 return true;
               }
@@ -207,9 +207,9 @@ class SshPanel extends Composite {
     Gerrit.SYSTEM_SVC.daemonHostKeys(
         new GerritCallback<List<SshHostKey>>() {
           @Override
-          public void onSuccess(final List<SshHostKey> result) {
+          public void onSuccess(List<SshHostKey> result) {
             serverKeys.clear();
-            for (final SshHostKey keyInfo : result) {
+            for (SshHostKey keyInfo : result) {
               serverKeys.add(new SshHostKeyPanel(keyInfo));
             }
             if (++loadCount == 2) {
@@ -238,7 +238,7 @@ class SshPanel extends Composite {
 
   void display() {}
 
-  private void showAddKeyBlock(final boolean show) {
+  private void showAddKeyBlock(boolean show) {
     showAddKeyBlock.setVisible(!show);
     addKeyBlock.setVisible(show);
   }
@@ -312,7 +312,7 @@ class SshPanel extends Composite {
       }
     }
 
-    void display(final List<SshKeyInfo> result) {
+    void display(List<SshKeyInfo> result) {
       if (result.isEmpty()) {
         setKeyTableVisible(false);
         showAddKeyBlock(true);
@@ -320,7 +320,7 @@ class SshPanel extends Composite {
         while (1 < table.getRowCount()) {
           table.removeRow(table.getRowCount() - 1);
         }
-        for (final SshKeyInfo k : result) {
+        for (SshKeyInfo k : result) {
           addOneKey(k);
         }
         setKeyTableVisible(true);
@@ -328,7 +328,7 @@ class SshPanel extends Composite {
       }
     }
 
-    void addOneKey(final SshKeyInfo k) {
+    void addOneKey(SshKeyInfo k) {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);
@@ -378,7 +378,7 @@ class SshPanel extends Composite {
     }
   }
 
-  static String elide(final String s, final int len) {
+  static String elide(String s, int len) {
     if (s == null || s.length() < len || len <= 10) {
       return s;
     }

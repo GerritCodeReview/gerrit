@@ -86,7 +86,7 @@ public final class PatchSet {
       changeId = new Change.Id();
     }
 
-    public Id(final Change.Id change, final int id) {
+    public Id(Change.Id change, int id) {
       this.changeId = change;
       this.patchSetId = id;
     }
@@ -111,7 +111,7 @@ public final class PatchSet {
     }
 
     /** Parse a PatchSet.Id out of a string representation. */
-    public static Id parse(final String str) {
+    public static Id parse(String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -183,7 +183,7 @@ public final class PatchSet {
   @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String groups;
 
-  //DELETED id = 7 (pushCertficate)
+  // DELETED id = 7 (pushCertficate)
 
   /** Certificate sent with a push that created this patch set. */
   @Column(id = 8, notNull = false, length = Integer.MAX_VALUE)
@@ -200,7 +200,7 @@ public final class PatchSet {
 
   protected PatchSet() {}
 
-  public PatchSet(final PatchSet.Id k) {
+  public PatchSet(PatchSet.Id k) {
     id = k;
   }
 
@@ -227,7 +227,7 @@ public final class PatchSet {
     return revision;
   }
 
-  public void setRevision(final RevId i) {
+  public void setRevision(RevId i) {
     revision = i;
   }
 
@@ -235,7 +235,7 @@ public final class PatchSet {
     return uploader;
   }
 
-  public void setUploader(final Account.Id who) {
+  public void setUploader(Account.Id who) {
     uploader = who;
   }
 
@@ -243,7 +243,7 @@ public final class PatchSet {
     return createdOn;
   }
 
-  public void setCreatedOn(final Timestamp ts) {
+  public void setCreatedOn(Timestamp ts) {
     createdOn = ts;
   }
 

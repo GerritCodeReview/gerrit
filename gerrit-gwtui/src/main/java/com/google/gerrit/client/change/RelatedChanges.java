@@ -198,7 +198,7 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.SUBMITTED_TOGETHER).setShowSubmittable(true);
   }
 
-  void set(final ChangeInfo info, final String revision) {
+  void set(ChangeInfo info, String revision) {
     if (info.status().isOpen()) {
       setForOpenChange(info, revision);
     }
@@ -246,7 +246,7 @@ public class RelatedChanges extends TabPanel {
     }
   }
 
-  private void setForOpenChange(final ChangeInfo info, final String revision) {
+  private void setForOpenChange(ChangeInfo info, String revision) {
     if (info.mergeable()) {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");

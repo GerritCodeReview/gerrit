@@ -55,7 +55,7 @@ public class ProjectCacheWarmer implements LifecycleListener {
       log.info("Loading project cache");
       scheduler.execute(
           () -> {
-            for (final Project.NameKey name : cache.all()) {
+            for (Project.NameKey name : cache.all()) {
               pool.execute(
                   () -> {
                     cache.get(name);

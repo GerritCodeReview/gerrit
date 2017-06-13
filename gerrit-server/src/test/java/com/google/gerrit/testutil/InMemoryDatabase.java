@@ -65,7 +65,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   /** Drop the database from memory; does nothing if the instance was null. */
-  public static void drop(final InMemoryDatabase db) {
+  public static void drop(InMemoryDatabase db) {
     if (db != null) {
       db.drop();
     }

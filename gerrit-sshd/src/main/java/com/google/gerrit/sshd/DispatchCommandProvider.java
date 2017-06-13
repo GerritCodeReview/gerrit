@@ -35,7 +35,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   private final CommandName parent;
   private volatile ConcurrentMap<String, CommandProvider> map;
 
-  public DispatchCommandProvider(final CommandName cn) {
+  public DispatchCommandProvider(CommandName cn) {
     this.parent = cn;
   }
 
@@ -44,7 +44,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return factory.create(getMap());
   }
 
-  public RegistrationHandle register(final CommandName name, final Provider<Command> cmd) {
+  public RegistrationHandle register(CommandName name, Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
     final CommandProvider commandProvider = new CommandProvider(cmd, null);
     if (m.putIfAbsent(name.value(), commandProvider) != null) {
@@ -58,7 +58,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     };
   }
 
-  public RegistrationHandle replace(final CommandName name, final Provider<Command> cmd) {
+  public RegistrationHandle replace(CommandName name, Provider<Command> cmd) {
     final ConcurrentMap<String, CommandProvider> m = getMap();
     final CommandProvider commandProvider = new CommandProvider(cmd, null);
     m.put(name.value(), commandProvider);
@@ -84,7 +84,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   @SuppressWarnings("unchecked")
   private ConcurrentMap<String, CommandProvider> createMap() {
     ConcurrentMap<String, CommandProvider> m = Maps.newConcurrentMap();
-    for (final Binding<?> b : allCommands()) {
+    for (Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
       if (annotation instanceof CommandName) {
         final CommandName n = (CommandName) annotation;

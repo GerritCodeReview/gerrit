@@ -42,7 +42,7 @@ public class MergeSorter {
     this.incoming = incoming;
   }
 
-  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge) throws IOException {
+  Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge) throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {

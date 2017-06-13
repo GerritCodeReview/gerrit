@@ -70,7 +70,7 @@ public class ModeInjector {
     }
   }
 
-  private void beginLoading(final String mode) {
+  private void beginLoading(String mode) {
     pending++;
     Loader.injectScript(
         ModeInfo.getModeScriptUri(mode),

@@ -34,7 +34,7 @@ public class BaseServiceImplementation {
   private final Provider<? extends CurrentUser> currentUser;
 
   protected BaseServiceImplementation(
-      final Provider<ReviewDb> schema, final Provider<? extends CurrentUser> currentUser) {
+      final Provider<ReviewDb> schema, Provider<? extends CurrentUser> currentUser) {
     this.schema = schema;
     this.currentUser = currentUser;
   }
@@ -63,7 +63,7 @@ public class BaseServiceImplementation {
    * @param callback the callback that will receive the result.
    * @param action the action logic to perform.
    */
-  protected <T> void run(final AsyncCallback<T> callback, final Action<T> action) {
+  protected <T> void run(AsyncCallback<T> callback, Action<T> action) {
     try {
       final T r = action.run(schema.get());
       if (r != null) {
@@ -100,7 +100,7 @@ public class BaseServiceImplementation {
     }
   }
 
-  private static <T> void handleOrmException(final AsyncCallback<T> callback, Exception e) {
+  private static <T> void handleOrmException(AsyncCallback<T> callback, Exception e) {
     if (e.getCause() instanceof Failure) {
       callback.onFailure(e.getCause().getCause());
     } else if (e.getCause() instanceof NoSuchEntityException) {
@@ -114,7 +114,7 @@ public class BaseServiceImplementation {
   public static class Failure extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public Failure(final Throwable why) {
+    public Failure(Throwable why) {
       super(why);
     }
   }

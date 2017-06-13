@@ -83,7 +83,7 @@ public abstract class SiteProgram extends AbstractProgram {
     this.sitePath = sitePath;
   }
 
-  protected SiteProgram(Path sitePath, final Provider<DataSource> dsProvider) {
+  protected SiteProgram(Path sitePath, Provider<DataSource> dsProvider) {
     this.sitePath = sitePath;
     this.dsProvider = dsProvider;
   }
@@ -107,7 +107,7 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(
-      final boolean enableMetrics, final DataSourceProvider.Context context) {
+      final boolean enableMetrics, DataSourceProvider.Context context) {
     final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 

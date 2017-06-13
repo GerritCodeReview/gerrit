@@ -661,7 +661,7 @@ public class EditScreen extends Screen {
               }
 
               @Override
-              public void onFailure(final Throwable caught) {
+              public void onFailure(Throwable caught) {
                 close.setEnabled(true);
               }
             });

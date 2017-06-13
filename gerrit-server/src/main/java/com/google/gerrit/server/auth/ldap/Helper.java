@@ -135,7 +135,7 @@ class Helper {
     return new InitialDirContext(env);
   }
 
-  private DirContext kerberosOpen(final Properties env) throws LoginException, NamingException {
+  private DirContext kerberosOpen(Properties env) throws LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
     ctx.login();
     Subject subject = ctx.getSubject();
@@ -207,8 +207,7 @@ class Helper {
   }
 
   Set<AccountGroup.UUID> queryForGroups(
-      final DirContext ctx, final String username, LdapQuery.Result account)
-      throws NamingException {
+      final DirContext ctx, String username, LdapQuery.Result account) throws NamingException {
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<>();
 
@@ -330,7 +329,7 @@ class Helper {
     final ParameterizedString groupName;
     final List<LdapQuery> groupMemberQueryList;
 
-    LdapSchema(final DirContext ctx) {
+    LdapSchema(DirContext ctx) {
       type = discoverLdapType(ctx);
       groupMemberQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
@@ -360,7 +359,7 @@ class Helper {
             throw new IllegalArgumentException("No variables in ldap.groupMemberPattern");
           }
 
-          for (final String name : groupMemberQuery.getParameters()) {
+          for (String name : groupMemberQuery.getParameters()) {
             accountAtts.add(name);
           }
 

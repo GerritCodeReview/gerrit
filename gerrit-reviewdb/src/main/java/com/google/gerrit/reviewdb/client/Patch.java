@@ -49,7 +49,7 @@ public final class Patch {
       patchSetId = new PatchSet.Id();
     }
 
-    public Key(final PatchSet.Id ps, final String name) {
+    public Key(PatchSet.Id ps, String name) {
       this.patchSetId = ps;
       this.fileName = name;
     }
@@ -70,7 +70,7 @@ public final class Patch {
     }
 
     /** Parse a Patch.Id out of a string representation. */
-    public static Key parse(final String str) {
+    public static Key parse(String str) {
       final Key r = new Key();
       r.fromString(str);
       return r;
@@ -103,7 +103,7 @@ public final class Patch {
 
     private final char code;
 
-    ChangeType(final char c) {
+    ChangeType(char c) {
       code = c;
     }
 
@@ -116,8 +116,8 @@ public final class Patch {
       return s != null && s.length() == 1 && s.charAt(0) == code;
     }
 
-    public static ChangeType forCode(final char c) {
-      for (final ChangeType s : ChangeType.values()) {
+    public static ChangeType forCode(char c) {
+      for (ChangeType s : ChangeType.values()) {
         if (s.code == c) {
           return s;
         }
@@ -156,7 +156,7 @@ public final class Patch {
 
     private final char code;
 
-    PatchType(final char c) {
+    PatchType(char c) {
       code = c;
     }
 
@@ -165,8 +165,8 @@ public final class Patch {
       return code;
     }
 
-    public static PatchType forCode(final char c) {
-      for (final PatchType s : PatchType.values()) {
+    public static PatchType forCode(char c) {
+      for (PatchType s : PatchType.values()) {
         if (s.code == c) {
           return s;
         }
@@ -203,7 +203,7 @@ public final class Patch {
 
   protected Patch() {}
 
-  public Patch(final Patch.Key newId) {
+  public Patch(Patch.Key newId) {
     key = newId;
     setChangeType(ChangeType.MODIFIED);
     setPatchType(PatchType.UNIFIED);
@@ -217,7 +217,7 @@ public final class Patch {
     return nbrComments;
   }
 
-  public void setCommentCount(final int n) {
+  public void setCommentCount(int n) {
     nbrComments = n;
   }
 
@@ -225,7 +225,7 @@ public final class Patch {
     return nbrDrafts;
   }
 
-  public void setDraftCount(final int n) {
+  public void setDraftCount(int n) {
     nbrDrafts = n;
   }
 
@@ -249,7 +249,7 @@ public final class Patch {
     return ChangeType.forCode(changeType);
   }
 
-  public void setChangeType(final ChangeType type) {
+  public void setChangeType(ChangeType type) {
     changeType = type.getCode();
   }
 
@@ -257,7 +257,7 @@ public final class Patch {
     return PatchType.forCode(patchType);
   }
 
-  public void setPatchType(final PatchType type) {
+  public void setPatchType(PatchType type) {
     patchType = type.getCode();
   }
 
@@ -269,7 +269,7 @@ public final class Patch {
     return sourceFileName;
   }
 
-  public void setSourceFileName(final String n) {
+  public void setSourceFileName(String n) {
     sourceFileName = n;
   }
 

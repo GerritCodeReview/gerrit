@@ -111,7 +111,7 @@ public class MyOAuthTokenScreen extends SettingsScreen {
             });
   }
 
-  private void display(final GeneralPreferences prefs) {
+  private void display(GeneralPreferences prefs) {
     AccountApi.self()
         .view("oauthtoken")
         .get(

@@ -43,7 +43,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     this(null);
   }
 
-  public GroupTable(final String pointerId) {
+  public GroupTable(String pointerId) {
     super(AdminConstants.I.groupItemHelp());
     setSavePointerId(pointerId);
 
@@ -70,12 +70,12 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   @Override
-  protected Object getRowItemKey(final GroupInfo item) {
+  protected Object getRowItemKey(GroupInfo item) {
     return item.getGroupId();
   }
 
   @Override
-  protected void onOpenRow(final int row) {
+  protected void onOpenRow(int row) {
     GroupInfo groupInfo = getRowItem(row);
     if (isInteralGroup(groupInfo)) {
       History.newItem(Dispatcher.toGroup(groupInfo.getGroupId()));
@@ -121,7 +121,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     }
   }
 
-  void populate(final int row, final GroupInfo k, final String toHighlight) {
+  void populate(int row, GroupInfo k, String toHighlight) {
     if (k.url() != null) {
       if (isInteralGroup(k)) {
         table.setWidget(
@@ -152,7 +152,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     setRowItem(row, k);
   }
 
-  private boolean isInteralGroup(final GroupInfo groupInfo) {
+  private boolean isInteralGroup(GroupInfo groupInfo) {
     return groupInfo != null && groupInfo.url().startsWith("#" + PageLinks.ADMIN_GROUPS);
   }
 }

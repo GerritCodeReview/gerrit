@@ -23,7 +23,7 @@ public class RuntimeShutdown {
   private static final ShutdownCallback cb = new ShutdownCallback();
 
   /** Add a task to be performed when graceful shutdown is requested. */
-  public static void add(final Runnable task) {
+  public static void add(Runnable task) {
     if (!cb.add(task)) {
       // If the shutdown has already begun we cannot enqueue a new
       // task. Instead trigger the task in the caller, without any
@@ -55,7 +55,7 @@ public class RuntimeShutdown {
       setName("ShutdownCallback");
     }
 
-    boolean add(final Runnable newTask) {
+    boolean add(Runnable newTask) {
       synchronized (this) {
         if (!shutdownStarted && !shutdownComplete) {
           if (tasks.isEmpty()) {

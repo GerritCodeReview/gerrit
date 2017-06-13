@@ -93,7 +93,7 @@ public class ConfigInfoCache {
         };
   }
 
-  private void getImpl(final String name, final AsyncCallback<Entry> cb) {
+  private void getImpl(String name, AsyncCallback<Entry> cb) {
     Entry e = cache.get(name);
     if (e != null) {
       cb.onSuccess(e);
@@ -116,7 +116,7 @@ public class ConfigInfoCache {
         });
   }
 
-  private void getImpl(final Integer id, final AsyncCallback<Entry> cb) {
+  private void getImpl(Integer id, AsyncCallback<Entry> cb) {
     String name = changeToProject.get(id);
     if (name != null) {
       getImpl(name, cb);

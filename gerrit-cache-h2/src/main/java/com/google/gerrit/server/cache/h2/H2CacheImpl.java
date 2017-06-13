@@ -150,7 +150,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   }
 
   @Override
-  public void put(final K key, V val) {
+  public void put(K key, V val) {
     final ValueHolder<V> h = new ValueHolder<>(val);
     h.created = TimeUtil.nowMs();
     mem.put(key, h);
@@ -159,7 +159,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @SuppressWarnings("unchecked")
   @Override
-  public void invalidate(final Object key) {
+  public void invalidate(Object key) {
     if (keyType.getRawType().isInstance(key) && store.mightContain((K) key)) {
       executor.execute(() -> store.invalidate((K) key));
     }
@@ -201,7 +201,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     store.close();
   }
 
-  void prune(final ScheduledExecutorService service) {
+  void prune(ScheduledExecutorService service) {
     store.prune(mem);
 
     Calendar cal = Calendar.getInstance();
@@ -239,7 +239,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     @Override
-    public ValueHolder<V> load(final K key) throws Exception {
+    public ValueHolder<V> load(K key) throws Exception {
       if (store.mightContain(key)) {
         ValueHolder<V> h = store.getIfPresent(key);
         if (h != null) {

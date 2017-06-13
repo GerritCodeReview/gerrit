@@ -75,7 +75,7 @@ final class CreateGroupCommand extends SshCommand {
     metaVar = "USERNAME",
     usage = "initial set of users to become members of the group"
   )
-  void addMember(final Account.Id id) {
+  void addMember(Account.Id id) {
     initialMembers.add(id);
   }
 
@@ -90,7 +90,7 @@ final class CreateGroupCommand extends SshCommand {
     metaVar = "GROUP",
     usage = "initial set of groups to be included in the group"
   )
-  void addGroup(final AccountGroup.UUID id) {
+  void addGroup(AccountGroup.UUID id) {
     initialGroups.add(id);
   }
 

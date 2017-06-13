@@ -42,7 +42,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
 
     @Override
-    public void onBrowserEvent(final Event event) {
+    public void onBrowserEvent(Event event) {
       switch (DOM.eventGetType(event)) {
         case Event.ONCLICK:
           {
@@ -198,11 +198,11 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  protected void movePointerTo(final int newRow) {
+  protected void movePointerTo(int newRow) {
     movePointerTo(newRow, true);
   }
 
-  protected void movePointerTo(final int newRow, final boolean scroll) {
+  protected void movePointerTo(int newRow, boolean scroll) {
     final CellFormatter fmt = table.getCellFormatter();
     final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
     if (clear) {
@@ -223,7 +223,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     currentRow = newRow;
   }
 
-  protected void scrollIntoView(final Element tr) {
+  protected void scrollIntoView(Element tr) {
     if (!computedScrollType) {
       parentScrollPanel = null;
       Widget w = getParent();
@@ -280,14 +280,14 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  protected void movePointerTo(final Object oldId) {
+  protected void movePointerTo(Object oldId) {
     final int row = findRow(oldId);
     if (0 <= row) {
       movePointerTo(row);
     }
   }
 
-  protected int findRow(final Object oldId) {
+  protected int findRow(Object oldId) {
     if (oldId != null) {
       final int max = table.getRowCount();
       for (int row = 0; row < max; row++) {
@@ -318,11 +318,11 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  public void setSavePointerId(final String id) {
+  public void setSavePointerId(String id) {
     saveId = id;
   }
 
-  public void setRegisterKeys(final boolean on) {
+  public void setRegisterKeys(boolean on) {
     if (on && isAttached()) {
       if (regNavigation == null) {
         regNavigation = GlobalKey.add(this, keysNavigation);
@@ -375,7 +375,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
 
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
       ensurePointerVisible();
       onUp();
     }
@@ -387,7 +387,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
 
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
       ensurePointerVisible();
       onDown();
     }
@@ -399,7 +399,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
 
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
       ensurePointerVisible();
       onOpen();
     }

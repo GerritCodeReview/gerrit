@@ -58,8 +58,7 @@ public class EventRecorder {
     }
   }
 
-  public EventRecorder(
-      DynamicSet<UserScopedEventListener> eventListeners, final IdentifiedUser user) {
+  public EventRecorder(DynamicSet<UserScopedEventListener> eventListeners, IdentifiedUser user) {
     recordedEvents = LinkedListMultimap.create();
 
     eventListenerRegistration =

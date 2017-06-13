@@ -37,7 +37,7 @@ public final class AccountGroupByIdAud {
       includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.UUID u, final Timestamp t) {
+    public Key(AccountGroup.Id g, AccountGroup.UUID u, Timestamp t) {
       groupId = g;
       includeUUID = u;
       addedOn = t;
@@ -76,8 +76,7 @@ public final class AccountGroupByIdAud {
 
   protected AccountGroupByIdAud() {}
 
-  public AccountGroupByIdAud(
-      final AccountGroupById m, final Account.Id adder, final Timestamp when) {
+  public AccountGroupByIdAud(final AccountGroupById m, Account.Id adder, Timestamp when) {
     final AccountGroup.Id group = m.getGroupId();
     final AccountGroup.UUID include = m.getIncludeUUID();
     key = new AccountGroupByIdAud.Key(group, include, when);
@@ -92,7 +91,7 @@ public final class AccountGroupByIdAud {
     return removedOn == null;
   }
 
-  public void removed(final Account.Id deleter, final Timestamp when) {
+  public void removed(Account.Id deleter, Timestamp when) {
     removedBy = deleter;
     removedOn = when;
   }

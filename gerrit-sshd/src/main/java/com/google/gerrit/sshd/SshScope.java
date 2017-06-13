@@ -51,7 +51,7 @@ public class SshScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, final SshSession s, final String c, final long at) {
+    private Context(SchemaFactory<ReviewDb> sf, SshSession s, String c, long at) {
       schemaFactory = sf;
       session = s;
       commandLine = c;
@@ -179,7 +179,7 @@ public class SshScope {
   public static final Scope REQUEST =
       new Scope() {
         @Override
-        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
           return new Provider<T>() {
             @Override
             public T get() {

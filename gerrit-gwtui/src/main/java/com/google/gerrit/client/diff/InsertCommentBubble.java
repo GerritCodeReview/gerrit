@@ -35,7 +35,7 @@ class InsertCommentBubble extends Composite {
 
   @UiField Image icon;
 
-  InsertCommentBubble(final CommentManager commentManager, final CodeMirror cm) {
+  InsertCommentBubble(CommentManager commentManager, CodeMirror cm) {
     initWidget(uiBinder.createAndBindUi(this));
     addDomHandler(
         new ClickHandler() {

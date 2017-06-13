@@ -88,7 +88,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public AccountGroup get(final AccountGroup.Id groupId) {
+  public AccountGroup get(AccountGroup.Id groupId) {
     try {
       Optional<AccountGroup> g = byId.get(groupId);
       return g.isPresent() ? g.get() : missing(groupId);
@@ -99,7 +99,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evict(final AccountGroup group) throws IOException {
+  public void evict(AccountGroup group) throws IOException {
     if (group.getId() != null) {
       byId.invalidate(group.getId());
     }
@@ -113,8 +113,8 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evictAfterRename(
-      final AccountGroup.NameKey oldName, final AccountGroup.NameKey newName) throws IOException {
+  public void evictAfterRename(final AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
+      throws IOException {
     if (oldName != null) {
       byName.invalidate(oldName.get());
     }
@@ -175,12 +175,12 @@ public class GroupCacheImpl implements GroupCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    ByIdLoader(final SchemaFactory<ReviewDb> sf) {
+    ByIdLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
     @Override
-    public Optional<AccountGroup> load(final AccountGroup.Id key) throws Exception {
+    public Optional<AccountGroup> load(AccountGroup.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(db.accountGroups().get(key));
       }
@@ -191,7 +191,7 @@ public class GroupCacheImpl implements GroupCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    ByNameLoader(final SchemaFactory<ReviewDb> sf) {
+    ByNameLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
@@ -212,7 +212,7 @@ public class GroupCacheImpl implements GroupCache {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    ByUUIDLoader(final SchemaFactory<ReviewDb> sf) {
+    ByUUIDLoader(SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 

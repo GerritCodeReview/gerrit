@@ -438,11 +438,11 @@ public class BaseInit extends SiteProgram {
     }
   }
 
-  private SiteRun createSiteRun(final SiteInit init) {
+  private SiteRun createSiteRun(SiteInit init) {
     return createSysInjector(init).getInstance(SiteRun.class);
   }
 
-  private Injector createSysInjector(final SiteInit init) {
+  private Injector createSysInjector(SiteInit init) {
     if (sysInjector == null) {
       final List<Module> modules = new ArrayList<>();
       modules.add(

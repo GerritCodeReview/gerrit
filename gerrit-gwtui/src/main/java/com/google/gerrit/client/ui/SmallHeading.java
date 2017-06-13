@@ -22,7 +22,7 @@ public class SmallHeading extends Label {
     setStyleName(Gerrit.RESOURCES.css().smallHeading());
   }
 
-  public SmallHeading(final String text) {
+  public SmallHeading(String text) {
     this();
     setText(text);
   }

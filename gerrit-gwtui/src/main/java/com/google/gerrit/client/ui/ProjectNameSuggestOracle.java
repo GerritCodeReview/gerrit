@@ -21,7 +21,7 @@ import com.google.gerrit.client.rpc.Natives;
 /** Suggestion Oracle for Project.NameKey entities. */
 public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
-  public void _onRequestSuggestions(final Request req, final Callback callback) {
+  public void _onRequestSuggestions(Request req, Callback callback) {
     ProjectMap.suggest(
         req.getQuery(),
         req.getLimit(),

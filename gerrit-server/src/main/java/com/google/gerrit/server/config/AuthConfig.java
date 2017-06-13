@@ -126,7 +126,7 @@ public class AuthConfig {
     return Collections.unmodifiableList(r);
   }
 
-  private static AuthType toType(final Config cfg) {
+  private static AuthType toType(Config cfg) {
     return cfg.getEnum("auth", null, "type", AuthType.OPENID);
   }
 

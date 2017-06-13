@@ -78,7 +78,7 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
     }
   }
 
-  private List<ServerPluginProvider> providersForHandlingPlugin(final Path srcPath) {
+  private List<ServerPluginProvider> providersForHandlingPlugin(Path srcPath) {
     List<ServerPluginProvider> providers = new ArrayList<>();
     for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
       boolean handles = serverPluginProvider.handles(srcPath);

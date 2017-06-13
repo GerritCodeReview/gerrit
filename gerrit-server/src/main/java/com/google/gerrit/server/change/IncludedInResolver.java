@@ -42,8 +42,7 @@ public class IncludedInResolver {
 
   private static final Logger log = LoggerFactory.getLogger(IncludedInResolver.class);
 
-  public static Result resolve(final Repository repo, final RevWalk rw, final RevCommit commit)
-      throws IOException {
+  public static Result resolve(Repository repo, RevWalk rw, RevCommit commit) throws IOException {
     RevFlag flag = newFlag(rw);
     try {
       return new IncludedInResolver(repo, rw, commit, flag).resolve();
@@ -53,7 +52,7 @@ public class IncludedInResolver {
   }
 
   public static boolean includedInOne(
-      final Repository repo, final RevWalk rw, final RevCommit commit, final Collection<Ref> refs)
+      final Repository repo, RevWalk rw, RevCommit commit, Collection<Ref> refs)
       throws IOException {
     RevFlag flag = newFlag(rw);
     try {
@@ -100,7 +99,7 @@ public class IncludedInResolver {
     return detail;
   }
 
-  private boolean includedInOne(final Collection<Ref> refs) throws IOException {
+  private boolean includedInOne(Collection<Ref> refs) throws IOException {
     parseCommits(refs);
     List<RevCommit> before = new ArrayList<>();
     List<RevCommit> after = new ArrayList<>();
@@ -112,7 +111,7 @@ public class IncludedInResolver {
   }
 
   /** Resolves which tip refs include the target commit. */
-  private Set<String> includedIn(final Collection<RevCommit> tips, int limit)
+  private Set<String> includedIn(Collection<RevCommit> tips, int limit)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     Set<String> result = new HashSet<>();
     for (RevCommit tip : tips) {
@@ -149,7 +148,7 @@ public class IncludedInResolver {
    * @param before
    * @param after
    */
-  private void partition(final List<RevCommit> before, final List<RevCommit> after) {
+  private void partition(List<RevCommit> before, List<RevCommit> after) {
     int insertionPoint =
         Collections.binarySearch(
             tipsByCommitTime,
@@ -187,7 +186,7 @@ public class IncludedInResolver {
   }
 
   /** Parse commit of ref and store the relation between ref and commit. */
-  private void parseCommits(final Collection<Ref> refs) throws IOException {
+  private void parseCommits(Collection<Ref> refs) throws IOException {
     if (commitToRef != null) {
       return;
     }
@@ -219,7 +218,7 @@ public class IncludedInResolver {
     sortOlderFirst(tipsByCommitTime);
   }
 
-  private void sortOlderFirst(final List<RevCommit> tips) {
+  private void sortOlderFirst(List<RevCommit> tips) {
     Collections.sort(
         tips,
         new Comparator<RevCommit>() {
@@ -236,7 +235,7 @@ public class IncludedInResolver {
 
     public Result() {}
 
-    public void setBranches(final List<String> b) {
+    public void setBranches(List<String> b) {
       Collections.sort(b);
       branches = b;
     }
@@ -245,7 +244,7 @@ public class IncludedInResolver {
       return branches;
     }
 
-    public void setTags(final List<String> t) {
+    public void setTags(List<String> t) {
       Collections.sort(t);
       tags = t;
     }

@@ -27,7 +27,7 @@ import java.util.List;
 /** Suggestion Oracle for Account entities. */
 public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
-  public void _onRequestSuggestions(final Request req, final Callback cb) {
+  public void _onRequestSuggestions(Request req, Callback cb) {
     AccountApi.suggest(
         req.getQuery(),
         req.getLimit(),

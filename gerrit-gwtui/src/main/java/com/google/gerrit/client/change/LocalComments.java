@@ -125,7 +125,7 @@ public class LocalComments {
 
   public static void saveInlineComments() {
     final StorageBackend storage = new StorageBackend();
-    for (final String cookie : storage.getKeys()) {
+    for (String cookie : storage.getKeys()) {
       if (isInlineComment(cookie)) {
         InlineComment input = getInlineComment(cookie);
         if (input.commentInfo.id() == null) {

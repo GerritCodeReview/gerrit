@@ -68,7 +68,7 @@ public class AddonInjector {
     }
   }
 
-  private void beginLoading(final String addon) {
+  private void beginLoading(String addon) {
     pending++;
     Loader.injectScript(
         getAddonScriptUri(addon),

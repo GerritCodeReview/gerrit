@@ -46,7 +46,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
 
   @Inject
   HttpsClientSslCertAuthFilter(
-      final DynamicItem<WebSession> webSession, final AccountManager accountManager) {
+      final DynamicItem<WebSession> webSession, AccountManager accountManager) {
     this.webSession = webSession;
     this.accountManager = accountManager;
   }

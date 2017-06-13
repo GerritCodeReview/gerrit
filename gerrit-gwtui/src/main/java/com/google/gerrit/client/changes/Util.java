@@ -25,7 +25,7 @@ public class Util {
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;
 
-  public static String toLongString(final Change.Status status) {
+  public static String toLongString(Change.Status status) {
     if (status == null) {
       return "";
     }
@@ -62,7 +62,7 @@ public class Util {
    * @return the subject, cropped if needed
    */
   @SuppressWarnings("deprecation")
-  public static String cropSubject(final String subject) {
+  public static String cropSubject(String subject) {
     if (subject.length() > SUBJECT_MAX_LENGTH) {
       final int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
       for (int cropPosition = maxLength;

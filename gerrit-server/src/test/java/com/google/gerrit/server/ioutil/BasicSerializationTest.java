@@ -129,14 +129,14 @@ public class BasicSerializationTest {
     assertOutput(b(7, 'c', 'o', 'f', 'f', 'e', 'e', '4'), out);
   }
 
-  private static void assertOutput(final byte[] expect, final ByteArrayOutputStream out) {
+  private static void assertOutput(byte[] expect, ByteArrayOutputStream out) {
     final byte[] buf = out.toByteArray();
     for (int i = 0; i < expect.length; i++) {
       assertEquals(expect[i], buf[i]);
     }
   }
 
-  private static InputStream r(final byte[] buf) {
+  private static InputStream r(byte[] buf) {
     return new ByteArrayInputStream(buf);
   }
 

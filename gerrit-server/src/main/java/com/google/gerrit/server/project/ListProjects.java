@@ -346,7 +346,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      for (final Project.NameKey projectName : filter(perm)) {
+      for (Project.NameKey projectName : filter(perm)) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
           // If we can't get it from the cache, pretend its not present.
@@ -567,12 +567,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private void printProjectTree(
-      final PrintWriter stdout, final TreeMap<Project.NameKey, ProjectNode> treeMap) {
+      final PrintWriter stdout, TreeMap<Project.NameKey, ProjectNode> treeMap) {
     final SortedSet<ProjectNode> sortedNodes = new TreeSet<>();
 
     // Builds the inheritance tree using a list.
     //
-    for (final ProjectNode key : treeMap.values()) {
+    for (ProjectNode key : treeMap.values()) {
       if (key.isAllProjects()) {
         sortedNodes.add(key);
         continue;

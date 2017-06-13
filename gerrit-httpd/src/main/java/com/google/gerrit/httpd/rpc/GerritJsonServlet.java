@@ -52,16 +52,14 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   private final AuditService audit;
 
   @Inject
-  GerritJsonServlet(
-      final DynamicItem<WebSession> w, final RemoteJsonService s, final AuditService a) {
+  GerritJsonServlet(final DynamicItem<WebSession> w, RemoteJsonService s, AuditService a) {
     session = w;
     service = s;
     audit = a;
   }
 
   @Override
-  protected GerritCall createActiveCall(
-      final HttpServletRequest req, final HttpServletResponse rsp) {
+  protected GerritCall createActiveCall(final HttpServletRequest req, HttpServletResponse rsp) {
     final GerritCall call = new GerritCall(session.get(), req, new AuditedHttpServletResponse(rsp));
     currentCall.set(call);
     return call;
@@ -82,7 +80,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   }
 
   @Override
-  protected void preInvoke(final GerritCall call) {
+  protected void preInvoke(GerritCall call) {
     super.preInvoke(call);
 
     if (call.isComplete()) {
@@ -106,8 +104,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   }
 
   @Override
-  protected void service(final HttpServletRequest req, final HttpServletResponse resp)
-      throws IOException {
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     try {
       super.service(req, resp);
     } finally {
@@ -163,7 +160,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     return args;
   }
 
-  private String extractWhat(final Audit note, final GerritCall call) {
+  private String extractWhat(Audit note, GerritCall call) {
     Class<?> methodClass = call.getMethodClass();
     String methodClassName = methodClass != null ? methodClass.getName() : "<UNKNOWN_CLASS>";
     methodClassName = methodClassName.substring(methodClassName.lastIndexOf(".") + 1);
@@ -233,7 +230,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       return null;
     }
 
-    GerritCall(final WebSession session, final HttpServletRequest i, final HttpServletResponse o) {
+    GerritCall(WebSession session, HttpServletRequest i, HttpServletResponse o) {
       super(i, o);
       this.session = session;
       this.when = TimeUtil.nowMs();
@@ -248,7 +245,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     }
 
     @Override
-    public void onFailure(final Throwable error) {
+    public void onFailure(Throwable error) {
       if (error instanceof IllegalArgumentException || error instanceof IllegalStateException) {
         super.onFailure(error);
       } else if (error instanceof OrmException || error instanceof RuntimeException) {

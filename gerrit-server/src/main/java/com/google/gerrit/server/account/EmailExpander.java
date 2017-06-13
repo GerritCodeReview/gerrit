@@ -23,7 +23,7 @@ public interface EmailExpander {
   class None implements EmailExpander {
     public static final None INSTANCE = new None();
 
-    public static boolean canHandle(final String fmt) {
+    public static boolean canHandle(String fmt) {
       return fmt == null || fmt.isEmpty();
     }
 
@@ -43,26 +43,26 @@ public interface EmailExpander {
   class Simple implements EmailExpander {
     private static final String PLACEHOLDER = "{0}";
 
-    public static boolean canHandle(final String fmt) {
+    public static boolean canHandle(String fmt) {
       return fmt != null && fmt.contains(PLACEHOLDER);
     }
 
     private final String lhs;
     private final String rhs;
 
-    public Simple(final String fmt) {
+    public Simple(String fmt) {
       final int p = fmt.indexOf(PLACEHOLDER);
       lhs = fmt.substring(0, p);
       rhs = fmt.substring(p + PLACEHOLDER.length());
     }
 
     @Override
-    public boolean canExpand(final String user) {
+    public boolean canExpand(String user) {
       return !user.contains(" ");
     }
 
     @Override
-    public String expand(final String user) {
+    public String expand(String user) {
       return lhs + user + rhs;
     }
   }

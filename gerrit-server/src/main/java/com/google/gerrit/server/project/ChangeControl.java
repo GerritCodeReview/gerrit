@@ -172,7 +172,7 @@ public class ChangeControl {
     this.patchSetUtil = patchSetUtil;
   }
 
-  public ChangeControl forUser(final CurrentUser who) {
+  public ChangeControl forUser(CurrentUser who) {
     if (getUser().equals(who)) {
       return this;
     }
@@ -254,7 +254,7 @@ public class ChangeControl {
   }
 
   /** Can this user publish this draft change or any draft patch set of this change? */
-  public boolean canPublish(final ReviewDb db) throws OrmException {
+  public boolean canPublish(ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canPublishDrafts()) && isVisible(db);
   }
 

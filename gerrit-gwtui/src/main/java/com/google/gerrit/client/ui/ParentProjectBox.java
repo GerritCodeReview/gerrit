@@ -38,11 +38,11 @@ public class ParentProjectBox extends Composite {
     suggestBox.setVisibleLength(len);
   }
 
-  public void setProject(final Project.NameKey project) {
+  public void setProject(Project.NameKey project) {
     suggestOracle.setProject(project);
   }
 
-  public void setParentProject(final Project.NameKey parent) {
+  public void setParentProject(Project.NameKey parent) {
     suggestBox.setText(parent != null ? parent.get() : "");
   }
 
@@ -77,7 +77,7 @@ public class ParentProjectBox extends Composite {
     }
 
     @Override
-    public void _onRequestSuggestions(Request req, final Callback callback) {
+    public void _onRequestSuggestions(Request req, Callback callback) {
       super._onRequestSuggestions(
           req,
           new Callback() {

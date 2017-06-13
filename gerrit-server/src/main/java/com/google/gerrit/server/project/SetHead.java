@@ -65,7 +65,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(final ProjectResource rsrc, Input input)
+  public String apply(ProjectResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, BadRequestException,
           UnprocessableEntityException, IOException {
     if (!rsrc.getControl().isOwner()) {

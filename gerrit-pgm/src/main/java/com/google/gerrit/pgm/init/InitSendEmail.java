@@ -34,7 +34,7 @@ class InitSendEmail implements InitStep {
   private final SitePaths site;
 
   @Inject
-  InitSendEmail(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
+  InitSendEmail(ConsoleUI ui, SitePaths site, Section.Factory sections) {
     this.ui = ui;
     this.sendemail = sections.get("sendemail", null);
     this.site = site;

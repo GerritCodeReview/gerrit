@@ -33,12 +33,12 @@ public final class Branch {
       projectName = new Project.NameKey();
     }
 
-    public NameKey(final Project.NameKey proj, final String branchName) {
+    public NameKey(Project.NameKey proj, String branchName) {
       projectName = proj;
       set(branchName);
     }
 
-    public NameKey(String proj, final String branchName) {
+    public NameKey(String proj, String branchName) {
       this(new Project.NameKey(proj), branchName);
     }
 
@@ -68,7 +68,7 @@ public final class Branch {
 
   protected Branch() {}
 
-  public Branch(final Branch.NameKey newName) {
+  public Branch(Branch.NameKey newName) {
     name = newName;
   }
 
@@ -88,7 +88,7 @@ public final class Branch {
     return revision;
   }
 
-  public void setRevision(final RevId id) {
+  public void setRevision(RevId id) {
     revision = id;
   }
 

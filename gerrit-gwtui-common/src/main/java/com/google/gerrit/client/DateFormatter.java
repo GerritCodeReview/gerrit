@@ -90,7 +90,7 @@ public class DateFormatter {
   }
 
   /** Format a date using the locale's medium length format. */
-  public String mediumFormat(final Date dt) {
+  public String mediumFormat(Date dt) {
     if (dt == null) {
       return "";
     }

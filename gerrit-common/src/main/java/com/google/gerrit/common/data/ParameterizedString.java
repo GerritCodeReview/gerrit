@@ -24,7 +24,7 @@ import java.util.Map;
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
 public class ParameterizedString {
   /** Obtain a string which has no parameters and always produces the value. */
-  public static ParameterizedString asis(final String constant) {
+  public static ParameterizedString asis(String constant) {
     return new ParameterizedString(new Constant(constant));
   }
 
@@ -37,14 +37,14 @@ public class ParameterizedString {
     this(new Constant(""));
   }
 
-  private ParameterizedString(final Constant c) {
+  private ParameterizedString(Constant c) {
     pattern = c.text;
     rawPattern = c.text;
     patternOps = Collections.<Format>singletonList(c);
     parameters = Collections.emptyList();
   }
 
-  public ParameterizedString(final String pattern) {
+  public ParameterizedString(String pattern) {
     final StringBuilder raw = new StringBuilder();
     final List<Parameter> prs = new ArrayList<>(4);
     final List<Format> ops = new ArrayList<>(4);
@@ -103,7 +103,7 @@ public class ParameterizedString {
   }
 
   /** Convert a map of parameters into a value array for binding. */
-  public String[] bind(final Map<String, String> params) {
+  public String[] bind(Map<String, String> params) {
     final String[] r = new String[parameters.size()];
     for (int i = 0; i < r.length; i++) {
       final StringBuilder b = new StringBuilder();
@@ -114,15 +114,15 @@ public class ParameterizedString {
   }
 
   /** Format this string by performing the variable replacements. */
-  public String replace(final Map<String, String> params) {
+  public String replace(Map<String, String> params) {
     final StringBuilder r = new StringBuilder();
-    for (final Format f : patternOps) {
+    for (Format f : patternOps) {
       f.format(r, params);
     }
     return r.toString();
   }
 
-  public Builder replace(final String name, final String value) {
+  public Builder replace(String name, String value) {
     return new Builder().replace(name, value);
   }
 
@@ -134,7 +134,7 @@ public class ParameterizedString {
   public final class Builder {
     private final Map<String, String> params = new HashMap<>();
 
-    public Builder replace(final String name, final String value) {
+    public Builder replace(String name, String value) {
       params.put(name, value);
       return this;
     }
@@ -152,7 +152,7 @@ public class ParameterizedString {
   private static class Constant extends Format {
     private final String text;
 
-    Constant(final String text) {
+    Constant(String text) {
       this.text = text;
     }
 
@@ -166,7 +166,7 @@ public class ParameterizedString {
     private final String name;
     private final List<Function> functions;
 
-    Parameter(final String parameter) {
+    Parameter(String parameter) {
       // "parameter[.functions...]" -> (parameter, functions...)
       final List<String> names = Arrays.asList(parameter.split("\\."));
       final List<Function> functs = new ArrayList<>(names.size());

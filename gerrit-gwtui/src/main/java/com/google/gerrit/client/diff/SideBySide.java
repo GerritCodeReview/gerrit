@@ -138,7 +138,7 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  void registerCmEvents(final CodeMirror cm) {
+  void registerCmEvents(CodeMirror cm) {
     super.registerCmEvents(cm);
 
     KeyMap keyMap =

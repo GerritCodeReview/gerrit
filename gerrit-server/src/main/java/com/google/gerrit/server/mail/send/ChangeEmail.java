@@ -90,7 +90,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  public void setFrom(final Account.Id id) {
+  public void setFrom(Account.Id id) {
     super.setFrom(id);
 
     /** Is the from user in an email squelching group? */
@@ -98,17 +98,17 @@ public abstract class ChangeEmail extends NotificationEmail {
     emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
   }
 
-  public void setPatchSet(final PatchSet ps) {
+  public void setPatchSet(PatchSet ps) {
     patchSet = ps;
   }
 
-  public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
+  public void setPatchSet(PatchSet ps, PatchSetInfo psi) {
     patchSet = ps;
     patchSetInfo = psi;
   }
 
   @Deprecated
-  public void setChangeMessage(final ChangeMessage cm) {
+  public void setChangeMessage(ChangeMessage cm) {
     setChangeMessage(cm.getMessage(), cm.getWrittenOn());
   }
 
@@ -319,8 +319,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(final RecipientType rt) {
-    for (final Account.Id id : authors) {
+  protected void rcptToAuthors(RecipientType rt) {
+    for (Account.Id id : authors) {
       add(rt, id);
     }
   }
@@ -391,14 +391,14 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected void add(final RecipientType rt, final Account.Id to) {
+  protected void add(RecipientType rt, Account.Id to) {
     if (!emailOnlyAuthors || authors.contains(to)) {
       super.add(rt, to);
     }
   }
 
   @Override
-  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
+  protected boolean isVisibleTo(Account.Id to) throws OrmException {
     return projectState == null
         || projectState
             .controlFor(args.identifiedUserFactory.create(to))
@@ -426,7 +426,7 @@ public abstract class ChangeEmail extends NotificationEmail {
             authors.add(patchSetInfo.getCommitter().getAccount());
           }
         }
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case OWNER_REVIEWERS:
       case OWNER:
         authors.add(change.getOwner());

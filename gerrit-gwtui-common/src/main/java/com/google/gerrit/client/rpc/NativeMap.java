@@ -40,7 +40,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
 
   /** Loop through the result map and set asProperty on the children. */
   public static <T extends JavaScriptObject, M extends NativeMap<T>>
-      AsyncCallback<M> copyKeysIntoChildren(final String asProperty, AsyncCallback<M> callback) {
+      AsyncCallback<M> copyKeysIntoChildren(String asProperty, AsyncCallback<M> callback) {
     return new TransformCallback<M, M>(callback) {
       @Override
       protected M transform(M result) {

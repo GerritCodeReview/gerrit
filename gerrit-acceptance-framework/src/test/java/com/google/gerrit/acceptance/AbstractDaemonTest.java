@@ -177,7 +177,7 @@ public abstract class AbstractDaemonTest {
   private final TestRule testRunner =
       new TestRule() {
         @Override
-        public Statement apply(final Statement base, final Description description) {
+        public Statement apply(Statement base, Description description) {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {

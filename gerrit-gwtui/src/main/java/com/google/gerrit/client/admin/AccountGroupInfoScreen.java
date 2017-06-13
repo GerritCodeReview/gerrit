@@ -48,7 +48,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private CheckBox visibleToAllCheckBox;
   private Button saveGroupOptions;
 
-  public AccountGroupInfoScreen(final GroupInfo toShow, final String token) {
+  public AccountGroupInfoScreen(GroupInfo toShow, String token) {
     super(toShow, token);
   }
 
@@ -62,7 +62,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     initGroupOptions();
   }
 
-  private void enableForm(final boolean canModify) {
+  private void enableForm(boolean canModify) {
     groupNameTxt.setEnabled(canModify);
     ownerTxt.setEnabled(canModify);
     descTxt.setEnabled(canModify);
@@ -91,14 +91,14 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveName.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             final String newName = groupNameTxt.getText().trim();
             GroupApi.renameGroup(
                 getGroupUUID(),
                 newName,
                 new GerritCallback<com.google.gerrit.client.VoidResult>() {
                   @Override
-                  public void onSuccess(final com.google.gerrit.client.VoidResult result) {
+                  public void onSuccess(com.google.gerrit.client.VoidResult result) {
                     saveName.setEnabled(false);
                     setPageTitle(AdminMessages.I.group(newName));
                     groupNameTxt.setText(newName);
@@ -129,7 +129,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveOwner.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             final String newOwner = ownerTxt.getText().trim();
             if (newOwner.length() > 0) {
               AccountGroup.UUID ownerUuid = accountGroupOracle.getUUID(newOwner);
@@ -139,7 +139,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
                   ownerId,
                   new GerritCallback<GroupInfo>() {
                     @Override
-                    public void onSuccess(final GroupInfo result) {
+                    public void onSuccess(GroupInfo result) {
                       updateOwnerGroup(result);
                       saveOwner.setEnabled(false);
                     }
@@ -166,14 +166,14 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveDesc.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             final String txt = descTxt.getText().trim();
             GroupApi.setGroupDescription(
                 getGroupUUID(),
                 txt,
                 new GerritCallback<VoidResult>() {
                   @Override
-                  public void onSuccess(final VoidResult result) {
+                  public void onSuccess(VoidResult result) {
                     saveDesc.setEnabled(false);
                   }
                 });
@@ -199,13 +199,13 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveGroupOptions.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             GroupApi.setGroupOptions(
                 getGroupUUID(),
                 visibleToAllCheckBox.getValue(),
                 new GerritCallback<VoidResult>() {
                   @Override
-                  public void onSuccess(final VoidResult result) {
+                  public void onSuccess(VoidResult result) {
                     saveGroupOptions.setEnabled(false);
                   }
                 });
@@ -220,7 +220,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   }
 
   @Override
-  protected void display(final GroupInfo group, final boolean canModify) {
+  protected void display(GroupInfo group, boolean canModify) {
     groupUUIDLabel.setText(group.getGroupUUID().get());
     groupNameTxt.setText(group.name());
     ownerTxt.setText(

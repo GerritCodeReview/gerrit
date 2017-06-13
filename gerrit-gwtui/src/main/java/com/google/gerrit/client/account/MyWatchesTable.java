@@ -97,7 +97,7 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
     return infos;
   }
 
-  public void insertWatch(final ProjectWatchInfo k) {
+  public void insertWatch(ProjectWatchInfo k) {
     final String newName = k.project();
     int row = 1;
     for (; row < table.getRowCount(); row++) {
@@ -112,7 +112,7 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
     populate(row, k);
   }
 
-  public void display(final JsArray<ProjectWatchInfo> result) {
+  public void display(JsArray<ProjectWatchInfo> result) {
     while (2 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
     }
@@ -125,7 +125,7 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
     }
   }
 
-  protected void populate(final int row, final ProjectWatchInfo info) {
+  protected void populate(int row, ProjectWatchInfo info) {
     final FlowPanel fp = new FlowPanel();
     fp.add(new ProjectLink(info.project(), new Project.NameKey(info.project())));
     if (info.filter() != null) {
@@ -156,13 +156,13 @@ public class MyWatchesTable extends FancyFlexTable<ProjectWatchInfo> {
   }
 
   protected void addNotifyButton(
-      final ProjectWatchInfo.Type type, final ProjectWatchInfo info, final int row, final int col) {
+      final ProjectWatchInfo.Type type, ProjectWatchInfo info, int row, int col) {
     final CheckBox cbox = new CheckBox();
 
     cbox.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             final Boolean oldVal = info.notify(type);
             info.notify(type, cbox.getValue());
             cbox.setEnabled(false);

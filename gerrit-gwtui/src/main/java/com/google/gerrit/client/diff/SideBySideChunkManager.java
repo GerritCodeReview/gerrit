@@ -219,7 +219,7 @@ class SideBySideChunkManager extends ChunkManager {
    * @param line line to put the padding below.
    * @param len number of lines to pad. Padding is inserted only if {@code len >= 1}.
    */
-  private void addPadding(CodeMirror cm, int line, final int len) {
+  private void addPadding(CodeMirror cm, int line, int len) {
     if (0 < len) {
       Element pad = DOM.createDiv();
       pad.setClassName(SideBySideTable.style.padding());

@@ -45,7 +45,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     final String[] tokens = token.split(",");
     if (tokens.length != 3) {
@@ -57,7 +57,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
       final Change.Key key = Change.Key.parse(tokens[2]);
       final Project.NameKey project = new Project.NameKey(tokens[0]);
       final Branch.NameKey branch = new Branch.NameKey(project, tokens[1]);
-      for (final ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
+      for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
         setter.addValue(cd.getId());
         return 1;
       }

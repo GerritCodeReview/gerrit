@@ -17,42 +17,42 @@ package com.google.gwtexpui.safehtml.client;
 final class BufferSealElement implements Buffer {
   private final SafeHtmlBuilder shb;
 
-  BufferSealElement(final SafeHtmlBuilder safeHtmlBuilder) {
+  BufferSealElement(SafeHtmlBuilder safeHtmlBuilder) {
     shb = safeHtmlBuilder;
   }
 
   @Override
-  public void append(final boolean v) {
+  public void append(boolean v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final char v) {
+  public void append(char v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final double v) {
+  public void append(double v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final float v) {
+  public void append(float v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final int v) {
+  public void append(int v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final long v) {
+  public void append(long v) {
     shb.sealElement().append(v);
   }
 
   @Override
-  public void append(final String v) {
+  public void append(String v) {
     shb.sealElement().append(v);
   }
 

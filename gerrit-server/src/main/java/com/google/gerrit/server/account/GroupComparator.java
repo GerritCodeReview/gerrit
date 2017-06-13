@@ -20,7 +20,7 @@ import java.util.Comparator;
 public class GroupComparator implements Comparator<AccountGroup> {
 
   @Override
-  public int compare(final AccountGroup group1, final AccountGroup group2) {
+  public int compare(AccountGroup group1, AccountGroup group2) {
     return group1.getName().compareTo(group2.getName());
   }
 }

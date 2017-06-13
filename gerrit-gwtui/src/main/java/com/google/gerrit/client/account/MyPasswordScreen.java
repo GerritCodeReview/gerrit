@@ -104,7 +104,7 @@ public class MyPasswordScreen extends SettingsScreen {
           }
 
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onFailure(Throwable caught) {
             if (RestApi.isNotFound(caught)) {
               Gerrit.getUserAccount().username(null);
               display();
@@ -121,7 +121,7 @@ public class MyPasswordScreen extends SettingsScreen {
     enableUI(true);
   }
 
-  private void row(final Grid info, final int row, final String name, final Widget field) {
+  private void row(Grid info, int row, String name, Widget field) {
     final CellFormatter fmt = info.getCellFormatter();
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       info.setText(row, 1, name);
@@ -146,7 +146,7 @@ public class MyPasswordScreen extends SettingsScreen {
             }
 
             @Override
-            public void onFailure(final Throwable caught) {
+            public void onFailure(Throwable caught) {
               enableUI(true);
             }
           });

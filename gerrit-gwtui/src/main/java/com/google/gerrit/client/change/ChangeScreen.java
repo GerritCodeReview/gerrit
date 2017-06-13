@@ -308,7 +308,7 @@ public class ChangeScreen extends Screen {
         group.addFinal(
             new GerritCallback<ChangeInfo>() {
               @Override
-              public void onSuccess(final ChangeInfo info) {
+              public void onSuccess(ChangeInfo info) {
                 info.init();
                 initCurrentRevision(info);
                 final RevisionInfo rev = info.revision(revision);
@@ -586,7 +586,7 @@ public class ChangeScreen extends Screen {
     downloadAction = new DownloadAction(info, revision, style, headerLine, download);
   }
 
-  private void initProjectLinks(final ChangeInfo info) {
+  private void initProjectLinks(ChangeInfo info) {
     projectSettingsLink.setHref("#" + PageLinks.toProject(info.projectNameKey()));
     projectSettings.addDomHandler(
         new ClickHandler() {
@@ -987,7 +987,7 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, DiffObject base) {
+  private void loadConfigInfo(ChangeInfo info, DiffObject base) {
     final RevisionInfo rev = info.revision(revision);
     if (base.isAutoMerge() && !initCurrentRevision(info).isMerge()) {
       Gerrit.display(getToken(), new NotFoundScreen());
@@ -1026,7 +1026,7 @@ public class ChangeScreen extends Screen {
     group.done();
   }
 
-  private void loadConfigInfo(final ChangeInfo info, RevisionInfo rev) {
+  private void loadConfigInfo(ChangeInfo info, RevisionInfo rev) {
     if (loaded) {
       return;
     }
@@ -1207,7 +1207,7 @@ public class ChangeScreen extends Screen {
     return r;
   }
 
-  private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
+  private void loadCommit(RevisionInfo rev, CallbackGroup group) {
     if (rev.isEdit() || rev.commit() != null) {
       return;
     }

@@ -76,7 +76,7 @@ public class GarbageCollect
     return applySync(project, input);
   }
 
-  private Response.Accepted applyAsync(final Project.NameKey project, final Input input) {
+  private Response.Accepted applyAsync(Project.NameKey project, Input input) {
     Runnable job =
         new Runnable() {
           @Override
@@ -103,7 +103,7 @@ public class GarbageCollect
   }
 
   @SuppressWarnings("resource")
-  private BinaryResult applySync(final Project.NameKey project, final Input input) {
+  private BinaryResult applySync(Project.NameKey project, Input input) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream out) throws IOException {

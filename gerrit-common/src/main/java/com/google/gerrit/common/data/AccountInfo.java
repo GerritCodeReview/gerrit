@@ -31,7 +31,7 @@ public class AccountInfo {
    * <p>This constructor should only be a last-ditch effort, when the usual account lookup has
    * failed and a stale account id has been discovered in the data store.
    */
-  public AccountInfo(final Account.Id id) {
+  public AccountInfo(Account.Id id) {
     this.id = id;
   }
 
@@ -40,7 +40,7 @@ public class AccountInfo {
    *
    * @param a the data store record holding the specific account details.
    */
-  public AccountInfo(final Account a) {
+  public AccountInfo(Account a) {
     id = a.getId();
     fullName = a.getFullName();
     preferredEmail = a.getPreferredEmail();
@@ -66,7 +66,7 @@ public class AccountInfo {
     return preferredEmail;
   }
 
-  public void setPreferredEmail(final String email) {
+  public void setPreferredEmail(String email) {
     preferredEmail = email;
   }
 

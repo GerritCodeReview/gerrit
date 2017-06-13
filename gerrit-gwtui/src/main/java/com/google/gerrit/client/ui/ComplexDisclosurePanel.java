@@ -32,7 +32,7 @@ public class ComplexDisclosurePanel extends Composite
   private final DisclosurePanel main;
   private final Panel header;
 
-  public ComplexDisclosurePanel(final String text, final boolean isOpen) {
+  public ComplexDisclosurePanel(String text, boolean isOpen) {
     // Ick. GWT's DisclosurePanel won't let us subclass it, or do any
     // other modification of its header. We're stuck with injecting
     // into the DOM directly.
@@ -81,7 +81,7 @@ public class ComplexDisclosurePanel extends Composite
     return header;
   }
 
-  public void setContent(final Widget w) {
+  public void setContent(Widget w) {
     main.setContent(w);
   }
 
@@ -90,12 +90,12 @@ public class ComplexDisclosurePanel extends Composite
   }
 
   @Override
-  public HandlerRegistration addOpenHandler(final OpenHandler<DisclosurePanel> h) {
+  public HandlerRegistration addOpenHandler(OpenHandler<DisclosurePanel> h) {
     return main.addOpenHandler(h);
   }
 
   @Override
-  public HandlerRegistration addCloseHandler(final CloseHandler<DisclosurePanel> h) {
+  public HandlerRegistration addCloseHandler(CloseHandler<DisclosurePanel> h) {
     return main.addCloseHandler(h);
   }
 
@@ -109,7 +109,7 @@ public class ComplexDisclosurePanel extends Composite
    *
    * @param isOpen {@code true} to open, {@code false} to close
    */
-  public void setOpen(final boolean isOpen) {
+  public void setOpen(boolean isOpen) {
     main.setOpen(isOpen);
   }
 }

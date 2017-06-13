@@ -48,14 +48,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CacheControlFilter implements Filter {
   @Override
-  public void init(final FilterConfig config) {}
+  public void init(FilterConfig config) {}
 
   @Override
   public void destroy() {}
 
   @Override
-  public void doFilter(
-      final ServletRequest sreq, final ServletResponse srsp, final FilterChain chain)
+  public void doFilter(final ServletRequest sreq, ServletResponse srsp, FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) sreq;
     final HttpServletResponse rsp = (HttpServletResponse) srsp;
@@ -70,7 +69,7 @@ public class CacheControlFilter implements Filter {
     chain.doFilter(req, rsp);
   }
 
-  private static boolean cacheForever(final String pathInfo, final HttpServletRequest req) {
+  private static boolean cacheForever(String pathInfo, HttpServletRequest req) {
     if (pathInfo.endsWith(".cache.html")
         || pathInfo.endsWith(".cache.gif")
         || pathInfo.endsWith(".cache.png")
@@ -87,14 +86,14 @@ public class CacheControlFilter implements Filter {
     return false;
   }
 
-  private static boolean nocache(final String pathInfo) {
+  private static boolean nocache(String pathInfo) {
     if (pathInfo.endsWith(".nocache.js")) {
       return true;
     }
     return false;
   }
 
-  private static String pathInfo(final HttpServletRequest req) {
+  private static String pathInfo(HttpServletRequest req) {
     final String uri = req.getRequestURI();
     final String ctx = req.getContextPath();
     return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;

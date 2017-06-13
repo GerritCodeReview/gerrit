@@ -73,7 +73,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
   }
 
-  private static Address toAddress(final PersonIdent myIdent) {
+  private static Address toAddress(PersonIdent myIdent) {
     return new Address(myIdent.getName(), myIdent.getEmailAddress());
   }
 
@@ -119,7 +119,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(final Account.Id fromId) {
+    public Address from(Account.Id fromId) {
       String senderName;
       if (fromId != null) {
         Account a = accountCache.get(fromId).getAccount();
@@ -172,7 +172,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(final Account.Id fromId) {
+    public Address from(Account.Id fromId) {
       return srvAddr;
     }
   }
@@ -203,7 +203,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(final Account.Id fromId) {
+    public Address from(Account.Id fromId) {
       final String senderName;
 
       if (fromId != null) {

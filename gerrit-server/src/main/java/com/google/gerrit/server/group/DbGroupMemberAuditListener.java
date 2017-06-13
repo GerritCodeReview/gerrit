@@ -123,7 +123,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   public void onDeleteGroupsFromGroup(Account.Id me, Collection<AccountGroupById> removed) {
     final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
-      for (final AccountGroupById g : removed) {
+      for (AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;
         for (AccountGroupByIdAud a :
             db.accountGroupByIdAud().byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {

@@ -181,7 +181,7 @@ public class WebLinks {
    * @param project Project name.
    * @return Links for projects.
    */
-  public List<WebLinkInfo> getProjectLinks(final String project) {
+  public List<WebLinkInfo> getProjectLinks(String project) {
     return filterLinks(projectLinks, webLink -> webLink.getProjectWeblink(project));
   }
 
@@ -190,7 +190,7 @@ public class WebLinks {
    * @param branch Branch name
    * @return Links for branches.
    */
-  public List<WebLinkInfo> getBranchLinks(final String project, final String branch) {
+  public List<WebLinkInfo> getBranchLinks(String project, String branch) {
     return filterLinks(branchLinks, webLink -> webLink.getBranchWebLink(project, branch));
   }
 

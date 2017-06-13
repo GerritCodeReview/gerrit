@@ -63,7 +63,7 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
 
   private final SSLSocketFactory sslFactory;
 
-  private BlindSSLSocketFactory(final SSLSocketFactory sslFactory) {
+  private BlindSSLSocketFactory(SSLSocketFactory sslFactory) {
     this.sslFactory = sslFactory;
   }
 

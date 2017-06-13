@@ -575,7 +575,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void clearGroups(final PatchSet.Id psId) throws Exception {
+  private void clearGroups(PatchSet.Id psId) throws Exception {
     try (BatchUpdate bu = batchUpdateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(
           psId.getParentKey(),

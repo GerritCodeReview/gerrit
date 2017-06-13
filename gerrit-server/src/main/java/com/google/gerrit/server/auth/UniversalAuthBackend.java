@@ -33,7 +33,7 @@ public final class UniversalAuthBackend implements AuthBackend {
   }
 
   @Override
-  public AuthUser authenticate(final AuthRequest request) throws AuthException {
+  public AuthUser authenticate(AuthRequest request) throws AuthException {
     List<AuthUser> authUsers = new ArrayList<>();
     List<AuthException> authExs = new ArrayList<>();
     for (AuthBackend backend : authBackends) {

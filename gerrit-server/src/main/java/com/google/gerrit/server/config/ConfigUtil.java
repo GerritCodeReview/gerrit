@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Config;
 public class ConfigUtil {
 
   @SuppressWarnings("unchecked")
-  private static <T> T[] allValuesOf(final T defaultValue) {
+  private static <T> T[] allValuesOf(T defaultValue) {
     try {
       return (T[]) defaultValue.getClass().getMethod("values").invoke(null);
     } catch (IllegalArgumentException
@@ -63,7 +63,7 @@ public class ConfigUtil {
       final T[] all) {
 
     String n = valueString.replace(' ', '_').replace('-', '_');
-    for (final T e : all) {
+    for (T e : all) {
       if (e.name().equalsIgnoreCase(n)) {
         return e;
       }
@@ -81,7 +81,7 @@ public class ConfigUtil {
     r.append(".");
     r.append(setting);
     r.append("; supported values are: ");
-    for (final T e : all) {
+    for (T e : all) {
       r.append(e.name());
       r.append(" ");
     }
@@ -194,7 +194,7 @@ public class ConfigUtil {
    *     assume if the value does not contain an indication of the units.
    * @return the setting, or {@code defaultValue} if not set, expressed in {@code units}.
    */
-  public static long getTimeUnit(final String valueString, long defaultValue, TimeUnit wantUnit) {
+  public static long getTimeUnit(String valueString, long defaultValue, TimeUnit wantUnit) {
     Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
     if (!m.matches()) {
       return defaultValue;
@@ -410,8 +410,8 @@ public class ConfigUtil {
     return Integer.class == t || int.class == t;
   }
 
-  private static boolean match(final String a, final String... cases) {
-    for (final String b : cases) {
+  private static boolean match(String a, String... cases) {
+    for (String b : cases) {
       if (b != null && b.equalsIgnoreCase(a)) {
         return true;
       }
@@ -434,7 +434,7 @@ public class ConfigUtil {
             + valueString);
   }
 
-  private static IllegalArgumentException notTimeUnit(final String val) {
+  private static IllegalArgumentException notTimeUnit(String val) {
     return new IllegalArgumentException("Invalid time unit value: " + val);
   }
 

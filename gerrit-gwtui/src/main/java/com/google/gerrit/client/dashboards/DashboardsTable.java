@@ -34,7 +34,7 @@ import java.util.Map;
 public class DashboardsTable extends NavigationTable<DashboardInfo> {
   Project.NameKey project;
 
-  public DashboardsTable(final Project.NameKey project) {
+  public DashboardsTable(Project.NameKey project) {
     super(Util.C.dashboardItem());
     this.project = project;
     initColumnHeaders();
@@ -96,7 +96,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     finishDisplay();
   }
 
-  protected void insertTitleRow(final int row, String section) {
+  protected void insertTitleRow(int row, String section) {
     table.insertRow(row);
 
     table.setText(row, 0, section);
@@ -106,7 +106,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().sectionHeader());
   }
 
-  protected void insert(final int row, final DashboardInfo k) {
+  protected void insert(int row, DashboardInfo k) {
     table.insertRow(row);
 
     applyDataRowStyle(row);
@@ -121,7 +121,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     populate(row, k);
   }
 
-  protected void populate(final int row, final DashboardInfo k) {
+  protected void populate(int row, DashboardInfo k) {
     if (k.isDefault()) {
       table.setWidget(row, 1, new Image(Gerrit.RESOURCES.greenCheck()));
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -147,12 +147,12 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   @Override
-  protected Object getRowItemKey(final DashboardInfo item) {
+  protected Object getRowItemKey(DashboardInfo item) {
     return item.id();
   }
 
   @Override
-  protected void onOpenRow(final int row) {
+  protected void onOpenRow(int row) {
     if (row > 0) {
       movePointerTo(row);
     }

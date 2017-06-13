@@ -24,7 +24,7 @@ import com.google.gerrit.common.PageLinks;
 public class ValidateEmailScreen extends AccountScreen {
   private final String magicToken;
 
-  public ValidateEmailScreen(final String magicToken) {
+  public ValidateEmailScreen(String magicToken) {
     this.magicToken = magicToken;
   }
 
@@ -41,7 +41,7 @@ public class ValidateEmailScreen extends AccountScreen {
         magicToken,
         new ScreenLoadCallback<VoidResult>(this) {
           @Override
-          protected void preDisplay(final VoidResult result) {}
+          protected void preDisplay(VoidResult result) {}
 
           @Override
           protected void postDisplay() {

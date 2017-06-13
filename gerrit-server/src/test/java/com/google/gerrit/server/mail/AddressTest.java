@@ -96,7 +96,7 @@ public class AddressTest extends GerritBaseTests {
     assertInvalid("a <@a>");
   }
 
-  private void assertInvalid(final String in) {
+  private void assertInvalid(String in) {
     try {
       Address.parse(in);
       fail("Expected IllegalArgumentException for " + in);
@@ -151,7 +151,7 @@ public class AddressTest extends GerritBaseTests {
     assertThat(format(null, "a,b@a")).isEqualTo("<a,b@a>");
   }
 
-  private static String format(final String name, final String email) {
+  private static String format(String name, String email) {
     return new Address(name, email).toHeaderString();
   }
 }

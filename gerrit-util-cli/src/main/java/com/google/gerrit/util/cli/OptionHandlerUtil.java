@@ -25,7 +25,7 @@ import org.kohsuke.args4j.spi.OptionHandler;
 public class OptionHandlerUtil {
   /** Generate a key for an {@link OptionHandlerFactory} in Guice. */
   @SuppressWarnings("unchecked")
-  public static <T> Key<OptionHandlerFactory<T>> keyFor(final Class<T> valueType) {
+  public static <T> Key<OptionHandlerFactory<T>> keyFor(Class<T> valueType) {
     final Type factoryType = Types.newParameterizedType(OptionHandlerFactory.class, valueType);
     return (Key<OptionHandlerFactory<T>>) Key.get(factoryType);
   }
@@ -36,7 +36,7 @@ public class OptionHandlerUtil {
     return (Key<OptionHandler<T>>) Key.get(handlerType);
   }
 
-  public static <T> Module moduleFor(final Class<T> type, Class<? extends OptionHandler<T>> impl) {
+  public static <T> Module moduleFor(Class<T> type, Class<? extends OptionHandler<T>> impl) {
     return new FactoryModuleBuilder().implement(handlerOf(type), impl).build(keyFor(type));
   }
 

@@ -25,7 +25,7 @@ public class UrlEncoded extends LinkedHashMap<String, String> {
 
   public UrlEncoded() {}
 
-  public UrlEncoded(final String url) {
+  public UrlEncoded(String url) {
     this.url = url;
   }
 
@@ -37,7 +37,7 @@ public class UrlEncoded extends LinkedHashMap<String, String> {
       separator = '?';
       buffer.append(url);
     }
-    for (final Map.Entry<String, String> entry : entrySet()) {
+    for (Map.Entry<String, String> entry : entrySet()) {
       final String key = entry.getKey();
       final String val = entry.getValue();
       if (separator != 0) {

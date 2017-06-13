@@ -75,7 +75,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
         getIncludedGroups(internalGroup.getId());
     final List<AccountGroupById> toRemove = new ArrayList<>();
 
-    for (final String includedGroup : input.groups) {
+    for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
       if (!control.canRemoveGroup()) {
         throw new AuthException(String.format("Cannot delete group: %s", d.getName()));
@@ -90,7 +90,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     if (!toRemove.isEmpty()) {
       writeAudits(toRemove);
       db.get().accountGroupById().delete(toRemove);
-      for (final AccountGroupById g : toRemove) {
+      for (AccountGroupById g : toRemove) {
         groupIncludeCache.evictParentGroupsOf(g.getIncludeUUID());
       }
       groupIncludeCache.evictSubgroupsOf(internalGroup.getGroupUUID());
@@ -99,7 +99,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return Response.none();
   }
 
-  private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(final AccountGroup.Id groupId)
+  private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(AccountGroup.Id groupId)
       throws OrmException {
     final Map<AccountGroup.UUID, AccountGroupById> groups = new HashMap<>();
     for (AccountGroupById g : db.get().accountGroupById().byGroup(groupId)) {
@@ -108,7 +108,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return groups;
   }
 
-  private void writeAudits(final List<AccountGroupById> toRemoved) {
+  private void writeAudits(List<AccountGroupById> toRemoved) {
     final Account.Id me = self.get().getAccountId();
     auditService.dispatchDeleteGroupsFromGroup(me, toRemoved);
   }
@@ -121,7 +121,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     private final Provider<DeleteIncludedGroups> delete;
 
     @Inject
-    DeleteIncludedGroup(final Provider<DeleteIncludedGroups> delete) {
+    DeleteIncludedGroup(Provider<DeleteIncludedGroups> delete) {
       this.delete = delete;
     }
 

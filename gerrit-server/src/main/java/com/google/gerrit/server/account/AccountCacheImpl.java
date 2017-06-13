@@ -194,7 +194,7 @@ public class AccountCacheImpl implements AccountCache {
       }
     }
 
-    private Optional<AccountState> load(final ReviewDb db, final Account.Id who)
+    private Optional<AccountState> load(ReviewDb db, Account.Id who)
         throws OrmException, IOException, ConfigInvalidException {
       Account account = accounts.get(db, who);
       if (account == null) {

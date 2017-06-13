@@ -40,7 +40,7 @@ public final class PatchSetApproval {
       categoryId = new LabelId();
     }
 
-    public Key(final PatchSet.Id ps, final Account.Id a, final LabelId c) {
+    public Key(PatchSet.Id ps, Account.Id a, LabelId c) {
       this.patchSetId = ps;
       this.accountId = a;
       this.categoryId = c;
@@ -111,7 +111,7 @@ public final class PatchSetApproval {
     setGranted(ts);
   }
 
-  public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
+  public PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
     key = new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
     granted = src.granted;
@@ -153,7 +153,7 @@ public final class PatchSetApproval {
     return value;
   }
 
-  public void setValue(final short v) {
+  public void setValue(short v) {
     value = v;
   }
 

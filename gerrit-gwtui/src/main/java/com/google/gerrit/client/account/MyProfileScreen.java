@@ -91,7 +91,7 @@ public class MyProfileScreen extends SettingsScreen {
     display();
   }
 
-  private void infoRow(final int row, final String name) {
+  private void infoRow(int row, String name) {
     info.setText(row, labelIdx, name);
     info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }

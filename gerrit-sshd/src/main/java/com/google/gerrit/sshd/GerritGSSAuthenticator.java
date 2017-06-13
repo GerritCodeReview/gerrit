@@ -51,7 +51,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   }
 
   @Override
-  public boolean validateIdentity(final ServerSession session, final String identity) {
+  public boolean validateIdentity(ServerSession session, String identity) {
     final SshSession sd = session.getAttribute(SshSession.KEY);
     int at = identity.indexOf('@');
     String username;

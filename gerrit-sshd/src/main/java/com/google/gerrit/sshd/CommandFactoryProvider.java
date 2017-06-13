@@ -93,7 +93,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
   public CommandFactory get() {
     return new CommandFactory() {
       @Override
-      public Command createCommand(final String requestCommand) {
+      public Command createCommand(String requestCommand) {
         return new Trampoline(requestCommand);
       }
     };
@@ -112,7 +112,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     private final AtomicBoolean logged;
     private final AtomicReference<Future<?>> task;
 
-    Trampoline(final String cmdLine) {
+    Trampoline(String cmdLine) {
       commandLine = cmdLine;
       argv = split(cmdLine);
       logged = new AtomicBoolean();
@@ -120,33 +120,33 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     }
 
     @Override
-    public void setInputStream(final InputStream in) {
+    public void setInputStream(InputStream in) {
       this.in = in;
     }
 
     @Override
-    public void setOutputStream(final OutputStream out) {
+    public void setOutputStream(OutputStream out) {
       this.out = out;
     }
 
     @Override
-    public void setErrorStream(final OutputStream err) {
+    public void setErrorStream(OutputStream err) {
       this.err = err;
     }
 
     @Override
-    public void setExitCallback(final ExitCallback callback) {
+    public void setExitCallback(ExitCallback callback) {
       this.exit = callback;
     }
 
     @Override
-    public void setSession(final ServerSession session) {
+    public void setSession(ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
       this.ctx = sshScope.newContext(schemaFactory, s, commandLine);
     }
 
     @Override
-    public void start(final Environment env) throws IOException {
+    public void start(Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
       task.set(
@@ -203,7 +203,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       }
     }
 
-    private int translateExit(final int rc) {
+    private int translateExit(int rc) {
       switch (rc) {
         case BaseCommand.STATUS_NOT_ADMIN:
           return 1;
@@ -219,7 +219,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       }
     }
 
-    private void log(final int rc) {
+    private void log(int rc) {
       if (logged.compareAndSet(false, true)) {
         log.onExecute(cmd, rc, ctx.getSession());
       }

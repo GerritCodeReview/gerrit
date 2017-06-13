@@ -21,13 +21,13 @@ import com.google.gwt.user.client.ui.InlineHTML;
 public class HighlightingProjectsTable extends ProjectsTable {
   private String toHighlight;
 
-  public void display(final ProjectMap projects, final String toHighlight) {
+  public void display(ProjectMap projects, String toHighlight) {
     this.toHighlight = toHighlight;
     super.display(projects);
   }
 
   @Override
-  protected void populate(final int row, final ProjectInfo k) {
+  protected void populate(int row, ProjectInfo k) {
     populateState(row, k);
     table.setWidget(
         row, ProjectsTable.C_NAME, new InlineHTML(Util.highlight(k.name(), toHighlight)));

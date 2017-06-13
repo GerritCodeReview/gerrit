@@ -31,7 +31,7 @@ public class GroupInfo {
    * <p>This constructor should only be a last-ditch effort, when the usual group lookup has failed
    * and a stale group id has been discovered in the data store.
    */
-  public GroupInfo(final AccountGroup.UUID uuid) {
+  public GroupInfo(AccountGroup.UUID uuid) {
     this.uuid = uuid;
   }
 

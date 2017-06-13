@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 public class RegisterScreen extends AccountScreen {
   private final String nextToken;
 
-  public RegisterScreen(final String next) {
+  public RegisterScreen(String next) {
     nextToken = next;
   }
 

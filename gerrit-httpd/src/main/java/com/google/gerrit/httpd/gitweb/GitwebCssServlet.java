@@ -54,7 +54,7 @@ abstract class GitwebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitwebCssServlet(final Path src) throws IOException {
+  GitwebCssServlet(Path src) throws IOException {
     if (src != null) {
       final Path dir = src.getParent();
       final String name = src.getFileName().toString();
@@ -76,13 +76,12 @@ abstract class GitwebCssServlet extends HttpServlet {
   }
 
   @Override
-  protected long getLastModified(final HttpServletRequest req) {
+  protected long getLastModified(HttpServletRequest req) {
     return modified;
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     if (raw_css != null) {
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(UTF_8.name());

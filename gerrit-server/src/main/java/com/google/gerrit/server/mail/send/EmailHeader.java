@@ -83,7 +83,7 @@ public abstract class EmailHeader {
     return false;
   }
 
-  static boolean needsQuotedPrintableWithinPhrase(final int cp) {
+  static boolean needsQuotedPrintableWithinPhrase(int cp) {
     switch (cp) {
       case '!':
       case '*':
@@ -202,7 +202,7 @@ public abstract class EmailHeader {
       int len = 8;
       boolean firstAddress = true;
       boolean needComma = false;
-      for (final Address addr : list) {
+      for (Address addr : list) {
         java.lang.String s = addr.toHeaderString();
         if (firstAddress) {
           firstAddress = false;

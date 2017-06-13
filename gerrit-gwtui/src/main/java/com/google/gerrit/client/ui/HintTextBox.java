@@ -127,7 +127,7 @@ public class HintTextBox extends NpTextBox {
           addKeyDownHandler(
               new KeyDownHandler() {
                 @Override
-                public void onKeyDown(final KeyDownEvent event) {
+                public void onKeyDown(KeyDownEvent event) {
                   onKey(event.getNativeKeyCode());
                 }
               });

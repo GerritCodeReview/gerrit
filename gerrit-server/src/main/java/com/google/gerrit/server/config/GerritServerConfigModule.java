@@ -32,7 +32,7 @@ import org.eclipse.jgit.util.FS;
 
 /** Creates {@link GerritServerConfig}. */
 public class GerritServerConfigModule extends AbstractModule {
-  public static String getSecureStoreClassName(final Path sitePath) {
+  public static String getSecureStoreClassName(Path sitePath) {
     if (sitePath != null) {
       return getSecureStoreFromGerritConfig(sitePath);
     }
@@ -41,7 +41,7 @@ public class GerritServerConfigModule extends AbstractModule {
     return nullToDefault(secureStoreProperty);
   }
 
-  private static String getSecureStoreFromGerritConfig(final Path sitePath) {
+  private static String getSecureStoreFromGerritConfig(Path sitePath) {
     AbstractModule m =
         new AbstractModule() {
           @Override

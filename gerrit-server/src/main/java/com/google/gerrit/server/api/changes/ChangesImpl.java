@@ -109,7 +109,7 @@ class ChangesImpl implements Changes {
     return query().withQuery(query);
   }
 
-  private List<ChangeInfo> get(final QueryRequest q) throws RestApiException {
+  private List<ChangeInfo> get(QueryRequest q) throws RestApiException {
     QueryChanges qc = queryProvider.get();
     if (q.getQuery() != null) {
       qc.addQuery(q.getQuery());

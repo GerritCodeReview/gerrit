@@ -36,7 +36,7 @@ public enum SearchScope {
 
   private final int scope;
 
-  SearchScope(final int scope) {
+  SearchScope(int scope) {
     this.scope = scope;
   }
 

@@ -46,7 +46,7 @@ public class InitUtil {
     return new Die(why, cause);
   }
 
-  public static void savePublic(final FileBasedConfig sec) throws IOException {
+  public static void savePublic(FileBasedConfig sec) throws IOException {
     if (modified(sec)) {
       sec.save();
     }
@@ -79,7 +79,7 @@ public class InitUtil {
     return SystemReader.getInstance().getHostname();
   }
 
-  public static boolean isLocal(final String hostname) {
+  public static boolean isLocal(String hostname) {
     try {
       return InetAddress.getByName(hostname).isLoopbackAddress();
     } catch (UnknownHostException e) {
@@ -127,7 +127,7 @@ public class InitUtil {
     }
   }
 
-  private static InputStream open(final Class<?> sibling, final String name) {
+  private static InputStream open(Class<?> sibling, String name) {
     final InputStream in = sibling.getResourceAsStream(name);
     if (in == null) {
       String pkg = sibling.getName();
@@ -186,12 +186,12 @@ public class InitUtil {
     return new URI(url);
   }
 
-  public static boolean isAnyAddress(final URI u) {
+  public static boolean isAnyAddress(URI u) {
     return u.getHost() == null
         && (u.getAuthority().equals("*") || u.getAuthority().startsWith("*:"));
   }
 
-  public static int portOf(final URI uri) {
+  public static int portOf(URI uri) {
     int port = uri.getPort();
     if (port < 0) {
       port = "https".equals(uri.getScheme()) ? 443 : 80;

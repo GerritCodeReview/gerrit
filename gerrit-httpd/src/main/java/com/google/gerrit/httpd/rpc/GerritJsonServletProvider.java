@@ -27,7 +27,7 @@ class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
   private final Class<? extends RemoteJsonService> serviceClass;
 
   @Inject
-  GerritJsonServletProvider(final Class<? extends RemoteJsonService> c) {
+  GerritJsonServletProvider(Class<? extends RemoteJsonService> c) {
     serviceClass = c;
   }
 

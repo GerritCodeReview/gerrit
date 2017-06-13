@@ -96,12 +96,12 @@ public abstract class Screen extends View {
     header.getCellFormatter().setWidth(0, Cols.FarEast.ordinal(), "100%");
   }
 
-  protected void setWindowTitle(final String text) {
+  protected void setWindowTitle(String text) {
     windowTitle = text;
     Gerrit.setWindowTitle(this, text);
   }
 
-  protected void setPageTitle(final String text) {
+  protected void setPageTitle(String text) {
     final String old = headerText.getText();
     if (text.isEmpty()) {
       header.setVisible(false);
@@ -118,23 +118,23 @@ public abstract class Screen extends View {
     header.setVisible(value);
   }
 
-  public void setTitle(final Widget w) {
+  public void setTitle(Widget w) {
     titleWidget = w;
   }
 
-  protected void setTitleEast(final Widget w) {
+  protected void setTitleEast(Widget w) {
     header.setWidget(0, Cols.East.ordinal(), w);
   }
 
-  protected void setTitleFarEast(final Widget w) {
+  protected void setTitleFarEast(Widget w) {
     header.setWidget(0, Cols.FarEast.ordinal(), w);
   }
 
-  protected void setTitleWest(final Widget w) {
+  protected void setTitleWest(Widget w) {
     header.setWidget(0, Cols.West.ordinal(), w);
   }
 
-  protected void add(final Widget w) {
+  protected void add(Widget w) {
     body.add(w);
   }
 
@@ -142,7 +142,7 @@ public abstract class Screen extends View {
     return body;
   }
 
-  protected void setTheme(final ThemeInfo t) {
+  protected void setTheme(ThemeInfo t) {
     theme = t;
   }
 
@@ -152,7 +152,7 @@ public abstract class Screen extends View {
   }
 
   /** Set the history token for this screen. */
-  public void setToken(final String t) {
+  public void setToken(String t) {
     assert t != null && !t.isEmpty();
     token = t;
 
@@ -172,7 +172,7 @@ public abstract class Screen extends View {
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */
-  public final void setRequiresSignIn(final boolean b) {
+  public final void setRequiresSignIn(boolean b) {
     requiresSignIn = b;
   }
 

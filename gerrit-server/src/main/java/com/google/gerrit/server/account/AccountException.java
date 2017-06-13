@@ -18,11 +18,11 @@ package com.google.gerrit.server.account;
 public class AccountException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public AccountException(final String message) {
+  public AccountException(String message) {
     super(message);
   }
 
-  public AccountException(final String message, final Throwable why) {
+  public AccountException(String message, Throwable why) {
     super(message, why);
   }
 }

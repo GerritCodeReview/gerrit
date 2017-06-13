@@ -189,7 +189,7 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
       return v;
     }
 
-    private void populate(final int row, List<String> values) {
+    private void populate(int row, List<String> values) {
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftMostCell());

@@ -36,7 +36,7 @@ public class SocketAddressHandler extends OptionHandler<SocketAddress> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     try {
       setter.addValue(SocketUtil.parse(token, 0));

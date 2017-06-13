@@ -29,19 +29,17 @@ class OpenIdLoginServlet extends HttpServlet {
   private final OpenIdServiceImpl impl;
 
   @Inject
-  OpenIdLoginServlet(final OpenIdServiceImpl i) {
+  OpenIdLoginServlet(OpenIdServiceImpl i) {
     impl = i;
   }
 
   @Override
-  public void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  public void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     doPost(req, rsp);
   }
 
   @Override
-  public void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  public void doPost(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     try {
       CacheHeaders.setNotCacheable(rsp);
       impl.doAuth(req, rsp);

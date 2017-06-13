@@ -229,7 +229,7 @@ public class ReplyBox extends Composite {
               }
 
               @Override
-              public void onFailure(final Throwable caught) {
+              public void onFailure(Throwable caught) {
                 if (RestApi.isNotSignedIn(caught)) {
                   lc.setReplyComment(message.getText());
                 }

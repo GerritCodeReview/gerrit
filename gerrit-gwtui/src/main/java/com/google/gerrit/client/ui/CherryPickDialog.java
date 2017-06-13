@@ -51,7 +51,7 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
               @Override
               protected void onRequestSuggestions(Request request, Callback done) {
                 List<BranchSuggestion> suggestions = new ArrayList<>();
-                for (final BranchInfo b : branches) {
+                for (BranchInfo b : branches) {
                   if (b.ref().contains(request.getQuery())) {
                     suggestions.add(new BranchSuggestion(b));
                   }

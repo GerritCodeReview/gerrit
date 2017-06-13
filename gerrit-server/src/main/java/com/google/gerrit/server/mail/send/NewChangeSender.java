@@ -37,19 +37,19 @@ public abstract class NewChangeSender extends ChangeEmail {
     super(ea, "newchange", cd);
   }
 
-  public void addReviewers(final Collection<Account.Id> cc) {
+  public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
   }
 
-  public void addReviewersByEmail(final Collection<Address> cc) {
+  public void addReviewersByEmail(Collection<Address> cc) {
     reviewersByEmail.addAll(cc);
   }
 
-  public void addExtraCC(final Collection<Account.Id> cc) {
+  public void addExtraCC(Collection<Account.Id> cc) {
     extraCC.addAll(cc);
   }
 
-  public void addExtraCCByEmail(final Collection<Address> cc) {
+  public void addExtraCCByEmail(Collection<Address> cc) {
     extraCCByEmail.addAll(cc);
   }
 
@@ -67,7 +67,7 @@ public abstract class NewChangeSender extends ChangeEmail {
       default:
         add(RecipientType.CC, extraCC);
         extraCCByEmail.stream().forEach(cc -> add(RecipientType.CC, cc));
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case OWNER_REVIEWERS:
         add(RecipientType.TO, reviewers);
         addByEmail(RecipientType.TO, reviewersByEmail);

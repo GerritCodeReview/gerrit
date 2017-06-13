@@ -39,7 +39,7 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
     final AccountGroup group = groupCache.get(new AccountGroup.NameKey(n));
     if (group == null) {

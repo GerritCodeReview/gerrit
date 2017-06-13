@@ -37,7 +37,7 @@ class PathSuggestOracle extends HighlightSuggestOracle {
   }
 
   @Override
-  protected void onRequestSuggestions(final Request req, final Callback cb) {
+  protected void onRequestSuggestions(Request req, Callback cb) {
     RestApi api = ChangeApi.revision(changeId.get(), revision.name()).view("files");
     if (req.getQuery() != null) {
       api.addParameter("q", req.getQuery() == null ? "" : req.getQuery());

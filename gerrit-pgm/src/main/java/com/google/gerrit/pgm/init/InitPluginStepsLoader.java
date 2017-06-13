@@ -43,8 +43,7 @@ public class InitPluginStepsLoader {
   final ConsoleUI ui;
 
   @Inject
-  public InitPluginStepsLoader(
-      final ConsoleUI ui, final SitePaths sitePaths, final Injector initInjector) {
+  public InitPluginStepsLoader(final ConsoleUI ui, SitePaths sitePaths, Injector initInjector) {
     this.pluginsDir = sitePaths.plugins_dir;
     this.initInjector = initInjector;
     this.ui = ui;

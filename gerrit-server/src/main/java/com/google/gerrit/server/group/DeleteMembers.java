@@ -75,7 +75,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     final Map<Account.Id, AccountGroupMember> members = getMembers(internalGroup.getId());
     final List<AccountGroupMember> toRemove = new ArrayList<>();
 
-    for (final String nameOrEmail : input.members) {
+    for (String nameOrEmail : input.members) {
       Account a = accounts.parse(nameOrEmail).getAccount();
 
       if (!control.canRemoveMember()) {
@@ -90,22 +90,22 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     writeAudits(toRemove);
     db.get().accountGroupMembers().delete(toRemove);
-    for (final AccountGroupMember m : toRemove) {
+    for (AccountGroupMember m : toRemove) {
       accountCache.evict(m.getAccountId());
     }
 
     return Response.none();
   }
 
-  private void writeAudits(final List<AccountGroupMember> toRemove) {
+  private void writeAudits(List<AccountGroupMember> toRemove) {
     final Account.Id me = self.get().getAccountId();
     auditService.dispatchDeleteAccountsFromGroup(me, toRemove);
   }
 
-  private Map<Account.Id, AccountGroupMember> getMembers(final AccountGroup.Id groupId)
+  private Map<Account.Id, AccountGroupMember> getMembers(AccountGroup.Id groupId)
       throws OrmException {
     final Map<Account.Id, AccountGroupMember> members = new HashMap<>();
-    for (final AccountGroupMember m : db.get().accountGroupMembers().byGroup(groupId)) {
+    for (AccountGroupMember m : db.get().accountGroupMembers().byGroup(groupId)) {
       members.put(m.getAccountId(), m);
     }
     return members;
@@ -118,7 +118,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     private final Provider<DeleteMembers> delete;
 
     @Inject
-    DeleteMember(final Provider<DeleteMembers> delete) {
+    DeleteMember(Provider<DeleteMembers> delete) {
       this.delete = delete;
     }
 

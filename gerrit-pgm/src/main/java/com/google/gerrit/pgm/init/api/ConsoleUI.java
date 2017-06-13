@@ -27,7 +27,7 @@ public abstract class ConsoleUI {
   }
 
   /** Get a UI instance, possibly forcing batch mode. */
-  public static ConsoleUI getInstance(final boolean batchMode) {
+  public static ConsoleUI getInstance(boolean batchMode) {
     Console console = batchMode ? null : System.console();
     return console != null ? new Interactive(console) : new Batch();
   }
@@ -87,7 +87,7 @@ public abstract class ConsoleUI {
   private static class Interactive extends ConsoleUI {
     private final Console console;
 
-    Interactive(final Console console) {
+    Interactive(Console console) {
       this.console = console;
     }
 
@@ -164,7 +164,7 @@ public abstract class ConsoleUI {
           console.printf("error: '%s' is not a valid choice\n", r);
         }
         console.printf("       Supported options are:\n");
-        for (final String v : allowedValues) {
+        for (String v : allowedValues) {
           console.printf("         %s\n", v.toLowerCase());
         }
       }
@@ -207,7 +207,7 @@ public abstract class ConsoleUI {
         if (r.isEmpty()) {
           return def;
         }
-        for (final T e : options) {
+        for (T e : options) {
           if (e.toString().equalsIgnoreCase(r)) {
             return e;
           }
@@ -216,7 +216,7 @@ public abstract class ConsoleUI {
           console.printf("error: '%s' is not a valid choice\n", r);
         }
         console.printf("       Supported options are:\n");
-        for (final T e : options) {
+        for (T e : options) {
           console.printf("         %s\n", e.toString().toLowerCase());
         }
       }

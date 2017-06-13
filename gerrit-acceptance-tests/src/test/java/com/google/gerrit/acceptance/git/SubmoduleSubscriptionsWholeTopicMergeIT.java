@@ -16,20 +16,25 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.testutil.ConfigSuite;
+import java.util.ArrayDeque;
 import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -739,5 +744,78 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     expectToHaveSubmoduleState(repoA, "master", "project-b", repoB, "master");
     expectToHaveSubmoduleState(repoA, "dev", "project-b", repoB, "dev");
+  }
+
+  @Test
+  public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
+    assume().that(notesMigration.fuseUpdates()).isTrue();
+
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub1 = createProjectWithPush("sub1");
+    TestRepository<?> sub2 = createProjectWithPush("sub2");
+
+    allowMatchingSubmoduleSubscription(
+        "sub1", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(
+        "sub2", "refs/heads/master", "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "sub1", "master");
+    prepareSubmoduleConfigEntry(config, "sub2", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    String topic = "same-topic";
+    ObjectId sub1Id = pushChangeTo(sub1, "refs/for/master", "some message", topic);
+    ObjectId sub2Id = pushChangeTo(sub2, "refs/for/master", "some message", topic);
+
+    String changeId1 = getChangeId(sub1, sub1Id).get();
+    String changeId2 = getChangeId(sub2, sub2Id).get();
+    approve(changeId1);
+    approve(changeId2);
+
+    TestSubmitInput input = new TestSubmitInput();
+    input.generateLockFailures =
+        new ArrayDeque<>(
+            ImmutableList.of(
+                false, // Change 1, attempt 1: success
+                true, // Change 2, attempt 1: lock failure
+                false, // Change 1, attempt 2: success
+                false, // Change 2, attempt 2: success
+                false)); // Leftover value to check total number of calls.
+    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit(input);
+
+    assertThat(info(changeId1).status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info(changeId2).status).isEqualTo(ChangeStatus.MERGED);
+
+    sub1.git().fetch().call();
+    RevWalk rw1 = sub1.getRevWalk();
+    RevCommit master1 = rw1.parseCommit(getRemoteHead(name("sub1"), "master"));
+    RevCommit change1Ps = parseCurrentRevision(rw1, changeId1);
+    assertThat(rw1.isMergedInto(change1Ps, master1)).isTrue();
+
+    sub2.git().fetch().call();
+    RevWalk rw2 = sub2.getRevWalk();
+    RevCommit master2 = rw2.parseCommit(getRemoteHead(name("sub2"), "master"));
+    RevCommit change2Ps = parseCurrentRevision(rw2, changeId2);
+    assertThat(rw2.isMergedInto(change2Ps, master2)).isTrue();
+
+    assertThat(input.generateLockFailures).containsExactly(false);
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2, "master");
+
+    superRepo
+        .git()
+        .fetch()
+        .setRemote("origin")
+        .call()
+        .getAdvertisedRef("refs/heads/master")
+        .getObjectId();
+
+    assertWithMessage("submodule subscription update should have made one commit")
+        .that(superRepo.getRepository().resolve("origin/master^"))
+        .isEqualTo(superPreviousId);
   }
 }

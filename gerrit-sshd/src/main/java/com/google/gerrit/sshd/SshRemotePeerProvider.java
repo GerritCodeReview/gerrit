@@ -24,7 +24,7 @@ public class SshRemotePeerProvider implements Provider<SocketAddress> {
   private final Provider<SshSession> session;
 
   @Inject
-  SshRemotePeerProvider(final Provider<SshSession> s) {
+  SshRemotePeerProvider(Provider<SshSession> s) {
     session = s;
   }
 

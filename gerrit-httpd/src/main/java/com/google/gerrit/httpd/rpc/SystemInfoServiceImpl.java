@@ -44,9 +44,9 @@ class SystemInfoServiceImpl implements SystemInfoService {
   }
 
   @Override
-  public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
+  public void daemonHostKeys(AsyncCallback<List<SshHostKey>> callback) {
     final ArrayList<SshHostKey> r = new ArrayList<>(hostKeys.size());
-    for (final HostKey hk : hostKeys) {
+    for (HostKey hk : hostKeys) {
       String host = hk.getHost();
       if (host.startsWith("*:")) {
         final String port = host.substring(2);

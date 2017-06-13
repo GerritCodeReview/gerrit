@@ -621,11 +621,11 @@ public class CommitMsgHookTest extends HookTestCase {
                 "RealTag: abc\n"));
   }
 
-  private void hookDoesNotModify(final String in) throws Exception {
+  private void hookDoesNotModify(String in) throws Exception {
     assertEquals(in, call(in));
   }
 
-  private String call(final String body) throws Exception {
+  private String call(String body) throws Exception {
     final File tmp = write(body);
     try {
       final File hook = getHook("commit-msg");
@@ -636,7 +636,7 @@ public class CommitMsgHookTest extends HookTestCase {
     }
   }
 
-  private DirCacheEntry file(final String name) throws IOException {
+  private DirCacheEntry file(String name) throws IOException {
     try (ObjectInserter oi = repository.newObjectInserter()) {
       final DirCacheEntry e = new DirCacheEntry(name);
       e.setFileMode(FileMode.REGULAR_FILE);

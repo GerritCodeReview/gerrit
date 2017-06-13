@@ -99,7 +99,7 @@ public class AccountControl {
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
-  public boolean canSee(final Account.Id otherUser) {
+  public boolean canSee(Account.Id otherUser) {
     return canSee(
         new OtherUser() {
           @Override
@@ -121,7 +121,7 @@ public class AccountControl {
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
-  public boolean canSee(final AccountState otherUser) {
+  public boolean canSee(AccountState otherUser) {
     return canSee(
         new OtherUser() {
           @Override

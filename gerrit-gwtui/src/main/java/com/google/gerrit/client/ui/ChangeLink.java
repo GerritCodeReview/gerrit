@@ -20,13 +20,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 
 public class ChangeLink extends InlineHyperlink {
-  public static String permalink(final Change.Id c) {
+  public static String permalink(Change.Id c) {
     return GWT.getHostPageBaseURL() + c.get();
   }
 
   protected Change.Id cid;
 
-  public ChangeLink(final String text, final Change.Id c) {
+  public ChangeLink(String text, Change.Id c) {
     super(text, PageLinks.toChange(c));
     getElement().setPropertyString("href", permalink(c));
     cid = c;

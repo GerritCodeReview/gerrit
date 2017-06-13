@@ -91,9 +91,9 @@ public class ListGroupsCommand extends SshCommand {
           groupBackend);
     }
 
-    void display(final PrintWriter out) throws OrmException, BadRequestException {
+    void display(PrintWriter out) throws OrmException, BadRequestException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
-      for (final GroupInfo info : get()) {
+      for (GroupInfo info : get()) {
         formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));
         if (verboseOutput) {
           AccountGroup o =

@@ -257,7 +257,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setSessionFactory(
         new SessionFactory(this) {
           @Override
-          protected ServerSessionImpl createSession(final IoSession io) throws Exception {
+          protected ServerSessionImpl createSession(IoSession io) throws Exception {
             connected.incrementAndGet();
             sessionsCreated.increment();
             if (io instanceof MinaSession) {
@@ -392,12 +392,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     final List<PublicKey> keys = myHostKeys();
     final List<HostKey> r = new ArrayList<>();
-    for (final PublicKey pub : keys) {
+    for (PublicKey pub : keys) {
       final Buffer buf = new ByteArrayBuffer();
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
-      for (final String addr : advertised) {
+      for (String addr : advertised) {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
@@ -423,7 +423,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private static void addPublicKey(
-      final Collection<PublicKey> out, final KeyPairProvider p, final String type) {
+      final Collection<PublicKey> out, KeyPairProvider p, String type) {
     final KeyPair pair = p.loadKey(type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
@@ -523,7 +523,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SuppressWarnings("unchecked")
-  private void initCiphers(final Config cfg) {
+  private void initCiphers(Config cfg) {
     final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
@@ -561,9 +561,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SafeVarargs
   private static <T> List<NamedFactory<T>> filter(
-      final Config cfg, final String key, final NamedFactory<T>... avail) {
+      final Config cfg, String key, NamedFactory<T>... avail) {
     final ArrayList<NamedFactory<T>> def = new ArrayList<>();
-    for (final NamedFactory<T> n : avail) {
+    for (NamedFactory<T> n : avail) {
       if (n == null) {
         break;
       }
@@ -576,7 +576,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     boolean didClear = false;
-    for (final String setting : want) {
+    for (String setting : want) {
       String name = setting.trim();
       boolean add = true;
       if (name.startsWith("-")) {
@@ -617,8 +617,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> NamedFactory<T> find(final String name, final NamedFactory<T>... avail) {
-    for (final NamedFactory<T> n : avail) {
+  private static <T> NamedFactory<T> find(String name, NamedFactory<T>... avail) {
+    for (NamedFactory<T> n : avail) {
       if (n != null && name.equals(n.getName())) {
         return n;
       }

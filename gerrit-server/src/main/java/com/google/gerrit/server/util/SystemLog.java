@@ -46,7 +46,7 @@ public class SystemLog {
   private final Config config;
 
   @Inject
-  public SystemLog(final SitePaths site, @GerritServerConfig Config config) {
+  public SystemLog(SitePaths site, @GerritServerConfig Config config) {
     this.site = site;
     this.config = config;
   }

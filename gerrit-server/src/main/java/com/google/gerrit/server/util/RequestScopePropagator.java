@@ -82,7 +82,7 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   @SuppressWarnings("javadoc") // See GuiceRequestScopePropagator#wrapImpl
-  public final <T> Callable<T> wrap(final Callable<T> callable) {
+  public final <T> Callable<T> wrap(Callable<T> callable) {
     final RequestContext callerContext = checkNotNull(local.getContext());
     final Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
     return new Callable<T>() {
@@ -114,7 +114,7 @@ public abstract class RequestScopePropagator {
    * @param runnable the Runnable to wrap.
    * @return a new Runnable which will execute in the current request scope.
    */
-  public final Runnable wrap(final Runnable runnable) {
+  public final Runnable wrap(Runnable runnable) {
     final Callable<Object> wrapped = wrap(Executors.callable(runnable));
 
     if (runnable instanceof ProjectRunnable) {

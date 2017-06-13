@@ -37,7 +37,7 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(final AccountFieldName field) {
+  public boolean allowsEdit(AccountFieldName field) {
     if (authConfig.getAuthType() == AuthType.HTTP) {
       switch (field) {
         case USER_NAME:
@@ -62,7 +62,7 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest authenticate(final AuthRequest who) {
+  public AuthRequest authenticate(AuthRequest who) {
     if (who.getEmailAddress() == null
         && who.getLocalUser() != null
         && emailExpander.canExpand(who.getLocalUser())) {
@@ -72,10 +72,10 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(final AuthRequest who, final Account account) {}
+  public void onCreateAccount(AuthRequest who, Account account) {}
 
   @Override
-  public Account.Id lookup(final String accountName) {
+  public Account.Id lookup(String accountName) {
     if (emailExpander.canExpand(accountName)) {
       final Set<Account.Id> c = byEmail.get(emailExpander.expand(accountName));
       if (1 == c.size()) {

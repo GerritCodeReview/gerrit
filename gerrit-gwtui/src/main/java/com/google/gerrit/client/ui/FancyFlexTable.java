@@ -48,11 +48,11 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     return new MyFlexTable();
   }
 
-  protected RowItem getRowItem(final int row) {
+  protected RowItem getRowItem(int row) {
     return FancyFlexTable.<RowItem>getRowItem(table.getCellFormatter().getElement(row, 0));
   }
 
-  protected void setRowItem(final int row, final RowItem item) {
+  protected void setRowItem(int row, RowItem item) {
     setRowItem(table.getCellFormatter().getElement(row, 0), item);
   }
 
@@ -117,15 +117,15 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     return left;
   }
 
-  protected void resetHtml(final SafeHtml body) {
-    for (final Iterator<Widget> i = table.iterator(); i.hasNext(); ) {
+  protected void resetHtml(SafeHtml body) {
+    for (Iterator<Widget> i = table.iterator(); i.hasNext(); ) {
       i.next();
       i.remove();
     }
     impl.resetHtml(table, body);
   }
 
-  protected void scrollIntoView(final int topRow, final int endRow) {
+  protected void scrollIntoView(int topRow, int endRow) {
     final CellFormatter fmt = table.getCellFormatter();
     final Element top = fmt.getElement(topRow, C_ARROW).getParentElement();
     final Element end = fmt.getElement(endRow, C_ARROW).getParentElement();
@@ -164,7 +164,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     Document.get().setScrollTop(nTop);
   }
 
-  protected void applyDataRowStyle(final int newRow) {
+  protected void applyDataRowStyle(int newRow) {
     table.getCellFormatter().addStyleName(newRow, C_ARROW, Gerrit.RESOURCES.css().iconCell());
     table.getCellFormatter().addStyleName(newRow, C_ARROW, Gerrit.RESOURCES.css().leftMostCell());
   }
@@ -176,7 +176,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
    * @return the td containing element {@code target}; null if {@code target} is not a member of
    *     this table.
    */
-  protected Element getParentCell(final Element target) {
+  protected Element getParentCell(Element target) {
     final Element body = FancyFlexTableImpl.getBodyElement(table);
     for (Element td = target; td != null && td != body; td = DOM.getParent(td)) {
       // If it's a TD, it might be the one we're looking for.
@@ -192,7 +192,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   }
 
   /** @return the row of the child element; -1 if the child is not in the table. */
-  protected int rowOf(final Element target) {
+  protected int rowOf(Element target) {
     final Element td = getParentCell(target);
     if (td == null) {
       return -1;
@@ -203,7 +203,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   }
 
   /** @return the cell of the child element; -1 if the child is not in the table. */
-  protected int columnOf(final Element target) {
+  protected int columnOf(Element target) {
     final Element td = getParentCell(target);
     if (td == null) {
       return -1;

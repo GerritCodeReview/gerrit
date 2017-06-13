@@ -30,7 +30,7 @@ public class GlobalKey {
   public static final KeyPressHandler STOP_PROPAGATION =
       new KeyPressHandler() {
         @Override
-        public void onKeyPress(final KeyPressEvent event) {
+        public void onKeyPress(KeyPressEvent event) {
           event.stopPropagation();
         }
       };
@@ -50,7 +50,7 @@ public class GlobalKey {
           .addKeyPressHandler(
               new KeyPressHandler() {
                 @Override
-                public void onKeyPress(final KeyPressEvent event) {
+                public void onKeyPress(KeyPressEvent event) {
                   final KeyCommandSet s = active.live;
                   if (s != active.all) {
                     active.live = active.all;
@@ -78,19 +78,19 @@ public class GlobalKey {
       restoreGlobal =
           new CloseHandler<PopupPanel>() {
             @Override
-            public void onClose(final CloseEvent<PopupPanel> event) {
+            public void onClose(CloseEvent<PopupPanel> event) {
               active = global;
             }
           };
     }
   }
 
-  static void temporaryWithTimeout(final KeyCommandSet s) {
+  static void temporaryWithTimeout(KeyCommandSet s) {
     active.live = s;
     restoreTimer.schedule(250);
   }
 
-  public static void dialog(final PopupPanel panel) {
+  public static void dialog(PopupPanel panel) {
     initEvents();
     initDialog();
     assert panel.isShowing();
@@ -110,7 +110,7 @@ public class GlobalKey {
         KeyDownEvent.getType());
   }
 
-  public static HandlerRegistration addApplication(final Widget widget, final KeyCommand appKey) {
+  public static HandlerRegistration addApplication(Widget widget, KeyCommand appKey) {
     initEvents();
     final State state = stateFor(widget);
     state.add(appKey);
@@ -122,7 +122,7 @@ public class GlobalKey {
     };
   }
 
-  public static HandlerRegistration add(final Widget widget, final KeyCommandSet cmdSet) {
+  public static HandlerRegistration add(Widget widget, KeyCommandSet cmdSet) {
     initEvents();
     final State state = stateFor(widget);
     state.add(cmdSet);
@@ -144,7 +144,7 @@ public class GlobalKey {
     return global;
   }
 
-  public static void filter(final KeyCommandFilter filter) {
+  public static void filter(KeyCommandFilter filter) {
     active.filter(filter);
     if (active != global) {
       global.filter(filter);
@@ -159,7 +159,7 @@ public class GlobalKey {
     final KeyCommandSet all;
     KeyCommandSet live;
 
-    State(final Widget r) {
+    State(Widget r) {
       root = r;
 
       app = new KeyCommandSet(KeyConstants.I.applicationSection());
@@ -171,25 +171,25 @@ public class GlobalKey {
       live = all;
     }
 
-    void add(final KeyCommand k) {
+    void add(KeyCommand k) {
       app.add(k);
       all.add(k);
     }
 
-    void remove(final KeyCommand k) {
+    void remove(KeyCommand k) {
       app.remove(k);
       all.remove(k);
     }
 
-    void add(final KeyCommandSet s) {
+    void add(KeyCommandSet s) {
       all.add(s);
     }
 
-    void remove(final KeyCommandSet s) {
+    void remove(KeyCommandSet s) {
       all.remove(s);
     }
 
-    void filter(final KeyCommandFilter f) {
+    void filter(KeyCommandFilter f) {
       all.filter(f);
     }
   }

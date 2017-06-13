@@ -115,7 +115,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @Override
   public void start() {
     if (executor != null) {
-      for (final H2CacheImpl<?, ?> cache : caches) {
+      for (H2CacheImpl<?, ?> cache : caches) {
         executor.execute(cache::start);
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =

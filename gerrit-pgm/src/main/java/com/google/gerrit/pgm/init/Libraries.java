@@ -122,7 +122,7 @@ class Libraries {
     return val;
   }
 
-  private static String read(final String p) throws IOException {
+  private static String read(String p) throws IOException {
     try (InputStream in = Libraries.class.getClassLoader().getResourceAsStream(p)) {
       if (in == null) {
         throw new FileNotFoundException("Cannot load resource " + p);

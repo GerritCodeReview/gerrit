@@ -251,8 +251,7 @@ public class CommitValidators {
           || NEW_PATCHSET.matcher(event.command.getRefName()).matches();
     }
 
-    private CommitValidationMessage getMissingChangeIdErrorMsg(
-        final String errMsg, final RevCommit c) {
+    private CommitValidationMessage getMissingChangeIdErrorMsg(final String errMsg, RevCommit c) {
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 
@@ -459,7 +458,7 @@ public class CommitValidators {
         boolean sboAuthor = false;
         boolean sboCommitter = false;
         boolean sboMe = false;
-        for (final FooterLine footer : receiveEvent.commit.getFooterLines()) {
+        for (FooterLine footer : receiveEvent.commit.getFooterLines()) {
           if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
             final String e = footer.getEmailAddress();
             if (e != null) {
@@ -543,7 +542,7 @@ public class CommitValidators {
     private final RefControl refControl;
 
     public AmendedGerritMergeCommitValidationListener(
-        final RefControl refControl, final PersonIdent gerritIdent) {
+        final RefControl refControl, PersonIdent gerritIdent) {
       this.refControl = refControl;
       this.gerritIdent = gerritIdent;
     }

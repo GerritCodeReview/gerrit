@@ -37,27 +37,27 @@ public class JumpKeys {
     }
   }
 
-  static void register(final Widget body) {
+  static void register(Widget body) {
     final KeyCommandSet jumps = new KeyCommandSet();
 
     jumps.add(
         new KeyCommand(0, 'o', Gerrit.C.jumpAllOpen()) {
           @Override
-          public void onKeyPress(final KeyPressEvent event) {
+          public void onKeyPress(KeyPressEvent event) {
             Gerrit.display(PageLinks.toChangeQuery("status:open"));
           }
         });
     jumps.add(
         new KeyCommand(0, 'm', Gerrit.C.jumpAllMerged()) {
           @Override
-          public void onKeyPress(final KeyPressEvent event) {
+          public void onKeyPress(KeyPressEvent event) {
             Gerrit.display(PageLinks.toChangeQuery("status:merged"));
           }
         });
     jumps.add(
         new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
           @Override
-          public void onKeyPress(final KeyPressEvent event) {
+          public void onKeyPress(KeyPressEvent event) {
             Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
           }
         });
@@ -66,35 +66,35 @@ public class JumpKeys {
       jumps.add(
           new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               Gerrit.display(PageLinks.MINE);
             }
           });
       jumps.add(
           new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft"));
             }
           });
       jumps.add(
           new KeyCommand(0, 'c', Gerrit.C.jumpMineDraftComments()) {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               Gerrit.display(PageLinks.toChangeQuery("has:draft"));
             }
           });
       jumps.add(
           new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
             }
           });
       jumps.add(
           new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               Gerrit.display(PageLinks.toChangeQuery("is:starred"));
             }
           });

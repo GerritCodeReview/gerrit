@@ -22,23 +22,23 @@ public class NoSuchGroupException extends Exception {
 
   public static final String MESSAGE = "Group Not Found: ";
 
-  public NoSuchGroupException(final AccountGroup.Id key) {
+  public NoSuchGroupException(AccountGroup.Id key) {
     this(key, null);
   }
 
-  public NoSuchGroupException(final AccountGroup.UUID key) {
+  public NoSuchGroupException(AccountGroup.UUID key) {
     this(key, null);
   }
 
-  public NoSuchGroupException(final AccountGroup.Id key, final Throwable why) {
+  public NoSuchGroupException(AccountGroup.Id key, Throwable why) {
     super(MESSAGE + key.toString(), why);
   }
 
-  public NoSuchGroupException(final AccountGroup.UUID key, final Throwable why) {
+  public NoSuchGroupException(AccountGroup.UUID key, Throwable why) {
     super(MESSAGE + key.toString(), why);
   }
 
-  public NoSuchGroupException(final AccountGroup.NameKey k, final Throwable why) {
+  public NoSuchGroupException(AccountGroup.NameKey k, Throwable why) {
     super(MESSAGE + k.toString(), why);
   }
 
@@ -46,7 +46,7 @@ public class NoSuchGroupException extends Exception {
     this(who, null);
   }
 
-  public NoSuchGroupException(String who, final Throwable why) {
+  public NoSuchGroupException(String who, Throwable why) {
     super(MESSAGE + who, why);
   }
 }

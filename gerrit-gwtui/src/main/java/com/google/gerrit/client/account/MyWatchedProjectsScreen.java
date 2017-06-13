@@ -129,7 +129,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     addNew.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doAddNew();
           }
         });
@@ -138,7 +138,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     browse.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             int top = grid.getAbsoluteTop() - 50; // under page header
             // Try to place it to the right of everything else, but not
             // right justified
@@ -158,7 +158,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     delSel.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             watchesTab.deleteChecked();
           }
         });

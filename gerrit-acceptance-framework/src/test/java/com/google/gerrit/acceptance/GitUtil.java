@@ -56,7 +56,7 @@ public class GitUtil {
   private static final AtomicInteger testRepoCount = new AtomicInteger();
   private static final int TEST_REPO_WINDOW_DAYS = 2;
 
-  public static void initSsh(final TestAccount a) {
+  public static void initSsh(TestAccount a) {
     final Properties config = new Properties();
     config.put("StrictHostKeyChecking", "no");
     JSch.setConfig(config);

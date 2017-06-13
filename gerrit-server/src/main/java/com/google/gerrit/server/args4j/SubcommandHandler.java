@@ -34,7 +34,7 @@ public class SubcommandHandler extends OptionHandler<String> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     setter.addValue(params.getParameter(0));
     owner.stopOptionParsing();
     return 1;

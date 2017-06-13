@@ -53,8 +53,7 @@ public class LegacyGerritServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");

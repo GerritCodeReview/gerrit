@@ -89,7 +89,7 @@ public class AuthRequest {
     return password;
   }
 
-  public void setPassword(final String pass) {
+  public void setPassword(String pass) {
     password = pass;
   }
 
@@ -97,7 +97,7 @@ public class AuthRequest {
     return displayName;
   }
 
-  public void setDisplayName(final String name) {
+  public void setDisplayName(String name) {
     displayName = name != null && name.length() > 0 ? name : null;
   }
 
@@ -105,7 +105,7 @@ public class AuthRequest {
     return emailAddress;
   }
 
-  public void setEmailAddress(final String email) {
+  public void setEmailAddress(String email) {
     emailAddress = email != null && email.length() > 0 ? email : null;
   }
 
@@ -113,7 +113,7 @@ public class AuthRequest {
     return userName;
   }
 
-  public void setUserName(final String user) {
+  public void setUserName(String user) {
     userName = user;
   }
 

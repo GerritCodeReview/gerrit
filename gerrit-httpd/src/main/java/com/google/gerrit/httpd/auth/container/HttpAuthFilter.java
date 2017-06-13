@@ -66,8 +66,7 @@ class HttpAuthFilter implements Filter {
   private final boolean userNameToLowerCase;
 
   @Inject
-  HttpAuthFilter(final DynamicItem<WebSession> webSession, final AuthConfig authConfig)
-      throws IOException {
+  HttpAuthFilter(DynamicItem<WebSession> webSession, AuthConfig authConfig) throws IOException {
     this.sessionProvider = webSession;
 
     final String pageName = "LoginRedirect.html";
@@ -86,8 +85,7 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void doFilter(
-      final ServletRequest request, final ServletResponse response, final FilterChain chain)
+  public void doFilter(final ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     if (isSessionValid((HttpServletRequest) request)) {
       chain.doFilter(request, response);
@@ -165,7 +163,7 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void init(final FilterConfig filterConfig) {}
+  public void init(FilterConfig filterConfig) {}
 
   @Override
   public void destroy() {}

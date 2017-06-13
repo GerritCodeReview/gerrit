@@ -25,7 +25,7 @@ public class ProjectDashboardScreen extends ProjectScreen implements ChangeListS
   private DashboardTable table;
   private String params;
 
-  public ProjectDashboardScreen(final Project.NameKey toShow, String params) {
+  public ProjectDashboardScreen(Project.NameKey toShow, String params) {
     super(toShow);
     this.params = params;
   }

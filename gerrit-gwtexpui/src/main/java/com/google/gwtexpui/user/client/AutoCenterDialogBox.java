@@ -28,11 +28,11 @@ public class AutoCenterDialogBox extends DialogBox {
     this(false);
   }
 
-  public AutoCenterDialogBox(final boolean autoHide) {
+  public AutoCenterDialogBox(boolean autoHide) {
     this(autoHide, true);
   }
 
-  public AutoCenterDialogBox(final boolean autoHide, final boolean modal) {
+  public AutoCenterDialogBox(boolean autoHide, boolean modal) {
     super(autoHide, modal);
   }
 
@@ -43,7 +43,7 @@ public class AutoCenterDialogBox extends DialogBox {
           Window.addResizeHandler(
               new ResizeHandler() {
                 @Override
-                public void onResize(final ResizeEvent event) {
+                public void onResize(ResizeEvent event) {
                   final int w = event.getWidth();
                   final int h = event.getHeight();
                   AutoCenterDialogBox.this.onResize(w, h);
@@ -71,7 +71,7 @@ public class AutoCenterDialogBox extends DialogBox {
    * @param width new browser window width
    * @param height new browser window height
    */
-  protected void onResize(final int width, final int height) {
+  protected void onResize(int width, int height) {
     if (isAttached()) {
       center();
     }

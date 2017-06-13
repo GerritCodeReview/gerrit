@@ -32,11 +32,11 @@ public class GroupControl {
     private final GroupBackend groupBackend;
 
     @Inject
-    GenericFactory(final GroupBackend gb) {
+    GenericFactory(GroupBackend gb) {
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(final CurrentUser who, final AccountGroup.UUID groupId)
+    public GroupControl controlFor(CurrentUser who, AccountGroup.UUID groupId)
         throws NoSuchGroupException {
       final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
@@ -52,13 +52,13 @@ public class GroupControl {
     private final GroupBackend groupBackend;
 
     @Inject
-    Factory(final GroupCache gc, final Provider<CurrentUser> cu, final GroupBackend gb) {
+    Factory(GroupCache gc, Provider<CurrentUser> cu, GroupBackend gb) {
       groupCache = gc;
       user = cu;
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
+    public GroupControl controlFor(AccountGroup.Id groupId) throws NoSuchGroupException {
       final AccountGroup group = groupCache.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
@@ -66,7 +66,7 @@ public class GroupControl {
       return controlFor(GroupDescriptions.forAccountGroup(group));
     }
 
-    public GroupControl controlFor(final AccountGroup.UUID groupId) throws NoSuchGroupException {
+    public GroupControl controlFor(AccountGroup.UUID groupId) throws NoSuchGroupException {
       final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
@@ -82,7 +82,7 @@ public class GroupControl {
       return new GroupControl(user.get(), group, groupBackend);
     }
 
-    public GroupControl validateFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
+    public GroupControl validateFor(AccountGroup.Id groupId) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupId);
       if (!c.isVisible()) {
         throw new NoSuchGroupException(groupId);
@@ -90,7 +90,7 @@ public class GroupControl {
       return c;
     }
 
-    public GroupControl validateFor(final AccountGroup.UUID groupUUID) throws NoSuchGroupException {
+    public GroupControl validateFor(AccountGroup.UUID groupUUID) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupUUID);
       if (!c.isVisible()) {
         throw new NoSuchGroupException(groupUUID);

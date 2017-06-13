@@ -92,7 +92,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   }
 
   private static void addPublicKey(
-      final Collection<PublicKey> out, final KeyPairProvider p, final String type) {
+      final Collection<PublicKey> out, KeyPairProvider p, String type) {
     final KeyPair pair = p.loadKey(type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
@@ -162,9 +162,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return p.keys;
   }
 
-  private SshKeyCacheEntry find(
-      final Iterable<SshKeyCacheEntry> keyList, final PublicKey suppliedKey) {
-    for (final SshKeyCacheEntry k : keyList) {
+  private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList, PublicKey suppliedKey) {
+    for (SshKeyCacheEntry k : keyList) {
       if (k.match(suppliedKey)) {
         return k;
       }

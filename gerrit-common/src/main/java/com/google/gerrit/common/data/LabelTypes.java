@@ -29,7 +29,7 @@ public class LabelTypes {
 
   protected LabelTypes() {}
 
-  public LabelTypes(final List<? extends LabelType> approvals) {
+  public LabelTypes(List<? extends LabelType> approvals) {
     labelTypes = Collections.unmodifiableList(new ArrayList<>(approvals));
   }
 

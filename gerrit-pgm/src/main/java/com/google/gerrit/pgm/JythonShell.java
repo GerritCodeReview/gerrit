@@ -165,7 +165,7 @@ public class JythonShell {
     execFile(GerritLauncher.getHomeDirectory(), STARTUP_FILE);
   }
 
-  protected void execResource(final String p) {
+  protected void execResource(String p) {
     try (InputStream in = JythonShell.class.getClassLoader().getResourceAsStream(p)) {
       if (in != null) {
         execStream(in, "resource " + p);
@@ -177,7 +177,7 @@ public class JythonShell {
     }
   }
 
-  protected void execFile(final File parent, final String p) {
+  protected void execFile(File parent, String p) {
     try {
       File script = new File(parent, p);
       if (script.canExecute()) {
@@ -200,7 +200,7 @@ public class JythonShell {
     }
   }
 
-  protected void execStream(final InputStream in, final String p) {
+  protected void execStream(InputStream in, String p) {
     try {
       runMethod0(
           console,
@@ -213,7 +213,7 @@ public class JythonShell {
     }
   }
 
-  private static UnsupportedOperationException noShell(final String m, Throwable why) {
+  private static UnsupportedOperationException noShell(String m, Throwable why) {
     final String prefix = "Cannot create Jython shell: ";
     final String postfix = "\n     (You might need to install jython.jar in the lib directory)";
     return new UnsupportedOperationException(prefix + m + postfix, why);

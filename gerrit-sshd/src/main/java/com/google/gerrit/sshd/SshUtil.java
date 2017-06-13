@@ -48,7 +48,7 @@ public class SshUtil {
    * @throws NoSuchAlgorithmException the JVM is missing the key algorithm.
    * @throws NoSuchProviderException the JVM is missing the provider.
    */
-  public static PublicKey parse(final AccountSshKey key)
+  public static PublicKey parse(AccountSshKey key)
       throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
     try {
       final String s = key.getEncodedKey();
@@ -69,7 +69,7 @@ public class SshUtil {
    * @return {@code keyStr} if conversion failed; otherwise the converted key, in OpenSSH key
    *     format.
    */
-  public static String toOpenSshPublicKey(final String keyStr) {
+  public static String toOpenSshPublicKey(String keyStr) {
     try {
       final StringBuilder strBuf = new StringBuilder();
       final BufferedReader br = new BufferedReader(new StringReader(keyStr));

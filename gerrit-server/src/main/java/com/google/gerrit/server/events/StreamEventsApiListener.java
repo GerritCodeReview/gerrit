@@ -149,7 +149,7 @@ public class StreamEventsApiListener
     return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
   }
 
-  private Supplier<ChangeAttribute> changeAttributeSupplier(final Change change) {
+  private Supplier<ChangeAttribute> changeAttributeSupplier(Change change) {
     return Suppliers.memoize(
         new Supplier<ChangeAttribute>() {
           @Override
@@ -159,7 +159,7 @@ public class StreamEventsApiListener
         });
   }
 
-  private Supplier<AccountAttribute> accountAttributeSupplier(final AccountInfo account) {
+  private Supplier<AccountAttribute> accountAttributeSupplier(AccountInfo account) {
     return Suppliers.memoize(
         new Supplier<AccountAttribute>() {
           @Override
@@ -172,7 +172,7 @@ public class StreamEventsApiListener
   }
 
   private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
-      final Change change, final PatchSet patchSet) {
+      final Change change, PatchSet patchSet) {
     return Suppliers.memoize(
         new Supplier<PatchSetAttribute>() {
           @Override
@@ -298,7 +298,7 @@ public class StreamEventsApiListener
   }
 
   @Override
-  public void onReviewerDeleted(final ReviewerDeletedListener.Event ev) {
+  public void onReviewerDeleted(ReviewerDeletedListener.Event ev) {
     try {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
@@ -362,7 +362,7 @@ public class StreamEventsApiListener
   }
 
   @Override
-  public void onGitReferenceUpdated(final GitReferenceUpdatedListener.Event ev) {
+  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event ev) {
     RefUpdatedEvent event = new RefUpdatedEvent();
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());

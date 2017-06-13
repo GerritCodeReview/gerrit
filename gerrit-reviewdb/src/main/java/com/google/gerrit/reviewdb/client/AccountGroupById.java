@@ -33,7 +33,7 @@ public final class AccountGroupById {
       includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.UUID u) {
+    public Key(AccountGroup.Id g, AccountGroup.UUID u) {
       groupId = g;
       includeUUID = u;
     }
@@ -62,7 +62,7 @@ public final class AccountGroupById {
 
   protected AccountGroupById() {}
 
-  public AccountGroupById(final AccountGroupById.Key k) {
+  public AccountGroupById(AccountGroupById.Key k) {
     key = k;
   }
 

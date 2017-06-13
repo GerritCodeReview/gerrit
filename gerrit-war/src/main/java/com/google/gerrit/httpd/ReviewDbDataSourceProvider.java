@@ -54,7 +54,7 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>, Lifecycl
     }
   }
 
-  private void closeDataSource(final DataSource ds) {
+  private void closeDataSource(DataSource ds) {
     try {
       Class<?> type = Class.forName("org.apache.commons.dbcp.BasicDataSource");
       if (type.isInstance(ds)) {

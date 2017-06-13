@@ -180,7 +180,7 @@ final class ShowQueue extends SshCommand {
     return format(when, delay);
   }
 
-  private static String startTime(final Date when) {
+  private static String startTime(Date when) {
     return format(when, TimeUtil.nowMs() - when.getTime());
   }
 

@@ -139,7 +139,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public static List<Path> listPlugins(Path pluginsDir, final String suffix) throws IOException {
+  public static List<Path> listPlugins(Path pluginsDir, String suffix) throws IOException {
     if (pluginsDir == null || !Files.exists(pluginsDir)) {
       return ImmutableList.of();
     }

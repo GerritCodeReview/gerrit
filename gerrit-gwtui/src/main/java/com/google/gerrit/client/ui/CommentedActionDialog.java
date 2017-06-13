@@ -37,7 +37,7 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
 
   protected boolean sent;
 
-  public CommentedActionDialog(final String title, final String heading) {
+  public CommentedActionDialog(String title, String heading) {
     super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     setText(title);
@@ -48,7 +48,7 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
     sendButton.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             enableButtons(false);
             onSend();
           }
@@ -59,7 +59,7 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
     cancelButton.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             hide();
           }
         });

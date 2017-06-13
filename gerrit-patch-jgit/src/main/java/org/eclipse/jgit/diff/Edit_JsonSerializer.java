@@ -46,7 +46,7 @@ public class Edit_JsonSerializer extends JsonSerializer<Edit> {
   }
 
   @Override
-  public void printJson(final StringBuilder sb, final Edit o) {
+  public void printJson(StringBuilder sb, Edit o) {
     sb.append('[');
     append(sb, o);
     if (o instanceof ReplaceEdit) {
@@ -58,7 +58,7 @@ public class Edit_JsonSerializer extends JsonSerializer<Edit> {
     sb.append(']');
   }
 
-  private void append(final StringBuilder sb, final Edit o) {
+  private void append(StringBuilder sb, Edit o) {
     sb.append(o.getBeginA());
     sb.append(',');
     sb.append(o.getEndA());

@@ -29,8 +29,7 @@ public class AddMemberBox extends Composite {
   private final Button addMember;
   private final RemoteSuggestBox suggestBox;
 
-  public AddMemberBox(
-      final String buttonLabel, final String hint, final SuggestOracle suggestOracle) {
+  public AddMemberBox(final String buttonLabel, String hint, SuggestOracle suggestOracle) {
     addPanel = new FlowPanel();
     addMember = new Button(buttonLabel);
 

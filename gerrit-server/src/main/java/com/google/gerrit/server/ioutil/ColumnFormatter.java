@@ -33,7 +33,7 @@ public class ColumnFormatter {
    *     output. As only non-printable characters in the column text are ever escaped, the column
    *     separator must be a non-printable character if the output needs to be unambiguously parsed.
    */
-  public ColumnFormatter(final PrintWriter out, final char columnSeparator) {
+  public ColumnFormatter(PrintWriter out, char columnSeparator) {
     this.out = out;
     this.columnSeparator = columnSeparator;
     this.firstColumn = true;
@@ -45,7 +45,7 @@ public class ColumnFormatter {
    *
    * @param content the string to add.
    */
-  public void addColumn(final String content) {
+  public void addColumn(String content) {
     if (!firstColumn) {
       out.print(columnSeparator);
     }

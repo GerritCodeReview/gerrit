@@ -21,7 +21,7 @@ import com.google.inject.servlet.ServletModule;
 public class HttpAuthModule extends ServletModule {
   private final AuthConfig authConfig;
 
-  public HttpAuthModule(final AuthConfig authConfig) {
+  public HttpAuthModule(AuthConfig authConfig) {
     this.authConfig = authConfig;
   }
 

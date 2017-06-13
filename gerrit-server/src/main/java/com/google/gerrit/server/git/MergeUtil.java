@@ -194,7 +194,7 @@ public class MergeUtil {
   public CodeReviewCommit getFirstFastForward(
       CodeReviewCommit mergeTip, RevWalk rw, List<CodeReviewCommit> toMerge)
       throws IntegrationException {
-    for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
+    for (Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
       try {
         final CodeReviewCommit n = i.next();
         if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
@@ -354,7 +354,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (final PatchSetApproval a : safeGetApprovals(ctl, psId)) {
+    for (PatchSetApproval a : safeGetApprovals(ctl, psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -475,10 +475,7 @@ public class MergeUtil {
   }
 
   public boolean canMerge(
-      MergeSorter mergeSorter,
-      Repository repo,
-      CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge)
+      MergeSorter mergeSorter, Repository repo, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
@@ -562,8 +559,8 @@ public class MergeUtil {
         || canMerge(mergeSorter, repo, mergeTip, toMerge);
   }
 
-  public boolean hasMissingDependencies(
-      MergeSorter mergeSorter, CodeReviewCommit toMerge) throws IntegrationException {
+  public boolean hasMissingDependencies(MergeSorter mergeSorter, CodeReviewCommit toMerge)
+      throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
     } catch (IOException e) {
@@ -758,10 +755,7 @@ public class MergeUtil {
   }
 
   public void markCleanMerges(
-      RevWalk rw,
-      RevFlag canMergeFlag,
-      CodeReviewCommit mergeTip,
-      Set<RevCommit> alreadyAccepted)
+      RevWalk rw, RevFlag canMergeFlag, CodeReviewCommit mergeTip, Set<RevCommit> alreadyAccepted)
       throws IntegrationException {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch

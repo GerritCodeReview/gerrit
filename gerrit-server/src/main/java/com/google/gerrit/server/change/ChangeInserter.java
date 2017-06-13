@@ -453,7 +453,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private Set<Account.Id> filterOnChangeVisibility(
-      final ReviewDb db, final ChangeNotes notes, Set<Account.Id> accounts) {
+      final ReviewDb db, ChangeNotes notes, Set<Account.Id> accounts) {
     return accounts
         .stream()
         .filter(

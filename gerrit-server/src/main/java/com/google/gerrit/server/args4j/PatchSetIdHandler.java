@@ -35,7 +35,7 @@ public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
     final PatchSet.Id id;
     try {

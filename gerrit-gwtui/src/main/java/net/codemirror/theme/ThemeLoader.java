@@ -74,7 +74,7 @@ public class ThemeLoader {
 
   private static final EnumSet<Theme> loaded = EnumSet.of(Theme.DEFAULT);
 
-  public static final void loadTheme(final Theme theme, final AsyncCallback<Void> cb) {
+  public static final void loadTheme(Theme theme, AsyncCallback<Void> cb) {
     if (loaded.contains(theme)) {
       cb.onSuccess(null);
       return;

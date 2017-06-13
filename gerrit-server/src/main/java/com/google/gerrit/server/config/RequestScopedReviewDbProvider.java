@@ -32,7 +32,7 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
 
   @Inject
   public RequestScopedReviewDbProvider(
-      final SchemaFactory<ReviewDb> schema, final Provider<RequestCleanup> cleanup) {
+      final SchemaFactory<ReviewDb> schema, Provider<RequestCleanup> cleanup) {
     this.schema = schema;
     this.cleanup = cleanup;
   }

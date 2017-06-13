@@ -92,7 +92,7 @@ public abstract class QueryBuilder<T> {
       //
       Class<?> c = clazz;
       while (c != QueryBuilder.class) {
-        for (final Method method : c.getDeclaredMethods()) {
+        for (Method method : c.getDeclaredMethods()) {
           if (method.getAnnotation(Operator.class) != null
               && Predicate.class.isAssignableFrom(method.getReturnType())
               && method.getParameterTypes().length == 1
@@ -204,8 +204,7 @@ public abstract class QueryBuilder<T> {
     return predicates;
   }
 
-  private Predicate<T> toPredicate(Tree r)
-      throws QueryParseException, IllegalArgumentException {
+  private Predicate<T> toPredicate(Tree r) throws QueryParseException, IllegalArgumentException {
     switch (r.getType()) {
       case AND:
         return and(children(r));
@@ -295,8 +294,7 @@ public abstract class QueryBuilder<T> {
     throw error("Unsupported query:" + value);
   }
 
-  private List<Predicate<T>> children(Tree r)
-      throws QueryParseException, IllegalArgumentException {
+  private List<Predicate<T>> children(Tree r) throws QueryParseException, IllegalArgumentException {
     List<Predicate<T>> p = new ArrayList<>(r.getChildCount());
     for (int i = 0; i < r.getChildCount(); i++) {
       p.add(toPredicate(r.getChild(i)));

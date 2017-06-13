@@ -49,7 +49,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
     deleteIdentity.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             identites.deleteChecked();
           }
         });
@@ -60,7 +60,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
       linkIdentity.addClickHandler(
           new ClickHandler() {
             @Override
-            public void onClick(final ClickEvent event) {
+            public void onClick(ClickEvent event) {
               Location.assign(Gerrit.loginRedirect(History.getToken()) + "?link");
             }
           });
@@ -167,7 +167,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
       deleteIdentity.setEnabled(on);
     }
 
-    void display(final JsArray<ExternalIdInfo> results) {
+    void display(JsArray<ExternalIdInfo> results) {
       List<ExternalIdInfo> idList = Natives.asList(results);
       Collections.sort(idList);
 
@@ -175,13 +175,13 @@ public class MyIdentitiesScreen extends SettingsScreen {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final ExternalIdInfo k : idList) {
+      for (ExternalIdInfo k : idList) {
         addOneId(k);
       }
       updateDeleteButton();
     }
 
-    void addOneId(final ExternalIdInfo k) {
+    void addOneId(ExternalIdInfo k) {
       if (k.isUsername()) {
         // Don't display the username as an identity here.
         return;

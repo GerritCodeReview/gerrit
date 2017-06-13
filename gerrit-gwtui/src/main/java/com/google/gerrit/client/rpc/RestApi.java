@@ -116,7 +116,7 @@ public class RestApi {
     }
 
     @Override
-    public void onResponseReceived(Request req, final Response res) {
+    public void onResponseReceived(Request req, Response res) {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
         cb.onSuccess(new HttpResponse<T>(res, null, null));
@@ -499,7 +499,7 @@ public class RestApi {
     }
   }
 
-  private static <T extends JavaScriptObject> HttpCallback<T> wrap(final AsyncCallback<T> cb) {
+  private static <T extends JavaScriptObject> HttpCallback<T> wrap(AsyncCallback<T> cb) {
     return new HttpCallback<T>() {
       @Override
       public void onSuccess(HttpResponse<T> r) {

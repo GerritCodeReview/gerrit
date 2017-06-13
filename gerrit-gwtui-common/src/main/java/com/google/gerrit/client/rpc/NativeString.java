@@ -38,7 +38,7 @@ public final class NativeString extends JavaScriptObject {
 
   public native String asString() /*-{ return this.s; }-*/;
 
-  public static AsyncCallback<NativeString> unwrap(final AsyncCallback<String> cb) {
+  public static AsyncCallback<NativeString> unwrap(AsyncCallback<String> cb) {
     return new AsyncCallback<NativeString>() {
       @Override
       public void onSuccess(NativeString result) {

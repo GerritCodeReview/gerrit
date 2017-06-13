@@ -22,7 +22,7 @@ public class DatabaseConfigModule extends AbstractModule {
 
   private final SitePaths site;
 
-  public DatabaseConfigModule(final SitePaths site) {
+  public DatabaseConfigModule(SitePaths site) {
     this.site = site;
   }
 

@@ -69,7 +69,7 @@ public final class SshLogLayout extends Layout {
     return buf.toString();
   }
 
-  private void formatDate(final long now, final StringBuffer sbuf) {
+  private void formatDate(long now, StringBuffer sbuf) {
     final int millis = (int) (now % 1000);
     final long rounded = now - millis;
     if (rounded != lastTimeMillis) {

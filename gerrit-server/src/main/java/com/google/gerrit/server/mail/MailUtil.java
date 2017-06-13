@@ -78,7 +78,7 @@ public class MailUtil {
     return a.getId();
   }
 
-  private static boolean isReviewer(final FooterLine candidateFooterLine) {
+  private static boolean isReviewer(FooterLine candidateFooterLine) {
     return candidateFooterLine.matches(FooterKey.SIGNED_OFF_BY)
         || candidateFooterLine.matches(FooterKey.ACKED_BY)
         || candidateFooterLine.matches(FooterConstants.REVIEWED_BY)
@@ -94,17 +94,17 @@ public class MailUtil {
       this.cc = new HashSet<>();
     }
 
-    public MailRecipients(final Set<Account.Id> reviewers, final Set<Account.Id> cc) {
+    public MailRecipients(Set<Account.Id> reviewers, Set<Account.Id> cc) {
       this.reviewers = new HashSet<>(reviewers);
       this.cc = new HashSet<>(cc);
     }
 
-    public void add(final MailRecipients recipients) {
+    public void add(MailRecipients recipients) {
       reviewers.addAll(recipients.reviewers);
       cc.addAll(recipients.cc);
     }
 
-    public void remove(final Account.Id toRemove) {
+    public void remove(Account.Id toRemove) {
       reviewers.remove(toRemove);
       cc.remove(toRemove);
     }

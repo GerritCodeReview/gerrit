@@ -49,7 +49,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private final AsyncAppender async;
 
   @Inject
-  HttpLog(final SystemLog systemLog) {
+  HttpLog(SystemLog systemLog) {
     async = systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout());
   }
 
@@ -62,7 +62,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   }
 
   @Override
-  public void log(final Request req, final Response rsp) {
+  public void log(Request req, Response rsp) {
     final LoggingEvent event =
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass

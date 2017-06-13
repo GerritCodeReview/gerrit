@@ -25,7 +25,7 @@ public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_META = 4 << 16;
   public static final int M_SHIFT = 8 << 16;
 
-  public static boolean same(final KeyCommand a, final KeyCommand b) {
+  public static boolean same(KeyCommand a, KeyCommand b) {
     return a.getClass() == b.getClass() && a.helpText.equals(b.helpText) && a.sibling == b.sibling;
   }
 
@@ -33,11 +33,11 @@ public abstract class KeyCommand implements KeyPressHandler {
   private final String helpText;
   KeyCommand sibling;
 
-  public KeyCommand(final int mask, final int key, final String help) {
+  public KeyCommand(int mask, int key, String help) {
     this(mask, (char) key, help);
   }
 
-  public KeyCommand(final int mask, final char key, final String help) {
+  public KeyCommand(int mask, char key, String help) {
     assert help != null;
     keyMask = mask | key;
     helpText = help;
@@ -88,12 +88,12 @@ public abstract class KeyCommand implements KeyPressHandler {
     return b;
   }
 
-  private void modifier(final SafeHtmlBuilder b, final String name) {
+  private void modifier(SafeHtmlBuilder b, String name) {
     namedKey(b, name);
     b.append(" + ");
   }
 
-  private void namedKey(final SafeHtmlBuilder b, final String name) {
+  private void namedKey(SafeHtmlBuilder b, String name) {
     b.append('<');
     b.openSpan();
     b.setStyleName(KeyResources.I.css().helpKey());

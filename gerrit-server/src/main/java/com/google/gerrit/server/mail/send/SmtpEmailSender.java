@@ -320,8 +320,7 @@ public class SmtpEmailSender implements EmailSender {
         + "--\r\n";
   }
 
-  private void setMissingHeader(
-      final Map<String, EmailHeader> hdrs, final String name, final String value) {
+  private void setMissingHeader(final Map<String, EmailHeader> hdrs, String name, String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
       hdrs.put(name, new EmailHeader.String(value));
     }
@@ -365,7 +364,7 @@ public class SmtpEmailSender implements EmailSender {
         try {
           client.disconnect();
         } catch (IOException e2) {
-          //Ignored
+          // Ignored
         }
       }
       if (e instanceof EmailException) {

@@ -30,7 +30,7 @@ public final class AccountSshKey {
       accountId = new Account.Id();
     }
 
-    public Id(final Account.Id a, final int s) {
+    public Id(Account.Id a, int s) {
       accountId = a;
       seq = s;
     }
@@ -63,7 +63,7 @@ public final class AccountSshKey {
 
   protected AccountSshKey() {}
 
-  public AccountSshKey(final AccountSshKey.Id i, final String pub) {
+  public AccountSshKey(AccountSshKey.Id i, String pub) {
     id = i;
     sshPublicKey = pub.replace("\n", "").replace("\r", "");
     valid = id.isValid();

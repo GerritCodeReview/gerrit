@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 public class FancyFlexTableImpl {
-  public void resetHtml(final FlexTable myTable, final SafeHtml body) {
+  public void resetHtml(FlexTable myTable, SafeHtml body) {
     SafeHtml.setInnerHTML(getBodyElement(myTable), body);
   }
 

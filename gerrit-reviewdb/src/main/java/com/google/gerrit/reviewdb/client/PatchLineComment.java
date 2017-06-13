@@ -48,7 +48,7 @@ public final class PatchLineComment {
       patchKey = new Patch.Key();
     }
 
-    public Key(final Patch.Key p, final String uuid) {
+    public Key(Patch.Key p, String uuid) {
       this.patchKey = p;
       this.uuid = uuid;
     }
@@ -84,7 +84,7 @@ public final class PatchLineComment {
 
     private final char code;
 
-    Status(final char c) {
+    Status(char c) {
       code = c;
     }
 
@@ -92,8 +92,8 @@ public final class PatchLineComment {
       return code;
     }
 
-    public static Status forCode(final char c) {
-      for (final Status s : Status.values()) {
+    public static Status forCode(char c) {
+      for (Status s : Status.values()) {
         if (s.code == c) {
           return s;
         }
@@ -247,7 +247,7 @@ public final class PatchLineComment {
     return Status.forCode(status);
   }
 
-  public void setStatus(final Status s) {
+  public void setStatus(Status s) {
     status = s.getCode();
   }
 
@@ -255,7 +255,7 @@ public final class PatchLineComment {
     return side;
   }
 
-  public void setSide(final short s) {
+  public void setSide(short s) {
     side = s;
   }
 
@@ -263,7 +263,7 @@ public final class PatchLineComment {
     return message;
   }
 
-  public void setMessage(final String s) {
+  public void setMessage(String s) {
     message = s;
   }
 

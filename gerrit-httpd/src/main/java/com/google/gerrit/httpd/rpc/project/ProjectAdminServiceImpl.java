@@ -41,11 +41,11 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
 
   @Override
   public void projectAccess(
-      final Project.NameKey projectName, final AsyncCallback<ProjectAccess> callback) {
+      final Project.NameKey projectName, AsyncCallback<ProjectAccess> callback) {
     projectAccessFactory.create(projectName).to(callback);
   }
 
-  private static ObjectId getBase(final String baseRevision) {
+  private static ObjectId getBase(String baseRevision) {
     if (baseRevision != null && !baseRevision.isEmpty()) {
       return ObjectId.fromString(baseRevision);
     }

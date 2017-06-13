@@ -69,8 +69,7 @@ public class CatServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String keyStr = req.getPathInfo();
 
     // We shouldn't have to do this extra decode pass, but somehow we

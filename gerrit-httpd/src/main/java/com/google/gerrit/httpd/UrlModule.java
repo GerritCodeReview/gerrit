@@ -121,8 +121,7 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           }
         });
@@ -134,21 +133,19 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             toGerrit(req.getRequestURI(), req, rsp);
           }
         });
   }
 
-  private Key<HttpServlet> screen(final String target) {
+  private Key<HttpServlet> screen(String target) {
     return key(
         new HttpServlet() {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             toGerrit(target, req, rsp);
           }
         });
@@ -160,8 +157,7 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             final String token = req.getPathInfo().substring(1);
             toGerrit(token, req, rsp);
           }
@@ -174,8 +170,7 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             try {
               String idString = req.getPathInfo();
               if (idString.endsWith("/")) {
@@ -224,20 +219,19 @@ class UrlModule extends ServletModule {
         });
   }
 
-  private Key<HttpServlet> query(final String query) {
+  private Key<HttpServlet> query(String query) {
     return key(
         new HttpServlet() {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             toGerrit(PageLinks.toChangeQuery(query), req, rsp);
           }
         });
   }
 
-  private Key<HttpServlet> key(final HttpServlet servlet) {
+  private Key<HttpServlet> key(HttpServlet servlet) {
     final Key<HttpServlet> srv = Key.get(HttpServlet.class, UniqueAnnotations.create());
     bind(srv)
         .toProvider(
@@ -257,15 +251,13 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-              throws IOException {
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             toGerrit("/register" + req.getPathInfo(), req, rsp);
           }
         });
   }
 
-  static void toGerrit(
-      String target, HttpServletRequest req, HttpServletResponse rsp)
+  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());

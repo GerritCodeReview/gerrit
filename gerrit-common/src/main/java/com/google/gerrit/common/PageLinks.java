@@ -55,7 +55,7 @@ public class PageLinks {
     return "/c/" + c + ",edit/";
   }
 
-  public static String toChange(final Change.Id c) {
+  public static String toChange(Change.Id c) {
     return "/c/" + c + "/";
   }
 
@@ -72,15 +72,15 @@ public class PageLinks {
     return u;
   }
 
-  public static String toChange(final PatchSet.Id ps) {
+  public static String toChange(PatchSet.Id ps) {
     return "/c/" + ps.getParentKey() + "/" + ps.getId();
   }
 
-  public static String toProject(final Project.NameKey p) {
+  public static String toProject(Project.NameKey p) {
     return ADMIN_PROJECTS + p.get();
   }
 
-  public static String toProjectAcceess(final Project.NameKey p) {
+  public static String toProjectAcceess(Project.NameKey p) {
     return "/admin/projects/" + p.get() + ",access";
   }
 
@@ -100,7 +100,7 @@ public class PageLinks {
     return toChangeQuery(op("assignee", fullname));
   }
 
-  public static String toCustomDashboard(final String params) {
+  public static String toCustomDashboard(String params) {
     return "/dashboard/?" + params;
   }
 

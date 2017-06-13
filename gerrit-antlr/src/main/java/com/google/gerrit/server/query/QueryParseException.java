@@ -22,11 +22,11 @@ package com.google.gerrit.server.query;
 public class QueryParseException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public QueryParseException(final String message) {
+  public QueryParseException(String message) {
     super(message);
   }
 
-  public QueryParseException(final String msg, final Throwable why) {
+  public QueryParseException(String msg, Throwable why) {
     super(msg, why);
   }
 }

@@ -50,7 +50,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private ChangeTable.Section incoming;
   private ChangeTable.Section closed;
 
-  public AccountDashboardScreen(final Account.Id id) {
+  public AccountDashboardScreen(Account.Id id) {
     ownerId = id;
     mine = Gerrit.isSignedIn() && ownerId.equals(Gerrit.getUserAccount().getId());
   }
@@ -64,7 +64,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
             keysNavigation.add(
                 new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
                   @Override
-                  public void onKeyPress(final KeyPressEvent event) {
+                  public void onKeyPress(KeyPressEvent event) {
                     Gerrit.display(getToken());
                   }
                 });

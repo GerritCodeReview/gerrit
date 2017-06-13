@@ -52,7 +52,7 @@ public class IdGenerator {
   }
 
   /** A very simple bit permutation to mask a simple incrementer. */
-  public static int mix(final int salt, final int in) {
+  public static int mix(int salt, int in) {
     short v0 = hi16(in);
     short v1 = lo16(in);
     v0 += ((v1 << 2) + 0 ^ v1) + (salt ^ (v1 >>> 3)) + 1;
@@ -61,7 +61,7 @@ public class IdGenerator {
   }
 
   /* For testing only. */
-  static int unmix(final int in) {
+  static int unmix(int in) {
     short v0 = hi16(in);
     short v1 = lo16(in);
     v1 -= ((v0 << 2) + 2 ^ v0) + (salt ^ (v0 >>> 3)) + 3;
@@ -69,7 +69,7 @@ public class IdGenerator {
     return result(v0, v1);
   }
 
-  private static short hi16(final int in) {
+  private static short hi16(int in) {
     return (short)
         ( //
         ((in >>> 24 & 0xff))
@@ -78,7 +78,7 @@ public class IdGenerator {
         );
   }
 
-  private static short lo16(final int in) {
+  private static short lo16(int in) {
     return (short)
         ( //
         ((in >>> 8 & 0xff))
@@ -87,7 +87,7 @@ public class IdGenerator {
         );
   }
 
-  private static int result(final short v0, final short v1) {
+  private static int result(short v0, short v1) {
     return ((v0 & 0xff) << 24)
         | //
         (((v0 >>> 8) & 0xff) << 16)

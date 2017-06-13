@@ -441,7 +441,7 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     @Override
-    public final int parseArguments(final Parameters params) throws CmdLineException {
+    public final int parseArguments(Parameters params) throws CmdLineException {
       final String value = params.getParameter(0);
       short context;
       if ("all".equalsIgnoreCase(value)) {

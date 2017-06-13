@@ -45,11 +45,11 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 
-  public void addReviewers(final Collection<Account.Id> cc) {
+  public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
   }
 
-  public void addExtraCC(final Collection<Account.Id> cc) {
+  public void addExtraCC(Collection<Account.Id> cc) {
     extraCC.addAll(cc);
   }
 

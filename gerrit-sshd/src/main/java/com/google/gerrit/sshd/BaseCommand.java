@@ -115,22 +115,22 @@ public abstract class BaseCommand implements Command {
   }
 
   @Override
-  public void setInputStream(final InputStream in) {
+  public void setInputStream(InputStream in) {
     this.in = in;
   }
 
   @Override
-  public void setOutputStream(final OutputStream out) {
+  public void setOutputStream(OutputStream out) {
     this.out = out;
   }
 
   @Override
-  public void setErrorStream(final OutputStream err) {
+  public void setErrorStream(OutputStream err) {
     this.err = err;
   }
 
   @Override
-  public void setExitCallback(final ExitCallback callback) {
+  public void setExitCallback(ExitCallback callback) {
     this.exit = callback;
   }
 
@@ -143,7 +143,7 @@ public abstract class BaseCommand implements Command {
     return commandName;
   }
 
-  void setName(final String prefix) {
+  void setName(String prefix) {
     this.commandName = prefix;
   }
 
@@ -151,7 +151,7 @@ public abstract class BaseCommand implements Command {
     return argv;
   }
 
-  public void setArguments(final String[] argv) {
+  public void setArguments(String[] argv) {
     this.argv = argv;
   }
 
@@ -172,7 +172,7 @@ public abstract class BaseCommand implements Command {
    *
    * @param cmd the command that will receive the current state.
    */
-  protected void provideStateTo(final Command cmd) {
+  protected void provideStateTo(Command cmd) {
     cmd.setInputStream(in);
     cmd.setOutputStream(out);
     cmd.setErrorStream(err);
@@ -253,7 +253,7 @@ public abstract class BaseCommand implements Command {
    *
    * @param thunk the runnable to execute on the thread, performing the command's logic.
    */
-  protected void startThread(final CommandRunnable thunk) {
+  protected void startThread(CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
 
     if (isAdminHighPriorityCommand()) {
@@ -288,7 +288,7 @@ public abstract class BaseCommand implements Command {
    *
    * @param rc exit code for the remote client.
    */
-  protected void onExit(final int rc) {
+  protected void onExit(int rc) {
     exit.onExit(rc);
     if (cleanup != null) {
       cleanup.run();
@@ -296,11 +296,11 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */
-  protected static PrintWriter toPrintWriter(final OutputStream o) {
+  protected static PrintWriter toPrintWriter(OutputStream o) {
     return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
-  private int handleError(final Throwable e) {
+  private int handleError(Throwable e) {
     if ((e.getClass() == IOException.class && "Pipe closed".equals(e.getMessage()))
         || //
         (e.getClass() == SshException.class && "Already closed".equals(e.getMessage()))
@@ -374,7 +374,7 @@ public abstract class BaseCommand implements Command {
     private final String taskName;
     private Project.NameKey projectName;
 
-    private TaskThunk(final CommandRunnable thunk) {
+    private TaskThunk(CommandRunnable thunk) {
       this.thunk = thunk;
 
       StringBuilder m = new StringBuilder();
@@ -496,7 +496,7 @@ public abstract class BaseCommand implements Command {
      *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
-    public Failure(final int exitCode, final String msg) {
+    public Failure(int exitCode, String msg) {
       this(exitCode, msg, null);
     }
 
@@ -509,7 +509,7 @@ public abstract class BaseCommand implements Command {
      * @param why stack trace to include in the server's log, but is not sent to the client's
      *     stderr.
      */
-    public Failure(final int exitCode, final String msg, final Throwable why) {
+    public Failure(int exitCode, String msg, Throwable why) {
       super(msg, why);
       this.exitCode = exitCode;
     }
@@ -524,7 +524,7 @@ public abstract class BaseCommand implements Command {
      *
      * @param msg message to also send to the client's stderr.
      */
-    public UnloggedFailure(final String msg) {
+    public UnloggedFailure(String msg) {
       this(1, msg);
     }
 
@@ -535,7 +535,7 @@ public abstract class BaseCommand implements Command {
      *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
-    public UnloggedFailure(final int exitCode, final String msg) {
+    public UnloggedFailure(int exitCode, String msg) {
       this(exitCode, msg, null);
     }
 
@@ -548,7 +548,7 @@ public abstract class BaseCommand implements Command {
      * @param why stack trace to include in the server's log, but is not sent to the client's
      *     stderr.
      */
-    public UnloggedFailure(final int exitCode, final String msg, final Throwable why) {
+    public UnloggedFailure(int exitCode, String msg, Throwable why) {
       super(exitCode, msg, why);
     }
   }

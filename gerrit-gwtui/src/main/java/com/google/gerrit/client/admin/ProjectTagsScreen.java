@@ -276,7 +276,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
             new ConfirmationCallback() {
               @Override
               public void onOk() {
-                //do nothing
+                // do nothing
               }
             });
     confirmationDialog.center();
@@ -376,7 +376,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       confirmationDialog.center();
     }
 
-    private void deleteTags(final Set<String> tags) {
+    private void deleteTags(Set<String> tags) {
       ProjectApi.deleteTags(
           getProjectKey(),
           tags,

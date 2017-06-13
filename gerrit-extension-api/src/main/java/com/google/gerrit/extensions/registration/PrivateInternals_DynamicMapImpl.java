@@ -30,7 +30,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle put(String pluginName, String exportName, final Provider<T> item) {
+  public RegistrationHandle put(String pluginName, String exportName, Provider<T> item) {
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
     return new RegistrationHandle() {

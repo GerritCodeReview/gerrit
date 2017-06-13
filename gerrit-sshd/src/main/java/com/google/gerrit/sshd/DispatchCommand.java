@@ -69,7 +69,7 @@ final class DispatchCommand extends BaseCommand {
   }
 
   @Override
-  public void start(final Environment env) throws IOException {
+  public void start(Environment env) throws IOException {
     try {
       parseCommandLine();
       if (Strings.isNullOrEmpty(commandName)) {

@@ -57,7 +57,7 @@ public class EventDeserializerTest {
     assertThat(e.submitter.get().email).isEqualTo(accountAttribute.email);
   }
 
-  private <T> Supplier<T> createSupplier(final T value) {
+  private <T> Supplier<T> createSupplier(T value) {
     return Suppliers.memoize(
         new Supplier<T>() {
           @Override

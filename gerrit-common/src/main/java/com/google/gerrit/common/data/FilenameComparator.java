@@ -29,7 +29,7 @@ public class FilenameComparator implements Comparator<String> {
   private FilenameComparator() {}
 
   @Override
-  public int compare(final String path1, final String path2) {
+  public int compare(String path1, String path2) {
     if (Patch.COMMIT_MSG.equals(path1) && Patch.COMMIT_MSG.equals(path2)) {
       return 0;
     } else if (Patch.COMMIT_MSG.equals(path1)) {

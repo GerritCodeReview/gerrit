@@ -89,7 +89,7 @@ class SshLog implements LifecycleListener {
     audit(context.get(), "0", "LOGIN");
   }
 
-  void onAuthFail(final SshSession sd) {
+  void onAuthFail(SshSession sd) {
     final LoggingEvent event =
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass
@@ -210,7 +210,7 @@ class SshLog implements LifecycleListener {
     audit(context.get(), "0", "LOGOUT");
   }
 
-  private LoggingEvent log(final String msg) {
+  private LoggingEvent log(String msg) {
     final SshSession sd = session.get();
     final CurrentUser user = sd.getUser();
 
@@ -248,7 +248,7 @@ class SshLog implements LifecycleListener {
     return event;
   }
 
-  private static String id(final int id) {
+  private static String id(int id) {
     return IdGenerator.format(id);
   }
 

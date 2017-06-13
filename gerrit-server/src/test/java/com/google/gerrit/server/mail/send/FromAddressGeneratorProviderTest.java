@@ -51,7 +51,7 @@ public class FromAddressGeneratorProviderTest {
     return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident, accountCache).get();
   }
 
-  private void setFrom(final String newFrom) {
+  private void setFrom(String newFrom) {
     config.setString("sendemail", null, "from", newFrom);
   }
 
@@ -366,18 +366,18 @@ public class FromAddressGeneratorProviderTest {
     verify(accountCache);
   }
 
-  private Account.Id user(final String name, final String email) {
+  private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
     expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(s);
     return s.getAccount().getId();
   }
 
-  private Account.Id userNoLookup(final String name, final String email) {
+  private Account.Id userNoLookup(String name, String email) {
     final AccountState s = makeUser(name, email);
     return s.getAccount().getId();
   }
 
-  private AccountState makeUser(final String name, final String email) {
+  private AccountState makeUser(String name, String email) {
     final Account.Id userId = new Account.Id(42);
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);

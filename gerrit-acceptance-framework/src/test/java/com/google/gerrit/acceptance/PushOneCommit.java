@@ -360,7 +360,7 @@ public class PushOneCommit {
     return new Result(ref, pushHead(testRepo, ref, tag != null, force, pushOptions), c, subject);
   }
 
-  public void setTag(final Tag tag) {
+  public void setTag(Tag tag) {
     this.tag = tag;
   }
 

@@ -29,7 +29,7 @@ public class GroupDescriptions {
     return null;
   }
 
-  public static GroupDescription.Internal forAccountGroup(final AccountGroup group) {
+  public static GroupDescription.Internal forAccountGroup(AccountGroup group) {
     return new GroupDescription.Internal() {
       @Override
       public AccountGroup.UUID getGroupUUID() {

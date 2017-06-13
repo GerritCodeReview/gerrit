@@ -181,7 +181,7 @@ public class CreateProjectScreen extends Screen {
     create.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doCreateProject();
           }
         });
@@ -190,7 +190,7 @@ public class CreateProjectScreen extends Screen {
     browse.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             int top = grid.getAbsoluteTop() - 50; // under page header
             // Try to place it to the right of everything else, but not
             // right justified
@@ -219,7 +219,7 @@ public class CreateProjectScreen extends Screen {
           }
 
           @Override
-          protected void populate(final int row, final ProjectInfo k) {
+          protected void populate(int row, ProjectInfo k) {
             populateState(row, k);
             final Anchor projectLink = new Anchor(k.name());
             projectLink.addClickHandler(
@@ -252,7 +252,7 @@ public class CreateProjectScreen extends Screen {
         });
   }
 
-  private void addGrid(final VerticalPanel fp) {
+  private void addGrid(VerticalPanel fp) {
     grid = new Grid(2, 3);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, AdminConstants.I.columnProjectName() + ":");
@@ -295,7 +295,7 @@ public class CreateProjectScreen extends Screen {
         });
   }
 
-  private void enableForm(final boolean enabled) {
+  private void enableForm(boolean enabled) {
     project.setEnabled(enabled);
     create.setEnabled(enabled);
     parent.setEnabled(enabled);

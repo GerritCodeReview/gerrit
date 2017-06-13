@@ -110,11 +110,11 @@ class LdapRealm extends AbstractRealm {
     mandatoryGroup = optional(config, "mandatoryGroup");
   }
 
-  static SearchScope scope(final Config c, final String setting) {
+  static SearchScope scope(Config c, String setting) {
     return c.getEnum("ldap", null, setting, SearchScope.SUBTREE);
   }
 
-  static String optional(final Config config, final String name) {
+  static String optional(Config config, String name) {
     return config.getString("ldap", null, name);
   }
 
@@ -134,7 +134,7 @@ class LdapRealm extends AbstractRealm {
     return config.getBoolean("ldap", name, defaultValue);
   }
 
-  static String required(final Config config, final String name) {
+  static String required(Config config, String name) {
     final String v = optional(config, name);
     if (v == null || "".equals(v)) {
       throw new IllegalArgumentException("No ldap." + name + " configured");
@@ -142,12 +142,12 @@ class LdapRealm extends AbstractRealm {
     return v;
   }
 
-  static List<String> optionalList(final Config config, final String name) {
+  static List<String> optionalList(Config config, String name) {
     String[] s = config.getStringList("ldap", null, name);
     return Arrays.asList(s);
   }
 
-  static List<String> requiredList(final Config config, final String name) {
+  static List<String> requiredList(Config config, String name) {
     List<String> vlist = optionalList(config, name);
 
     if (vlist.isEmpty()) {
@@ -157,7 +157,7 @@ class LdapRealm extends AbstractRealm {
     return vlist;
   }
 
-  static String optdef(final Config c, final String n, final String d) {
+  static String optdef(Config c, String n, String d) {
     final String[] v = c.getStringList("ldap", null, n);
     if (v == null || v.length == 0) {
       return d;
@@ -171,7 +171,7 @@ class LdapRealm extends AbstractRealm {
     }
   }
 
-  static String reqdef(final Config c, final String n, final String d) {
+  static String reqdef(Config c, String n, String d) {
     final String v = optdef(c, n, d);
     if (v == null) {
       throw new IllegalArgumentException("No ldap." + n + " configured");
@@ -200,7 +200,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(final AccountFieldName field) {
+  public boolean allowsEdit(AccountFieldName field) {
     return !readOnlyAccountFields.contains(field);
   }
 
@@ -210,7 +210,7 @@ class LdapRealm extends AbstractRealm {
     }
 
     final Map<String, String> values = new HashMap<>();
-    for (final String name : m.attributes()) {
+    for (String name : m.attributes()) {
       values.put(name, m.get(name));
     }
 
@@ -219,7 +219,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest authenticate(final AuthRequest who) throws AccountException {
+  public AuthRequest authenticate(AuthRequest who) throws AccountException {
     if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
       who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
     }
@@ -298,7 +298,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(final AuthRequest who, final Account account) {
+  public void onCreateAccount(AuthRequest who, Account account) {
     usernameCache.put(who.getLocalUser(), Optional.of(account.getId()));
   }
 
@@ -335,7 +335,7 @@ class LdapRealm extends AbstractRealm {
     private final Helper helper;
 
     @Inject
-    MemberLoader(final Helper helper) {
+    MemberLoader(Helper helper) {
       this.helper = helper;
     }
 
@@ -358,12 +358,12 @@ class LdapRealm extends AbstractRealm {
     private final Helper helper;
 
     @Inject
-    ExistenceLoader(final Helper helper) {
+    ExistenceLoader(Helper helper) {
       this.helper = helper;
     }
 
     @Override
-    public Boolean load(final String groupDn) throws Exception {
+    public Boolean load(String groupDn) throws Exception {
       final DirContext ctx = helper.open();
       try {
         Name compositeGroupName = new CompositeName().add(groupDn);

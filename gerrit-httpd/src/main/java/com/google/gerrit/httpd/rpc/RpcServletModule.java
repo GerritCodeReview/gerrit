@@ -26,7 +26,7 @@ public abstract class RpcServletModule extends ServletModule {
 
   private final String prefix;
 
-  protected RpcServletModule(final String pathPrefix) {
+  protected RpcServletModule(String pathPrefix) {
     prefix = pathPrefix;
   }
 
@@ -38,7 +38,7 @@ public abstract class RpcServletModule extends ServletModule {
     rpc(name, clazz);
   }
 
-  protected void rpc(final String name, Class<? extends RemoteJsonService> clazz) {
+  protected void rpc(String name, Class<? extends RemoteJsonService> clazz) {
     final Key<GerritJsonServlet> srv = Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
     final GerritJsonServletProvider provider = new GerritJsonServletProvider(clazz);
     bind(clazz);

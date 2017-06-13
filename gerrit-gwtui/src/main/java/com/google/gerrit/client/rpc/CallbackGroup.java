@@ -65,7 +65,7 @@ public class CallbackGroup {
     return add(cb);
   }
 
-  public <T> Callback<T> add(final AsyncCallback<T> cb) {
+  public <T> Callback<T> add(AsyncCallback<T> cb) {
     checkFinalAdded();
     return handleAdd(cb);
   }
@@ -75,13 +75,13 @@ public class CallbackGroup {
     return handleAdd(cb);
   }
 
-  public <T> Callback<T> addFinal(final AsyncCallback<T> cb) {
+  public <T> Callback<T> addFinal(AsyncCallback<T> cb) {
     checkFinalAdded();
     finalAdded = true;
     return handleAdd(cb);
   }
 
-  public <T> HttpCallback<T> addFinal(final HttpCallback<T> cb) {
+  public <T> HttpCallback<T> addFinal(HttpCallback<T> cb) {
     checkFinalAdded();
     finalAdded = true;
     return handleAdd(cb);

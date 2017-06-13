@@ -34,7 +34,7 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
   private Change.Id changeId;
 
   @Override
-  protected void onRequestSuggestions(final Request req, final Callback cb) {
+  protected void onRequestSuggestions(Request req, Callback cb) {
     ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit(), false)
         .get(
             new GerritCallback<JsArray<SuggestReviewerInfo>>() {
@@ -56,7 +56,7 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
   }
 
   @Override
-  public void requestDefaultSuggestions(final Request req, final Callback cb) {
+  public void requestDefaultSuggestions(Request req, Callback cb) {
     requestSuggestions(req, cb);
   }
 

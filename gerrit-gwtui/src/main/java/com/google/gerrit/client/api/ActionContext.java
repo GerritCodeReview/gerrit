@@ -176,7 +176,7 @@ public class ActionContext extends JavaScriptObject {
    * The same as {@link #get(RestApi, JavaScriptObject)} but without converting a {@link
    * NativeString} result to String.
    */
-  static final void getRaw(RestApi api, final JavaScriptObject cb) {
+  static final void getRaw(RestApi api, JavaScriptObject cb) {
     api.get(wrapRaw(cb));
   }
 
@@ -268,7 +268,7 @@ public class ActionContext extends JavaScriptObject {
     api.delete(wrapRaw(cb));
   }
 
-  private static GerritCallback<JavaScriptObject> wrap(final JavaScriptObject cb) {
+  private static GerritCallback<JavaScriptObject> wrap(JavaScriptObject cb) {
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
@@ -282,7 +282,7 @@ public class ActionContext extends JavaScriptObject {
     };
   }
 
-  private static GerritCallback<JavaScriptObject> wrapRaw(final JavaScriptObject cb) {
+  private static GerritCallback<JavaScriptObject> wrapRaw(JavaScriptObject cb) {
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {

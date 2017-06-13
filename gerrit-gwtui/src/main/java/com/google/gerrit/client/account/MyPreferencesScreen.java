@@ -74,7 +74,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     maximumPageSize = new ListBox();
-    for (final int v : PAGESIZE_CHOICES) {
+    for (int v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
 
@@ -241,7 +241,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     save.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doSave();
           }
         });
@@ -290,7 +290,7 @@ public class MyPreferencesScreen extends SettingsScreen {
             });
   }
 
-  private void enable(final boolean on) {
+  private void enable(boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     maximumPageSize.setEnabled(on);
@@ -351,19 +351,18 @@ public class MyPreferencesScreen extends SettingsScreen {
     myMenus.display(values);
   }
 
-  private void setListBox(final ListBox f, final int defaultValue, final int currentValue) {
+  private void setListBox(ListBox f, int defaultValue, int currentValue) {
     setListBox(f, String.valueOf(defaultValue), String.valueOf(currentValue));
   }
 
-  private <T extends Enum<?>> void setListBox(
-      final ListBox f, final T defaultValue, final T currentValue) {
+  private <T extends Enum<?>> void setListBox(final ListBox f, T defaultValue, T currentValue) {
     setListBox(
         f,
         defaultValue != null ? defaultValue.name() : "",
         currentValue != null ? currentValue.name() : "");
   }
 
-  private void setListBox(final ListBox f, final String defaultValue, final String currentValue) {
+  private void setListBox(ListBox f, String defaultValue, String currentValue) {
     final int n = f.getItemCount();
     for (int i = 0; i < n; i++) {
       if (f.getValue(i).equals(currentValue)) {
@@ -376,7 +375,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
   }
 
-  private int getListBox(final ListBox f, final int defaultValue) {
+  private int getListBox(ListBox f, int defaultValue) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       return Short.parseShort(f.getValue(idx));
@@ -384,7 +383,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     return defaultValue;
   }
 
-  private <T extends Enum<?>> T getListBox(final ListBox f, final T defaultValue, T[] all) {
+  private <T extends Enum<?>> T getListBox(ListBox f, T defaultValue, T[] all) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       String v = f.getValue(idx);

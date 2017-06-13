@@ -44,7 +44,7 @@ import java.util.concurrent.Callable;
  *     successfully.
  */
 public abstract class Handler<T> implements Callable<T> {
-  public static <T> Handler<T> wrap(final Callable<T> r) {
+  public static <T> Handler<T> wrap(Callable<T> r) {
     return new Handler<T>() {
       @Override
       public T call() throws Exception {
@@ -58,7 +58,7 @@ public abstract class Handler<T> implements Callable<T> {
    *
    * @param callback callback to receive the result of {@link #call()}.
    */
-  public final void to(final AsyncCallback<T> callback) {
+  public final void to(AsyncCallback<T> callback) {
     try {
       final T r = call();
       if (r != null) {

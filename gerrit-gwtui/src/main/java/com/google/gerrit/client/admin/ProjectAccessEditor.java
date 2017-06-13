@@ -134,7 +134,7 @@ public class ProjectAccessEditor extends Composite
   @Override
   public void setDelegate(EditorDelegate<ProjectAccess> delegate) {}
 
-  void setEditing(final boolean editing) {
+  void setEditing(boolean editing) {
     this.editing = editing;
     addSection.setVisible(editing);
   }

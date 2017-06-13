@@ -21,7 +21,7 @@ public class Util {
   public static final UIConstants C = GWT.create(UIConstants.class);
   public static final UIMessages M = GWT.create(UIMessages.class);
 
-  public static String highlight(final String text, final String toHighlight) {
+  public static String highlight(String text, String toHighlight) {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (toHighlight == null || "".equals(toHighlight)) {
       b.append(text);

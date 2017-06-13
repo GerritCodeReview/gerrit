@@ -349,7 +349,7 @@ public class IdentifiedUser extends CurrentUser {
     return newRefLogIdent(new Date(), TimeZone.getDefault());
   }
 
-  public PersonIdent newRefLogIdent(final Date when, final TimeZone tz) {
+  public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
     final Account ua = getAccount();
 
     String name = ua.getFullName();
@@ -369,7 +369,7 @@ public class IdentifiedUser extends CurrentUser {
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
-  public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
+  public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.getFullName();
     String email = ua.getPreferredEmail();
@@ -517,7 +517,7 @@ public class IdentifiedUser extends CurrentUser {
     return host;
   }
 
-  private String getHost(final InetAddress in) {
+  private String getHost(InetAddress in) {
     if (Boolean.FALSE.equals(disableReverseDnsLookup)) {
       return in.getCanonicalHostName();
     }

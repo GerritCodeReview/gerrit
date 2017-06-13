@@ -38,7 +38,7 @@ class AttMap {
   private Tag tag = ANY;
   private int live;
 
-  void reset(final String tagName) {
+  void reset(String tagName) {
     tag = TAGS.get(tagName.toLowerCase());
     if (tag == null) {
       tag = ANY;
@@ -46,7 +46,7 @@ class AttMap {
     live = 0;
   }
 
-  void onto(final Buffer raw, final SafeHtmlBuilder esc) {
+  void onto(Buffer raw, SafeHtmlBuilder esc) {
     for (int i = 0; i < live; i++) {
       final String v = values.get(i);
       if (v.length() > 0) {
@@ -70,7 +70,7 @@ class AttMap {
     return "";
   }
 
-  void set(String name, final String value) {
+  void set(String name, String value) {
     name = name.toLowerCase();
     tag.assertSafe(name, value);
 
@@ -91,7 +91,7 @@ class AttMap {
     }
   }
 
-  private static void assertNotJavascriptUrl(final String value) {
+  private static void assertNotJavascriptUrl(String value) {
     if (value.startsWith("#")) {
       // common in GWT, and safe, so bypass further checks
 

@@ -32,8 +32,7 @@ public class ProjectUtil {
    * @throws RepositoryNotFoundException the repository of the branch's project does not exist.
    * @throws IOException error while retrieving the branch from the repository.
    */
-  public static boolean branchExists(
-      final GitRepositoryManager repoManager, final Branch.NameKey branch)
+  public static boolean branchExists(final GitRepositoryManager repoManager, Branch.NameKey branch)
       throws RepositoryNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(branch.getParentKey())) {
       boolean exists = repo.getRefDatabase().exactRef(branch.get()) != null;

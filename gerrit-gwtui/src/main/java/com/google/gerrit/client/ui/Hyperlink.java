@@ -35,7 +35,7 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
    * @param token the history token to which it will link, which may not be null (use {@link Anchor}
    *     instead if you don't need history processing)
    */
-  public Hyperlink(final String text, final String token) {
+  public Hyperlink(String text, String token) {
     super(text, token);
   }
 
@@ -52,7 +52,7 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
   }
 
   @Override
-  public void onBrowserEvent(final Event event) {
+  public void onBrowserEvent(Event event) {
     if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
       event.preventDefault();
       go();

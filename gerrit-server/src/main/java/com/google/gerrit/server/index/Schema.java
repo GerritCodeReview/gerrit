@@ -176,7 +176,7 @@ public class Schema<T> {
    * @param fillArgs arguments for filling fields.
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(final T obj, final FillArgs fillArgs) {
+  public final Iterable<Values<T>> buildFields(T obj, FillArgs fillArgs) {
     return FluentIterable.from(fields.values())
         .transform(
             new Function<FieldDef<T, ?>, Values<T>>() {

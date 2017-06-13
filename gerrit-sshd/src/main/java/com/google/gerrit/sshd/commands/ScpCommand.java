@@ -50,7 +50,7 @@ final class ScpCommand extends BaseCommand {
   private IOException error;
 
   @Override
-  public void setArguments(final String[] args) {
+  public void setArguments(String[] args) {
     root = "";
     for (int i = 0; i < args.length; i++) {
       if (args[i].charAt(0) == '-') {
@@ -81,7 +81,7 @@ final class ScpCommand extends BaseCommand {
   }
 
   @Override
-  public void start(final Environment env) {
+  public void start(Environment env) {
     startThread(this::runImp);
   }
 
@@ -155,7 +155,7 @@ final class ScpCommand extends BaseCommand {
     }
   }
 
-  private void readFile(final Entry ent) throws IOException {
+  private void readFile(Entry ent) throws IOException {
     byte[] data = ent.getBytes();
     if (data == null) {
       throw new FileNotFoundException(ent.getPath());
@@ -169,7 +169,7 @@ final class ScpCommand extends BaseCommand {
     readAck();
   }
 
-  private void readDir(final Entry dir) throws IOException {
+  private void readDir(Entry dir) throws IOException {
     header(dir, 0);
     readAck();
 
@@ -186,8 +186,7 @@ final class ScpCommand extends BaseCommand {
     readAck();
   }
 
-  private void header(final Entry dir, final int len)
-      throws IOException, UnsupportedEncodingException {
+  private void header(Entry dir, int len) throws IOException, UnsupportedEncodingException {
     final StringBuilder buf = new StringBuilder();
     switch (dir.getType()) {
       case DIR:

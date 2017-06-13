@@ -73,7 +73,7 @@ public class StarredChanges {
   }
 
   /** Make a key command that toggles the star for a change. */
-  public static KeyCommand newKeyCommand(final Icon icon) {
+  public static KeyCommand newKeyCommand(Icon icon) {
     return new KeyCommand(0, 's', Util.C.changeTableStar()) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -99,7 +99,7 @@ public class StarredChanges {
    * Set the starred status of a change. This method broadcasts to all interested UI widgets and
    * sends an RPC to the server to record the updated status.
    */
-  public static void toggleStar(final Change.Id changeId, final boolean newValue) {
+  public static void toggleStar(Change.Id changeId, boolean newValue) {
     pending.put(changeId, newValue);
     fireChangeStarEvent(changeId, newValue);
     if (!busy) {

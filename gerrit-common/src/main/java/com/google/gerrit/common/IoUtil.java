@@ -32,7 +32,7 @@ import java.util.Set;
 
 @GwtIncompatible("Unemulated methods in Class and OutputStream")
 public final class IoUtil {
-  public static void copyWithThread(final InputStream src, final OutputStream dst) {
+  public static void copyWithThread(InputStream src, OutputStream dst) {
     new Thread("IoUtil-Copy") {
       @Override
       public void run() {

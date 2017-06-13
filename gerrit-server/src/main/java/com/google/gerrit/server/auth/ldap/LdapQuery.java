@@ -61,8 +61,7 @@ class LdapQuery {
     return pattern.getParameterNames();
   }
 
-  List<Result> query(final DirContext ctx, final Map<String, String> params)
-      throws NamingException {
+  List<Result> query(DirContext ctx, Map<String, String> params) throws NamingException {
     final SearchControls sc = new SearchControls();
     final NamingEnumeration<SearchResult> res;
 
@@ -87,9 +86,9 @@ class LdapQuery {
   class Result {
     private final Map<String, Attribute> atts = new HashMap<>();
 
-    Result(final SearchResult sr) {
+    Result(SearchResult sr) {
       if (returnAttributes != null) {
-        for (final String attName : returnAttributes) {
+        for (String attName : returnAttributes) {
           final Attribute a = sr.getAttributes().get(attName);
           if (a != null && a.size() > 0) {
             atts.put(attName, a);
@@ -111,12 +110,12 @@ class LdapQuery {
       return get("dn");
     }
 
-    String get(final String attName) throws NamingException {
+    String get(String attName) throws NamingException {
       final Attribute att = getAll(attName);
       return att != null && 0 < att.size() ? String.valueOf(att.get(0)) : null;
     }
 
-    Attribute getAll(final String attName) {
+    Attribute getAll(String attName) {
       return atts.get(attName);
     }
 

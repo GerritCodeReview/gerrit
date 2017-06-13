@@ -82,7 +82,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
   private NpTextBox filterTxt;
   private Query query;
 
-  public ProjectBranchesScreen(final Project.NameKey toShow) {
+  public ProjectBranchesScreen(Project.NameKey toShow) {
     super(toShow);
   }
 
@@ -165,7 +165,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     addBranch.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doAddNewBranch();
           }
         });
@@ -179,7 +179,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     delBranch.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             branchTable.deleteChecked();
           }
         });
@@ -283,7 +283,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
             new ConfirmationCallback() {
               @Override
               public void onOk() {
-                //do nothing
+                // do nothing
               }
             });
     confirmationDialog.center();
@@ -384,7 +384,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       confirmationDialog.center();
     }
 
-    private void deleteBranches(final Set<String> branches) {
+    private void deleteBranches(Set<String> branches) {
       ProjectApi.deleteBranches(
           getProjectKey(),
           branches,
@@ -473,7 +473,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       setRowItem(row, k);
     }
 
-    private void setHeadRevision(final int row, final int column, final String rev) {
+    private void setHeadRevision(int row, int column, String rev) {
       AccessMap.get(
           getProjectKey(),
           new GerritCallback<ProjectAccessInfo>() {
@@ -488,7 +488,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
           });
     }
 
-    private Widget getHeadRevisionWidget(final String headRevision) {
+    private Widget getHeadRevisionWidget(String headRevision) {
       FlowPanel p = new FlowPanel();
       final InlineLabel l = new InlineLabel(headRevision);
       final Image edit = new Image(Gerrit.RESOURCES.edit());

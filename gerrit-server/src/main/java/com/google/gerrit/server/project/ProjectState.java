@@ -319,7 +319,7 @@ public class ProjectState {
     return result;
   }
 
-  public ProjectControl controlFor(final CurrentUser user) {
+  public ProjectControl controlFor(CurrentUser user) {
     return projectControlFactory.create(user, this);
   }
 

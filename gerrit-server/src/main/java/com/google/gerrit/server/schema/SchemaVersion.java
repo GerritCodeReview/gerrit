@@ -44,7 +44,7 @@ public abstract class SchemaVersion {
   private final Provider<? extends SchemaVersion> prior;
   private final int versionNbr;
 
-  protected SchemaVersion(final Provider<? extends SchemaVersion> prior) {
+  protected SchemaVersion(Provider<? extends SchemaVersion> prior) {
     this.prior = prior;
     this.versionNbr = guessVersion(getClass());
   }

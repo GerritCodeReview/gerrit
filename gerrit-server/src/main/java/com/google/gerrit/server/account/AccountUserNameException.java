@@ -21,7 +21,7 @@ package com.google.gerrit.server.account;
 public class AccountUserNameException extends AccountException {
   private static final long serialVersionUID = 1L;
 
-  public AccountUserNameException(final String message, final Throwable why) {
+  public AccountUserNameException(String message, Throwable why) {
     super(message, why);
   }
 }

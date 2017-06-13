@@ -195,7 +195,7 @@ public class CmdLineParser {
     return parser.help.value;
   }
 
-  public void parseArgument(final String... args) throws CmdLineException {
+  public void parseArgument(String... args) throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(args.length);
     for (int argi = 0; argi < args.length; argi++) {
       final String str = args[argi];
@@ -232,7 +232,7 @@ public class CmdLineParser {
 
   public void parseOptionMap(ListMultimap<String, String> params) throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
-    for (final String key : params.keySet()) {
+    for (String key : params.keySet()) {
       String name = makeOption(key);
 
       if (isBoolean(name)) {
@@ -391,7 +391,7 @@ public class CmdLineParser {
 
     private HelpOption help;
 
-    MyParser(final Object bean) {
+    MyParser(Object bean) {
       super(bean);
       ensureOptionsInitialized();
     }
@@ -417,7 +417,7 @@ public class CmdLineParser {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    protected OptionHandler createOptionHandler(final OptionDef option, final Setter setter) {
+    protected OptionHandler createOptionHandler(OptionDef option, Setter setter) {
       if (isHandlerSpecified(option) || isEnum(setter) || isPrimitive(setter)) {
         return add(super.createOptionHandler(option, setter));
       }
@@ -444,7 +444,7 @@ public class CmdLineParser {
       }
     }
 
-    private boolean isHandlerSpecified(final OptionDef option) {
+    private boolean isHandlerSpecified(OptionDef option) {
       return option.handler() != OptionHandler.class;
     }
 

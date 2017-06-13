@@ -20,7 +20,7 @@ public class UpdateParentFailedException extends Exception {
 
   public static final String MESSAGE = "Update Parent Project Failed: ";
 
-  public UpdateParentFailedException(final String message, final Throwable why) {
+  public UpdateParentFailedException(String message, Throwable why) {
     super(MESSAGE + ": " + message, why);
   }
 }

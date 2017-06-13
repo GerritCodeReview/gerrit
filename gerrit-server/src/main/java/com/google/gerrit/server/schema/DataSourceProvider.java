@@ -92,7 +92,7 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     MULTI_USER
   }
 
-  private DataSource open(final Config cfg, final Context context, final DataSourceType dst) {
+  private DataSource open(Config cfg, Context context, DataSourceType dst) {
     ConfigSection dbs = new ConfigSection(cfg, "database");
     String driver = dbs.optional("driver");
     if (Strings.isNullOrEmpty(driver)) {

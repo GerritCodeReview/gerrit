@@ -32,8 +32,7 @@ class DirectChangeByCommit extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String query = CharMatcher.is('/').trimTrailingFrom(req.getPathInfo());
     List<ChangeInfo> results;
     try {

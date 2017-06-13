@@ -82,13 +82,13 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException, ServletException {
     doPost(req, rsp);
   }
 
   @Override
-  protected void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
+  protected void doPost(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException, ServletException {
     CacheHeaders.setNotCacheable(rsp);
 
@@ -180,7 +180,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return HtmlDomUtil.toUTF8(doc);
   }
 
-  private AuthResult auth(final Account account) {
+  private AuthResult auth(Account account) {
     if (account != null) {
       return new AuthResult(account.getId(), null, false);
     }
@@ -194,7 +194,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
-  private AuthResult byUserName(final String userName) {
+  private AuthResult byUserName(String userName) {
     try {
       List<AccountState> accountStates = accountQuery.byExternalId(SCHEME_USERNAME, userName);
       if (accountStates.isEmpty()) {
@@ -212,7 +212,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byPreferredEmail(final String email) {
+  private AuthResult byPreferredEmail(String email) {
     try (ReviewDb db = schema.open()) {
       List<Account> matches = db.accounts().byPreferredEmail(email).toList();
       return matches.size() == 1 ? auth(matches.get(0)) : null;
@@ -222,7 +222,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byAccountId(final String idStr) {
+  private AuthResult byAccountId(String idStr) {
     final Account.Id id;
     try {
       id = Account.Id.parse(idStr);

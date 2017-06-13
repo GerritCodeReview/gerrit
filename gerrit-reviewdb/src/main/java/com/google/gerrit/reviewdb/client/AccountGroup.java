@@ -42,7 +42,7 @@ public final class AccountGroup {
 
     protected NameKey() {}
 
-    public NameKey(final String n) {
+    public NameKey(String n) {
       name = n;
     }
 
@@ -66,7 +66,7 @@ public final class AccountGroup {
 
     protected UUID() {}
 
-    public UUID(final String n) {
+    public UUID(String n) {
       uuid = n;
     }
 
@@ -81,7 +81,7 @@ public final class AccountGroup {
     }
 
     /** Parse an AccountGroup.UUID out of a string representation. */
-    public static UUID parse(final String str) {
+    public static UUID parse(String str) {
       final UUID r = new UUID();
       r.fromString(str);
       return r;
@@ -102,7 +102,7 @@ public final class AccountGroup {
 
     protected Id() {}
 
-    public Id(final int id) {
+    public Id(int id) {
       this.id = id;
     }
 
@@ -117,7 +117,7 @@ public final class AccountGroup {
     }
 
     /** Parse an AccountGroup.Id out of a string representation. */
-    public static Id parse(final String str) {
+    public static Id parse(String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -188,7 +188,7 @@ public final class AccountGroup {
     return name;
   }
 
-  public void setNameKey(final AccountGroup.NameKey nameKey) {
+  public void setNameKey(AccountGroup.NameKey nameKey) {
     name = nameKey;
   }
 
@@ -196,7 +196,7 @@ public final class AccountGroup {
     return description;
   }
 
-  public void setDescription(final String d) {
+  public void setDescription(String d) {
     description = d;
   }
 
@@ -204,11 +204,11 @@ public final class AccountGroup {
     return ownerGroupUUID;
   }
 
-  public void setOwnerGroupUUID(final AccountGroup.UUID uuid) {
+  public void setOwnerGroupUUID(AccountGroup.UUID uuid) {
     ownerGroupUUID = uuid;
   }
 
-  public void setVisibleToAll(final boolean visibleToAll) {
+  public void setVisibleToAll(boolean visibleToAll) {
     this.visibleToAll = visibleToAll;
   }
 

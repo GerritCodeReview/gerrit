@@ -38,15 +38,15 @@ import org.apache.commons.codec.binary.Base64;
 public class AuthSMTPClient extends SMTPClient {
   private String authTypes;
 
-  public AuthSMTPClient(final String charset) {
+  public AuthSMTPClient(String charset) {
     super(charset);
   }
 
-  public void enableSSL(final boolean verify) {
+  public void enableSSL(boolean verify) {
     _socketFactory_ = sslFactory(verify);
   }
 
-  public boolean startTLS(final String hostname, final int port, final boolean verify)
+  public boolean startTLS(String hostname, int port, boolean verify)
       throws SocketException, IOException {
     if (sendCommand("STARTTLS") != 220) {
       return false;
@@ -74,7 +74,7 @@ public class AuthSMTPClient extends SMTPClient {
     return true;
   }
 
-  private static SSLSocketFactory sslFactory(final boolean verify) {
+  private static SSLSocketFactory sslFactory(boolean verify) {
     if (verify) {
       return (SSLSocketFactory) SSLSocketFactory.getDefault();
     }
@@ -168,7 +168,7 @@ public class AuthSMTPClient extends SMTPClient {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
   };
 
-  private String toHex(final byte[] b) {
+  private String toHex(byte[] b) {
     final StringBuilder sec = new StringBuilder();
     for (byte c : b) {
       final int u = (c >> 4) & 0xf;
@@ -186,7 +186,7 @@ public class AuthSMTPClient extends SMTPClient {
     return SMTPReply.isPositiveCompletion(sendCommand("AUTH", cmd));
   }
 
-  private static String encodeBase64(final byte[] data) {
+  private static String encodeBase64(byte[] data) {
     return new String(Base64.encodeBase64(data), UTF_8);
   }
 }

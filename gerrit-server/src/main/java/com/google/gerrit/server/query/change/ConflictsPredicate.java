@@ -64,7 +64,7 @@ public class ConflictsPredicate extends OrPredicate<ChangeData> {
 
     List<Predicate<ChangeData>> changePredicates = Lists.newArrayListWithCapacity(changes.size());
     final Provider<ReviewDb> db = args.db;
-    for (final Change c : changes) {
+    for (Change c : changes) {
       final ChangeDataCache changeDataCache =
           new ChangeDataCache(c, db, args.changeDataFactory, args.projectCache);
       List<String> files = listFiles(c, args, changeDataCache);

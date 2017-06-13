@@ -22,7 +22,7 @@ public final class PatchSetInfo {
     public RevId id;
     public String shortMessage;
 
-    public ParentInfo(final RevId id, final String shortMessage) {
+    public ParentInfo(RevId id, String shortMessage) {
       this.id = id;
       this.shortMessage = shortMessage;
     }
@@ -55,7 +55,7 @@ public final class PatchSetInfo {
 
   protected PatchSetInfo() {}
 
-  public PatchSetInfo(final PatchSet.Id k) {
+  public PatchSetInfo(PatchSet.Id k) {
     key = k;
   }
 
@@ -67,7 +67,7 @@ public final class PatchSetInfo {
     return subject;
   }
 
-  public void setSubject(final String s) {
+  public void setSubject(String s) {
     if (s != null && s.length() > 255) {
       subject = s.substring(0, 255);
     } else {
@@ -79,7 +79,7 @@ public final class PatchSetInfo {
     return message;
   }
 
-  public void setMessage(final String m) {
+  public void setMessage(String m) {
     message = m;
   }
 
@@ -87,7 +87,7 @@ public final class PatchSetInfo {
     return author;
   }
 
-  public void setAuthor(final UserIdentity u) {
+  public void setAuthor(UserIdentity u) {
     author = u;
   }
 
@@ -95,11 +95,11 @@ public final class PatchSetInfo {
     return committer;
   }
 
-  public void setCommitter(final UserIdentity u) {
+  public void setCommitter(UserIdentity u) {
     committer = u;
   }
 
-  public void setParents(final List<ParentInfo> p) {
+  public void setParents(List<ParentInfo> p) {
     parents = p;
   }
 
@@ -107,7 +107,7 @@ public final class PatchSetInfo {
     return parents;
   }
 
-  public void setRevId(final String s) {
+  public void setRevId(String s) {
     revId = s;
   }
 

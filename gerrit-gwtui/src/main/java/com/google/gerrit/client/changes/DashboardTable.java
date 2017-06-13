@@ -34,7 +34,7 @@ public class DashboardTable extends ChangeTable {
   private List<String> titles;
   private List<String> queries;
 
-  public DashboardTable(final Screen screen, String params) {
+  public DashboardTable(Screen screen, String params) {
     titles = new ArrayList<>();
     queries = new ArrayList<>();
     String foreach = null;

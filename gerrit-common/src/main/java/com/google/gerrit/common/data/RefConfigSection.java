@@ -46,7 +46,7 @@ public abstract class RefConfigSection {
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (!(obj instanceof RefConfigSection)) {
       return false;
     }

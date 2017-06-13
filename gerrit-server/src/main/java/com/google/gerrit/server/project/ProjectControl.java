@@ -86,7 +86,7 @@ public class ProjectControl {
     private final ProjectCache projectCache;
 
     @Inject
-    GenericFactory(final ProjectCache pc) {
+    GenericFactory(ProjectCache pc) {
       projectCache = pc;
     }
 
@@ -108,7 +108,7 @@ public class ProjectControl {
       userCache = uc;
     }
 
-    public ProjectControl controlFor(final Project.NameKey nameKey) throws NoSuchProjectException {
+    public ProjectControl controlFor(Project.NameKey nameKey) throws NoSuchProjectException {
       return userCache.get().get(nameKey);
     }
   }
@@ -309,12 +309,12 @@ public class ProjectControl {
     return getGroups(localAccess());
   }
 
-  private static Set<GroupReference> getGroups(final List<SectionMatcher> sectionMatcherList) {
+  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<>();
-    for (final SectionMatcher matcher : sectionMatcherList) {
+    for (SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;
-      for (final Permission permission : section.getPermissions()) {
-        for (final PermissionRule rule : permission.getRules()) {
+      for (Permission permission : section.getPermissions()) {
+        for (PermissionRule rule : permission.getRules()) {
           all.add(rule.getGroup());
         }
       }
@@ -397,7 +397,7 @@ public class ProjectControl {
       // matches every possible reference.  Check all
       // patterns also have the permission.
       //
-      for (final String pattern : patterns) {
+      for (String pattern : patterns) {
         if (controlForRef(pattern).canPerform(permission)) {
           canPerform = true;
         } else if (ignore.contains(pattern)) {

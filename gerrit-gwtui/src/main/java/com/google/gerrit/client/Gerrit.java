@@ -170,7 +170,7 @@ public class Gerrit implements EntryPoint {
    *
    * @param token location to parse, load, and render.
    */
-  public static void display(final String token) {
+  public static void display(String token) {
     if (body.getView() == null || !body.getView().displayToken(token)) {
       dispatcher.display(token);
       updateUiLink(token);
@@ -191,7 +191,7 @@ public class Gerrit implements EntryPoint {
    * @param token location that refers to {@code view}.
    * @param view the view to load.
    */
-  public static void display(final String token, final Screen view) {
+  public static void display(String token, Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
       doSignIn(token);
     } else {
@@ -217,7 +217,7 @@ public class Gerrit implements EntryPoint {
    *
    * @param token new location that is already visible.
    */
-  public static void updateImpl(final String token) {
+  public static void updateImpl(String token) {
     History.newItem(token, false);
     dispatchHistoryHooks(token);
   }
@@ -226,7 +226,7 @@ public class Gerrit implements EntryPoint {
     searchPanel.setText(query);
   }
 
-  public static void setWindowTitle(final Screen screen, final String text) {
+  public static void setWindowTitle(Screen screen, String text) {
     if (screen == body.getView()) {
       if (text == null || text.length() == 0) {
         Window.setTitle(M.windowTitle1(myHost));
@@ -428,7 +428,7 @@ public class Gerrit implements EntryPoint {
           }
 
           @Override
-          public String decode(final String e) {
+          public String decode(String e) {
             return URL.decodeQueryString(e);
           }
 
@@ -476,7 +476,7 @@ public class Gerrit implements EntryPoint {
         cbg.addFinal(
             new GerritCallback<HostPageData>() {
               @Override
-              public void onSuccess(final HostPageData result) {
+              public void onSuccess(HostPageData result) {
                 Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
                 myTheme = result.theme;
                 isNoteDbEnabled = result.isNoteDbEnabled;
@@ -957,7 +957,7 @@ public class Gerrit implements EntryPoint {
     return docSearch;
   }
 
-  private static void getDocIndex(final AsyncCallback<DocInfo> cb) {
+  private static void getDocIndex(AsyncCallback<DocInfo> cb) {
     RequestBuilder req = new RequestBuilder(RequestBuilder.HEAD, GWT.getHostPageBaseURL() + INDEX);
     req.setCallback(
         new RequestCallback() {
@@ -1031,22 +1031,21 @@ public class Gerrit implements EntryPoint {
     menuRight.add(fp);
   }
 
-  private static Anchor anchor(final String text, final String to) {
+  private static Anchor anchor(String text, String to) {
     final Anchor a = new Anchor(text, to);
     a.setStyleName(RESOURCES.css().menuItem());
     Roles.getMenuitemRole().set(a.getElement());
     return a;
   }
 
-  private static LinkMenuItem addLink(
-      final LinkMenuBar m, final String text, final String historyToken) {
+  private static LinkMenuItem addLink(final LinkMenuBar m, String text, String historyToken) {
     LinkMenuItem i = new LinkMenuItem(text, historyToken);
     m.addItem(i);
     return i;
   }
 
   private static void insertLink(
-      final LinkMenuBar m, final String text, final String historyToken, final int beforeIndex) {
+      final LinkMenuBar m, String text, String historyToken, int beforeIndex) {
     m.insertItem(new LinkMenuItem(text, historyToken), beforeIndex);
   }
 
@@ -1090,7 +1089,7 @@ public class Gerrit implements EntryPoint {
     return i;
   }
 
-  private static void addDocLink(final LinkMenuBar m, final String text, final String href) {
+  private static void addDocLink(LinkMenuBar m, String text, String href) {
     final Anchor atag = anchor(text, docUrl + href);
     atag.setTarget("_blank");
     m.add(atag);

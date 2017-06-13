@@ -23,7 +23,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 public class TrackingFooters {
   protected List<TrackingFooter> trackingFooters;
 
-  public TrackingFooters(final List<TrackingFooter> trFooters) {
+  public TrackingFooters(List<TrackingFooter> trFooters) {
     trackingFooters = trFooters;
   }
 

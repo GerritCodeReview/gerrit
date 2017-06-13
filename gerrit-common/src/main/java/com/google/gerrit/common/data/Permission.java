@@ -262,7 +262,7 @@ public class Permission implements Comparable<Permission> {
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (!(obj instanceof Permission)) {
       return false;
     }

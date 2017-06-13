@@ -412,7 +412,7 @@ abstract class DiffScreen extends Screen {
     }
   }
 
-  private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
+  private BeforeSelectionChangeHandler onSelectionChange(CodeMirror cm) {
     return new BeforeSelectionChangeHandler() {
       private InsertCommentBubble bubble;
 
@@ -871,11 +871,11 @@ abstract class DiffScreen extends Screen {
 
   abstract Runnable updateActiveLine(CodeMirror cm);
 
-  private GutterClickHandler onGutterClick(final CodeMirror cm) {
+  private GutterClickHandler onGutterClick(CodeMirror cm) {
     return new GutterClickHandler() {
       @Override
       public void handle(
-          CodeMirror instance, final int line, final String gutterClass, NativeEvent clickEvent) {
+          CodeMirror instance, int line, String gutterClass, NativeEvent clickEvent) {
         if (Element.as(clickEvent.getEventTarget()).hasClassName(getLineNumberClassName())
             && clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()

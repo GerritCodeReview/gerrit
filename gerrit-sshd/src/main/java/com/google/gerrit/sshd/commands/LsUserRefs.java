@@ -109,7 +109,7 @@ public class LsUserRefs extends SshCommand {
                     tagCache, changeNotesFactory, changeCache, repo, userProjectControl, db, true)
                 .filter(repo.getRefDatabase().getRefs(ALL), false);
 
-        for (final String ref : refsMap.keySet()) {
+        for (String ref : refsMap.keySet()) {
           if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
             stdout.println(ref);
           }

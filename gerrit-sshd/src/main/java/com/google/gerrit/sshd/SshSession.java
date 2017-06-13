@@ -35,7 +35,7 @@ public class SshSession {
   private volatile String authError;
   private volatile String peerAgent;
 
-  SshSession(final int sessionId, SocketAddress peer) {
+  SshSession(int sessionId, SocketAddress peer) {
     this.sessionId = sessionId;
     this.remoteAddress = peer;
     this.remoteAsString = format(remoteAddress);
@@ -109,7 +109,7 @@ public class SshSession {
     return authError != null;
   }
 
-  private static String format(final SocketAddress remote) {
+  private static String format(SocketAddress remote) {
     if (remote instanceof InetSocketAddress) {
       final InetSocketAddress sa = (InetSocketAddress) remote;
 

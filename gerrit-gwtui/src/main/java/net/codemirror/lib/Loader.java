@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class Loader {
   private static native boolean isLibLoaded() /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
 
-  static void initLibrary(final AsyncCallback<Void> cb) {
+  static void initLibrary(AsyncCallback<Void> cb) {
     if (isLibLoaded()) {
       cb.onSuccess(null);
       return;
@@ -53,7 +53,7 @@ public class Loader {
     group.done();
   }
 
-  private static void injectCss(ExternalTextResource css, final AsyncCallback<Void> cb) {
+  private static void injectCss(ExternalTextResource css, AsyncCallback<Void> cb) {
     try {
       css.getText(
           new ResourceCallback<TextResource>() {
@@ -74,7 +74,7 @@ public class Loader {
     }
   }
 
-  public static void injectScript(SafeUri js, final AsyncCallback<Void> callback) {
+  public static void injectScript(SafeUri js, AsyncCallback<Void> callback) {
     final ScriptElement[] script = new ScriptElement[1];
     script[0] =
         ScriptInjector.fromUrl(js.asString())

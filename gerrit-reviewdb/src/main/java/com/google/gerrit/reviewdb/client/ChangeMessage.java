@@ -34,7 +34,7 @@ public final class ChangeMessage {
       changeId = new Change.Id();
     }
 
-    public Key(final Change.Id change, final String uuid) {
+    public Key(Change.Id change, String uuid) {
       this.changeId = change;
       this.uuid = uuid;
     }
@@ -84,8 +84,7 @@ public final class ChangeMessage {
 
   protected ChangeMessage() {}
 
-  public ChangeMessage(
-      final ChangeMessage.Key k, final Account.Id a, final Timestamp wo, final PatchSet.Id psid) {
+  public ChangeMessage(final ChangeMessage.Key k, Account.Id a, Timestamp wo, PatchSet.Id psid) {
     key = k;
     author = a;
     writtenOn = wo;
@@ -101,7 +100,7 @@ public final class ChangeMessage {
     return author;
   }
 
-  public void setAuthor(final Account.Id accountId) {
+  public void setAuthor(Account.Id accountId) {
     if (author != null) {
       throw new IllegalStateException("Cannot modify author once assigned");
     }
@@ -129,7 +128,7 @@ public final class ChangeMessage {
     return message;
   }
 
-  public void setMessage(final String s) {
+  public void setMessage(String s) {
     message = s;
   }
 

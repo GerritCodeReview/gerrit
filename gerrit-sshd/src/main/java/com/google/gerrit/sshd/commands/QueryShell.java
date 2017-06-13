@@ -272,7 +272,7 @@ public class QueryShell {
           Identity.create(rs, "COLUMN_NAME"),
           new Function("TYPE") {
             @Override
-            String apply(final ResultSet rs) throws SQLException {
+            String apply(ResultSet rs) throws SQLException {
               String type = rs.getString("TYPE_NAME");
               switch (rs.getInt("DATA_TYPE")) {
                 case java.sql.Types.CHAR:
@@ -344,7 +344,7 @@ public class QueryShell {
     println("");
   }
 
-  private void executeStatement(final String sql) {
+  private void executeStatement(String sql) {
     final long start = TimeUtil.nowMs();
     final boolean hasResultSet;
     try {
@@ -397,7 +397,7 @@ public class QueryShell {
    * @param show Functions to map columns
    * @throws SQLException
    */
-  private void showResultSet(final ResultSet rs, boolean alreadyOnRow, long start, Function... show)
+  private void showResultSet(ResultSet rs, boolean alreadyOnRow, long start, Function... show)
       throws SQLException {
     switch (outputFormat) {
       case JSON_SINGLE:
@@ -620,7 +620,7 @@ public class QueryShell {
     }
   }
 
-  private void warning(final String msg) {
+  private void warning(String msg) {
     switch (outputFormat) {
       case JSON_SINGLE:
       case JSON:
@@ -639,7 +639,7 @@ public class QueryShell {
     }
   }
 
-  private void error(final SQLException err) {
+  private void error(SQLException err) {
     switch (outputFormat) {
       case JSON_SINGLE:
       case JSON:
@@ -718,7 +718,7 @@ public class QueryShell {
   private abstract static class Function {
     final String name;
 
-    Function(final String name) {
+    Function(String name) {
       this.name = name;
     }
 
@@ -726,19 +726,19 @@ public class QueryShell {
   }
 
   private static class Identity extends Function {
-    static Identity create(final ResultSet rs, final String name) throws SQLException {
+    static Identity create(ResultSet rs, String name) throws SQLException {
       return new Identity(rs.findColumn(name), name);
     }
 
     final int colId;
 
-    Identity(final int colId, final String name) {
+    Identity(int colId, String name) {
       super(name);
       this.colId = colId;
     }
 
     @Override
-    String apply(final ResultSet rs) throws SQLException {
+    String apply(ResultSet rs) throws SQLException {
       return rs.getString(colId);
     }
   }

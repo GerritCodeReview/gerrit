@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "45d9b3b2_58959a13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-13T14:16:17Z",
+      "side": 1,
+      "message": "\u003e it reduces the amount of API surface available to the\n \u003e non-constructor code.\n\nI know, but the right approach is to inject reduced API surface in the first place.\nIn other words: If I inject X then I want to make use of the whole X.\n\n \u003e \n \u003e Changing the constructor makes GUICE not find the right thing to\n \u003e inject, so I want to leave it for a next change.\n\nThis change could be made cleaner by storing the ScheduledThreadPoolExecutor. The next change would then fix both the injected and stored type.",
+      "parentUuid": "040e126f_9f7da957",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069fef55_b6ceaf6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
         "patchSetId": 7

@@ -440,6 +440,30 @@
     },
     {
       "key": {
+        "uuid": "96df409d_55bd5657",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T18:10:41Z",
+      "side": 1,
+      "message": "Also why would we need to limit it to just All? Since all projects can be parent projects. This mimics gwtui. Some users may count this as a bug if we only allow search for just All.",
+      "parentUuid": "00a6774a_d5bdc528",
+      "range": {
+        "startLine": 151,
+        "startChar": 3,
+        "endLine": 158,
+        "endChar": 0
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0daa2ca4_571f487d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 32

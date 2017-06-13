@@ -46,6 +46,30 @@
       "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1b7306_88259665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-13T12:22:03Z",
+      "side": 1,
+      "message": "what I meant is described in [1]:\nb6bf98a master@{0}: merged: fast forward\n\nit says \u0027merged\u0027 not \u0027push\u0027 - I wonder if it is possible to determine which strategy was finally used to resolve the commit and if it is worth trying to find that out ;)\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6099",
+      "parentUuid": "587a8198_1625446b",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 70
+      },
+      "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bee6998c_ff8d981a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T19:54:46Z",
+      "side": 1,
+      "message": "This is still not clear to me. If I was added as reviewer to two changes, A and B, and both changes are now in the WIP state, and change A\u0027s hasReviewStarted is true, while change\u0027s B hasReviewStarted is false, I still expect to not get any notification from both changes (say on new patch set uploaded event), no matter if they were ever in non WIP state or not. Or may be I\u0027m missing what notification type exactly are you talking about? What would be differently to me as reviewer for those two changes A and B?",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72c8eaa7_b903bcd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T19:54:46Z",
+      "side": 1,
+      "message": "Are you saying that for those reviewers that were added during the change was in WIP state, Add Reviewer notification would be send (after the change leaved the WIP state) and for those reviewers, that were already added before changed entered the WIP state, not? But for already previously existing reviewers (before change entered the WIP state) another notification would be send, that the change is Ready now? These are very subtle nuances.",
+      "range": {
+        "startLine": 20,
+        "startChar": 63,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "122db765_2720dd57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T19:54:46Z",
+      "side": 1,
+      "message": "What do you mean by that? And how this feature is relevant to what kind of UI is used on the site?",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

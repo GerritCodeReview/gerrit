@@ -117,6 +117,30 @@
       "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb077cad_1db226b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T19:54:46Z",
+      "side": 1,
+      "message": "\u003e I need this information on both the server side (for notifications)\n \u003e and client side (for UI), and that\u0027s what convinced me to just\n \u003e implement it in the NoteDb parser and make it a Change property\n \u003e that\u0027s easy to test.\n \u003e \n \u003e The information can be derived by looking for the most recent\n \u003e ChangeMessage with tag in [TAG_SET_WIP, TAG_SET_READY,\n \u003e TAG_UPLOADED_PATCH_SET, TAG_UPLOADED_WIP_PATCH_SET]. If that\n \u003e message\u0027s tag is in [TAG_SET_WIP, TAG_UPLOADED_WIP_PATCH_SET], then\n \u003e select all the ReviewerUpdateInfos with timestamp not before that\n \u003e message\u0027s timestamp into a table and build a ReviewerSet from that.\n \u003e The same information is available over the API so the same logic\n \u003e could be implemented on the client side.\n\nIn fact you\u0027ve implemented it during Munich hackathon: [1]. Is client side implementation is going to be reverted in this series or later?\n\n* [1] https://gerrit-review.googlesource.com/#/c/104332/20/polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html@90",
+      "parentUuid": "69b433a2_19083d99",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

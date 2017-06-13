@@ -103,7 +103,6 @@
         value: null,
       },
       _serverConfig: Object,
-      _headerHeight: Number,
 
       /**
        * For testing purposes.
@@ -165,12 +164,6 @@
       this._loadingPromise = Promise.all(promises).then(() => {
         this._loading = false;
       });
-
-      this.listen(window, 'scroll', '_handleBodyScroll');
-    },
-
-    detached() {
-      this.unlisten(window, 'scroll', '_handleBodyScroll');
     },
 
     reloadAccountDetail() {
@@ -178,21 +171,6 @@
         this.$.accountInfo.loadData(),
         this.$.emailEditor.loadData(),
       ]);
-    },
-
-    _handleBodyScroll(e) {
-      if (this._headerHeight === undefined) {
-        let top = this.$.settingsNav.offsetTop;
-        for (let offsetParent = this.$.settingsNav.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
-          top += offsetParent.offsetTop;
-        }
-        this._headerHeight = top;
-      }
-
-      this.$.settingsNav.classList.toggle('pinned',
-          window.scrollY >= this._headerHeight);
     },
 
     _isLoading() {

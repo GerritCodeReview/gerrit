@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4976f083_7d6cf748",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T15:16:04Z",
+      "side": 1,
+      "message": "When I read the reworded Javadoc of NotesMigration, I realized that a similar enum won\u0027t be necessary for the migration of accounts or groups.",
+      "parentUuid": "3142fd27_3ef6ac23",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "8ae88a746bd040a56e788f7c9d15565e771398a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5291ec9_6c12ae6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
         "patchSetId": 4

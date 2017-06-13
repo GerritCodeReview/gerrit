@@ -46,6 +46,30 @@
       "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53c51d51_ef397574",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-13T20:40:35Z",
+      "side": 1,
+      "message": "I think the event needs to be caught, in order to manually call Gerrit.Nav.navigate",
+      "parentUuid": "c513e86d_d4f52bf2",
+      "range": {
+        "startLine": 474,
+        "startChar": 26,
+        "endLine": 474,
+        "endChar": 52
+      },
+      "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

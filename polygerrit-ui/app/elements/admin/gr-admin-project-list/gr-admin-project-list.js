@@ -71,6 +71,10 @@
           this._offset);
     },
 
+    _getUrl(name) {
+      return this.getUrl(this._path, name);
+    },
+
     _getProjects(filter, projectsPerPage, offset) {
       this._projects = [];
       return this.$.restAPI.getProjects(filter, projectsPerPage, offset)

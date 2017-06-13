@@ -27,6 +27,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -47,6 +48,10 @@ public class Accounts {
 
   public Account get(ReviewDb db, Account.Id accountId) throws OrmException {
     return db.accounts().get(accountId);
+  }
+
+  public List<Account> get(ReviewDb db, Collection<Account.Id> accountId) throws OrmException {
+    return db.accounts().get(accountId).toList();
   }
 
   /**

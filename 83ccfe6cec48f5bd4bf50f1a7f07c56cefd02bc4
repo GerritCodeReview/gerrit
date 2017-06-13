@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8d4555d8_731644d7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T00:19:05Z",
+      "side": 1,
+      "message": "Why does this need to be instantiated? Why not define this as a static object?\n\nlet GrGerritAuth \u003d {\n  _getCookie() { ... },\n  fetch() { ... },\n};",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5fcfb95_cc6528c3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
         "patchSetId": 2
@@ -48,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "8ffbf5ea_59ea08e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T00:19:05Z",
+      "side": 1,
+      "message": "Rather than actually doing the fetch, can this function just return the options?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7862b395_be5fc5d2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
         "patchSetId": 2
@@ -64,6 +110,29 @@
         "startChar": 2,
         "endLine": 27,
         "endChar": 43
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cfece8d_3d8ea254",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T00:19:05Z",
+      "side": 1,
+      "message": "While there is only the one option, can this just be set in l.29?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 32
       },
       "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

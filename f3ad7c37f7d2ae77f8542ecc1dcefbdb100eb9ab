@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1497341970 +0200\nnonce AH5c86B0ZPTyY0n96tacr+dPAfCKLEOcMLGesNwffuWlIuihlutDTvP7Hneor/VkWku5gxLvXAMf\n\n0000000000000000000000000000000000000000 f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZP6ASAAoJEFG1/Zeg0O9R2RMH/RQI4aMpsGjz4guRS8vTTXkd\nCO7GW0QXj+wC59fFya9QpgRXcTu9hhiZGAfjOrQH3Iwws68TMESCsyTQmxz111Wg\nZHOfzvDLwLfYoKsc4Rb/a9P2kkCbm5hjgLcw+fhGPmnd2MT1vnwVJlEftj1uFnTo\nG3Mfj1fg+RkbRtJlhKJB0RKweQk6I5xnmoHWWfJqRmc41W1WZrCco4SKINBStYog\nMJ5FZnmx43mVBCPPdztDLXl0nA7JGbMZmUsa3S5pk9FqzW8E0qoybneXHOXaK1yW\ncDRhV1OxQClncWow2j/JwY/gatO89YOP1e4K1rTAQ+2IrzdWj5fQj5xvKj7e+AU\u003d\n\u003d8sT1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b15d3df_539ae1b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T12:03:03Z",
+      "side": 1,
+      "message": "I would prefer AccountCache to Accounts.",
+      "revId": "f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e479c781_bd45f0f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T12:03:03Z",
+      "side": 1,
+      "message": "IMHO this is fine. If we want to add more stuff later, we can use assisted injection. If you want to use assisted injection now so the 3rd argument is easy, feel free.",
+      "revId": "f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

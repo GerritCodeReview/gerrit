@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -61,6 +62,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;
+  private final AccountCache accountCache;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeData.Factory changeDataFactory;
@@ -71,6 +73,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   @Inject
   Mergeable(
       GitRepositoryManager gitManager,
+      AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeData.Factory changeDataFactory,
@@ -78,6 +81,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeIndexer indexer,
       MergeabilityCache cache) {
     this.gitManager = gitManager;
+    this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeDataFactory = changeDataFactory;
@@ -139,7 +143,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
-    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
+    SubmitTypeRecord rec =
+        new SubmitRuleEvaluator(accountCache, cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

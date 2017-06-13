@@ -151,7 +151,7 @@ public class Reviewers extends Composite {
     suggestBox.setServeSuggestionsOnOracle(false);
   }
 
-  private void addReviewer(final String reviewer, boolean confirmed) {
+  private void addReviewer(String reviewer, boolean confirmed) {
     if (reviewer.isEmpty()) {
       return;
     }

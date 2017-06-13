@@ -91,7 +91,7 @@ public abstract class OutgoingEmail {
     headers = new LinkedHashMap<>();
   }
 
-  public void setFrom(final Account.Id id) {
+  public void setFrom(Account.Id id) {
     fromId = id;
   }
 
@@ -309,26 +309,26 @@ public abstract class OutgoingEmail {
   }
 
   /** Set a header in the outgoing message using a template. */
-  protected void setVHeader(final String name, final String value) throws EmailException {
+  protected void setVHeader(String name, String value) throws EmailException {
     setHeader(name, velocify(value));
   }
 
   /** Set a header in the outgoing message. */
-  protected void setHeader(final String name, final String value) {
+  protected void setHeader(String name, String value) {
     headers.put(name, new EmailHeader.String(value));
   }
 
   /** Remove a header from the outgoing message. */
-  protected void removeHeader(final String name) {
+  protected void removeHeader(String name) {
     headers.remove(name);
   }
 
-  protected void setHeader(final String name, final Date date) {
+  protected void setHeader(String name, Date date) {
     headers.put(name, new EmailHeader.Date(date));
   }
 
   /** Append text to the outgoing email body. */
-  protected void appendText(final String text) {
+  protected void appendText(String text) {
     if (text != null) {
       textBody.append(text);
     }
@@ -342,7 +342,7 @@ public abstract class OutgoingEmail {
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */
-  protected String getNameFor(final Account.Id accountId) {
+  protected String getNameFor(Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.getName();
     }
@@ -435,27 +435,27 @@ public abstract class OutgoingEmail {
   }
 
   /** Schedule this message for delivery to the listed accounts. */
-  protected void add(final RecipientType rt, final Collection<Account.Id> list) {
-    for (final Account.Id id : list) {
+  protected void add(RecipientType rt, Collection<Account.Id> list) {
+    for (Account.Id id : list) {
       add(rt, id);
     }
   }
 
   /** Schedule this message for delivery to the listed address. */
-  protected void addByEmail(final RecipientType rt, final Collection<Address> list) {
-    for (final Address id : list) {
+  protected void addByEmail(RecipientType rt, Collection<Address> list) {
+    for (Address id : list) {
       add(rt, id);
     }
   }
 
-  protected void add(final RecipientType rt, final UserIdentity who) {
+  protected void add(RecipientType rt, UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());
     }
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(final RecipientType rt, final Account.Id to) {
+  protected void add(RecipientType rt, Account.Id to) {
     try {
       if (!rcptTo.contains(to) && isVisibleTo(to)) {
         rcptTo.add(to);
@@ -471,12 +471,12 @@ public abstract class OutgoingEmail {
    * @throws OrmException
    * @return whether this email is visible to the given account.
    */
-  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
+  protected boolean isVisibleTo(Account.Id to) throws OrmException {
     return true;
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(final RecipientType rt, final Address addr) {
+  protected void add(RecipientType rt, Address addr) {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
       if (!args.validator.isValid(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
@@ -497,7 +497,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private Address toAddress(final Account.Id id) {
+  private Address toAddress(Account.Id id) {
     final Account a = args.accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
     if (!a.isActive() || e == null) {

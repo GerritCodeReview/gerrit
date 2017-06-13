@@ -100,7 +100,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private OnEditEnabler saveEnabler;
 
-  public ProjectInfoScreen(final Project.NameKey toShow) {
+  public ProjectInfoScreen(Project.NameKey toShow) {
     super(toShow);
   }
 
@@ -228,7 +228,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.add(AdminConstants.I.headingProjectState(), state);
 
     submitType = new ListBox();
-    for (final SubmitType type : SubmitType.values()) {
+    for (SubmitType type : SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
     submitType.addChangeHandler(
@@ -320,7 +320,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(AdminConstants.I.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(final SubmitType newSubmitType) {
+  private void setSubmitType(SubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -334,7 +334,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private void setState(final ProjectState newState) {
+  private void setState(ProjectState newState) {
     if (state != null) {
       for (int i = 0; i < state.getItemCount(); i++) {
         if (newState.name().equals(state.getValue(i))) {

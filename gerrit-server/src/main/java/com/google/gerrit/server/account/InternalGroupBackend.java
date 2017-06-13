@@ -64,7 +64,7 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(final String name, final ProjectControl project) {
+  public Collection<GroupReference> suggest(String name, ProjectControl project) {
     return groupCache
         .all()
         .stream()

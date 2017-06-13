@@ -79,7 +79,7 @@ public class JettyServer {
     private final Config cfg;
 
     @Inject
-    Lifecycle(final JettyServer server, @GerritServerConfig final Config cfg) {
+    Lifecycle(JettyServer server, @GerritServerConfig final Config cfg) {
       this.server = server;
       this.cfg = cfg;
     }
@@ -297,7 +297,7 @@ public class JettyServer {
     return config;
   }
 
-  static boolean isReverseProxied(final URI[] listenUrls) {
+  static boolean isReverseProxied(URI[] listenUrls) {
     for (URI u : listenUrls) {
       if ("http".equals(u.getScheme()) || "https".equals(u.getScheme())) {
         return false;
@@ -306,7 +306,7 @@ public class JettyServer {
     return true;
   }
 
-  static URI[] listenURLs(final Config cfg) {
+  static URI[] listenURLs(Config cfg) {
     String[] urls = cfg.getStringList("httpd", null, "listenurl");
     if (urls.length == 0) {
       urls = new String[] {"http://*:8080/"};
@@ -352,7 +352,7 @@ public class JettyServer {
     return pool;
   }
 
-  private Handler makeContext(final JettyEnv env, final Config cfg) {
+  private Handler makeContext(JettyEnv env, Config cfg) {
     final Set<String> paths = new HashSet<>();
     for (URI u : listenURLs(cfg)) {
       String p = u.getPath();
@@ -385,8 +385,7 @@ public class JettyServer {
     return r;
   }
 
-  private ContextHandler makeContext(
-      final String contextPath, final JettyEnv env, final Config cfg) {
+  private ContextHandler makeContext(final String contextPath, JettyEnv env, Config cfg) {
     final ServletContextHandler app = new ServletContextHandler();
 
     // This enables the use of sessions in Jetty, feature available

@@ -32,7 +32,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
   private final String membersTabToken;
   private final String auditLogTabToken;
 
-  public AccountGroupScreen(final GroupInfo toShow, final String token) {
+  public AccountGroupScreen(GroupInfo toShow, String token) {
     setRequiresSignIn(true);
 
     this.group = toShow;
@@ -47,7 +47,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
         AccountGroup.isInternalGroup(group.getGroupUUID()));
   }
 
-  private String getTabToken(final String token, final String tab) {
+  private String getTabToken(String token, String tab) {
     if (token.startsWith("/admin/groups/uuid-")) {
       return toGroup(group.getGroupUUID(), tab);
     }
@@ -91,7 +91,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
     return group.getOwnerUUID();
   }
 
-  protected void setMembersTabVisible(final boolean visible) {
+  protected void setMembersTabVisible(boolean visible) {
     setLinkVisible(membersTabToken, visible);
   }
 }

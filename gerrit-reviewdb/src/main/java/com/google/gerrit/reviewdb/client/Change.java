@@ -102,7 +102,7 @@ public final class Change {
 
     protected Id() {}
 
-    public Id(final int id) {
+    public Id(int id) {
       this.id = id;
     }
 
@@ -130,7 +130,7 @@ public final class Change {
     }
 
     /** Parse a Change.Id out of a string representation. */
-    public static Id parse(final String str) {
+    public static Id parse(String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -262,7 +262,7 @@ public final class Change {
 
     protected Key() {}
 
-    public Key(final String id) {
+    public Key(String id) {
       this.id = id;
     }
 
@@ -291,7 +291,7 @@ public final class Change {
     }
 
     /** Parse a Change.Key out of a string representation. */
-    public static Key parse(final String str) {
+    public static Key parse(String str) {
       final Key r = new Key();
       r.fromString(str);
       return r;
@@ -416,8 +416,8 @@ public final class Change {
       return changeStatus;
     }
 
-    public static Status forCode(final char c) {
-      for (final Status s : Status.values()) {
+    public static Status forCode(char c) {
+      for (Status s : Status.values()) {
         if (s.code == c) {
           return s;
         }
@@ -576,7 +576,7 @@ public final class Change {
     return changeKey;
   }
 
-  public void setKey(final Change.Key k) {
+  public void setKey(Change.Key k) {
     changeKey = k;
   }
 
@@ -648,7 +648,7 @@ public final class Change {
     return null;
   }
 
-  public void setCurrentPatchSet(final PatchSetInfo ps) {
+  public void setCurrentPatchSet(PatchSetInfo ps) {
     if (originalSubject == null && subject != null) {
       // Change was created before schema upgrade. Use the last subject
       // associated with this change, as the most recent discussion will

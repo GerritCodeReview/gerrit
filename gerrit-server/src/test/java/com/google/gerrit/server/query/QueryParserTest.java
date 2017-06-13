@@ -31,7 +31,7 @@ public class QueryParserTest {
     assertSingleWord("project", "tools/*", r);
   }
 
-  private static void assertSingleWord(final String name, final String value, final Tree r) {
+  private static void assertSingleWord(String name, String value, Tree r) {
     assertEquals(QueryParser.FIELD_NAME, r.getType());
     assertEquals(name, r.getText());
     assertEquals(1, r.getChildCount());
@@ -41,7 +41,7 @@ public class QueryParserTest {
     assertEquals(0, c.getChildCount());
   }
 
-  private static Tree parse(final String str) throws QueryParseException {
+  private static Tree parse(String str) throws QueryParseException {
     return QueryParser.parse(str);
   }
 }

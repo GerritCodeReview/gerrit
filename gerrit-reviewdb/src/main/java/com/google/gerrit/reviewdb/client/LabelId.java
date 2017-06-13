@@ -31,7 +31,7 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
 
   public LabelId() {}
 
-  public LabelId(final String n) {
+  public LabelId(String n) {
     id = n;
   }
 

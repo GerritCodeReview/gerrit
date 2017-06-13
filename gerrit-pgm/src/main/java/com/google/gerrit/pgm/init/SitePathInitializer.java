@@ -165,7 +165,7 @@ public class SitePathInitializer {
     chmod(0444, ex);
   }
 
-  private static List<InitStep> stepsOf(final Injector injector) {
+  private static List<InitStep> stepsOf(Injector injector) {
     final ArrayList<InitStep> r = new ArrayList<>();
     for (Binding<InitStep> b : all(injector)) {
       r.add(b.getProvider().get());
@@ -173,7 +173,7 @@ public class SitePathInitializer {
     return r;
   }
 
-  private static List<Binding<InitStep>> all(final Injector injector) {
+  private static List<Binding<InitStep>> all(Injector injector) {
     return injector.findBindingsByType(new TypeLiteral<InitStep>() {});
   }
 }

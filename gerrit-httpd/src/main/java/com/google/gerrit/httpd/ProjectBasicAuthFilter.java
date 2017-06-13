@@ -174,7 +174,7 @@ class ProjectBasicAuthFilter implements Filter {
     }
   }
 
-  private boolean succeedAuthentication(final AccountState who) {
+  private boolean succeedAuthentication(AccountState who) {
     setUserIdentified(who.getAccount().getId());
     return true;
   }

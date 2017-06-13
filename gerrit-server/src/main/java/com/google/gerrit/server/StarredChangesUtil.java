@@ -267,8 +267,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public Set<Account.Id> byChange(final Change.Id changeId, final String label)
-      throws OrmException {
+  public Set<Account.Id> byChange(Change.Id changeId, String label) throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))
           .stream()
@@ -283,8 +282,7 @@ public class StarredChangesUtil {
 
   @Deprecated
   // To be used only for IsStarredByLegacyPredicate.
-  public Set<Change.Id> byAccount(final Account.Id accountId, final String label)
-      throws OrmException {
+  public Set<Change.Id> byAccount(Account.Id accountId, String label) throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return getRefNames(repo, RefNames.REFS_STARRED_CHANGES)
           .stream()

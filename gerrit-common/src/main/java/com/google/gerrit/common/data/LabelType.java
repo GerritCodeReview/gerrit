@@ -274,7 +274,7 @@ public class LabelType {
     return byValue.get(value);
   }
 
-  public LabelValue getValue(final PatchSetApproval ca) {
+  public LabelValue getValue(PatchSetApproval ca) {
     initByValue();
     return byValue.get(ca.getValue());
   }
@@ -282,7 +282,7 @@ public class LabelType {
   private void initByValue() {
     if (byValue == null) {
       byValue = new HashMap<>();
-      for (final LabelValue v : values) {
+      for (LabelValue v : values) {
         byValue.put(v.getValue(), v);
       }
     }

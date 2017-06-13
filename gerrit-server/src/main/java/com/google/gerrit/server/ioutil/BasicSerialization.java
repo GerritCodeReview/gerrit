@@ -41,7 +41,7 @@ import org.eclipse.jgit.util.IO;
 public class BasicSerialization {
   private static final byte[] NO_BYTES = {};
 
-  private static int safeRead(final InputStream input) throws IOException {
+  private static int safeRead(InputStream input) throws IOException {
     final int b = input.read();
     if (b == -1) {
       throw new EOFException();
@@ -50,20 +50,20 @@ public class BasicSerialization {
   }
 
   /** Read a fixed-width 64 bit integer in network byte order (big-endian). */
-  public static long readFixInt64(final InputStream input) throws IOException {
+  public static long readFixInt64(InputStream input) throws IOException {
     final long h = readFixInt32(input);
     final long l = readFixInt32(input) & 0xFFFFFFFFL;
     return (h << 32) | l;
   }
 
   /** Write a fixed-width 64 bit integer in network byte order (big-endian). */
-  public static void writeFixInt64(final OutputStream output, final long val) throws IOException {
+  public static void writeFixInt64(OutputStream output, long val) throws IOException {
     writeFixInt32(output, (int) (val >>> 32));
     writeFixInt32(output, (int) (val & 0xFFFFFFFFL));
   }
 
   /** Read a fixed-width 32 bit integer in network byte order (big-endian). */
-  public static int readFixInt32(final InputStream input) throws IOException {
+  public static int readFixInt32(InputStream input) throws IOException {
     final int b1 = safeRead(input);
     final int b2 = safeRead(input);
     final int b3 = safeRead(input);
@@ -72,7 +72,7 @@ public class BasicSerialization {
   }
 
   /** Write a fixed-width 32 bit integer in network byte order (big-endian). */
-  public static void writeFixInt32(final OutputStream output, final int val) throws IOException {
+  public static void writeFixInt32(OutputStream output, int val) throws IOException {
     output.write((val >>> 24) & 0xFF);
     output.write((val >>> 16) & 0xFF);
     output.write((val >>> 8) & 0xFF);
@@ -80,7 +80,7 @@ public class BasicSerialization {
   }
 
   /** Read a varint from the input, one byte at a time. */
-  public static int readVarInt32(final InputStream input) throws IOException {
+  public static int readVarInt32(InputStream input) throws IOException {
     int result = 0;
     int offset = 0;
     for (; offset < 32; offset += 7) {
@@ -94,7 +94,7 @@ public class BasicSerialization {
   }
 
   /** Write a varint; value is treated as an unsigned value. */
-  public static void writeVarInt32(final OutputStream output, int value) throws IOException {
+  public static void writeVarInt32(OutputStream output, int value) throws IOException {
     while (true) {
       if ((value & ~0x7F) == 0) {
         output.write(value);
@@ -106,7 +106,7 @@ public class BasicSerialization {
   }
 
   /** Read a fixed length byte array whose length is specified as a varint. */
-  public static byte[] readBytes(final InputStream input) throws IOException {
+  public static byte[] readBytes(InputStream input) throws IOException {
     final int len = readVarInt32(input);
     if (len == 0) {
       return NO_BYTES;
@@ -117,20 +117,19 @@ public class BasicSerialization {
   }
 
   /** Write a byte array prefixed by its length in a varint. */
-  public static void writeBytes(final OutputStream output, final byte[] data) throws IOException {
+  public static void writeBytes(OutputStream output, byte[] data) throws IOException {
     writeBytes(output, data, 0, data.length);
   }
 
   /** Write a byte array prefixed by its length in a varint. */
-  public static void writeBytes(
-      final OutputStream output, final byte[] data, final int offset, final int len)
+  public static void writeBytes(final OutputStream output, byte[] data, int offset, int len)
       throws IOException {
     writeVarInt32(output, len);
     output.write(data, offset, len);
   }
 
   /** Read a UTF-8 string, prefixed by its byte length in a varint. */
-  public static String readString(final InputStream input) throws IOException {
+  public static String readString(InputStream input) throws IOException {
     final byte[] bin = readBytes(input);
     if (bin.length == 0) {
       return null;
@@ -139,7 +138,7 @@ public class BasicSerialization {
   }
 
   /** Write a UTF-8 string, prefixed by its byte length in a varint. */
-  public static void writeString(final OutputStream output, final String s) throws IOException {
+  public static void writeString(OutputStream output, String s) throws IOException {
     if (s == null) {
       writeVarInt32(output, 0);
     } else {
@@ -148,8 +147,7 @@ public class BasicSerialization {
   }
 
   /** Read an enum whose code is stored as a varint. */
-  public static <T extends CodedEnum> T readEnum(final InputStream input, final T[] all)
-      throws IOException {
+  public static <T extends CodedEnum> T readEnum(InputStream input, T[] all) throws IOException {
     final int val = readVarInt32(input);
     for (T t : all) {
       if (t.getCode() == val) {
@@ -160,8 +158,7 @@ public class BasicSerialization {
   }
 
   /** Write an enum whose code is stored as a varint. */
-  public static <T extends CodedEnum> void writeEnum(final OutputStream output, final T e)
-      throws IOException {
+  public static <T extends CodedEnum> void writeEnum(OutputStream output, T e) throws IOException {
     writeVarInt32(output, e.getCode());
   }
 

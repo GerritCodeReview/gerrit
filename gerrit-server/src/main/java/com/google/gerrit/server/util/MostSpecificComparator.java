@@ -52,7 +52,7 @@ public final class MostSpecificComparator implements Comparator<RefConfigSection
     return compare(a.getName(), b.getName());
   }
 
-  public int compare(final String pattern1, final String pattern2) {
+  public int compare(String pattern1, String pattern2) {
     int cmp = distance(pattern1) - distance(pattern2);
     if (cmp == 0) {
       boolean p1_finite = finite(pattern1);

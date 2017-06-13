@@ -48,7 +48,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class PatchListEntry {
   private static final byte[] EMPTY_HEADER = {};
 
-  static PatchListEntry empty(final String fileName) {
+  static PatchListEntry empty(String fileName) {
     return new PatchListEntry(
         ChangeType.MODIFIED,
         PatchType.UNIFIED,

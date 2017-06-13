@@ -81,7 +81,7 @@ public class TestChanges {
     return ps;
   }
 
-  public static ChangeUpdate newUpdate(Injector injector, Change c, final CurrentUser user)
+  public static ChangeUpdate newUpdate(Injector injector, Change c, CurrentUser user)
       throws Exception {
     injector =
         injector.createChildInjector(

@@ -218,7 +218,7 @@ public class Hashtags extends Composite {
     }
   }
 
-  private void addHashtag(final String hashtags) {
+  private void addHashtag(String hashtags) {
     ChangeApi.hashtags(changeId.get())
         .post(
             PostInput.create(hashtags, null),

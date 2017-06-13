@@ -31,7 +31,7 @@ public class AccessMap extends NativeMap<ProjectAccessInfo> {
     api.get(NativeMap.copyKeysIntoChildren(callback));
   }
 
-  public static void get(final Project.NameKey project, final AsyncCallback<ProjectAccessInfo> cb) {
+  public static void get(Project.NameKey project, AsyncCallback<ProjectAccessInfo> cb) {
     get(
         Collections.singleton(project),
         new AsyncCallback<AccessMap>() {

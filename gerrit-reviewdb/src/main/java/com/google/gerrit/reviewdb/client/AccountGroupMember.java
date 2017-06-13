@@ -33,7 +33,7 @@ public final class AccountGroupMember {
       groupId = new AccountGroup.Id();
     }
 
-    public Key(final Account.Id a, final AccountGroup.Id g) {
+    public Key(Account.Id a, AccountGroup.Id g) {
       accountId = a;
       groupId = g;
     }
@@ -58,7 +58,7 @@ public final class AccountGroupMember {
 
   protected AccountGroupMember() {}
 
-  public AccountGroupMember(final AccountGroupMember.Key k) {
+  public AccountGroupMember(AccountGroupMember.Key k) {
     key = k;
   }
 

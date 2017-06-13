@@ -18,7 +18,7 @@ package com.google.gwtexpui.safehtml.client;
 class SafeHtmlString extends SafeHtml {
   private final String html;
 
-  SafeHtmlString(final String h) {
+  SafeHtmlString(String h) {
     html = h;
   }
 

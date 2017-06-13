@@ -34,7 +34,7 @@ final class ApproveOption implements Option, Setter<Short> {
 
   private Short value;
 
-  ApproveOption(final String name, final String usage, final LabelType type) {
+  ApproveOption(String name, String usage, LabelType type) {
     this.name = name;
     this.usage = usage;
     this.type = type;
@@ -100,7 +100,7 @@ final class ApproveOption implements Option, Setter<Short> {
   }
 
   @Override
-  public void addValue(final Short val) {
+  public void addValue(Short val) {
     this.value = val;
   }
 
@@ -122,13 +122,13 @@ final class ApproveOption implements Option, Setter<Short> {
     private final ApproveOption cmdOption;
 
     // CS IGNORE RedundantModifier FOR NEXT 1 LINES. REASON: needed by org.kohsuke.args4j.Option
-    public Handler(final CmdLineParser parser, final OptionDef option, final Setter<Short> setter) {
+    public Handler(CmdLineParser parser, OptionDef option, Setter<Short> setter) {
       super(parser, option, setter);
       this.cmdOption = (ApproveOption) setter;
     }
 
     @Override
-    protected Short parse(final String token) throws NumberFormatException, CmdLineException {
+    protected Short parse(String token) throws NumberFormatException, CmdLineException {
       String argument = token;
       if (argument.startsWith("+")) {
         argument = argument.substring(1);

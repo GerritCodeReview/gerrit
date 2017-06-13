@@ -26,7 +26,7 @@ public class PredicateClassLoader extends ClassLoader {
       LinkedHashMultimap.create();
 
   public PredicateClassLoader(
-      final DynamicSet<PredicateProvider> predicateProviders, final ClassLoader parent) {
+      final DynamicSet<PredicateProvider> predicateProviders, ClassLoader parent) {
     super(parent);
 
     for (PredicateProvider predicateProvider : predicateProviders) {
@@ -37,10 +37,10 @@ public class PredicateClassLoader extends ClassLoader {
   }
 
   @Override
-  protected Class<?> findClass(final String className) throws ClassNotFoundException {
+  protected Class<?> findClass(String className) throws ClassNotFoundException {
     final Collection<ClassLoader> classLoaders =
         packageClassLoaderMap.get(getPackageName(className));
-    for (final ClassLoader cl : classLoaders) {
+    for (ClassLoader cl : classLoaders) {
       try {
         return Class.forName(className, true, cl);
       } catch (ClassNotFoundException e) {

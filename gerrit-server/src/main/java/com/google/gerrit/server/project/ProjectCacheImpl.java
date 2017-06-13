@@ -120,7 +120,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public ProjectState get(final Project.NameKey projectName) {
+  public ProjectState get(Project.NameKey projectName) {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
@@ -151,7 +151,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void evict(final Project p) {
+  public void evict(Project p) {
     if (p != null) {
       byName.invalidate(p.getNameKey().get());
     }
@@ -159,14 +159,14 @@ public class ProjectCacheImpl implements ProjectCache {
 
   /** Invalidate the cached information about the given project. */
   @Override
-  public void evict(final Project.NameKey p) {
+  public void evict(Project.NameKey p) {
     if (p != null) {
       byName.invalidate(p.get());
     }
   }
 
   @Override
-  public void remove(final Project p) {
+  public void remove(Project p) {
     listLock.lock();
     try {
       SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
@@ -218,7 +218,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> byName(final String pfx) {
+  public Iterable<Project.NameKey> byName(String pfx) {
     final Iterable<Project.NameKey> src;
     try {
       src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));

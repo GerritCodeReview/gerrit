@@ -62,7 +62,7 @@ public class CopyableLabel extends Composite implements HasText {
     return flashEnabled;
   }
 
-  public static void setFlashEnabled(final boolean on) {
+  public static void setFlashEnabled(boolean on) {
     flashEnabled = on;
   }
 
@@ -87,7 +87,7 @@ public class CopyableLabel extends Composite implements HasText {
    *
    * @param str initial content
    */
-  public CopyableLabel(final String str) {
+  public CopyableLabel(String str) {
     this(str, true);
   }
 
@@ -98,7 +98,7 @@ public class CopyableLabel extends Composite implements HasText {
    * @param showLabel if true, the content is shown, if false it is hidden from view and only the
    *     copy icon is displayed.
    */
-  public CopyableLabel(final String str, final boolean showLabel) {
+  public CopyableLabel(String str, boolean showLabel) {
     content = new FlowPanel();
     initWidget(content);
 
@@ -111,7 +111,7 @@ public class CopyableLabel extends Composite implements HasText {
       textLabel.addClickHandler(
           new ClickHandler() {
             @Override
-            public void onClick(final ClickEvent event) {
+            public void onClick(ClickEvent event) {
               showTextBox();
             }
           });
@@ -160,7 +160,7 @@ public class CopyableLabel extends Composite implements HasText {
    * @param text the new preview text, should be shorter than the original text which would be
    *     copied to the clipboard.
    */
-  public void setPreviewText(final String text) {
+  public void setPreviewText(String text) {
     if (textLabel != null) {
       textLabel.setText(text);
     }
@@ -206,7 +206,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   @Override
-  public void setText(final String newText) {
+  public void setText(String newText) {
     text = newText;
     visibleLen = newText.length();
 
@@ -229,7 +229,7 @@ public class CopyableLabel extends Composite implements HasText {
       textBox.addKeyPressHandler(
           new KeyPressHandler() {
             @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            public void onKeyPress(KeyPressEvent event) {
               if (event.isControlKeyDown() || event.isMetaKeyDown()) {
                 switch (event.getCharCode()) {
                   case 'c':
@@ -237,7 +237,7 @@ public class CopyableLabel extends Composite implements HasText {
                     textBox.addKeyUpHandler(
                         new KeyUpHandler() {
                           @Override
-                          public void onKeyUp(final KeyUpEvent event) {
+                          public void onKeyUp(KeyUpEvent event) {
                             Scheduler.get()
                                 .scheduleDeferred(
                                     new Command() {
@@ -256,7 +256,7 @@ public class CopyableLabel extends Composite implements HasText {
       textBox.addBlurHandler(
           new BlurHandler() {
             @Override
-            public void onBlur(final BlurEvent event) {
+            public void onBlur(BlurEvent event) {
               hideTextBox();
             }
           });

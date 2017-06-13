@@ -17,7 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.server.mail.send.EmailHeader;
 
 public class Address {
-  public static Address parse(final String in) {
+  public static Address parse(String in) {
     final int lt = in.indexOf('<');
     final int gt = in.indexOf('>');
     final int at = in.indexOf("@");
@@ -110,7 +110,7 @@ public class Address {
     return true;
   }
 
-  private static String quotedPhrase(final String name) {
+  private static String quotedPhrase(String name) {
     if (EmailHeader.needsQuotedPrintable(name)) {
       return EmailHeader.quotedPrintable(name);
     }
@@ -123,7 +123,7 @@ public class Address {
     return name;
   }
 
-  private static String wrapInQuotes(final String name) {
+  private static String wrapInQuotes(String name) {
     final StringBuilder r = new StringBuilder(2 + name.length());
     r.append('"');
     for (int i = 0; i < name.length(); i++) {

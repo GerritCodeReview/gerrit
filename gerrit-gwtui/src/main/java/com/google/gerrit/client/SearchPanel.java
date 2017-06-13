@@ -48,7 +48,7 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(
         new KeyPressHandler() {
           @Override
-          public void onKeyPress(final KeyPressEvent event) {
+          public void onKeyPress(KeyPressEvent event) {
             if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
               if (!suggestionDisplay.isSuggestionSelected) {
                 doSearch();
@@ -92,7 +92,7 @@ class SearchPanel extends Composite {
     body.add(searchButton);
   }
 
-  void setText(final String query) {
+  void setText(String query) {
     searchBox.setText(query);
   }
 
@@ -105,7 +105,7 @@ class SearchPanel extends Composite {
               this,
               new KeyCommand(0, '/', Gerrit.C.keySearch()) {
                 @Override
-                public void onKeyPress(final KeyPressEvent event) {
+                public void onKeyPress(KeyPressEvent event) {
                   event.preventDefault();
                   searchBox.setFocus(true);
                   searchBox.selectAll();

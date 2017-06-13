@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 class CreateChangeAction {
-  static void call(final Button b, final String project) {
+  static void call(Button b, String project) {
     // TODO Replace CreateChangeDialog with a nicer looking display.
     b.setEnabled(false);
     new CreateChangeDialog(new Project.NameKey(project)) {

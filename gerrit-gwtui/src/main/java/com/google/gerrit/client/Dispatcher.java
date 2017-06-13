@@ -170,7 +170,7 @@ public class Dispatcher {
     return p.toString();
   }
 
-  public static String toGroup(final AccountGroup.Id id) {
+  public static String toGroup(AccountGroup.Id id) {
     return ADMIN_GROUPS + id.toString();
   }
 
@@ -293,7 +293,7 @@ public class Dispatcher {
     return r;
   }
 
-  private static void dashboard(final String token) {
+  private static void dashboard(String token) {
     String rest = skip(token);
     if (rest.matches("[0-9]+")) {
       Gerrit.display(token, new AccountDashboardScreen(Account.Id.parse(rest)));
@@ -319,7 +319,7 @@ public class Dispatcher {
     Gerrit.display(token, new NotFoundScreen());
   }
 
-  private static void projects(final String token) {
+  private static void projects(String token) {
     String rest = skip(token);
     int c = rest.indexOf(DASHBOARDS);
     if (0 <= c) {
@@ -366,7 +366,7 @@ public class Dispatcher {
     Gerrit.display(token, new NotFoundScreen());
   }
 
-  private static void change(final String token) {
+  private static void change(String token) {
     String rest = skip(token);
     int c = rest.lastIndexOf(',');
     String panel = null;
@@ -456,7 +456,7 @@ public class Dispatcher {
     return new PatchSet.Id(id, psIdStr.equals("edit") ? 0 : Integer.parseInt(psIdStr));
   }
 
-  private static void extension(final String token) {
+  private static void extension(String token) {
     ExtensionScreen view = new ExtensionScreen(skip(token));
     if (view.isFound()) {
       Gerrit.display(token, view);
@@ -533,7 +533,7 @@ public class Dispatcher {
         });
   }
 
-  private static void codemirrorForEdit(final String token, final Patch.Key id, final int line) {
+  private static void codemirrorForEdit(String token, Patch.Key id, int line) {
     GWT.runAsync(
         new AsyncSplit(token) {
           @Override
@@ -839,7 +839,7 @@ public class Dispatcher {
     }
   }
 
-  private static void docSearch(final String token) {
+  private static void docSearch(String token) {
     GWT.runAsync(
         new AsyncSplit(token) {
           @Override

@@ -78,7 +78,7 @@ public class ReviewCommand extends SshCommand {
     metaVar = "{COMMIT | CHANGE,PATCHSET}",
     usage = "list of commits or patch sets to review"
   )
-  void addPatchSetId(final String token) {
+  void addPatchSetId(String token) {
     try {
       PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
       patchSets.add(ps);
@@ -159,7 +159,7 @@ public class ReviewCommand extends SshCommand {
     usage = "custom label(s) to assign",
     metaVar = "LABEL=VALUE"
   )
-  void addLabel(final String token) {
+  void addLabel(String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
     LabelType.checkName(v.label()); // Disallow SUBM.
     customLabels.put(v.label(), v.value());
@@ -256,7 +256,7 @@ public class ReviewCommand extends SshCommand {
       input = reviewFromJson();
     }
 
-    for (final PatchSet patchSet : patchSets) {
+    for (PatchSet patchSet : patchSets) {
       try {
         if (input != null) {
           applyReview(patchSet, input);
@@ -281,7 +281,7 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(PatchSet patchSet, final ReviewInput review) throws RestApiException {
+  private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
     gApi.changes()
         .id(patchSet.getId().getParentKey().get())
         .revision(patchSet.getRevision().get())
@@ -297,7 +297,7 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void reviewPatchSet(final PatchSet patchSet) throws Exception {
+  private void reviewPatchSet(PatchSet patchSet) throws Exception {
     if (notify == null) {
       notify = NotifyHandling.ALL;
     }

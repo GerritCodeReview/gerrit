@@ -58,7 +58,7 @@ public class GroupMembers {
     this.currentUser = currentUser;
   }
 
-  public Set<Account> listAccounts(final AccountGroup.UUID groupUUID, final Project.NameKey project)
+  public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
       throws NoSuchGroupException, NoSuchProjectException, OrmException, IOException {
     return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
   }
@@ -78,8 +78,7 @@ public class GroupMembers {
     return Collections.emptySet();
   }
 
-  private Set<Account> getProjectOwners(
-      final Project.NameKey project, final Set<AccountGroup.UUID> seen)
+  private Set<Account> getProjectOwners(final Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchProjectException, NoSuchGroupException, OrmException, IOException {
     seen.add(SystemGroupBackend.PROJECT_OWNERS);
     if (project == null) {
@@ -90,7 +89,7 @@ public class GroupMembers {
         projectControl.controlFor(project, currentUser).getProjectState().getAllOwners();
 
     final HashSet<Account> projectOwners = new HashSet<>();
-    for (final AccountGroup.UUID ownerGroup : ownerGroups) {
+    for (AccountGroup.UUID ownerGroup : ownerGroups) {
       if (!seen.contains(ownerGroup)) {
         projectOwners.addAll(listAccounts(ownerGroup, project, seen));
       }
@@ -99,19 +98,19 @@ public class GroupMembers {
   }
 
   private Set<Account> getGroupMembers(
-      final AccountGroup group, final Project.NameKey project, final Set<AccountGroup.UUID> seen)
+      final AccountGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
     final GroupDetail groupDetail = groupDetailFactory.create(group.getId()).call();
 
     final Set<Account> members = new HashSet<>();
     if (groupDetail.members != null) {
-      for (final AccountGroupMember member : groupDetail.members) {
+      for (AccountGroupMember member : groupDetail.members) {
         members.add(accountCache.get(member.getAccountId()).getAccount());
       }
     }
     if (groupDetail.includes != null) {
-      for (final AccountGroupById groupInclude : groupDetail.includes) {
+      for (AccountGroupById groupInclude : groupDetail.includes) {
         final AccountGroup includedGroup = groupCache.get(groupInclude.getIncludeUUID());
         if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
           members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));

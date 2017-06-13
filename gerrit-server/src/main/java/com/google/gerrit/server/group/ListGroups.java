@@ -253,9 +253,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     List<AccountGroup> groupList;
     if (!projects.isEmpty()) {
       Map<AccountGroup.UUID, AccountGroup> groups = new HashMap<>();
-      for (final ProjectControl projectControl : projects) {
+      for (ProjectControl projectControl : projects) {
         final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
-        for (final GroupReference groupRef : groupsRefs) {
+        for (GroupReference groupRef : groupsRefs) {
           final AccountGroup group = groupCache.get(groupRef.getUUID());
           if (group != null) {
             groups.put(group.getGroupUUID(), group);
@@ -294,7 +294,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
                 limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());
-    for (final GroupReference ref : groupRefs) {
+    for (GroupReference ref : groupRefs) {
       GroupDescription.Basic desc = groupBackend.get(ref.getUUID());
       if (desc != null) {
         groupInfos.add(json.addOptions(options).format(desc));

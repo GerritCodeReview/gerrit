@@ -263,8 +263,7 @@ public class CommitValidators {
           || NEW_PATCHSET.matcher(event.command.getRefName()).matches();
     }
 
-    private CommitValidationMessage getMissingChangeIdErrorMsg(
-        final String errMsg, final RevCommit c) {
+    private CommitValidationMessage getMissingChangeIdErrorMsg(final String errMsg, RevCommit c) {
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 

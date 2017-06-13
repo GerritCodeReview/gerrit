@@ -75,7 +75,7 @@ class UsernameField extends Composite {
       setUserName.addClickHandler(
           new ClickHandler() {
             @Override
-            public void onClick(final ClickEvent event) {
+            public void onClick(ClickEvent event) {
               confirmSetUserName();
             }
           });
@@ -143,14 +143,14 @@ class UsernameField extends Composite {
         });
   }
 
-  private void enableUI(final boolean on) {
+  private void enableUI(boolean on) {
     userNameTxt.setEnabled(on);
     setUserName.setEnabled(on);
   }
 
   private static final class UserNameValidator implements KeyPressHandler {
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
       final char code = event.getCharCode();
       final int nativeCode = event.getNativeEvent().getKeyCode();
       switch (nativeCode) {

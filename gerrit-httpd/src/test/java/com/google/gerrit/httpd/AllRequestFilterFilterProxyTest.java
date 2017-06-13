@@ -74,7 +74,7 @@ public class AllRequestFilterFilterProxyTest {
    * <p>This method adds the given filter to all {@link AllRequestFilter.FilterProxy} instances
    * created by {@link #getFilterProxy()}.
    */
-  private ReloadableRegistrationHandle<AllRequestFilter> addFilter(final AllRequestFilter filter) {
+  private ReloadableRegistrationHandle<AllRequestFilter> addFilter(AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
     return filters.add(key, Providers.of(filter));
   }

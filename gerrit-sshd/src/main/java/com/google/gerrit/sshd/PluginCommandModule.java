@@ -46,7 +46,7 @@ public abstract class PluginCommandModule extends CommandModule {
     command(command, clazz);
   }
 
-  protected void alias(final String name, Class<? extends BaseCommand> clazz) {
+  protected void alias(String name, Class<? extends BaseCommand> clazz) {
     alias(command, name, clazz);
   }
 }

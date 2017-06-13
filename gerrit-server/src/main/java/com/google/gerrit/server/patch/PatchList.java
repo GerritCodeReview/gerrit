@@ -153,7 +153,7 @@ public class PatchList implements Serializable {
    */
   public List<Patch> toPatchList(PatchSet.Id setId) {
     final ArrayList<Patch> r = new ArrayList<>(patches.length);
-    for (final PatchListEntry e : patches) {
+    for (PatchListEntry e : patches) {
       r.add(e.toPatch(setId));
     }
     return r;

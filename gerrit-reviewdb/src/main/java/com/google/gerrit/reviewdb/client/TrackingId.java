@@ -32,7 +32,7 @@ public final class TrackingId {
 
     protected Id() {}
 
-    public Id(final String id) {
+    public Id(String id) {
       this.id = id;
     }
 
@@ -56,7 +56,7 @@ public final class TrackingId {
 
     protected System() {}
 
-    public System(final String s) {
+    public System(String s) {
       this.system = s;
     }
 
@@ -89,7 +89,7 @@ public final class TrackingId {
       trackingSystem = new System();
     }
 
-    protected Key(final Change.Id ch, final Id id, final System s) {
+    protected Key(Change.Id ch, Id id, System s) {
       changeId = ch;
       trackingKey = id;
       trackingSystem = s;
@@ -119,11 +119,11 @@ public final class TrackingId {
 
   protected TrackingId() {}
 
-  public TrackingId(final Change.Id ch, final TrackingId.Id id, final TrackingId.System s) {
+  public TrackingId(Change.Id ch, TrackingId.Id id, TrackingId.System s) {
     key = new Key(ch, id, s);
   }
 
-  public TrackingId(final Change.Id ch, final String id, final String s) {
+  public TrackingId(Change.Id ch, String id, String s) {
     key = new Key(ch, new TrackingId.Id(id), new TrackingId.System(s));
   }
 
@@ -149,7 +149,7 @@ public final class TrackingId {
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (obj instanceof TrackingId) {
       final TrackingId tr = (TrackingId) obj;
       return key.equals(tr.key);

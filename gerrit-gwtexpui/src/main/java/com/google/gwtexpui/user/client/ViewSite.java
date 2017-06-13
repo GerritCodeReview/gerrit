@@ -51,7 +51,7 @@ public class ViewSite<V extends View> extends Composite {
    *
    * @param view the next view to display.
    */
-  public void setView(final V view) {
+  public void setView(V view) {
     if (next != null) {
       main.remove(next);
     }
@@ -67,10 +67,10 @@ public class ViewSite<V extends View> extends Composite {
    *
    * @param view the view being displayed.
    */
-  protected void onShowView(final V view) {}
+  protected void onShowView(V view) {}
 
   @SuppressWarnings("unchecked")
-  final void swap(final View v) {
+  final void swap(View v) {
     if (next != null && next.getWidget() == v) {
       if (current != null) {
         main.remove(current);

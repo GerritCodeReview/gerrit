@@ -141,7 +141,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     return Pattern.compile(term.name(), Pattern.MULTILINE);
   }
 
-  private Text load(final ObjectId tree, final String path, final ObjectReader reader)
+  private Text load(ObjectId tree, String path, ObjectReader reader)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
     if (path == null) {

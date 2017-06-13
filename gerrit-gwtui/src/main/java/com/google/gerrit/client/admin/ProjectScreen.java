@@ -37,7 +37,7 @@ public abstract class ProjectScreen extends Screen {
 
   private final Project.NameKey name;
 
-  public ProjectScreen(final Project.NameKey toShow) {
+  public ProjectScreen(Project.NameKey toShow) {
     name = toShow;
   }
 

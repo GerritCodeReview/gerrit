@@ -91,11 +91,11 @@ public class ProjectListScreen extends PaginatedProjectScreen {
           }
 
           @Override
-          protected void onOpenRow(final int row) {
+          protected void onOpenRow(int row) {
             History.newItem(link(getRowItem(row)));
           }
 
-          private String link(final ProjectInfo item) {
+          private String link(ProjectInfo item) {
             return Dispatcher.toProject(item.name_key());
           }
 

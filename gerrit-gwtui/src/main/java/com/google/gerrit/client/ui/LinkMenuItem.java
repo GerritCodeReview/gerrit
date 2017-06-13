@@ -21,7 +21,7 @@ import com.google.gwt.dom.client.AnchorElement;
 public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
   private LinkMenuBar bar;
 
-  public LinkMenuItem(final String text, final String targetHistoryToken) {
+  public LinkMenuItem(String text, String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
     Roles.getMenuitemRole().set(getElement());

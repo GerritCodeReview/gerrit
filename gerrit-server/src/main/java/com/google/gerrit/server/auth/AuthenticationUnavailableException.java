@@ -20,7 +20,7 @@ import com.google.gerrit.server.account.AccountException;
 public class AuthenticationUnavailableException extends AccountException {
   private static final long serialVersionUID = 1L;
 
-  public AuthenticationUnavailableException(final String message, final Throwable why) {
+  public AuthenticationUnavailableException(String message, Throwable why) {
     super(message, why);
   }
 }

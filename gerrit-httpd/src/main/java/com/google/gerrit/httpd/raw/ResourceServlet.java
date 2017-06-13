@@ -289,7 +289,7 @@ public abstract class ResourceServlet extends HttpServlet {
         || name.contains("//"); // windows UNC path can be "//..."
   }
 
-  private Callable<Resource> newLoader(final Path p) {
+  private Callable<Resource> newLoader(Path p) {
     return () -> {
       try {
         return new Resource(

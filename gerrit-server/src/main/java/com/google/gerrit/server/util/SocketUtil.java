@@ -22,12 +22,12 @@ import java.net.UnknownHostException;
 
 public final class SocketUtil {
   /** True if this InetAddress is a raw IPv6 in dotted quad notation. */
-  public static boolean isIPv6(final InetAddress ip) {
+  public static boolean isIPv6(InetAddress ip) {
     return ip instanceof Inet6Address && ip.getHostName().equals(ip.getHostAddress());
   }
 
   /** Get the name or IP address, or {@code *} if this address is a wildcard IP. */
-  public static String hostname(final InetSocketAddress addr) {
+  public static String hostname(InetSocketAddress addr) {
     if (addr.getAddress() != null) {
       if (addr.getAddress().isAnyLocalAddress()) {
         return "*";
@@ -38,7 +38,7 @@ public final class SocketUtil {
   }
 
   /** Format an address string into {@code host:port} or {@code *:port} syntax. */
-  public static String format(final SocketAddress s, final int defaultPort) {
+  public static String format(SocketAddress s, int defaultPort) {
     if (s instanceof InetSocketAddress) {
       final InetSocketAddress addr = (InetSocketAddress) s;
       if (addr.getPort() == defaultPort) {
@@ -62,7 +62,7 @@ public final class SocketUtil {
   }
 
   /** Parse an address string such as {@code host:port} or {@code *:port}. */
-  public static InetSocketAddress parse(final String desc, final int defaultPort) {
+  public static InetSocketAddress parse(String desc, int defaultPort) {
     String hostStr;
     String portStr;
 
@@ -109,7 +109,7 @@ public final class SocketUtil {
   }
 
   /** Parse and resolve an address string, looking up the IP address. */
-  public static InetSocketAddress resolve(final String desc, final int defaultPort) {
+  public static InetSocketAddress resolve(String desc, int defaultPort) {
     final InetSocketAddress addr = parse(desc, defaultPort);
     if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
       return addr;

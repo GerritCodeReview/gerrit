@@ -75,7 +75,7 @@ final class ShowConnections extends SshCommand {
   private int columns = 80;
 
   @Override
-  public void start(final Environment env) throws IOException {
+  public void start(Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -122,7 +122,7 @@ final class ShowConnections extends SshCommand {
           String.format(
               "%-8s %8s %8s   %-15s %s\n", "Session", "Start", "Idle", "User", "Remote Host"));
       stdout.print("--------------------------------------------------------------\n");
-      for (final IoSession io : list) {
+      for (IoSession io : list) {
         checkState(io instanceof MinaSession, "expected MinaSession");
         MinaSession minaSession = (MinaSession) io;
         long start = minaSession.getSession().getCreationTime();
@@ -142,7 +142,7 @@ final class ShowConnections extends SshCommand {
     } else {
       stdout.print(String.format("%-8s   %-15s %s\n", "Session", "User", "Remote Host"));
       stdout.print("--------------------------------------------------------------\n");
-      for (final IoSession io : list) {
+      for (IoSession io : list) {
         AbstractSession s = AbstractSession.getSession(io, true);
         SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
@@ -169,11 +169,11 @@ final class ShowConnections extends SshCommand {
     }
   }
 
-  private static String id(final SshSession sd) {
+  private static String id(SshSession sd) {
     return sd != null ? IdGenerator.format(sd.getSessionId()) : "";
   }
 
-  private static String time(final long now, final long time) {
+  private static String time(long now, long time) {
     if (time - now < 24 * 60 * 60 * 1000L) {
       return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
     }
@@ -193,7 +193,7 @@ final class ShowConnections extends SshCommand {
     return String.format("%02d:%02d:%02d", hr, min, sec);
   }
 
-  private String username(final SshSession sd) {
+  private String username(SshSession sd) {
     if (sd == null) {
       return "";
     }
@@ -214,7 +214,7 @@ final class ShowConnections extends SshCommand {
     return "";
   }
 
-  private String hostname(final SocketAddress remoteAddress) {
+  private String hostname(SocketAddress remoteAddress) {
     if (remoteAddress == null) {
       return "?";
     }

@@ -125,7 +125,7 @@ public class CreateGroupScreen extends Screen {
     addNew.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doCreateGroup();
           }
         });
@@ -146,7 +146,7 @@ public class CreateGroupScreen extends Screen {
         newName,
         new GerritCallback<GroupInfo>() {
           @Override
-          public void onSuccess(final GroupInfo result) {
+          public void onSuccess(GroupInfo result) {
             History.newItem(Dispatcher.toGroup(result.getGroupId(), AccountGroupScreen.MEMBERS));
           }
 

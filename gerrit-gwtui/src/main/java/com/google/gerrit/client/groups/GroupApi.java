@@ -44,7 +44,7 @@ public class GroupApi {
   }
 
   /** Check if the current user is owner of a group */
-  public static void isGroupOwner(String groupName, final AsyncCallback<Boolean> cb) {
+  public static void isGroupOwner(String groupName, AsyncCallback<Boolean> cb) {
     GroupMap.myOwned(
         groupName,
         new AsyncCallback<GroupMap>() {
@@ -105,7 +105,7 @@ public class GroupApi {
 
   /** Add members to a group. */
   public static void addMembers(
-      AccountGroup.UUID group, Set<String> members, final AsyncCallback<JsArray<AccountInfo>> cb) {
+      AccountGroup.UUID group, Set<String> members, AsyncCallback<JsArray<AccountInfo>> cb) {
     if (members.size() == 1) {
       addMember(
           group,
@@ -132,7 +132,7 @@ public class GroupApi {
 
   /** Remove members from a group. */
   public static void removeMembers(
-      AccountGroup.UUID group, Set<Integer> ids, final AsyncCallback<VoidResult> cb) {
+      AccountGroup.UUID group, Set<Integer> ids, AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
       members(group).id(ids.iterator().next().toString()).delete(cb);
     } else {
@@ -181,7 +181,7 @@ public class GroupApi {
 
   /** Remove included groups from a group. */
   public static void removeIncludedGroups(
-      AccountGroup.UUID group, Set<AccountGroup.UUID> ids, final AsyncCallback<VoidResult> cb) {
+      AccountGroup.UUID group, Set<AccountGroup.UUID> ids, AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
       AccountGroup.UUID g = ids.iterator().next();
       groups(group).id(g.get()).delete(cb);

@@ -66,7 +66,7 @@ public class NewAgreementScreen extends AccountScreen {
     this(null);
   }
 
-  public NewAgreementScreen(final String token) {
+  public NewAgreementScreen(String token) {
     nextToken = token != null ? token : PageLinks.SETTINGS_AGREEMENTS;
   }
 
@@ -122,7 +122,7 @@ public class NewAgreementScreen extends AccountScreen {
     submit.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doSign();
           }
         });
@@ -156,7 +156,7 @@ public class NewAgreementScreen extends AccountScreen {
     }
     radios.add(hdr);
 
-    for (final AgreementInfo cla : available) {
+    for (AgreementInfo cla : available) {
       final RadioButton r = new RadioButton("cla_id", cla.name());
       r.addStyleName(Gerrit.RESOURCES.css().contributorAgreementButton());
       radios.add(r);
@@ -170,7 +170,7 @@ public class NewAgreementScreen extends AccountScreen {
         r.addClickHandler(
             new ClickHandler() {
               @Override
-              public void onClick(final ClickEvent event) {
+              public void onClick(ClickEvent event) {
                 showCLA(cla);
               }
             });

@@ -19,7 +19,7 @@ import com.google.inject.Injector;
 public class JettyEnv {
   final Injector webInjector;
 
-  public JettyEnv(final Injector webInjector) {
+  public JettyEnv(Injector webInjector) {
     this.webInjector = webInjector;
   }
 }

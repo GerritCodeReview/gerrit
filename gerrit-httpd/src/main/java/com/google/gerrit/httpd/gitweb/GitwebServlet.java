@@ -370,8 +370,7 @@ class GitwebServlet extends HttpServlet {
   }
 
   @Override
-  protected void service(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void service(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     if (req.getQueryString() == null || req.getQueryString().isEmpty()) {
       // No query string? They want the project list, which we don't
       // currently support. Return to Gerrit's own web UI.
@@ -458,7 +457,7 @@ class GitwebServlet extends HttpServlet {
 
   private static Map<String, String> getParameters(HttpServletRequest req) {
     final Map<String, String> params = new HashMap<>();
-    for (final String pair : req.getQueryString().split("[&;]")) {
+    for (String pair : req.getQueryString().split("[&;]")) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {
         String name = pair.substring(0, eq);
@@ -622,8 +621,7 @@ class GitwebServlet extends HttpServlet {
     return env.getEnvArray();
   }
 
-  private void copyContentToCGI(final HttpServletRequest req, final OutputStream dst)
-      throws IOException {
+  private void copyContentToCGI(HttpServletRequest req, OutputStream dst) throws IOException {
     final int contentLength = req.getContentLength();
     final InputStream src = req.getInputStream();
     new Thread(
@@ -652,7 +650,7 @@ class GitwebServlet extends HttpServlet {
         .start();
   }
 
-  private void copyStderrToLog(final InputStream in) {
+  private void copyStderrToLog(InputStream in) {
     new Thread(
             () -> {
               try (BufferedReader br =
@@ -673,7 +671,7 @@ class GitwebServlet extends HttpServlet {
     return req.getHeaderNames();
   }
 
-  private void readCgiHeaders(HttpServletResponse res, final InputStream in) throws IOException {
+  private void readCgiHeaders(HttpServletResponse res, InputStream in) throws IOException {
     String line;
     while (!(line = readLine(in)).isEmpty()) {
       if (line.startsWith("HTTP")) {
@@ -704,7 +702,7 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private String readLine(final InputStream in) throws IOException {
+  private String readLine(InputStream in) throws IOException {
     final StringBuilder buf = new StringBuilder();
     int b;
     while ((b = in.read()) != -1 && b != '\n') {
@@ -721,12 +719,12 @@ class GitwebServlet extends HttpServlet {
       envMap = new HashMap<>();
     }
 
-    EnvList(final EnvList l) {
+    EnvList(EnvList l) {
       envMap = new HashMap<>(l.envMap);
     }
 
     /** Set a name/value pair, null values will be treated as an empty String */
-    public void set(final String name, String value) {
+    public void set(String name, String value) {
       if (value == null) {
         value = "";
       }

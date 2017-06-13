@@ -30,7 +30,7 @@ class UpToChangeCommand extends KeyCommand {
   }
 
   @Override
-  public void onKeyPress(final KeyPressEvent event) {
+  public void onKeyPress(KeyPressEvent event) {
     Gerrit.display(PageLinks.toChange(revision.getParentKey(), revision.getId()));
   }
 }

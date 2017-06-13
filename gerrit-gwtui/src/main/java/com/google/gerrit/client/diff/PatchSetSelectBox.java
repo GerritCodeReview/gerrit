@@ -147,8 +147,7 @@ class PatchSetSelectBox extends Composite {
     }
   }
 
-  void setUpBlame(
-      final CodeMirror cm, final boolean isBase, final PatchSet.Id rev, final String path) {
+  void setUpBlame(final CodeMirror cm, boolean isBase, PatchSet.Id rev, String path) {
     if (!Patch.isMagic(path) && Gerrit.isSignedIn() && Gerrit.info().change().allowBlame()) {
       Anchor blameIcon = createBlameIcon();
       blameIcon.addClickHandler(

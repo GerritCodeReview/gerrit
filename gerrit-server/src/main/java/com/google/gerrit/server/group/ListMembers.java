@@ -61,7 +61,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   @Override
-  public List<AccountInfo> apply(final GroupResource resource)
+  public List<AccountInfo> apply(GroupResource resource)
       throws MethodNotAllowedException, OrmException {
     if (resource.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
@@ -83,7 +83,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   private Map<Account.Id, AccountInfo> getMembers(
-      final AccountGroup.UUID groupUUID, final HashSet<AccountGroup.UUID> seenGroups)
+      final AccountGroup.UUID groupUUID, HashSet<AccountGroup.UUID> seenGroups)
       throws OrmException {
     seenGroups.add(groupUUID);
 
@@ -103,7 +103,7 @@ public class ListMembers implements RestReadView<GroupResource> {
     }
 
     if (groupDetail.members != null) {
-      for (final AccountGroupMember m : groupDetail.members) {
+      for (AccountGroupMember m : groupDetail.members) {
         if (!members.containsKey(m.getAccountId())) {
           members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
         }
@@ -112,7 +112,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
     if (recursive) {
       if (groupDetail.includes != null) {
-        for (final AccountGroupById includedGroup : groupDetail.includes) {
+        for (AccountGroupById includedGroup : groupDetail.includes) {
           if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
             members.putAll(getMembers(includedGroup.getIncludeUUID(), seenGroups));
           }

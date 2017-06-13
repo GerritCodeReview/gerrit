@@ -20,8 +20,7 @@ import java.io.OutputStream;
 import org.eclipse.jgit.util.IO;
 
 public class ObjectIdSerialization {
-  public static void writeCanBeNull(final OutputStream out, final AnyObjectId id)
-      throws IOException {
+  public static void writeCanBeNull(OutputStream out, AnyObjectId id) throws IOException {
     if (id != null) {
       out.write((byte) 1);
       writeNotNull(out, id);
@@ -30,11 +29,11 @@ public class ObjectIdSerialization {
     }
   }
 
-  public static void writeNotNull(final OutputStream out, final AnyObjectId id) throws IOException {
+  public static void writeNotNull(OutputStream out, AnyObjectId id) throws IOException {
     id.copyRawTo(out);
   }
 
-  public static ObjectId readCanBeNull(final InputStream in) throws IOException {
+  public static ObjectId readCanBeNull(InputStream in) throws IOException {
     switch (in.read()) {
       case 0:
         return null;
@@ -45,7 +44,7 @@ public class ObjectIdSerialization {
     }
   }
 
-  public static ObjectId readNotNull(final InputStream in) throws IOException {
+  public static ObjectId readNotNull(InputStream in) throws IOException {
     final byte[] b = new byte[20];
     IO.readFully(in, b, 0, 20);
     return ObjectId.fromRaw(b);

@@ -152,7 +152,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     final List<ListenableFuture<?>> futures = new ArrayList<>();
     final AtomicBoolean ok = new AtomicBoolean(true);
 
-    for (final ProjectHolder project : projects) {
+    for (ProjectHolder project : projects) {
       ListenableFuture<?> future =
           executor.submit(
               reindexProject(

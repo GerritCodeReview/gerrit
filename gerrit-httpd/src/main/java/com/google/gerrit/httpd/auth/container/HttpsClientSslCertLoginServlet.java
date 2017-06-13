@@ -47,8 +47,7 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append(LoginUrlToken.getToken(req));

@@ -36,8 +36,7 @@ public class EditActions {
     ChangeApi.rebaseEdit(id.get(), cs(id, editButtons));
   }
 
-  public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id, final Button... editButtons) {
+  public static GerritCallback<JavaScriptObject> cs(final Change.Id id, Button... editButtons) {
     setEnabled(false, editButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override

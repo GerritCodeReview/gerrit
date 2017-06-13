@@ -79,17 +79,17 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
   }
 
   /** @return the existing HTML property of a widget. */
-  public static SafeHtml get(final HasHTML t) {
+  public static SafeHtml get(HasHTML t) {
     return new SafeHtmlString(t.getHTML());
   }
 
   /** @return the existing HTML text, wrapped in a safe buffer. */
-  public static SafeHtml asis(final String htmlText) {
+  public static SafeHtml asis(String htmlText) {
     return new SafeHtmlString(htmlText);
   }
 
   /** Set the HTML property of a widget. */
-  public static <T extends HasHTML> T set(final T e, final SafeHtml str) {
+  public static <T extends HasHTML> T set(T e, SafeHtml str) {
     e.setHTML(str.asString());
     return e;
   }
@@ -106,13 +106,12 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
   }
 
   /** @return the existing inner HTML of a table cell. */
-  public static SafeHtml get(final HTMLTable t, final int row, final int col) {
+  public static SafeHtml get(HTMLTable t, int row, int col) {
     return new SafeHtmlString(t.getHTML(row, col));
   }
 
   /** Set the inner HTML of a table cell. */
-  public static <T extends HTMLTable> T set(
-      final T t, final int row, final int col, final SafeHtml str) {
+  public static <T extends HTMLTable> T set(final T t, int row, int col, SafeHtml str) {
     t.setHTML(row, col, str.asString());
     return t;
   }
@@ -140,13 +139,13 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
    */
   public SafeHtml wikify() {
     final SafeHtmlBuilder r = new SafeHtmlBuilder();
-    for (final String p : linkify().asString().split("\n\n")) {
+    for (String p : linkify().asString().split("\n\n")) {
       if (isQuote(p)) {
         wikifyQuote(r, p);
 
       } else if (isPreFormat(p)) {
         r.openElement("p");
-        for (final String line : p.split("\n")) {
+        for (String line : p.split("\n")) {
           r.openSpan();
           r.setStyleName(RESOURCES.css().wikiPreFormat());
           r.append(asis(line));
@@ -167,7 +166,7 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
     return r.toSafeHtml();
   }
 
-  private void wikifyList(final SafeHtmlBuilder r, final String p) {
+  private void wikifyList(SafeHtmlBuilder r, String p) {
     boolean in_ul = false;
     boolean in_p = false;
     for (String line : p.split("\n")) {
@@ -232,11 +231,11 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
     return p.startsWith("&gt; ") || p.startsWith(" &gt; ");
   }
 
-  private static boolean isPreFormat(final String p) {
+  private static boolean isPreFormat(String p) {
     return p.contains("\n ") || p.contains("\n\t") || p.startsWith(" ") || p.startsWith("\t");
   }
 
-  private static boolean isList(final String p) {
+  private static boolean isList(String p) {
     return p.contains("\n- ") || p.contains("\n* ") || p.startsWith("- ") || p.startsWith("* ");
   }
 
@@ -252,7 +251,7 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
    *     {@code $<i>n</i>}.
    * @return a new string, after the replacement has been made.
    */
-  public SafeHtml replaceFirst(final String regex, final String repl) {
+  public SafeHtml replaceFirst(String regex, String repl) {
     return new SafeHtmlString(asString().replaceFirst(regex, repl));
   }
 
@@ -268,7 +267,7 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
    *     {@code $<i>n</i>}.
    * @return a new string, after the replacements have been made.
    */
-  public SafeHtml replaceAll(final String regex, final String repl) {
+  public SafeHtml replaceAll(String regex, String repl) {
     return new SafeHtmlString(asString().replaceAll(regex, repl));
   }
 

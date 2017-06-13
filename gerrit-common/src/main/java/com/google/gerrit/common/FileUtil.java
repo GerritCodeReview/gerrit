@@ -39,18 +39,18 @@ public class FileUtil {
     return !Arrays.equals(curVers, newVers);
   }
 
-  public static void mkdir(final File path) {
+  public static void mkdir(File path) {
     if (!path.isDirectory() && !path.mkdir()) {
       throw new Die("Cannot make directory " + path);
     }
   }
 
-  public static void chmod(final int mode, final Path path) {
+  public static void chmod(int mode, Path path) {
     // TODO(dborowitz): Is there a portable way to do this with NIO?
     chmod(mode, path.toFile());
   }
 
-  public static void chmod(final int mode, final File path) {
+  public static void chmod(int mode, File path) {
     path.setReadable(false, false /* all */);
     path.setWritable(false, false /* all */);
     path.setExecutable(false, false /* all */);

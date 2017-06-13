@@ -76,7 +76,7 @@ public class SchemaCreator {
     indexCollection = ic;
   }
 
-  public void create(final ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
+  public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
     final JdbcSchema jdbc = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
       jdbc.updateSchema(e);

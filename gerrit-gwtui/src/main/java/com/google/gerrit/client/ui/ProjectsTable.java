@@ -48,12 +48,12 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   @Override
-  protected Object getRowItemKey(final ProjectInfo item) {
+  protected Object getRowItemKey(ProjectInfo item) {
     return item.name();
   }
 
   @Override
-  protected void onOpenRow(final int row) {
+  protected void onOpenRow(int row) {
     if (row > 0) {
       movePointerTo(row);
     }
@@ -84,7 +84,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     finishDisplay();
   }
 
-  protected void insert(final int row, final ProjectInfo k) {
+  protected void insert(int row, ProjectInfo k) {
     table.insertRow(row);
 
     applyDataRowStyle(row);
@@ -98,7 +98,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     populate(row, k);
   }
 
-  protected void populate(final int row, final ProjectInfo k) {
+  protected void populate(int row, ProjectInfo k) {
     populateState(row, k);
     table.setText(row, C_NAME, k.name());
     table.setText(row, C_DESCRIPTION, k.description());

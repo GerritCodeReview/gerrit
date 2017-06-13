@@ -33,7 +33,7 @@ public class StringUtil {
    * hex escape (\x00, \x01, ...) or as a C-style escape sequence (\a, \b, \t, \n, \v, \f, or \r).
    * Backslashes in the input string are doubled (\\).
    */
-  public static String escapeString(final String str) {
+  public static String escapeString(String str) {
     // Allocate a buffer big enough to cover the case with a string needed
     // very excessive escaping without having to reallocate the buffer.
     final StringBuilder result = new StringBuilder(3 * str.length());

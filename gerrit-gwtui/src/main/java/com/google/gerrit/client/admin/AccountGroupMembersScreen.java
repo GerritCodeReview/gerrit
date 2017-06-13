@@ -59,7 +59,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   private FlowPanel noMembersInfo;
   private AccountGroupSuggestOracle accountGroupSuggestOracle;
 
-  public AccountGroupMembersScreen(final GroupInfo toShow, final String token) {
+  public AccountGroupMembersScreen(GroupInfo toShow, String token) {
     super(toShow, token);
   }
 
@@ -71,7 +71,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     initNoMembersInfo();
   }
 
-  private void enableForm(final boolean canModify) {
+  private void enableForm(boolean canModify) {
     addMemberBox.setEnabled(canModify);
     members.setEnabled(canModify);
     addIncludeBox.setEnabled(canModify);
@@ -88,7 +88,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     addMemberBox.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doAddNewMember();
           }
         });
@@ -100,7 +100,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     delMember.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             members.deleteChecked();
           }
         });
@@ -124,7 +124,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     addIncludeBox.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doAddNewInclude();
           }
         });
@@ -136,7 +136,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     delInclude.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             includes.deleteChecked();
           }
         });
@@ -157,7 +157,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   }
 
   @Override
-  protected void display(final GroupInfo group, final boolean canModify) {
+  protected void display(GroupInfo group, boolean canModify) {
     if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
       members.display(Natives.asList(group.members()));
       includes.display(Natives.asList(group.includes()));
@@ -184,14 +184,14 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         nameEmail,
         new GerritCallback<AccountInfo>() {
           @Override
-          public void onSuccess(final AccountInfo memberInfo) {
+          public void onSuccess(AccountInfo memberInfo) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
             members.insert(memberInfo);
           }
 
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onFailure(Throwable caught) {
             addMemberBox.setEnabled(true);
             super.onFailure(caught);
           }
@@ -215,14 +215,14 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         uuid.get(),
         new GerritCallback<GroupInfo>() {
           @Override
-          public void onSuccess(final GroupInfo result) {
+          public void onSuccess(GroupInfo result) {
             addIncludeBox.setEnabled(true);
             addIncludeBox.setText("");
             includes.insert(result);
           }
 
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onFailure(Throwable caught) {
             addIncludeBox.setEnabled(true);
             super.onFailure(caught);
           }
@@ -242,7 +242,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
     }
 
-    void setEnabled(final boolean enabled) {
+    void setEnabled(boolean enabled) {
       this.enabled = enabled;
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountInfo i = getRowItem(row);
@@ -266,7 +266,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             ids,
             new GerritCallback<VoidResult>() {
               @Override
-              public void onSuccess(final VoidResult result) {
+              public void onSuccess(VoidResult result) {
                 for (int row = 1; row < table.getRowCount(); ) {
                   final AccountInfo i = getRowItem(row);
                   if (i != null && ids.contains(i._accountId())) {
@@ -280,12 +280,12 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void display(final List<AccountInfo> result) {
+    void display(List<AccountInfo> result) {
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final AccountInfo i : result) {
+      for (AccountInfo i : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -323,7 +323,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void populate(final int row, final AccountInfo i) {
+    void populate(int row, AccountInfo i) {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
@@ -352,7 +352,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
     }
 
-    void setEnabled(final boolean enabled) {
+    void setEnabled(boolean enabled) {
       this.enabled = enabled;
       for (int row = 1; row < table.getRowCount(); row++) {
         final GroupInfo i = getRowItem(row);
@@ -376,7 +376,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             ids,
             new GerritCallback<VoidResult>() {
               @Override
-              public void onSuccess(final VoidResult result) {
+              public void onSuccess(VoidResult result) {
                 for (int row = 1; row < table.getRowCount(); ) {
                   final GroupInfo i = getRowItem(row);
                   if (i != null && ids.contains(i.getGroupUUID())) {
@@ -395,7 +395,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final GroupInfo i : list) {
+      for (GroupInfo i : list) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -427,7 +427,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void populate(final int row, final GroupInfo i) {
+    void populate(int row, GroupInfo i) {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
 
       AccountGroup.UUID uuid = i.getGroupUUID();

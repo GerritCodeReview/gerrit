@@ -31,7 +31,7 @@ public final class Project {
 
     protected NameKey() {}
 
-    public NameKey(final String n) {
+    public NameKey(String n) {
       name = n;
     }
 
@@ -59,7 +59,7 @@ public final class Project {
     }
 
     /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(final String str) {
+    public static NameKey parse(String str) {
       final NameKey r = new NameKey();
       r.fromString(str);
       return r;
@@ -129,7 +129,7 @@ public final class Project {
     return description;
   }
 
-  public void setDescription(final String d) {
+  public void setDescription(String d) {
     description = d;
   }
 
@@ -161,23 +161,23 @@ public final class Project {
     return enableReviewerByEmail;
   }
 
-  public void setEnableReviewerByEmail(final InheritableBoolean enable) {
+  public void setEnableReviewerByEmail(InheritableBoolean enable) {
     enableReviewerByEmail = enable;
   }
 
-  public void setUseContributorAgreements(final InheritableBoolean u) {
+  public void setUseContributorAgreements(InheritableBoolean u) {
     useContributorAgreements = u;
   }
 
-  public void setUseSignedOffBy(final InheritableBoolean sbo) {
+  public void setUseSignedOffBy(InheritableBoolean sbo) {
     useSignedOffBy = sbo;
   }
 
-  public void setUseContentMerge(final InheritableBoolean cm) {
+  public void setUseContentMerge(InheritableBoolean cm) {
     useContentMerge = cm;
   }
 
-  public void setRequireChangeID(final InheritableBoolean cid) {
+  public void setRequireChangeID(InheritableBoolean cid) {
     requireChangeID = cid;
   }
 
@@ -205,7 +205,7 @@ public final class Project {
     requireSignedPush = require;
   }
 
-  public void setMaxObjectSizeLimit(final String limit) {
+  public void setMaxObjectSizeLimit(String limit) {
     maxObjectSizeLimit = limit;
   }
 
@@ -217,7 +217,7 @@ public final class Project {
     return submitType;
   }
 
-  public void setSubmitType(final SubmitType type) {
+  public void setSubmitType(SubmitType type) {
     submitType = type;
   }
 
@@ -225,7 +225,7 @@ public final class Project {
     return state;
   }
 
-  public void setState(final ProjectState newState) {
+  public void setState(ProjectState newState) {
     state = newState;
   }
 
@@ -233,7 +233,7 @@ public final class Project {
     return defaultDashboardId;
   }
 
-  public void setDefaultDashboard(final String defaultDashboardId) {
+  public void setDefaultDashboard(String defaultDashboardId) {
     this.defaultDashboardId = defaultDashboardId;
   }
 
@@ -241,7 +241,7 @@ public final class Project {
     return localDefaultDashboardId;
   }
 
-  public void setLocalDefaultDashboard(final String localDefaultDashboardId) {
+  public void setLocalDefaultDashboard(String localDefaultDashboardId) {
     this.localDefaultDashboardId = localDefaultDashboardId;
   }
 
@@ -249,11 +249,11 @@ public final class Project {
     return themeName;
   }
 
-  public void setThemeName(final String themeName) {
+  public void setThemeName(String themeName) {
     this.themeName = themeName;
   }
 
-  public void copySettingsFrom(final Project update) {
+  public void copySettingsFrom(Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
@@ -282,7 +282,7 @@ public final class Project {
    * @param allProjectsName name key of the wild project
    * @return name key of the parent project, {@code null} if this project is the wild project
    */
-  public Project.NameKey getParent(final Project.NameKey allProjectsName) {
+  public Project.NameKey getParent(Project.NameKey allProjectsName) {
     if (parent != null) {
       return parent;
     }

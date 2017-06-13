@@ -25,7 +25,7 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   private DashboardsTable dashes;
   Project.NameKey project;
 
-  public ProjectDashboardsScreen(final Project.NameKey project) {
+  public ProjectDashboardsScreen(Project.NameKey project) {
     super(project);
     this.project = project;
   }

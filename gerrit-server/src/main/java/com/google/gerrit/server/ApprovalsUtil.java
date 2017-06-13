@@ -97,7 +97,7 @@ public class ApprovalsUtil {
   }
 
   private static Iterable<PatchSetApproval> filterApprovals(
-      Iterable<PatchSetApproval> psas, final Account.Id accountId) {
+      Iterable<PatchSetApproval> psas, Account.Id accountId) {
     return Iterables.filter(psas, a -> Objects.equals(a.getAccountId(), accountId));
   }
 

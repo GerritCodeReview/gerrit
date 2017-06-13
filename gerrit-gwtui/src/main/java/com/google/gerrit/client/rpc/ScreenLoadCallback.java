@@ -24,12 +24,12 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
   private final Screen screen;
 
-  public ScreenLoadCallback(final Screen s) {
+  public ScreenLoadCallback(Screen s) {
     screen = s;
   }
 
   @Override
-  public final void onSuccess(final T result) {
+  public final void onSuccess(T result) {
     if (screen.isAttached()) {
       preDisplay(result);
       screen.display();
@@ -42,7 +42,7 @@ public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
   protected void postDisplay() {}
 
   @Override
-  public void onFailure(final Throwable caught) {
+  public void onFailure(Throwable caught) {
     if (isSigninFailure(caught)) {
       new NotSignedInDialog().center();
     } else if (isNoSuchEntity(caught)) {

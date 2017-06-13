@@ -137,7 +137,7 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   /** Release resources stored in interpreter's hash manager. */
   public void close() {
-    for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
+    for (Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
       try {
         i.next().run();
       } catch (Throwable err) {

@@ -56,7 +56,7 @@ public class CommandExecutorQueueProvider implements QueueProvider {
     executor.setThreadFactory(
         new ThreadFactory() {
           @Override
-          public Thread newThread(final Runnable task) {
+          public Thread newThread(Runnable task) {
             final Thread t = parent.newThread(task);
             t.setPriority(Thread.MIN_PRIORITY);
             return t;

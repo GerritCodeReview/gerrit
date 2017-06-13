@@ -21,7 +21,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 public class JettyModule extends LifecycleModule {
   private final JettyEnv env;
 
-  public JettyModule(final JettyEnv env) {
+  public JettyModule(JettyEnv env) {
     this.env = env;
   }
 

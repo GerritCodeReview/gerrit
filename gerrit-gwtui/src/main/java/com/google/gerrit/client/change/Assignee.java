@@ -140,7 +140,7 @@ public class Assignee extends Composite {
     onCloseForm();
   }
 
-  private void editAssignee(final String assignee) {
+  private void editAssignee(String assignee) {
     if (assignee.trim().isEmpty()) {
       ChangeApi.deleteAssignee(
           changeId.get(),

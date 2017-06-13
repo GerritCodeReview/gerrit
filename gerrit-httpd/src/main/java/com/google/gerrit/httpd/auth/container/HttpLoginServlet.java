@@ -79,7 +79,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws ServletException, IOException {
     final String token = LoginUrlToken.getToken(req);
 

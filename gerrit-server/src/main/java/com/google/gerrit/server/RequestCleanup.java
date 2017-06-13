@@ -30,7 +30,7 @@ public class RequestCleanup implements Runnable {
   private boolean ran;
 
   /** Register a task to be completed after the request ends. */
-  public void add(final Runnable task) {
+  public void add(Runnable task) {
     synchronized (cleanup) {
       if (ran) {
         throw new IllegalStateException("Request has already been cleaned up");
@@ -43,7 +43,7 @@ public class RequestCleanup implements Runnable {
   public void run() {
     synchronized (cleanup) {
       ran = true;
-      for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
+      for (Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
         try {
           i.next().run();
         } catch (Throwable err) {

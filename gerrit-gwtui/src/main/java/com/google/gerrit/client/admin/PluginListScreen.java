@@ -45,7 +45,7 @@ public class PluginListScreen extends PluginScreen {
     PluginMap.all(
         new ScreenLoadCallback<PluginMap>(this) {
           @Override
-          protected void preDisplay(final PluginMap result) {
+          protected void preDisplay(PluginMap result) {
             pluginTable.display(result);
           }
         });
@@ -75,12 +75,12 @@ public class PluginListScreen extends PluginScreen {
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
     }
 
-    void display(final PluginMap plugins) {
+    void display(PluginMap plugins) {
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final PluginInfo p : Natives.asList(plugins.values())) {
+      for (PluginInfo p : Natives.asList(plugins.values())) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -88,7 +88,7 @@ public class PluginListScreen extends PluginScreen {
       }
     }
 
-    void populate(final int row, final PluginInfo plugin) {
+    void populate(int row, PluginInfo plugin) {
       if (plugin.disabled() || plugin.indexUrl() == null) {
         table.setText(row, 1, plugin.name());
       } else {

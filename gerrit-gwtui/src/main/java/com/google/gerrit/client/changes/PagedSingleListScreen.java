@@ -64,7 +64,7 @@ public abstract class PagedSingleListScreen extends Screen {
             keysNavigation.add(
                 new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
                   @Override
-                  public void onKeyPress(final KeyPressEvent event) {
+                  public void onKeyPress(KeyPressEvent event) {
                     Gerrit.display(getToken());
                   }
                 });
@@ -126,7 +126,7 @@ public abstract class PagedSingleListScreen extends Screen {
     }
 
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
       if (link.isVisible()) {
         History.newItem(link.getTargetHistoryToken());
       }

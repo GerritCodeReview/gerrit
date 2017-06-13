@@ -52,7 +52,7 @@ public class ProjectListPopup {
   private boolean poppingUp;
   private boolean firstPopupLoad = true;
 
-  public void initPopup(final String popupText, final String currentPageLink) {
+  public void initPopup(String popupText, String currentPageLink) {
     createWidgets(popupText, currentPageLink);
     final FlowPanel pfp = new FlowPanel();
     pfp.add(filterPanel);
@@ -109,7 +109,7 @@ public class ProjectListPopup {
     return poppingUp;
   }
 
-  private void createWidgets(final String popupText, final String currentPageLink) {
+  private void createWidgets(String popupText, String currentPageLink) {
     filterPanel = new HorizontalPanel();
     filterPanel.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
     final Label filterLabel =
@@ -135,13 +135,13 @@ public class ProjectListPopup {
     projectsTab =
         new HighlightingProjectsTable() {
           @Override
-          protected void movePointerTo(final int row, final boolean scroll) {
+          protected void movePointerTo(int row, boolean scroll) {
             super.movePointerTo(row, scroll);
             onMovePointerTo(getRowItem(row).name());
           }
 
           @Override
-          protected void onOpenRow(final int row) {
+          protected void onOpenRow(int row) {
             super.onOpenRow(row);
             openRow(getRowItem(row).name());
           }
@@ -161,7 +161,7 @@ public class ProjectListPopup {
     close.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             closePopup();
           }
         });
@@ -188,7 +188,7 @@ public class ProjectListPopup {
     popup.hide();
   }
 
-  public void setPreferredCoordinates(final int top, final int left) {
+  public void setPreferredCoordinates(int top, int left) {
     this.preferredTop = top;
     this.preferredLeft = left;
   }

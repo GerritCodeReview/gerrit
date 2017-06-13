@@ -31,11 +31,11 @@ public class SparseFileContent {
     return size;
   }
 
-  public void setSize(final int s) {
+  public void setSize(int s) {
     size = s;
   }
 
-  public String get(final int idx) {
+  public String get(int idx) {
     final String line = getLine(idx);
     if (line == null) {
       throw new ArrayIndexOutOfBoundsException(idx);
@@ -43,7 +43,7 @@ public class SparseFileContent {
     return line;
   }
 
-  public boolean contains(final int idx) {
+  public boolean contains(int idx) {
     return getLine(idx) != null;
   }
 
@@ -51,7 +51,7 @@ public class SparseFileContent {
     return ranges.isEmpty() ? size() : ranges.get(0).base;
   }
 
-  public int next(final int idx) {
+  public int next(int idx) {
     // Most requests are sequential in nature, fetching the next
     // line from the current range, or the immediate next range.
     //
@@ -106,7 +106,7 @@ public class SparseFileContent {
     return size();
   }
 
-  private String getLine(final int idx) {
+  private String getLine(int idx) {
     // Most requests are sequential in nature, fetching the next
     // line from the current range, or the next range.
     //
@@ -148,7 +148,7 @@ public class SparseFileContent {
     return null;
   }
 
-  public void addLine(final int i, final String content) {
+  public void addLine(int i, String content) {
     final Range r;
     if (!ranges.isEmpty() && i == last().end()) {
       r = last();
@@ -180,14 +180,14 @@ public class SparseFileContent {
     protected int base;
     protected List<String> lines;
 
-    private Range(final int b) {
+    private Range(int b) {
       base = b;
       lines = new ArrayList<>();
     }
 
     protected Range() {}
 
-    private String get(final int i) {
+    private String get(int i) {
       return lines.get(i - base);
     }
 
@@ -195,7 +195,7 @@ public class SparseFileContent {
       return base + lines.size();
     }
 
-    private boolean contains(final int i) {
+    private boolean contains(int i) {
       return base <= i && i < end();
     }
 

@@ -30,7 +30,7 @@ public class RawInputUtil {
     return create(content.getBytes(UTF_8));
   }
 
-  public static RawInput create(final byte[] bytes, final String contentType) {
+  public static RawInput create(byte[] bytes, String contentType) {
     Preconditions.checkNotNull(bytes);
     Preconditions.checkArgument(bytes.length > 0);
     return new RawInput() {
@@ -51,11 +51,11 @@ public class RawInputUtil {
     };
   }
 
-  public static RawInput create(final byte[] bytes) {
+  public static RawInput create(byte[] bytes) {
     return create(bytes, "application/octet-stream");
   }
 
-  public static RawInput create(final HttpServletRequest req) {
+  public static RawInput create(HttpServletRequest req) {
     return new RawInput() {
       @Override
       public String getContentType() {

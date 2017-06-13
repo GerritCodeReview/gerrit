@@ -91,7 +91,7 @@ class ContactPanelShort extends Composite {
     registerNewEmail.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doRegisterNewEmail();
           }
         });
@@ -148,7 +148,7 @@ class ContactPanelShort extends Composite {
     save.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             doSave();
           }
         });
@@ -156,7 +156,7 @@ class ContactPanelShort extends Composite {
     emailPick.addChangeHandler(
         new ChangeHandler() {
           @Override
-          public void onChange(final ChangeEvent event) {
+          public void onChange(ChangeEvent event) {
             final int idx = emailPick.getSelectedIndex();
             final String v = 0 <= idx ? emailPick.getValue(idx) : null;
             if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
@@ -249,7 +249,7 @@ class ContactPanelShort extends Composite {
 
   void display() {}
 
-  protected void row(final Grid info, final int row, final String name, final Widget field) {
+  protected void row(Grid info, int row, String name, Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
     info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
@@ -279,7 +279,7 @@ class ContactPanelShort extends Composite {
     form.addSubmitHandler(
         new FormPanel.SubmitHandler() {
           @Override
-          public void onSubmit(final SubmitEvent event) {
+          public void onSubmit(SubmitEvent event) {
             event.cancel();
             final String addr = inEmail.getText().trim();
             if (!addr.contains("@")) {
@@ -310,7 +310,7 @@ class ContactPanelShort extends Composite {
                   }
 
                   @Override
-                  public void onFailure(final Throwable caught) {
+                  public void onFailure(Throwable caught) {
                     inEmail.setEnabled(true);
                     register.setEnabled(true);
                     if (caught.getMessage().startsWith(EmailException.MESSAGE)) {
@@ -331,7 +331,7 @@ class ContactPanelShort extends Composite {
     register.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(final ClickEvent event) {
+          public void onClick(ClickEvent event) {
             form.submit();
           }
         });

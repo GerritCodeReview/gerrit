@@ -131,7 +131,7 @@ final class StreamEvents extends BaseCommand {
   private PrintWriter stdout;
 
   @Override
-  public void start(final Environment env) throws IOException {
+  public void start(Environment env) throws IOException {
     try {
       parseCommandLine();
     } catch (UnloggedFailure e) {
@@ -150,7 +150,7 @@ final class StreamEvents extends BaseCommand {
         eventListeners.add(
             new UserScopedEventListener() {
               @Override
-              public void onEvent(final Event event) {
+              public void onEvent(Event event) {
                 if (subscribedToEvents.isEmpty() || subscribedToEvents.contains(event.getType())) {
                   offer(event);
                 }
@@ -170,7 +170,7 @@ final class StreamEvents extends BaseCommand {
   }
 
   @Override
-  protected void onExit(final int rc) {
+  protected void onExit(int rc) {
     eventListenerRegistration.remove();
 
     synchronized (taskLock) {
@@ -199,7 +199,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void offer(final Event event) {
+  private void offer(Event event) {
     synchronized (taskLock) {
       if (!queue.offer(event)) {
         dropped = true;
@@ -263,7 +263,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void write(final Object message) {
+  private void write(Object message) {
     String msg = null;
     try {
       msg = gson.toJson(message) + "\n";

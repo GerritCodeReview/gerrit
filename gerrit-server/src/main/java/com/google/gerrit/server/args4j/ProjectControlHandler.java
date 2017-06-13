@@ -58,7 +58,7 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   }
 
   @Override
-  public final int parseArguments(final Parameters params) throws CmdLineException {
+  public final int parseArguments(Parameters params) throws CmdLineException {
     String projectName = params.getParameter(0);
 
     while (projectName.endsWith("/")) {

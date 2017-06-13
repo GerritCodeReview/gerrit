@@ -35,7 +35,7 @@ public class Natives {
     return Collections.emptySet();
   }
 
-  public static List<String> asList(final JsArrayString arr) {
+  public static List<String> asList(JsArrayString arr) {
     if (arr == null) {
       return null;
     }
@@ -59,7 +59,7 @@ public class Natives {
     };
   }
 
-  public static <T extends JavaScriptObject> List<T> asList(final JsArray<T> arr) {
+  public static <T extends JavaScriptObject> List<T> asList(JsArray<T> arr) {
     if (arr == null) {
       return null;
     }

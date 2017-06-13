@@ -36,7 +36,7 @@ class DefaultActions {
     invoke(action, api, callback(PageLinks.toProject(project)));
   }
 
-  private static AsyncCallback<JavaScriptObject> callback(final String target) {
+  private static AsyncCallback<JavaScriptObject> callback(String target) {
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject in) {

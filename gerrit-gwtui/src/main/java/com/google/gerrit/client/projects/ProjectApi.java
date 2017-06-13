@@ -176,7 +176,7 @@ public class ProjectApi {
     project(name).view("config").put(in, cb);
   }
 
-  public static void getParent(Project.NameKey name, final AsyncCallback<Project.NameKey> cb) {
+  public static void getParent(Project.NameKey name, AsyncCallback<Project.NameKey> cb) {
     project(name)
         .view("parent")
         .get(

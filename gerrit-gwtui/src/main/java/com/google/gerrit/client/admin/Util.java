@@ -30,7 +30,7 @@ public class Util {
     AdminResources.I.css().ensureInjected();
   }
 
-  public static String toLongString(final SubmitType type) {
+  public static String toLongString(SubmitType type) {
     if (type == null) {
       return "";
     }
@@ -52,7 +52,7 @@ public class Util {
     }
   }
 
-  public static String toLongString(final ProjectState type) {
+  public static String toLongString(ProjectState type) {
     if (type == null) {
       return "";
     }

@@ -112,8 +112,7 @@ class PatchScriptBuilder {
     bId = b;
   }
 
-  PatchScript toPatchScript(
-      PatchListEntry content, CommentDetail comments, List<Patch> history)
+  PatchScript toPatchScript(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     reader = db.newObjectReader();
     try {
@@ -123,8 +122,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private PatchScript build(
-      PatchListEntry content, CommentDetail comments, List<Patch> history)
+  private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
@@ -327,7 +325,7 @@ class PatchScriptBuilder {
   private void safeAdd(List<Edit> empty, Edit toAdd) {
     final int a = toAdd.getBeginA();
     final int b = toAdd.getBeginB();
-    for (final Edit e : edits) {
+    for (Edit e : edits) {
       if (e.getBeginA() <= a && a <= e.getEndA()) {
         return;
       }
@@ -392,7 +390,7 @@ class PatchScriptBuilder {
 
   private void packContent(boolean ignoredWhitespace) {
     EditList list = new EditList(edits, context, a.size(), b.size());
-    for (final EditList.Hunk hunk : list.getHunks()) {
+    for (EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
           final String lineA = a.src.getString(hunk.getCurA());

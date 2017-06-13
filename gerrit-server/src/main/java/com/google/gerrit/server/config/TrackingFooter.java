@@ -25,7 +25,7 @@ public class TrackingFooter {
   private final Pattern match;
   private final String system;
 
-  public TrackingFooter(String f, final String m, final String s) throws PatternSyntaxException {
+  public TrackingFooter(String f, String m, String s) throws PatternSyntaxException {
     f = f.trim();
     if (f.endsWith(":")) {
       f = f.substring(0, f.length() - 1);

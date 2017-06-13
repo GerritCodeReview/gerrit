@@ -205,7 +205,7 @@ public class PermissionEditor extends Composite
     addStage2.getStyle().setDisplay(Display.NONE);
   }
 
-  private void addGroup(final GroupReference ref) {
+  private void addGroup(GroupReference ref) {
     if (ref.getUUID() != null) {
       if (value.getRule(ref) == null) {
         PermissionRule newRule = value.getRule(ref, true);

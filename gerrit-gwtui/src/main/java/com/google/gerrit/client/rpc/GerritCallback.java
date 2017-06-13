@@ -32,7 +32,7 @@ public abstract class GerritCallback<T>
     implements com.google.gwtjsonrpc.common.AsyncCallback<T>,
         com.google.gwt.user.client.rpc.AsyncCallback<T> {
   @Override
-  public void onFailure(final Throwable caught) {
+  public void onFailure(Throwable caught) {
     showFailure(caught);
   }
 
@@ -77,7 +77,7 @@ public abstract class GerritCallback<T>
     return false;
   }
 
-  protected static boolean isInvalidXSRF(final Throwable caught) {
+  protected static boolean isInvalidXSRF(Throwable caught) {
     return caught instanceof InvocationException
         && caught.getMessage().equals(JsonConstants.ERROR_INVALID_XSRF);
   }
@@ -94,17 +94,17 @@ public abstract class GerritCallback<T>
             && caught.getMessage().equals(NoSuchEntityException.MESSAGE));
   }
 
-  protected static boolean isNoSuchAccount(final Throwable caught) {
+  protected static boolean isNoSuchAccount(Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NoSuchAccountException.MESSAGE);
   }
 
-  protected static boolean isNameAlreadyUsed(final Throwable caught) {
+  protected static boolean isNameAlreadyUsed(Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NameAlreadyUsedException.MESSAGE);
   }
 
-  protected static boolean isNoSuchGroup(final Throwable caught) {
+  protected static boolean isNoSuchGroup(Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
   }

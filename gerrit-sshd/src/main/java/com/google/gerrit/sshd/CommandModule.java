@@ -28,7 +28,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param name the name of the command the client will provide in order to call the command.
    * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
-  protected LinkedBindingBuilder<Command> command(final String name) {
+  protected LinkedBindingBuilder<Command> command(String name) {
     return bind(Commands.key(name));
   }
 
@@ -38,7 +38,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param name the name of the command the client will provide in order to call the command.
    * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
-  protected LinkedBindingBuilder<Command> command(final CommandName name) {
+  protected LinkedBindingBuilder<Command> command(CommandName name) {
     return bind(Commands.key(name));
   }
 
@@ -49,7 +49,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param name the name of the command the client will provide in order to call the command.
    * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
-  protected LinkedBindingBuilder<Command> command(final CommandName parent, final String name) {
+  protected LinkedBindingBuilder<Command> command(CommandName parent, String name) {
     return bind(Commands.key(parent, name));
   }
 
@@ -60,7 +60,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param clazz class of the command with {@link CommandMetaData} annotation to retrieve the name
    *     and the description from
    */
-  protected void command(final CommandName parent, final Class<? extends BaseCommand> clazz) {
+  protected void command(CommandName parent, Class<? extends BaseCommand> clazz) {
     CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
@@ -78,8 +78,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param clazz class of the command with {@link CommandMetaData} annotation to retrieve the
    *     description from
    */
-  protected void alias(
-      final CommandName parent, final String name, final Class<? extends BaseCommand> clazz) {
+  protected void alias(final CommandName parent, String name, Class<? extends BaseCommand> clazz) {
     CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
@@ -95,7 +94,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @param to name of an already registered command that will perform the action when {@code from}
    *     is invoked by a client.
    */
-  protected void alias(final String from, final String to) {
+  protected void alias(String from, String to) {
     bind(Commands.key(from)).to(Commands.key(to));
   }
 }

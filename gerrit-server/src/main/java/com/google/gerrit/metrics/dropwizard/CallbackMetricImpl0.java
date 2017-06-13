@@ -68,7 +68,7 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetri
   }
 
   @Override
-  public void register(final Runnable trigger) {
+  public void register(Runnable trigger) {
     registry.register(
         name,
         new com.codahale.metrics.Gauge<V>() {

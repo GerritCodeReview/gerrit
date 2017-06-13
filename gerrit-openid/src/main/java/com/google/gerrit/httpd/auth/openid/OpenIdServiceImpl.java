@@ -183,7 +183,7 @@ class OpenIdServiceImpl {
     return new DiscoveryResult(aReq.getDestinationUrl(false), aReq.getParameterMap());
   }
 
-  private boolean requestRegistration(final AuthRequest aReq) {
+  private boolean requestRegistration(AuthRequest aReq) {
     if (AuthRequest.SELECT_ID.equals(aReq.getIdentity())) {
       // We don't know anything about the identity, as the provider
       // will offer the user a way to indicate their identity. Skip
@@ -204,7 +204,7 @@ class OpenIdServiceImpl {
   }
 
   /** Called by {@link OpenIdLoginServlet} doGet, doPost */
-  void doAuth(final HttpServletRequest req, final HttpServletResponse rsp) throws Exception {
+  void doAuth(HttpServletRequest req, HttpServletResponse rsp) throws Exception {
     if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {
       cancel(req, rsp);
       return;
@@ -459,7 +459,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  private boolean isSignIn(final SignInMode mode) {
+  private boolean isSignIn(SignInMode mode) {
     switch (mode) {
       case SIGN_IN:
       case REGISTER:
@@ -470,7 +470,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  private static SignInMode signInMode(final HttpServletRequest req) {
+  private static SignInMode signInMode(HttpServletRequest req) {
     try {
       return SignInMode.valueOf(req.getParameter(P_MODE));
     } catch (RuntimeException e) {
@@ -478,8 +478,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  private void callback(
-      final boolean isNew, final HttpServletRequest req, final HttpServletResponse rsp)
+  private void callback(final boolean isNew, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     String token = req.getParameter(P_TOKEN);
     if (token == null || token.isEmpty() || token.startsWith("/SignInFailure,")) {
@@ -495,8 +494,7 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private void cancel(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  private void cancel(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     if (isSignIn(signInMode(req))) {
       webSession.get().logout();
     }
@@ -504,7 +502,7 @@ class OpenIdServiceImpl {
   }
 
   private void cancelWithError(
-      final HttpServletRequest req, final HttpServletResponse rsp, final String errorDetail)
+      final HttpServletRequest req, HttpServletResponse rsp, String errorDetail)
       throws IOException {
     final SignInMode mode = signInMode(req);
     if (isSignIn(mode)) {
@@ -554,8 +552,8 @@ class OpenIdServiceImpl {
     return new State(discovered, retTo, contextUrl);
   }
 
-  boolean isAllowedOpenID(final String id) {
-    for (final OpenIdProviderPattern pattern : allowedOpenIDs) {
+  boolean isAllowedOpenID(String id) {
+    for (OpenIdProviderPattern pattern : allowedOpenIDs) {
       if (pattern.matches(id)) {
         return true;
       }
@@ -568,7 +566,7 @@ class OpenIdServiceImpl {
     final UrlEncoded retTo;
     final String contextUrl;
 
-    State(final DiscoveryInformation d, final UrlEncoded r, final String c) {
+    State(DiscoveryInformation d, UrlEncoded r, String c) {
       discovered = d;
       retTo = r;
       contextUrl = c;

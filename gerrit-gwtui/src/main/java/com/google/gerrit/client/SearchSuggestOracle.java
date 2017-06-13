@@ -44,13 +44,12 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                   "cc:"),
               new AccountSuggestOracle() {
                 @Override
-                public void onRequestSuggestions(final Request request, final Callback done) {
+                public void onRequestSuggestions(Request request, Callback done) {
                   super.onRequestSuggestions(
                       request,
                       new Callback() {
                         @Override
-                        public void onSuggestionsReady(
-                            final Request request, final Response response) {
+                        public void onSuggestionsReady(final Request request, Response response) {
                           if ("self".startsWith(request.getQuery())) {
                             final ArrayList<SuggestOracle.Suggestion> r =
                                 new ArrayList<>(response.getSuggestions().size() + 1);
@@ -192,7 +191,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       return;
     }
 
-    for (final ParamSuggester ps : paramSuggester) {
+    for (ParamSuggester ps : paramSuggester) {
       if (ps.applicable(lastWord)) {
         ps.suggest(lastWord, request, done);
         return;
@@ -211,7 +210,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     done.onSuggestionsReady(request, new Response(r));
   }
 
-  private String getLastWord(final String query) {
+  private String getLastWord(String query) {
     final int lastSpace = query.lastIndexOf(' ');
     if (lastSpace == query.length() - 1) {
       return null;
@@ -223,7 +222,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   }
 
   @Override
-  protected String getQueryPattern(final String query) {
+  protected String getQueryPattern(String query) {
     return super.getQueryPattern(getLastWord(query));
   }
 
@@ -258,18 +257,18 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     private final List<String> operators;
     private final SuggestOracle parameterSuggestionOracle;
 
-    ParamSuggester(final List<String> operators, final SuggestOracle parameterSuggestionOracle) {
+    ParamSuggester(List<String> operators, SuggestOracle parameterSuggestionOracle) {
       this.operators = operators;
       this.parameterSuggestionOracle = parameterSuggestionOracle;
     }
 
-    boolean applicable(final String query) {
+    boolean applicable(String query) {
       final String operator = getApplicableOperator(query, operators);
       return operator != null && query.length() > operator.length();
     }
 
-    private String getApplicableOperator(final String lastWord, final List<String> operators) {
-      for (final String operator : operators) {
+    private String getApplicableOperator(String lastWord, List<String> operators) {
+      for (String operator : operators) {
         if (lastWord.startsWith(operator)) {
           return operator;
         }
@@ -277,17 +276,17 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       return null;
     }
 
-    void suggest(final String lastWord, final Request request, final Callback done) {
+    void suggest(String lastWord, Request request, Callback done) {
       final String operator = getApplicableOperator(lastWord, operators);
       parameterSuggestionOracle.requestSuggestions(
           new Request(lastWord.substring(operator.length()), request.getLimit()),
           new Callback() {
             @Override
-            public void onSuggestionsReady(final Request req, final Response response) {
+            public void onSuggestionsReady(Request req, Response response) {
               final String query = request.getQuery();
               final List<SearchSuggestOracle.Suggestion> r =
                   new ArrayList<>(response.getSuggestions().size());
-              for (final SearchSuggestOracle.Suggestion s : response.getSuggestions()) {
+              for (SearchSuggestOracle.Suggestion s : response.getSuggestions()) {
                 r.add(
                     new SearchSuggestion(
                         s.getDisplayString(),
@@ -298,7 +297,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
               done.onSuggestionsReady(request, new Response(r));
             }
 
-            private String quoteIfNeeded(final String s) {
+            private String quoteIfNeeded(String s) {
               if (!s.matches("^\\S*$")) {
                 return "\"" + s + "\"";
               }

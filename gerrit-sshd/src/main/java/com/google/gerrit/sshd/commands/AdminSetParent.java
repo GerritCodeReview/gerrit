@@ -126,7 +126,7 @@ final class AdminSetParent extends SshCommand {
     }
 
     final List<Project.NameKey> childProjects = new ArrayList<>();
-    for (final ProjectControl pc : children) {
+    for (ProjectControl pc : children) {
       childProjects.add(pc.getProject().getNameKey());
     }
     if (oldParent != null) {
@@ -137,7 +137,7 @@ final class AdminSetParent extends SshCommand {
       }
     }
 
-    for (final Project.NameKey nameKey : childProjects) {
+    for (Project.NameKey nameKey : childProjects) {
       final String name = nameKey.get();
 
       if (allProjectsName.equals(nameKey)) {
@@ -190,18 +190,18 @@ final class AdminSetParent extends SshCommand {
    * list of child projects does not contain projects that were specified to be excluded from
    * reparenting.
    */
-  private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent)
+  private List<Project.NameKey> getChildrenForReparenting(ProjectControl parent)
       throws PermissionBackendException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
-    for (final ProjectControl excludedChild : excludedChildren) {
+    for (ProjectControl excludedChild : excludedChildren) {
       excluded.add(excludedChild.getProject().getNameKey());
     }
     final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (final ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
+    for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {

@@ -54,33 +54,33 @@ public class OnEditEnabler
   // The first parameter to the contructors must be the FocusWidget to enable,
   // subsequent parameters are widgets to listenTo.
 
-  public OnEditEnabler(final FocusWidget w, final TextBoxBase tb) {
+  public OnEditEnabler(FocusWidget w, TextBoxBase tb) {
     this(w);
     originalValue = tb.getValue().trim();
     listenTo(tb);
   }
 
-  public OnEditEnabler(final FocusWidget w, final ListBox lb) {
+  public OnEditEnabler(FocusWidget w, ListBox lb) {
     this(w);
     listenTo(lb);
   }
 
-  public OnEditEnabler(final FocusWidget w, final CheckBox cb) {
+  public OnEditEnabler(FocusWidget w, CheckBox cb) {
     this(w);
     listenTo(cb);
   }
 
-  public OnEditEnabler(final FocusWidget w) {
+  public OnEditEnabler(FocusWidget w) {
     widget = w;
   }
 
-  public void updateOriginalValue(final TextBoxBase tb) {
+  public void updateOriginalValue(TextBoxBase tb) {
     originalValue = tb.getValue().trim();
   }
 
   // Register input widgets to be listened to
 
-  public void listenTo(final TextBoxBase tb) {
+  public void listenTo(TextBoxBase tb) {
     strings.put(tb, tb.getText().trim());
     tb.addKeyPressHandler(this);
 
@@ -105,44 +105,44 @@ public class OnEditEnabler
     tb.addKeyDownHandler(this);
   }
 
-  public void listenTo(final ListBox lb) {
+  public void listenTo(ListBox lb) {
     lb.addChangeHandler(this);
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public void listenTo(final CheckBox cb) {
+  public void listenTo(CheckBox cb) {
     cb.addValueChangeHandler((ValueChangeHandler) this);
   }
 
   // Handlers
 
   @Override
-  public void onKeyPress(final KeyPressEvent e) {
+  public void onKeyPress(KeyPressEvent e) {
     on(e);
   }
 
   @Override
-  public void onKeyDown(final KeyDownEvent e) {
+  public void onKeyDown(KeyDownEvent e) {
     on(e);
   }
 
   @Override
-  public void onMouseUp(final MouseUpEvent e) {
+  public void onMouseUp(MouseUpEvent e) {
     on(e);
   }
 
   @Override
-  public void onChange(final ChangeEvent e) {
+  public void onChange(ChangeEvent e) {
     on(e);
   }
 
   @SuppressWarnings("rawtypes")
   @Override
-  public void onValueChange(final ValueChangeEvent e) {
+  public void onValueChange(ValueChangeEvent e) {
     on(e);
   }
 
-  private void on(final GwtEvent<?> e) {
+  private void on(GwtEvent<?> e) {
     if (widget.isEnabled()
         || !(e.getSource() instanceof FocusWidget)
         || !((FocusWidget) e.getSource()).isEnabled()) {
@@ -172,7 +172,7 @@ public class OnEditEnabler
     }
   }
 
-  private void onTextBoxBase(final TextBoxBase tb) {
+  private void onTextBoxBase(TextBoxBase tb) {
     // The text appears to not get updated until the handlers complete.
     Scheduler.get()
         .scheduleDeferred(

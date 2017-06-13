@@ -35,7 +35,7 @@ public final class CurrentSchemaVersion {
     }
 
     @Override
-    protected void set(final String newValue) {
+    protected void set(String newValue) {
       assert get().equals(newValue);
     }
   }

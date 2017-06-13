@@ -130,7 +130,7 @@ public class DefaultSecureStore extends SecureStore {
     }
   }
 
-  private static void saveSecure(final FileBasedConfig sec) throws IOException {
+  private static void saveSecure(FileBasedConfig sec) throws IOException {
     if (FileUtil.modified(sec)) {
       final byte[] out = Constants.encode(sec.toText());
       final File path = sec.getFile();

@@ -738,7 +738,7 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  private Object parseRawInput(final HttpServletRequest req, Type type)
+  private Object parseRawInput(HttpServletRequest req, Type type)
       throws SecurityException, NoSuchMethodException, IllegalArgumentException,
           InstantiationException, IllegalAccessException, InvocationTargetException,
           MethodNotAllowedException {
@@ -913,7 +913,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static BinaryResult stackJsonString(HttpServletResponse res, final BinaryResult src)
+  private static BinaryResult stackJsonString(HttpServletResponse res, BinaryResult src)
       throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
@@ -929,7 +929,7 @@ public class RestApiServlet extends HttpServlet {
     return asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8);
   }
 
-  private static BinaryResult stackBase64(HttpServletResponse res, final BinaryResult src)
+  private static BinaryResult stackBase64(HttpServletResponse res, BinaryResult src)
       throws IOException {
     BinaryResult b64;
     long len = src.getContentLength();
@@ -960,7 +960,7 @@ public class RestApiServlet extends HttpServlet {
     return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
   }
 
-  private static BinaryResult stackGzip(HttpServletResponse res, final BinaryResult src)
+  private static BinaryResult stackGzip(HttpServletResponse res, BinaryResult src)
       throws IOException {
     BinaryResult gz;
     long len = src.getContentLength();
@@ -1213,7 +1213,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("resource")
-  private static BinaryResult asBinaryResult(final TemporaryBuffer.Heap buf) {
+  private static BinaryResult asBinaryResult(TemporaryBuffer.Heap buf) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream os) throws IOException {

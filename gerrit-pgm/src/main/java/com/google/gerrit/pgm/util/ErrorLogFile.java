@@ -49,8 +49,7 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(final Path sitePath, final Config config)
-      throws IOException {
+  public static LifecycleListener start(Path sitePath, Config config) throws IOException {
     Path logdir =
         FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir, "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {

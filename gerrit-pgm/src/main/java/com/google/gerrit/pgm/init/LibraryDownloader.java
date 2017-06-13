@@ -65,16 +65,16 @@ class LibraryDownloader {
     this.needs = new ArrayList<>(2);
   }
 
-  void setName(final String name) {
+  void setName(String name) {
     this.name = name;
   }
 
-  void setJarUrl(final String url) {
+  void setJarUrl(String url) {
     this.jarUrl = url;
     download = jarUrl.startsWith("http");
   }
 
-  void setSHA1(final String sha1) {
+  void setSHA1(String sha1) {
     this.sha1 = sha1;
   }
 
@@ -230,7 +230,7 @@ class LibraryDownloader {
     Files.copy(p, dst);
   }
 
-  private static Path url2file(final String urlString) throws IOException {
+  private static Path url2file(String urlString) throws IOException {
     final URL url = new URL(urlString);
     try {
       return Paths.get(url.toURI());

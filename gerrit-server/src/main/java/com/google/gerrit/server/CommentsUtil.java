@@ -259,7 +259,7 @@ public class CommentsUtil {
   }
 
   private List<Comment> byCommentStatus(
-      ResultSet<PatchLineComment> comments, final PatchLineComment.Status status) {
+      ResultSet<PatchLineComment> comments, PatchLineComment.Status status) {
     return toComments(
         serverId, Lists.newArrayList(Iterables.filter(comments, c -> c.getStatus() == status)));
   }

@@ -62,7 +62,7 @@ class SkipBar extends Composite {
   private TextMarker textMarker;
   private SkipBar otherBar;
 
-  SkipBar(SkipManager manager, final CodeMirror cm) {
+  SkipBar(SkipManager manager, CodeMirror cm) {
     this.manager = manager;
     this.cm = cm;
 

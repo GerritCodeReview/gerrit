@@ -52,13 +52,12 @@ public class SshInfoServlet extends HttpServlet {
   private final SshInfo sshd;
 
   @Inject
-  SshInfoServlet(final SshInfo daemon) {
+  SshInfoServlet(SshInfo daemon) {
     sshd = daemon;
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     final List<HostKey> hostKeys = sshd.getHostKeys();
     final String out;
     if (!hostKeys.isEmpty()) {

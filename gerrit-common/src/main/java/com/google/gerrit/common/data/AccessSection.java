@@ -121,7 +121,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (!super.equals(obj) || !(obj instanceof AccessSection)) {
       return false;
     }

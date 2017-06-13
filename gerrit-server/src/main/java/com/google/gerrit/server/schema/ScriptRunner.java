@@ -39,10 +39,10 @@ class ScriptRunner {
   static final ScriptRunner NOOP =
       new ScriptRunner(null, null) {
         @Override
-        void run(final ReviewDb db) {}
+        void run(ReviewDb db) {}
       };
 
-  ScriptRunner(final String scriptName, final InputStream script) {
+  ScriptRunner(String scriptName, InputStream script) {
     this.name = scriptName;
     try {
       this.commands = script != null ? parse(script) : null;
@@ -51,7 +51,7 @@ class ScriptRunner {
     }
   }
 
-  void run(final ReviewDb db) throws OrmException {
+  void run(ReviewDb db) throws OrmException {
     try {
       final JdbcSchema schema = (JdbcSchema) db;
       final Connection c = schema.getConnection();
@@ -73,7 +73,7 @@ class ScriptRunner {
     }
   }
 
-  private List<String> parse(final InputStream in) throws IOException {
+  private List<String> parse(InputStream in) throws IOException {
     try (BufferedReader br = new BufferedReader(new InputStreamReader(in, UTF_8))) {
       String delimiter = ";";
       List<String> commands = new ArrayList<>();

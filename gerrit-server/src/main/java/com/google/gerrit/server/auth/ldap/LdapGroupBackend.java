@@ -113,7 +113,7 @@ public class LdapGroupBackend implements GroupBackend {
   }
 
   @Override
-  public GroupDescription.Basic get(final AccountGroup.UUID uuid) {
+  public GroupDescription.Basic get(AccountGroup.UUID uuid) {
     if (!handles(uuid)) {
       return null;
     }

@@ -23,7 +23,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class FancyFlexTableImplIE8 extends FancyFlexTableImpl {
   @Override
-  public void resetHtml(final FlexTable myTable, final SafeHtml bodyHtml) {
+  public void resetHtml(FlexTable myTable, SafeHtml bodyHtml) {
     final Element oldBody = getBodyElement(myTable);
     final Element newBody = parseBody(bodyHtml);
     assert newBody != null;
@@ -34,7 +34,7 @@ public class FancyFlexTableImplIE8 extends FancyFlexTableImpl {
     DOM.appendChild(tableElem, newBody);
   }
 
-  private static Element parseBody(final SafeHtml body) {
+  private static Element parseBody(SafeHtml body) {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     b.openElement("table");
     b.append(body);

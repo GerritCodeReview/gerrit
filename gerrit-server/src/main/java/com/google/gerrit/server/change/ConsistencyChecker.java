@@ -475,7 +475,7 @@ public class ConsistencyChecker {
   }
 
   private void insertMergedPatchSet(
-      final RevCommit commit, final @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
+      final RevCommit commit, @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
     ProblemInfo notFound = problem("No patch set found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
       notFound.status = Status.FIX_FAILED;

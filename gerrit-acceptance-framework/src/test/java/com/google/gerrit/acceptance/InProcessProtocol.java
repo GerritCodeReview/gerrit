@@ -95,7 +95,7 @@ class InProcessProtocol extends TestProtocol<Context> {
   private static final Scope REQUEST =
       new Scope() {
         @Override
-        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
           return new Provider<T>() {
             @Override
             public T get() {
@@ -242,8 +242,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     }
 
     @Override
-    public UploadPack create(Context req, final Repository repo)
-        throws ServiceNotAuthorizedException {
+    public UploadPack create(Context req, Repository repo) throws ServiceNotAuthorizedException {
       // Set the request context, but don't bother unsetting, since we don't
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover
@@ -300,8 +299,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     }
 
     @Override
-    public ReceivePack create(final Context req, Repository db)
-        throws ServiceNotAuthorizedException {
+    public ReceivePack create(Context req, Repository db) throws ServiceNotAuthorizedException {
       // Set the request context, but don't bother unsetting, since we don't
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover

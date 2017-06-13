@@ -57,13 +57,12 @@ class GitwebJavaScriptServlet extends HttpServlet {
   }
 
   @Override
-  protected long getLastModified(final HttpServletRequest req) {
+  protected long getLastModified(HttpServletRequest req) {
     return modified;
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     if (raw != null) {
       rsp.setContentType("text/javascript");
       rsp.setContentLength(raw.length);

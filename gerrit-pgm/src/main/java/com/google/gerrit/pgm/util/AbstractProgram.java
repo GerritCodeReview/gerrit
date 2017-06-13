@@ -38,7 +38,7 @@ public abstract class AbstractProgram {
     return n.toLowerCase();
   }
 
-  public final int main(final String[] argv) throws Exception {
+  public final int main(String[] argv) throws Exception {
     final CmdLineParser clp = new CmdLineParser(OptionHandlers.empty(), this);
     try {
       clp.parseArgument(argv);

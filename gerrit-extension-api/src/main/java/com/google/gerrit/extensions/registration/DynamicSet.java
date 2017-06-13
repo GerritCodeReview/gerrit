@@ -186,7 +186,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item item to check whether or not it is contained.
    * @return {@code true} if this set contains the given item.
    */
-  public boolean contains(final T item) {
+  public boolean contains(T item) {
     Iterator<T> iterator = iterator();
     while (iterator.hasNext()) {
       T candidate = iterator.next();
@@ -203,7 +203,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle add(final T item) {
+  public RegistrationHandle add(T item) {
     return add(Providers.of(item));
   }
 
@@ -213,7 +213,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle add(final Provider<T> item) {
+  public RegistrationHandle add(Provider<T> item) {
     final AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
     items.add(ref);
     return new RegistrationHandle() {

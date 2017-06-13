@@ -231,7 +231,7 @@ final class SetAccountCommand extends SshCommand {
   private void addSshKeys(List<String> sshKeys)
       throws RestApiException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    for (final String sshKey : sshKeys) {
+    for (String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
       addSshKey.apply(rsrc, in);
@@ -302,7 +302,7 @@ final class SetAccountCommand extends SshCommand {
     stderr.println("preferred email not found: " + email);
   }
 
-  private List<String> readSshKey(final List<String> sshKeys)
+  private List<String> readSshKey(List<String> sshKeys)
       throws UnsupportedEncodingException, IOException {
     if (!sshKeys.isEmpty()) {
       int idx = sshKeys.indexOf("-");

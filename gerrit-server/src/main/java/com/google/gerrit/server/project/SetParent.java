@@ -105,7 +105,7 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  public void validateParentUpdate(final ProjectControl ctl, String newParent, boolean checkIfAdmin)
+  public void validateParentUpdate(ProjectControl ctl, String newParent, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, UnprocessableEntityException,
           PermissionBackendException {
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();

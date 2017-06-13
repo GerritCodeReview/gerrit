@@ -45,8 +45,7 @@ public class ChangeActions {
     ChangeApi.unmarkPrivate(id.get(), cs(id, draftButtons));
   }
 
-  public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id, final Button... draftButtons) {
+  public static GerritCallback<JavaScriptObject> cs(final Change.Id id, Button... draftButtons) {
     setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
@@ -67,7 +66,7 @@ public class ChangeActions {
     };
   }
 
-  private static AsyncCallback<JavaScriptObject> mine(final Button... draftButtons) {
+  private static AsyncCallback<JavaScriptObject> mine(Button... draftButtons) {
     setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override

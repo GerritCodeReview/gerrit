@@ -169,7 +169,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, final ReviewDb db, final Branch.NameKey branch, Collection<String> hashes)
+      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;

@@ -35,7 +35,7 @@ public class CommitPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws OrmException {
     String id = getValue().toLowerCase();
     for (PatchSet p : object.patchSets()) {
       if (equals(p, id)) {

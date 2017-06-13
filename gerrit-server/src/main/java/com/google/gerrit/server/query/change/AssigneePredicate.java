@@ -27,7 +27,7 @@ public class AssigneePredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws OrmException {
     if (id.get() == ChangeField.NO_ASSIGNEE) {
       Account.Id assignee = object.change().getAssignee();
       return assignee == null;

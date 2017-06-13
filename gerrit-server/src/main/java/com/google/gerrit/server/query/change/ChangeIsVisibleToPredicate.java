@@ -43,7 +43,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws OrmException {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }

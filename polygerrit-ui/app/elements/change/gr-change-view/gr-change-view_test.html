@@ -44,7 +44,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       showStub = sandbox.stub(page, 'show');
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({test: 'config'}); },
         getAccount() { return Promise.resolve(null); },
       });
       element = fixture('basic');
@@ -164,6 +164,13 @@ limitations under the License.
         const stub = sandbox.stub(element.$.fileList.$.diffPreferences, 'open');
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
         assert.isTrue(stub.called);
+      });
+    });
+
+    test('fetches the server config on attached', done => {
+      flush(() => {
+        assert.equal(element._serverConfig.test, 'config');
+        done();
       });
     });
 
@@ -1125,7 +1132,7 @@ limitations under the License.
 
     test('reply button is disabled until server config is loaded', () => {
       assert.isTrue(element._replyDisabled);
-      element.serverConfig = {};
+      element._serverConfig = {};
       assert.isFalse(element._replyDisabled);
     });
 
@@ -1278,7 +1285,7 @@ limitations under the License.
         test('_startUpdateCheckTimer negative delay', () => {
           sandbox.stub(element, 'fetchIsLatestKnown');
 
-          element.serverConfig = {change: {update_delay: -1}};
+          element._serverConfig = {change: {update_delay: -1}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
           assert.isFalse(element.fetchIsLatestKnown.called);
@@ -1288,7 +1295,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchIsLatestKnown',
               () => { return Promise.resolve(true); });
 
-          element.serverConfig = {change: {update_delay: 12345}};
+          element._serverConfig = {change: {update_delay: 12345}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
           assert.isTrue(element.fetchIsLatestKnown.called);
@@ -1301,7 +1308,7 @@ limitations under the License.
           element.addEventListener('show-alert', () => {
             done();
           });
-          element.serverConfig = {change: {update_delay: 12345}};
+          element._serverConfig = {change: {update_delay: 12345}};
         });
       });
 

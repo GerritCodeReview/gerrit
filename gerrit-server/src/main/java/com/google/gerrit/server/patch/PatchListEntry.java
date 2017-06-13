@@ -223,7 +223,7 @@ public class PatchListEntry {
     return headerLines;
   }
 
-  Patch toPatch(final PatchSet.Id setId) {
+  Patch toPatch(PatchSet.Id setId) {
     final Patch p = new Patch(new Patch.Key(setId, getNewName()));
     p.setChangeType(getChangeType());
     p.setPatchType(getPatchType());
@@ -299,7 +299,7 @@ public class PatchListEntry {
     return edits;
   }
 
-  private static byte[] compact(final FileHeader h) {
+  private static byte[] compact(FileHeader h) {
     final int end = end(h);
     if (h.getStartOffset() == 0 && end == h.getBuffer().length) {
       return h.getBuffer();
@@ -310,7 +310,7 @@ public class PatchListEntry {
     return buf;
   }
 
-  private static int end(final FileHeader h) {
+  private static int end(FileHeader h) {
     if (h instanceof CombinedFileHeader) {
       return h.getEndOffset();
     }
@@ -320,7 +320,7 @@ public class PatchListEntry {
     return h.getEndOffset();
   }
 
-  private static ChangeType toChangeType(final FileHeader hdr) {
+  private static ChangeType toChangeType(FileHeader hdr) {
     switch (hdr.getChangeType()) {
       case ADD:
         return Patch.ChangeType.ADDED;
@@ -337,7 +337,7 @@ public class PatchListEntry {
     }
   }
 
-  private static PatchType toPatchType(final FileHeader hdr) {
+  private static PatchType toPatchType(FileHeader hdr) {
     PatchType pt;
 
     switch (hdr.getPatchType()) {

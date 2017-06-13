@@ -114,9 +114,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
-      @Assisted final String fileName,
-      @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
-      @Assisted("patchSetB") final PatchSet.Id patchSetB,
+      @Assisted String fileName,
+      @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
+      @Assisted("patchSetB") PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs) {
     this.repoManager = grm;
     this.psUtil = psUtil;
@@ -233,18 +233,18 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private PatchListKey keyFor(final Whitespace whitespace) {
+  private PatchListKey keyFor(Whitespace whitespace) {
     if (parentNum < 0) {
       return new PatchListKey(aId, bId, whitespace);
     }
     return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
   }
 
-  private PatchList listFor(final PatchListKey key) throws PatchListNotAvailableException {
+  private PatchList listFor(PatchListKey key) throws PatchListNotAvailableException {
     return patchListCache.get(key, project);
   }
 
-  private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
+  private PatchScriptBuilder newBuilder(PatchList list, Repository git) {
     final PatchScriptBuilder b = builderFactory.get();
     b.setRepository(git, project);
     b.setChange(change);
@@ -277,7 +277,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     throw new NoSuchChangeException(change.getId());
   }
 
-  private void validatePatchSetId(final PatchSet.Id psId) throws NoSuchChangeException {
+  private void validatePatchSetId(PatchSet.Id psId) throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {

@@ -77,7 +77,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private ObjectId mergeResultRev;
   private PatchSet mergedPatchSet;
   private Change updatedChange;
-  private CodeReviewCommit alreadyMerged;
+  private CodeReviewCommit alreadyMergedCommit;
+  private boolean changeAlreadyMerged;
 
   protected SubmitStrategyOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     this.args = args;
@@ -112,11 +113,11 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // Run the submit strategy implementation and record the merge tip state so
     // we can create the ref update.
     CodeReviewCommit tipBefore = args.mergeTip.getCurrentTip();
-    alreadyMerged = getAlreadyMergedCommit(ctx);
-    if (alreadyMerged == null) {
+    alreadyMergedCommit = getAlreadyMergedCommit(ctx);
+    if (alreadyMergedCommit == null) {
       updateRepoImpl(ctx);
     } else {
-      logDebug("Already merged as {}", alreadyMerged.name());
+      logDebug("Already merged as {}", alreadyMergedCommit.name());
     }
     CodeReviewCommit tipAfter = args.mergeTip.getCurrentTip();
 
@@ -219,8 +220,23 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
     PatchSet.Id newPsId;
 
-    if (alreadyMerged != null) {
-      alreadyMerged.setControl(ctx.getControl());
+    if (ctx.getChange().getStatus() == Change.Status.MERGED) {
+      // Either another thread won a race, or we are retrying a whole topic submission after one
+      // repo failed with lock failure.
+      if (alreadyMergedCommit == null) {
+        logDebug(
+            "Change is already merged according to its status, but we were unable to find it"
+                + " merged into the current tip ({})",
+            args.mergeTip.getCurrentTip().name());
+      } else {
+        logDebug("Change is already merged");
+      }
+      changeAlreadyMerged = true;
+      return false;
+    }
+
+    if (alreadyMergedCommit != null) {
+      alreadyMergedCommit.setControl(ctx.getControl());
       mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
       newPsId = mergedPatchSet.getId();
     } else {
@@ -263,12 +279,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     setApproval(ctx, args.caller);
 
     mergeResultRev =
-        alreadyMerged == null
+        alreadyMergedCommit == null
             ? args.mergeTip.getMergeResults().get(commit)
             // Our fixup code is not smart enough to find a merge commit
             // corresponding to the merge result. This results in a different
             // ChangeMergedEvent in the fixup case, but we'll just live with that.
-            : alreadyMerged;
+            : alreadyMergedCommit;
     try {
       setMerged(ctx, message(ctx, commit, s));
     } catch (OrmException err) {
@@ -284,13 +300,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
       throws IOException, OrmException {
-    PatchSet.Id psId = alreadyMerged.getPatchsetId();
+    PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
     logDebug("Fixing up already-merged patch set {}", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
-    ctx.getRevWalk().parseBody(alreadyMerged);
+    ctx.getRevWalk().parseBody(alreadyMergedCommit);
     ctx.getChange()
         .setCurrentPatchSet(
-            psId, alreadyMerged.getShortMessage(), ctx.getChange().getOriginalSubject());
+            psId, alreadyMergedCommit.getShortMessage(), ctx.getChange().getOriginalSubject());
     PatchSet existing = args.psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
     if (existing != null) {
       logDebug("Patch set row exists, only updating change");
@@ -300,13 +316,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // a patch set ref. Fix up the database. Note that this uses the current
     // user as the uploader, which is as good a guess as any.
     List<String> groups =
-        prevPs != null ? prevPs.getGroups() : GroupCollector.getDefaultGroups(alreadyMerged);
+        prevPs != null ? prevPs.getGroups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
     return args.psUtil.insert(
         ctx.getDb(),
         ctx.getRevWalk(),
         ctx.getUpdate(psId),
         psId,
-        alreadyMerged,
+        alreadyMergedCommit,
         false,
         groups,
         null,
@@ -482,6 +498,16 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   @Override
   public final void postUpdate(Context ctx) throws Exception {
+    if (changeAlreadyMerged) {
+      // TODO(dborowitz): This is suboptimal behavior in the presence of retries: postUpdate steps
+      // will never get run for changes that submitted successfully on any but the final attempt.
+      // The alternative, sending emails twice, seems worse.
+      //
+      // One way to fix this would be to execute all phases for one repo before proceeding to the
+      // next repo. That sounds attractive, but I haven't yet thought through the implications.
+      logDebug("Skipping post-update steps for change {}", getId());
+      return;
+    }
     postUpdateImpl(ctx);
 
     if (command != null) {

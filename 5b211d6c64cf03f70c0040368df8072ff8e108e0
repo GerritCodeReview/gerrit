@@ -23,6 +23,29 @@
       "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e6d9bf5_bc6b2d80",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T08:22:45Z",
+      "side": 1,
+      "message": "optional: This is now largely the same as NotesMigrationState with some augmented logic for parsing flags or JVM arguments. Would it make sense to make this a class instead and keep a NotesMigrationState member?\n\nWe would need to adapt the CI flags, but that would be fine I think.",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

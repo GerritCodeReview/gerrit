@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toSet;
 
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableListMultimap;
@@ -69,10 +71,12 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -107,14 +111,17 @@ public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.defaults().build();
+  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
+      SUBMIT_RULE_OPTIONS.toBuilder().allowClosed(true).build();
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
     private final ImmutableSetMultimap<Branch.NameKey, Change.Id> byBranch;
     private final Map<Change.Id, CodeReviewCommit> commits;
     private final ListMultimap<Change.Id, String> problems;
+    private final boolean allowClosed;
 
-    private CommitStatus(ChangeSet cs) throws OrmException {
+    private CommitStatus(ChangeSet cs, boolean allowClosed) throws OrmException {
       checkArgument(
           !cs.furtherHiddenChanges(), "CommitStatus must not be called with hidden changes");
       changes = cs.changesById();
@@ -125,6 +132,7 @@ public class MergeOp implements AutoCloseable {
       byBranch = bb.build();
       commits = new HashMap<>();
       problems = MultimapBuilder.treeKeys(comparing(Change.Id::get)).arrayListValues(1).build();
+      this.allowClosed = allowClosed;
     }
 
     public ImmutableSet<Change.Id> getChangeIds() {
@@ -177,7 +185,7 @@ public class MergeOp implements AutoCloseable {
       // date by this point.
       ChangeData cd = checkNotNull(changes.get(id), "ChangeData for %s", id);
       return checkNotNull(
-          cd.getSubmitRecords(SUBMIT_RULE_OPTIONS),
+          cd.getSubmitRecords(submitRuleOptions(allowClosed)),
           "getSubmitRecord only valid after submit rules are evalutated");
     }
 
@@ -221,13 +229,15 @@ public class MergeOp implements AutoCloseable {
   private final InternalChangeQuery internalChangeQuery;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
-  private final MergeOpRepoManager orm;
+  private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyUtil notifyUtil;
+  private final RetryHelper retryHelper;
 
   private Timestamp ts;
   private RequestId submissionId;
   private IdentifiedUser caller;
 
+  private MergeOpRepoManager orm;
   private CommitStatus commitStatus;
   private ReviewDb db;
   private SubmitInput submitInput;
@@ -246,9 +256,10 @@ public class MergeOp implements AutoCloseable {
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
-      MergeOpRepoManager orm,
+      Provider<MergeOpRepoManager> ormProvider,
       NotifyUtil notifyUtil,
-      TopicMetrics topicMetrics) {
+      TopicMetrics topicMetrics,
+      RetryHelper retryHelper) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -257,22 +268,26 @@ public class MergeOp implements AutoCloseable {
     this.internalChangeQuery = internalChangeQuery;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
-    this.orm = orm;
+    this.ormProvider = ormProvider;
     this.notifyUtil = notifyUtil;
+    this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
   }
 
   @Override
   public void close() {
-    orm.close();
+    if (orm != null) {
+      orm.close();
+    }
   }
 
-  public static void checkSubmitRule(ChangeData cd) throws ResourceConflictException, OrmException {
+  public static void checkSubmitRule(ChangeData cd, boolean allowClosed)
+      throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd);
+    List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
     if (SubmitRecord.findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
       return;
@@ -306,8 +321,13 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd) throws OrmException {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS);
+  private static SubmitRuleOptions submitRuleOptions(boolean allowClosed) {
+    return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
+  }
+
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed)
+      throws OrmException {
+    return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
   private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
@@ -341,19 +361,23 @@ public class MergeOp implements AutoCloseable {
     return Joiner.on("; ").join(labelResults);
   }
 
-  private void checkSubmitRulesAndState(ChangeSet cs) throws ResourceConflictException {
+  private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)
+      throws ResourceConflictException {
     checkArgument(
         !cs.furtherHiddenChanges(), "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       try {
-        if (cd.change().getStatus() != Change.Status.NEW) {
-          commitStatus.problem(
-              cd.getId(),
-              "Change " + cd.getId() + " is " + cd.change().getStatus().toString().toLowerCase());
+        Change.Status status = cd.change().getStatus();
+        if (status != Change.Status.NEW) {
+          if (!(status == Change.Status.MERGED && allowMerged)) {
+            commitStatus.problem(
+                cd.getId(),
+                "Change " + cd.getId() + " is " + cd.change().getStatus().toString().toLowerCase());
+          }
         } else if (cd.change().isWorkInProgress()) {
           commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is work in progress");
         } else {
-          checkSubmitRule(cd);
+          checkSubmitRule(cd, allowMerged);
         }
       } catch (ResourceConflictException e) {
         commitStatus.problem(cd.getId(), e.getMessage());
@@ -366,13 +390,13 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
   }
 
-  private void bypassSubmitRules(ChangeSet cs) {
+  private void bypassSubmitRules(ChangeSet cs, boolean allowClosed) {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       List<SubmitRecord> records;
       try {
-        records = new ArrayList<>(getSubmitRecords(cd));
+        records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
       } catch (OrmException e) {
         log.warn("Error checking submit rules for change " + cd.getId(), e);
         records = new ArrayList<>(1);
@@ -380,7 +404,7 @@ public class MergeOp implements AutoCloseable {
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
-      cd.setSubmitRecords(SUBMIT_RULE_OPTIONS, records);
+      cd.setSubmitRecords(submitRuleOptions(allowClosed), records);
     }
   }
 
@@ -406,15 +430,15 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, UpdateException {
     this.submitInput = submitInput;
     this.accountsToNotify = notifyUtil.resolveAccounts(submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
-    this.ts = TimeUtil.nowTs();
+    this.ts = TimeUtil.nowTs(); // TODO: reset ts on retry?
     submissionId = RequestId.forChange(change);
     this.db = db;
-    orm.setContext(db, ts, caller, submissionId);
+    openRepoManager();
 
     logDebug("Beginning integration of {}", change);
     try {
@@ -425,25 +449,55 @@ public class MergeOp implements AutoCloseable {
         throw new AuthException(
             "A change to be submitted with " + change.getId() + " is not visible");
       }
-      this.commitStatus = new CommitStatus(cs);
-      MergeSuperSet.reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
-      if (checkSubmitRules) {
-        logDebug("Checking submit rules and state");
-        checkSubmitRulesAndState(cs);
-      } else {
-        logDebug("Bypassing submit rules");
-        bypassSubmitRules(cs);
-      }
-      try {
-        integrateIntoHistory(cs);
-      } catch (IntegrationException e) {
-        logError("Error from integrateIntoHistory", e);
-        throw new ResourceConflictException(e.getMessage(), e);
-      }
+
+      RetryTracker retryTracker = new RetryTracker();
+      retryHelper.execute(
+          updateFactory -> {
+            long attempt = retryTracker.lastAttemptNumber + 1;
+            boolean isRetry = attempt > 1;
+            if (isRetry) {
+              logDebug("Retrying, attempt #{}; skipping merged changes", attempt);
+              openRepoManager();
+            }
+            this.commitStatus = new CommitStatus(cs, isRetry);
+            MergeSuperSet.reloadChanges(cs);
+            if (checkSubmitRules) {
+              logDebug("Checking submit rules and state");
+              checkSubmitRulesAndState(cs, isRetry);
+            } else {
+              logDebug("Bypassing submit rules");
+              bypassSubmitRules(cs, isRetry);
+            }
+            try {
+              integrateIntoHistory(cs);
+            } catch (IntegrationException e) {
+              logError("Error from integrateIntoHistory", e);
+              throw new ResourceConflictException(e.getMessage(), e);
+            }
+            return null;
+          },
+          retryTracker);
     } catch (IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
+    }
+  }
+
+  private void openRepoManager() {
+    if (orm != null) {
+      orm.close();
+    }
+    orm = ormProvider.get();
+    orm.setContext(db, ts, caller, submissionId);
+  }
+
+  private class RetryTracker implements RetryListener {
+    long lastAttemptNumber;
+
+    @Override
+    public <V> void onRetry(Attempt<V> attempt) {
+      lastAttemptNumber = attempt.getAttemptNumber();
     }
   }
 
@@ -466,7 +520,8 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs) throws IntegrationException, RestApiException {
+  private void integrateIntoHistory(ChangeSet cs)
+      throws IntegrationException, RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
@@ -511,6 +566,15 @@ public class MergeOp implements AutoCloseable {
     } catch (IOException | SubmoduleException e) {
       throw new IntegrationException(e);
     } catch (UpdateException e) {
+      if (e.getCause() instanceof LockFailureException) {
+        // Lock failures are a special case: RetryHelper depends on this specific causal chain in
+        // order to trigger a retry. The downside of throwing here is we will not get the nicer
+        // error message constructed below, in the case where this is the final attempt and the
+        // operation is not retried further. This is not a huge downside, and is hopefully so rare
+        // as to be unnoticeable, assuming RetryHelper is retrying sufficiently.
+        throw e;
+      }
+
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
       // message to be user-visible. Copy the message from the wrapped

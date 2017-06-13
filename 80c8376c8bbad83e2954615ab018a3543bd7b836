@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68cd3055_cbffd057",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": "simply",
+      "range": {
+        "startLine": 15,
+        "startChar": 53,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fef6ce25_d8a10896",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5693,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": ". Allowed values are",
+      "range": {
+        "startLine": 5693,
+        "startChar": 37,
+        "endLine": 5693,
+        "endChar": 45
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adec8330_448e6fa4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": ", and",
+      "range": {
+        "startLine": 5694,
+        "startChar": 32,
+        "endLine": 5694,
+        "endChar": 35
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b494b1da_bec7c004",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5694,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": ". If not set, the project setting will be used.",
+      "range": {
+        "startLine": 5694,
+        "startChar": 44,
+        "endLine": 5694,
+        "endChar": 79
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e67c761_de39e2d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": "If possible, I would prefer individual tests for the merge strategies \u0027ours\u0027 and \u0027theirs\u0027 instead of one large test.",
+      "range": {
+        "startLine": 672,
+        "startChar": 14,
+        "endLine": 672,
+        "endChar": 37
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cfe9905_abe2fb65",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": "I saw that we use a similar Javadoc comment in MergeInput but I think that we could do better. What about:\n\n   /**\n   * The strategy which is used for merging. Any name of a {@link\n   * org.eclipse.jgit.merge.MergeStrategy} is valid. Those names are specified with lower-case\n   * letters!\n   */",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5edd7b08_313d9448",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": "I\u0027m wondering if this code couldn\u0027t be simpler and more general. I\u0027m thinking of something like:\n\n    String mergeStrategy \u003d\n        MoreObjects.firstNonNull(Strings.emptyToNull(strategy), mergeStrategyName());\n    Merger merger \u003d newMerger(inserter, repoConfig, mergeStrategy);\n    if (merger instanceof ThreeWayMerger) {\n      ((ThreeWayMerger) merger).setBase(originalCommit.getParent(parentIndex));\n    }",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 5
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364bd698_b4e5b9b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-13T13:37:30Z",
+      "side": 1,
+      "message": "Is this a special requirement? I would assume that users still would like to know when their cherry-pick doesn\u0027t change anything as then they could simply not apply the cherry-pick at all.",
+      "range": {
+        "startLine": 256,
+        "startChar": 13,
+        "endLine": 256,
+        "endChar": 61
+      },
+      "revId": "80c8376c8bbad83e2954615ab018a3543bd7b836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "587a8198_1625446b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-13T12:01:07Z",
+      "side": 1,
+      "message": "Before this, the reflog message was null, so yes.\n\nHere I\u0027m trying to make it look the same as it does currently on master.",
+      "parentUuid": "d2640e9d_d4470f70",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 70
+      },
+      "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

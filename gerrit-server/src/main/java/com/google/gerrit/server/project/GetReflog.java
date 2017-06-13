@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -109,21 +109,15 @@ public class GetReflog implements RestReadView<BranchResource> {
           }
         }
       }
-      return Lists.transform(entries, ReflogEntryInfo::new);
+      return Lists.transform(entries, e -> newReflogEntryInfo(e));
     }
   }
 
-  public static class ReflogEntryInfo {
-    public String oldId;
-    public String newId;
-    public GitPerson who;
-    public String comment;
-
-    public ReflogEntryInfo(ReflogEntry e) {
-      oldId = e.getOldId().getName();
-      newId = e.getNewId().getName();
-      who = CommonConverters.toGitPerson(e.getWho());
-      comment = e.getComment();
-    }
+  private ReflogEntryInfo newReflogEntryInfo(ReflogEntry e) {
+    return new ReflogEntryInfo(
+        e.getOldId().getName(),
+        e.getNewId().getName(),
+        CommonConverters.toGitPerson(e.getWho()),
+        e.getComment());
   }
 }

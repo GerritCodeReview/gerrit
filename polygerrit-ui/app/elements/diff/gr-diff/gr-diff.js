@@ -24,6 +24,8 @@
     RIGHT: 'right',
   };
 
+  const LARGE_DIFF_THRESHOLD = 10000;
+
   Polymer({
     is: 'gr-diff',
 
@@ -100,6 +102,19 @@
       _comments: Object,
       _baseImage: Object,
       _revisionImage: Object,
+
+      /**
+       * Whether the safety check for large diffs when whole-file is set has
+       * been bypassed. If the value is null, then the safety has not been
+       * bypassed. If the value is a number, then that number represents the
+       * context preference to use when rendering the bypassed diff.
+       */
+      _safetyBypass: {
+        type: Number,
+        value: null,
+      },
+
+      _showWarning: Boolean,
     },
 
     listeners: {
@@ -124,6 +139,8 @@
 
     reload() {
       this.$.diffBuilder.cancel();
+      this._safetyBypass = null;
+      this._showWarning = false;
       this._clearDiffContent();
 
       const promises = [];
@@ -447,7 +464,25 @@
     },
 
     _renderDiffTable() {
-      return this.$.diffBuilder.render(this._comments, this.prefs);
+      if (this.prefs.context === -1 &&
+          this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD &&
+          this._safetyBypass === null) {
+        this._showWarning = true;
+        return Promise.resolve();
+      }
+
+      this._showWarning = false;
+      return this.$.diffBuilder.render(this._comments, this._getBypassPrefs());
+    },
+
+    /**
+     * Get the preferences object including the safety bypass context (if any).
+     */
+    _getBypassPrefs() {
+      if (this._safetyBypass === null) {
+        return Object.assign({}, this.prefs, {context: this._safetyBypass});
+      }
+      return this.prefs;
     },
 
     _clearDiffContent() {
@@ -599,6 +634,39 @@
 
     _computeDiffHeaderHidden(items) {
       return items.length === 0;
+    },
+
+    /**
+     * The number of lines in the diff. For delta chunks that are different
+     * sizes on the left and the right, the longer side is used.
+     * @param {Object} diff
+     * @return {Number}
+     */
+    _diffLength(diff) {
+      return diff.content.reduce((sum, sec) => {
+        if (sec.hasOwnProperty('ab')) {
+          return sum + sec.ab.length;
+        } else {
+          return sum + Math.max(
+              sec.hasOwnProperty('a') ? sec.a.length : 0,
+              sec.hasOwnProperty('b') ? sec.b.length : 0
+          );
+        }
+      }, 0);
+    },
+
+    _handleFullBypass() {
+      this._safetyBypass = -1;
+      this._renderDiffTable();
+    },
+
+    _handleLimitedBypass() {
+      this._safetyBypass = 10;
+      this._renderDiffTable();
+    },
+
+    _computeWarningClass(showWarning) {
+      return showWarning ? 'warn' : '';
     },
   });
 })();

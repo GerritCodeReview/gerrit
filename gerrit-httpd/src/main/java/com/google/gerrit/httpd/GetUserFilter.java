@@ -41,7 +41,7 @@ public class GetUserFilter implements Filter {
     private final boolean enabled;
 
     @Inject
-    Module(@GerritServerConfig final Config cfg) {
+    Module(@GerritServerConfig Config cfg) {
       enabled = cfg.getBoolean("http", "addUserAsRequestAttribute", true);
     }
 
@@ -56,7 +56,7 @@ public class GetUserFilter implements Filter {
   private final Provider<CurrentUser> userProvider;
 
   @Inject
-  GetUserFilter(final Provider<CurrentUser> userProvider) {
+  GetUserFilter(Provider<CurrentUser> userProvider) {
     this.userProvider = userProvider;
   }
 

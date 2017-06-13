@@ -29,7 +29,7 @@ class HttpRemotePeerProvider implements Provider<SocketAddress> {
   private final HttpServletRequest req;
 
   @Inject
-  HttpRemotePeerProvider(final HttpServletRequest r) {
+  HttpRemotePeerProvider(HttpServletRequest r) {
     req = r;
   }
 

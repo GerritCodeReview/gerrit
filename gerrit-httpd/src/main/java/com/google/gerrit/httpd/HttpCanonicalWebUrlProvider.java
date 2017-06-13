@@ -28,12 +28,12 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   private Provider<HttpServletRequest> requestProvider;
 
   @Inject
-  HttpCanonicalWebUrlProvider(@GerritServerConfig final Config config) {
+  HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
     super(config);
   }
 
   @Inject(optional = true)
-  public void setHttpServletRequest(final Provider<HttpServletRequest> hsr) {
+  public void setHttpServletRequest(Provider<HttpServletRequest> hsr) {
     requestProvider = hsr;
   }
 

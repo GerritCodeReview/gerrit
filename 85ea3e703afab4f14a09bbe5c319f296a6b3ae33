@@ -117,6 +117,30 @@
       "revId": "85ea3e703afab4f14a09bbe5c319f296a6b3ae33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec06e2df_7f8250be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T22:57:33Z",
+      "side": 1,
+      "message": "Ah, I see.\nIndeed, I couldn\u0027t find any use of it right now - removed.",
+      "parentUuid": "977b84e8_84392857",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 45
+      },
+      "revId": "85ea3e703afab4f14a09bbe5c319f296a6b3ae33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

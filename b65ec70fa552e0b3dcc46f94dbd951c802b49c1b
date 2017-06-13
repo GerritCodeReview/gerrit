@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8d15dbbc_b08c27c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-13T15:14:20Z",
+      "side": 1,
+      "message": "I don\u0027t quite agree, but you\u0027re in charge. Done.",
+      "parentUuid": "45d9b3b2_58959a13",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069fef55_b6ceaf6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
         "patchSetId": 7

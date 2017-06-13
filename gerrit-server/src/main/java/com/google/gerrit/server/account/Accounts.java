@@ -50,6 +50,15 @@ public class Accounts {
   }
 
   /**
+   * Returns all accounts.
+   *
+   * @return all accounts
+   */
+  public List<Account> all(ReviewDb db) throws OrmException {
+    return db.accounts().all().toList();
+  }
+
+  /**
    * Returns all account IDs.
    *
    * @return all account IDs

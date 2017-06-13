@@ -29,18 +29,21 @@ import java.util.List;
 @Singleton
 public class AccountsConsistencyChecker {
   private final Provider<ReviewDb> dbProvider;
+  private final Accounts accounts;
   private final ExternalIds externalIds;
 
   @Inject
-  AccountsConsistencyChecker(Provider<ReviewDb> dbProvider, ExternalIds externalIds) {
+  AccountsConsistencyChecker(
+      Provider<ReviewDb> dbProvider, Accounts accounts, ExternalIds externalIds) {
     this.dbProvider = dbProvider;
+    this.accounts = accounts;
     this.externalIds = externalIds;
   }
 
   public List<ConsistencyProblemInfo> check() throws OrmException, IOException {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
-    for (Account account : dbProvider.get().accounts().all()) {
+    for (Account account : accounts.all(dbProvider.get())) {
       if (account.getPreferredEmail() != null) {
         if (!externalIds
             .byAccount(account.getId())

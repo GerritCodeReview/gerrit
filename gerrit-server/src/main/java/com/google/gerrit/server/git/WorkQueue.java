@@ -108,7 +108,22 @@ public class WorkQueue {
 
   /** Create a new executor queue. */
   public Executor createQueue(int poolsize, String prefix) {
+    createQueue(poolsize, prefix, Thread.NORM_PRIORITY);
+  }
+
+  public Executor createQueue(int poolsize, String prefix, int threadPriority) {
     final Executor r = new Executor(poolsize, prefix);
+
+    if (threadPriority != Thread.NORM_PRIORITY) {
+      final ThreadFactory parent = r.getThreadFactory();
+      r.setThreadFactory(
+          task -> {
+            final Thread t = parent.newThread(task);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+          });
+    }
+
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
     queues.add(r);

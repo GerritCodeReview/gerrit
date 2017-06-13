@@ -48,7 +48,7 @@ import org.antlr.runtime.tree.Tree;
  *
  * <pre>
  * &#064;Operator
- * public Predicate is(final String value) {
+ * public Predicate is(String value) {
  *   if (&quot;starred&quot;.equals(value)) {
  *     return new StarredPredicate();
  *   }
@@ -180,7 +180,7 @@ public abstract class QueryBuilder<T> {
    *     This may be due to a syntax error, may be due to an operator not being supported, or due to
    *     an invalid value being passed to a recognized operator.
    */
-  public Predicate<T> parse(final String query) throws QueryParseException {
+  public Predicate<T> parse(String query) throws QueryParseException {
     if (Strings.isNullOrEmpty(query)) {
       throw new QueryParseException("query is empty");
     }
@@ -196,7 +196,7 @@ public abstract class QueryBuilder<T> {
    *     parser. This may be due to a syntax error, may be due to an operator not being supported,
    *     or due to an invalid value being passed to a recognized operator.
    */
-  public List<Predicate<T>> parse(final List<String> queries) throws QueryParseException {
+  public List<Predicate<T>> parse(List<String> queries) throws QueryParseException {
     List<Predicate<T>> predicates = new ArrayList<>(queries.size());
     for (String query : queries) {
       predicates.add(parse(query));
@@ -204,7 +204,7 @@ public abstract class QueryBuilder<T> {
     return predicates;
   }
 
-  private Predicate<T> toPredicate(final Tree r)
+  private Predicate<T> toPredicate(Tree r)
       throws QueryParseException, IllegalArgumentException {
     switch (r.getType()) {
       case AND:
@@ -225,7 +225,7 @@ public abstract class QueryBuilder<T> {
     }
   }
 
-  private Predicate<T> operator(final String name, final Tree val) throws QueryParseException {
+  private Predicate<T> operator(String name, Tree val) throws QueryParseException {
     switch (val.getType()) {
         // Expand multiple values, "foo:(a b c)", as though they were written
         // out with the longer form, "foo:a foo:b foo:c".
@@ -257,7 +257,7 @@ public abstract class QueryBuilder<T> {
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<T> operator(final String name, final String value) throws QueryParseException {
+  private Predicate<T> operator(String name, String value) throws QueryParseException {
     @SuppressWarnings("rawtypes")
     OperatorFactory f = opFactories.get(name);
     if (f == null) {
@@ -266,7 +266,7 @@ public abstract class QueryBuilder<T> {
     return f.create(this, value);
   }
 
-  private Predicate<T> defaultField(final Tree r) throws QueryParseException {
+  private Predicate<T> defaultField(Tree r) throws QueryParseException {
     switch (r.getType()) {
       case SINGLE_WORD:
       case EXACT_PHRASE:
@@ -291,11 +291,11 @@ public abstract class QueryBuilder<T> {
    * @return predicate representing this value.
    * @throws QueryParseException the parser does not recognize this value.
    */
-  protected Predicate<T> defaultField(final String value) throws QueryParseException {
+  protected Predicate<T> defaultField(String value) throws QueryParseException {
     throw error("Unsupported query:" + value);
   }
 
-  private List<Predicate<T>> children(final Tree r)
+  private List<Predicate<T>> children(Tree r)
       throws QueryParseException, IllegalArgumentException {
     List<Predicate<T>> p = new ArrayList<>(r.getChildCount());
     for (int i = 0; i < r.getChildCount(); i++) {
@@ -304,7 +304,7 @@ public abstract class QueryBuilder<T> {
     return p;
   }
 
-  private Tree onlyChildOf(final Tree r) throws QueryParseException {
+  private Tree onlyChildOf(Tree r) throws QueryParseException {
     if (r.getChildCount() != 1) {
       throw error("Expected exactly one child: " + r);
     }
@@ -329,7 +329,7 @@ public abstract class QueryBuilder<T> {
     private final String name;
     private final Method method;
 
-    ReflectionFactory(final String name, final Method method) {
+    ReflectionFactory(String name, Method method) {
       this.name = name;
       this.method = method;
     }

@@ -66,7 +66,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     private final Config serverConfig;
 
     @Inject
-    Lifecycle(@GerritServerConfig final Config cfg) {
+    Lifecycle(@GerritServerConfig Config cfg) {
       this.serverConfig = cfg;
     }
 
@@ -242,7 +242,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private void onCreateProject(final Project.NameKey newProjectName) {
+  private void onCreateProject(Project.NameKey newProjectName) {
     namesUpdateLock.lock();
     try {
       SortedSet<Project.NameKey> n = new TreeSet<>(names);
@@ -253,7 +253,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private boolean isUnreasonableName(final Project.NameKey nameKey) {
+  private boolean isUnreasonableName(Project.NameKey nameKey) {
     final String name = nameKey.get();
 
     return name.length() == 0 // no empty paths

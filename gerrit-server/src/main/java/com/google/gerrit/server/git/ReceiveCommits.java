@@ -1319,7 +1319,7 @@ public class ReceiveCommits {
       metaVar = "MESSAGE",
       usage = "Comment message to apply to the review"
     )
-    void addMessage(final String token) {
+    void addMessage(String token) {
       // git push does not allow spaces in refs.
       message = token.replace("_", " ");
     }
@@ -2792,7 +2792,7 @@ public class ReceiveCommits {
     return true;
   }
 
-  private void autoCloseChanges(final ReceiveCommand cmd) {
+  private void autoCloseChanges(ReceiveCommand cmd) {
     logDebug("Starting auto-closing of changes");
     String refName = cmd.getRefName();
     checkState(
@@ -2857,7 +2857,7 @@ public class ReceiveCommits {
         }
       }
 
-      for (final ReplaceRequest req : replaceAndClose) {
+      for (ReplaceRequest req : replaceAndClose) {
         Change.Id id = req.notes.getChangeId();
         if (!req.validate(true)) {
           logDebug("Not closing {} because validation failed", id);

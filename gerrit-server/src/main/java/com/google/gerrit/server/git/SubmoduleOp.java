@@ -385,7 +385,7 @@ public class SubmoduleOp {
   }
 
   /** Create a separate gitlink commit */
-  public CodeReviewCommit composeGitlinksCommit(final Branch.NameKey subscriber)
+  public CodeReviewCommit composeGitlinksCommit(Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -444,7 +444,7 @@ public class SubmoduleOp {
 
   /** Amend an existing commit with gitlink updates */
   public CodeReviewCommit composeGitlinksCommit(
-      final Branch.NameKey subscriber, CodeReviewCommit currentCommit)
+      Branch.NameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -485,7 +485,7 @@ public class SubmoduleOp {
   }
 
   private RevCommit updateSubmodule(
-      DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, final SubmoduleSubscription s)
+      DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, SubmoduleSubscription s)
       throws SubmoduleException, IOException {
     OpenRepo subOr;
     try {

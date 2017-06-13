@@ -52,7 +52,7 @@ public class WorkQueue {
     private final WorkQueue workQueue;
 
     @Inject
-    Lifecycle(final WorkQueue workQeueue) {
+    Lifecycle(WorkQueue workQeueue) {
       this.workQueue = workQeueue;
     }
 
@@ -118,7 +118,7 @@ public class WorkQueue {
   /** Get all of the tasks currently scheduled in any work queue. */
   public List<Task<?>> getTasks() {
     final List<Task<?>> r = new ArrayList<>();
-    for (final Executor e : queues) {
+    for (Executor e : queues) {
       e.addAllTo(r);
     }
     return r;
@@ -135,9 +135,9 @@ public class WorkQueue {
   }
 
   /** Locate a task by its unique id, null if no task matches. */
-  public Task<?> getTask(final int id) {
+  public Task<?> getTask(int id) {
     Task<?> result = null;
-    for (final Executor e : queues) {
+    for (Executor e : queues) {
       final Task<?> t = e.getTask(id);
       if (t != null) {
         if (result != null) {
@@ -160,7 +160,7 @@ public class WorkQueue {
   }
 
   private void stop() {
-    for (final Executor p : queues) {
+    for (Executor p : queues) {
       p.shutdown();
       boolean isTerminated;
       do {
@@ -179,7 +179,7 @@ public class WorkQueue {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 
-    Executor(int corePoolSize, final String prefix) {
+    Executor(int corePoolSize, String prefix) {
       super(
           corePoolSize,
           new ThreadFactory() {
@@ -187,7 +187,7 @@ public class WorkQueue {
             private final AtomicInteger tid = new AtomicInteger(1);
 
             @Override
-            public Thread newThread(final Runnable task) {
+            public Thread newThread(Runnable task) {
               final Thread t = parent.newThread(task);
               t.setName(prefix + "-" + tid.getAndIncrement());
               t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
@@ -212,7 +212,7 @@ public class WorkQueue {
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        final Runnable runnable, RunnableScheduledFuture<V> r) {
+        Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
       for (; ; ) {
         final int id = idGenerator.next();
@@ -233,19 +233,19 @@ public class WorkQueue {
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        final Callable<V> callable, final RunnableScheduledFuture<V> task) {
+        Callable<V> callable, RunnableScheduledFuture<V> task) {
       throw new UnsupportedOperationException("Callable not implemented");
     }
 
-    void remove(final Task<?> task) {
+    void remove(Task<?> task) {
       all.remove(task.getTaskId(), task);
     }
 
-    Task<?> getTask(final int id) {
+    Task<?> getTask(int id) {
       return all.get(id);
     }
 
-    void addAllTo(final List<Task<?>> list) {
+    void addAllTo(List<Task<?>> list) {
       list.addAll(all.values()); // iterator is thread safe
     }
 

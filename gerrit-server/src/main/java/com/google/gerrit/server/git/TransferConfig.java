@@ -31,7 +31,7 @@ public class TransferConfig {
   private final String maxObjectSizeLimitFormatted;
 
   @Inject
-  TransferConfig(@GerritServerConfig final Config cfg) {
+  TransferConfig(@GerritServerConfig Config cfg) {
     timeout =
         (int)
             ConfigUtil.getTimeUnit(

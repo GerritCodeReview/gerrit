@@ -45,7 +45,7 @@ public class ValidationError {
     void error(ValidationError error);
   }
 
-  public static Sink createLoggerSink(final String message, final Logger log) {
+  public static Sink createLoggerSink(String message, Logger log) {
     return new ValidationError.Sink() {
       @Override
       public void error(ValidationError error) {

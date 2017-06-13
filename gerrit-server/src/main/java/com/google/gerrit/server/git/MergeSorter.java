@@ -82,7 +82,7 @@ public class MergeSorter {
     return heads;
   }
 
-  private static <T> T removeOne(final Collection<T> c) {
+  private static <T> T removeOne(Collection<T> c) {
     final Iterator<T> i = c.iterator();
     final T r = i.next();
     i.remove();

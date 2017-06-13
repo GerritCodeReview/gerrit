@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497303218 -0400\nnonce AH5c86A2hNdphdnVEEGJkK4pKwC1L/5rvEXgtUo2v4D+SzBhIR5LO9TXpeqK762UJNd4oe9zRUcB\n\n0000000000000000000000000000000000000000 053e1c3fc3ced828cef26a0fc80aa0431ebdb062 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZPwiyAAoJEF/XxZqaEoiMLDMP/iyBa1qmbecZEb91K+SWKk5C\nb1tT/pUY7BpBT2CJc7IT7/7SRlkZs4lFliGrBKIyd3uvHyANqGahIF+xZMeecWW1\nPTrjxQPvgCeJFezD0NsVS5eyI1YOOMGDYDkceOg7aUZsHauRxlm9dGKlj8VAVCQD\nz9RlcgoPzv9ZSThNEuMPV7RuVuGN/rmPP3bB22eVdj8Om776a/TjDCAem4F5WlQ3\nvug3sYBi10ybmmPXVOwlGu8DkJJgVZSOXfNBxpSwBs6oc1UZL1aLygaacs8+wzlX\nUmd3Q4bgrL2Mj3KFLg8r4L+rrNXbd3v5pLEbV9csVJPAbd/bulss1/oMUUCG25qI\nMdhuK0EfxzjUGsjf5HGJJJ6jKKwenCNHA0INgyL7NSzMn4Orszy9+FRFWAZlgAX6\nZ5hjXjDd6OhG0zwmU4z+XldHdVKMp3QXkwqqdnlHVSKWvXp2LUR89owixSJrzKhr\n/hY3rY5ekrg+7jctrNPZMa031BnB/T8TmjGviUp4BiRE+s72YidMJeuXkq0OzfPC\nZtBUwd/PesORcLckhXFSW5PvKhf4WvuLITNAwEkvYYiXTptiWyiOfStcCKC0Oc3w\nASJkykuzkS27rzS2AzoHXwkv6ppV4S1muse5NKwbWhNUhAXtYvV55DqT+YhjLjZn\nPt5Z4rnx6sl+bSfOHGu1\n\u003dJt22\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "707176da_5b68d63e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:03:48Z",
+      "side": 1,
+      "message": "This is still not supported in JGit? In which case I would rather swap and inverse the suffix logic in the state names:\n\n NOTE_DB(..., false),\n NOTE_DB_FUSED(..., true);",
+      "range": {
+        "startLine": 43,
+        "startChar": 58,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

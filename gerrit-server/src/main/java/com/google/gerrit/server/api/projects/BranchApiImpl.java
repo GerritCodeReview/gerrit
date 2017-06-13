@@ -19,6 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -29,10 +30,12 @@ import com.google.gerrit.server.project.DeleteBranch;
 import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.FilesCollection;
 import com.google.gerrit.server.project.GetContent;
+import com.google.gerrit.server.project.GetReflog;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.List;
 
 public class BranchApiImpl implements BranchApi {
   interface Factory {
@@ -44,6 +47,7 @@ public class BranchApiImpl implements BranchApi {
   private final DeleteBranch deleteBranch;
   private final FilesCollection filesCollection;
   private final GetContent getContent;
+  private final GetReflog getReflog;
   private final String ref;
   private final ProjectResource project;
 
@@ -54,6 +58,7 @@ public class BranchApiImpl implements BranchApi {
       DeleteBranch deleteBranch,
       FilesCollection filesCollection,
       GetContent getContent,
+      GetReflog getReflog,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
@@ -61,6 +66,7 @@ public class BranchApiImpl implements BranchApi {
     this.deleteBranch = deleteBranch;
     this.filesCollection = filesCollection;
     this.getContent = getContent;
+    this.getReflog = getReflog;
     this.project = project;
     this.ref = ref;
   }
@@ -100,6 +106,15 @@ public class BranchApiImpl implements BranchApi {
       return getContent.apply(resource);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve file", e);
+    }
+  }
+
+  @Override
+  public List<ReflogEntryInfo> reflog() throws RestApiException {
+    try {
+      return getReflog.apply(resource());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot retrieve reflog", e);
     }
   }
 

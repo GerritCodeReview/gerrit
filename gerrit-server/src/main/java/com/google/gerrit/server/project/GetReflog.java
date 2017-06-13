@@ -17,7 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
@@ -27,13 +29,16 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GetReflog implements RestReadView<BranchResource> {
+  private static final Logger log = LoggerFactory.getLogger(GetReflog.class);
+
   private final GitRepositoryManager repoManager;
 
   @Option(
@@ -84,13 +89,20 @@ public class GetReflog implements RestReadView<BranchResource> {
 
   @Override
   public List<ReflogEntryInfo> apply(BranchResource rsrc)
-      throws AuthException, ResourceNotFoundException, RepositoryNotFoundException, IOException {
+      throws RestApiException, IOException {
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("not project owner");
     }
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      ReflogReader r = repo.getReflogReader(rsrc.getRef());
+      ReflogReader r;
+      try {
+        r = repo.getReflogReader(rsrc.getRef());
+      } catch (UnsupportedOperationException e) {
+        String msg = "reflog not supported on repo " + rsrc.getNameKey().get();
+        log.error(msg);
+        throw new MethodNotAllowedException(msg);
+      }
       if (r == null) {
         throw new ResourceNotFoundException(rsrc.getRef());
       }

@@ -20,78 +20,30 @@ limitations under the License.
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
 <link rel="import" href="../gr-http-password/gr-http-password.html">
-<link rel="import" href="../gr-change-table-editor/gr-change-table-editor.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-ssh-editor/gr-ssh-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 
 <dom-module id="gr-settings-view">
   <template>
     <style include="shared-styles">
-      :host {
-        background-color: var(--view-background-color);
-        display: block;
-      }
-      main {
-        margin: 2em auto;
-        max-width: 46em;
-      }
-      h2.edited:after {
-        color: #444;
-        content: ' *';
-      }
-      .loading {
-        color: #666;
-        padding: 1em var(--default-horizontal-margin);
-      }
       #newEmailInput {
         width: 20em;
       }
-      nav {
-        border: 1px solid #eee;
-        border-top: none;
-        position: absolute;
-        top: 0;
-        width: 14em;
-      }
-      nav.pinned {
-        position: fixed;
-      }
-      nav ul {
-        margin: 1em 2em;
-      }
-      nav a {
-        color: black;
-        display: inline-block;
-        margin: .4em 0;
-      }
-      @media only screen and (max-width: 67em) {
-        main {
-          margin: 2em 0 2em 15em;
-        }
-      }
-      @media only screen and (max-width: 53em) {
-        .loading {
-          padding: 0 var(--default-horizontal-margin);
-        }
-        main {
-          margin: 2em 1em;
-        }
-        nav {
-          display: none;
-        }
-      }
     </style>
     <style include="gr-form-styles"></style>
+    <style include="gr-menu-page-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <nav id="settingsNav">
+      <gr-page-nav>
         <ul>
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Preferences">Preferences</a></li>
@@ -106,7 +58,7 @@ limitations under the License.
           </a></li>
           <li><a href="#Groups">Groups</a></li>
         </ul>
-      </nav>
+      </gr-page-nav>
       <main class="gr-form-styles">
         <h1>User Settings</h1>
         <h2

@@ -70,6 +70,30 @@
       "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eec66435_bcc4e537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-13T12:29:09Z",
+      "side": 1,
+      "message": "I guess the expected behavior there is taken from an earlier version of gerrit.\n\nWhen I was testing against master, where the reflog exists (but with incorrect identity) the entries all say \"push: fast forward\".",
+      "parentUuid": "1c1b7306_88259665",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 70
+      },
+      "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

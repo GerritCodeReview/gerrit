@@ -19,7 +19,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import org.eclipse.jgit.lib.Config;
 
 class StreamCommandExecutorProvider implements Provider<ScheduledThreadPoolExecutor> {
@@ -35,20 +34,6 @@ class StreamCommandExecutorProvider implements Provider<ScheduledThreadPoolExecu
 
   @Override
   public ScheduledThreadPoolExecutor get() {
-    final ScheduledThreadPoolExecutor executor;
-
-    executor = queues.createQueue(poolSize, "SSH-Stream-Worker");
-
-    final ThreadFactory parent = executor.getThreadFactory();
-    executor.setThreadFactory(
-        new ThreadFactory() {
-          @Override
-          public Thread newThread(Runnable task) {
-            final Thread t = parent.newThread(task);
-            t.setPriority(Thread.MIN_PRIORITY);
-            return t;
-          }
-        });
-    return executor;
+    return queues.createQueue(poolSize, "SSH-Stream-Worker", Thread.MIN_PRIORITY);
   }
 }

@@ -108,11 +108,25 @@ public class WorkQueue {
 
   /** Create a new executor queue. */
   public ScheduledThreadPoolExecutor createQueue(int poolsize, String prefix) {
-    final Executor r = new Executor(poolsize, prefix);
-    r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
-    r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
-    queues.add(r);
-    return r;
+    return createQueue(poolsize, prefix, Thread.NORM_PRIORITY);
+  }
+
+  public ScheduledThreadPoolExecutor createQueue(int poolsize, String prefix, int threadPriority) {
+    Executor executor = new Executor(poolsize, prefix);
+
+    if (threadPriority != Thread.NORM_PRIORITY) {
+      executor.setThreadFactory(
+          task -> {
+            Thread t = executor.getThreadFactory().newThread(task);
+            t.setPriority(threadPriority);
+            return t;
+          });
+    }
+
+    executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+    executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
+    queues.add(executor);
+    return executor;
   }
 
   /** Get all of the tasks currently scheduled in any work queue. */

@@ -471,6 +471,10 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     // May not be opened if the caller added ref updates but no new objects.
     initRepository();
     batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+    batchRefUpdate.setRefLogMessage(refLogMessage, true);
+    if (user.isIdentifiedUser()) {
+      batchRefUpdate.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+    }
     commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {

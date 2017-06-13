@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f355c85e_a86f3793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-13T18:32:54Z",
+      "side": 1,
+      "message": "Updated the commit message to focus more on the why instead of the how.",
+      "parentUuid": "4225c1e6_1c6d0a22",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e08aae69_b0fa93ca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -60,6 +84,30 @@
       "writtenOn": "2017-06-13T04:54:12Z",
       "side": 1,
       "message": "Can you explain semantic of this set? Below you explain how you derived its value and that in ReviewDb it\u0027s a no op. There are two conceptual time frames that a change can be in WIP state: from the beginning, in the middle of it\u0027s life. Is it all about to memoize the reviewer, without actually doing anything with it? Can\u0027t we achieve the same, without adding yet another reviewer set, by simply stopping triggering any event activity during a change is in WIP state?\n\nIs it possible that my questions about exact behavioral semantic of start review state and pending reviewer set are already answered elsewhere?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69b433a2_19083d99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-13T18:32:54Z",
+      "side": 1,
+      "message": "I need this information on both the server side (for notifications) and client side (for UI), and that\u0027s what convinced me to just implement it in the NoteDb parser and make it a Change property that\u0027s easy to test.\n\nThe information can be derived by looking for the most recent ChangeMessage with tag in [TAG_SET_WIP, TAG_SET_READY, TAG_UPLOADED_PATCH_SET, TAG_UPLOADED_WIP_PATCH_SET]. If that message\u0027s tag is in [TAG_SET_WIP, TAG_UPLOADED_WIP_PATCH_SET], then select all the ReviewerUpdateInfos with timestamp not before that message\u0027s timestamp into a table and build a ReviewerSet from that. The same information is available over the API so the same logic could be implemented on the client side.\n\nI find two implementations in two different languages based on the nuances of our message tagging system to be a riskier approach, with much more opportunity for bugs and bitrot. Once I implemented hasReviewStarted, the two new properties for pending reviewers were really simple to add: the parser just takes a snapshot of its reviewer tables when it encounters the revision that put the change into its current WIP state.",
+      "parentUuid": "e08aae69_b0fa93ca",
       "range": {
         "startLine": 17,
         "startChar": 0,

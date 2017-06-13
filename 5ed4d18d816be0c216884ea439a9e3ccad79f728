@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e68d8e41_b633b41a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "In Gerrit, this is done a bit different. For regular unit tests, the convention says they must end in \"Test\". If the test requires the Gerrit Accpentance Test Framework*, they have to end in \"IT\" which stands for integration test.\n\n * The framework starts a Gerrit instance with an in-memory database and index and acts pretty much like a regular open-source Gerrit instance. It helps to to test for instance the API (all the gApi calls).",
+      "parentUuid": "1b01058a_2d60d500",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac642354_03efe33d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "This method tests multiple cases, if I understand it correctly. It is usually best to have one thing tested per method. This makes it easier to find exactly what is going wrong. Also, all the tests will run every time, while in this method the later tests won\u0027t run if the earlier ones fail.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d80ac44_59dcdea3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done. While this tested only one functionality (remove an email from the inbox if it is marked for deletion, do no nothing otherwise), your comment made me realize that this should be split up by expected behavior and I used an underscore to express expected behavior following the JUnit naming guidelines.",
+      "parentUuid": "ac642354_03efe33d",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b5f8410d_545de98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done. We do, it seems this somehow slipped through. For reference, we use v1.3.",
+      "parentUuid": "9905efc7_42564faa",
+      "range": {
+        "startLine": 36,
+        "startChar": 53,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ff88a5c_f021978c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "@link?\n\n@link is superior to @code because the IDE can then generate a clickable link and, more important, can update this when using Refactor-\u003eRename.",
+      "range": {
+        "startLine": 28,
+        "startChar": 60,
+        "endLine": 28,
+        "endChar": 64
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde5bb6b_e191ac87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done (here and all other occurrences).",
+      "parentUuid": "3ff88a5c_f021978c",
       "range": {
         "startLine": 28,
         "startChar": 60,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "43d114dc_e4b016e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done (here and for all other occurrences).",
+      "parentUuid": "67dd7317_eb3863eb",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 92
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9e74c47_c9e812e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "Since all the methods in this class are static, this is a classic utility class which should never be instantiated. Usually, we enforce that by adding a private empty constructor.",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 15
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a71a48_c516b1b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done (here and for all other util classes). That makes a lot of sense :-)",
+      "parentUuid": "e9e74c47_c9e812e6",
       "range": {
         "startLine": 45,
         "startChar": 9,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "31a0a629_720dd57a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "I can certainly see you concern. The caller of this is just a timer, though. So this code basically runs every X minutes and that part doesn\u0027t need to know about failures. This is why all failure cases are handled here and logged instead of thrown as an exception and logged at the caller.\n\nThe caller code is as simple as:\n  timer.scheduleAtFixedRate(\n        new TimerTask() {\n          @Override\n          public void run() {\n            MailReceiver.this.handleEmails(true);\n          }\n        },\n        0l,\n        mailSettings.fetchInterval);\n\nWhat Gerrit administrators care about, is the log in this case at it tells them if there is a problem with receiving emails.\n\nThough, I see how Exceptions aid readability here, so I throw a new exception type and log in the caller instead.",
+      "parentUuid": "ba84264a_abb839bd",
+      "range": {
+        "startLine": 63,
+        "startChar": 14,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26c7ee84_be632be3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "Wow, lots of nesting in this method! And it\u0027s over 100 lines long. Seems like it could be improved.\n\nSuggestions:\n* Extract a method or two. One place to look for good places to break them out is where you have comments that introduce a new section of the code.\n\n* Use guard checks. For example, I see a lot of if/else that could potentially be replaced with\nif (!xxx) {\n  return;\n}\n// happy path\n\n* Collapse the 3 try/catch sequences into one? try-with-resources might help here (depending on if it\u0027s available on Android and if the things you are \"closing\" in your finally clauses can be auto-closed.",
+      "range": {
+        "startLine": 141,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e97fea_9431e220",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "I agree. Unfortunately IMAPClient doesn\u0027t implement AutoCloseable. I tried to reduce the nesting by merging two try/catch blocks, and throwing more exceptions.\n\nThe method now also follows the guard checks you proposed as good as it can with a lot of return/continues.\n\nI revised the Pop3 implementation in a similar manner.",
+      "parentUuid": "26c7ee84_be632be3",
       "range": {
         "startLine": 141,
         "startChar": 3,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "2c196a61_9cf3fb61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "I\u0027ve changed them to be public. They were used inside the receive package, so I used the scope that was most narrow.",
+      "parentUuid": "ff9be8bc_24d4febd",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49132777_d4dac167",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
         "patchSetId": 1
@@ -220,6 +436,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "There are a lot of nullable fields in this. Are you using go/nullness to check for proper null handling?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fef043af_e67d1b59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Not yet. Mostly because Gerrit is developed in the open source and mirrored into Google3. Until recently, we used Buck as a build system which would not let us use such things. We recently migrated to Bazel, which means we might be able to use nullness even in the open source space.\n\nI\u0027ve created b/62564886 to track this effort.",
+      "parentUuid": "49132777_d4dac167",
       "range": {
         "startLine": 41,
         "startChar": 2,
@@ -252,6 +492,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e8e7e0_8e09932f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9fc9d8_34783750",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -301,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "5d4f9579_7f8ca0c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Agreed and done. I\u0027ve factored the individual steps out into their own methods.",
+      "parentUuid": "85fc0050_9f0d84be",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 247,
+        "endChar": 0
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f76fa42_1fc45d9f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -312,6 +600,30 @@
       "writtenOn": "2017-06-12T21:03:50Z",
       "side": 1,
       "message": "Why make it publicly visible instead of package-private or protected?",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b2832d2_1d4284d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Tests using this method are in the mail package (not mail.receive). I could move them to a new mail.receive test package and make this package private?",
+      "parentUuid": "9f76fa42_1fc45d9f",
       "range": {
         "startLine": 114,
         "startChar": 3,
@@ -347,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "d4d39a4f_4132088c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Since this is wrapped inside a callable, it can not throw checked exceptions, only runtime exceptions. The caller is a WorkQueue which just takes care of calling all the callables in a background thread. From what I see the WorkQueue doesn\u0027t really care about if things go wrong. So logging it here seemed fine to me. Would you agree?",
+      "parentUuid": "6eea81a4_65e81378",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25be7993_23899b16",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ParserUtil.java",
         "patchSetId": 1
@@ -370,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "01045213_f64e09f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ParserUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25be7993_23899b16",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d4e8881_38ef4136",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
         "patchSetId": 1
@@ -390,6 +750,30 @@
       "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b626164_e0d33848",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T13:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d4e8881_38ef4136",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 7
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

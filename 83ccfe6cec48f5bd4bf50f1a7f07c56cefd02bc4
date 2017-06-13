@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cc120dcd_b4370bc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "GerritAuth and GrAuth are not sufficient because more auth providers will be added.\nAnother alternative I considered was GrDefaultAuth, but \"default\" carries less context.",
+      "parentUuid": "25ac83ae_54cc5f89",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d4555d8_731644d7",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a442bae7_0d6bf579",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure what benefit this adds. Could you please add context?",
+      "parentUuid": "8d4555d8_731644d7",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0dde19af_4968ef5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "I don\u0027t have context for this.\n\nLooks like it was mostly taken from here:\nhttps://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript\n\ntrim() would remove spaces from both start and end, however this shouldn\u0027t matter, done.\nAlso, reworked a bit.",
+      "parentUuid": "b5fcfb95_cc6528c3",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ffbf5ea_59ea08e4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f43b773_246ce7f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure what benefit this adds. Could you please add context?",
+      "parentUuid": "8ffbf5ea_59ea08e4",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "8daa6eda_0a8a1160",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7862b395_be5fc5d2",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cfece8d_3d8ea254",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -137,6 +257,30 @@
       "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93b682e_d756a306",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-13T17:05:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cfece8d_3d8ea254",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 32
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

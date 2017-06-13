@@ -14,7 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import"
+    href="../bower_components/polymer-resin/standalone/polymer-resin.html">
+<script>
+  security.polymer_resin.install(
+      {
+        allowedIdentifierPrefixes: [''],
+        reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
+      });
+</script>
+
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">

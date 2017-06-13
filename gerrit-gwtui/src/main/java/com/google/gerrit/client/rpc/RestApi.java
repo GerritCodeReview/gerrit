@@ -415,7 +415,7 @@ public class RestApi {
     }
   }
 
-  private static native String str(JavaScriptObject jso)/*-{ return JSON.stringify(jso) }-*/ ;
+  private static native String str(JavaScriptObject jso) /*-{ return JSON.stringify(jso) }-*/;
 
   private <T extends JavaScriptObject> void sendText(
       Method method, String body, HttpCallback<T> cb) {

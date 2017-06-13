@@ -63,7 +63,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
     return sorted;
   }
 
-  public final native JsArray<T> values()/*-{
+  public final native JsArray<T> values() /*-{
     var s = this;
     var v = [];
     var i = 0;
@@ -73,7 +73,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
       }
     }
     return v;
-  }-*/ ;
+  }-*/;
 
   public final int size() {
     return keySet().size();
@@ -91,7 +91,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
 
   public final native void put(String n, T v) /*-{ this[n] = v; }-*/;
 
-  public final native void copyKeysIntoChildren(String p)/*-{
+  public final native void copyKeysIntoChildren(String p) /*-{
     var s = this;
     for (var k in s) {
       if (s.hasOwnProperty(k)) {
@@ -99,5 +99,5 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
         c[p] = k;
       }
     }
-  }-*/ ;
+  }-*/;
 }

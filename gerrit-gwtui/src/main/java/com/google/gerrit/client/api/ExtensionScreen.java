@@ -82,16 +82,16 @@ public class ExtensionScreen extends Screen {
       return ScreenDefinition;
     }-*/;
 
-    static native JsArray<Definition> get(String n)/*-{ return $wnd.Gerrit.screens[n] || [] }-*/ ;
+    static native JsArray<Definition> get(String n) /*-{ return $wnd.Gerrit.screens[n] || [] }-*/;
 
-    final native JsArrayString match(String t)/*-{
+    final native JsArrayString match(String t) /*-{
       var p = this.pattern;
       if (p instanceof $wnd.RegExp) {
         var m = p.exec(t);
         return m && m[0] == t ? m : null;
       }
       return p == t ? [t] : null;
-    }-*/ ;
+    }-*/;
 
     protected Definition() {}
   }

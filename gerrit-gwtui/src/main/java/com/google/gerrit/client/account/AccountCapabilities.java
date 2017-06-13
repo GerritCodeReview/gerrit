@@ -26,5 +26,5 @@ public class AccountCapabilities extends JavaScriptObject {
 
   protected AccountCapabilities() {}
 
-  public final native boolean canPerform(String name)/*-{ return this[name] ? true : false; }-*/ ;
+  public final native boolean canPerform(String name) /*-{ return this[name] ? true : false; }-*/;
 }

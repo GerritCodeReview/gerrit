@@ -406,13 +406,13 @@ public class RelatedChanges extends TabPanel {
 
     private native String statusRaw() /*-{ return this.status; }-*/;
 
-    final native void setId(String i)/*-{ if(i)this.change_id=i; }-*/ ;
+    final native void setId(String i) /*-{ if(i)this.change_id=i; }-*/;
 
-    final native void setCommit(CommitInfo c)/*-{ if(c)this.commit=c; }-*/ ;
+    final native void setCommit(CommitInfo c) /*-{ if(c)this.commit=c; }-*/;
 
-    final native void setBranch(String b)/*-{ if(b)this.branch=b; }-*/ ;
+    final native void setBranch(String b) /*-{ if(b)this.branch=b; }-*/;
 
-    final native void setProject(String b)/*-{ if(b)this.project=b; }-*/ ;
+    final native void setProject(String b) /*-{ if(b)this.project=b; }-*/;
 
     public final Change.Id legacyId() {
       return hasChangeNumber() ? new Change.Id(_changeNumber()) : null;
@@ -433,21 +433,21 @@ public class RelatedChanges extends TabPanel {
     final native boolean hasCurrentRevisionNumber()
         /*-{ return this.hasOwnProperty('_current_revision_number') }-*/ ;
 
-    final native int _changeNumber()/*-{ return this._change_number }-*/ ;
+    final native int _changeNumber() /*-{ return this._change_number }-*/;
 
-    final native int _revisionNumber()/*-{ return this._revision_number }-*/ ;
+    final native int _revisionNumber() /*-{ return this._revision_number }-*/;
 
-    final native int _currentRevisionNumber()/*-{ return this._current_revision_number }-*/ ;
+    final native int _currentRevisionNumber() /*-{ return this._current_revision_number }-*/;
 
-    final native void setChangeNumber(int n)/*-{ this._change_number=n; }-*/ ;
+    final native void setChangeNumber(int n) /*-{ this._change_number=n; }-*/;
 
-    final native void setRevisionNumber(int n)/*-{ this._revision_number=n; }-*/ ;
+    final native void setRevisionNumber(int n) /*-{ this._revision_number=n; }-*/;
 
-    final native void setCurrentRevisionNumber(int n)/*-{ this._current_revision_number=n; }-*/ ;
+    final native void setCurrentRevisionNumber(int n) /*-{ this._current_revision_number=n; }-*/;
 
-    final native void setSubmittable(boolean s)/*-{ this._submittable=s; }-*/ ;
+    final native void setSubmittable(boolean s) /*-{ this._submittable=s; }-*/;
 
-    final native void setStatus(String s)/*-{ if(s)this.status=s; }-*/ ;
+    final native void setStatus(String s) /*-{ if(s)this.status=s; }-*/;
 
     protected ChangeAndCommit() {}
   }

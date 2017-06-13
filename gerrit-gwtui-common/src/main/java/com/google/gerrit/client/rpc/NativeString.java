@@ -34,7 +34,7 @@ public final class NativeString extends JavaScriptObject {
     return wrap0(TYPE, s);
   }
 
-  private static native NativeString wrap0(JavaScriptObject T, String s)/*-{ return new T(s) }-*/ ;
+  private static native NativeString wrap0(JavaScriptObject T, String s) /*-{ return new T(s) }-*/;
 
   public native String asString() /*-{ return this.s; }-*/;
 

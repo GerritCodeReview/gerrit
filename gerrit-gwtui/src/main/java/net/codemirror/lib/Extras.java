@@ -42,7 +42,7 @@ public class Extras {
 
   static final native Extras get(CodeMirror c) /*-{ return c.gerritExtras }-*/;
 
-  private static native void set(CodeMirror c, Extras e)/*-{ c.gerritExtras = e }-*/ ;
+  private static native void set(CodeMirror c, Extras e) /*-{ c.gerritExtras = e }-*/;
 
   static void attach(CodeMirror c) {
     set(c, new Extras(c));

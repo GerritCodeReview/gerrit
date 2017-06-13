@@ -32,7 +32,7 @@ public class AccountInfo extends JavaScriptObject {
 
   public final native String email() /*-{ return this.email; }-*/;
 
-  public final native JsArrayString secondaryEmails()/*-{ return this.secondary_emails; }-*/ ;
+  public final native JsArrayString secondaryEmails() /*-{ return this.secondary_emails; }-*/;
 
   public final native String username() /*-{ return this.username; }-*/;
 
@@ -56,7 +56,7 @@ public class AccountInfo extends JavaScriptObject {
    *     be an empty list, indicating no avatars are available, such as when no plugin is installed.
    *     This method returns false if the server did not check on avatars for the account.
    */
-  public final native boolean hasAvatarInfo()/*-{ return this.hasOwnProperty('avatars') }-*/ ;
+  public final native boolean hasAvatarInfo() /*-{ return this.hasOwnProperty('avatars') }-*/;
 
   public final AvatarInfo avatar(int sz) {
     JsArray<AvatarInfo> a = avatars();
@@ -69,7 +69,7 @@ public class AccountInfo extends JavaScriptObject {
     return null;
   }
 
-  private native JsArray<AvatarInfo> avatars()/*-{ return this.avatars }-*/ ;
+  private native JsArray<AvatarInfo> avatars() /*-{ return this.avatars }-*/;
 
   public final native void name(String n) /*-{ this.name = n }-*/;
 

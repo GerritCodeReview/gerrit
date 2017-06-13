@@ -105,7 +105,7 @@ public class UserAgent {
       return installed;
     }
 
-    private static native boolean hasFlash()/*-{
+    private static native boolean hasFlash() /*-{
       if (navigator.plugins && navigator.plugins.length) {
         if (navigator.plugins['Shockwave Flash'])     return true;
         if (navigator.plugins['Shockwave Flash 2.0']) return true;
@@ -120,7 +120,7 @@ public class UserAgent {
         try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return true; } catch (e) {}
       }
       return false;
-    }-*/ ;
+    }-*/;
   }
 
   /**
@@ -144,9 +144,9 @@ public class UserAgent {
     }
   }
 
-  private static native boolean amInsideIFrame()/*-{ return top.location != $wnd.location; }-*/ ;
+  private static native boolean amInsideIFrame() /*-{ return top.location != $wnd.location; }-*/;
 
-  private static native void bustOutOfIFrame(String newloc)/*-{ top.location.href = newloc }-*/ ;
+  private static native void bustOutOfIFrame(String newloc) /*-{ top.location.href = newloc }-*/;
 
   /**
    * Test if Gerrit is running on a mobile browser. This check could be incomplete, but should cover

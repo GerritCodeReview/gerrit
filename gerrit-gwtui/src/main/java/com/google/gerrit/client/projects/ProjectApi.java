@@ -228,7 +228,7 @@ public class ProjectApi {
 
     protected ConfigInput() {}
 
-    final native void setDescription(String d)/*-{ if(d)this.description=d; }-*/ ;
+    final native void setDescription(String d) /*-{ if(d)this.description=d; }-*/;
 
     final void setUseContributorAgreements(InheritableBoolean v) {
       setUseContributorAgreementsRaw(v.name());
@@ -241,19 +241,19 @@ public class ProjectApi {
       setUseContentMergeRaw(v.name());
     }
 
-    private native void setUseContentMergeRaw(String v)/*-{ if(v)this.use_content_merge=v; }-*/ ;
+    private native void setUseContentMergeRaw(String v) /*-{ if(v)this.use_content_merge=v; }-*/;
 
     final void setUseSignedOffBy(InheritableBoolean v) {
       setUseSignedOffByRaw(v.name());
     }
 
-    private native void setUseSignedOffByRaw(String v)/*-{ if(v)this.use_signed_off_by=v; }-*/ ;
+    private native void setUseSignedOffByRaw(String v) /*-{ if(v)this.use_signed_off_by=v; }-*/;
 
     final void setRequireChangeId(InheritableBoolean v) {
       setRequireChangeIdRaw(v.name());
     }
 
-    private native void setRequireChangeIdRaw(String v)/*-{ if(v)this.require_change_id=v; }-*/ ;
+    private native void setRequireChangeIdRaw(String v) /*-{ if(v)this.require_change_id=v; }-*/;
 
     final void setCreateNewChangeForAllNotInTarget(InheritableBoolean v) {
       setCreateNewChangeForAllNotInTargetRaw(v.name());
@@ -266,7 +266,7 @@ public class ProjectApi {
       setEnableSignedPushRaw(v.name());
     }
 
-    private native void setEnableSignedPushRaw(String v)/*-{ if(v)this.enable_signed_push=v; }-*/ ;
+    private native void setEnableSignedPushRaw(String v) /*-{ if(v)this.enable_signed_push=v; }-*/;
 
     final void setRequireSignedPush(InheritableBoolean v) {
       setRequireSignedPushRaw(v.name());
@@ -282,19 +282,19 @@ public class ProjectApi {
     private native void setRejectImplicitMergesRaw(String v)
         /*-{ if(v)this.reject_implicit_merges=v; }-*/ ;
 
-    final native void setMaxObjectSizeLimit(String l)/*-{ if(l)this.max_object_size_limit=l; }-*/ ;
+    final native void setMaxObjectSizeLimit(String l) /*-{ if(l)this.max_object_size_limit=l; }-*/;
 
     final void setSubmitType(SubmitType t) {
       setSubmitTypeRaw(t.name());
     }
 
-    private native void setSubmitTypeRaw(String t)/*-{ if(t)this.submit_type=t; }-*/ ;
+    private native void setSubmitTypeRaw(String t) /*-{ if(t)this.submit_type=t; }-*/;
 
     final void setState(ProjectState s) {
       setStateRaw(s.name());
     }
 
-    private native void setStateRaw(String s)/*-{ if(s)this.state=s; }-*/ ;
+    private native void setStateRaw(String s) /*-{ if(s)this.state=s; }-*/;
 
     final void setPluginConfigValues(
         Map<String, Map<String, ConfigParameterValue>> pluginConfigValues) {

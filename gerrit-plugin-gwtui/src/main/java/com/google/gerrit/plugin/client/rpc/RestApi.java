@@ -108,13 +108,13 @@ public class RestApi {
     get(NativeString.unwrap(cb));
   }
 
-  private static native void get(String p, JavaScriptObject r)/*-{ $wnd.Gerrit.get_raw(p, r) }-*/ ;
+  private static native void get(String p, JavaScriptObject r) /*-{ $wnd.Gerrit.get_raw(p, r) }-*/;
 
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
     put(path(), wrap(cb));
   }
 
-  private static native void put(String p, JavaScriptObject r)/*-{ $wnd.Gerrit.put_raw(p, r) }-*/ ;
+  private static native void put(String p, JavaScriptObject r) /*-{ $wnd.Gerrit.put_raw(p, r) }-*/;
 
   public <T extends JavaScriptObject> void put(String content, AsyncCallback<T> cb) {
     put(path(), content, wrap(cb));

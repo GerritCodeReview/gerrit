@@ -168,7 +168,7 @@ public class PluginLoader extends DialogBox {
     return failed;
   }
 
-  private static native NativeMap<Plugin> plugins()/*-{ return $wnd.Gerrit.plugins }-*/ ;
+  private static native NativeMap<Plugin> plugins() /*-{ return $wnd.Gerrit.plugins }-*/;
 
   private class LoadCallback implements Callback<Void, Exception> {
     private final Plugin plugin;

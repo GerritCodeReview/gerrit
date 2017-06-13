@@ -263,9 +263,9 @@ public class ModeInfo extends JavaScriptObject {
   public final native String mime() /*-{ return this.mime }-*/;
 
   /** Primary and additional MIME types that activate this mode. */
-  public final native JsArrayString mimes()/*-{ return this.mimes || [this.mime] }-*/ ;
+  public final native JsArrayString mimes() /*-{ return this.mimes || [this.mime] }-*/;
 
-  private native JsArrayString ext()/*-{ return this.ext || [] }-*/ ;
+  private native JsArrayString ext() /*-{ return this.ext || [] }-*/;
 
   protected ModeInfo() {}
 

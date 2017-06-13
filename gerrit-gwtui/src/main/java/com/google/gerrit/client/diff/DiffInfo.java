@@ -66,14 +66,14 @@ public class DiffInfo extends JavaScriptObject {
     return ChangeType.valueOf(changeTypeRaw());
   }
 
-  private native String changeTypeRaw()/*-{ return this.change_type }-*/ ;
+  private native String changeTypeRaw() /*-{ return this.change_type }-*/;
 
   public final IntraLineStatus intralineStatus() {
     String s = intralineStatusRaw();
     return s != null ? IntraLineStatus.valueOf(s) : IntraLineStatus.OFF;
   }
 
-  private native String intralineStatusRaw()/*-{ return this.intraline_status }-*/ ;
+  private native String intralineStatusRaw() /*-{ return this.intraline_status }-*/;
 
   public final boolean hasSkip() {
     JsArray<Region> c = content();

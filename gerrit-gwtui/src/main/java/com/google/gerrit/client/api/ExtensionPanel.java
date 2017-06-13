@@ -110,7 +110,7 @@ public class ExtensionPanel extends FlowPanel {
       return PanelDefinition;
     }-*/;
 
-    static native JsArray<Definition> get(String i)/*-{ return $wnd.Gerrit.panels[i] || [] }-*/ ;
+    static native JsArray<Definition> get(String i) /*-{ return $wnd.Gerrit.panels[i] || [] }-*/;
 
     protected Definition() {}
   }

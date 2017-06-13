@@ -27,7 +27,7 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class Loader {
-  private static native boolean isLibLoaded()/*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/ ;
+  private static native boolean isLibLoaded() /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
 
   static void initLibrary(final AsyncCallback<Void> cb) {
     if (isLibLoaded()) {

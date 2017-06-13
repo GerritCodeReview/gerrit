@@ -98,7 +98,7 @@ public class ExtensionSettingsScreen extends SettingsScreen {
 
     public final native String getMenu() /*-{ return this.menu; }-*/;
 
-    final native boolean matches(String t)/*-{ return this.path == t; }-*/ ;
+    final native boolean matches(String t) /*-{ return this.path == t; }-*/;
 
     protected Definition() {}
   }

@@ -414,11 +414,11 @@ public class SafeHtmlBuilder extends SafeHtml {
       b.cb.append(escape(in));
     }
 
-    private static native String escape(String src)/*-{ return src.replace(/&/g,'&amp;')
+    private static native String escape(String src) /*-{ return src.replace(/&/g,'&amp;')
                    .replace(/>/g,'&gt;')
                    .replace(/</g,'&lt;')
                    .replace(/"/g,'&quot;')
                    .replace(/'/g,'&#39;');
-     }-*/ ;
+     }-*/;
   }
 }

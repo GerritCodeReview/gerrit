@@ -172,7 +172,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native JsArray<AccountInfo> removableReviewers()
       /*-{ return this.removable_reviewers; }-*/ ;
 
-  private native NativeMap<JsArray<AccountInfo>> _reviewers()/*-{ return this.reviewers; }-*/ ;
+  private native NativeMap<JsArray<AccountInfo>> _reviewers() /*-{ return this.reviewers; }-*/;
 
   public final Map<ReviewerState, List<AccountInfo>> reviewers() {
     NativeMap<JsArray<AccountInfo>> reviewers = _reviewers();
@@ -195,7 +195,7 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final native int _number() /*-{ return this._number; }-*/;
 
-  public final native boolean _more_changes()/*-{ return this._more_changes ? true : false; }-*/ ;
+  public final native boolean _more_changes() /*-{ return this._more_changes ? true : false; }-*/;
 
   public final SubmitType submitType() {
     String submitType = _submitType();
@@ -212,7 +212,7 @@ public class ChangeInfo extends JavaScriptObject {
     return _submittable();
   }
 
-  private native boolean _submittable()/*-{ return this.submittable ? true : false; }-*/ ;
+  private native boolean _submittable() /*-{ return this.submittable ? true : false; }-*/;
 
   /**
    * @return the index of the missing label or -1 if no label is missing, or if more than one label
@@ -306,12 +306,12 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native short defaultValue() /*-{ return this.default_value; }-*/;
 
-    public final native short _value()/*-{
+    public final native short _value() /*-{
       if (this.value) return this.value;
       if (this.disliked) return -1;
       if (this.recommended) return 1;
       return 0;
-    }-*/ ;
+    }-*/;
 
     public final String maxValue() {
       return LabelValue.formatValue(valueSet().last());

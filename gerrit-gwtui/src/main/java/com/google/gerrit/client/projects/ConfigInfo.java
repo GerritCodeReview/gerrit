@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
 
-  public final native String description()/*-{ return this.description }-*/ ;
+  public final native String description() /*-{ return this.description }-*/;
 
   public final native InheritedBooleanInfo requireChangeId()
       /*-{ return this.require_change_id; }-*/ ;
@@ -67,9 +67,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native NativeMap<ConfigParameterInfo> pluginConfig(String p)
       /*-{ return this.plugin_config[p]; }-*/ ;
 
-  public final native NativeMap<ActionInfo> actions()/*-{ return this.actions; }-*/ ;
+  public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
-  private native String submitTypeRaw()/*-{ return this.submit_type }-*/ ;
+  private native String submitTypeRaw() /*-{ return this.submit_type }-*/;
 
   public final ProjectState state() {
     if (stateRaw() == null) {
@@ -78,12 +78,12 @@ public class ConfigInfo extends JavaScriptObject {
     return ProjectState.valueOf(stateRaw());
   }
 
-  private native String stateRaw()/*-{ return this.state }-*/ ;
+  private native String stateRaw() /*-{ return this.state }-*/;
 
   public final native MaxObjectSizeLimitInfo maxObjectSizeLimit()
       /*-{ return this.max_object_size_limit; }-*/ ;
 
-  private native NativeMap<CommentLinkInfo> commentlinks0()/*-{ return this.commentlinks; }-*/ ;
+  private native NativeMap<CommentLinkInfo> commentlinks0() /*-{ return this.commentlinks; }-*/;
 
   final List<FindReplace> commentlinks() {
     JsArray<CommentLinkInfo> cls = commentlinks0().values();
@@ -134,7 +134,7 @@ public class ConfigInfo extends JavaScriptObject {
       return (InheritedBooleanInfo) createObject();
     }
 
-    public final native boolean value()/*-{ return this.value ? true : false; }-*/ ;
+    public final native boolean value() /*-{ return this.value ? true : false; }-*/;
 
     public final native boolean inheritedValue()
         /*-{ return this.inherited_value ? true : false; }-*/ ;
@@ -143,7 +143,7 @@ public class ConfigInfo extends JavaScriptObject {
       return InheritableBoolean.valueOf(configuredValueRaw());
     }
 
-    private native String configuredValueRaw()/*-{ return this.configured_value }-*/ ;
+    private native String configuredValueRaw() /*-{ return this.configured_value }-*/;
 
     public final void setConfiguredValue(InheritableBoolean v) {
       setConfiguredValueRaw(v.name());

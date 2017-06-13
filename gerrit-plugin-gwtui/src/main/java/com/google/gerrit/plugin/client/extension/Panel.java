@@ -71,7 +71,7 @@ public class Panel extends SimplePanel {
       return this.p.hasOwnProperty(k) ? this.p[k] : d
     }-*/;
 
-    native JavaScriptObject getObject(String k)/*-{ return this.p[k]; }-*/ ;
+    native JavaScriptObject getObject(String k) /*-{ return this.p[k]; }-*/;
 
     native void detach(Panel p) /*-{
       this.onUnload($entry(function(){

@@ -75,7 +75,7 @@ class PluginName {
   protected static final native JavaScriptException makeException()
       /*-{ try { null.a() } catch (e) { return e } }-*/ ;
 
-  private static native boolean hasStack(JavaScriptException e)/*-{ return !!e.stack }-*/ ;
+  private static native boolean hasStack(JavaScriptException e) /*-{ return !!e.stack }-*/;
 
   /** Extracts URL from the stack frame. */
   static class PluginNameMoz extends PluginName {

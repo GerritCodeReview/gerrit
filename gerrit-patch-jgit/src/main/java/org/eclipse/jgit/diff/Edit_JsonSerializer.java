@@ -68,7 +68,7 @@ public class Edit_JsonSerializer extends JsonSerializer<Edit> {
     sb.append(o.getEndB());
   }
 
-  private static native int length(JavaScriptObject jso)/*-{ return jso.length; }-*/ ;
+  private static native int length(JavaScriptObject jso) /*-{ return jso.length; }-*/;
 
-  private static native int get(JavaScriptObject jso, int idx)/*-{ return jso[idx]; }-*/ ;
+  private static native int get(JavaScriptObject jso, int idx) /*-{ return jso[idx]; }-*/;
 }

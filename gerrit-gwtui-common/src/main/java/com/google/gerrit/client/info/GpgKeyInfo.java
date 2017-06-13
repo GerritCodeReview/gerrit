@@ -42,7 +42,7 @@ public class GpgKeyInfo extends JavaScriptObject {
     return Status.valueOf(s);
   }
 
-  public final native boolean hasProblems()/*-{ return this.hasOwnProperty('problems'); }-*/ ;
+  public final native boolean hasProblems() /*-{ return this.hasOwnProperty('problems'); }-*/;
 
   public final native JsArrayString problems() /*-{ return this.problems; }-*/;
 

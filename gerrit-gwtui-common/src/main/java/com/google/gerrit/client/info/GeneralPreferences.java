@@ -64,35 +64,35 @@ public class GeneralPreferences extends JavaScriptObject {
     return 0 < changesPerPage ? changesPerPage : GeneralPreferencesInfo.DEFAULT_PAGESIZE;
   }
 
-  private native short get(String n, int d)/*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/ ;
+  private native short get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
-  public final native boolean showSiteHeader()/*-{ return this.show_site_header || false }-*/ ;
+  public final native boolean showSiteHeader() /*-{ return this.show_site_header || false }-*/;
 
   public final native boolean useFlashClipboard()
       /*-{ return this.use_flash_clipboard || false }-*/ ;
 
-  public final native String downloadScheme()/*-{ return this.download_scheme }-*/ ;
+  public final native String downloadScheme() /*-{ return this.download_scheme }-*/;
 
   public final DownloadCommand downloadCommand() {
     String s = downloadCommandRaw();
     return s != null ? DownloadCommand.valueOf(s) : null;
   }
 
-  private native String downloadCommandRaw()/*-{ return this.download_command }-*/ ;
+  private native String downloadCommandRaw() /*-{ return this.download_command }-*/;
 
   public final DateFormat dateFormat() {
     String s = dateFormatRaw();
     return s != null ? DateFormat.valueOf(s) : null;
   }
 
-  private native String dateFormatRaw()/*-{ return this.date_format }-*/ ;
+  private native String dateFormatRaw() /*-{ return this.date_format }-*/;
 
   public final TimeFormat timeFormat() {
     String s = timeFormatRaw();
     return s != null ? TimeFormat.valueOf(s) : null;
   }
 
-  private native String timeFormatRaw()/*-{ return this.time_format }-*/ ;
+  private native String timeFormatRaw() /*-{ return this.time_format }-*/;
 
   public final native boolean highlightAssigneeInChangeTable()
       /*-{ return this.highlight_assignee_in_change_table || false }-*/ ;
@@ -109,63 +109,63 @@ public class GeneralPreferences extends JavaScriptObject {
   public final native boolean muteCommonPathPrefixes()
       /*-{ return this.mute_common_path_prefixes || false }-*/ ;
 
-  public final native boolean signedOffBy()/*-{ return this.signed_off_by || false }-*/ ;
+  public final native boolean signedOffBy() /*-{ return this.signed_off_by || false }-*/;
 
   public final ReviewCategoryStrategy reviewCategoryStrategy() {
     String s = reviewCategeoryStrategyRaw();
     return s != null ? ReviewCategoryStrategy.valueOf(s) : ReviewCategoryStrategy.NONE;
   }
 
-  private native String reviewCategeoryStrategyRaw()/*-{ return this.review_category_strategy }-*/ ;
+  private native String reviewCategeoryStrategyRaw() /*-{ return this.review_category_strategy }-*/;
 
   public final DiffView diffView() {
     String s = diffViewRaw();
     return s != null ? DiffView.valueOf(s) : null;
   }
 
-  private native String diffViewRaw()/*-{ return this.diff_view }-*/ ;
+  private native String diffViewRaw() /*-{ return this.diff_view }-*/;
 
   public final EmailStrategy emailStrategy() {
     String s = emailStrategyRaw();
     return s != null ? EmailStrategy.valueOf(s) : null;
   }
 
-  private native String emailStrategyRaw()/*-{ return this.email_strategy }-*/ ;
+  private native String emailStrategyRaw() /*-{ return this.email_strategy }-*/;
 
   public final DefaultBase defaultBaseForMerges() {
     String s = defaultBaseForMergesRaw();
     return s != null ? DefaultBase.valueOf(s) : null;
   }
 
-  private native String defaultBaseForMergesRaw()/*-{ return this.default_base_for_merges }-*/ ;
+  private native String defaultBaseForMergesRaw() /*-{ return this.default_base_for_merges }-*/;
 
-  public final native JsArray<TopMenuItem> my()/*-{ return this.my; }-*/ ;
+  public final native JsArray<TopMenuItem> my() /*-{ return this.my; }-*/;
 
-  public final native void changesPerPage(int n)/*-{ this.changes_per_page = n }-*/ ;
+  public final native void changesPerPage(int n) /*-{ this.changes_per_page = n }-*/;
 
-  public final native void showSiteHeader(boolean s)/*-{ this.show_site_header = s }-*/ ;
+  public final native void showSiteHeader(boolean s) /*-{ this.show_site_header = s }-*/;
 
-  public final native void useFlashClipboard(boolean u)/*-{ this.use_flash_clipboard = u }-*/ ;
+  public final native void useFlashClipboard(boolean u) /*-{ this.use_flash_clipboard = u }-*/;
 
-  public final native void downloadScheme(String d)/*-{ this.download_scheme = d }-*/ ;
+  public final native void downloadScheme(String d) /*-{ this.download_scheme = d }-*/;
 
   public final void downloadCommand(DownloadCommand d) {
     downloadCommandRaw(d != null ? d.toString() : null);
   }
 
-  public final native void downloadCommandRaw(String d)/*-{ this.download_command = d }-*/ ;
+  public final native void downloadCommandRaw(String d) /*-{ this.download_command = d }-*/;
 
   public final void dateFormat(DateFormat f) {
     dateFormatRaw(f != null ? f.toString() : null);
   }
 
-  private native void dateFormatRaw(String f)/*-{ this.date_format = f }-*/ ;
+  private native void dateFormatRaw(String f) /*-{ this.date_format = f }-*/;
 
   public final void timeFormat(TimeFormat f) {
     timeFormatRaw(f != null ? f.toString() : null);
   }
 
-  private native void timeFormatRaw(String f)/*-{ this.time_format = f }-*/ ;
+  private native void timeFormatRaw(String f) /*-{ this.time_format = f }-*/;
 
   public final native void highlightAssigneeInChangeTable(boolean d)
       /*-{ this.highlight_assignee_in_change_table = d }-*/ ;
@@ -182,7 +182,7 @@ public class GeneralPreferences extends JavaScriptObject {
   public final native void muteCommonPathPrefixes(boolean s)
       /*-{ this.mute_common_path_prefixes = s }-*/ ;
 
-  public final native void signedOffBy(boolean s)/*-{ this.signed_off_by = s }-*/ ;
+  public final native void signedOffBy(boolean s) /*-{ this.signed_off_by = s }-*/;
 
   public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
     reviewCategoryStrategyRaw(s != null ? s.toString() : null);
@@ -195,19 +195,19 @@ public class GeneralPreferences extends JavaScriptObject {
     diffViewRaw(d != null ? d.toString() : null);
   }
 
-  private native void diffViewRaw(String d)/*-{ this.diff_view = d }-*/ ;
+  private native void diffViewRaw(String d) /*-{ this.diff_view = d }-*/;
 
   public final void emailStrategy(EmailStrategy s) {
     emailStrategyRaw(s != null ? s.toString() : null);
   }
 
-  private native void emailStrategyRaw(String s)/*-{ this.email_strategy = s }-*/ ;
+  private native void emailStrategyRaw(String s) /*-{ this.email_strategy = s }-*/;
 
   public final void defaultBaseForMerges(DefaultBase b) {
     defaultBaseForMergesRaw(b != null ? b.toString() : null);
   }
 
-  private native void defaultBaseForMergesRaw(String b)/*-{ this.default_base_for_merges = b }-*/ ;
+  private native void defaultBaseForMergesRaw(String b) /*-{ this.default_base_for_merges = b }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

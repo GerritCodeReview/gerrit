@@ -110,7 +110,7 @@ public class AuthInfo extends JavaScriptObject {
 
   public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
 
-  private native String gitBasicAuthPolicyRaw()/*-{ return this.git_basic_auth_policy; }-*/ ;
+  private native String gitBasicAuthPolicyRaw() /*-{ return this.git_basic_auth_policy; }-*/;
 
   private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
 

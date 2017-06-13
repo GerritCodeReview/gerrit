@@ -86,7 +86,7 @@ public class CodeMirror extends JavaScriptObject {
   public final native int changeGeneration(boolean closeEvent)
       /*-{ return this.changeGeneration(closeEvent) }-*/ ;
 
-  public final native boolean isClean(int generation)/*-{ return this.isClean(generation) }-*/ ;
+  public final native boolean isClean(int generation) /*-{ return this.isClean(generation) }-*/;
 
   public final native void setWidth(double w) /*-{ this.setSize(w, null) }-*/;
 

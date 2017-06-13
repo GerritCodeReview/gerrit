@@ -311,5 +311,5 @@ public class CopyableLabel extends Composite implements HasText {
     }
   }
 
-  private static native boolean nativeExec(String c)/*-{ return !! $doc.execCommand(c) }-*/ ;
+  private static native boolean nativeExec(String c) /*-{ return !! $doc.execCommand(c) }-*/;
 }

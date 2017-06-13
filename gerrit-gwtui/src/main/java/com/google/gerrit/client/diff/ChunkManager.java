@@ -28,7 +28,7 @@ import net.codemirror.lib.TextMarker;
 
 /** Colors modified regions for {@link SideBySide} and {@link Unified}. */
 abstract class ChunkManager {
-  static final native void onClick(Element e, JavaScriptObject f)/*-{ e.onclick = f }-*/ ;
+  static final native void onClick(Element e, JavaScriptObject f) /*-{ e.onclick = f }-*/;
 
   final Scrollbar scrollbar;
   final LineMapper lineMapper;

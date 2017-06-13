@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -68,6 +69,7 @@ public class OutputStreamQuery {
   }
 
   private final ReviewDb db;
+  private final AccountCache accountCache;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
@@ -92,6 +94,7 @@ public class OutputStreamQuery {
   @Inject
   OutputStreamQuery(
       ReviewDb db,
+      AccountCache accountCache,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
@@ -99,6 +102,7 @@ public class OutputStreamQuery {
       TrackingFooters trackingFooters,
       CurrentUser user) {
     this.db = db;
+    this.accountCache = accountCache;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
@@ -244,7 +248,11 @@ public class OutputStreamQuery {
 
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
-          c, new SubmitRuleEvaluator(d).setAllowClosed(true).setAllowDraft(true).evaluate());
+          c,
+          new SubmitRuleEvaluator(accountCache, d)
+              .setAllowClosed(true)
+              .setAllowDraft(true)
+              .evaluate());
     }
 
     if (includeCommitMessage) {

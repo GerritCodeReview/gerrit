@@ -847,6 +847,7 @@ public class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter()) {
       bu.setRepository(repo, rp.getRevWalk(), ins).updateChangesInParallel();
       bu.setRequestId(receiveId);
+      bu.setRefLogMessage("push");
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
           replace.addOps(bu, replaceProgress);

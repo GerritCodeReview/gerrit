@@ -168,6 +168,7 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
   protected RequestId requestId;
+  protected String refLogMessage;
 
   private boolean updateChangesInParallel;
   private boolean closeRepo;
@@ -215,6 +216,11 @@ public abstract class BatchUpdate implements AutoCloseable {
     this.revWalk = checkNotNull(revWalk, "revWalk");
     this.inserter = checkNotNull(inserter, "inserter");
     commands = new ChainedReceiveCommands(repo);
+    return this;
+  }
+
+  public BatchUpdate setRefLogMessage(String refLogMessage) {
+    this.refLogMessage = refLogMessage;
     return this;
   }
 

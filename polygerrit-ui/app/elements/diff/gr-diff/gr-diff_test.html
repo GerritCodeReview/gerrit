@@ -60,6 +60,12 @@ limitations under the License.
       assert.isTrue(cancelStub.called);
     });
 
+    test('_diffLength', () => {
+      element = fixture('basic');
+      const mock = document.createElement('mock-diff-response');
+      assert.equal(element._diffLength(mock.diffResponse), 52);
+    });
+
     suite('not logged in', () => {
       setup(() => {
         stub('gr-rest-api-interface', {
@@ -989,6 +995,48 @@ limitations under the License.
         assert.equal(element.$.diffHeader.textContent.trim(), 'test');
         element.set('_diff.binary', true);
         assert.equal(element._diffHeaderItems.length, 0);
+      });
+    });
+
+    suite('safety and bypass', () => {
+      let renderStub;
+
+      setup(() => {
+        element = fixture('basic');
+        renderStub = sandbox.stub(element.$.diffBuilder, 'render',
+            () => Promise.resolve());
+        const mock = document.createElement('mock-diff-response');
+        element._diff = mock.diffResponse;
+        element._comments = {left: [], right: []};
+        element.noRenderOnPrefsChange = true;
+      });
+
+      test('lage render w/ context = 10', () => {
+        element.prefs = {context: 10};
+        sandbox.stub(element, '_diffLength', () => 10000);
+        return element._renderDiffTable().then(() => {
+          assert.isTrue(renderStub.called);
+          assert.isFalse(element._showWarning);
+        });
+      });
+
+      test('lage render w/ whole file and bypass', () => {
+        element.prefs = {context: -1};
+        element._safetyBypass = 10;
+        sandbox.stub(element, '_diffLength', () => 10000);
+        return element._renderDiffTable().then(() => {
+          assert.isTrue(renderStub.called);
+          assert.isFalse(element._showWarning);
+        });
+      });
+
+      test('lage render w/ whole file and no bypass', () => {
+        element.prefs = {context: -1};
+        sandbox.stub(element, '_diffLength', () => 10000);
+        return element._renderDiffTable().then(() => {
+          assert.isFalse(renderStub.called);
+          assert.isTrue(element._showWarning);
+        });
       });
     });
   });

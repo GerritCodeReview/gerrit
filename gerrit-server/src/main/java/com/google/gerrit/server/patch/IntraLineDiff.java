@@ -78,7 +78,7 @@ public class IntraLineDiff implements Serializable {
     return deepCopyEdits(edits);
   }
 
-  private void writeObject(final ObjectOutputStream out) throws IOException {
+  private void writeObject(ObjectOutputStream out) throws IOException {
     writeEnum(out, status);
     writeVarInt32(out, edits.size());
     for (Edit e : edits) {
@@ -96,7 +96,7 @@ public class IntraLineDiff implements Serializable {
     }
   }
 
-  private void readObject(final ObjectInputStream in) throws IOException {
+  private void readObject(ObjectInputStream in) throws IOException {
     status = readEnum(in, Status.values());
     int editCount = readVarInt32(in);
     Edit[] editArray = new Edit[editCount];

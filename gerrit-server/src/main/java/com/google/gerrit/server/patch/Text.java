@@ -168,7 +168,7 @@ public class Text extends RawText {
 
   private Charset charset;
 
-  public Text(final byte[] r) {
+  public Text(byte[] r) {
     super(r);
   }
 
@@ -181,7 +181,7 @@ public class Text extends RawText {
   }
 
   @Override
-  protected String decode(final int s, int e) {
+  protected String decode(int s, int e) {
     if (charset == null) {
       charset = charset(content, null);
     }

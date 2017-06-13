@@ -56,7 +56,7 @@ class PatchScriptBuilder {
   private static final Comparator<Edit> EDIT_SORT =
       new Comparator<Edit>() {
         @Override
-        public int compare(final Edit o1, final Edit o2) {
+        public int compare(Edit o1, Edit o2) {
           return o1.getBeginA() - o2.getBeginA();
         }
       };
@@ -91,11 +91,11 @@ class PatchScriptBuilder {
     this.projectKey = projectKey;
   }
 
-  void setChange(final Change c) {
+  void setChange(Change c) {
     this.change = c;
   }
 
-  void setDiffPrefs(final DiffPreferencesInfo dp) {
+  void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
 
     context = diffPrefs.context;
@@ -106,14 +106,14 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(final ComparisonType ct, final ObjectId a, final ObjectId b) {
+  void setTrees(ComparisonType ct, ObjectId a, ObjectId b) {
     comparisonType = ct;
     aId = a;
     bId = b;
   }
 
   PatchScript toPatchScript(
-      final PatchListEntry content, final CommentDetail comments, final List<Patch> history)
+      PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     reader = db.newObjectReader();
     try {
@@ -124,7 +124,7 @@ class PatchScriptBuilder {
   }
 
   private PatchScript build(
-      final PatchListEntry content, final CommentDetail comments, final List<Patch> history)
+      PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
@@ -247,7 +247,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String oldName(final PatchListEntry entry) {
+  private static String oldName(PatchListEntry entry) {
     switch (entry.getChangeType()) {
       case ADDED:
         return null;
@@ -262,7 +262,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String newName(final PatchListEntry entry) {
+  private static String newName(PatchListEntry entry) {
     switch (entry.getChangeType()) {
       case DELETED:
         return null;
@@ -276,7 +276,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private void ensureCommentsVisible(final CommentDetail comments) {
+  private void ensureCommentsVisible(CommentDetail comments) {
     if (comments.getCommentsA().isEmpty() && comments.getCommentsB().isEmpty()) {
       // No comments, no additional dummy edits are required.
       //
@@ -324,7 +324,7 @@ class PatchScriptBuilder {
     Collections.sort(edits, EDIT_SORT);
   }
 
-  private void safeAdd(final List<Edit> empty, final Edit toAdd) {
+  private void safeAdd(List<Edit> empty, Edit toAdd) {
     final int a = toAdd.getBeginA();
     final int b = toAdd.getBeginB();
     for (final Edit e : edits) {
@@ -338,7 +338,7 @@ class PatchScriptBuilder {
     empty.add(toAdd);
   }
 
-  private int mapA2B(final int a) {
+  private int mapA2B(int a) {
     if (edits.isEmpty()) {
       // Magic special case of an unmodified file.
       //
@@ -364,7 +364,7 @@ class PatchScriptBuilder {
     return last.getEndB() + (a - last.getEndA());
   }
 
-  private int mapB2A(final int b) {
+  private int mapB2A(int b) {
     if (edits.isEmpty()) {
       // Magic special case of an unmodified file.
       //
@@ -443,7 +443,7 @@ class PatchScriptBuilder {
       dst.addLine(line, src.getString(line));
     }
 
-    void resolve(final Side other, final ObjectId within) throws IOException {
+    void resolve(Side other, ObjectId within) throws IOException {
       try {
         final boolean reuse;
         if (Patch.COMMIT_MSG.equals(path)) {
@@ -547,7 +547,7 @@ class PatchScriptBuilder {
       }
     }
 
-    private TreeWalk find(final ObjectId within)
+    private TreeWalk find(ObjectId within)
         throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
             IOException {
       if (path == null || within == null) {

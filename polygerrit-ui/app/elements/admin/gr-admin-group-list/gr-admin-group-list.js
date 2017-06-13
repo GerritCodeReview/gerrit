@@ -76,6 +76,10 @@
           this._offset);
     },
 
+    _getUrl(id) {
+      return this.getUrl(this._path, id);
+    },
+
     _getGroups(filter, groupsPerPage, offset) {
       this._groups = [];
       return this.$.restAPI.getGroups(filter, groupsPerPage, offset)

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea14a8d3_f57173e0",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T20:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdc378cb_3dd265c0",
+      "revId": "c57ae5701a00f7902f81d08bd8607e3f5a1610dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2a1b25c_167eb1b8",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-13T19:53:32Z",
       "side": 1,
       "message": "I wonder if this can be used for the URLs in gr-list-view as well.",
+      "revId": "c57ae5701a00f7902f81d08bd8607e3f5a1610dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f9e702_2c77d8de",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T20:05:03Z",
+      "side": 1,
+      "message": "Yes, the plan is that we eventually use this to generate all of them. This change gets it started.",
+      "parentUuid": "d2a1b25c_167eb1b8",
       "revId": "c57ae5701a00f7902f81d08bd8607e3f5a1610dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

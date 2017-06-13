@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2640e9d_d4470f70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-13T11:59:04Z",
+      "side": 1,
+      "message": "wouldn\u0027t that imply always \u0027push\u0027 operation type in reflog? e.g.\nade12345 HEAD@{0}: push: fast forward\nwhich is a little different than it used to be...",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 70
+      },
+      "revId": "e7f92eca298a8a3241812efc5d20b55af9d03862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

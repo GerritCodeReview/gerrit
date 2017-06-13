@@ -22,6 +22,30 @@
       "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c513e86d_d4f52bf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-13T19:34:04Z",
+      "side": 1,
+      "message": "It gets caught by page.js in the same way that it already does. IOW, without the page.js-based router impl., no such click handler will be setup.",
+      "parentUuid": "6abff162_ab644b96",
+      "range": {
+        "startLine": 474,
+        "startChar": 26,
+        "endLine": 474,
+        "endChar": 52
+      },
+      "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

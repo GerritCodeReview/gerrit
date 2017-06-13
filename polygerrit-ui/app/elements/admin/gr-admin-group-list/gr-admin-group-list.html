@@ -45,7 +45,7 @@ limitations under the License.
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
-              <a href$="[[getUrl(path, item.group_id)]]">[[item.name]]</a>
+              <a href$="[[_computeGroupUrl(item.group_id)]]">[[item.name]]</a>
             </td>
             <td class="description">[[item.description]]</td>
             <td class="visibleToAll">[[_visibleToAll(item)]]</td>

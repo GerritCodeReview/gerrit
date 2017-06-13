@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec73ca78_0b44cd61",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1323eefa_2cdbac3d",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6db17e6e_7c88066d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "unnecessary: background is already white.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 32
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aed2bc1_7192c6c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6db17e6e_7c88066d",
       "range": {
         "startLine": 43,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "eace0ca9_0a138c89",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nI\u0027ve removed it.",
+      "parentUuid": "f02b71e6_b29762ee",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1281fc0d_be874aad",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "unnecessary",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 22
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74cc6d2c_66410f94",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1281fc0d_be874aad",
       "range": {
         "startLine": 47,
         "startChar": 8,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e72b45ed_1e6a86f1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4bba46cf_5762caf4",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 110
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4233be6b_9b92368c",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -128,6 +248,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "Instead of using h2 as labels (here and below) can you instead use \u003cspan class\u003d\"title\"\u003exxx\u003c/span\u003e. Also, these should all be Sentence case (Project name, etc)",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 48
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52ca9671_a92f815e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4233be6b_9b92368c",
       "range": {
         "startLine": 62,
         "startChar": 10,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "1d2fef95_54175c53",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "996c572c_4203e91f",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0ac6aa3_8edb6bb6",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -174,6 +342,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "Please remove placeholder, it\u0027s redundant.",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 68,
+        "endChar": 56
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14f91e53_f6f7aabf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Ok. Thanks, done.",
+      "parentUuid": "a0ac6aa3_8edb6bb6",
       "range": {
         "startLine": 68,
         "startChar": 16,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "f706adef_03bc1a7b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9c4d6529_42a27e77",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 41
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dadd6c8_8f0bf4a3",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -220,6 +436,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "I believe this should get removed.",
+      "range": {
+        "startLine": 78,
+        "startChar": 15,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411da2fc_37473133",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9dadd6c8_8f0bf4a3",
       "range": {
         "startLine": 78,
         "startChar": 15,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "8a347410_2e71fb0f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8a94ce79_f3bf3987",
+      "range": {
+        "startLine": 79,
+        "startChar": 29,
+        "endLine": 79,
+        "endChar": 64
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad04418d_0d3ada01",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -266,6 +530,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "We do not want this option, only actual projects should be allowed.",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 39
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b5a72c3_c86b2a78",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ad04418d_0d3ada01",
       "range": {
         "startLine": 80,
         "startChar": 16,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "84222881_f552fd57",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5f217c72_3797c913",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 43
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d9ba8a4_79ec1c5a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -312,6 +624,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "..here",
+      "range": {
+        "startLine": 90,
+        "startChar": 37,
+        "endLine": 90,
+        "endChar": 41
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93fd2576_fe5aacbf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1d9ba8a4_79ec1c5a",
       "range": {
         "startLine": 90,
         "startChar": 37,
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "4f9c07de_026b36c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "95b96573_bb521dcd",
+      "range": {
+        "startLine": 101,
+        "startChar": 38,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dae5a32_56f2377a",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 32
@@ -370,6 +730,30 @@
     },
     {
       "key": {
+        "uuid": "f3c4f9db_0a5d5271",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0dae5a32_56f2377a",
+      "range": {
+        "startLine": 102,
+        "startChar": 37,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c22c75a7_43771a76",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
         "patchSetId": 32
@@ -381,6 +765,30 @@
       "writtenOn": "2017-06-13T18:04:12Z",
       "side": 1,
       "message": "This should be encoded.",
+      "range": {
+        "startLine": 65,
+        "startChar": 54,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "7707f19cd35bdefe89160870b920e38ee04f66b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98b387ca_ddd00884",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-13T19:45:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c22c75a7_43771a76",
       "range": {
         "startLine": 65,
         "startChar": 54,

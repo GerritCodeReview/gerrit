@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -151,10 +150,11 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     Change.Id id = change.getChange().getId();
-    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
+    TestSubmitInput failInput = new TestSubmitInput();
+    failInput.failAfterRefUpdates = true;
     submit(
         change.getChangeId(),
-        failAfterRefUpdates,
+        failInput,
         ResourceConflictException.class,
         "Failing after ref updates");
 

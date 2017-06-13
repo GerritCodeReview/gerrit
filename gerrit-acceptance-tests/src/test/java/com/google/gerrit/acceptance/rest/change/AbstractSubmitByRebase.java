@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -256,10 +255,11 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     Change.Id id2 = change2.getChange().getId();
-    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
+    TestSubmitInput failInput = new TestSubmitInput();
+    failInput.failAfterRefUpdates = true;
     submit(
         change2.getChangeId(),
-        failAfterRefUpdates,
+        failInput,
         ResourceConflictException.class,
         "Failing after ref updates");
     RevCommit headAfterFailedSubmit = getRemoteHead();

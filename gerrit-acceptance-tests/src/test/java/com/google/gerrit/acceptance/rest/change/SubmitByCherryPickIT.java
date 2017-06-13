@@ -400,10 +400,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     Change.Id id2 = change2.getChange().getId();
-    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
+    TestSubmitInput failInput = new TestSubmitInput();
+    failInput.failAfterRefUpdates = true;
     submit(
         change2.getChangeId(),
-        failAfterRefUpdates,
+        failInput,
         ResourceConflictException.class,
         "Failing after ref updates");
     RevCommit headAfterFailedSubmit = getRemoteHead();

@@ -77,8 +77,7 @@ limitations under the License.
         assert.equal(url, '/admin/projects/q/filter:test');
         done();
       });
-      const e = {target: {value: 'test'}};
-      element._onValueChange(e);
+      element._filterChanged('test');
     });
 
     test('next button', done => {

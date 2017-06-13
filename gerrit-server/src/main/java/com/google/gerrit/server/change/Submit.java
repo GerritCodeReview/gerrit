@@ -119,13 +119,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
    */
   @VisibleForTesting
   public static class TestSubmitInput extends SubmitInput {
-    public final boolean failAfterRefUpdates;
-
-    public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
-      this.onBehalfOf = base.onBehalfOf;
-      this.notify = base.notify;
-      this.failAfterRefUpdates = failAfterRefUpdates;
-    }
+    public boolean failAfterRefUpdates;
   }
 
   private final Provider<ReviewDb> dbProvider;

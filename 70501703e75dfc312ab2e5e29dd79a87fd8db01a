@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6091fbb2_f6fdc836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-13T13:14:50Z",
+      "side": 1,
+      "message": "unused import, remove",
+      "revId": "70501703e75dfc312ab2e5e29dd79a87fd8db01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

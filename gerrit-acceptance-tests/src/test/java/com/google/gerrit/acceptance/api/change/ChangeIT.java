@@ -158,6 +158,16 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reflog() throws Exception {
+    // Tests are using DfsRepository which does not implement getReflogReader,
+    // so this will always fail.
+    // TODO: change this if/when DfsRepository#getReflogReader is implemented.
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("reflog not supported");
+    gApi.projects().name(project.get()).branch("master").reflog();
+  }
+
+  @Test
   public void get() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();

@@ -33,7 +33,7 @@ public class FuzzyTopicPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws OrmException {
     Change change = cd.change();
     if (change == null) {
       return false;

@@ -24,7 +24,7 @@ public class HashtagPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws OrmException {
     for (String hashtag : object.notes().load().getHashtags()) {
       if (hashtag.equalsIgnoreCase(getValue())) {
         return true;

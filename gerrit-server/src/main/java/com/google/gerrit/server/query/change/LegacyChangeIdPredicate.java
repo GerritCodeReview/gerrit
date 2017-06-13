@@ -28,7 +28,7 @@ public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) {
+  public boolean match(ChangeData object) {
     return id.equals(object.getId());
   }
 

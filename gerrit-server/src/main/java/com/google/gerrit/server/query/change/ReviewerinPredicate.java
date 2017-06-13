@@ -34,7 +34,7 @@ public class ReviewerinPredicate extends ChangeOperatorPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws OrmException {
     for (Account.Id accountId : object.reviewers().all()) {
       IdentifiedUser reviewer = userFactory.create(accountId);
       if (reviewer.getEffectiveGroups().contains(uuid)) {

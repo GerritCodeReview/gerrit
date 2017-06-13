@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbaf2b25_e440ee1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-13T14:10:46Z",
+      "side": 1,
+      "message": "This creates a new thread pool for each evaluation which is probably not a lightweight operation. More importantly the number of threads/thread pools that can be created this way is only bounded by the number of threads which accept user requests (http + ssh).\n\nI guess you are using this approach because the ExecutorService provides the shutdownNow method which will try to stop the running tasks. However, the same could also be achieved by invoking the future.cancel method. Maybe a fixed thread pool, which doesn\u0027t have to be created for each evaluation combined with the Future.cancel would be a more reasonable approach?",
+      "revId": "6f368237423180e790eb6444ac02a14fefe22df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

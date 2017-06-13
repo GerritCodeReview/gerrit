@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6dac453_73d3248f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T20:46:15Z",
+      "side": 1,
+      "message": "the fieldset should wrap around all 4 items (see settings view).\nA section should wrap around each of the items (title and input)",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 20
+      },
+      "revId": "d322b8659b00bf0cde7cbfd1fdd62d48b0b00ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67336d7a_a8cd57f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T20:46:15Z",
+      "side": 1,
+      "message": "please wrap to a new line",
+      "range": {
+        "startLine": 73,
+        "startChar": 67,
+        "endLine": 73,
+        "endChar": 85
+      },
+      "revId": "d322b8659b00bf0cde7cbfd1fdd62d48b0b00ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "946076c1_25c48bf2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.js",
+        "patchSetId": 37
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T20:46:15Z",
+      "side": 1,
+      "message": "exceeds 80ch, please wrap.",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 88
+      },
+      "revId": "d322b8659b00bf0cde7cbfd1fdd62d48b0b00ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6552cccc_7614e568",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 37
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-13T20:46:15Z",
+      "side": 1,
+      "message": "please declare this as a constant at the top of the file.",
+      "range": {
+        "startLine": 535,
+        "startChar": 11,
+        "endLine": 535,
+        "endChar": 13
+      },
+      "revId": "d322b8659b00bf0cde7cbfd1fdd62d48b0b00ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

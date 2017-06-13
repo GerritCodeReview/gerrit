@@ -48,7 +48,7 @@ public abstract class Predicate<T> {
 
   /** Combine the passed predicates into a single AND node. */
   @SafeVarargs
-  public static <T> Predicate<T> and(final Predicate<T>... that) {
+  public static <T> Predicate<T> and(Predicate<T>... that) {
     if (that.length == 1) {
       return that[0];
     }
@@ -56,7 +56,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public static <T> Predicate<T> and(final Collection<? extends Predicate<T>> that) {
+  public static <T> Predicate<T> and(Collection<? extends Predicate<T>> that) {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
@@ -65,7 +65,7 @@ public abstract class Predicate<T> {
 
   /** Combine the passed predicates into a single OR node. */
   @SafeVarargs
-  public static <T> Predicate<T> or(final Predicate<T>... that) {
+  public static <T> Predicate<T> or(Predicate<T>... that) {
     if (that.length == 1) {
       return that[0];
     }
@@ -73,7 +73,7 @@ public abstract class Predicate<T> {
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static <T> Predicate<T> or(final Collection<? extends Predicate<T>> that) {
+  public static <T> Predicate<T> or(Collection<? extends Predicate<T>> that) {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
@@ -81,7 +81,7 @@ public abstract class Predicate<T> {
   }
 
   /** Invert the passed node. */
-  public static <T> Predicate<T> not(final Predicate<T> that) {
+  public static <T> Predicate<T> not(Predicate<T> that) {
     if (that instanceof NotPredicate) {
       // Negate of a negate is the original predicate.
       //
@@ -101,7 +101,7 @@ public abstract class Predicate<T> {
   }
 
   /** Same as {@code getChildren().get(i)} */
-  public Predicate<T> getChild(final int i) {
+  public Predicate<T> getChild(int i) {
     return getChildren().get(i);
   }
 

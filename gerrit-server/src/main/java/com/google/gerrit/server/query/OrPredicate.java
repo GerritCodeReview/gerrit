@@ -29,11 +29,11 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   private final int cost;
 
   @SafeVarargs
-  protected OrPredicate(final Predicate<T>... that) {
+  protected OrPredicate(Predicate<T>... that) {
     this(Arrays.asList(that));
   }
 
-  protected OrPredicate(final Collection<? extends Predicate<T>> that) {
+  protected OrPredicate(Collection<? extends Predicate<T>> that) {
     List<Predicate<T>> t = new ArrayList<>(that.size());
     int c = 0;
     for (Predicate<T> p : that) {
@@ -62,12 +62,12 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public final Predicate<T> getChild(final int i) {
+  public final Predicate<T> getChild(int i) {
     return children.get(i);
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
     return new OrPredicate<>(children);
   }
 
@@ -82,8 +82,8 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public boolean match(final T object) throws OrmException {
-    for (final Predicate<T> c : children) {
+  public boolean match(T object) throws OrmException {
+    for (Predicate<T> c : children) {
       checkState(
           c.isMatchable(),
           "match invoked, but child predicate %s doesn't implement %s",
@@ -107,7 +107,7 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public boolean equals(final Object other) {
+  public boolean equals(Object other) {
     if (other == null) {
       return false;
     }

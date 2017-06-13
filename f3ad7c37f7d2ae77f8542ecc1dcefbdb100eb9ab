@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "43f2ac42_f62fd617",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-13T12:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b15d3df_539ae1b8",
+      "revId": "f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e479c781_bd45f0f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2017-06-13T12:03:03Z",
       "side": 1,
       "message": "IMHO this is fine. If we want to add more stuff later, we can use assisted injection. If you want to use assisted injection now so the 3rd argument is easy, feel free.",
+      "revId": "f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b81c42da_e44b488b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-13T12:37:34Z",
+      "side": 1,
+      "message": "Lets add a factory only when we need more args.",
+      "parentUuid": "e479c781_bd45f0f6",
       "revId": "f3ad7c37f7d2ae77f8542ecc1dcefbdb100eb9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

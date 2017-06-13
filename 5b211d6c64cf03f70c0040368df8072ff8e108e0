@@ -96,6 +96,30 @@
       "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27df3c38_a0216eef",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-13T15:11:40Z",
+      "side": 1,
+      "message": "Ah I see! Thanks for clarifying.",
+      "parentUuid": "f107423f_e1a5cb8a",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

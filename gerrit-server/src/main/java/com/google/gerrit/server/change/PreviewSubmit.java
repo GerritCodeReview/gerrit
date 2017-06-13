@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,7 +81,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc) throws OrmException, RestApiException {
+  public BinaryResult apply(RevisionResource rsrc)
+      throws OrmException, RestApiException, UpdateException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -108,7 +110,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, UpdateException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
@@ -123,7 +125,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
-    } catch (OrmException | RestApiException | RuntimeException e) {
+    } catch (OrmException | RestApiException | UpdateException | RuntimeException e) {
       op.close();
       throw e;
     }

@@ -1275,4 +1275,13 @@ public abstract class AbstractDaemonTest {
       return revCommit;
     }
   }
+
+  protected RevCommit parseCurrentRevision(RevWalk rw, PushOneCommit.Result r) throws Exception {
+    return parseCurrentRevision(rw, r.getChangeId());
+  }
+
+  protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
+    return rw.parseCommit(
+        ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
 }

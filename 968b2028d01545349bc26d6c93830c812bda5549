@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecbdc471_34e8033c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-13T16:54:53Z",
+      "side": 1,
+      "message": "I would like to see this function do a bit more in the manner we spoke of earlier last week; namely, to modify viewState instead of the URL and create some listener for viewState.* that calls page.show with the properly constructed URL.",
+      "range": {
+        "startLine": 53,
+        "startChar": 21,
+        "endLine": 53,
+        "endChar": 47
+      },
+      "revId": "968b2028d01545349bc26d6c93830c812bda5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

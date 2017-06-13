@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bee95438_e4537689",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-13T16:54:53Z",
+      "side": 1,
+      "message": "...I actually meant the opposite. Why are we importing this as an html import instead of a script tag?",
+      "revId": "d553c50b37772302adc31de61da3da86bdc6cf44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

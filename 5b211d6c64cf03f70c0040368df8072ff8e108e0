@@ -75,6 +75,30 @@
     },
     {
       "key": {
+        "uuid": "d99d252e_d786f3a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-13T18:22:12Z",
+      "side": 1,
+      "message": "Admins running the tool and not editing gerrit.config directly aren\u0027t going to have a choice in the matter, we promise to upgrade them to a working state. So the only way you could get into the bad state (unfuseable FileRepository backend with fused\u003dtrue) is by manually editing gerrit.config. And we already throw ISE if you do that: https://gerrit.googlesource.com/gerrit/+/61f656559195f8370eff1ce26256e512a074359a/gerrit-server/src/main/java/com/google/gerrit/server/update/FusedNoteDbBatchUpdate.java#391",
+      "parentUuid": "c6b3be0c_3884ba01",
+      "range": {
+        "startLine": 43,
+        "startChar": 58,
+        "endLine": 43,
+        "endChar": 62
+      },
+      "revId": "5b211d6c64cf03f70c0040368df8072ff8e108e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e6d9bf5_bc6b2d80",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
         "patchSetId": 2

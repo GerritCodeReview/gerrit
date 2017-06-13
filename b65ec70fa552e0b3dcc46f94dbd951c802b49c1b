@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d9472a6_ca538abe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-13T13:56:51Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of injecting the ScheduledThreadPoolExecutor (class with broader API) and then storing it as interface (reduced API)?",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "069fef55_b6ceaf6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-13T13:56:51Z",
+      "side": 1,
+      "message": "Unrelated to this change but we have agreement to not use final for parameters and we remove finals whenever a method is changed for the first time. Since you are changing this constructor, remove the finals.",
+      "revId": "b65ec70fa552e0b3dcc46f94dbd951c802b49c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

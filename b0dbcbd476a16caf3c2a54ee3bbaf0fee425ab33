@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7f5bff74_4a308a96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:54:12Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "1622e671_879e6627",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b0dbcbd476a16caf3c2a54ee3bbaf0fee425ab33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21c7b9fb_da789b86",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9

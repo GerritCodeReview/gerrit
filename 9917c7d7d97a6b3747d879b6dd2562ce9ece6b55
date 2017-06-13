@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b396c421_cbfdb93c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:54:12Z",
+      "side": 1,
+      "message": "Why we need yet another concept?\n\nCan you mention why would we like to introduce this? Below you only explain how this state is defined and that in NoteDb code path it\u0027s calculated based on existence or not of WIP state. I would like to know, why it\u0027s needed? How this make your workflow better? Is that all about defining yet another notification event \"Review_Started\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e08aae69_b0fa93ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-13T04:54:12Z",
+      "side": 1,
+      "message": "Can you explain semantic of this set? Below you explain how you derived its value and that in ReviewDb it\u0027s a no op. There are two conceptual time frames that a change can be in WIP state: from the beginning, in the middle of it\u0027s life. Is it all about to memoize the reviewer, without actually doing anything with it? Can\u0027t we achieve the same, without adding yet another reviewer set, by simply stopping triggering any event activity during a change is in WIP state?\n\nIs it possible that my questions about exact behavioral semantic of start review state and pending reviewer set are already answered elsewhere?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

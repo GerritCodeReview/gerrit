@@ -16,6 +16,24 @@
       "revId": "1baa6fccd11509a163098f37f5f509e00ad63ff4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93b5197b_f16926b2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-14T12:22:51Z",
+      "side": 1,
+      "message": "ran gjf again.",
+      "parentUuid": "befd7594_3f8d6a4b",
+      "revId": "1baa6fccd11509a163098f37f5f509e00ad63ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

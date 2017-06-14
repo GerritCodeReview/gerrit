@@ -88,8 +88,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   }
 
   @Override
-  public List<ReflogEntryInfo> apply(BranchResource rsrc)
-      throws RestApiException, IOException {
+  public List<ReflogEntryInfo> apply(BranchResource rsrc) throws RestApiException, IOException {
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("not project owner");
     }

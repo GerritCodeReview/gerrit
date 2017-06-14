@@ -154,10 +154,7 @@ public class MultiProgressMonitor {
    * @param maxIntervalUnit time unit for progress interval.
    */
   public MultiProgressMonitor(
-      OutputStream out,
-      String taskName,
-      long maxIntervalTime,
-      TimeUnit maxIntervalUnit) {
+      OutputStream out, String taskName, long maxIntervalTime, TimeUnit maxIntervalUnit) {
     this.out = out;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
@@ -186,8 +183,7 @@ public class MultiProgressMonitor {
    * @throws ExecutionException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
-  public void waitFor(
-      Future<?> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
+  public void waitFor(Future<?> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
       throws ExecutionException {
     long overallStart = System.nanoTime();
     long deadline;

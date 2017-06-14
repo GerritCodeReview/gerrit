@@ -46,6 +46,30 @@
       "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca97f6e2_d25369b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-14T14:46:25Z",
+      "side": 1,
+      "message": "+1 this would be easier to read for me",
+      "parentUuid": "53a6a451_a2872b14",
+      "range": {
+        "startLine": 266,
+        "startChar": 44,
+        "endLine": 266,
+        "endChar": 50
+      },
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

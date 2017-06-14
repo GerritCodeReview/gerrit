@@ -22,6 +22,30 @@
       "revId": "9ef07d44f28387fb2ab8363b79cd21007d000d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b018a5_a71d17ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T09:06:57Z",
+      "side": 1,
+      "message": "No, curry is correct.  Same reason as here:\n\nhttps://gerrit-review.googlesource.com/#/c/106611/",
+      "parentUuid": "4b1439e5_45f4c9ec",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "9ef07d44f28387fb2ab8363b79cd21007d000d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

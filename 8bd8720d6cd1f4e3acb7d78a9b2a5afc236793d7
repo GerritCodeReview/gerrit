@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b00c6061_0fd2f06b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-14T04:43:15Z",
+      "side": 1,
+      "message": "Thanks for the pointers and for clarification. Makes sense. I added a comment on issue 4392, and proposed to set up a notification type matrix and implications of new concepts introduced in this series (and earlier) with all WIP topics.",
+      "parentUuid": "c4531fb9_5b5dde56",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72c8eaa7_b903bcd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "See issue 6420. This has been part of our proposal for \"Start review\" all along, that we offer a dialog that \"highlights which new reviewers/CCs will be notified.\"",
       "parentUuid": "122db765_2720dd57",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b498851_23e06d49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-14T04:43:15Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I think what would help is a overview of all new and shiny features that are introduced during the WIP journey, and whether or not those features are going to be available for both backends (ReviewDb and NoteDb) and both UIs (GWT and PG).\n\nIt is also really hard to have an overview on dozens issues in the issues tracker related to the whole WIP and notifications topics. Alone issues 4489 is listing 11 blocking issues.",
+      "parentUuid": "6a9df5dd_2a60bdd2",
       "range": {
         "startLine": 22,
         "startChar": 42,

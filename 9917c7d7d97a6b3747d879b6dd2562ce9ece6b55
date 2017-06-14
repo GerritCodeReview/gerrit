@@ -141,6 +141,30 @@
       "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd4ccf34_5c922235",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T00:25:06Z",
+      "side": 1,
+      "message": "Yes, that\u0027s similar, for patch sets rather than reviewer updates.",
+      "parentUuid": "fb077cad_1db226b3",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "9917c7d7d97a6b3747d879b6dd2562ce9ece6b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

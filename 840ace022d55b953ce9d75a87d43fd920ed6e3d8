@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83c25b08_a141852d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_153.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T00:25:06Z",
+      "side": 1,
+      "message": "Note to reviewers: I just added this in PS17. The idea is if someone is using ReviewDb and has WIP changes, then those changes can default to review_started \u003d \u0027N\u0027. Not perfectly accurate but probably not a big deal.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "840ace022d55b953ce9d75a87d43fd920ed6e3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

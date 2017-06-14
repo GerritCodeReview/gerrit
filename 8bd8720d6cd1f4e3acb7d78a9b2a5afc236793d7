@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4531fb9_5b5dde56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T00:25:06Z",
+      "side": 1,
+      "message": "If a WIP change is abandoned, we want to notify watchers about that if they\u0027d been notified about the change before (issue 4392, https://gerrit-review.googlesource.com/c/108230/).\n\nReviews posted to a WIP change notify a broader audience if review has started at some point\n(https://gerrit-review.googlesource.com/c/109292). Again, the guiding ideal is, if I haven\u0027t heard about this issue before, I don\u0027t want to hear about it now. If I create a WIP change with pending reviewers and publish a comment explaining something in advance, that shouldn\u0027t go to my reviewers. If I start review and return to WIP later, I do want those comments to notify everyone, because the ongoing conversation is not necessarily in sync with the work that\u0027s in progress.",
+      "parentUuid": "bee6998c_ff8d981a",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72c8eaa7_b903bcd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "61c4743c_c1cfe14d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T00:25:06Z",
+      "side": 1,
+      "message": "When we return to the ready state, notifications should ideally behave as if all the pending added (and removed) reviewers were just committed simultaneously.",
+      "parentUuid": "72c8eaa7_b903bcd5",
+      "range": {
+        "startLine": 20,
+        "startChar": 63,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "122db765_2720dd57",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-13T19:54:46Z",
       "side": 1,
       "message": "What do you mean by that? And how this feature is relevant to what kind of UI is used on the site?",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a9df5dd_2a60bdd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T00:25:06Z",
+      "side": 1,
+      "message": "See issue 6420. This has been part of our proposal for \"Start review\" all along, that we offer a dialog that \"highlights which new reviewers/CCs will be notified.\"",
+      "parentUuid": "122db765_2720dd57",
       "range": {
         "startLine": 22,
         "startChar": 42,

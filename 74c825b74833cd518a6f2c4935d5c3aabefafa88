@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efa71892_64f6c850",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:47:56Z",
+      "side": 1,
+      "message": "I don\u0027t think that BaseUrlBehavior and URLEncodingBehavior are needed anymore, since this is done in the ListViewBehavior.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "74c825b74833cd518a6f2c4935d5c3aabefafa88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7673ea20_3986ea29",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:47:56Z",
+      "side": 1,
+      "message": "Nit: I think this can all fit on one line.",
+      "range": {
+        "startLine": 519,
+        "startChar": 6,
+        "endLine": 521,
+        "endChar": 8
+      },
+      "revId": "74c825b74833cd518a6f2c4935d5c3aabefafa88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82cab640_45f263cb",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:47:56Z",
+      "side": 1,
+      "message": "Nit: not quite in alphabetical order.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 64
+      },
+      "revId": "74c825b74833cd518a6f2c4935d5c3aabefafa88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

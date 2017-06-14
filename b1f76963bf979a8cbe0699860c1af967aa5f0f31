@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1689ee17_6e7aa642",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T15:04:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4847f6f_474f734f",
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9e4a05_d9365f51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-14T14:50:57Z",
       "side": 1,
       "message": "Note that our Bigtable-backed cache doesn\u0027t use default serialization, so you will need to support this new field in our custom serialization thingie.",
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9972c323_f688a10a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T15:04:54Z",
+      "side": 1,
+      "message": "Sigh. I somehow knew that there was more work looming ahead of me. I will take care of it.",
+      "parentUuid": "0b9e4a05_d9365f51",
       "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +140,30 @@
       "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bae5c952_ca462143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T15:04:54Z",
+      "side": 1,
+      "message": "I like the idea with the individual methods but I needed to add a third one (isRootOrMergeCommit()) and a null check for commitA to match the current logic. In addition, I omitted the check \u0027key.getOldId() !\u003d null\u0027. It should be safe to omit because when oldId is null, commitA is either the parent of commitB, or commitB is a merge or root commit and hence the other checks would apply.",
+      "parentUuid": "53a6a451_a2872b14",
+      "range": {
+        "startLine": 266,
+        "startChar": 44,
+        "endLine": 266,
+        "endChar": 50
+      },
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,52 @@
       "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "835a4e4b_fb832868",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-14T12:15:34Z",
+      "side": 1,
+      "message": "This should be \n\n  viewMetadata \u003d permissionBackend.user(user).testOrFalse(GlobalPermission.ACCESS_DATABASE)\n\nAs background information: For us the check method will trigger an audit log if the check fails. The goal is to detect cases where users try to access resources for which they have no permissions.\n\nIf Gerrit checks permissions to know if a button should be enabled or not, testOrFalse should be used, since this method doesn\u0027t write an audit log if permissions are missing.\n\nIf we would use check here it would trigger an audit log each time a user without Access Database capability is fetching and this would turn the audit log to be useless. Hence I think it should be testOrFalse here.",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 7
+      },
+      "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8c31f8f_ec09de55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-14T12:15:34Z",
+      "side": 1,
+      "message": "Here we may want to get an audit log if a user tries this. So maybe we should use check here. TBH I\u0027m never really sure if using check or testOrFalse is correct...",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

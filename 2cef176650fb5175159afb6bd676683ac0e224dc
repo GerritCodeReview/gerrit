@@ -70,6 +70,30 @@
       "revId": "2cef176650fb5175159afb6bd676683ac0e224dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49751048_487feacc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T11:54:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164dce19_4ac33fb1",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 52
+      },
+      "revId": "2cef176650fb5175159afb6bd676683ac0e224dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

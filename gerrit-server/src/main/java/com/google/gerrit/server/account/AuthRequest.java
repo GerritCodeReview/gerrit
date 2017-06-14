@@ -63,6 +63,8 @@ public class AuthRequest {
   private boolean skipAuthentication;
   private String authPlugin;
   private String authProvider;
+  private boolean authProvidesAccountActiveStatus;
+  private boolean active;
 
   public AuthRequest(ExternalId.Key externalId) {
     this.externalId = externalId;
@@ -139,5 +141,21 @@ public class AuthRequest {
 
   public void setAuthProvider(String authProvider) {
     this.authProvider = authProvider;
+  }
+
+  public boolean authProvidesAccountActiveStatus() {
+    return authProvidesAccountActiveStatus;
+  }
+
+  public void setAuthProvidesAccountActiveStatus(boolean authProvidesAccountActiveStatus) {
+    this.authProvidesAccountActiveStatus = authProvidesAccountActiveStatus;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(Boolean isActive) {
+    this.active = isActive;
   }
 }

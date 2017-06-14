@@ -168,15 +168,6 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
-    name = "polymer-resin",
-    license = "//lib:LICENSE-polymer",
-    deps = [
-      ":polymer",
-      ":webcomponentsjs",
-    ],
-    seed = True,
-  )
-  bower_component(
     name = "polymer",
     license = "//lib:LICENSE-polymer",
     deps = [ ":webcomponentsjs" ],

@@ -16,12 +16,10 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -29,12 +27,9 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -237,23 +232,14 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class UploadFilter implements Filter {
-    private final Provider<ReviewDb> db;
-    private final TagCache tagCache;
-    private final ChangeNotes.Factory changeNotesFactory;
-    @Nullable private final SearchingChangeCacheImpl changeCache;
+    private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
 
     @Inject
     UploadFilter(
-        Provider<ReviewDb> db,
-        TagCache tagCache,
-        ChangeNotes.Factory changeNotesFactory,
-        @Nullable SearchingChangeCacheImpl changeCache,
+        VisibleRefFilter.Factory refFilterFactory,
         UploadValidators.Factory uploadValidatorsFactory) {
-      this.db = db;
-      this.tagCache = tagCache;
-      this.changeNotesFactory = changeNotesFactory;
-      this.changeCache = changeCache;
+      this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
     }
 
@@ -279,9 +265,7 @@ public class GitOverHttpServlet extends GitServlet {
           uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(
-          new VisibleRefFilter(
-              tagCache, changeNotesFactory, changeCache, repo, pc, db.get(), true));
+      up.setAdvertiseRefsHook(refFilterFactory.create(pc.getProjectState(), repo));
 
       next.doFilter(request, response);
     }

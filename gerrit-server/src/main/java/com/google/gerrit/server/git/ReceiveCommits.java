@@ -384,7 +384,7 @@ public class ReceiveCommits {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TagCache tagCache,
-      @Nullable SearchingChangeCacheImpl changeCache,
+      VisibleRefFilter.Factory refFilterFactory,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
       RefOperationValidators.Factory refValidatorsFactory,
@@ -494,7 +494,7 @@ public class ReceiveCommits {
     }
 
     rp.setAdvertiseRefsHook(
-        new VisibleRefFilter(tagCache, notesFactory, changeCache, repo, projectControl, db, false));
+        refFilterFactory.create(projectControl.getProjectState(), repo).setShowMetadata(false));
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
     advHooks.add(
         new AdvertiseRefsHook() {
@@ -1076,7 +1076,7 @@ public class ReceiveCommits {
     } catch (AuthException err) {
       ok = false;
     }
-    if (ok && ctl.canCreate(db, rp.getRepository(), obj)) {
+    if (ok && ctl.canCreate(rp.getRepository(), obj)) {
       if (!validRefOperation(cmd)) {
         return;
       }

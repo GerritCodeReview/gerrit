@@ -22,14 +22,11 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
@@ -55,9 +52,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
-  private final Provider<ReviewDb> dbProvider;
-  private final TagCache tagCache;
-  private final ChangeNotes.Factory changeNotesFactory;
+  private final VisibleRefFilter.Factory refFilterFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
 
   @Option(
@@ -110,16 +105,12 @@ public class ListTags implements RestReadView<ProjectResource> {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
-      Provider<ReviewDb> dbProvider,
-      TagCache tagCache,
-      ChangeNotes.Factory changeNotesFactory,
+      VisibleRefFilter.Factory refFilterFactory,
       @Nullable SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.user = user;
-    this.dbProvider = dbProvider;
-    this.tagCache = tagCache;
-    this.changeNotesFactory = changeNotesFactory;
+    this.refFilterFactory = refFilterFactory;
     this.changeCache = changeCache;
   }
 
@@ -211,8 +202,9 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   private Map<String, Ref> visibleTags(
       ProjectControl control, Repository repo, Map<String, Ref> tags) {
-    return new VisibleRefFilter(
-            tagCache, changeNotesFactory, changeCache, repo, control, dbProvider.get(), false)
+    return refFilterFactory
+        .create(control.getProjectState(), repo)
+        .setShowMetadata(false)
         .filter(tags, true);
   }
 }

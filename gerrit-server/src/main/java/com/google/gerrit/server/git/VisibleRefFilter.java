@@ -27,11 +27,16 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,50 +57,62 @@ import org.slf4j.LoggerFactory;
 public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private static final Logger log = LoggerFactory.getLogger(VisibleRefFilter.class);
 
+  public interface Factory {
+    VisibleRefFilter create(ProjectState projectState, Repository git);
+  }
+
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
-  private final Repository db;
-  private final Project.NameKey projectName;
-  private final ProjectControl projectCtl;
-  private final ReviewDb reviewDb;
-  private final boolean showMetadata;
+  private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> user;
+  private final ProjectState projectState;
+  private final Repository git;
+  private ProjectControl projectCtl;
+  private boolean showMetadata = true;
   private String userEditPrefix;
   private Map<Change.Id, Branch.NameKey> visibleChanges;
 
-  public VisibleRefFilter(
+  @Inject
+  VisibleRefFilter(
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache,
-      Repository db,
-      ProjectControl projectControl,
-      ReviewDb reviewDb,
-      boolean showMetadata) {
+      Provider<ReviewDb> db,
+      Provider<CurrentUser> user,
+      @Assisted ProjectState projectState,
+      @Assisted Repository git) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
     this.db = db;
-    this.projectName = projectControl.getProject().getNameKey();
-    this.projectCtl = projectControl;
-    this.reviewDb = reviewDb;
-    this.showMetadata = showMetadata;
+    this.user = user;
+    this.projectState = projectState;
+    this.git = git;
+  }
+
+  /** Show change references. Default is {@code true}. */
+  public VisibleRefFilter setShowMetadata(boolean show) {
+    showMetadata = show;
+    return this;
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
-    if (projectCtl.getProjectState().isAllUsers()) {
+    if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
 
+    projectCtl = projectState.controlFor(user.get());
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
       return fastHideRefsMetaConfig(refs);
     }
 
     Account.Id userId;
     boolean viewMetadata;
-    if (projectCtl.getUser().isIdentifiedUser()) {
-      IdentifiedUser user = projectCtl.getUser().asIdentifiedUser();
-      userId = user.getAccountId();
-      viewMetadata = user.getCapabilities().canAccessDatabase();
+    if (user.get().isIdentifiedUser()) {
+      IdentifiedUser u = user.get().asIdentifiedUser();
+      userId = u.getAccountId();
+      viewMetadata = u.getCapabilities().canAccessDatabase();
       userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
       userId = null;
@@ -109,8 +126,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE)
-          || (!showMetadata && isMetadata(projectCtl, name))) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
         continue;
       } else if (RefNames.isRefsEdit(name)) {
         // Edits are visible only to the owning user, if change is visible.
@@ -138,8 +154,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         if (viewMetadata) {
           result.put(name, ref);
         }
-      } else if (projectCtl.getProjectState().isAllUsers()
-          && name.equals(RefNames.REFS_EXTERNAL_IDS)) {
+      } else if (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS)) {
         // The notes branch with the external IDs of all users must not be exposed to normal users.
         if (viewMetadata) {
           result.put(name, ref);
@@ -158,11 +173,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
       TagMatcher tags =
           tagCache
-              .get(projectName)
+              .get(projectState.getProject().getNameKey())
               .matcher(
                   tagCache,
-                  db,
-                  filterTagsSeparately ? filter(db.getAllRefs()).values() : result.values());
+                  git,
+                  filterTagsSeparately ? filter(git.getAllRefs()).values() : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);
@@ -183,8 +198,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {
-    if (projectCtl.getUser().isIdentifiedUser()) {
-      Ref r = refs.get(RefNames.refsUsers(projectCtl.getUser().getAccountId()));
+    if (user.get().isIdentifiedUser()) {
+      Ref r = refs.get(RefNames.refsUsers(user.get().getAccountId()));
       if (r != null) {
         SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
         refs = new HashMap<>(refs);
@@ -241,8 +256,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Project project = projectCtl.getProject();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      for (ChangeData cd : changeCache.getChangeData(reviewDb, project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(cd.change()).isVisible(reviewDb, cd)) {
+      for (ChangeData cd : changeCache.getChangeData(db.get(), project.getNameKey())) {
+        if (projectCtl.controlForIndexedChange(cd.change()).isVisible(db.get(), cd)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
@@ -261,8 +276,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Project.NameKey project = projectCtl.getProject().getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      for (ChangeNotes cn : changeNotesFactory.scan(db, reviewDb, project)) {
-        if (projectCtl.controlFor(cn).isVisible(reviewDb)) {
+      for (ChangeNotes cn : changeNotesFactory.scan(git, db.get(), project)) {
+        if (projectCtl.controlFor(cn).isVisible(db.get())) {
           visibleChanges.put(cn.getChangeId(), cn.getChange().getDest());
         }
       }
@@ -274,10 +289,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
   }
 
-  private static boolean isMetadata(ProjectControl projectCtl, String name) {
+  private boolean isMetadata(String name) {
     return name.startsWith(REFS_CHANGES)
         || RefNames.isRefsEdit(name)
-        || (projectCtl.getProjectState().isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS));
+        || (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS));
   }
 
   private static boolean isTag(Ref ref) {

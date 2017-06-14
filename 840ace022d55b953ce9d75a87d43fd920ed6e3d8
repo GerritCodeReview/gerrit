@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49a9a973_51be2ae5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T21:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a43f5d_33ea88e8",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 412,
+        "endChar": 55
+      },
+      "revId": "840ace022d55b953ce9d75a87d43fd920ed6e3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e53b8b_7ab6d813",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
         "patchSetId": 17
@@ -36,6 +60,24 @@
       "writtenOn": "2017-06-14T04:43:15Z",
       "side": 1,
       "message": "Better:\n\n  if (!change.hasReviewStarted() \u0026\u0026 !workInProgress) {",
+      "revId": "840ace022d55b953ce9d75a87d43fd920ed6e3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5530ff3_8e32c28a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T21:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e53b8b_7ab6d813",
       "revId": "840ace022d55b953ce9d75a87d43fd920ed6e3d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +142,30 @@
       "side": 1,
       "message": "Can you leave a comment, why NoteDb doesn\u0027t need to be updated here concerning added reviewStarted state, like it\u0027s induced from workInProgress footer or similar?",
       "parentUuid": "83c25b08_a141852d",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "840ace022d55b953ce9d75a87d43fd920ed6e3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b66114dd_38b8b11a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_153.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-14T21:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c03acb0_73a3d175",
       "range": {
         "startLine": 31,
         "startChar": 2,

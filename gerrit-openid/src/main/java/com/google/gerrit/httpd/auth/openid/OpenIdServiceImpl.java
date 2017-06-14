@@ -99,12 +99,12 @@ class OpenIdServiceImpl {
 
   @Inject
   OpenIdServiceImpl(
-      final DynamicItem<WebSession> cf,
-      final Provider<IdentifiedUser> iu,
+      DynamicItem<WebSession> cf,
+      Provider<IdentifiedUser> iu,
       CanonicalWebUrl up,
-      @GerritServerConfig final Config config,
-      final AuthConfig ac,
-      final AccountManager am,
+      @GerritServerConfig Config config,
+      AuthConfig ac,
+      AccountManager am,
       ProxyProperties proxyProperties) {
 
     if (proxyProperties.getProxyUrl() != null) {
@@ -139,9 +139,9 @@ class OpenIdServiceImpl {
   DiscoveryResult discover(
       HttpServletRequest req,
       String openidIdentifier,
-      final SignInMode mode,
-      final boolean remember,
-      final String returnToken) {
+      SignInMode mode,
+      boolean remember,
+      String returnToken) {
     final State state;
     state = init(req, openidIdentifier, mode, remember, returnToken);
     if (state == null) {

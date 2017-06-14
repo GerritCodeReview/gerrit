@@ -24,7 +24,7 @@ class JDBC extends BaseDataSourceType {
   protected final Config cfg;
 
   @Inject
-  JDBC(@GerritServerConfig final Config cfg) {
+  JDBC(@GerritServerConfig Config cfg) {
     super(ConfigUtil.getRequired(cfg, "database", "driver"));
     this.cfg = cfg;
   }

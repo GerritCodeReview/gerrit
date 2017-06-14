@@ -73,7 +73,7 @@ class Helper {
 
   @Inject
   Helper(
-      @GerritServerConfig final Config config,
+      @GerritServerConfig Config config,
       @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");

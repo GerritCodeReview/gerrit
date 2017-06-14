@@ -62,14 +62,14 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   @Inject
   DatabasePubKeyAuth(
-      final SshKeyCacheImpl skc,
-      final SshLog l,
-      final IdentifiedUser.GenericFactory uf,
-      final PeerDaemonUser.Factory pf,
-      final SitePaths site,
-      final KeyPairProvider hostKeyProvider,
-      @GerritServerConfig final Config cfg,
-      final SshScope s) {
+      SshKeyCacheImpl skc,
+      SshLog l,
+      IdentifiedUser.GenericFactory uf,
+      PeerDaemonUser.Factory pf,
+      SitePaths site,
+      KeyPairProvider hostKeyProvider,
+      @GerritServerConfig Config cfg,
+      SshScope s) {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
@@ -162,7 +162,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return p.keys;
   }
 
-  private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList, PublicKey suppliedKey) {
+  private SshKeyCacheEntry find(Iterable<SshKeyCacheEntry> keyList, PublicKey suppliedKey) {
     for (SshKeyCacheEntry k : keyList) {
       if (k.match(suppliedKey)) {
         return k;

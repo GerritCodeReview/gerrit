@@ -41,11 +41,10 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
 
   @Inject
   FromAddressGeneratorProvider(
-      @GerritServerConfig final Config cfg,
-      @AnonymousCowardName final String anonymousCowardName,
-      @GerritPersonIdent final PersonIdent myIdent,
-      final AccountCache accountCache) {
-
+      @GerritServerConfig Config cfg,
+      @AnonymousCowardName String anonymousCowardName,
+      @GerritPersonIdent PersonIdent myIdent,
+      AccountCache accountCache) {
     final String from = cfg.getString("sendemail", null, "from");
     final Address srvAddr = toAddress(myIdent);
 

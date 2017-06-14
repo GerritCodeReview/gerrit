@@ -511,6 +511,11 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public void message(String message) throws RestApiException {
+    current().message(message);
+  }
+
+  @Override
   public ChangeInfo info() throws RestApiException {
     return get(EnumSet.noneOf(ListChangesOption.class));
   }

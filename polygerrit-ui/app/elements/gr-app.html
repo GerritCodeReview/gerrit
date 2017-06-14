@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="./admin/gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="./admin/gr-admin-project-list/gr-admin-project-list.html">
+<link rel="import" href="./admin/gr-admin-project-branches-list/gr-admin-project-branches-list.html">
 <link rel="import" href="./admin/gr-admin-project/gr-admin-project.html">
 <link rel="import" href="./admin/gr-admin-plugin-list/gr-admin-plugin-list.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
@@ -151,6 +152,11 @@ limitations under the License.
         <gr-admin-project-list
             params="[[params]]"
             id="projectList"></gr-admin-project-list>
+      </template>
+      <template is="dom-if" if="[[_showProjectBranchesListView]]" restamp="true">
+        <gr-admin-project-branches-list
+            params="[[params]]"
+            id="projectList"></gr-admin-project-branches-list>
       </template>
       <template is="dom-if" if="[[_showAdminProject]]" restamp="true">
         <gr-admin-project project="[[params.project]]"></gr-admin-project>

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "16c0af3a_f313b0a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T12:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "835a4e4b_fb832868",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 7
+      },
+      "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8c31f8f_ec09de55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 5
@@ -53,6 +77,30 @@
       "writtenOn": "2017-06-14T12:15:34Z",
       "side": 1,
       "message": "Here we may want to get an audit log if a user tries this. So maybe we should use check here. TBH I\u0027m never really sure if using check or testOrFalse is correct...",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d69064_0c8766f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T12:24:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  Let\u0027s wait to see what Shawn says.",
+      "parentUuid": "e8c31f8f_ec09de55",
       "range": {
         "startLine": 131,
         "startChar": 9,

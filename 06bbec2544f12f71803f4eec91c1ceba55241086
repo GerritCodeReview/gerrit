@@ -70,6 +70,30 @@
       "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f128c1_cce7d0c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-14T00:03:52Z",
+      "side": 1,
+      "message": "With this change at least, the click events of links are captured by page.js. In this way (again, at least the way this change is written) Gerrit.Nav.navigate does not get called when a link is clicked.\n\nWhen a link is clicked page.js picks it up, pushes the state, and invokes the appropriate handler. What I\u0027d imagine a hypothetical router for  embedded PolyGerrit to do is either capture these clicks in its own way, or to allow the clicks to trigger true page navigations.\n\nDo you think we need to find a way to funnel all navigation events into `Gerrit.Nav.navigate`?",
+      "parentUuid": "53c51d51_ef397574",
+      "range": {
+        "startLine": 474,
+        "startChar": 26,
+        "endLine": 474,
+        "endChar": 52
+      },
+      "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

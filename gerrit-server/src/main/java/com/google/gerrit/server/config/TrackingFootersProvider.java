@@ -40,7 +40,7 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
   private static final Logger log = LoggerFactory.getLogger(TrackingFootersProvider.class);
 
   @Inject
-  TrackingFootersProvider(@GerritServerConfig final Config cfg) {
+  TrackingFootersProvider(@GerritServerConfig Config cfg) {
     for (String name : cfg.getSubsections(TRACKING_ID_TAG)) {
       boolean configValid = true;
 

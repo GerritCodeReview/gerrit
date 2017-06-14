@@ -26,7 +26,7 @@ class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
   private final WorkQueue queues;
 
   @Inject
-  StreamCommandExecutorProvider(@GerritServerConfig final Config config, WorkQueue wq) {
+  StreamCommandExecutorProvider(@GerritServerConfig Config config, WorkQueue wq) {
     final int cores = Runtime.getRuntime().availableProcessors();
     poolSize = config.getInt("sshd", "streamThreads", cores + 1);
     queues = wq;

@@ -29,7 +29,7 @@ public class Browser {
   private final Config cfg;
 
   @Inject
-  Browser(@GerritServerConfig final Config cfg) {
+  Browser(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
   }
 

@@ -149,16 +149,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Inject
   SshDaemon(
-      final CommandFactory commandFactory,
-      final NoShell noShell,
-      final PublickeyAuthenticator userAuth,
-      final GerritGSSAuthenticator kerberosAuth,
-      final KeyPairProvider hostKeyProvider,
-      final IdGenerator idGenerator,
-      @GerritServerConfig final Config cfg,
-      final SshLog sshLog,
-      @SshListenAddresses final List<SocketAddress> listen,
-      @SshAdvertisedAddresses final List<String> advertised,
+      CommandFactory commandFactory,
+      NoShell noShell,
+      PublickeyAuthenticator userAuth,
+      GerritGSSAuthenticator kerberosAuth,
+      KeyPairProvider hostKeyProvider,
+      IdGenerator idGenerator,
+      @GerritServerConfig Config cfg,
+      SshLog sshLog,
+      @SshListenAddresses List<SocketAddress> listen,
+      @SshAdvertisedAddresses List<String> advertised,
       MetricMaker metricMaker) {
     setPort(IANA_SSH_PORT /* never used */);
 

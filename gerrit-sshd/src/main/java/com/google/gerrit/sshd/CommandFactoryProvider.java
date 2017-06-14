@@ -60,11 +60,11 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
 
   @Inject
   CommandFactoryProvider(
-      @CommandName(Commands.ROOT) final DispatchCommandProvider d,
-      @GerritServerConfig final Config cfg,
-      final WorkQueue workQueue,
-      final SshLog l,
-      final SshScope s,
+      @CommandName(Commands.ROOT) DispatchCommandProvider d,
+      @GerritServerConfig Config cfg,
+      WorkQueue workQueue,
+      SshLog l,
+      SshScope s,
       SchemaFactory<ReviewDb> sf) {
     dispatcher = d;
     log = l;

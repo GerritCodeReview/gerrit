@@ -26,7 +26,7 @@ public class DB2 extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  public DB2(@GerritServerConfig final Config cfg) {
+  public DB2(@GerritServerConfig Config cfg) {
     super("com.ibm.db2.jcc.DB2Driver");
     this.cfg = cfg;
   }

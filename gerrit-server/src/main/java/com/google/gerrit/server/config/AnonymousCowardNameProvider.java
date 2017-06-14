@@ -24,7 +24,7 @@ public class AnonymousCowardNameProvider implements Provider<String> {
   private final String anonymousCoward;
 
   @Inject
-  public AnonymousCowardNameProvider(@GerritServerConfig final Config cfg) {
+  public AnonymousCowardNameProvider(@GerritServerConfig Config cfg) {
     String anonymousCoward = cfg.getString("user", null, "anonymousCoward");
     if (anonymousCoward == null) {
       anonymousCoward = DEFAULT;

@@ -67,7 +67,7 @@ public class AuthConfig {
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg) throws XsrfException {
+  AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");

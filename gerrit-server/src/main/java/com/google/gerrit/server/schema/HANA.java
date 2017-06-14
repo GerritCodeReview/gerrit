@@ -28,7 +28,7 @@ class HANA extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  HANA(@GerritServerConfig final Config cfg) {
+  HANA(@GerritServerConfig Config cfg) {
     super("com.sap.db.jdbc.Driver");
     this.cfg = cfg;
   }

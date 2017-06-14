@@ -82,10 +82,10 @@ class LdapRealm extends AbstractRealm {
       EmailExpander emailExpander,
       LdapGroupBackend groupBackend,
       @Named(LdapModule.GROUP_CACHE)
-          final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
+          LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE)
-          final LoadingCache<String, Optional<Account.Id>> usernameCache,
-      @GerritServerConfig final Config config) {
+          LoadingCache<String, Optional<Account.Id>> usernameCache,
+      @GerritServerConfig Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;

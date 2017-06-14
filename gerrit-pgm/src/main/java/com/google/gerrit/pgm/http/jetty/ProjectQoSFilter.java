@@ -85,10 +85,10 @@ public class ProjectQoSFilter implements Filter {
 
   @Inject
   ProjectQoSFilter(
-      final Provider<CurrentUser> user,
+      Provider<CurrentUser> user,
       QueueProvider queue,
-      final ServletContext context,
-      @GerritServerConfig final Config cfg) {
+      ServletContext context,
+      @GerritServerConfig Config cfg) {
     this.user = user;
     this.queue = queue;
     this.context = context;
@@ -155,7 +155,7 @@ public class ProjectQoSFilter implements Filter {
     private boolean done;
     private Thread worker;
 
-    TaskThunk(final WorkQueue.Executor executor, Continuation cont, HttpServletRequest req) {
+    TaskThunk(WorkQueue.Executor executor, Continuation cont, HttpServletRequest req) {
       this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);

@@ -23,7 +23,7 @@ class EmailExpanderProvider implements Provider<EmailExpander> {
   private final EmailExpander expander;
 
   @Inject
-  EmailExpanderProvider(@GerritServerConfig final Config cfg) {
+  EmailExpanderProvider(@GerritServerConfig Config cfg) {
     final String s = cfg.getString("auth", null, "emailformat");
     if (EmailExpander.Simple.canHandle(s)) {
       expander = new EmailExpander.Simple(s);

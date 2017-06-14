@@ -79,7 +79,7 @@ public class JettyServer {
     private final Config cfg;
 
     @Inject
-    Lifecycle(JettyServer server, @GerritServerConfig final Config cfg) {
+    Lifecycle(JettyServer server, @GerritServerConfig Config cfg) {
       this.server = server;
       this.cfg = cfg;
     }

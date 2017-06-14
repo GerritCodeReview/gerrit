@@ -74,7 +74,7 @@ public class SmtpEmailSender implements EmailSender {
   private int expiryDays;
 
   @Inject
-  SmtpEmailSender(@GerritServerConfig final Config cfg) {
+  SmtpEmailSender(@GerritServerConfig Config cfg) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
     connectTimeout =
         Ints.checkedCast(

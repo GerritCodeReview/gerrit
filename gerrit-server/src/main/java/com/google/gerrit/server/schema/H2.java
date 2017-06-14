@@ -26,7 +26,7 @@ class H2 extends BaseDataSourceType {
   private final SitePaths site;
 
   @Inject
-  H2(SitePaths site, @GerritServerConfig final Config cfg) {
+  H2(SitePaths site, @GerritServerConfig Config cfg) {
     super("org.h2.Driver");
     this.cfg = cfg;
     this.site = site;

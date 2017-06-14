@@ -127,6 +127,9 @@ public class Module extends RestApiModule {
     get(REVISION_KIND, "archive").to(GetArchive.class);
     get(REVISION_KIND, "mergelist").to(GetMergeList.class);
 
+    post(CHANGE_KIND, "message").to(PutMessage.CurrentRevision.class);
+    post(REVISION_KIND, "message").to(PutMessage.class);
+
     child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
 
     child(REVISION_KIND, "drafts").to(DraftComments.class);

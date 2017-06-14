@@ -51,6 +51,7 @@ limitations under the License.
       const projectsPerPage = 25;
       const filter = 'test';
       element.path = '/admin/projects';
+      element.pathFilter = '/admin/projects';
 
       sandbox.stub(element, 'getBaseUrl', () => '');
 
@@ -73,6 +74,7 @@ limitations under the License.
 
     test('_onValueChange', done => {
       element.path = '/admin/projects';
+      element.pathFilter = '/admin/projects';
       sandbox.stub(page, 'show', url => {
         assert.equal(url, '/admin/projects/q/filter:test');
         done();

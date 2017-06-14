@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -30,7 +31,8 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
   private final Path path;
 
   @Inject
-  SitePathFromSystemConfigProvider(SchemaFactory<ReviewDb> schemaFactory) throws OrmException {
+  SitePathFromSystemConfigProvider(@ReviewDbFactory SchemaFactory<ReviewDb> schemaFactory)
+      throws OrmException {
     path = read(schemaFactory);
   }
 

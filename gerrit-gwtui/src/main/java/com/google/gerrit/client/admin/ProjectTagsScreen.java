@@ -150,7 +150,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
             }
           }
         });
-    addGrid.setText(1, 0, AdminConstants.I.initialRevision() + ":");
+    addGrid.setText(1, 0, AdminConstants.I.revision() + ":");
     addGrid.setWidget(1, 1, irevTxtBox);
 
     addTag = new Button(AdminConstants.I.buttonAddTag());

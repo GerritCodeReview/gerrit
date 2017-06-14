@@ -27,6 +27,7 @@ limitations under the License.
 <link rel="import" href="../gr-admin-plugin-list/gr-admin-plugin-list.html">
 <link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
 <link rel="import" href="../gr-admin-project/gr-admin-project.html">
+<link rel="import" href="../gr-project-branches/gr-project-branches.html">
 
 <dom-module id="gr-admin-view">
   <template>
@@ -76,6 +77,11 @@ limitations under the License.
             params="[[params]]"
             id="createProject"></gr-admin-create-project>
       </main>
+    </template>
+    <template is="dom-if" if="[[_showProjectBranches]]" restamp="true">
+      <gr-project-branches
+          params="[[params]]"
+          id="projectBranchList"></gr-project-branches>
     </template>
     <template is="dom-if" if="[[params.placeholder]]" restamp="true">
       <gr-placeholder title="Admin" path="[[path]]"></gr-placeholder>

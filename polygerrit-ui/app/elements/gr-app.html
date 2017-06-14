@@ -150,6 +150,11 @@ limitations under the License.
             params="[[params]]"
             id="projectList"></gr-admin-project-list>
       </template>
+      <template is="dom-if" if="[[_showProjectBranches]]" restamp="true">
+        <gr-project-branches
+            params="[[params]]"
+            id="projectBranchList"></gr-project-branches>
+      </template>
       <template is="dom-if" if="[[_showAdminProject]]" restamp="true">
         <gr-admin-project project="[[params.project]]"></gr-admin-project>
       </template>

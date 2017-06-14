@@ -23,7 +23,8 @@ public class PatchListWeigher implements Weigher<PatchListKey, PatchList> {
     int size =
         16
             + 4 * 8
-            + 2 * 36 // Size of PatchListKey, 64 bit JVM
+            + 2 * 36
+            + 8 // Size of PatchListKey, 64 bit JVM
             + 16
             + 3 * 8
             + 3 * 4

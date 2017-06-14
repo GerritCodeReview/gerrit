@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9228cf4b_0c71b475",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b9f29e03_4951fbb6",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 70
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8460a8f8_db2a9e75",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
         "patchSetId": 33
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-13T23:43:52Z",
       "side": 1,
       "message": "Unnecessary",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d72c137_f17138c3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8460a8f8_db2a9e75",
       "range": {
         "startLine": 24,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1b013e13_d1a2799d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a4a56c8_34a61568",
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b2690ab_d0cae16f",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
         "patchSetId": 33
@@ -76,6 +142,30 @@
       "writtenOn": "2017-06-13T23:43:52Z",
       "side": 1,
       "message": "Can\u0027t we just call this on ready()? We\u0027re not going to have any params changing.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 13
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85bc78f0_e5ce0ac7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Im not sure what ready is.",
+      "parentUuid": "0b2690ab_d0cae16f",
       "range": {
         "startLine": 43,
         "startChar": 6,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "c1dd9909_1035b4ea",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5aa2685f_9397d899",
+      "range": {
+        "startLine": 60,
+        "startChar": 5,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11409fdd_149aab05",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
         "patchSetId": 33
@@ -122,6 +236,30 @@
       "writtenOn": "2017-06-13T23:43:52Z",
       "side": 1,
       "message": "Please use list-view-behavior and use getUrl.",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 66
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5370a0ad_7bc38260",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "11409fdd_149aab05",
       "range": {
         "startLine": 68,
         "startChar": 6,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "7907c52b_012f686c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Nothing to be sorry about :)\n\nThanks, done.",
+      "parentUuid": "adc58a5d_f66fac74",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 7
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dbde1a9_abbeeeba",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 33
@@ -168,6 +330,30 @@
       "writtenOn": "2017-06-13T23:43:52Z",
       "side": 1,
       "message": "don\u0027t think this is needed with the other change to call api on ready.",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 31
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fd4b326_288e6b49",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T00:01:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9dbde1a9_abbeeeba",
       "range": {
         "startLine": 161,
         "startChar": 11,

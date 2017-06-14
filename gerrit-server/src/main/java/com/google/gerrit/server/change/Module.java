@@ -94,6 +94,7 @@ public class Module extends RestApiModule {
     put(CHANGE_KIND, "unmute").to(Unmute.class);
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
+    put(CHANGE_KIND, "message").to(PutMessage.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);

@@ -159,6 +159,7 @@ public class PatchListEntry {
     size += stringSize(newName);
     size += header.length;
     size += (8 + 16 + 4 * 4) * edits.size();
+    size += (8 + 16 + 4 * 4) * editsDueToRebase.size();
     return size;
   }
 

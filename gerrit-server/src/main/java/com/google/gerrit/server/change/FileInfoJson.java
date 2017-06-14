@@ -55,7 +55,7 @@ public class FileInfoJson {
   Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
     ObjectId a = (base == null) ? null : ObjectId.fromString(base.getRevision().get());
-    return toFileInfoMap(change, new PatchListKey(a, objectId, Whitespace.IGNORE_NONE));
+    return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
   }
 
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)

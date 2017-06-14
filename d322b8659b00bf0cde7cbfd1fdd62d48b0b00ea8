@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ce470eba_9d750865",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "They are still not wrapped in \u003csection\u003e.  That\u0027s probably why the UI appears a bit broken: http://imgur.com/a/Es7UU",
+      "parentUuid": "83d04507_c9415d1c",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 20
+      },
+      "revId": "d322b8659b00bf0cde7cbfd1fdd62d48b0b00ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67336d7a_a8cd57f3",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
         "patchSetId": 37

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2b636e2_4d627667",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "the indentation looks funny, please wrap this as well (I think it should still pass lint)",
+      "range": {
+        "startLine": 66,
+        "startChar": 54,
+        "endLine": 66,
+        "endChar": 70
+      },
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "682f60a4_6f567ea9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "It\u0027d be better to add an id to the button and then \n\nconst button \u003d this.$.submitBtn or something like that.",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e2d9d40_fae8dc60",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "Can you use flushAsynchronousOperations instead of the flush();",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52eed3a_ef1e0efd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "What if you set element._projectConfig \u003d configInputObj;\n\nThen, assert that the values are equal",
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b16e3e3_1b8f8dc8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:28:16Z",
+      "side": 1,
+      "message": "Can you instead use mockInteractions to tap the button. Assert that handleCreateProject was called and then also make the assertions that you have below?",
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

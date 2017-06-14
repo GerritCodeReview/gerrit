@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e1ea529d_154cdb5c",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 44
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T18:06:57Z",
+      "side": 1,
+      "message": "Yep, i resolved them locally but forgot to do the git add and git commit -a --amend.\n\nThanks, done.",
+      "parentUuid": "cacebe78_2408f903",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 5
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "014b95dc_570663d1",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 44
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ebf629bf_f27b7a00",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T18:06:57Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "014b95dc_570663d1",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 1
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72052e60_180b66c4",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 44
@@ -82,6 +130,30 @@
       "writtenOn": "2017-06-14T18:02:21Z",
       "side": 1,
       "message": "and here",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 3
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f30e5ac_6e989845",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 44
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T18:06:57Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "72052e60_180b66c4",
       "range": {
         "startLine": 149,
         "startChar": 0,

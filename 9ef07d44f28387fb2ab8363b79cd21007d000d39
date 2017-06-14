@@ -70,6 +70,30 @@
       "revId": "9ef07d44f28387fb2ab8363b79cd21007d000d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dcb4d7c_117073d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T09:52:33Z",
+      "side": 1,
+      "message": "Reading the stack overflow answers again, I\u0027m now not sure it\u0027s correct here.\n\nChanged it, to reduce confusion.",
+      "parentUuid": "893d8b91_c6e82fae",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "9ef07d44f28387fb2ab8363b79cd21007d000d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

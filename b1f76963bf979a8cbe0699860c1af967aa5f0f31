@@ -22,6 +22,30 @@
       "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a6a451_a2872b14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T14:14:23Z",
+      "side": 1,
+      "message": "Continuing on my own comment: maybe this check could be split into two which are easier to name:\n\n  private boolean areParentChild(RevCommit a, RevCommit b)\n\n  private boolean haveCommonParent(RevCommit a, RevCommit b)\n\nThen the if statement at the line 247 becomes:\n\n  if (areParentChild(a, b) || haveCommonParent(a, b)) {\n    return ImmutableMultimap.of();\n  }",
+      "parentUuid": "335d76dc_06f3132c",
+      "range": {
+        "startLine": 266,
+        "startChar": 44,
+        "endLine": 266,
+        "endChar": 50
+      },
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "2cef176650fb5175159afb6bd676683ac0e224dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "743b4877_5593b3e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T11:49:40Z",
+      "side": 1,
+      "message": "The check method will throw an AuthException with the message \"access database not permitted\".  If we use that we have to either:\n\n1. catch it and rethrow with the \"not allowed to delete...\" message, which is more code than just using the testOrFalse\n\nor\n\n2. let it throw the AuthException as is, but then we have to live with the exception message being generic, and we have to update the tests.",
+      "parentUuid": "9965d181_cf200105",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 52
+      },
+      "revId": "2cef176650fb5175159afb6bd676683ac0e224dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

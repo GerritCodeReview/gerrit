@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.edit;
 
-import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +41,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -205,13 +205,14 @@ public class ChangeEditModifier {
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws UnchangedCommitMessageException if the commit message is the same as before
    * @throws PermissionBackendException
+   * @throws BadRequestException if the commit message is malformed
    */
   public void modifyMessage(
       Repository repository, ChangeControl changeControl, String newCommitMessage)
       throws AuthException, IOException, UnchangedCommitMessageException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, BadRequestException {
     assertCanEdit(changeControl);
-    newCommitMessage = getWellFormedCommitMessage(newCommitMessage);
+    newCommitMessage = CommitMessageUtil.getWellFormedCommitMessage(newCommitMessage);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(changeControl);
     PatchSet basePatchSet = getBasePatchSet(optionalChangeEdit, changeControl);
@@ -433,13 +434,6 @@ public class ChangeEditModifier {
                 currentPatchSetId, patchSetId));
       }
     }
-  }
-
-  private static String getWellFormedCommitMessage(String commitMessage) {
-    String wellFormedMessage = Strings.nullToEmpty(commitMessage).trim();
-    checkState(!wellFormedMessage.isEmpty(), "Commit message cannot be null or empty");
-    wellFormedMessage = wellFormedMessage + "\n";
-    return wellFormedMessage;
   }
 
   private Optional<ChangeEdit> lookupChangeEdit(ChangeControl changeControl)

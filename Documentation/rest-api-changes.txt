@@ -3130,6 +3130,33 @@ request:
   HTTP/1.1 204 No Content
 ----
 
+[[set-message]]
+=== Set Commit Message
+--
+'PUT /changes/link:#change-id[\{change-id\}]/message'
+--
+
+Changes the commit message of the latest patch set and creates a new patch set.
+
+The new commit message must be provided in the request body inside a
+link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
+link:project-configuration.html#require-change-id[Require Change-Id] was specified.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "New Commit message \n\nChange-Id: I00000000000000000001\n"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[revision-endpoints]]
 == Revision Endpoints
 
@@ -5565,6 +5592,17 @@ path within change edit.
 === ChangeEditMessageInput
 The `ChangeEditMessageInput` entity contains information for changing
 the commit message within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     ||New commit message.
+|===========================
+
+[[commit-message-input]]
+=== CommitMessageInput
+The `CommitMessageInput` entity contains information for changing
+the commit message of a change.
 
 [options="header",cols="1,^1,5"]
 |===========================

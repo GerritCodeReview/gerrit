@@ -101,7 +101,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       return rw;
     }
 
-    public BatchUpdate getUpdate(BatchUpdate.Factory batchUpdateFactory) {
+    public BatchUpdate getUpdate() {
       checkState(db != null, "call setContext before getUpdate");
       if (update == null) {
         update =
@@ -149,6 +149,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   }
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final OnSubmitValidators.Factory onSubmitValidatorsFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
@@ -162,9 +163,11 @@ public class MergeOpRepoManager implements AutoCloseable {
   MergeOpRepoManager(
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
+      BatchUpdate.Factory batchUpdateFactory,
       OnSubmitValidators.Factory onSubmitValidatorsFactory) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
 
     openRepos = new HashMap<>();
@@ -199,12 +202,11 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
   }
 
-  public List<BatchUpdate> batchUpdates(
-      BatchUpdate.Factory batchUpdateFactory, Collection<Project.NameKey> projects)
+  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects)
       throws NoSuchProjectException, IOException {
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
-      updates.add(getRepo(project).getUpdate(batchUpdateFactory));
+      updates.add(getRepo(project).getUpdate());
     }
     return updates;
   }

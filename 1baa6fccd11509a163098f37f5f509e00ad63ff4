@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "befd7594_3f8d6a4b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T12:05:33Z",
+      "side": 1,
+      "message": "Was this wrapped by gjf?  In the UI it doesn\u0027t look like it needs to be.",
+      "revId": "1baa6fccd11509a163098f37f5f509e00ad63ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

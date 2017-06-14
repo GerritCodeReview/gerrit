@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51af24b1_928768c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T13:28:10Z",
+      "side": 1,
+      "message": "I don\u0027t see any code in this method which assumes that commitA and commitB are actually patch sets. The method could be named \"areCommitsWithRebaseInBetween\" to remove that unnecessary assumption from the method\u0027s name?",
+      "range": {
+        "startLine": 276,
+        "startChar": 73,
+        "endLine": 276,
+        "endChar": 83
+      },
+      "revId": "d934f6e68d55dd434e20956bde81002c88ba9b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

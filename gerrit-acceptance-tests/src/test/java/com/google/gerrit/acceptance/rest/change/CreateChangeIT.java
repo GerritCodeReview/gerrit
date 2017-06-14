@@ -42,9 +42,9 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -192,7 +192,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     ChangeInput in = newChangeInput(ChangeStatus.NEW);
     in.branch = "invisible-branch";
-    assertCreateFails(in, AuthException.class, "cannot upload review");
+    assertCreateFails(in, ResourceNotFoundException.class, "");
   }
 
   @Test

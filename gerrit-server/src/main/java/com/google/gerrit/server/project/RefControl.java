@@ -151,12 +151,7 @@ public class RefControl {
     return blocks.isEmpty() && !allows.isEmpty();
   }
 
-  /**
-   * Determines whether the user can upload a change to the ref controlled by this object.
-   *
-   * @return {@code true} if the user specified can upload a change to the Git ref
-   */
-  public boolean canUpload() {
+  private boolean canUpload() {
     return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
         && isProjectStatePermittingWrite();
   }
@@ -391,7 +386,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the author line in a commit. */
-  public boolean canForgeAuthor() {
+  private boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
       canForgeAuthor = canPerform(Permission.FORGE_AUTHOR);
     }
@@ -399,7 +394,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the committer line in a commit. */
-  public boolean canForgeCommitter() {
+  private boolean canForgeCommitter() {
     if (canForgeCommitter == null) {
       canForgeCommitter = canPerform(Permission.FORGE_COMMITTER);
     }
@@ -407,7 +402,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the server on the committer line. */
-  public boolean canForgeGerritServerIdentity() {
+  private boolean canForgeGerritServerIdentity() {
     return canPerform(Permission.FORGE_SERVER);
   }
 
@@ -738,6 +733,13 @@ public class RefControl {
           return canForgeGerritServerIdentity();
         case CREATE_CHANGE:
           return canUpload();
+
+        case BYPASS_REVIEW:
+          return canForgeAuthor()
+              && canForgeCommitter()
+              && canForgeGerritServerIdentity()
+              && canUploadMerges()
+              && !projectControl.getProjectState().isUseSignedOffBy();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

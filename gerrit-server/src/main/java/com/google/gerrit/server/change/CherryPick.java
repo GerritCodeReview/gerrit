@@ -14,23 +14,21 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -45,59 +43,54 @@ import java.io.IOException;
 public class CherryPick
     extends RetryingRestModifyView<RevisionResource, CherryPickInput, ChangeInfo>
     implements UiAction<RevisionResource> {
-  private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
 
   @Inject
   CherryPick(
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
       RetryHelper retryHelper,
-      Provider<ReviewDb> dbProvider,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json) {
     super(retryHelper);
-    this.dbProvider = dbProvider;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
   }
 
   @Override
-  protected ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource revision, CherryPickInput input)
-      throws OrmException, IOException, UpdateException, RestApiException {
-    final ChangeControl control = revision.getControl();
+  public ChangeInfo applyImpl(
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
+      throws OrmException, IOException, UpdateException, RestApiException,
+          PermissionBackendException {
     input.parent = input.parent == null ? 1 : input.parent;
-
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");
     } else if (input.destination == null || input.destination.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
     }
 
-    if (!control.isVisible(dbProvider.get())) {
-      throw new AuthException("Cherry pick not permitted");
-    }
-
-    ProjectControl projectControl = control.getProjectControl();
-    Capable capable = projectControl.canPushToAtLeastOneRef();
-    if (capable != Capable.OK) {
-      throw new AuthException(capable.getMessage());
-    }
-
-    RefControl refControl = projectControl.controlForRef(RefNames.fullName(input.destination));
-    if (!refControl.canUpload()) {
-      throw new AuthException(
-          "Not allowed to cherry pick "
-              + revision.getChange().getId().toString()
-              + " to "
-              + input.destination);
-    }
+    String refName = RefNames.fullName(input.destination);
+    CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
+    permissionBackend
+        .user(user)
+        .project(rsrc.getChange().getProject())
+        .ref(refName)
+        .check(RefPermission.CREATE_CHANGE);
 
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
-              updateFactory, revision.getChange(), revision.getPatchSet(), input, refControl);
-      return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
+              updateFactory,
+              rsrc.getChange(),
+              rsrc.getPatchSet(),
+              input,
+              rsrc.getControl().getProjectControl().controlForRef(refName));
+      return json.noOptions().format(rsrc.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {

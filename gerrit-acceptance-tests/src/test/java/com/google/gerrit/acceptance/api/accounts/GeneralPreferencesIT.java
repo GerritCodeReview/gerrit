@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
@@ -66,7 +67,9 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
     }
-    accountCache.evictAll();
+    for (Account.Id id : accounts.allIds()) {
+      accountCache.evict(id);
+    }
   }
 
   @Test

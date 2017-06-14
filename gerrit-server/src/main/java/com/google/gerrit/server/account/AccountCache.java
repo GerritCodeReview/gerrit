@@ -47,6 +47,4 @@ public interface AccountCache {
   void evict(Account.Id accountId) throws IOException;
 
   void evictByUsername(String username);
-
-  void evictAll() throws IOException;
 }

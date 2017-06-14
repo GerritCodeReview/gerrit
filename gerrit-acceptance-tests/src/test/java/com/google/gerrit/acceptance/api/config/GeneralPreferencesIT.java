@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
@@ -41,7 +42,9 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
     }
-    accountCache.evictAll();
+    for (Account.Id id : accounts.allIds()) {
+      accountCache.evict(id);
+    }
   }
 
   @Test

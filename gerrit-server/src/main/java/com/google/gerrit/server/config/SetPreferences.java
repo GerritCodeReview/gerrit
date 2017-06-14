@@ -24,7 +24,9 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GeneralPreferencesLoader;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -49,6 +51,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
   private final GitRepositoryManager gitManager;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final Accounts accounts;
   private final AccountCache accountCache;
 
   @Inject
@@ -57,10 +60,12 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
       GitRepositoryManager gitManager,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
+      Accounts accounts,
       AccountCache accountCache) {
     this.loader = loader;
     this.gitManager = gitManager;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.accounts = accounts;
     this.allUsersName = allUsersName;
     this.accountCache = accountCache;
   }
@@ -85,7 +90,9 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
       com.google.gerrit.server.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
       p.commit(md);
 
-      accountCache.evictAll();
+      for (Account.Id id : accounts.allIds()) {
+        accountCache.evict(id);
+      }
 
       GeneralPreferencesInfo r =
           loadSection(

@@ -63,12 +63,6 @@ public class FakeAccountCache implements AccountCache {
     byUsername.remove(username);
   }
 
-  @Override
-  public synchronized void evictAll() {
-    byId.clear();
-    byUsername.clear();
-  }
-
   public synchronized void put(Account account) {
     AccountState state = newState(account);
     byId.put(account.getId(), state);

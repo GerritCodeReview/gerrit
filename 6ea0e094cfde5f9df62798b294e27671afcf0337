@@ -94,6 +94,30 @@
       "revId": "6ea0e094cfde5f9df62798b294e27671afcf0337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e74bc2f4_1e977444",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 46
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T19:04:25Z",
+      "side": 1,
+      "message": "No, what I meant was not to copy the entire test twice. Instead separate it out so that it tests different things. The first test checks that when _handleCreateProject is called, all the appropriate things happen. The second test should be testing that when the button is pressed, _handleCreateProject is called.",
+      "parentUuid": "1a217248_6f53c605",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "6ea0e094cfde5f9df62798b294e27671afcf0337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

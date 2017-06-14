@@ -33,7 +33,7 @@
       _path: {
         type: String,
         readOnly: true,
-        value: '/admin/projects/',
+        value: '/admin/projects',
       },
       _projects: Array,
 
@@ -72,7 +72,7 @@
     },
 
     _computeProjectUrl(name) {
-      return this.getUrl(this._path, name);
+      return this.getUrl(this._path + '/', name);
     },
 
     _getProjects(filter, projectsPerPage, offset) {

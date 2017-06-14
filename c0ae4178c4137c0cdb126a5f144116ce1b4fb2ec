@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fd6f2c0_99c4fd62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-14T00:25:41Z",
+      "side": 1,
+      "message": "😮 You\u0027re right.",
+      "parentUuid": "8e5d2c76_634c4190",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 18
+      },
+      "revId": "c0ae4178c4137c0cdb126a5f144116ce1b4fb2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b14fceb_c670382b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "c0ae4178c4137c0cdb126a5f144116ce1b4fb2ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "134068b6_b13efc80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-14T00:25:41Z",
+      "side": 1,
+      "message": "Good suggestion! That revealed a mistake in the test setup.",
+      "parentUuid": "5b14fceb_c670382b",
+      "revId": "c0ae4178c4137c0cdb126a5f144116ce1b4fb2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -174,6 +174,37 @@
       };
     });
 
+    page(/^\/admin\/projects\/(.+),branches$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        project: data.params[0],
+      };
+    });
+
+    // Matches /admin/projects/<project/branches[,<offset>].
+    page(/^\/admin\/projects\/(.+),branches,(.+)$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        project: data.params[0],
+        project: data.params[2],
+      };
+    });
+
+    page('/admin/projects/branches/q/filter::filter,:offset', loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        offset: data.params.offset,
+        filter: data.params.filter,
+      };
+    });
+
+    page('/admin/projects/branches/q/filter::filter', loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        filter: data.params.filter || null,
+      };
+    });
+
     // Matches /admin/projects/<project>
     page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
       app.params = {

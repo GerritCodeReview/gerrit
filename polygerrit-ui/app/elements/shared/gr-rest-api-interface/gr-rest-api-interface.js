@@ -515,6 +515,15 @@
       );
     },
 
+    getProjectsBranches(filter, project, projectsBranchesPerPage, opt_offset) {
+      const offset = opt_offset || 0;
+      filter = filter ? '&m=' + filter : '';
+
+      return this._fetchSharedCacheURL(
+          `/projects/${project}/branches?n=${projectsBranchesPerPage + 1}&s=${offset}${filter}`
+      );
+    },
+
     getPlugins() {
       return this._fetchSharedCacheURL('/plugins/?all');
     },

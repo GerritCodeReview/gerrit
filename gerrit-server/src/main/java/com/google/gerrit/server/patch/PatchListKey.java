@@ -32,7 +32,16 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchListKey implements Serializable {
-  public static final long serialVersionUID = 25L;
+  public static final long serialVersionUID = 26L;
+
+  public enum Algorithm {
+    PURE_TREE_DIFF, OPTIMIZED_DIFF
+  }
+
+  private static final ImmutableBiMap<Algorithm, Character> ALGORITHM_TYPES =
+      ImmutableBiMap.of(
+          Algorithm.PURE_TREE_DIFF, 'T',
+          Algorithm.OPTIMIZED_DIFF, 'O');
 
   public static final ImmutableBiMap<Whitespace, Character> WHITESPACE_TYPES =
       ImmutableBiMap.of(
@@ -43,14 +52,25 @@ public class PatchListKey implements Serializable {
 
   static {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
+    checkState(ALGORITHM_TYPES.size() == Algorithm.values().length);
   }
 
   public static PatchListKey againstDefaultBase(AnyObjectId newId, Whitespace ws) {
-    return new PatchListKey(null, newId, ws);
+    return new PatchListKey(null, newId, ws, Algorithm.OPTIMIZED_DIFF);
   }
 
   public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId, Whitespace ws) {
-    return new PatchListKey(parentNum, newId, ws);
+    return new PatchListKey(parentNum, newId, ws, Algorithm.OPTIMIZED_DIFF);
+  }
+
+  public static PatchListKey againstCommit(
+      AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
+    return new PatchListKey(otherCommitId, newId, whitespace, Algorithm.OPTIMIZED_DIFF);
+  }
+
+  public static PatchListKey againstCommitWithPureTreeDiff(
+      AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
+    return new PatchListKey(otherCommitId, newId, whitespace, Algorithm.PURE_TREE_DIFF);
   }
 
   /**
@@ -75,25 +95,30 @@ public class PatchListKey implements Serializable {
 
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  private transient Algorithm algorithm;
 
-  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
+  private PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws, Algorithm algorithm) {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    this.algorithm = algorithm;
   }
 
-  private PatchListKey(int parentNum, AnyObjectId b, Whitespace ws) {
+  private PatchListKey(int parentNum, AnyObjectId b, Whitespace ws, Algorithm algorithm) {
     this.parentNum = Integer.valueOf(parentNum);
     newId = b.copy();
     whitespace = ws;
+    this.algorithm = algorithm;
   }
 
   /** For use only by DiffSummaryKey. */
-  PatchListKey(ObjectId oldId, Integer parentNum, ObjectId newId, Whitespace whitespace) {
+  PatchListKey(ObjectId oldId, Integer parentNum, ObjectId newId, Whitespace whitespace,
+      Algorithm algorithm) {
     this.oldId = oldId;
     this.parentNum = parentNum;
     this.newId = newId;
     this.whitespace = whitespace;
+    this.algorithm = algorithm;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -117,9 +142,13 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(oldId, parentNum, newId, whitespace);
+    return Objects.hash(oldId, parentNum, newId, whitespace, algorithm);
   }
 
   @Override
@@ -129,7 +158,8 @@ public class PatchListKey implements Serializable {
       return Objects.equals(oldId, k.oldId)
           && Objects.equals(parentNum, k.parentNum)
           && Objects.equals(newId, k.newId)
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && algorithm == k.algorithm;
     }
     return false;
   }
@@ -147,6 +177,8 @@ public class PatchListKey implements Serializable {
       n.append(" ");
     }
     n.append(whitespace.name());
+    n.append(" ");
+    n.append(algorithm.name());
     n.append("]");
     return n.toString();
   }
@@ -160,6 +192,7 @@ public class PatchListKey implements Serializable {
       throw new IOException("Invalid whitespace type: " + whitespace);
     }
     out.writeChar(c);
+    out.writeChar(ALGORITHM_TYPES.get(algorithm));
   }
 
   private void readObject(ObjectInputStream in) throws IOException {
@@ -172,5 +205,7 @@ public class PatchListKey implements Serializable {
     if (whitespace == null) {
       throw new IOException("Invalid whitespace type code: " + t);
     }
+    char algorithmCharacter = in.readChar();
+    algorithm = ALGORITHM_TYPES.inverse().get(algorithmCharacter);
   }
 }

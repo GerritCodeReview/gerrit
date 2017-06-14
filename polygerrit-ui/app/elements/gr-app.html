@@ -156,7 +156,10 @@ limitations under the License.
         <gr-admin-project project="[[params.project]]"></gr-admin-project>
       </template>
       <template is="dom-if" if="[[_showPluginListView]]" restamp="true">
-        <gr-admin-plugin-list id="pluginList"></gr-admin-plugin-list>
+        <gr-admin-plugin-list
+            params="[[params]]"
+            id="pluginList">
+        </gr-admin-plugin-list>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>

@@ -67,12 +67,10 @@ limitations under the License.
           },
         });
 
-        flush(done);
+        element._paramsChanged(value).then(() => { flush(done); });
       });
 
       test('test for a test plugin in the list', done => {
-        element._plugins = plugins;
-
         flush(() => {
           assert.equal(element._plugins[2].id, 'test3');
           assert.equal(element._plugins[2].index_url, 'plugins/test3/');

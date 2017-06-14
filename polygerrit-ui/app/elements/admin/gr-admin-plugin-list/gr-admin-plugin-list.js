@@ -18,6 +18,10 @@
     is: 'gr-admin-plugin-list',
 
     properties: {
+      params: {
+        type: Object,
+        observer: '_paramsChanged',
+      },
       _plugins: Array,
       _loading: {
         type: Boolean,
@@ -29,7 +33,7 @@
       Gerrit.ListViewBehavior,
     ],
 
-    ready() {
+    _paramsChanged(value) {
       return this.$.restAPI.getPlugins()
           .then(plugins => {
             if (!plugins) {

@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "68b2a9dc_e8035f9c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T00:15:49Z",
+      "side": 1,
+      "message": "https://www.polymer-project.org/1.0/docs/devguide/registering-elements#ready-method\n\nso, you would just create a function\n\nready() {\n  this.$.restAPI.getPlugins()\n      .then(plugins \u003d\u003e {\n        if (!plugins) {\n          this._plugins \u003d [];\n          return;\n        }\n        this._plugins \u003d Object.keys(plugins)\n          .map(key \u003d\u003e {\n            const plugin \u003d plugins[key];\n            plugin.name \u003d key;\n            return plugin;\n          });\n        this._loading \u003d false;\n      });\n}",
+      "parentUuid": "85bc78f0_e5ce0ac7",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 13
+      },
+      "revId": "fa486e9f51bf25cf979e080fe4ff6e4bbe62574c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5aa2685f_9397d899",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
         "patchSetId": 33

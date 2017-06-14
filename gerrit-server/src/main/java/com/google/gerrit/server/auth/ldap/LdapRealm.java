@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -232,7 +233,15 @@ class LdapRealm extends AbstractRealm {
       }
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
-        final LdapQuery.Result m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
+        LdapQuery.Result m;
+        who.setAuthProvidesAccountActiveStatus(true);
+        try {
+          m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
+          who.setActive(true);
+        } catch (NoSuchUserException e) {
+          who.setActive(false);
+          throw e;
+        }
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify

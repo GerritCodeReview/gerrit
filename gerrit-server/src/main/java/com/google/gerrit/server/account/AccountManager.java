@@ -22,6 +22,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -72,6 +74,9 @@ public class AccountManager {
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final boolean autoUpdateAccountActiveStatus;
+  private final SetInactiveFlag setInactiveFlag;
+  private final IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject
   AccountManager(
@@ -89,7 +94,9 @@ public class AccountManager {
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory,
-      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
+      SetInactiveFlag setInactiveFlag,
+      IdentifiedUser.GenericFactory genericUserFactory) {
     this.schema = schema;
     this.sequences = sequences;
     this.accounts = accounts;
@@ -106,6 +113,10 @@ public class AccountManager {
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.groupsUpdateProvider = groupsUpdateProvider;
+    this.autoUpdateAccountActiveStatus =
+        cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
+    this.setInactiveFlag = setInactiveFlag;
+    this.genericUserFactory = genericUserFactory;
   }
 
   /** @return user identified by this external identity string */
@@ -126,8 +137,8 @@ public class AccountManager {
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, or is inactive, or cannot be added to the admin group (only for the
-   *     first account).
+   *     cannot be located, is unabme to be activated or deactivated, or is inactive, or cannot be
+   *     added to the admin group (only for the first account).
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
     who = realm.authenticate(who);
@@ -142,6 +153,24 @@ public class AccountManager {
 
         // Account exists
         Account act = byIdCache.get(id.accountId()).getAccount();
+        if (autoUpdateAccountActiveStatus && who.authProvidesAccountActiveStatus()) {
+          if (who.isActive() && !act.isActive()) {
+            try {
+              setInactiveFlag.activate(genericUserFactory.create(act.getId()));
+              act = byIdCache.get(id.accountId()).getAccount();
+            } catch (ResourceNotFoundException e) {
+              throw new AccountException("Unable to activate account " + act.getId(), e);
+            }
+          } else if (!who.isActive() && act.isActive()) {
+            try {
+              setInactiveFlag.deactivate(genericUserFactory.create(act.getId()));
+              act = byIdCache.get(id.accountId()).getAccount();
+            } catch (RestApiException e) {
+              throw new AccountException("Unable to deactivate account " + act.getId(), e);
+            }
+          }
+        }
+
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }

@@ -52,8 +52,7 @@ class CookieBase64 {
     return out.toString();
   }
 
-  private static void encode3to4(
-      StringBuilder out, byte[] in, int inOffset, int numSigBytes) {
+  private static void encode3to4(StringBuilder out, byte[] in, int inOffset, int numSigBytes) {
     //           1         2         3
     // 01234567890123456789012345678901 Bit position
     // --------000000001111111122222222 Array position from threeBytes

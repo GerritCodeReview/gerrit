@@ -52,8 +52,7 @@ public class HttpLogoutServlet extends HttpServlet {
     this.audit = audit;
   }
 
-  protected void doLogout(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doLogout(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     webSession.get().logout();
     if (logoutUrl != null) {
       rsp.sendRedirect(logoutUrl);
@@ -73,8 +72,7 @@ public class HttpLogoutServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
 
     final String sid = webSession.get().getSessionId();
     final CurrentUser currentUser = webSession.get().getUser();

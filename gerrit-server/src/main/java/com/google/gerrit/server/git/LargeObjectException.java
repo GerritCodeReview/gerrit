@@ -25,8 +25,7 @@ public class LargeObjectException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public LargeObjectException(
-      String message, org.eclipse.jgit.errors.LargeObjectException cause) {
+  public LargeObjectException(String message, org.eclipse.jgit.errors.LargeObjectException cause) {
     super(message, cause);
   }
 }

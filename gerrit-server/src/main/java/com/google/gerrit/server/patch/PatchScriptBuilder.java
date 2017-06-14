@@ -112,8 +112,7 @@ class PatchScriptBuilder {
     bId = b;
   }
 
-  PatchScript toPatchScript(
-      PatchListEntry content, CommentDetail comments, List<Patch> history)
+  PatchScript toPatchScript(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     reader = db.newObjectReader();
     try {
@@ -123,8 +122,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private PatchScript build(
-      PatchListEntry content, CommentDetail comments, List<Patch> history)
+  private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;

@@ -146,8 +146,7 @@ public class BanCommit {
     return currentUser.get().newCommitterIdent(now, tz);
   }
 
-  private static String buildCommitMessage(
-      List<ObjectId> bannedCommits, String reason) {
+  private static String buildCommitMessage(List<ObjectId> bannedCommits, String reason) {
     final StringBuilder commitMsg = new StringBuilder();
     commitMsg.append("Banning ");
     commitMsg.append(bannedCommits.size());

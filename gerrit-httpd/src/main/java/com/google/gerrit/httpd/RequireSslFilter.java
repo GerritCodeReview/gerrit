@@ -63,8 +63,7 @@ public class RequireSslFilter implements Filter {
   public void destroy() {}
 
   @Override
-  public void doFilter(
-      ServletRequest request, ServletResponse response, FilterChain chain)
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;

@@ -50,6 +50,10 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      plugins = _.times(26, pluginGenerator);
+      stub('gr-rest-api-interface', {
+        getPlugins() { return Promise.resolve(plugins); },
+      });
       element = fixture('basic');
     });
 
@@ -57,29 +61,13 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('list with plugins', () => {
-      setup(done => {
-        plugins = _.times(26, pluginGenerator);
-
-        stub('gr-rest-api-interface', {
-          getPlugins() {
-            return Promise.resolve(plugins);
-          },
-        });
-
-        flush(done);
-      });
-
-      test('test for a test plugin in the list', done => {
-        element._plugins = plugins;
-
-        flush(() => {
-          assert.equal(element._plugins[2].id, 'test3');
-          assert.equal(element._plugins[2].index_url, 'plugins/test3/');
-          assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
-          assert.equal(element._plugins[2].disabled, false);
-          done();
-        });
+    test('_plugins item is formatted correctly', done => {
+      element._getPlugins().then(() => {
+        assert.equal(element._plugins[2].id, 'test3');
+        assert.equal(element._plugins[2].index_url, 'plugins/test3/');
+        assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
+        assert.equal(element._plugins[2].disabled, false);
+        done();
       });
     });
   });

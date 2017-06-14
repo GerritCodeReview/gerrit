@@ -30,6 +30,10 @@
     ],
 
     ready() {
+      this._getPlugins();
+    },
+
+    _getPlugins() {
       return this.$.restAPI.getPlugins()
           .then(plugins => {
             if (!plugins) {
@@ -45,7 +49,6 @@
             this._loading = false;
           });
     },
-
 
     _status(item) {
       return item.disabled === true ? 'Disabled' : 'Enabled';

@@ -887,17 +887,28 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(changedFiles.get(renamedFilePath)).linesDeleted().isEqualTo(1);
   }
 
+  /*
+   *                change PS B
+   *                   |
+   * change PS A    commit4
+   *    |              |
+   * commit2        commit3
+   *    |             /
+   * commit1 --------
+   */
   @Test
-  public void rebaseHunksWhenRebasingOnAnotherChangeAreIdentified() throws Exception {
+  public void rebaseHunksWhenRebasingOnAnotherChangeOrPatchSetAreIdentified() throws Exception {
     ObjectId commit2 =
         addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
     rebaseChangeOn(changeId, commit2);
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
 
-    ObjectId commit3 =
-        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 35\n", "Line thirty five\n"));
+    String commit3FileContent = FILE_CONTENT.replace("Line 35\n", "Line thirty five\n");
+    ObjectId commit3 = addCommit(commit1, FILE_NAME, commit3FileContent);
+    ObjectId commit4 =
+        addCommit(commit3, FILE_NAME, commit3FileContent.replace("Line 60\n", "Line sixty\n"));
 
-    rebaseChangeOn(changeId, commit3);
+    rebaseChangeOn(changeId, commit4);
     Function<String, String> contentModification =
         fileContent -> fileContent.replace("Line 20\n", "Line twenty\n");
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
@@ -916,12 +927,47 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 35");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line thirty five");
     assertThat(diffInfo).content().element(5).isDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(65);
+    assertThat(diffInfo).content().element(6).commonLines().hasSize(24);
+    assertThat(diffInfo).content().element(7).linesOfA().containsExactly("Line 60");
+    assertThat(diffInfo).content().element(7).linesOfB().containsExactly("Line sixty");
+    assertThat(diffInfo).content().element(7).isDueToRebase();
+    assertThat(diffInfo).content().element(8).commonLines().hasSize(40);
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  /*
+   *                change PS B
+   *                   |
+   * change PS A    commit4
+   *    |              |
+   * commit2        commit3
+   *    |             /
+   * commit1 --------
+   */
+  @Test
+  public void unrelatedFileWhenRebasingOnAnotherChangeOrPatchSetIsIgnored() throws Exception {
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+    rebaseChangeOn(changeId, commit2);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    ObjectId commit3 =
+        addCommit(commit1, FILE_NAME2, FILE_CONTENT2.replace("2nd line\n", "Second line\n"));
+    ObjectId commit4 =
+        addCommit(commit3, FILE_NAME, FILE_CONTENT.replace("Line 60\n", "Line sixty\n"));
+
+    rebaseChangeOn(changeId, commit4);
+    Function<String, String> contentModification =
+        fileContent -> fileContent.replace("Line 20\n", "Line twenty\n");
+    addModifiedPatchSet(changeId, FILE_NAME, contentModification);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
   }
 
   @Test

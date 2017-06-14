@@ -101,7 +101,9 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      diffSummaryCache.put(DiffSummaryKey.fromPatchListKey(key), toDiffSummary(pl));
+      if (key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF) {
+        diffSummaryCache.put(DiffSummaryKey.fromPatchListKey(key), toDiffSummary(pl));
+      }
       return pl;
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);

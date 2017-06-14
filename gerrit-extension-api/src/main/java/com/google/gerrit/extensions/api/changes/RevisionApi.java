@@ -43,6 +43,8 @@ public interface RevisionApi {
 
   void submit(SubmitInput in) throws RestApiException;
 
+  void message(String message) throws RestApiException;
+
   BinaryResult submitPreview() throws RestApiException;
 
   BinaryResult submitPreview(String format) throws RestApiException;
@@ -175,6 +177,11 @@ public interface RevisionApi {
 
     @Override
     public void publish() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void message(String message) {
       throw new NotImplementedException();
     }
 

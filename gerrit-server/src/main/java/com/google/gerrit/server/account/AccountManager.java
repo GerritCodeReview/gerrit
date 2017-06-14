@@ -22,6 +22,8 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
@@ -71,10 +73,13 @@ public class AccountManager {
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
+  private final AtomicBoolean supportAutomaticAccountActivityUpdate;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
+  private final SetInactiveFlag setInactiveFlag;
+  private final IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject
   AccountManager(
@@ -93,7 +98,9 @@ public class AccountManager {
       AuditService auditService,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory) {
+      ExternalIdsUpdate.Server externalIdsUpdateFactory,
+      SetInactiveFlag setInactiveFlag,
+      IdentifiedUser.GenericFactory genericUserFactory) {
     this.schema = schema;
     this.oneOffRequestContext = oneOffRequestContext;
     this.sequencesProvider = sequencesProvider;
@@ -107,10 +114,14 @@ public class AccountManager {
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck =
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
+    this.supportAutomaticAccountActivityUpdate =
+        new AtomicBoolean(cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false));
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.setInactiveFlag = setInactiveFlag;
+    this.genericUserFactory = genericUserFactory;
   }
 
   /** @return user identified by this external identity string */
@@ -131,9 +142,10 @@ public class AccountManager {
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, or is inactive.
+   *     cannot be located, is unable to be activated or deactivated, or is inactive.
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
+    IdentifiedUser user;
     who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
@@ -146,6 +158,23 @@ public class AccountManager {
 
         // Account exists
         Account act = byIdCache.get(id.accountId()).getAccount();
+        if (supportAutomaticAccountActivityUpdate.get()) {
+          user = genericUserFactory.create(act.getId());
+          if (who.isActive() && !act.isActive()) {
+            try {
+              setInactiveFlag.activate(user);
+            } catch (ResourceNotFoundException e) {
+              throw new AccountException("Unable to activate account.", e);
+            }
+          } else if (!who.isActive() && act.isActive()) {
+            try {
+              setInactiveFlag.deactivate(user);
+            } catch (RestApiException e) {
+              throw new AccountException("Unable to deactivate account.", e);
+            }
+          }
+        }
+        act = byIdCache.get(id.accountId()).getAccount();
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }

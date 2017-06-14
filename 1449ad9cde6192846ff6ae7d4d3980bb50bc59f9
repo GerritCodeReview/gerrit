@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "fd318247_f5d6878c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-14T10:25:21Z",
+      "side": 1,
+      "message": "This could be inlined at L121",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 56
+      },
+      "revId": "1449ad9cde6192846ff6ae7d4d3980bb50bc59f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09fbdb83_92de77c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 3

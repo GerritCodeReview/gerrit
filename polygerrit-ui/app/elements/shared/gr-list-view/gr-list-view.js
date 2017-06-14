@@ -29,6 +29,7 @@
       offset: Number,
       loading: Boolean,
       path: String,
+      pathFilter: String,
     },
 
     behaviors: [
@@ -48,18 +49,18 @@
     _filterChanged(filter) {
       this.debounce('reload', () => {
         if (filter) {
-          return page.show(`${this.path}/q/filter:` +
+          return page.show(`${this.pathFilter}/q/filter:` +
               this.encodeURL(filter, false));
         }
         page.show(this.path);
       }, REQUEST_DEBOUNCE_INTERVAL_MS);
     },
 
-    _computeNavLink(offset, direction, projectsPerPage, filter) {
+    _computeNavLink(offset, direction, itemsPerPage, filter) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      const newOffset = Math.max(0, offset + (projectsPerPage * direction));
-      let href = this.getBaseUrl() + this.path;
+      const newOffset = Math.max(0, offset + (itemsPerPage * direction));
+      let href = this.getBaseUrl() + this.pathFilter;
       if (filter) {
         href += '/q/filter:' + filter;
       }
@@ -73,12 +74,12 @@
       return offset === 0;
     },
 
-    _hideNextArrow(loading, projects) {
+    _hideNextArrow(loading, items) {
       let lastPage = false;
-      if (projects.length < this.itemsPerPage + 1) {
+      if (items.length < this.itemsPerPage + 1) {
         lastPage = true;
       }
-      return loading || lastPage || !projects || !projects.length;
+      return loading || lastPage || !items || !items.length;
     },
   });
 })();

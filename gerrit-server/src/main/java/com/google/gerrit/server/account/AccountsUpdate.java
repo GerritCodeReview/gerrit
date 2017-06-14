@@ -247,7 +247,8 @@ public class AccountsUpdate {
                 "User branch %s for newly created account %s already exists.",
                 refName, account.getId().get()));
       }
-      createUserBranch(repo, oi, committerIdent, authorIdent, account);
+      createUserBranch(
+          repo, oi, committerIdent, authorIdent, account.getId(), account.getRegisteredOn());
     }
   }
 
@@ -255,7 +256,8 @@ public class AccountsUpdate {
     try (Repository repo = repoManager.openRepository(allUsersName);
         ObjectInserter oi = repo.newObjectInserter()) {
       if (repo.exactRef(RefNames.refsUsers(account.getId())) == null) {
-        createUserBranch(repo, oi, committerIdent, authorIdent, account);
+        createUserBranch(
+            repo, oi, committerIdent, authorIdent, account.getId(), account.getRegisteredOn());
       }
     }
   }
@@ -265,12 +267,12 @@ public class AccountsUpdate {
       ObjectInserter oi,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
-      Account account)
+      Account.Id accountId,
+      Timestamp registeredOn)
       throws IOException {
-    ObjectId id =
-        createInitialEmptyCommit(oi, committerIdent, authorIdent, account.getRegisteredOn());
+    ObjectId id = createInitialEmptyCommit(oi, committerIdent, authorIdent, registeredOn);
 
-    String refName = RefNames.refsUsers(account.getId());
+    String refName = RefNames.refsUsers(accountId);
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(ObjectId.zeroId());
     ru.setNewObjectId(id);

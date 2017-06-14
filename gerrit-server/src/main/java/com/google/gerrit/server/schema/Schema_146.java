@@ -25,8 +25,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,13 +81,14 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
-      for (Account account : db.accounts().all()) {
-        String refName = RefNames.refsUsers(account.getId());
+      for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
+        String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
         if (ref != null) {
-          rewriteUserBranch(repo, rw, oi, emptyTree, ref, account);
+          rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue());
         } else {
-          AccountsUpdate.createUserBranch(repo, oi, serverIdent, serverIdent, account);
+          AccountsUpdate.createUserBranch(
+              repo, oi, serverIdent, serverIdent, e.getKey(), e.getValue());
         }
       }
     } catch (IOException e) {
@@ -92,9 +97,14 @@ public class Schema_146 extends SchemaVersion {
   }
 
   private void rewriteUserBranch(
-      Repository repo, RevWalk rw, ObjectInserter oi, ObjectId emptyTree, Ref ref, Account account)
+      Repository repo,
+      RevWalk rw,
+      ObjectInserter oi,
+      ObjectId emptyTree,
+      Ref ref,
+      Timestamp registeredOn)
       throws IOException {
-    ObjectId current = createInitialEmptyCommit(oi, emptyTree, account.getRegisteredOn());
+    ObjectId current = createInitialEmptyCommit(oi, emptyTree, registeredOn);
 
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -152,5 +162,16 @@ public class Schema_146 extends SchemaVersion {
 
   private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
     return oi.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  private Map<Account.Id, Timestamp> scanAccounts(ReviewDb db) throws SQLException {
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery("SELECT account_id, registered_on FROM accounts")) {
+      HashMap<Account.Id, Timestamp> m = new HashMap<>();
+      while (rs.next()) {
+        m.put(new Account.Id(rs.getInt(1)), rs.getTimestamp(2));
+      }
+      return m;
+    }
   }
 }

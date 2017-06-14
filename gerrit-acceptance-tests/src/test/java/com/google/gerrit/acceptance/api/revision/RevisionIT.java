@@ -1203,6 +1203,23 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
+  @Test
+  public void changeCommitMessage() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(
+            gApi.changes().id(r.getChangeId()).current().file("/COMMIT_MSG").content().asString())
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .message("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    assertThat(
+            gApi.changes().id(r.getChangeId()).current().file("/COMMIT_MSG").content().asString())
+        .isEqualTo("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    // TODO: Add more test cases.
+  }
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);

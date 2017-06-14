@@ -22,38 +22,49 @@ limitations under the License.
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
-<dom-module id="gr-admin-group-list">
+
+<dom-module id="gr-admin-project-branches-list">
   <template>
     <style include="shared-styles"></style>
     <gr-list-view
         filter="[[_filter]]"
-        items="[[_groups]]"
-        items-per-page="[[_groupsPerPage]]"
+        items-per-page="[[_projectsBranchesPerPage]]"
+        items="[[_projectsBranches]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
-        path="[[_path]]">
+        path="[[projectBranch(_project)]]">
       <table id="list">
         <tr class="headerRow">
-          <th class="name topHeader">Group Name</th>
-          <th class="description topHeader">Group Description</th>
-          <th class="visibleToAll topHeader">Visible To All</th>
+          <th class="name topHeader">Branch Name</th>
+          <th class="description topHeader">Revision</th>
+          <th class="repositoryBrowser topHeader">Repository Browser</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownGroups]]"
+        <template is="dom-repeat" items="[[_shownProjectsBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
-              <a href$="[[_computeGroupUrl(item.group_id)]]">[[item.name]]</a>
+              [[item.ref]]
             </td>
-            <td class="description">[[item.description]]</td>
-            <td class="visibleToAll">[[_visibleToAll(item)]]</td>
+            <td class="description">[[item.revision]]</td>
+            <td class="repositoryBrowser">
+              <template is="dom-repeat"
+                  items="[[_computeWeblink(item)]]" as="link">
+                <a href$="[[link.url]]"
+                    class="webLink"
+                    rel="noopener"
+                    target="_blank">
+                  ([[link.name]])
+                </a>
+              </template>
+            </td>
           </tr>
         </template>
       </table>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-admin-group-list.js"></script>
+  <script src="gr-admin-project-branches-list.js"></script>
 </dom-module>

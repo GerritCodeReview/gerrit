@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4847f6f_474f734f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-14T14:50:57Z",
+      "side": 1,
+      "message": "Optional nit: checkArgument",
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e4a05_d9365f51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-14T14:50:57Z",
+      "side": 1,
+      "message": "Note that our Bigtable-backed cache doesn\u0027t use default serialization, so you will need to support this new field in our custom serialization thingie.",
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "335d76dc_06f3132c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 3

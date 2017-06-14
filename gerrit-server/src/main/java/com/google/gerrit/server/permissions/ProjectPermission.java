@@ -47,7 +47,22 @@ public enum ProjectPermission {
    *    .check(RefPermission.CREATE);
    * </pre>
    */
-  CREATE_REF;
+  CREATE_REF,
+
+  /**
+   * Can create at least one change in the project.
+   *
+   * <p>This project level permission only validates the user may create a change for some branch
+   * within the project. The exact reference name must be checked at creation:
+   *
+   * <pre>permissionBackend
+   *    .user(user)
+   *    .project(proj)
+   *    .ref(ref)
+   *    .check(RefPermission.CREATE_CHANGE);
+   * </pre>
+   */
+  CREATE_CHANGE;
 
   private final String name;
 

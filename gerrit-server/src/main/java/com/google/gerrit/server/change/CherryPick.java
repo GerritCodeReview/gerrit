@@ -26,6 +26,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -99,10 +100,15 @@ public class CherryPick
   }
 
   @Override
-  public UiAction.Description getDescription(RevisionResource resource) {
+  public UiAction.Description getDescription(RevisionResource rsrc) {
     return new UiAction.Description()
         .setLabel("Cherry Pick")
         .setTitle("Cherry pick change to a different branch")
-        .setVisible(resource.getControl().getProjectControl().canUpload() && resource.isCurrent());
+        .setVisible(
+            rsrc.isCurrent()
+                && permissionBackend
+                    .user(user)
+                    .project(rsrc.getProject())
+                    .testOrFalse(ProjectPermission.CREATE_CHANGE));
   }
 }

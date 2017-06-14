@@ -165,7 +165,7 @@ public class RefControl {
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
-  public boolean canUploadMerges() {
+  private boolean canUploadMerges() {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.PUSH_MERGE)
@@ -178,7 +178,7 @@ public class RefControl {
   }
 
   /** @return true if this user can submit patch sets to this ref */
-  public boolean canSubmit(boolean isChangeOwner) {
+  boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -725,14 +725,21 @@ public class RefControl {
           return canUpdate();
         case FORCE_UPDATE:
           return canForceUpdate();
+
         case FORGE_AUTHOR:
           return canForgeAuthor();
         case FORGE_COMMITTER:
           return canForgeCommitter();
         case FORGE_SERVER:
           return canForgeGerritServerIdentity();
+        case MERGE:
+          return canUploadMerges();
+
         case CREATE_CHANGE:
           return canUpload();
+
+        case UPDATE_BY_SUBMIT:
+          return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);
 
         case BYPASS_REVIEW:
           return canForgeAuthor()

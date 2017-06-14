@@ -28,9 +28,20 @@ public enum RefPermission {
   FORGE_AUTHOR(Permission.FORGE_AUTHOR),
   FORGE_COMMITTER(Permission.FORGE_COMMITTER),
   FORGE_SERVER(Permission.FORGE_SERVER),
+  MERGE,
   BYPASS_REVIEW,
 
-  CREATE_CHANGE;
+  /** Create a change to code review a commit. */
+  CREATE_CHANGE,
+
+  /**
+   * Creates changes, then also immediately submits them during {@code push}.
+   *
+   * <p>This is similar to {@link #UPDATE} except it constructs changes first, then submits them
+   * according to the submit strategy, which may include cherry-pick or rebase. By creating changes
+   * for each commit, automatic server side rebase, and post-update review are enabled.
+   */
+  UPDATE_BY_SUBMIT;
 
   private final String name;
 

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e10d3c5_72378a00",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 44
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T18:02:21Z",
+      "side": 1,
+      "message": "still out of order.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 81
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cacebe78_2408f903",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 44
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T18:02:21Z",
+      "side": 1,
+      "message": "Looks like conflicts weren\u0027t correctly resolved.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 5
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "014b95dc_570663d1",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 44
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T18:02:21Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 1
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72052e60_180b66c4",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 44
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T18:02:21Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 3
+      },
+      "revId": "a356d2293f1069f6c46624242115a980f61b2344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

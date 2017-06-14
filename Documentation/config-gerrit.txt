@@ -581,6 +581,18 @@ enable registration of new email addresses.
 +
 By default, true.
 
+[[auth.autoUpdateAccountActiveStatus]]auth.autoUpdateAccountActiveStatus::
++
+Whether to allow automatic synchronization of an account's inactive flag upon login.
+If set to true, upon login, if the authentication back-end reports the account as active,
+the account's inactive flag in the internal Gerrit database will be updated to be active.
+If the authentication back-end reports the account as inactive, the account's flag will be
+updated to be inactive and the login attempt will be blocked. Users enabling this feature
+should ensure that their authentication back-end is supported. Currently, only
+LDAP authentication is supported.
++
+By default, false.
+
 [[cache]]
 === Section cache
 

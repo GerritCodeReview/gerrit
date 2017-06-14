@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -180,6 +181,18 @@ class Helper {
       }
     }
     return ldapSchema;
+  }
+
+  void updateRequestActiveStatus(
+      Helper.LdapSchema schema, DirContext ctx, String username, AuthRequest who)
+      throws NamingException, AccountException {
+    try {
+      findAccount(schema, ctx, username, false);
+    } catch (NoSuchUserException e) {
+      who.setActive(false);
+      return;
+    }
+    who.setActive(true);
   }
 
   LdapQuery.Result findAccount(

@@ -42,10 +42,11 @@ limitations under the License.
 
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
-      if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {
+      const tagName = e.target.tagName;
+      if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
         return true;
       }
-      for (let i = 0; i < e.path.length; i++) {
+      for (let i = 0; e.path && i < e.path.length; i++) {
         if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
       }
       return false;

@@ -46,6 +46,30 @@
       "revId": "6ea0e094cfde5f9df62798b294e27671afcf0337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "531277a4_4e84408e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 46
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T18:25:45Z",
+      "side": 1,
+      "message": "There should be two separate tests. one you had before, and one new one.",
+      "parentUuid": "f6a180f4_0e8effb5",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "6ea0e094cfde5f9df62798b294e27671afcf0337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

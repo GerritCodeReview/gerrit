@@ -64,6 +64,7 @@
       _showCreateProject: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
+      _showProjectBranches: Boolean,
       _showGroupList: Boolean,
       _showPluginList: Boolean,
     },
@@ -106,8 +107,14 @@
             name: `${this._project}`,
             view: 'gr-admin-project',
             url: `/admin/projects/${this.encodeURL(this._project, true)}`,
-            // TODO(beckysiegel): Branches
-            children: [],
+            children: [
+              {
+                name: 'Branches',
+                view: 'gr-project-branches',
+                url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+                    ',branches',
+              },
+            ],
           };
         }
         filteredLinks.push(linkCopy);
@@ -131,6 +138,8 @@
       this.set('_showProjectMain', params.adminView === 'gr-admin-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');
+      this.set('_showProjectBranches',
+          params.adminView === 'gr-project-branches');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
       if (params.project !== this._project) {

@@ -150,6 +150,45 @@
       });
     });
 
+
+    // Matches /admin/projects/<project/branches[,<offset>].
+    page(/^\/admin\/projects\/(.+),branches,(.+)$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        project: data.params[0],
+        offset: data.params[1] || 0,
+        filter: null,
+      };
+    });
+
+    page('/admin/projects/:project,branches/q/filter::filter,:offset',
+        loadUser, data => {
+          app.params = {
+            view: 'gr-admin-project-branches-list',
+            project: data.params.project,
+            offset: data.params.offset,
+            filter: data.params.filter,
+          };
+        });
+
+    page('/admin/projects/:project,branches/q/filter::filter',
+        loadUser, data => {
+          app.params = {
+            view: 'gr-admin-project-branches-list',
+            project: data.params.project,
+            filter: data.params.filter || null,
+          };
+        });
+
+    page(/^\/admin\/projects\/(.+),branches$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-project-branches-list',
+        project: data.params[0],
+        offset: 0,
+        filter: null,
+      };
+    });
+
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "335d76dc_06f3132c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T13:56:42Z",
+      "side": 1,
+      "message": "Why removing \"Rebase\" from the method name? Rebase is a Git concept, not something specific to Gerrit patch-sets only. I guess that \"with rebase in between\" is more precise than \"with others in between\" for someone familiar with Git.\n\nTrying to understand what exactly this method is: it seems like it is checking that the result of:\n\n  git merge-base A B\n\nis neither of:\n\n  A, B, A^, B^\n\nAssuming this is true I would at least put this into the javadoc of this method.",
+      "range": {
+        "startLine": 266,
+        "startChar": 44,
+        "endLine": 266,
+        "endChar": 50
+      },
+      "revId": "b1f76963bf979a8cbe0699860c1af967aa5f0f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

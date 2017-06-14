@@ -995,6 +995,30 @@
     },
     {
       "key": {
+        "uuid": "ba02f484_a96ae55a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-14T14:58:53Z",
+      "side": 1,
+      "message": "Done. I\u0027ve added a comment here. A WorkQueue does indeed log all uncaught exceptions, but the are formatted differently:\n\n  \"WorkQueue thread \" + t.getName() + \" threw exception\", e\n\nIIRC we avoid this and of a WorkQueue exception is caught in the logs we look for the root cause and either fix a bug or properly log the exception.",
+      "parentUuid": "9383ff6b_0ec2a92a",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "5ed4d18d816be0c216884ea439a9e3ccad79f728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25be7993_23899b16",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ParserUtil.java",
         "patchSetId": 1

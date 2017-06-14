@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48a9ca08_69926e45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-14T14:58:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4571dcf_c667cd60",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e14cfa28_ac22a8d6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6433f5d3_e22ab743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-14T14:58:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e14cfa28_ac22a8d6",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24fb454f_77540b6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ee883c_f5384a7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-14T14:58:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24fb454f_77540b6b",
+      "range": {
+        "startLine": 43,
+        "startChar": 84,
+        "endLine": 43,
+        "endChar": 92
+      },
+      "revId": "e55cc7e53fce1a8ac2b1e0182edcdfe590c0e35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

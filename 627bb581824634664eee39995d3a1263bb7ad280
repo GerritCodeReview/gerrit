@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b645d142_44363855",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T15:20:37Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "db07e0e2_7aaf3762",
+      "range": {
+        "startLine": 275,
+        "startChar": 12,
+        "endLine": 275,
+        "endChar": 41
+      },
+      "revId": "627bb581824634664eee39995d3a1263bb7ad280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e26316e7_d7146a58",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "627bb581824634664eee39995d3a1263bb7ad280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac169c38_41c77a5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T15:20:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e26316e7_d7146a58",
+      "range": {
+        "startLine": 276,
+        "startChar": 12,
+        "endLine": 276,
+        "endChar": 40
+      },
+      "revId": "627bb581824634664eee39995d3a1263bb7ad280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

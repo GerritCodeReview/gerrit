@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "766b57ed_8dcf79b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "Nit: out of order.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c086f1_2e8909a1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "this is the same element as gr-autocomplete. Please combine the selectors. I also don\u0027t think you need flex: 1 and width: 100%. If you remove the width: 100%, may need to add display: flex; also.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f88870fa_6e04145c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "Are these properties needed? It doesn\u0027t look like other implementations use this.",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ac5502_70e49ca0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "this should be part of a separate test that asserts _handleCreateProject is called when the button is tapped.",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e877e77e_f6e3ca42",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "Missing space after ||.",
+      "range": {
+        "startLine": 158,
+        "startChar": 47,
+        "endLine": 158,
+        "endChar": 48
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3902e770_fe9feebe",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-14T16:55:49Z",
+      "side": 1,
+      "message": "Nit: out of order",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 87
+      },
+      "revId": "9b08e2c03b9889f36a7eb4122d7a7830715788ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

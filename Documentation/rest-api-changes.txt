@@ -3130,6 +3130,32 @@ request:
   HTTP/1.1 204 No Content
 ----
 
+[[set-message]]
+=== Set Commit Message
+--
+'PUT /changes/link:#change-id[\{change-id\}]/message'
+--
+
+Changes the commit message of the latest patch set and creates a new patch set.
+
+The new description must be provided in the request body inside a
+link:#description-input[MessageInput] entity and contain the change ID footer.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "New Commit message \n\nChange-Id: I00000000000000000001\n"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[revision-endpoints]]
 == Revision Endpoints
 
@@ -3240,6 +3266,32 @@ As response the new description is returned.
 
   )]}'
   "Added Documentation"
+----
+
+[[set-message]]
+=== Set Commit Message
+--
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/message'
+--
+
+Changes the commit message of the specified revision and creates a new patch set.
+
+The new description must be provided in the request body inside a
+link:#description-input[MessageInput] entity and contain the change ID footer.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "New Commit message \n\nChange-Id: I00000000000000000001\n"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 [[get-merge-list]]

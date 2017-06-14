@@ -82,6 +82,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -99,6 +100,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1201,6 +1204,65 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
+  public void changeCommitMessage() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(
+            gApi.changes().id(r.getChangeId()).current().file("/COMMIT_MSG").content().asString())
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .message("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+    assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
+    assertThat(rApi.file("/COMMIT_MSG").content().asString())
+        .isEqualTo("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
+  }
+
+  @Test
+  public void changeCommitMessage_mutationFailsWhenNewMessageHasNoChangeId() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(
+            gApi.changes().id(r.getChangeId()).current().file("/COMMIT_MSG").content().asString())
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("missing Change-Id in commit message footer");
+    gApi.changes().id(r.getChangeId()).current().message("modified commit\n");
+  }
+
+  @Test
+  public void changeCommitMessage_mutationFailsWhenNewMessageHasWrongChangeId() throws Exception {
+    PushOneCommit.Result otherChange = createChange();
+    PushOneCommit.Result r = createChange();
+    assertThat(
+            gApi.changes().id(r.getChangeId()).current().file("/COMMIT_MSG").content().asString())
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("wrong Change-Id in commit message footer");
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .message("modified commit\n\nChange-Id: " + otherChange.getChangeId() + "\n");
+  }
+
+  @Test
+  public void changeCommitMessage_mutationFailsWhenUserLacksPermission() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSetEdit");
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
+    // Block default permission
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    // Create change as user
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    // Try to create edit as admin
+    exception.expect(AuthException.class);
+    exception.expectMessage("modifying commit message not permitted");
+    gApi.changes().id(r.getChangeId()).current().message("");
   }
 
   private static void assertCherryPickResult(

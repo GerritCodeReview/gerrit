@@ -17,12 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteActive.Input;
 import com.google.gwtorm.server.OrmException;
@@ -30,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
@@ -38,17 +34,12 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class DeleteActive implements RestModifyView<AccountResource, Input> {
   public static class Input {}
 
-  private final Provider<ReviewDb> dbProvider;
-  private final AccountsUpdate.Server accountsUpdate;
   private final Provider<IdentifiedUser> self;
+  private final SetInactiveFlag setInactiveFlag;
 
   @Inject
-  DeleteActive(
-      Provider<ReviewDb> dbProvider,
-      AccountsUpdate.Server accountsUpdate,
-      Provider<IdentifiedUser> self) {
-    this.dbProvider = dbProvider;
-    this.accountsUpdate = accountsUpdate;
+  DeleteActive(SetInactiveFlag setInactiveFlag, Provider<IdentifiedUser> self) {
+    this.setInactiveFlag = setInactiveFlag;
     this.self = self;
   }
 
@@ -58,27 +49,6 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     if (self.get() == rsrc.getUser()) {
       throw new ResourceConflictException("cannot deactivate own account");
     }
-
-    AtomicBoolean alreadyInactive = new AtomicBoolean(false);
-    Account account =
-        accountsUpdate
-            .create()
-            .update(
-                dbProvider.get(),
-                rsrc.getUser().getAccountId(),
-                a -> {
-                  if (!a.isActive()) {
-                    alreadyInactive.set(true);
-                  } else {
-                    a.setActive(false);
-                  }
-                });
-    if (account == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
-    if (alreadyInactive.get()) {
-      throw new ResourceConflictException("account not active");
-    }
-    return Response.none();
+    return setInactiveFlag.deactivate(rsrc.getUser());
   }
 }

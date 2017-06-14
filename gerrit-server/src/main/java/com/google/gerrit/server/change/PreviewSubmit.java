@@ -36,9 +36,6 @@ import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -60,8 +57,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   private static final int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
 
   private final Provider<ReviewDb> dbProvider;
-  private final RetryHelper retryHelper;
-  private final MergeOp.Factory mergeOpFactory;
+  private final Provider<MergeOp> mergeOpProvider;
   private final AllowedFormats allowedFormats;
   private int maxBundleSize;
   private String format;
@@ -74,52 +70,44 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   @Inject
   PreviewSubmit(
       Provider<ReviewDb> dbProvider,
-      RetryHelper retryHelper,
-      MergeOp.Factory mergeOpFactory,
+      Provider<MergeOp> mergeOpProvider,
       AllowedFormats allowedFormats,
       @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
-    this.retryHelper = retryHelper;
-    this.mergeOpFactory = mergeOpFactory;
+    this.mergeOpProvider = mergeOpProvider;
     this.allowedFormats = allowedFormats;
     this.maxBundleSize = cfg.getInt("download", "maxBundleSize", MAX_DEFAULT_BUNDLE_SIZE);
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc) throws UpdateException, RestApiException {
-    // Shouldn't ever need to retry, since we are doing a dry-run BatchUpdate, but this is required
-    // to get access to a BatchUpdate.Factory.
-    return retryHelper.execute(
-        (updateFactory) -> {
-          if (Strings.isNullOrEmpty(format)) {
-            throw new BadRequestException("format is not specified");
-          }
-          ArchiveFormat f = allowedFormats.extensions.get("." + format);
-          if (f == null && format.equals("tgz")) {
-            // Always allow tgz, even when the allowedFormats doesn't contain it.
-            // Then we allow at least one format even if the list of allowed
-            // formats is empty.
-            f = ArchiveFormat.TGZ;
-          }
-          if (f == null) {
-            throw new BadRequestException("unknown archive format");
-          }
+  public BinaryResult apply(RevisionResource rsrc) throws OrmException, RestApiException {
+    if (Strings.isNullOrEmpty(format)) {
+      throw new BadRequestException("format is not specified");
+    }
+    ArchiveFormat f = allowedFormats.extensions.get("." + format);
+    if (f == null && format.equals("tgz")) {
+      // Always allow tgz, even when the allowedFormats doesn't contain it.
+      // Then we allow at least one format even if the list of allowed
+      // formats is empty.
+      f = ArchiveFormat.TGZ;
+    }
+    if (f == null) {
+      throw new BadRequestException("unknown archive format");
+    }
 
-          Change change = rsrc.getChange();
-          if (!change.getStatus().isOpen()) {
-            throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
-          }
-          ChangeControl control = rsrc.getControl();
-          if (!control.getUser().isIdentifiedUser()) {
-            throw new MethodNotAllowedException("Anonymous users cannot submit");
-          }
+    Change change = rsrc.getChange();
+    if (!change.getStatus().isOpen()) {
+      throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
+    }
+    ChangeControl control = rsrc.getControl();
+    if (!control.getUser().isIdentifiedUser()) {
+      throw new MethodNotAllowedException("Anonymous users cannot submit");
+    }
 
-          return getBundles(updateFactory, rsrc, f);
-        });
+    return getBundles(rsrc, f);
   }
 
-  private BinaryResult getBundles(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, ArchiveFormat f)
+  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
       throws OrmException, RestApiException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
@@ -127,7 +115,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     Change change = rsrc.getChange();
 
     @SuppressWarnings("resource") // Returned BinaryResult takes ownership and handles closing.
-    MergeOp op = mergeOpFactory.create(updateFactory);
+    MergeOp op = mergeOpProvider.get();
     try {
       op.merge(db, change, caller, false, new SubmitInput(), true);
       BinaryResult bin = new SubmitPreviewResult(op, f, maxBundleSize);
@@ -162,8 +150,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           BundleWriter bw = new BundleWriter(or.getCodeReviewRevWalk().getObjectReader());
           bw.setObjectCountCallback(null);
           bw.setPackConfig(new PackConfig(or.getRepo()));
-          Collection<ReceiveCommand> refs =
-              or.getUpdate(mergeOp.getBatchUpdateFactory()).getRefUpdates().values();
+          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates().values();
           for (ReceiveCommand r : refs) {
             bw.include(r.getRefName(), r.getNewId());
             ObjectId oldId = r.getOldId();

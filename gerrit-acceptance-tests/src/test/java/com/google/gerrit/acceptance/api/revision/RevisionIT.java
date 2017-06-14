@@ -52,7 +52,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -75,6 +77,7 @@ import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.reviewdb.client.Account;
@@ -82,11 +85,13 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -99,6 +104,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1203,6 +1210,84 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
+  @Test
+  public void changeCommitMessage() throws Exception {
+    // Tests mutating the commit message as both the owner of the change and a regular user with
+    // addPatchSet permission. Asserts that both cases succeed.
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    for (TestAccount acc : ImmutableList.of(admin, user)) {
+      setApiUser(acc);
+      String newMessage =
+          "modified commit by " + acc.username + "\n\nChange-Id: " + r.getChangeId() + "\n";
+      gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+      RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+      assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
+      assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
+    }
+  }
+
+  @Test
+  public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
+    ConfigInput configInput = new ConfigInput();
+    configInput.requireChangeId = InheritableBoolean.FALSE;
+    gApi.projects().name(project.get()).config(configInput);
+
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    String newMessage = "modified commit\n";
+    gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+    RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+    assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
+    assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
+  }
+
+  @Test
+  public void changeCommitMessageWithNoChangeIdFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("missing Change-Id footer");
+    gApi.changes().id(r.getChangeId()).setMessage("modified commit\n");
+  }
+
+  @Test
+  public void changeCommitMessageWithWrongChangeIdFails() throws Exception {
+    PushOneCommit.Result otherChange = createChange();
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("wrong Change-Id footer");
+    gApi.changes()
+        .id(r.getChangeId())
+        .setMessage("modified commit\n\nChange-Id: " + otherChange.getChangeId() + "\n");
+  }
+
+  @Test
+  public void changeCommitMessageWithoutPermissionFails() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSetEdit");
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
+    // Block default permission
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    // Create change as user
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    // Try to change the commit message
+    exception.expect(AuthException.class);
+    exception.expectMessage("modifying commit message not permitted");
+    gApi.changes().id(r.getChangeId()).setMessage("foo");
+  }
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);
@@ -1277,6 +1362,10 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(li).isNotNull();
     int accountId = atrScope.get().getUser().getAccountId().get();
     return li.all.stream().filter(a -> a._accountId == accountId).findFirst().get();
+  }
+
+  private String getCommitMessage(String changeId) throws RestApiException, IOException {
+    return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {

@@ -71,6 +71,7 @@ import com.google.gerrit.server.change.PostPrivate;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
+import com.google.gerrit.server.change.PutMessage;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
@@ -139,6 +140,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Unmute unmute;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
+  private final PutMessage putMessage;
 
   @Inject
   ChangeApiImpl(
@@ -182,6 +184,7 @@ class ChangeApiImpl implements ChangeApi {
       Unmute unmute,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
+      PutMessage putMessage,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -223,6 +226,7 @@ class ChangeApiImpl implements ChangeApi {
     this.unmute = unmute;
     this.setWip = setWip;
     this.setReady = setReady;
+    this.putMessage = putMessage;
     this.change = change;
   }
 
@@ -508,6 +512,17 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeEditApi edit() throws RestApiException {
     return changeEditApi.create(change);
+  }
+
+  @Override
+  public void setMessage(String in) throws RestApiException {
+    try {
+      PutMessage.Input input = new PutMessage.Input();
+      input.message = in;
+      putMessage.apply(change, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot edit commit message", e);
+    }
   }
 
   @Override

@@ -22,6 +22,30 @@
       "revId": "d934f6e68d55dd434e20956bde81002c88ba9b20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23dc96ff_ce951b34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-14T13:41:19Z",
+      "side": 1,
+      "message": "I tried to give it a more suitable name and removed the Javadoc as it wasn\u0027t necessary anymore. I also removed the Javadoc warning about resetting the RevWalk from one of the methods above. Since RevWalk#isMergedInto isn\u0027t used anymore, we don\u0027t need the warning.",
+      "parentUuid": "51af24b1_928768c9",
+      "range": {
+        "startLine": 276,
+        "startChar": 73,
+        "endLine": 276,
+        "endChar": 83
+      },
+      "revId": "d934f6e68d55dd434e20956bde81002c88ba9b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

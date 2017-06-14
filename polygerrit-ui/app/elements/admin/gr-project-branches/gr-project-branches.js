@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-group-list',
+    is: 'gr-project-branches',
 
     properties: {
       /**
@@ -30,27 +30,21 @@
        * Offset of currently visible query results.
        */
       _offset: Number,
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/groups',
-      },
-      _groups: Array,
+      _project: Object,
+      _branches: Array,
 
       /**
-       * Because  we request one more than the groupsPerPage, _shownGroups
-       * may be one less than _groups.
+       * Because  we request one more than the projectsPerPage, _shownProjects
+       * maybe one less than _projects.
        * */
-      _shownGroups: {
+      _shownBranches: {
         type: Array,
-        computed: 'computeShownItems(_groups)',
+        computed: 'computeShownItems(_branches)',
       },
-
-      _groupsPerPage: {
+      _branchesPerPage: {
         type: Number,
         value: 25,
       },
-
       _loading: {
         type: Boolean,
         value: true,
@@ -62,43 +56,38 @@
       Gerrit.ListViewBehavior,
     ],
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
-    },
-
     _paramsChanged(params) {
       this._loading = true;
+      if (!params || !params.project) { return; }
+      if (params && params.project) {
+        this._project = params.project;
+      }
+
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getGroups(this._filter, this._groupsPerPage,
-          this._offset);
+      return this._getBranches(this._filter, this._project,
+          this._branchesPerPage, this._offset);
     },
 
-    _computeGroupUrl(id) {
-      return this.getUrl(this._path + '/', id);
-    },
-
-    _getGroups(filter, groupsPerPage, offset) {
-      this._groups = [];
-      return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
-          .then(groups => {
-            if (!groups) {
-              return;
-            }
-            this._groups = Object.keys(groups)
-             .map(key => {
-               const group = groups[key];
-               group.name = key.replace('refs/heads/', '');
-               return group;
-             });
+    _getBranches(filter, project, projectsPerPage, offset) {
+      this._projectsBranches = [];
+      return this.$.restAPI.getProjectBranches(
+          filter, project, projectsPerPage, offset) .then(branches => {
+            if (!branches) { return; }
+            this._branches = branches;
             this._loading = false;
           });
     },
 
-    _visibleToAll(item) {
-      return item.options.visible_to_all === true ? 'Y' : 'N';
+    projectBranch(project) {
+      return `/admin/projects/${project},branches`;
+    },
+
+    _computeWeblink(project) {
+      if (!project.web_links) { return ''; }
+      const webLinks = project.web_links;
+      return webLinks.length ? webLinks : null;
     },
   });
 })();

@@ -35,6 +35,11 @@
         readOnly: true,
         value: '/admin/projects/',
       },
+      _pathFilter: {
+        type: String,
+        readOnly: true,
+        value: '/admin/projects/',
+      },
       _projects: Array,
 
       /**

@@ -63,7 +63,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
   @Test
   public void moveChangeWithMessage() throws Exception {
-    // Provide a message using --message flag
+    // Provide a message using --setMessage flag
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);

@@ -345,7 +345,7 @@ public class ReceiveCommits {
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
-  private final MergeOp.Factory mergeOpFactory;
+  private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
@@ -399,7 +399,7 @@ public class ReceiveCommits {
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo,
       SubmoduleOp.Factory subOpFactory,
-      MergeOp.Factory mergeOpFactory,
+      Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       NotesMigration notesMigration,
@@ -447,7 +447,7 @@ public class ReceiveCommits {
     this.receiveId = RequestId.forProject(project.getNameKey());
 
     this.subOpFactory = subOpFactory;
-    this.mergeOpFactory = mergeOpFactory;
+    this.mergeOpProvider = mergeOpProvider;
     this.ormProvider = ormProvider;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
@@ -656,7 +656,7 @@ public class ReceiveCommits {
       try (MergeOpRepoManager orm = ormProvider.get()) {
         orm.setContext(db, TimeUtil.nowTs(), user, receiveId);
         SubmoduleOp op = subOpFactory.create(branches, orm);
-        op.updateSuperProjects(batchUpdateFactory);
+        op.updateSuperProjects();
       } catch (SubmoduleException e) {
         logError("Can't update the superprojects", e);
       }
@@ -2250,7 +2250,7 @@ public class ReceiveCommits {
         tipChange, "tip of push does not correspond to a change; found these changes: %s", bySha);
     logDebug(
         "Processing submit with tip change {} ({})", tipChange.getId(), magicBranch.cmd.getNewId());
-    try (MergeOp op = mergeOpFactory.create(batchUpdateFactory)) {
+    try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, tipChange, user, false, new SubmitInput(), false);
     }
   }

@@ -66,6 +66,7 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PreviewSubmit;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutDescription;
+import com.google.gerrit.server.change.PutMessage;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
@@ -128,6 +129,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<GetMergeList> getMergeList;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
+  private final PutMessage putMessage;
 
   @Inject
   RevisionApiImpl(
@@ -169,6 +171,7 @@ class RevisionApiImpl implements RevisionApi {
       Provider<GetMergeList> getMergeList,
       PutDescription putDescription,
       GetDescription getDescription,
+      PutMessage putMessage,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
@@ -208,6 +211,7 @@ class RevisionApiImpl implements RevisionApi {
     this.getMergeList = getMergeList;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
+    this.putMessage = putMessage;
     this.revision = r;
   }
 
@@ -265,6 +269,17 @@ class RevisionApiImpl implements RevisionApi {
       deleteDraft.apply(revision, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete draft ps", e);
+    }
+  }
+
+  @Override
+  public void message(String in) throws RestApiException {
+    try {
+      PutMessage.Input input = new PutMessage.Input();
+      input.message = in;
+      putMessage.apply(revision, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot edit commit message", e);
     }
   }
 

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13373b2a_9a240041",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "Does this correspond to some enum, or is it the actual number of lines to use?",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 19
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e826654f_70a7f658",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "Optional: I don\u0027t know if we want to always duplicate prefs. If not, we could do this function this way:\n\n    _getBypassPrefs() {\n      if (this._safetyBypass \u003d\u003d\u003d null) {\n        return Object.assign(\n            {}, this.prefs, {context: this._safetyBypass});\n      }\n      return this.prefs;\n    },",
+      "range": {
+        "startLine": 481,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 6
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "964b70a8_3c83a072",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "Number of?",
+      "range": {
+        "startLine": 641,
+        "startChar": 7,
+        "endLine": 641,
+        "endChar": 35
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ed32a7_c726cd37",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "Sp.",
+      "range": {
+        "startLine": 643,
+        "startChar": 15,
+        "endLine": 643,
+        "endChar": 21
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c0047bc_9bc6f2a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "Could this just be if (sec.ab) ?",
+      "range": {
+        "startLine": 648,
+        "startChar": 12,
+        "endLine": 648,
+        "endChar": 36
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "853a726d_40b23208",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-14T23:45:48Z",
+      "side": 1,
+      "message": "I think these tests need done calls, no?",
+      "range": {
+        "startLine": 1014,
+        "startChar": 6,
+        "endLine": 1040,
+        "endChar": 9
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

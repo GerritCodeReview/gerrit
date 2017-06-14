@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe178544_3dc3a73a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T01:28:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b2b636e2_4d627667",
+      "range": {
+        "startLine": 66,
+        "startChar": 54,
+        "endLine": 66,
+        "endChar": 70
+      },
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "682f60a4_6f567ea9",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
         "patchSetId": 38
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-14T00:28:16Z",
       "side": 1,
       "message": "It\u0027d be better to add an id to the button and then \n\nconst button \u003d this.$.submitBtn or something like that.",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a36fce_a63bcd48",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T01:28:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "682f60a4_6f567ea9",
       "range": {
         "startLine": 71,
         "startChar": 21,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "3bc1473d_b9ceb197",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T01:28:58Z",
+      "side": 1,
+      "message": "It\u0027s done on line 83.",
+      "parentUuid": "f52eed3a_ef1e0efd",
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b16e3e3_1b8f8dc8",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
         "patchSetId": 38
@@ -99,6 +165,24 @@
       "writtenOn": "2017-06-14T00:28:16Z",
       "side": 1,
       "message": "Can you instead use mockInteractions to tap the button. Assert that handleCreateProject was called and then also make the assertions that you have below?",
+      "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb08e36_be7a9c78",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-14T01:28:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5b16e3e3_1b8f8dc8",
       "revId": "5c09b7563b953e3cd0580af3d016e0f3c2293303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

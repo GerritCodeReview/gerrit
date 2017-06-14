@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db07e0e2_7aaf3762",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T15:15:35Z",
+      "side": 1,
+      "message": "This check could be removed as this method is only called when isRootOrMergeCommit is false, which means only when commit.getParentCount() \u003d\u003d 1.\n\nThis is a private method and it doesn\u0027t need that additional protection because this class controls when and under which conditions it is called.\n\nActually the \"haveCommonParent\" method doesn\u0027t check the number of parent commits because of the same reason 😊",
+      "range": {
+        "startLine": 275,
+        "startChar": 12,
+        "endLine": 275,
+        "endChar": 41
+      },
+      "revId": "627bb581824634664eee39995d3a1263bb7ad280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26316e7_d7146a58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T15:15:35Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 276,
+        "startChar": 12,
+        "endLine": 276,
+        "endChar": 40
+      },
+      "revId": "627bb581824634664eee39995d3a1263bb7ad280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

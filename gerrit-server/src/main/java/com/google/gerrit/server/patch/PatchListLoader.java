@@ -205,13 +205,11 @@ public class PatchListLoader implements Callable<PatchList> {
                 comparisonType));
       }
       Multimap<String, Edit> editsDueToRebasePerFilePath =
-          getEditsDueToRebasePerFilePath(rw, b, aCommit);
+          key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF
+              ? getEditsDueToRebasePerFilePath(aCommit, b)
+              : ImmutableMultimap.of();
       for (DiffEntry diffEntry : diffEntries) {
-        String filePath = diffEntry.getNewPath();
-        if (diffEntry.getChangeType() == ChangeType.DELETE) {
-          filePath = diffEntry.getOldPath();
-        }
-        Set<Edit> editsDueToRebase = ImmutableSet.copyOf(editsDueToRebasePerFilePath.get(filePath));
+        Set<Edit> editsDueToRebase = getEditsDueToRebase(editsDueToRebasePerFilePath, diffEntry);
         Optional<PatchListEntry> patchListEntry =
             getPatchListEntry(reader, df, diffEntry, aTree, bTree, editsDueToRebase);
         patchListEntry.ifPresent(entries::add);
@@ -240,16 +238,7 @@ public class PatchListLoader implements Callable<PatchList> {
    *
    * <ul>
    *   <li>If {@code commitA} is an ancestor of {@code commitB} (or the other way around), {@code
-   *       commitA} (or {@code commitB}) is used instead of its parent in {@link
-   *       #getEditsDueToRebasePerFilePath(RevCommit, RevCommit)}.
-   *   <li>The method {@link #arePatchSetCommitsWithRebaseInBetween(RevWalk, RevCommit, RevCommit)}
-   *       is adjusted to only short-circuit this method if {@code commitA} is the parent of {@code
-   *       commitB} (or the other way around).
-   *   <li>A flag is added to {@link PatchListKey} indicating whether this method should be called.
-   *       As this method calls {@link PatchListCache#get(PatchListKey, Project.NameKey)} (which
-   *       will end up in this method again), we have to make sure that this method doesn't recurse
-   *       until a parent/child pair of commits (or the root of the history) is reached. Introducing
-   *       a flag would be the simplest approach but there certainly are other ways, too.
+   *       commitA} (or {@code commitB}) is used instead of its parent in this method.
    *   <li>Special handling for merge commits is added. If only one of them is a merge commit, the
    *       whole computation has to be done between the single parent and all parents of the merge
    *       commit. If both of them are merge commits, all combinations of parents have to be
@@ -257,56 +246,20 @@ public class PatchListLoader implements Callable<PatchList> {
    *       (or just for specific types of merge commits).
    * </ul>
    *
-   * @param revWalk a {@code RevWalk} for the repository
    * @param commitA the commit defining {@code treeA}
    * @param commitB the commit defining {@code treeB}
    * @return the {@code Edit}s per file path they modify in {@code treeB}
-   * @throws IOException if the repository can't be accessed
    * @throws PatchListNotAvailableException if the {@code Edit}s can't be identified
    */
   private Multimap<String, Edit> getEditsDueToRebasePerFilePath(
-      RevWalk revWalk, RevCommit commitB, RevCommit commitA)
-      throws IOException, PatchListNotAvailableException {
-    if (!arePatchSetCommitsWithRebaseInBetween(revWalk, commitA, commitB)) {
+      RevCommit commitA, RevCommit commitB) throws PatchListNotAvailableException {
+    if (!arePatchSetCommitsWithRebaseInBetween(commitA, commitB)) {
       return ImmutableMultimap.of();
     }
-    return getEditsDueToRebasePerFilePath(commitA, commitB);
-  }
 
-  /**
-   * Indicates whether {@code commitA} and {@code commitB} represent two patch sets separated by a
-   * rebase provided the below-mentioned assumption is met.
-   *
-   * <p><b>Warning:</b> This method assumes that commitA and commitB are either a parent and child
-   * commit or represent two patch sets which belong to the same change. No checks are made to
-   * confirm this assumption!
-   *
-   * @throws IOException if the repository can't be accessed
-   */
-  private boolean arePatchSetCommitsWithRebaseInBetween(
-      RevWalk revWalk, RevCommit commitA, RevCommit commitB) throws IOException {
-    return key.getOldId() != null
-        && commitB.getParentCount() == 1
-        && commitA != null
-        && commitA.getParentCount() == 1
-        && !ObjectId.equals(commitB.getParent(0), commitA.getParent(0))
-        && !revWalk.isMergedInto(commitA, commitB)
-        && !revWalk.isMergedInto(commitB, commitA);
-  }
-
-  /**
-   * Determines all {@code Edit}s which were introduced by a rebase. The {@code Edit}s are expressed
-   * as differences between {@code treeA} of {@code commitA} and {@code treeB} of {@code commitB}.
-   *
-   * @param commitA the commit defining {@code treeA}
-   * @param commitB the commit defining {@code treeB}
-   * @return the {@code Edit}s per file path they modify in {@code treeB}
-   * @throws PatchListNotAvailableException if the {@code Edit}s can't be determined
-   */
-  private Multimap<String, Edit> getEditsDueToRebasePerFilePath(
-      RevCommit commitA, RevCommit commitB) throws PatchListNotAvailableException {
     PatchListKey parentDiffKey =
-        new PatchListKey(commitA.getParent(0), commitB.getParent(0), key.getWhitespace());
+        PatchListKey.againstCommitWithPureTreeDiff(
+            commitA.getParent(0), commitB.getParent(0), key.getWhitespace());
     PatchList parentPatchList = patchListCache.get(parentDiffKey, project);
     PatchListKey oldKey = PatchListKey.againstDefaultBase(key.getOldId(), key.getWhitespace());
     PatchList oldPatchList = patchListCache.get(oldKey, project);
@@ -317,6 +270,37 @@ public class PatchListLoader implements Callable<PatchList> {
     editTransformer.transformReferencesOfSideA(oldPatchList.getPatches());
     editTransformer.transformReferencesOfSideB(newPatchList.getPatches());
     return editTransformer.getEditsPerFilePath();
+  }
+
+  /**
+   * Indicates whether {@code commitA} and {@code commitB} represent two patch sets separated by a
+   * rebase provided the below-mentioned assumption is met.
+   *
+   * <p><b>Warning:</b> This method assumes that commitA and commitB are either a parent and child
+   * commit or represent two patch sets which belong to the same change. No checks are made to
+   * confirm this assumption!
+   */
+  private boolean arePatchSetCommitsWithRebaseInBetween(RevCommit commitA, RevCommit commitB) {
+    return key.getOldId() != null
+        && commitB.getParentCount() == 1
+        && commitA != null
+        && commitA.getParentCount() == 1
+        && !ObjectId.equals(commitB.getParent(0), commitA.getParent(0))
+        && !ObjectId.equals(commitB, commitA.getParent(0))
+        && !ObjectId.equals(commitB.getParent(0), commitA);
+  }
+
+  private static Set<Edit> getEditsDueToRebase(
+      Multimap<String, Edit> editsDueToRebasePerFilePath, DiffEntry diffEntry) {
+    if (editsDueToRebasePerFilePath.isEmpty()) {
+      return ImmutableSet.of();
+    }
+
+    String filePath = diffEntry.getNewPath();
+    if (diffEntry.getChangeType() == ChangeType.DELETE) {
+      filePath = diffEntry.getOldPath();
+    }
+    return ImmutableSet.copyOf(editsDueToRebasePerFilePath.get(filePath));
   }
 
   private Optional<PatchListEntry> getPatchListEntry(

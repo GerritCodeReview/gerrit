@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed247b1_3308ada3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-14T07:11:08Z",
+      "side": 1,
+      "message": "Remove this final too? It seems there are quite some occurrences of \"@GerritServerConfig final\" that should be fixed.",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "144829948ab541171568dd15fc085cbd11d4d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8eea4df_06467404",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/StreamCommandExecutorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-14T07:11:08Z",
+      "side": 1,
+      "message": "If we are at this we should also remove final from local vars. This is just one occurrence but there are many more.",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "144829948ab541171568dd15fc085cbd11d4d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,7 +49,7 @@ public class PatchList implements Serializable {
   private static final Comparator<PatchListEntry> PATCH_CMP =
       new Comparator<PatchListEntry>() {
         @Override
-        public int compare(final PatchListEntry a, final PatchListEntry b) {
+        public int compare(PatchListEntry a, PatchListEntry b) {
           return comparePaths(a.getNewName(), b.getNewName());
         }
       };
@@ -151,7 +151,7 @@ public class PatchList implements Serializable {
    *     specified, but is a current legacy artifact of how the cache is keyed versus how the
    *     database is keyed.
    */
-  public List<Patch> toPatchList(final PatchSet.Id setId) {
+  public List<Patch> toPatchList(PatchSet.Id setId) {
     final ArrayList<Patch> r = new ArrayList<>(patches.length);
     for (final PatchListEntry e : patches) {
       r.add(e.toPatch(setId));
@@ -160,17 +160,17 @@ public class PatchList implements Serializable {
   }
 
   /** Find an entry by name, returning an empty entry if not present. */
-  public PatchListEntry get(final String fileName) {
+  public PatchListEntry get(String fileName) {
     final int index = search(fileName);
     return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
   }
 
-  private int search(final String fileName) {
+  private int search(String fileName) {
     PatchListEntry want = PatchListEntry.empty(fileName);
     return Arrays.binarySearch(patches, 0, patches.length, want, PATCH_CMP);
   }
 
-  private void writeObject(final ObjectOutputStream output) throws IOException {
+  private void writeObject(ObjectOutputStream output) throws IOException {
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
       writeCanBeNull(out, oldId);
@@ -187,7 +187,7 @@ public class PatchList implements Serializable {
     writeBytes(output, buf.toByteArray());
   }
 
-  private void readObject(final ObjectInputStream input) throws IOException {
+  private void readObject(ObjectInputStream input) throws IOException {
     final ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
     try (InflaterInputStream in = new InflaterInputStream(buf)) {
       oldId = readCanBeNull(in);

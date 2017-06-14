@@ -42,17 +42,17 @@ public class HttpLogoutServlet extends HttpServlet {
 
   @Inject
   protected HttpLogoutServlet(
-      final AuthConfig authConfig,
-      final DynamicItem<WebSession> webSession,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final AuditService audit) {
+      AuthConfig authConfig,
+      DynamicItem<WebSession> webSession,
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      AuditService audit) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.logoutUrl = authConfig.getLogoutURL();
     this.audit = audit;
   }
 
-  protected void doLogout(final HttpServletRequest req, final HttpServletResponse rsp)
+  protected void doLogout(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     webSession.get().logout();
     if (logoutUrl != null) {
@@ -73,7 +73,7 @@ public class HttpLogoutServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
 
     final String sid = webSession.get().getSessionId();

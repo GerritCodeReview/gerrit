@@ -18,12 +18,12 @@ package com.google.gerrit.server.query;
 public abstract class IntPredicate<T> extends OperatorPredicate<T> {
   private final int intValue;
 
-  public IntPredicate(final String name, final String value) {
+  public IntPredicate(String name, String value) {
     super(name, value);
     this.intValue = Integer.parseInt(value);
   }
 
-  public IntPredicate(final String name, final int intValue) {
+  public IntPredicate(String name, int intValue) {
     super(name, String.valueOf(intValue));
     this.intValue = intValue;
   }
@@ -38,7 +38,7 @@ public abstract class IntPredicate<T> extends OperatorPredicate<T> {
   }
 
   @Override
-  public boolean equals(final Object other) {
+  public boolean equals(Object other) {
     if (other == null) {
       return false;
     }

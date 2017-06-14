@@ -238,7 +238,7 @@ public abstract class VersionedMetaData {
    * @param update helper info about the update.
    * @throws IOException if the update failed.
    */
-  public BatchMetaDataUpdate openUpdate(final MetaDataUpdate update) throws IOException {
+  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
     final Repository db = update.getRepository();
 
     reader = db.newObjectReader();

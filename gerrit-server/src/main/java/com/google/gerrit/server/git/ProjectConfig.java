@@ -1116,7 +1116,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return true;
   }
 
-  public static final String validMaxObjectSizeLimit(String value) throws ConfigInvalidException {
+  public static String validMaxObjectSizeLimit(String value) throws ConfigInvalidException {
     if (value == null) {
       return null;
     }

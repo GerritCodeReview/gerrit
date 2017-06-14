@@ -265,7 +265,7 @@ class UrlModule extends ServletModule {
   }
 
   static void toGerrit(
-      final String target, final HttpServletRequest req, final HttpServletResponse rsp)
+      String target, HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());

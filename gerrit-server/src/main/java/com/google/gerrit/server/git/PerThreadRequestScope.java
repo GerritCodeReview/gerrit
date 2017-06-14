@@ -91,7 +91,7 @@ public class PerThreadRequestScope {
   public static final Scope REQUEST =
       new Scope() {
         @Override
-        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
           return new Provider<T>() {
             @Override
             public T get() {

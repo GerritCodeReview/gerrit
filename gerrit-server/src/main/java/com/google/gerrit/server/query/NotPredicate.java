@@ -25,7 +25,7 @@ import java.util.List;
 public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   private final Predicate<T> that;
 
-  protected NotPredicate(final Predicate<T> that) {
+  protected NotPredicate(Predicate<T> that) {
     if (that instanceof NotPredicate) {
       throw new IllegalArgumentException("Double negation unsupported");
     }
@@ -43,7 +43,7 @@ public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public final Predicate<T> getChild(final int i) {
+  public final Predicate<T> getChild(int i) {
     if (i != 0) {
       throw new ArrayIndexOutOfBoundsException(i);
     }
@@ -51,7 +51,7 @@ public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
@@ -64,7 +64,7 @@ public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public boolean match(final T object) throws OrmException {
+  public boolean match(T object) throws OrmException {
     checkState(
         that.isMatchable(),
         "match invoked, but child predicate %s doesn't implement %s",
@@ -84,7 +84,7 @@ public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
-  public boolean equals(final Object other) {
+  public boolean equals(Object other) {
     if (other == null) {
       return false;
     }

@@ -90,7 +90,7 @@ public class PatchSetInfoFactory {
   }
 
   // TODO: The same method exists in EventFactory, find a common place for it
-  private UserIdentity toUserIdentity(final PersonIdent who) {
+  private UserIdentity toUserIdentity(PersonIdent who) {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
@@ -108,7 +108,7 @@ public class PatchSetInfoFactory {
     return u;
   }
 
-  private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents, final RevWalk walk)
+  private List<PatchSetInfo.ParentInfo> toParentInfos(RevCommit[] parents, RevWalk walk)
       throws IOException, MissingObjectException {
     List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<>(parents.length);
     for (RevCommit parent : parents) {

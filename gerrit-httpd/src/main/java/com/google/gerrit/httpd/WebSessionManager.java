@@ -55,7 +55,7 @@ public class WebSessionManager {
   private final Cache<String, Val> self;
 
   @Inject
-  WebSessionManager(@GerritServerConfig Config cfg, @Assisted final Cache<String, Val> cache) {
+  WebSessionManager(@GerritServerConfig Config cfg, @Assisted Cache<String, Val> cache) {
     prng = new SecureRandom();
     self = cache;
 
@@ -76,11 +76,11 @@ public class WebSessionManager {
     }
   }
 
-  Key createKey(final Account.Id who) {
+  Key createKey(Account.Id who) {
     return new Key(newUniqueToken(who));
   }
 
-  private String newUniqueToken(final Account.Id who) {
+  private String newUniqueToken(Account.Id who) {
     try {
       final int nonceLen = 20;
       final ByteArrayOutputStream buf;
@@ -135,7 +135,7 @@ public class WebSessionManager {
     return val;
   }
 
-  int getCookieAge(final Val val) {
+  int getCookieAge(Val val) {
     if (val.isPersistentCookie()) {
       // Client may store the cookie until we would remove it from our
       // own cache, after which it will certainly be invalid.
@@ -150,7 +150,7 @@ public class WebSessionManager {
     return -1;
   }
 
-  Val get(final Key key) {
+  Val get(Key key) {
     Val val = self.getIfPresent(key.token);
     if (val != null && val.expiresAt <= nowMs()) {
       self.invalidate(key.token);
@@ -159,14 +159,14 @@ public class WebSessionManager {
     return val;
   }
 
-  void destroy(final Key key) {
+  void destroy(Key key) {
     self.invalidate(key.token);
   }
 
   static final class Key {
     private transient String token;
 
-    Key(final String t) {
+    Key(String t) {
       token = t;
     }
 
@@ -241,7 +241,7 @@ public class WebSessionManager {
       return persistentCookie;
     }
 
-    private void writeObject(final ObjectOutputStream out) throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException {
       writeVarInt32(out, 1);
       writeVarInt32(out, accountId.get());
 
@@ -272,7 +272,7 @@ public class WebSessionManager {
       writeVarInt32(out, 0);
     }
 
-    private void readObject(final ObjectInputStream in) throws IOException {
+    private void readObject(ObjectInputStream in) throws IOException {
       PARSE:
       for (; ; ) {
         final int tag = readVarInt32(in);

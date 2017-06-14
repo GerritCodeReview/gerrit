@@ -96,7 +96,7 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException
    */
-  public String getLine(final int file, final int line) throws IOException, NoSuchEntityException {
+  public String getLine(int file, int line) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
@@ -123,7 +123,7 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException the file is not exist.
    */
-  public int getLineCount(final int file) throws IOException, NoSuchEntityException {
+  public int getLineCount(int file) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
@@ -142,7 +142,7 @@ public class PatchFile {
     }
   }
 
-  private Text load(final ObjectId tree, final String path)
+  private Text load(ObjectId tree, String path)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
     if (path == null) {

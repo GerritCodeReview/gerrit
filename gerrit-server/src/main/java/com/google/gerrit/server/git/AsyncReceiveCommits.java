@@ -63,7 +63,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     @Provides
     @Singleton
     @Named(TIMEOUT_NAME)
-    long getTimeoutMillis(@GerritServerConfig final Config cfg) {
+    long getTimeoutMillis(@GerritServerConfig Config cfg) {
       return ConfigUtil.getTimeUnit(
           cfg, "receive", null, "timeout", TimeUnit.MINUTES.toMillis(4), TimeUnit.MILLISECONDS);
     }
@@ -72,7 +72,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private class Worker implements ProjectRunnable {
     private final Collection<ReceiveCommand> commands;
 
-    private Worker(final Collection<ReceiveCommand> commands) {
+    private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
     }
 
@@ -132,12 +132,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   @Inject
   AsyncReceiveCommits(
-      final ReceiveCommits.Factory factory,
-      @ReceiveCommitsExecutor final Executor executor,
-      final RequestScopePropagator scopePropagator,
-      @Named(TIMEOUT_NAME) final long timeoutMillis,
-      @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo) {
+      ReceiveCommits.Factory factory,
+      @ReceiveCommitsExecutor Executor executor,
+      RequestScopePropagator scopePropagator,
+      @Named(TIMEOUT_NAME) long timeoutMillis,
+      @Assisted ProjectControl projectControl,
+      @Assisted Repository repo) {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     rc = factory.create(projectControl, repo);
@@ -148,7 +148,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   @Override
-  public void onPreReceive(final ReceivePack rp, final Collection<ReceiveCommand> commands) {
+  public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
     try {
       progress.waitFor(
           executor.submit(scopePropagator.wrap(new Worker(commands))),
@@ -163,7 +163,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       rc.addError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.
-      for (final ReceiveCommand c : commands) {
+      for (ReceiveCommand c : commands) {
         if (c.getResult() == Result.NOT_ATTEMPTED) {
           c.setResult(Result.REJECTED_OTHER_REASON, "internal error");
         }

@@ -28,7 +28,7 @@ public class DestinationPredicate extends ChangeOperatorPredicate {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;

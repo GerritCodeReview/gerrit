@@ -123,7 +123,7 @@ public class PatchListKey implements Serializable {
   }
 
   @Override
-  public boolean equals(final Object o) {
+  public boolean equals(Object o) {
     if (o instanceof PatchListKey) {
       PatchListKey k = (PatchListKey) o;
       return Objects.equals(oldId, k.oldId)
@@ -151,7 +151,7 @@ public class PatchListKey implements Serializable {
     return n.toString();
   }
 
-  private void writeObject(final ObjectOutputStream out) throws IOException {
+  private void writeObject(ObjectOutputStream out) throws IOException {
     writeCanBeNull(out, oldId);
     out.writeInt(parentNum == null ? 0 : parentNum);
     writeNotNull(out, newId);
@@ -162,7 +162,7 @@ public class PatchListKey implements Serializable {
     out.writeChar(c);
   }
 
-  private void readObject(final ObjectInputStream in) throws IOException {
+  private void readObject(ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
     int n = in.readInt();
     parentNum = n == 0 ? null : Integer.valueOf(n);

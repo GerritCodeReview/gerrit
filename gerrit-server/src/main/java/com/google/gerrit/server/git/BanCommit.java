@@ -75,10 +75,10 @@ public class BanCommit {
 
   @Inject
   BanCommit(
-      final Provider<IdentifiedUser> currentUser,
-      final GitRepositoryManager repoManager,
-      @GerritPersonIdent final PersonIdent gerritIdent,
-      final NotesBranchUtil.Factory notesBranchUtilFactory) {
+      Provider<IdentifiedUser> currentUser,
+      GitRepositoryManager repoManager,
+      @GerritPersonIdent PersonIdent gerritIdent,
+      NotesBranchUtil.Factory notesBranchUtilFactory) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
@@ -86,7 +86,7 @@ public class BanCommit {
   }
 
   public BanCommitResult ban(
-      final ProjectControl projectControl, final List<ObjectId> commitsToBan, final String reason)
+      ProjectControl projectControl, List<ObjectId> commitsToBan, String reason)
       throws PermissionDeniedException, IOException, ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException("Not project owner: not permitted to ban commits");
@@ -100,7 +100,7 @@ public class BanCommit {
         RevWalk revWalk = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {
       ObjectId noteId = null;
-      for (final ObjectId commitToBan : commitsToBan) {
+      for (ObjectId commitToBan : commitsToBan) {
         try {
           revWalk.parseCommit(commitToBan);
         } catch (MissingObjectException e) {
@@ -147,7 +147,7 @@ public class BanCommit {
   }
 
   private static String buildCommitMessage(
-      final List<ObjectId> bannedCommits, final String reason) {
+      List<ObjectId> bannedCommits, String reason) {
     final StringBuilder commitMsg = new StringBuilder();
     commitMsg.append("Banning ");
     commitMsg.append(bannedCommits.size());
@@ -161,7 +161,7 @@ public class BanCommit {
     }
     commitMsg.append("The following commits are banned:\n");
     final StringBuilder commitList = new StringBuilder();
-    for (final ObjectId c : bannedCommits) {
+    for (ObjectId c : bannedCommits) {
       if (commitList.length() > 0) {
         commitList.append(",\n");
       }

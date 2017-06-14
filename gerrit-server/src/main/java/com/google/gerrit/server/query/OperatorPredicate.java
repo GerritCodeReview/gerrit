@@ -21,7 +21,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
   protected final String name;
   protected final String value;
 
-  public OperatorPredicate(final String name, final String value) {
+  public OperatorPredicate(String name, String value) {
     this.name = name;
     this.value = value;
   }
@@ -35,7 +35,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
     if (!children.isEmpty()) {
       throw new IllegalArgumentException("Expected 0 children");
     }
@@ -48,7 +48,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public boolean equals(final Object other) {
+  public boolean equals(Object other) {
     if (other == null) {
       return false;
     }

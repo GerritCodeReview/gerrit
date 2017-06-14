@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "997b61f7_bb71b0e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T07:43:59Z",
+      "side": 1,
+      "message": "These final shouldn\u0027t be needed with Java 8.",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "1449ad9cde6192846ff6ae7d4d3980bb50bc59f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09fbdb83_92de77c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-14T07:43:59Z",
+      "side": 1,
+      "message": "remove final?",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 18
+      },
+      "revId": "1449ad9cde6192846ff6ae7d4d3980bb50bc59f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

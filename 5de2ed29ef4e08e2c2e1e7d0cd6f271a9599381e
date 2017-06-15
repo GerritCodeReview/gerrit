@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5abb2b68_6ef8310c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-15T18:04:46Z",
+      "side": 1,
+      "message": "Could you add more context to the commit message?\n\n  Footer was floated(?) because _________\n\n  That broke because ________, so don\u0027t do that anymore.",
+      "revId": "5de2ed29ef4e08e2c2e1e7d0cd6f271a9599381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

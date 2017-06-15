@@ -458,10 +458,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("subject", subject);
     // shortSubject is the subject limited to 63 characters, with an ellipsis if
     // it exceeds that.
-    if (subject.length() < 64) {
+    if (subject.length() < 73) {
       changeData.put("shortSubject", subject);
     } else {
-      changeData.put("shortSubject", subject.substring(0, 60) + "...");
+      changeData.put("shortSubject", subject.substring(0, 69) + "...");
     }
 
     Map<String, Object> patchSetData = new HashMap<>();

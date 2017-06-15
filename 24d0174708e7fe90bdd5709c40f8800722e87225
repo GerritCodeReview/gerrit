@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d413d3a5_f4e7ce1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-15T16:32:14Z",
+      "side": 1,
+      "message": "I don\u0027t find that second imgur link to be too bad. The whitespace under the expanded label-only message header is unfortunate, but probably acceptable while we work on the necessary backend changes.\n\nI think the only reason to not highlight the whole message header like that (and to instead only highlight the left-hand sidebar) is to avoid complaints about making approval messages \"less obvious\" when we switch to showing colored chips instead. Up to you if you think that will be a problem.",
+      "parentUuid": "b872190b_d9b55e65",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5

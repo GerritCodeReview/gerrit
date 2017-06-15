@@ -17,6 +17,24 @@
       "revId": "5509d27a429692956ea7e19f0d5435937eed6e00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b666a59_415f260d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-15T14:04:56Z",
+      "side": 1,
+      "message": "Ideally I prefer to fix everything prior to submit, but in practice, for me there is a point at which the fixes are so minor and rebasing the series so tedious that it is just not worth it.\n\nIt sounds like you disagree, and for you there is no point at which it is not worth it. I guess we can agree to disagree.",
+      "parentUuid": "b53bf7ad_a7734424",
+      "revId": "5509d27a429692956ea7e19f0d5435937eed6e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

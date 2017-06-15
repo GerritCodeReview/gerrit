@@ -94,6 +94,30 @@
       "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "086fdff2_ab29751b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-15T00:35:52Z",
+      "side": 1,
+      "message": "I don\u0027t think we should catch all nav events. IMO we should either:\n- Move away from links (not likely)\n- Let whoever implements their own custom routing deal with the problem, and trust page.js in PolyGerrit.",
+      "parentUuid": "87f128c1_cce7d0c3",
+      "range": {
+        "startLine": 474,
+        "startChar": 26,
+        "endLine": 474,
+        "endChar": 52
+      },
+      "revId": "06bbec2544f12f71803f4eec91c1ceba55241086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

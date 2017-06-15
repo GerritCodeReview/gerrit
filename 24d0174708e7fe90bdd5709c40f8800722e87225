@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "60dc69fb_8d7c0914",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T20:07:10Z",
+      "side": 1,
+      "message": "\u003e I think the only reason to not highlight the whole message header like that [...]\n\nI agree that it\u0027d be nice to make the style less volatile here. For messages  with many comments, the result can be arbitrarily large swaths of red or green.\n\nAnother issue I have with coloring the whole message is that a single message can contain both positive and negative votes. So we have to arbitrarily choose which one drives the color.\n\n\u003e [...] to avoid complaints about making approval messages \"less obvious\" when we switch to showing colored chips instead\n\nMaybe we can make the colors approximately as obvious as the chips:\n\nWhat if we add a shape to the top of the message (like a circle or a rounded square) that doesn\u0027t contain the high fidelity info of a true vote chip, but still contains a strong color signal.",
+      "parentUuid": "d413d3a5_f4e7ce1f",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -481,6 +505,54 @@
         "startChar": 31,
         "endLine": 176,
         "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67c7758d_267e9dcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T20:07:10Z",
+      "side": 1,
+      "message": "I still see it in PS8.",
+      "parentUuid": "038306ce_501c0e10",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "502b79af_bfd4ffd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T20:07:10Z",
+      "side": 1,
+      "message": "Oh, I see. I misunderstood that. Thanks.\n\nI guess my question is the min-max logic then. Am I correct that the logic is intended to reduce a message with a mixture of positive and negative votes into a single positive or negative \"color\" by finding the maximum vote value?",
+      "parentUuid": "e18a8b9f_a03f1529",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 48
       },
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

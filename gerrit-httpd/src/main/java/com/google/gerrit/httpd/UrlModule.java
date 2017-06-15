@@ -252,7 +252,11 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit("/register" + req.getPathInfo(), req, rsp);
+            try {
+              toGerrit("/register" + req.getPathInfo(), req, rsp);
+            } catch(StringIndexOutOfBoundsException e) {
+              toGerrit("/register", req, rsp);
+            }
           }
         });
   }

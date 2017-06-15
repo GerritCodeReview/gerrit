@@ -1237,7 +1237,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void watch(String project, ProjectWatchInfoConfiguration config)
-      throws OrmException, RestApiException {
+      throws RestApiException {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project;
     config.configure(pwi);
@@ -1249,7 +1249,7 @@ public abstract class AbstractDaemonTest {
     watch(r.getChange().project().get(), config);
   }
 
-  protected void watch(String project, String filter) throws OrmException, RestApiException {
+  protected void watch(String project, String filter) throws RestApiException {
     watch(
         project,
         pwi -> {
@@ -1260,7 +1260,7 @@ public abstract class AbstractDaemonTest {
         });
   }
 
-  protected void watch(String project) throws OrmException, RestApiException {
+  protected void watch(String project) throws RestApiException {
     watch(project, (String) null);
   }
 

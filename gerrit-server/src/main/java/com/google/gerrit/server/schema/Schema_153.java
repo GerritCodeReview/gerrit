@@ -19,7 +19,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.sql.SQLException;
 
 /** Add reviewStarted field to change. */
 public class Schema_153 extends SchemaVersion {

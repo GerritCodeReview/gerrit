@@ -155,10 +155,7 @@ public class ProjectQoSFilter implements Filter {
     private boolean done;
     private Thread worker;
 
-    TaskThunk(
-        ScheduledThreadPoolExecutor executor,
-        Continuation cont,
-        HttpServletRequest req) {
+    TaskThunk(ScheduledThreadPoolExecutor executor, Continuation cont, HttpServletRequest req) {
       this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);

@@ -88,6 +88,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
+  private static final String KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE =
+      "matchAuthorToCommitterDate";
 
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
@@ -523,6 +525,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_ACTION));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
+    p.setMatchAuthorToCommitterDate(
+        getEnum(rc, SUBMIT, null, KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
+            InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, DEFAULT_STATE_VALUE));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
@@ -1029,7 +1034,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
-
     set(
         rc,
         RECEIVE,
@@ -1095,6 +1099,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
+    set(rc,
+        SUBMIT,
+        null,
+        KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
+        p.getMatchAuthorToCommitterDate(),
+        InheritableBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 

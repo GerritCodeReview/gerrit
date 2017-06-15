@@ -87,6 +87,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox requireSignedPush;
   private ListBox rejectImplicitMerges;
   private ListBox enableReviewerByEmail;
+  private ListBox matchAuthorToCommitterDate;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -193,6 +194,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     rejectImplicitMerges.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
     enableReviewerByEmail.setEnabled(isOwner);
+    matchAuthorToCommitterDate.setEnabled(isOwner);
 
     if (pluginConfigWidgets != null) {
       for (Map<String, HasEnabled> widgetMap : pluginConfigWidgets.values()) {
@@ -269,6 +271,11 @@ public class ProjectInfoScreen extends ProjectScreen {
     enableReviewerByEmail = newInheritedBooleanBox();
     saveEnabler.listenTo(enableReviewerByEmail);
     grid.addHtml(AdminConstants.I.enableReviewerByEmail(), enableReviewerByEmail);
+
+    matchAuthorToCommitterDate = newInheritedBooleanBox();
+    saveEnabler.listenTo(matchAuthorToCommitterDate);
+    grid.addHtml(AdminConstants.I.matchAuthorToCommitterDate(),
+        matchAuthorToCommitterDate);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -402,6 +409,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
     setBool(enableReviewerByEmail, result.enableReviewerByEmail());
+    setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
@@ -673,6 +681,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         rsp,
         getBool(rejectImplicitMerges),
         getBool(enableReviewerByEmail),
+        getBool(matchAuthorToCommitterDate),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

@@ -60,6 +60,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo enableReviewerByEmail()
       /*-{ return this.enable_reviewer_by_email; }-*/ ;
 
+  public final native InheritedBooleanInfo matchAuthorToCommitterDate()
+      /*-{ return this.match_author_to_committer_date; }-*/ ;
+
   public final SubmitType submitType() {
     return SubmitType.valueOf(submitTypeRaw());
   }

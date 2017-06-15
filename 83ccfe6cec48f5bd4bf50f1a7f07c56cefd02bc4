@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "055db329_15909c9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T23:58:27Z",
+      "side": 1,
+      "message": "\u003e Also, how would a new auth provided be installed? [...] With static interface this becomes complicated.\n\nI don\u0027t think it\u0027s complicated, it would just refer to provider `Foo` instead of `new Foo()`...\n\nlet authProvider;\nif (... condition ...) {\n  authProvider \u003d GrGerritAuth;\n} else {\n  authProvider \u003d GrOAthProvider;\n}\n\n\u003e \u003e The benefit is that it does not need to be instantiated to be used\n\u003e \n\u003e What\u0027s exactly a problem here? Clearly, instantiation isn\u0027t costly. Calling interface methods on an instance or on namespace are no different.\n\nIt\u0027s not a big deal, and I don\u0027t think it needs to block this.\n\nThe problem I see is just cleanliness -- analogous to declaring a Java class that doesn\u0027t refer to static fields or methods, but isn\u0027t declared with the static keyword.",
+      "parentUuid": "d321e3fe_98f9c2ed",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5fcfb95_cc6528c3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
         "patchSetId": 2
@@ -274,6 +298,30 @@
       "side": 1,
       "message": "\u003e main difference different between auth providers is the way the headers are computed.\n\nThis assumption is invalid.\n\nfor OAuth, /a/ prefix should be added to the url.\nAlso, credentials need to be refreshed occasionally, so in some cases delaying fetch is needed i.e. wrapping/chaining in another promise. If gr-rest-api-interface makes the fetch and refreshed OAuth credentials, this means the abstraction layer is leaking.",
       "parentUuid": "d2fe794b_197e6c85",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "83ccfe6cec48f5bd4bf50f1a7f07c56cefd02bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0abcd8b_a4b5e19e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gerrit-auth.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T23:58:27Z",
+      "side": 1,
+      "message": "Gotcha. Thanks",
+      "parentUuid": "6c5b6405_81132421",
       "range": {
         "startLine": 37,
         "startChar": 2,

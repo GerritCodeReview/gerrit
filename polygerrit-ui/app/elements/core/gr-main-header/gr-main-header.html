@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../shared/gr-admin-links/gr-admin-links.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
@@ -139,6 +140,8 @@ limitations under the License.
         </div>
       </div>
     </nav>
+    <gr-admin-links id="adminLinks" computed-admin-top-links="{{_adminLinks}}">
+    </gr-admin-links>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-main-header.js"></script>

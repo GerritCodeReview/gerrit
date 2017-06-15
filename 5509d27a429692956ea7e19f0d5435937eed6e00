@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497534084 -0400\nnonce AH5c86CEd3jdI66FHDrTTrOzHhKCnyf/fQaSPv2tnzZeIjgpbQNwOPORI9iazHcNKHICEdgUOsmL\n\n0000000000000000000000000000000000000000 5509d27a429692956ea7e19f0d5435937eed6e00 refs/for/master%r\u003ddavid.ostrovsky@gmail.com,r\u003dlogan@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZQo6EAAoJEF/XxZqaEoiMh2YQALgmrYlVKo2OORQ4txpmL5nz\nLwVpE8tXgMKyp12yFW22PnshTzcmbXfQsL+azg8/3g37EeJjWJIRfBodPm5nvV2/\nu8MSUwKpyhXdKvPqWl4ZLC6Cr2vo5nQyoWGoCTXXjmhRAqw7QiqCAzcsp8WlGKK3\nAXyKVTtMDvzsU03lODflYMZZK9GzW3OjcYezbZR80dLw9Hf8oAbrJ6TwFRhGbMxS\nRDBZMl4mmUkKSX+JSajtsrUNlznuMcx2ToVZSm2ZggXJhtyoCGhkVitXwxa0ciJR\ngKviUm8uKOjfvtgoFlSWviv4FOpzV0VVTzz8iCkKmSbmEKrdhrFmX7Cqq1sq5Q8V\nK1e7lzSvcIDxRbd47UtuyAQ8cFR45Z5aGEpMwIogRj4AmkWPfcFC6d1Z9szHzADg\nh7vduhgAMUfERm/GldcFj3DuxR7hZl290JXEAiuNLinyMoEuoJhKHY6XEmD513fS\n1co3PLQ4t7N8EdLplN4cPREucDgVCLlgaZehGBGcAB9j2GerorpGoVnldr5jMrDw\nPkvFnws52By/2u9jZAWB+oux/wumXHWJMXFYNw+6HyUcetgABop80WSOO6HvgesT\ni3qIFw4/xc81xrtHKE1ZqlP9aQWcu9d+eSbB3IoU08QlHIhjQohROfUgA3RE/N7H\new3Ab2b9EwClgEdV1xuM\n\u003dC7YG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53bf7ad_a7734424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T13:53:47Z",
+      "side": 1,
+      "message": "I think I disagree with you here. I would block from submitting a series with hundreds of changes to avoid a \"clean-up\" commit afterwords even to fix one single character. That\u0027s what pre-submit code review and verification all about. \n\n(There is also Atlassian\u0027s Crucible post-submit review tool (https://www.atlassian.com/software/crucible), with post-submit review approach, at least for Subversion, last time I checked).",
+      "revId": "5509d27a429692956ea7e19f0d5435937eed6e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

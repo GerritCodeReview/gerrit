@@ -88,6 +88,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
+  private static final String KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE =
+      "matchAuthorDateWithCommitterDate";
 
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
@@ -495,6 +497,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (p.getDescription() == null) {
       p.setDescription("");
     }
+    p.setMatchAuthorDateWithCommitterDate(
+        getEnum(rc, PROJECT, null, KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
+            InheritableBoolean.INHERIT));
 
     if (rc.getStringList(ACCESS, null, KEY_INHERIT_FROM).length > 1) {
       // The config must not contain more than one parent to inherit from
@@ -1029,7 +1034,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
-
+    set(
+        rc,
+        PROJECT,
+        null,
+        KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
+        p.getMatchAuthorDateWithCommitterDate(),
+        InheritableBoolean.INHERIT);
     set(
         rc,
         RECEIVE,

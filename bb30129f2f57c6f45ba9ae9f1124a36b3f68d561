@@ -46,6 +46,30 @@
       "revId": "bb30129f2f57c6f45ba9ae9f1124a36b3f68d561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "379e1007_92b992dc",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-06-15T23:05:45Z",
+      "side": 1,
+      "message": "Ok, sorry I haven\u0027t replied back here in a while. I looked at this again just now and I see lines 474-480 (just above this) are doing exactly that (with a 30 second timeout and then kill -9). I think that means we do need this loop that waits on the ports. But maybe a second loop with another timeout after the kill -9 would be enough?\n\nWe are seeing the process die, but it fails to start again because (we think) ports are still in use. If you think this looks sane, I\u0027ll try to test it out more in our prod environment where we\u0027re seeing issues. No point merging it if it doesn\u0027t even fix our problems.",
+      "parentUuid": "c521662d_ab714c8b",
+      "range": {
+        "startLine": 482,
+        "startChar": 4,
+        "endLine": 486,
+        "endChar": 8
+      },
+      "revId": "bb30129f2f57c6f45ba9ae9f1124a36b3f68d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

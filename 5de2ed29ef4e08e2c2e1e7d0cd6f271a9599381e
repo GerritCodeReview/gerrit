@@ -16,6 +16,47 @@
       "revId": "5de2ed29ef4e08e2c2e1e7d0cd6f271a9599381e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9b53856_1b3c1680",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T18:20:46Z",
+      "side": 1,
+      "message": "I\u0027d like a little more context too? Does this effectively revert the floating header work? If so, why?",
+      "parentUuid": "5abb2b68_6ef8310c",
+      "revId": "5de2ed29ef4e08e2c2e1e7d0cd6f271a9599381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "619bdde4_1e7fa136",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T18:20:46Z",
+      "side": 1,
+      "message": "What is this `r` attribute for?",
+      "range": {
+        "startLine": 173,
+        "startChar": 12,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "5de2ed29ef4e08e2c2e1e7d0cd6f271a9599381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

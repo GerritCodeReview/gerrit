@@ -32,6 +32,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo requireSignedPush;
   public InheritedBooleanInfo rejectImplicitMerges;
   public InheritedBooleanInfo enableReviewerByEmail;
+  public InheritedBooleanInfo matchAuthorToCommitterDate;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

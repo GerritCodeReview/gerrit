@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66067ed1_8604cb90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "It\u0027s the actual number, as the comment tries to point out.\n\nAside, the context preference is not an enum, in fact. You may choose an arbitrary number in the GWT UI, which can confuse the selects in PG prefs.",
+      "parentUuid": "13373b2a_9a240041",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 19
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e826654f_70a7f658",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-14T23:45:48Z",
       "side": 1,
       "message": "Optional: I don\u0027t know if we want to always duplicate prefs. If not, we could do this function this way:\n\n    _getBypassPrefs() {\n      if (this._safetyBypass \u003d\u003d\u003d null) {\n        return Object.assign(\n            {}, this.prefs, {context: this._safetyBypass});\n      }\n      return this.prefs;\n    },",
+      "range": {
+        "startLine": 481,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 6
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6fad6cd_a88fceae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "Nice. Done.",
+      "parentUuid": "e826654f_70a7f658",
       "range": {
         "startLine": 481,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "24542704_f81a38ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964b70a8_3c83a072",
+      "range": {
+        "startLine": 641,
+        "startChar": 7,
+        "endLine": 641,
+        "endChar": 35
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24ed32a7_c726cd37",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43420cea_84e09da7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "Done 😕",
+      "parentUuid": "24ed32a7_c726cd37",
+      "range": {
+        "startLine": 643,
+        "startChar": 15,
+        "endLine": 643,
+        "endChar": 21
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "cb1be2a6_683257f4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "That\u0027d work unless somebody sets...\n\n Object.prototype.ab \u003d {length: 123456789};\n\n... which shouldn\u0027t happen, but I like the safety and specificity of `hasOwnProperty`.",
+      "parentUuid": "0c0047bc_9bc6f2a6",
+      "range": {
+        "startLine": 648,
+        "startChar": 12,
+        "endLine": 648,
+        "endChar": 36
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "853a726d_40b23208",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 4
@@ -137,6 +257,30 @@
       "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa8c890_ddba4b44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T00:01:01Z",
+      "side": 1,
+      "message": "Since they return promises, the effect is the same as appending...\n\n .then(done);\n\nhttp://mochajs.org/#working-with-promises",
+      "parentUuid": "853a726d_40b23208",
+      "range": {
+        "startLine": 1014,
+        "startChar": 6,
+        "endLine": 1040,
+        "endChar": 9
+      },
+      "revId": "239c68e0b2503f5625bf91d9c5bd76405322a07c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

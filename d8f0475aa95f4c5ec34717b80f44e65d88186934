@@ -74,6 +74,29 @@
     },
     {
       "key": {
+        "uuid": "a4e12aa0_9bd50441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-15T23:10:36Z",
+      "side": 1,
+      "message": "Pretty sure I\u0027ve made an attempt to fix this before, probably as part of a findbugs series, but I can\u0027t find it any more.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790bd5cf_f402ae59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

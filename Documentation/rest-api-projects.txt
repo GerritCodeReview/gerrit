@@ -2472,6 +2472,9 @@ MaxObjectSizeLimitInfo] entity.
 The default submit type of the project, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
+|`match_author_to_committer_date` |optional|
+link:#inherited-boolean-info[InheritedBooleanInfo] that indicates whether
+a change's author date will be changed to match its submitter date upon submit.
 |`state`                     |optional|
 The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
 Not set if the project state is `ACTIVE`.

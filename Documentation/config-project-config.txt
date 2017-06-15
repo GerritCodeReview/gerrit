@@ -212,6 +212,10 @@ are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
 
+- 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
+submitter date upon submit, so that git log shows when the change was submitted instead of when the
+author last committed. Valid values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'.
+
 Merge strategy
 
 

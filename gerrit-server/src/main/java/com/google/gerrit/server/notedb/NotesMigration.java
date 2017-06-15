@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import java.util.Objects;
 
 /**
  * Current low-level settings of the NoteDb migration for changes.
@@ -116,7 +117,7 @@ public abstract class NotesMigration {
     return false;
   }
 
-  public boolean commitChangeWrites() {
+  public final boolean commitChangeWrites() {
     // It may seem odd that readChanges() without writeChanges() means we should
     // attempt to commit writes. However, this method is used by callers to know
     // whether or not they should short-circuit and skip attempting to read or
@@ -130,11 +131,38 @@ public abstract class NotesMigration {
     return rawWriteChangesSetting() || readChanges();
   }
 
-  public boolean failChangeWrites() {
+  public final boolean failChangeWrites() {
     return !rawWriteChangesSetting() && readChanges();
   }
 
-  public boolean enabled() {
+  public final boolean enabled() {
     return rawWriteChangesSetting() || readChanges();
+  }
+
+  @Override
+  public final boolean equals(Object o) {
+    if (!(o instanceof NotesMigration)) {
+      return false;
+    }
+    NotesMigration m = (NotesMigration) o;
+    return readChanges() == m.readChanges()
+        && rawWriteChangesSetting() == m.rawWriteChangesSetting()
+        && readChangeSequence() == m.readChangeSequence()
+        && changePrimaryStorage() == m.changePrimaryStorage()
+        && disableChangeReviewDb() == m.disableChangeReviewDb()
+        && fuseUpdates() == m.fuseUpdates()
+        && failOnLoad() == m.failOnLoad();
+  }
+
+  @Override
+  public final int hashCode() {
+    return Objects.hash(
+        readChanges(),
+        rawWriteChangesSetting(),
+        readChangeSequence(),
+        changePrimaryStorage(),
+        disableChangeReviewDb(),
+        fuseUpdates(),
+        failOnLoad());
   }
 }

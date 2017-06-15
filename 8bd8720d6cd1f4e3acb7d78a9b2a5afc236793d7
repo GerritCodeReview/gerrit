@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "ab114d67_ff6feb4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T04:59:27Z",
+      "side": 1,
+      "message": "That would be great.",
+      "parentUuid": "c104deb6_e151b5b4",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72c8eaa7_b903bcd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "I\u0027ve been working on updating the WIP proposal (and giving it a permanent home) in https://gerrit-review.googlesource.com/c/106892/.  I need to make another pass of updating it, for instance I decided not to add REVIEW_STARTED_CHANGES as a watch type and instead customize the existing ones. I\u0027ll also update the proposal to thoroughly reflect the changes to integration tests I\u0027ve made in every commit that follows this one, as those are the new source of truth for notification behavior.",
       "parentUuid": "0b498851_23e06d49",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "8bd8720d6cd1f4e3acb7d78a9b2a5afc236793d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9569b4c_0d6266e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T04:59:27Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "4cd82ba5_2534f785",
       "range": {
         "startLine": 22,
         "startChar": 42,

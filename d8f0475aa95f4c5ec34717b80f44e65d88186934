@@ -82,6 +82,24 @@
       "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a9a0ca_19e4f39a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T19:19:33Z",
+      "side": 1,
+      "message": ";-) Compared to what recent changes in gerrit core broke in plugin areas, related to NoteDb migration (including impact on authentication schemes caused by removal of digest-authentication), permission backend, changes in build tool chain, etc, ..., the breakage caused by removal of IdString.equals(String) support would be a most innocent one.",
+      "parentUuid": "55c77231_e0f8e93f",
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

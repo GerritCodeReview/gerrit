@@ -110,6 +110,30 @@
       "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee868c9a_34d69033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-15T22:04:26Z",
+      "side": 1,
+      "message": "I think check is the correct method here. Its clear the caller is trying to manipulate a user branch, which requires ACCESS_DATABASE permission.",
+      "parentUuid": "a3d69064_0c8766f8",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "a4af000f5fd64afd06403d3ecc4201d7134872fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

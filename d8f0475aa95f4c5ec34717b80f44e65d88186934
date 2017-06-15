@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "cb5f177f_1a0b9425",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T19:30:43Z",
+      "side": 1,
+      "message": "Good point. This would make Eclipse and error prone immediately happy. We could then announce the removal of support for it in say Gerrit 3.0.",
+      "parentUuid": "8ce0f7ce_f836d965",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790bd5cf_f402ae59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

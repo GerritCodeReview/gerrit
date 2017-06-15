@@ -22,6 +22,30 @@
       "revId": "acde7ad7557eb89193956f35ee617bc3f013156e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772f808a_4b0acd7e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T23:01:02Z",
+      "side": 1,
+      "message": "This hasn\u0027t been marked as done, but I\u0027ll assume the change is ready.",
+      "parentUuid": "33b762da_dcd94988",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "acde7ad7557eb89193956f35ee617bc3f013156e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

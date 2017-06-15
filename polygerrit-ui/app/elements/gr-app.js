@@ -53,6 +53,7 @@
       _showPluginListView: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
+      _showGroupListView: Boolean,
       _viewState: Object,
       _lastError: Object,
       _lastSearchPage: String,

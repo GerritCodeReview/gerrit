@@ -100,6 +100,24 @@
       "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "698e3b6a_e9fb5d7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-15T19:22:48Z",
+      "side": 1,
+      "message": "Actually my concern is that the while breakage might be minor, it would also be extremely subtle and difficult to spot. Compilation errors may be annoying, but they\u0027re at least obvious.",
+      "parentUuid": "63a9a0ca_19e4f39a",
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

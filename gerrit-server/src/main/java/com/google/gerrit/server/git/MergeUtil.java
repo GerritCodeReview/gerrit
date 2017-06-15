@@ -259,7 +259,7 @@ public class MergeUtil {
       RevCommit mergeTip,
       RevCommit originalCommit,
       String mergeStrategy,
-      PersonIdent committerIndent,
+      PersonIdent committerIdent,
       String commitMsg,
       RevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException {
@@ -277,8 +277,8 @@ public class MergeUtil {
       CommitBuilder mergeCommit = new CommitBuilder();
       mergeCommit.setTreeId(tree);
       mergeCommit.setParentIds(mergeTip, originalCommit);
-      mergeCommit.setAuthor(committerIndent);
-      mergeCommit.setCommitter(committerIndent);
+      mergeCommit.setAuthor(committerIdent);
+      mergeCommit.setCommitter(committerIdent);
       mergeCommit.setMessage(commitMsg);
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
@@ -664,7 +664,11 @@ public class MergeUtil {
     final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(treeId);
     mergeCommit.setParentIds(mergeTip, n);
-    mergeCommit.setAuthor(author);
+    if (project.isMatchAuthorToCommitterDate()) {
+      mergeCommit.setAuthor(new PersonIdent(author, committer.getWhen(), committer.getTimeZone()));
+    } else {
+      mergeCommit.setAuthor(author);
+    }
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
 

@@ -91,12 +91,12 @@
     },
 
     _computeAdminSideLinks(computedAdminTopLinks, nestedLinks) {
-      return computedAdminTopLinks.map((item) => {
-        let section = {
-          'name': item.name,
-          links: [{name: 'List', 'url': item.url}],
+      return computedAdminTopLinks.map(item => {
+        const section = {
+          name: item.name,
+          links: [{name: 'List', url: item.url}],
         };
-        let newLinks = nestedLinks.filter((group) => {
+        const newLinks = nestedLinks.filter(group => {
           return group.section === section.name;
         });
         section.links = section.links.concat(newLinks);

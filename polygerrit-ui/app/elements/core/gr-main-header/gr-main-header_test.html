@@ -77,30 +77,6 @@ limitations under the License.
       ]);
     });
 
-    test('_loadAccountCapabilities admin', done => {
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        });
-      });
-      element._loadAccountCapabilities().then(() => {
-        assert.equal(element._adminLinks.length, 5);
-        done();
-      });
-    });
-
-    test('_loadAccountCapabilities non admin', done => {
-      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
-        return Promise.resolve({});
-      });
-      element._loadAccountCapabilities().then(() => {
-        assert.equal(element._adminLinks.length, 2);
-        done();
-      });
-    });
-
     test('user links', () => {
       const defaultLinks = [{
         title: 'Faves',
@@ -114,20 +90,18 @@ limitations under the License.
         url: 'https://facebook.com',
       }];
       const adminLinks = [{
-        url: '/admin/groups',
-        name: 'Groups',
+        url: '/admin/projects',
+        name: 'Projects',
       }];
       const defaultAdminLink = {
         title: 'More',
         links: [{
           url: '/admin/projects',
           name: 'Projects',
-          viewableToAll: true,
         }],
       };
 
-      // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(defaultLinks, [], []),
+      assert.deepEqual(element._computeLinks(defaultLinks, [], adminLinks),
           defaultLinks.concat(defaultAdminLink));
       assert.deepEqual(
           element._computeLinks(defaultLinks, userLinks, adminLinks),

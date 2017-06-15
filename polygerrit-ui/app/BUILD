@@ -135,7 +135,7 @@ filegroup(
         [
             "bower_components/**/*.html",
             "bower_components/**/*.js",
-        ]
+        ],
     ),
 )
 
@@ -174,8 +174,8 @@ sh_test(
     size = "large",
     srcs = ["lint_test.sh"],
     data = [
-        ":pg_code",
         ".eslintrc.json",
+        ":pg_code",
     ],
     # Should not run sandboxed.
     tags = [

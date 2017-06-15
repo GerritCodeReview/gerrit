@@ -15,6 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Possible high-level states of the NoteDb migration for changes.
@@ -31,7 +33,7 @@ public enum NotesMigrationState {
 
   WRITE(false, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
-  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.NOTE_DB, false, false),
+  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
   READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY(
       true, true, true, PrimaryStorage.REVIEW_DB, false, false),
@@ -41,6 +43,10 @@ public enum NotesMigrationState {
   NOTE_DB_UNFUSED(true, true, true, PrimaryStorage.NOTE_DB, true, false),
 
   NOTE_DB(true, true, true, PrimaryStorage.NOTE_DB, true, true);
+
+  public static Optional<NotesMigrationState> forNotesMigration(NotesMigration migration) {
+    return Stream.of(values()).filter(s -> s.migration().equals(migration)).findFirst();
+  }
 
   private final NotesMigration migration;
 
@@ -88,5 +94,9 @@ public enum NotesMigrationState {
 
   public NotesMigration migration() {
     return migration;
+  }
+
+  public String toText() {
+    return ConfigNotesMigration.toText(migration);
   }
 }

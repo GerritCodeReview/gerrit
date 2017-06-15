@@ -73,6 +73,12 @@ public class ConfigNotesMigration extends NotesMigration {
     cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, migration.fuseUpdates());
   }
 
+  public static String toText(NotesMigration migration) {
+    Config cfg = new Config();
+    setConfigValues(cfg, migration);
+    return cfg.toText();
+  }
+
   private final boolean writeChanges;
   private final boolean readChanges;
   private final boolean readChangeSequence;

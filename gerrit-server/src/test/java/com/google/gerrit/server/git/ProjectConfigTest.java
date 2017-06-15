@@ -27,8 +27,12 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -44,6 +48,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
@@ -73,6 +78,11 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   private Repository db;
   private TestRepository<Repository> util;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
 
   @Override
   @Before
@@ -323,6 +333,147 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                 + "\tsubmit = group Staff\n" //
                 + "  upload = group Developers\n" //
                 + "  read = group Developers\n");
+  }
+
+  @Test
+  public void readExistingPluginConfig() throws Exception {
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[plugin \"somePlugin\"]\n" //
+                            + "  key1 = value1\n" //
+                            + "  key2 = value2a\n"
+                            + "  key2 = value2b\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    assertThat(pluginCfg.getNames().size()).isEqualTo(2);
+    assertThat(pluginCfg.getString("key1")).isEqualTo("value1");
+    assertThat(pluginCfg.getStringList(("key2"))).isEqualTo(new String[] {"value2a", "value2b"});
+  }
+
+  @Test
+  public void readUnexistingPluginConfig() throws Exception {
+    ProjectConfig cfg = new ProjectConfig(new Project.NameKey("test"));
+    cfg.load(db);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    assertThat(pluginCfg.getNames()).isEmpty();
+  }
+
+  @Test
+  public void editPluginConfig() throws Exception {
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[plugin \"somePlugin\"]\n" //
+                            + "  key1 = value1\n" //
+                            + "  key2 = value2a\n" //
+                            + "  key2 = value2b\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    pluginCfg.setString("key1", "updatedValue1");
+    pluginCfg.setStringList("key2", Arrays.asList("updatedValue2a", "updatedValue2b"));
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "" //
+                + "[plugin \"somePlugin\"]\n" //
+                + "\tkey1 = updatedValue1\n" //
+                + "\tkey2 = updatedValue2a\n" //
+                + "\tkey2 = updatedValue2b\n");
+  }
+
+  @Test
+  public void readPluginConfigGroupReference() throws Exception {
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[plugin \"somePlugin\"]\n" //
+                            + "key1 = "
+                            + developers.toString()
+                            + "\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    assertThat(pluginCfg.getNames().size()).isEqualTo(1);
+    assertThat(GroupReference.fromString(pluginCfg.getString("key1"))).isEqualTo(developers);
+  }
+
+  @Test
+  public void readPluginConfigGroupReferenceNotInGroupsFile() throws Exception {
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[plugin \"somePlugin\"]\n" //
+                            + "key1 = "
+                            + staff.toString()
+                            + "\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: group \"" + staff.getName() + "\" not in " + GroupList.FILE_NAME);
+  }
+
+  @Test
+  public void editPluginConfigGroupReference() throws Exception {
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[plugin \"somePlugin\"]\n" //
+                            + "key1 = "
+                            + developers.toString()
+                            + "\n")) //
+                ));
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    assertThat(pluginCfg.getNames().size()).isEqualTo(1);
+    assertThat(GroupReference.fromString(pluginCfg.getString("key1"))).isEqualTo(developers);
+
+    pluginCfg.setString("key1", staff.toString());
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "" //
+                + "[plugin \"somePlugin\"]\n" //
+                + "\tkey1 = "
+                + staff.toString()
+                + "\n");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

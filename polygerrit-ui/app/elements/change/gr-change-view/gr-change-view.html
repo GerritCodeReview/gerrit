@@ -329,7 +329,7 @@ limitations under the License.
               <gr-commit-info
                   change="[[_change]]"
                   commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                  server-config="[[serverConfig]]"></gr-commit-info><!--
+                  server-config="[[_serverConfig]]"></gr-commit-info><!--
          --></template><!--
          -->)<!--
        --></template><!--
@@ -343,7 +343,7 @@ limitations under the License.
           <gr-change-metadata
               change="{{_change}}"
               commit-info="[[_commitInfo]]"
-              server-config="[[serverConfig]]"
+              server-config="[[_serverConfig]]"
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
@@ -467,7 +467,7 @@ limitations under the License.
             /
             <gr-commit-info
                 change="[[_change]]"
-                server-config="[[serverConfig]]"
+                server-config="[[_serverConfig]]"
                 commit-info="[[_commitInfo]]"></gr-commit-info>
             <span class="latestPatchContainer">
               /
@@ -526,7 +526,7 @@ limitations under the License.
           id="downloadDialog"
           change="[[_change]]"
           patch-num="[[_patchRange.patchNum]]"
-          config="[[serverConfig.download]]"
+          config="[[_serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
@@ -540,7 +540,7 @@ limitations under the License.
           patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"
-          server-config="[[serverConfig]]"
+          server-config="[[_serverConfig]]"
           project-config="[[_projectConfig]]"
           can-be-started="[[_canStartReview]]"
           on-send="_handleReplySent"

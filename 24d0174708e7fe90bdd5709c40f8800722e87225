@@ -560,6 +560,54 @@
     },
     {
       "key": {
+        "uuid": "43a9b3d0_e3cc867d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T22:35:06Z",
+      "side": 1,
+      "message": "Oh, sorry, I misunderstood. Also, it\u0027s hard to follow a comment that changed location over multiple patchsets.\nDone.",
+      "parentUuid": "67c7758d_267e9dcf",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a142d2_a0da7d13",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T22:35:06Z",
+      "side": 1,
+      "message": "Not quite.\nHere\u0027s the code in question (~#181)\n\n            .reduce(({min, max}, s) \u003d\u003e\n                    ({min: (s \u003c min ? s : min), max: (s \u003e max ? s : max)}),\n                    {min: 0, max: 0});\n\nIt takes plan array of values as an input.\nStarting with {min:0, max:0}, the array is reduced to essentially a tuple of minimal and maximal scores.\n\nThen those min-max values are added to find the delta.\nIf delta\u0027s positive, the message score is positive, and other way around. Obviously, if delta is 0, the message score is neutral.\n\nExamples:\n+1, -1 \u003d\u003e neutral\n+1, +1, -1 \u003d\u003e neutral\n+1, +1, +1, -2 \u003d\u003e negative\n\nHope this helps. Please let me know if there are further questions.",
+      "parentUuid": "502b79af_bfd4ffd4",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8167579f_71a4449d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5

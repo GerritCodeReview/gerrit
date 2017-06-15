@@ -148,6 +148,7 @@ public class ProjectApi {
       InheritableBoolean requireSignedPush,
       InheritableBoolean rejectImplicitMerges,
       InheritableBoolean enableReviewerByEmail,
+      InheritableBoolean matchAuthorToCommitterDate,
       String maxObjectSizeLimit,
       SubmitType submitType,
       ProjectState state,
@@ -172,6 +173,7 @@ public class ProjectApi {
     in.setState(state);
     in.setPluginConfigValues(pluginConfigValues);
     in.setEnableReviewerByEmail(enableReviewerByEmail);
+    in.setMatchAuthorToCommitterDate(matchAuthorToCommitterDate);
 
     project(name).view("config").put(in, cb);
   }
@@ -299,6 +301,13 @@ public class ProjectApi {
     final void setEnableReviewerByEmail(InheritableBoolean v) {
       setEnableReviewerByEmailRaw(v.name());
     }
+
+    final void setMatchAuthorToCommitterDate(InheritableBoolean v) {
+      setMatchAuthorToCommitterDateRaw(v.name());
+    }
+
+    private native void setMatchAuthorToCommitterDateRaw(String v)
+        /*-{ if(v)this.match_author_to_committer_date=v; }-*/ ;
 
     private native void setEnableReviewerByEmailRaw(String v)
         /*-{ if(v)this.enable_reviewer_by_email=v; }-*/ ;

@@ -101,6 +101,8 @@ public final class Project {
 
   protected InheritableBoolean enableReviewerByEmail;
 
+  protected InheritableBoolean matchAuthorToCommitterDate;
+
   protected Project() {}
 
   public Project(Project.NameKey nameKey) {
@@ -115,6 +117,7 @@ public final class Project {
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
     enableReviewerByEmail = InheritableBoolean.INHERIT;
+    matchAuthorToCommitterDate = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -163,6 +166,14 @@ public final class Project {
 
   public void setEnableReviewerByEmail(InheritableBoolean enable) {
     enableReviewerByEmail = enable;
+  }
+
+  public InheritableBoolean getMatchAuthorToCommitterDate() {
+    return matchAuthorToCommitterDate;
+  }
+
+  public void setMatchAuthorToCommitterDate(InheritableBoolean match) {
+    matchAuthorToCommitterDate = match;
   }
 
   public void setUseContributorAgreements(InheritableBoolean u) {

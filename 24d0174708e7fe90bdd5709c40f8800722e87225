@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ae2a4020_d6f003bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-15T15:41:06Z",
+      "side": 1,
+      "message": "In Rietveld, only the top of the message is colored. So un-expanded messages are \"wholly\" colored, but when you expand them, the colored section remains the same size (i.e. just the top bit containing the profile pic, commenter name, and date).",
+      "parentUuid": "8ea59495_c1ca62b1",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5

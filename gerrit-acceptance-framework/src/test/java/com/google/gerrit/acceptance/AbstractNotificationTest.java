@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertAbout;
-import static com.google.gerrit.extensions.api.changes.RecipientType.*;
+import static com.google.gerrit.extensions.api.changes.RecipientType.BCC;
+import static com.google.gerrit.extensions.api.changes.RecipientType.CC;
+import static com.google.gerrit.extensions.api.changes.RecipientType.TO;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

@@ -133,7 +133,6 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class PostReview
     extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
-  private static final Logger log = LoggerFactory.getLogger(PostReview.class);
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 

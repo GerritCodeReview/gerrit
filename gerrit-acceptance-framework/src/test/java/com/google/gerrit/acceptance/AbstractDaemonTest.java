@@ -1237,7 +1237,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void watch(String project, ProjectWatchInfoConfiguration config)
-      throws OrmException, RestApiException {
+      throws RestApiException {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = project;
     config.configure(pwi);

@@ -170,25 +170,23 @@ limitations under the License.
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <gr-fixed-panel id="footer">
-      <footer r="contentinfo">
-        <div>
-          Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
-          target="_blank">Gerrit Code Review</a>
-          ([[_version]])
-        </div>
-        <div>
-          <a class="feedback"
-              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
-              rel="noopener" target="_blank">Send feedback</a>
-          <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
-            |
-            <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
-          </template>
-          | Press &ldquo;?&rdquo; for keyboard shortcuts
-        </div>
-      </footer>
-    </gr-fixed-panel>
+    <footer r="contentinfo">
+      <div>
+        Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
+        target="_blank">Gerrit Code Review</a>
+        ([[_version]])
+      </div>
+      <div>
+        <a class="feedback"
+            href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
+            rel="noopener" target="_blank">Send feedback</a>
+        <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
+          |
+          <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
+        </template>
+        | Press &ldquo;?&rdquo; for keyboard shortcuts
+      </div>
+    </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>
       <gr-keyboard-shortcuts-dialog
           view="[[params.view]]"

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "b872190b_d9b55e65",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T16:28:06Z",
+      "side": 1,
+      "message": "Here\u0027s how Rietveld looks in this particular case: http://imgur.com/a/6ZUqh\n\nThis isn\u0027t straightforward because the text in message header (PatchSet N: Label+2) is just a part of message string.\n\nThe right way, of course, would be to generate a data structure instead - patchset number, label score changes, etc, just like reviewer updates.\n\nQuick and dirty way would be to highlight top portion, but this has some artifacts:\nhttp://imgur.com/a/0X3zv\n\nLess quick and dirty way would be to parse message on client side to split message title and render it separately, then migrate to server-side.\n\nI\u0027m not sure what to chose here.",
+      "parentUuid": "ae2a4020_d6f003bf",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf01a1a_37413080",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -144,6 +168,24 @@
       "side": 1,
       "message": "Do we definitely need to ignore these labels?\n\nI understand that this is a \"quick and dirty fix\" but it feels wrong to hard-code Chromium-specific label names in upstream Gerrit.",
       "parentUuid": "18b057dc_f91b4ec6",
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd06597d_99fc3932",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T16:28:06Z",
+      "side": 1,
+      "message": "I agree this isn\u0027t ideal, but can\u0027t think of a better way.\nI\u0027m open to alternatives.\n\nAnother idea was to whitelist labels instead. This would be a bit cleaner, but custom non-CI labels (eg Library-Compliance, PolyGerrit-Review) would not be highlighted.\n\nA better way would be to use a plugin, either for UI, or for server-side config.",
+      "parentUuid": "8a895717_f1a3800d",
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -374,6 +416,54 @@
     },
     {
       "key": {
+        "uuid": "e18a8b9f_a03f1529",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T16:28:06Z",
+      "side": 1,
+      "message": "Because it\u0027s a map over label with score strings array, produced by split(\u0027 \u0027) at line 173.",
+      "parentUuid": "7890db96_f0d979e2",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "038306ce_501c0e10",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T16:28:06Z",
+      "side": 1,
+      "message": "(.+) was removed in the latest patchset 7.",
+      "parentUuid": "8efa03ae_8ff3a6ec",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 35
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8167579f_71a4449d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5
@@ -465,6 +555,30 @@
       "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "352ba327_5502cab6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T16:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27355755_fe8facf0",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 81
+      },
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

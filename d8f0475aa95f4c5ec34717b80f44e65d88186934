@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497541223 -0400\nnonce AH5c86BAqPeuO/6qVzy2pxg/K6nLPt3meQzcyYHanSoubBEdSsbHUhHQwvplCW+lYkUYUbLh+rKm\n\n0000000000000000000000000000000000000000 d8f0475aa95f4c5ec34717b80f44e65d88186934 refs/for/master%r\u003ddavid.ostrovsky@gmail.com,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZQqpnAAoJEF/XxZqaEoiMEicP/2o/dfSMJLsO5RvzMWFtoHoF\nesfbC0NEmRDrSleAT9sn/J7XF84Y05rdUQgeez2nlvmWwIUdxKNe+/cdnrxpLs0y\n+TVpSGcC4haKGATxfNnL3Qc+ayJG5L1uirgQb7wqtJZW83/YZWv4mFvJUdrOLaIp\n69Ct6XWywqow3WiBny3mLGyniprHd3ogyYPYN9hhzF7rOlILrpYrgi3EL/u5saBW\nfKoAvO3/o6JMnifcf7lXTVVe71jzkyVRF0WkTj0vxdOCa+plGN5iGe59ErQ7hM7o\n0x6zK+TWUSjXKgbuAcObohndtrqVTGco+gkUQvH3gQyywJzXEDzlsvqCSpl6B0wm\nML87pdh9Pd5fOckxAUXYlQpibVjN7MZTVCPxuQExfih116y8ICBB3e0x74hS/nra\nCNKeGMDsOK4NhU1danOt303u3zjryVMZ3TPPLSrdrKIOCRfsqDVOrPQWJTHzIQgr\nPj+7GI7+eATXn03u18zxK9T3tUfuudsb3ohTnpu/HL00/fwkGDFq2ROE4kP886Pb\nguljkh3fV/R+Y1tqRr8FaY+frmRvG4D2KywJwKtY+qwXOAPpgSWyHHjJCl1emelf\nWiSTxrIx4/sNmAHwm5GgyC7D1/zmpXUVZTXlzIqRVuHZRizfuue4ZYGEdqDX+u6U\nLVYfRxiY+tM4Ty6nACjh\n\u003dC0Af\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbf50449_eb3e0f96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T19:08:58Z",
+      "side": 1,
+      "message": "Error prone is not happy here as well, and issues here warnings that are not suppressed by this diff, see issue 5823 I filed recently (in category StarterProject):\n\n  gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java:73:\\\n  warning: [EqualsIncompatibleType] Calling equals on incompatible types \\\n  com.google.gerrit.extensions.restapi.IdString and java.lang.String\n    if (id.equals(\"current\")) {\n                 ^\n    (see \n  http://errorprone.info/bugpattern/EqualsIncompatibleType)",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790bd5cf_f402ae59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-15T19:08:58Z",
+      "side": 1,
+      "message": "Midterm, I would certainly prefer this approach.",
+      "revId": "d8f0475aa95f4c5ec34717b80f44e65d88186934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

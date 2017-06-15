@@ -37,6 +37,9 @@
         value() { return document.body; },
       },
 
+      /** Additional version information that may be provided. */
+      versionInfo: String,
+
       _account: {
         type: Object,
         observer: '_accountChanged',
@@ -98,6 +101,7 @@
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
+        if (this.versionInfo) { this._version += ` - ${this.versionInfo}`; }
       });
 
       this.$.reporting.appStarted();

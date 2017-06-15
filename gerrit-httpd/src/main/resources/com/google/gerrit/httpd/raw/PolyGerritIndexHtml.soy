@@ -28,10 +28,9 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
-  {if $canonicalPath != '' or $versionInfo}
+  {if $canonicalPath != ''}
     <script>
-      {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
-      {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+      window.CANONICAL_PATH = '{$canonicalPath}';
     </script>{\n}
   {/if}
 
@@ -48,5 +47,5 @@
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 
   <body unresolved>{\n}
-  <gr-app id="app"></gr-app>{\n}
+  <gr-app id="app" version-info="{$versionInfo}"></gr-app>{\n}
 {/template}

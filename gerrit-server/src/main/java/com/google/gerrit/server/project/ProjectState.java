@@ -398,6 +398,10 @@ public class ProjectState {
     return getInheritableBoolean(Project::getEnableReviewerByEmail);
   }
 
+  public boolean isMatchAuthorToCommitterDate() {
+    return getInheritableBoolean(Project::getMatchAuthorToCommitterDate);
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {

@@ -77,6 +77,8 @@ public interface AdminConstants extends Constants {
 
   String enableReviewerByEmail();
 
+  String matchAuthorToCommitterDate();
+
   String headingMaxObjectSizeLimit();
 
   String headingGroupOptions();

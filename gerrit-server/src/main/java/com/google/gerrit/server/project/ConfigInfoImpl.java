@@ -59,6 +59,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
     InheritedBooleanInfo enableReviewerByEmail = new InheritedBooleanInfo();
+    InheritedBooleanInfo matchAuthorToCommitterDate = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -75,6 +76,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
     enableReviewerByEmail.configuredValue = p.getEnableReviewerByEmail();
+    matchAuthorToCommitterDate.configuredValue = p.getMatchAuthorToCommitterDate();
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
@@ -88,6 +90,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
       rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
       enableReviewerByEmail.inheritedValue = projectState.isEnableReviewerByEmail();
+      matchAuthorToCommitterDate.inheritedValue = projectState.isMatchAuthorToCommitterDate();
     }
 
     this.useContributorAgreements = useContributorAgreements;
@@ -97,6 +100,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.rejectImplicitMerges = rejectImplicitMerges;
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
     this.enableReviewerByEmail = enableReviewerByEmail;
+    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
     if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;
       this.requireSignedPush = requireSignedPush;

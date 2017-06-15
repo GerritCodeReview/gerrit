@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "50b780b2_d44043c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T19:26:26Z",
+      "side": 1,
+      "message": "I was hoping the tracking bug has enough of the context:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6484#c9\n\nContext added here.",
+      "parentUuid": "f9b53856_1b3c1680",
+      "revId": "5de2ed29ef4e08e2c2e1e7d0cd6f271a9599381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "619bdde4_1e7fa136",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 1

@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
@@ -38,9 +39,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -53,11 +57,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +75,7 @@ public class SiteRebuilder implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(SiteRebuilder.class);
 
   public static class Builder {
+    private final SitePaths sitePaths;
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final NoteDbUpdateManager.Factory updateManagerFactory;
     private final ChangeRebuilder rebuilder;
@@ -77,14 +86,18 @@ public class SiteRebuilder implements AutoCloseable {
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
     private ImmutableList<Change.Id> changes = ImmutableList.of();
     private OutputStream progressOut = NullOutputStream.INSTANCE;
+    private boolean trial;
+    private boolean forceRebuild;
 
     @Inject
     Builder(
+        SitePaths sitePaths,
         SchemaFactory<ReviewDb> schemaFactory,
         NoteDbUpdateManager.Factory updateManagerFactory,
         ChangeRebuilder rebuilder,
         ChangeBundleReader bundleReader,
         WorkQueue workQueue) {
+      this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
       this.updateManagerFactory = updateManagerFactory;
       this.rebuilder = rebuilder;
@@ -152,8 +165,40 @@ public class SiteRebuilder implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Rebuild in "trial mode": configure Gerrit to write to and read from NoteDb, but leave
+     * ReviewDb as the source of truth for all changes.
+     *
+     * <p>By default, trial mode is off, and NoteDb is the source of truth for all changes following
+     * the migration.
+     *
+     * @param trial whether to rebuild in trial mode.
+     * @return this.
+     */
+    public Builder setTrialMode(boolean trial) {
+      this.trial = trial;
+      return this;
+    }
+
+    /**
+     * Rebuild all changes in NoteDb from ReviewDb, even if Gerrit is currently configured to read
+     * from NoteDb.
+     *
+     * <p>Only supported if ReviewDb is still the source of truth for all changes.
+     *
+     * <p>By default, force rebuilding is off.
+     *
+     * @param forceRebuild whether to force rebuilding.
+     * @return this.
+     */
+    public Builder setForceRebuild(boolean forceRebuild) {
+      this.forceRebuild = forceRebuild;
+      return this;
+    }
+
     public SiteRebuilder build() {
       return new SiteRebuilder(
+          sitePaths,
           schemaFactory,
           updateManagerFactory,
           rebuilder,
@@ -163,10 +208,13 @@ public class SiteRebuilder implements AutoCloseable {
               : MoreExecutors.newDirectExecutorService(),
           projects,
           changes,
-          progressOut);
+          progressOut,
+          trial,
+          forceRebuild);
     }
   }
 
+  private final FileBasedConfig gerritConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeRebuilder rebuilder;
@@ -176,8 +224,11 @@ public class SiteRebuilder implements AutoCloseable {
   private final ImmutableList<Project.NameKey> projects;
   private final ImmutableList<Change.Id> changes;
   private final OutputStream progressOut;
+  private final boolean trial;
+  private final boolean forceRebuild;
 
   private SiteRebuilder(
+      SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeRebuilder rebuilder,
@@ -185,7 +236,9 @@ public class SiteRebuilder implements AutoCloseable {
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
-      OutputStream progressOut) {
+      OutputStream progressOut,
+      boolean trial,
+      boolean forceRebuild) {
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.rebuilder = rebuilder;
@@ -195,10 +248,14 @@ public class SiteRebuilder implements AutoCloseable {
     boolean hasProjects = !projects.isEmpty();
     checkArgument(!(hasChanges && hasProjects), "cannot set both changes and projects");
 
+    this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
     this.progressOut = progressOut;
+    this.trial = trial;
+    this.forceRebuild = forceRebuild;
   }
 
   @Override
@@ -206,7 +263,120 @@ public class SiteRebuilder implements AutoCloseable {
     executor.shutdownNow();
   }
 
-  public boolean rebuild() throws OrmException {
+  public void autoRebuild() throws OrmException, IOException {
+    checkState(
+        changes.isEmpty() && projects.isEmpty(),
+        "cannot set changes or projects during auto-migration; call rebuild() instead");
+    Optional<NotesMigrationState> maybeState = loadState();
+    if (!maybeState.isPresent()) {
+      throw new MigrationException("Could not determine initial migration state");
+    }
+
+    NotesMigrationState state = maybeState.get();
+    if (trial && state.compareTo(NotesMigrationState.READ_WRITE_NO_SEQUENCE) > 0) {
+      throw new MigrationException(
+          "Migration has already progressed past the endpoint of the \"trial mode\" state;"
+              + " NoteDb is already the primary storage for some changes");
+    }
+
+    boolean rebuilt = false;
+    while (state.compareTo(NotesMigrationState.NOTE_DB_UNFUSED) < 0) {
+      if (trial && state.compareTo(NotesMigrationState.READ_WRITE_NO_SEQUENCE) >= 0) {
+        return;
+      }
+      switch (state) {
+        case REVIEW_DB:
+          state = turnOnWrites(state);
+          break;
+        case WRITE:
+          state = rebuildAndEnableReads(state);
+          rebuilt = true;
+          break;
+        case READ_WRITE_NO_SEQUENCE:
+          if (forceRebuild && !rebuilt) {
+            state = rebuildAndEnableReads(state);
+            rebuilt = true;
+          }
+          state = enableSequences();
+          break;
+        case READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY:
+          if (forceRebuild && !rebuilt) {
+            state = rebuildAndEnableReads(state);
+            rebuilt = true;
+          }
+          state = setNoteDbPrimary();
+          break;
+        case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
+          state = disableReviewDb();
+          break;
+        case NOTE_DB_UNFUSED:
+          // Done!
+          break;
+        case NOTE_DB:
+          // TODO(dborowitz): Allow this state once FileRepository supports fused updates.
+          // Until then, fallthrough and throw.
+        default:
+          throw new MigrationException(
+              "Migration out of the following state is not supported:\n" + state.toText());
+      }
+    }
+  }
+
+  private NotesMigrationState turnOnWrites(NotesMigrationState prev) throws IOException {
+    return saveState(prev, NotesMigrationState.WRITE);
+  }
+
+  private NotesMigrationState rebuildAndEnableReads(NotesMigrationState prev)
+      throws OrmException, IOException {
+    rebuild();
+    return saveState(prev, NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+  }
+
+  private NotesMigrationState enableSequences() {
+    throw new UnsupportedOperationException("not yet implemented");
+  }
+
+  private NotesMigrationState setNoteDbPrimary() {
+    throw new UnsupportedOperationException("not yet implemented");
+  }
+
+  private NotesMigrationState disableReviewDb() {
+    throw new UnsupportedOperationException("not yet implemented");
+  }
+
+  private Optional<NotesMigrationState> loadState() throws IOException {
+    try {
+      gerritConfig.load();
+      return NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig));
+    } catch (ConfigInvalidException | IllegalArgumentException e) {
+      log.warn("error reading NoteDb migration options from " + gerritConfig.getFile(), e);
+      return Optional.empty();
+    }
+  }
+
+  private NotesMigrationState saveState(
+      NotesMigrationState expectedOldState, NotesMigrationState newState) throws IOException {
+    // This read-modify-write is racy. We're counting on the fact that no other Gerrit operation
+    // modifies gerrit.config, and hoping that admins don't either.
+    Optional<NotesMigrationState> actualOldState = loadState();
+    if (!actualOldState.equals(Optional.of(expectedOldState))) {
+      throw new MigrationException(
+          "Cannot move to new state:\n"
+              + newState.toText()
+              + "\n\n"
+              + "Expected this state in gerrit.config:\n"
+              + expectedOldState.toText()
+              + "\n\n"
+              + (actualOldState.isPresent()
+                  ? "But found this state:\n" + actualOldState.get().toText()
+                  : "But could not parse the current state"));
+    }
+    ConfigNotesMigration.setConfigValues(gerritConfig, newState.migration());
+    gerritConfig.save();
+    return newState;
+  }
+
+  public void rebuild() throws MigrationException, OrmException {
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");
@@ -241,7 +411,9 @@ public class SiteRebuilder implements AutoCloseable {
         String.format(
             "Rebuilt %d changes in %.01fs (%.01f/s)\n",
             changesByProject.size(), t, changesByProject.size() / t));
-    return ok;
+    if (!ok) {
+      throw new MigrationException("Rebuilding some changes failed, see log");
+    }
   }
 
   private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()

@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.rebuild.SiteRebuilder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -56,8 +55,6 @@ public class RebuildNoteDb extends SiteProgram {
 
   @Inject private Provider<SiteRebuilder.Builder> rebuilderBuilderProvider;
 
-  @Inject private NotesMigration notesMigration;
-
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
@@ -70,9 +67,6 @@ public class RebuildNoteDb extends SiteProgram {
 
     sysInjector = createSysInjector();
     sysInjector.injectMembers(this);
-    if (!notesMigration.enabled()) {
-      throw die("NoteDb is not enabled.");
-    }
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
@@ -82,11 +76,18 @@ public class RebuildNoteDb extends SiteProgram {
             .get()
             .setThreads(threads)
             .setProgressOut(System.err)
+            .setTrialMode(true)
+            .setForceRebuild(true)
             .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
             .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
             .build()) {
-      return rebuilder.rebuild() ? 0 : 1;
+      if (!projects.isEmpty() || !changes.isEmpty()) {
+        rebuilder.rebuild();
+      } else {
+        rebuilder.autoRebuild();
+      }
     }
+    return 0;
   }
 
   private Injector createSysInjector() {

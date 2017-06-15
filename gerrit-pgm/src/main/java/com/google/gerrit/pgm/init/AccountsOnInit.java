@@ -56,7 +56,8 @@ public class AccountsOnInit {
       try (Repository repo = new FileRepository(path);
           ObjectInserter oi = repo.newObjectInserter()) {
         PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
-        AccountsUpdate.createUserBranch(repo, oi, serverIdent, serverIdent, account);
+        AccountsUpdate.createUserBranch(
+            repo, oi, serverIdent, serverIdent, account.getId(), account.getRegisteredOn());
       }
     }
   }

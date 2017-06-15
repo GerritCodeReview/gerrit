@@ -27,7 +27,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -54,8 +57,7 @@ public class Schema_147 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      Set<Account.Id> accountIdsFromReviewDb =
-          db.accounts().all().toList().stream().map(a -> a.getId()).collect(toSet());
+      Set<Account.Id> accountIdsFromReviewDb = scanAccounts(db);
       Set<Account.Id> accountIdsFromUserBranches =
           repo.getRefDatabase()
               .getRefs(RefNames.REFS_USERS)
@@ -70,6 +72,17 @@ public class Schema_147 extends SchemaVersion {
       }
     } catch (IOException e) {
       throw new OrmException("Failed to delete user branches for non-existing accounts.", e);
+    }
+  }
+
+  private Set<Account.Id> scanAccounts(ReviewDb db) throws SQLException {
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery("SELECT account_id FROM accounts")) {
+      Set<Account.Id> ids = new HashSet<>();
+      while (rs.next()) {
+        ids.add(new Account.Id(rs.getInt(1)));
+      }
+      return ids;
     }
   }
 }

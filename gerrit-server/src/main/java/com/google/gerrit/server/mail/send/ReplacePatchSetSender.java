@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -62,8 +63,10 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       //
       reviewers.remove(fromId);
     }
-    add(RecipientType.TO, reviewers);
-    add(RecipientType.CC, extraCC);
+    if (notify == NotifyHandling.ALL || notify == NotifyHandling.OWNER_REVIEWERS) {
+      add(RecipientType.TO, reviewers);
+      add(RecipientType.CC, extraCC);
+    }
     rcptToAuthors(RecipientType.CC);
     bccStarredBy();
     includeWatchers(

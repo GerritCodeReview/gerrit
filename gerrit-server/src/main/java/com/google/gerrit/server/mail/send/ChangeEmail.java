@@ -189,7 +189,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         addByEmail(
             RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));
         addByEmail(
-            RecipientType.TO,
+            RecipientType.CC,
             changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
       } catch (OrmException e) {
         throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);

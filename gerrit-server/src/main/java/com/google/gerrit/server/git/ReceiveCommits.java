@@ -60,6 +60,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -1273,7 +1274,7 @@ public class ReceiveCommits {
               + "should be sent. Allowed values are NONE, OWNER, "
               + "OWNER_REVIEWERS, ALL. If not set, the default is ALL."
     )
-    NotifyHandling notify = NotifyHandling.ALL;
+    private NotifyHandling notify;
 
     @Option(name = "--notify-to", metaVar = "USER", usage = "user that should be notified")
     List<Account.Id> tos = new ArrayList<>();
@@ -1358,8 +1359,12 @@ public class ReceiveCommits {
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
+      GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
       this.defaultPublishComments =
-          firstNonNull(user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false);
+          prefs != null
+              ? firstNonNull(
+                  user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false)
+              : false;
     }
 
     MailRecipients getMailRecipients() {
@@ -1429,6 +1434,26 @@ public class ReceiveCommits {
         topic = Strings.emptyToNull(ref.substring(split + 1));
       }
       return ref.substring(0, split);
+    }
+
+    public NotifyHandling getNotify() {
+      if (notify != null) {
+        return notify;
+      }
+      if (workInProgress) {
+        return NotifyHandling.OWNER;
+      }
+      return NotifyHandling.ALL;
+    }
+
+    public NotifyHandling getNotify(ChangeNotes notes) {
+      if (notify != null) {
+        return notify;
+      }
+      if (workInProgress || (!ready && notes.getChange().isWorkInProgress())) {
+        return NotifyHandling.OWNER;
+      }
+      return NotifyHandling.ALL;
     }
   }
 
@@ -2197,7 +2222,7 @@ public class ReceiveCommits {
                 .setExtraCC(recipients.getCcOnly())
                 .setApprovals(approvals)
                 .setMessage(msg.toString())
-                .setNotify(magicBranch.notify)
+                .setNotify(magicBranch.getNotify())
                 .setAccountsToNotify(magicBranch.getAccountsToNotify())
                 .setRequestScopePropagator(requestScopePropagator)
                 .setSendMail(true)

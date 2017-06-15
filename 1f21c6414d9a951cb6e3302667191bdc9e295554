@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "93e8bc44_53a961e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba4bd109_c1680440",
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1018f5f_3ef5b7f1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5
@@ -30,6 +48,47 @@
       "writtenOn": "2017-06-15T17:38:06Z",
       "side": 1,
       "message": "Looks redundant.",
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0319408a_7a1d9d26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "This marks it explicitly as `null` as opposed to `undefined`. Since, in the JSDoc it explains that `null` is used to indicate the state of no bypass having been chosen.",
+      "parentUuid": "a1018f5f_3ef5b7f1",
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4163e81c_075fec15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "Oops. This should have been `!\u003d\u003d`. Fixed.",
+      "range": {
+        "startLine": 482,
+        "startChar": 29,
+        "endLine": 482,
+        "endChar": 32
+      },
       "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "8363b70e_3c0dd080",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e46cfa7_27b6d1ce",
+      "range": {
+        "startLine": 642,
+        "startChar": 15,
+        "endLine": 642,
+        "endChar": 21
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2626aa_15d36791",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5
@@ -82,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "602ac2c7_e2f97dc0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2626aa_15d36791",
+      "range": {
+        "startLine": 659,
+        "startChar": 27,
+        "endLine": 659,
+        "endChar": 29
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee09bcb6_d136a596",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5
@@ -102,6 +209,30 @@
       "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a5b0c8_79b767f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-15T19:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee09bcb6_d136a596",
+      "range": {
+        "startLine": 664,
+        "startChar": 27,
+        "endLine": 664,
+        "endChar": 29
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

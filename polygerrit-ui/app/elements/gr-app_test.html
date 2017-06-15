@@ -31,6 +31,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="with-version-info">
+  <template>
+    <gr-app id="app" version-info="128.0"></gr-app>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-app tests', () => {
     let sandbox;
@@ -54,7 +60,7 @@ limitations under the License.
           });
         },
         getPreferences() { return Promise.resolve({my: []}); },
-        getVersion() { return Promise.resolve(42); },
+        getVersion() { return Promise.resolve('42'); },
         probePath() { return Promise.resolve(42); },
       });
 
@@ -104,6 +110,18 @@ limitations under the License.
       element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
         const pluginConfig = config.plugin;
         assert.deepEqual(element.$.plugins.config, pluginConfig);
+        done();
+      });
+    });
+
+    test('no version info', () => {
+      assert.equal(element._version, '42');
+    });
+
+    test('with version info', done => {
+      element = fixture('with-version-info');
+      flush(() => {
+        assert.equal(element._version, '42 - 128.0');
         done();
       });
     });

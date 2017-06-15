@@ -35,6 +35,24 @@
       "revId": "5509d27a429692956ea7e19f0d5435937eed6e00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e6c7945_55aab85e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-15T14:11:03Z",
+      "side": 1,
+      "message": "Let me hedge this statement a little more. If we had the Code-Style verification flow running earlier, it would have given CS-1 to the relevant changes. I don\u0027t think I would have removed the CS-1 votes in order to get the series submitted sooner.\n\nThat said, we are also at the mercy of the very slow CI system we have right now. Rebasing a whole series like this is not just about the developer time it takes to run \"git rebase -i\", it\u0027s also about waiting *hours* for CI to pick up the new patch sets--by which point there may quite likely be additional merge conflicts. This is the kind of thing that makes me say it\u0027s not worth it to fix.\n\nYes, our CI system could be improved, and in an ideal world it would be much faster. But like I said, since we don\u0027t live in that ideal world, I am making these decisions based on practical considerations about how to maintain velocity on the project.",
+      "parentUuid": "2b666a59_415f260d",
+      "revId": "5509d27a429692956ea7e19f0d5435937eed6e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

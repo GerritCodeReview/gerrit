@@ -313,8 +313,8 @@ limitations under the License.
         message: 'Uploaded patch set 2.',
       });
       instance = new GrReviewerUpdatesParser({
-        messages: _.times(500, makeRubbishMessage),
-        reviewer_updates: _.times(500, makeRubbishUpdate),
+        messages: _.times(200, makeRubbishMessage),
+        reviewer_updates: _.times(200, makeRubbishUpdate),
       });
       instance._advanceUpdates();
     }).timeout(1000);

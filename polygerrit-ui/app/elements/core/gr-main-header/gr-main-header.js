@@ -14,33 +14,6 @@
 (function() {
   'use strict';
 
-  const ADMIN_LINKS = [
-    {
-      url: '/admin/groups',
-      name: 'Groups',
-    },
-    {
-      url: '/admin/create-group',
-      name: 'Create Group',
-      capability: 'createGroup',
-    },
-    {
-      url: '/admin/projects',
-      name: 'Projects',
-      viewableToAll: true,
-    },
-    {
-      url: '/admin/create-project',
-      name: 'Create Project',
-      capability: 'createProject',
-    },
-    {
-      url: '/admin/plugins',
-      name: 'Plugins',
-      capability: 'viewPlugins',
-    },
-  ];
-
   const DEFAULT_LINKS = [{
     title: 'Changes',
     links: [
@@ -149,6 +122,7 @@
 
     reload() {
       this._loadAccount();
+      this.$.adminLinks.reload();
     },
 
     _handleLocationChange(e) {
@@ -178,9 +152,6 @@
           title: 'Your',
           links: userLinks,
         });
-      }
-      if (!adminLinks || !adminLinks.length) {
-        adminLinks = ADMIN_LINKS.filter(link => link.viewableToAll);
       }
       const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
@@ -249,18 +220,6 @@
         this._userLinks =
             prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
       });
-      this._loadAccountCapabilities();
-    },
-
-    _loadAccountCapabilities() {
-      const params = ['createProject', 'createGroup', 'viewPlugins'];
-      return this.$.restAPI.getAccountCapabilities(params)
-          .then(capabilities => {
-            this._adminLinks = ADMIN_LINKS.filter(link => {
-              return !link.capability ||
-              capabilities.hasOwnProperty(link.capability);
-            });
-          });
     },
 
     _fixMyMenuItem(linkObj) {

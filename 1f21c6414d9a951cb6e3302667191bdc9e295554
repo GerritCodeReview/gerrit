@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba4bd109_c1680440",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T17:38:06Z",
+      "side": 1,
+      "message": "Please include units into name, eg LARGE_DIFF_THRESHOLD_LINES",
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1018f5f_3ef5b7f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T17:38:06Z",
+      "side": 1,
+      "message": "Looks redundant.",
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e46cfa7_27b6d1ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T17:38:06Z",
+      "side": 1,
+      "message": "!Object",
+      "range": {
+        "startLine": 642,
+        "startChar": 15,
+        "endLine": 642,
+        "endChar": 21
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2626aa_15d36791",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T17:38:06Z",
+      "side": 1,
+      "message": "Make a const out of it, please.",
+      "range": {
+        "startLine": 659,
+        "startChar": 27,
+        "endLine": 659,
+        "endChar": 29
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee09bcb6_d136a596",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-15T17:38:06Z",
+      "side": 1,
+      "message": "Make a const out of it, please.",
+      "range": {
+        "startLine": 664,
+        "startChar": 27,
+        "endLine": 664,
+        "endChar": 29
+      },
+      "revId": "1f21c6414d9a951cb6e3302667191bdc9e295554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -150,7 +150,6 @@
         this.$.registration.open();
       }
       this.$.header.unfloat();
-      this.$.footer.unfloat();
     },
 
     _loginTapHandler(e) {

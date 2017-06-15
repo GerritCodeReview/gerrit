@@ -273,7 +273,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":testutil",
-    ]
+    ],
 )
 
 load("//tools/bzl:javadoc.bzl", "java_doc")

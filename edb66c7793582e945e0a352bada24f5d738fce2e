@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0578c512_156799cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-16T07:43:04Z",
+      "side": 1,
+      "message": "Please document the new project config option in config-project-config.txt",
+      "revId": "edb66c7793582e945e0a352bada24f5d738fce2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af5fc978_496f6c09",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-16T07:43:04Z",
+      "side": 1,
+      "message": "Please document the new JSON field in rest-api-projects.txt#config-info and rest-api-projects.txt#config-input",
+      "revId": "edb66c7793582e945e0a352bada24f5d738fce2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

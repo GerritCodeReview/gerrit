@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -66,6 +68,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
   private final ProjectState projectState;
   private final Repository git;
   private ProjectControl projectCtl;
@@ -80,6 +83,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       @Nullable SearchingChangeCacheImpl changeCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
       @Assisted ProjectState projectState,
       @Assisted Repository git) {
     this.tagCache = tagCache;
@@ -87,6 +91,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.changeCache = changeCache;
     this.db = db;
     this.user = user;
+    this.permissionBackend = permissionBackend;
     this.projectState = projectState;
     this.git = git;
   }
@@ -110,9 +115,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Account.Id userId;
     boolean viewMetadata;
     if (user.get().isIdentifiedUser()) {
+      viewMetadata = permissionBackend.user(user).testOrFalse(GlobalPermission.ACCESS_DATABASE);
       IdentifiedUser u = user.get().asIdentifiedUser();
       userId = u.getAccountId();
-      viewMetadata = u.getCapabilities().canAccessDatabase();
       userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
       userId = null;

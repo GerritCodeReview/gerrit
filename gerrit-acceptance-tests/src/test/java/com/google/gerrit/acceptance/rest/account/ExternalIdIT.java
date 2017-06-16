@@ -115,7 +115,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to get external IDs");
+    exception.expectMessage("access database not permitted");
     gApi.accounts().id(admin.id.get()).getExternalIds();
   }
 
@@ -170,7 +170,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to delete external IDs");
+    exception.expectMessage("access database not permitted");
     gApi.accounts()
         .id(admin.id.get())
         .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
@@ -428,7 +428,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void checkConsistencyNotAllowed() throws Exception {
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to run consistency checks");
+    exception.expectMessage("access database not permitted");
     gApi.config().server().checkConsistency(new ConsistencyCheckInput());
   }
 

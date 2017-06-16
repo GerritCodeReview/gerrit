@@ -70,6 +70,30 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4357ea4d_1109dd96",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-16T10:56:47Z",
+      "side": 1,
+      "message": "\u003e we have a plugin that does both: implements auth/group backends and modifies All-Projects (it does couple of things there for instance remove anonymous access to projects, etc...) so it fails during All-Projects project modification\n\nCan you also let us know what is causing the failure?\n\nI don\u0027t really intend to suggest any particular modifications to your plugin code but\nI guess that you had a good reason not to implement these All-Projects adaption as\nan init-step contributed by your plugin? After all, you want to run this adaption only\nonce, not every time when the plugin is started.\n\n\u003e (of course it all works nicely during close upgrade as everything is already modified and nothing needs to be changed ;)) and by that it fails to load which leads to inability to reload the plugin (user fails to authorise) which I would say doesn\u0027t look to good to me either ;)\n\nWould reloading by touching the plugin jar (at the server side) work?\nNot that I am suggesting this as solution, just to understand how persistent your issue\nwith plugin loading is.\n\n\n\u003e \n\u003e \u003e The solution 2. sounds less intrusive to the Gerrit core code.\n\u003e \n\u003e solution 2 would require changes to Gerrit core anyway and it will be for sure far more more intrusive to plugin in question ;) whereas solution 1 (despite being less elegant) is pretty simple to implement in both plugins and Gerrit core :D\n\nSolution 1, has IMHO, one disadvantage: it considers plugin loading order based on\none criteria: before/after indexes are available but it doesn\u0027t propose how such approach\nwould evolve in future.\nWhat if, in future, we need to support yet another before/after policy.\nWhat if plugin A needs to be loaded before X is available but also after Y is available and Y is available after X is available?",
+      "parentUuid": "0be9d2c9_9d1c9f58",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1005,11 +1005,14 @@ project.
 
 Plugins can refer to groups so that when they are renamed, the project
 config will also be updated in this section. The proper format to use is
-the string representation of a GroupReference, as shown below.
+the same as for any other group reference in the `project.config`, as shown below.
 
 ----
-Group[group_name / group_uuid]
+group group_name
 ----
+
+The file `groups` must also contains the mapping of the group name and its UUID,
+refer to link:config-project-config.html#file-groups[file groups]
 
 [[project-specific-configuration]]
 == Project Specific Configuration in own config file

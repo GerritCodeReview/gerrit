@@ -408,7 +408,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[plugin \"somePlugin\"]\n" //
                             + "key1 = "
-                            + developers.toString()
+                            + developers.toConfigValue()
                             + "\n")) //
                 ));
     update(rev);
@@ -416,7 +416,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames().size()).isEqualTo(1);
-    assertThat(GroupReference.fromString(pluginCfg.getString("key1"))).isEqualTo(developers);
+    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
   }
 
   @Test
@@ -431,7 +431,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[plugin \"somePlugin\"]\n" //
                             + "key1 = "
-                            + staff.toString()
+                            + staff.toConfigValue()
                             + "\n")) //
                 ));
     update(rev);
@@ -455,7 +455,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[plugin \"somePlugin\"]\n" //
                             + "key1 = "
-                            + developers.toString()
+                            + developers.toConfigValue()
                             + "\n")) //
                 ));
     update(rev);
@@ -463,16 +463,16 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames().size()).isEqualTo(1);
-    assertThat(GroupReference.fromString(pluginCfg.getString("key1"))).isEqualTo(developers);
+    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
 
-    pluginCfg.setString("key1", staff.toString());
+    pluginCfg.setGroupReference("key1", staff);
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
             "" //
                 + "[plugin \"somePlugin\"]\n" //
                 + "\tkey1 = "
-                + staff.toString()
+                + staff.toConfigValue()
                 + "\n");
   }
 

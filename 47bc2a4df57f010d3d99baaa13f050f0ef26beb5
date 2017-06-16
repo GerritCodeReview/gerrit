@@ -16,6 +16,24 @@
       "revId": "47bc2a4df57f010d3d99baaa13f050f0ef26beb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a756e8f_40b6f47a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T23:47:50Z",
+      "side": 1,
+      "message": "In this case, the \"More\" dropdown benefits from existing in the tabindex for keyboard nav purposes.",
+      "parentUuid": "0e0db8e1_a50814c9",
+      "revId": "47bc2a4df57f010d3d99baaa13f050f0ef26beb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

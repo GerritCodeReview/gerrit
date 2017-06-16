@@ -30,16 +30,42 @@
 
   GrGapiAuth.prototype.fetch = function(url, options) {
     options = Object.assign({}, options);
-    return this._getAccessToken().then(token => {
-      if (token) {
-        options.headers = options.headers || new Headers();
-        options.headers.append('Authorization', `Bearer ${token}`);
-        if (!url.startsWith('/a/')) {
-          url = '/a' + url;
-        }
+    return this._getAccessToken().then(
+        token => window.FASTER_GERRIT_CORS ?
+            this._fasterGerritCors(url, options, token) :
+            this._defaultFetch(url, options, token)
+    );
+  };
+
+  GrGapiAuth.prototype._defaultFetch = function(url, options, token) {
+    if (token) {
+      options.headers = options.headers || new Headers();
+      options.headers.append('Authorization', `Bearer ${token}`);
+      if (!url.startsWith('/a/')) {
+        url = '/a' + url;
       }
+    }
+    return fetch(url, options);
+  };
+
+  GrGapiAuth.prototype._fasterGerritCors = function(url, options, token) {
+    const method = options.method || 'GET';
+    if (method === 'GET') {
       return fetch(url, options);
-    });
+    }
+    const params = [];
+    if (token) {
+      params.push(`access_token=${token}`);
+    }
+    const contentType = options.headers && options.headers.get('Content-Type');
+    if (contentType) {
+      options.headers.set('Content-Type', 'text/plain');
+      params.push(`$ct=${encodeURIComponent(contentType)}`);
+    }
+    params.push(`$m=${method}`);
+    url = url + (url.indexOf('?') === -1 ? '?' : '') + params.join('&');
+    options.method = 'POST';
+    return fetch(url, options);
   };
 
   GrGapiAuth.prototype._getAccessToken = function() {

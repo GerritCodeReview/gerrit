@@ -168,5 +168,32 @@ limitations under the License.
         assert.strictEqual(c, config);
       });
     });
+
+    suite('faster gerrit cors', () => {
+      setup(() => {
+        window.FASTER_GERRIT_CORS = true;
+      });
+
+      teardown(() => {
+        delete window.FASTER_GERRIT_CORS;
+      });
+
+      test('PUT works', () => {
+        sandbox.stub(auth, '_getAccessToken').returns(Promise.resolve('foo'));
+        const originalOptions = {
+          method: 'PUT',
+          headers: new Headers({'Content-Type': 'mail/pigeon'}),
+        };
+        return auth.fetch('/url', originalOptions).then(() => {
+          assert.isTrue(auth._getAccessToken.called);
+          const [url, options] = fetch.lastCall.args;
+          assert.include(url, '$ct=mail%2Fpigeon');
+          assert.include(url, '$m=PUT');
+          assert.include(url, 'access_token=foo');
+          assert.equal(options.method, 'POST');
+          assert.equal(options.headers.get('Content-Type'), 'text/plain');
+        });
+      });
+    });
   });
 </script>

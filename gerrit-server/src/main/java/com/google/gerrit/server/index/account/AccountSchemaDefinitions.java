@@ -21,22 +21,17 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
-  @Deprecated
-  static final Schema<AccountState> V1 =
+  @Deprecated static final Schema<AccountState> V4 =
       schema(
-          AccountField.ID,
           AccountField.ACTIVE,
           AccountField.EMAIL,
           AccountField.EXTERNAL_ID,
+          AccountField.FULL_NAME,
+          AccountField.ID,
           AccountField.NAME_PART,
           AccountField.REGISTERED,
-          AccountField.USERNAME);
-
-  @Deprecated static final Schema<AccountState> V2 = schema(V1, AccountField.WATCHED_PROJECT);
-
-  @Deprecated static final Schema<AccountState> V3 = schema(V2, AccountField.FULL_NAME);
-
-  @Deprecated static final Schema<AccountState> V4 = schema(V3);
+          AccountField.USERNAME,
+          AccountField.WATCHED_PROJECT);
 
   static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
 

@@ -30,7 +30,10 @@
      */
 
     properties: {
-      items: Array,
+      items: {
+        type: Array,
+        observer: '_resetCursorStops',
+      },
       topContent: Object,
       horizontalAlign: {
         type: String,
@@ -60,16 +63,74 @@
       },
 
       _hasAvatars: String,
+
+      /**
+       * The elements of the list.
+       */
+      _listElements: {
+        type: Array,
+        value() { return []; },
+      },
     },
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.KeyboardShortcutBehavior,
     ],
+
+    keyBindings: {
+      'down': '_handleDown',
+      'enter space': '_handleEnter',
+      'tab': '_handleTab',
+      'up': '_handleUp',
+    },
 
     attached() {
       this.$.restAPI.getConfig().then(cfg => {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       });
+    },
+
+    _handleUp(e) {
+      if (this.$.dropdown.opened) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.$.cursor.previous();
+      } else {
+        this._open();
+      }
+    },
+
+    _handleDown(e) {
+      if (this.$.dropdown.opened) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.$.cursor.next();
+      } else {
+        this._open();
+      }
+    },
+
+    _handleTab(e) {
+      if (this.$.dropdown.opened) {
+        // Tab in a native select is a no-op. Emulate this.
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    },
+
+    _handleEnter(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (this.$.dropdown.opened) {
+        // TODO(kaspern): This solution will not work in Shadow DOM, and
+        // is not particularly robust in general. Find a better solution
+        // when page.js has been abstracted away from components.
+        const el = this.$.cursor.target.querySelector(':not([hidden])');
+        if (el) { el.click(); }
+      } else {
+        this._open();
+      }
     },
 
     _handleDropdownTap(e) {
@@ -81,7 +142,14 @@
     },
 
     _showDropdownTapHandler(e) {
+      this._open();
+    },
+
+    _open() {
       this.$.dropdown.open();
+      this.$.cursor.setCursorAtIndex(0);
+      Polymer.dom.flush();
+      this.$.cursor.target.focus();
     },
 
     _getClassIfBold(bold) {
@@ -113,9 +181,7 @@
 
     _handleItemTap(e) {
       const id = e.target.getAttribute('data-id');
-      const item = this.items.find(item => {
-        return item.id === id;
-      });
+      const item = this.items.find(item => item.id === id);
       if (id && !this.disabledIds.includes(id)) {
         if (item) {
           this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
@@ -126,6 +192,11 @@
 
     _computeDisabledClass(id, disabledIdsRecord) {
       return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
+    },
+
+    _resetCursorStops() {
+      Polymer.dom.flush();
+      this._els = this.querySelectorAll('li');
     },
   });
 })();

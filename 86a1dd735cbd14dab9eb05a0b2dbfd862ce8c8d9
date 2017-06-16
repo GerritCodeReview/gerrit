@@ -94,6 +94,56 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71e93c77_84ebaaa7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-16T12:18:40Z",
+      "side": 1,
+      "message": "Not clear to me how it may break during reload. If you share the code we can help out.",
+      "parentUuid": "4357ea4d_1109dd96",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "tag": "mailMessageId\u003d\u003c93F575DD-0028-47F9-9322-77BE9B59B09F@gmail.com\u003e",
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74d4442d_d6a1fa04",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-16T12:18:40Z",
+      "side": 1,
+      "message": "Can you share the code of the plugin? I am assuming it is based in the start() method to work on the Lucene index assuming that it is ready at startup, which is exactly what here we are trying to fix",
+      "parentUuid": "4357ea4d_1109dd96",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "tag": "mailMessageId\u003d\u003c93F575DD-0028-47F9-9322-77BE9B59B09F@gmail.com\u003e",
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

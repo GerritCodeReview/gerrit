@@ -70,9 +70,9 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Rebuilder for all changes in a site. */
-public class SiteRebuilder implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(SiteRebuilder.class);
+/** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
+public class NoteDbMigrator implements AutoCloseable {
+  private static final Logger log = LoggerFactory.getLogger(NoteDbMigrator.class);
 
   private final FileBasedConfig gerritConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -91,7 +91,7 @@ public class SiteRebuilder implements AutoCloseable {
   private boolean started = false;
 
   @Inject
-  SiteRebuilder(
+  NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -116,7 +116,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param threads thread count; if less than 2, all work happens in the calling thread.
    * @return this.
    */
-  public SiteRebuilder setThreads(int threads) {
+  public NoteDbMigrator setThreads(int threads) {
     executor =
         threads > 1
             ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
@@ -132,7 +132,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param projects set of projects; if null or empty, all projects will be processed.
    * @return this.
    */
-  public SiteRebuilder setProjects(@Nullable Collection<Project.NameKey> projects) {
+  public NoteDbMigrator setProjects(@Nullable Collection<Project.NameKey> projects) {
     this.projects = projects != null ? ImmutableList.copyOf(projects) : ImmutableList.of();
     return this;
   }
@@ -145,7 +145,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param changes set of changes; if null or empty, all changes will be processed.
    * @return this.
    */
-  public SiteRebuilder setChanges(@Nullable Collection<Change.Id> changes) {
+  public NoteDbMigrator setChanges(@Nullable Collection<Change.Id> changes) {
     this.changes = changes != null ? ImmutableList.copyOf(changes) : ImmutableList.of();
     return this;
   }
@@ -158,7 +158,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param progressOut output stream.
    * @return this.
    */
-  public SiteRebuilder setProgressOut(OutputStream progressOut) {
+  public NoteDbMigrator setProgressOut(OutputStream progressOut) {
     this.progressOut = checkNotNull(progressOut);
     return this;
   }
@@ -170,7 +170,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param trial whether to rebuild in trial mode.
    * @return this.
    */
-  public SiteRebuilder setTrialMode(boolean trial) {
+  public NoteDbMigrator setTrialMode(boolean trial) {
     this.trial = trial;
     return this;
   }
@@ -184,7 +184,7 @@ public class SiteRebuilder implements AutoCloseable {
    * @param forceRebuild whether to force rebuilding.
    * @return this.
    */
-  public SiteRebuilder setForceRebuild(boolean forceRebuild) {
+  public NoteDbMigrator setForceRebuild(boolean forceRebuild) {
     this.forceRebuild = forceRebuild;
     return this;
   }
@@ -196,7 +196,7 @@ public class SiteRebuilder implements AutoCloseable {
     }
   }
 
-  public void autoRebuild() throws OrmException, IOException {
+  public void migrate() throws OrmException, IOException {
     checkAutoRebuildPreconditions();
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {
@@ -354,7 +354,7 @@ public class SiteRebuilder implements AutoCloseable {
   }
 
   private void checkPreconditions() {
-    checkState(!started, "SiteRebuilder may only be used once");
+    checkState(!started, "%s may only be used once", getClass().getSimpleName());
   }
 
   private void checkAutoRebuildPreconditions() {

@@ -60,7 +60,6 @@ limitations under the License.
       .links > li {
         cursor: default;
         display: inline-block;
-        margin-left: 1em;
         padding: 0;
         position: relative;
       }
@@ -80,6 +79,9 @@ limitations under the License.
         margin-left: .5em;
         max-width: 500px;
       }
+      gr-dropdown {
+        padding: 0.5em;
+      }
       .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
       .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
       .accountContainer.loggedIn .loginButton,
@@ -89,10 +91,13 @@ limitations under the License.
       .accountContainer {
         align-items: center;
         display: flex;
-        margin-left: var(--default-horizontal-margin);
+        margin: 0 -0.5em 0 0.5em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .loginButton {
+        padding: 1em;
       }
       .dropdown-trigger {
         text-decoration: none;

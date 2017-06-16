@@ -22,6 +22,30 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86ebf97b_da8a1b14",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-16T09:35:14Z",
+      "side": 1,
+      "message": "\u003e there is another side of this story - plugins that change configuration (alter All-Projects project for instance) upon start. They fail miserably with this change and cannot be properly started anymore.\n\nCan you provide more details on why do they fail and why they cannot be started anymore?\nEspecially I would like to understand why to they permanently fail to start even after\nGerrit server is fully started (indexes ready) and the plugin is reloaded after that.\n\n\u003e \n\u003e Having said that I would say that we should revert this change (it brakes our integration :/)\n\nDoes it only brake or does it break your integration ;-)\n\n\u003e and address this problem differently:\n\u003e 1. specify which plugins have to start prior or after index (this seems to be the simplest) and if not specified we could start them before (as it is with this change)\n\u003e 2. develop and listen to indexes ready event so that plugins could postpone their configuration until it is possible\n\nThe solution 2. sounds less intrusive to the Gerrit core code.\n\n\u003e 3. ...",
+      "parentUuid": "9bb15e9e_580e81c9",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,12 +18,14 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.common.base.Throwables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
@@ -71,6 +73,11 @@ public class RetryHelper {
   }
 
   public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
+    return execute(action, null);
+  }
+
+  public <T> T execute(Action<T> action, @Nullable RetryListener listener)
+      throws RestApiException, UpdateException {
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb() && migration.fuseUpdates()) {
@@ -78,6 +85,9 @@ public class RetryHelper {
             .withStopStrategy(stopStrategy)
             .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
+        if (listener != null) {
+          builder.withRetryListener(listener);
+        }
       } else {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so

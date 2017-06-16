@@ -30,6 +30,7 @@ public class FieldPredicateTest extends PredicateTest {
     assertEquals("owner:\"A U Thor\"", f("owner", "A U Thor").toString());
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   public void testEquals() {
     assertTrue(f("author", "bob").equals(f("author", "bob")));

@@ -46,6 +46,30 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be9d2c9_9d1c9f58",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-16T09:50:56Z",
+      "side": 1,
+      "message": "\u003eCan you provide more details on why do they fail and why they cannot be started anymore?\n\u003e Especially I would like to understand why to they permanently fail to start even after\n\u003e Gerrit server is fully started (indexes ready) and the plugin is reloaded after that.\n\nwe have a plugin that does both: implements auth/group backends and modifies All-Projects (it does couple of things there for instance remove anonymous access to projects, etc...) so it fails during All-Projects project modification (of course it all works nicely during close upgrade as everything is already modified and nothing needs to be changed ;)) and by that it fails to load which leads to inability to reload the plugin (user fails to authorise) which I would say doesn\u0027t look to good to me either ;)\n\n\u003e Does it only brake or does it break your integration ;-)\n\nIt brakes our integration. I understand that you may not be particularly interested in that ;) but if it breaks this plugin it may break the others but we don\u0027t know that yet. What is more I am not saying that we should get rid off this change. I understand the rationale behind it. I am trying to say that we should at least try to not break anything that was working so far by introducing it :)\n\n\u003e The solution 2. sounds less intrusive to the Gerrit core code.\n\nsolution 2 would require changes to Gerrit core anyway and it will be for sure far more more intrusive to plugin in question ;) whereas solution 1 (despite being less elegant) is pretty simple to implement in both plugins and Gerrit core :D",
+      "parentUuid": "86ebf97b_da8a1b14",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

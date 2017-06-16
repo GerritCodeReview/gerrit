@@ -109,6 +109,18 @@ public abstract class NotesMigration {
   public abstract boolean fuseUpdates();
 
   /**
+   * Set the values returned by this instance to match another instance.
+   *
+   * <p>Optional operation: not all implementations support setting values after initialization.
+   *
+   * @param other other instance to copy values from.
+   * @return this.
+   */
+  public NotesMigration setFrom(NotesMigration other) {
+    throw new UnsupportedOperationException(getClass().getSimpleName() + " is read-only");
+  }
+
+  /**
    * Whether to fail when reading any data from NoteDb.
    *
    * <p>Used in conjunction with {@link #readChanges()} for tests.

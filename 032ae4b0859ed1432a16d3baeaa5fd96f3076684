@@ -34,6 +34,24 @@
       "revId": "032ae4b0859ed1432a16d3baeaa5fd96f3076684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77ea42f2_a47e2ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T20:13:53Z",
+      "side": 1,
+      "message": "Okay, fair, but I feel like commit messages without context are pretty unhelpful, especially when git logging.",
+      "parentUuid": "3386a085_bc589eeb",
+      "revId": "032ae4b0859ed1432a16d3baeaa5fd96f3076684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -111,6 +111,7 @@ public class TestNotesMigration extends NotesMigration {
     return setFrom(NoteDbMode.get().migration);
   }
 
+  @Override
   public TestNotesMigration setFrom(NotesMigration other) {
     setWriteChanges(other.rawWriteChangesSetting());
     setReadChanges(other.readChanges());

@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gwtorm.server.OrmException;
@@ -80,6 +81,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ChangeRebuilder rebuilder;
   private final ChangeBundleReader bundleReader;
   private final WorkQueue workQueue;
+  private final NotesMigration globalNotesMigration;
 
   private ListeningExecutorService executor;
   private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -97,12 +99,14 @@ public class NoteDbMigrator implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeRebuilder rebuilder,
       ChangeBundleReader bundleReader,
-      WorkQueue workQueue) {
+      WorkQueue workQueue,
+      NotesMigration globalNotesMigration) {
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.rebuilder = rebuilder;
     this.bundleReader = bundleReader;
     this.workQueue = workQueue;
+    this.globalNotesMigration = globalNotesMigration;
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
   }
 
@@ -287,24 +291,30 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private NotesMigrationState saveState(
       NotesMigrationState expectedOldState, NotesMigrationState newState) throws IOException {
-    // This read-modify-write is racy. We're counting on the fact that no other Gerrit operation
-    // modifies gerrit.config, and hoping that admins don't either.
-    Optional<NotesMigrationState> actualOldState = loadState();
-    if (!actualOldState.equals(Optional.of(expectedOldState))) {
-      throw new MigrationException(
-          "Cannot move to new state:\n"
-              + newState.toText()
-              + "\n\n"
-              + "Expected this state in gerrit.config:\n"
-              + expectedOldState.toText()
-              + "\n\n"
-              + (actualOldState.isPresent()
-                  ? "But found this state:\n" + actualOldState.get().toText()
-                  : "But could not parse the current state"));
+    synchronized (globalNotesMigration) {
+      // This read-modify-write is racy. We're counting on the fact that no other Gerrit operation
+      // modifies gerrit.config, and hoping that admins don't either.
+      Optional<NotesMigrationState> actualOldState = loadState();
+      if (!actualOldState.equals(Optional.of(expectedOldState))) {
+        throw new MigrationException(
+            "Cannot move to new state:\n"
+                + newState.toText()
+                + "\n\n"
+                + "Expected this state in gerrit.config:\n"
+                + expectedOldState.toText()
+                + "\n\n"
+                + (actualOldState.isPresent()
+                    ? "But found this state:\n" + actualOldState.get().toText()
+                    : "But could not parse the current state"));
+      }
+      ConfigNotesMigration.setConfigValues(gerritConfig, newState.migration());
+      gerritConfig.save();
+
+      // Only set in-memory state once it's been persisted to storage.
+      globalNotesMigration.setFrom(newState.migration());
+
+      return newState;
     }
-    ConfigNotesMigration.setConfigValues(gerritConfig, newState.migration());
-    gerritConfig.save();
-    return newState;
   }
 
   public void rebuild() throws MigrationException, OrmException {

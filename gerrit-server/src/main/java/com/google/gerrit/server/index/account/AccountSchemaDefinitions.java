@@ -21,7 +21,8 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
-  @Deprecated static final Schema<AccountState> V4 =
+  @Deprecated
+  static final Schema<AccountState> V4 =
       schema(
           AccountField.ACTIVE,
           AccountField.EMAIL,

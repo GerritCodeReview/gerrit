@@ -201,7 +201,7 @@ The subject corresponding to the first patch set of the current change.
 
 $change.shortSubject::
 +
-The subject limited to 63 characters, with an ellipsis if it exceeds that.
+The subject limited to 72 characters, with an ellipsis if it exceeds that.
 
 $change.ownerEmail::
 +

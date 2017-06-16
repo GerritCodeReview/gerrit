@@ -70,9 +70,9 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Rebuilder for all changes in a site. */
-public class SiteRebuilder implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(SiteRebuilder.class);
+/** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
+public class NoteDbMigrator implements AutoCloseable {
+  private static final Logger log = LoggerFactory.getLogger(NoteDbMigrator.class);
 
   public static class Builder {
     private final SitePaths sitePaths;
@@ -196,8 +196,8 @@ public class SiteRebuilder implements AutoCloseable {
       return this;
     }
 
-    public SiteRebuilder build() {
-      return new SiteRebuilder(
+    public NoteDbMigrator build() {
+      return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
           updateManagerFactory,
@@ -227,7 +227,7 @@ public class SiteRebuilder implements AutoCloseable {
   private final boolean trial;
   private final boolean forceRebuild;
 
-  private SiteRebuilder(
+  private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -263,7 +263,7 @@ public class SiteRebuilder implements AutoCloseable {
     executor.shutdownNow();
   }
 
-  public void autoRebuild() throws OrmException, IOException {
+  public void migrate() throws OrmException, IOException {
     checkState(
         changes.isEmpty() && projects.isEmpty(),
         "cannot set changes or projects during auto-migration; call rebuild() instead");

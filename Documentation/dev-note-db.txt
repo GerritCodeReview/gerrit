@@ -99,7 +99,7 @@ previous options, unless otherwise noted.
   inaccurate results, and writing to NoteDb would compound the problem. +
   Thus it is up to an admin of a previously-ReviewDb site to ensure
   MigratePrimaryStorage has been run for all changes. Note that the current
-  implementation of the `rebuild-note-db` program does not do this. +
+  implementation of the `migrate-to-note-db` program does not do this. +
   In this phase, it would be possible to delete the Changes tables out from
   under a running server with no effect.
 - `noteDb.changes.fuseUpdates=true`: Code and meta updates within a single
@@ -112,25 +112,25 @@ previous options, unless otherwise noted.
 == Migration
 
 Once configuration options are set, migration to NoteDb is primarily
-accomplished by running the `rebuild-note-db` program. Currently, this program
+accomplished by running the `migrate-to-note-db` program. Currently, this program
 bulk copies ReviewDb data into NoteDb, but leaves primary storage of these
 changes in ReviewDb, so the site is runnable with
 `noteDb.changes.{write,read}=true`, but ReviewDb is still required.
 
-Eventually, `rebuild-note-db` will set primary storage to NoteDb for all
+Eventually, `migrate-to-note-db` will set primary storage to NoteDb for all
 changes by default, so a site will be able to stop using ReviewDb for changes
 immediately after a successful run.
 
 There is code in `PrimaryStorageMigrator.java` to migrate individual changes
 from NoteDb primary to ReviewDb primary. This code is not intended to be used
 except in the event of a critical bug in NoteDb primary changes in production.
-It will likely never be used by `rebuild-note-db`, and in fact it's not
-recommended to run `rebuild-note-db` until the code is stable enough that the
+It will likely never be used by `migrate-to-note-db`, and in fact it's not
+recommended to run `migrate-to-note-db` until the code is stable enough that the
 reverse migration won't be necessary.
 
 === Zero-Downtime Multi-Master Migration
 
-Single-master Gerrit sites can use `rebuild-note-db` on an offline site to
+Single-master Gerrit sites can use `migrate-to-note-db` on an offline site to
 rebuild NoteDb, but this doesn't work in a zero-downtime environment like
 googlesource.com.
 

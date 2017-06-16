@@ -29,7 +29,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RebuildNoteDbIT {
+public class MigrateToNoteDbIT {
   private String sitePath;
   private StoredConfig gerritConfig;
 
@@ -49,14 +49,14 @@ public class RebuildNoteDbIT {
   @Test
   public void rebuildEmptySiteStartingWithNoteDbDisabed() throws Exception {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
-    runGerrit("RebuildNoteDb", "-d", sitePath, "--show-stack-trace");
+    runGerrit("MigrateToNoteDb", "-d", sitePath, "--show-stack-trace");
     assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
   }
 
   @Test
   public void rebuildEmptySiteStartingWithNoteDbEnabled() throws Exception {
     setNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
-    runGerrit("RebuildNoteDb", "-d", sitePath, "--show-stack-trace");
+    runGerrit("MigrateToNoteDb", "-d", sitePath, "--show-stack-trace");
     assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
   }
 

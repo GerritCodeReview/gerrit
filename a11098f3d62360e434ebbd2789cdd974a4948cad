@@ -17,6 +17,24 @@
       "revId": "a11098f3d62360e434ebbd2789cdd974a4948cad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f86b1b_e63bfb60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-16T08:24:46Z",
+      "side": 1,
+      "message": "\u003e This is going to take a super long time if anybody calls this\n \u003e endpoint on one of our hosts with thousands of accounts. I guess\n \u003e maybe we don\u0027t care, because we trust admins to not DoS us?\n\nYes, we expect that this REST endpoint is rarely invoked.\n\n \u003e I don\u0027t suppose there is some way to filter this list to only users\n \u003e it would be applicable to? Then again, maybe it would be applicable\n \u003e to almost all users, i.e. anybody who has the default preferences.\n\nActually what we need is to flush all accounts from the account cache, but reindex is actually not needed. Flushing from the account cache is needed because the general preferences are stored within the account object. Reindexing is not needed since non of the account index fields is based on the preferences.\n\nSo we could do the following:\n\na) Rename AccountCache#evictAll() to AccountCache#evictAllNoReindex() and remove the indexing functionality from that method\n\nb) Document that AccountCache#evictAll() doesn\u0027t reindex and remove the indexing functionality from that method\n\nc) Keep this change as it is and be okay with the unneeded reindex of all accounts which takes a long time.\n\nWhat do you prefer a) or b)?",
+      "parentUuid": "803b3a8a_a03e6832",
+      "revId": "a11098f3d62360e434ebbd2789cdd974a4948cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

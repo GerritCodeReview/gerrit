@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82a0fa9e_74b83637",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-06-16T18:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0578c512_156799cc",
+      "revId": "edb66c7793582e945e0a352bada24f5d738fce2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5fc978_496f6c09",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-16T07:43:04Z",
       "side": 1,
       "message": "Please document the new JSON field in rest-api-projects.txt#config-info and rest-api-projects.txt#config-input",
+      "revId": "edb66c7793582e945e0a352bada24f5d738fce2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83f04419_84106de8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-06-16T18:42:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5fc978_496f6c09",
       "revId": "edb66c7793582e945e0a352bada24f5d738fce2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

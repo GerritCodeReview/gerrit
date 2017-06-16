@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5dd82d_20926efd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T18:08:17Z",
+      "side": 1,
+      "message": "This is a super nit, but I don\u0027t think appending \u0027_RE\u0027 is a pattern we use. Looks like we either append \u0027_PATTERN\u0027 or \u0027_REGEX\u0027.",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "cc9b5f1e83f0696b40fe0a6a593b789e06917e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b6605c_1c5d65ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T18:08:17Z",
+      "side": 1,
+      "message": "This spacing does not match our style guide.",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 185,
+        "endChar": 38
+      },
+      "revId": "cc9b5f1e83f0696b40fe0a6a593b789e06917e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83adab0a_44f9af6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T18:08:17Z",
+      "side": 1,
+      "message": "This is slick. Nice.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 55
+      },
+      "revId": "cc9b5f1e83f0696b40fe0a6a593b789e06917e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -240,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "e0d262be_3b26f30c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T18:08:17Z",
+      "side": 1,
+      "message": "Could we perhaps reference a generic LABELS_TO_IGNORE array and then supply chromium-specific code that populates this array in a plugin? That seems like a best-of-both-worlds solution, but I don\u0027t know how overkill it would be.",
+      "parentUuid": "cd06597d_99fc3932",
+      "revId": "24d0174708e7fe90bdd5709c40f8800722e87225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0e11cac_724038d0",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 5

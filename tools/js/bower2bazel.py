@@ -76,11 +76,10 @@ def build_bower_json(version_targets, seeds):
 
   seeds = set(seeds)
   for v in version_targets:
-    try:
-      fn = os.path.join("bazel-out/local-fastbuild/bin", v.lstrip("/").replace(":", "/"))
-    except:
-      fn = os.path.join("bazel-out/darwin_x86_64-fastbuild/bin", v.lstrip("/").replace(":", "/"))
-    with open(fn) as f:
+    path = os.path.join("bazel-out/*-fastbuild/bin", v.lstrip("/").replace(":", "/"))
+    fs = glob.glob(path)
+    assert len(fs) == 1, '%s: file not found or multiple files found: %s' % (path, fs)
+    with open(fs[0]) as f:
       j = json.load(f)
       if "" in j:
         # drop dummy entries.

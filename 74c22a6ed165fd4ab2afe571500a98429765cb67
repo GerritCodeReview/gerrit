@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87c8a994_5d7d0507",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/IdString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-16T15:16:33Z",
+      "side": 0,
+      "message": "I agree with your current approach to remove else branch entirely and only warn in release notes. But after discussion yesterday on your first proposal, I thought about more destructive change here, to fail earlier, should plugin code really depend on the current semantic : preserve the if for one releases and say throw IllegalStateException(\"Cannot compare to string any more!\"), or, alternatively, (not sure if logging dependency is available in extension API), log.error(\"change equals semantic, you need to adapt the code\").",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "74c22a6ed165fd4ab2afe571500a98429765cb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

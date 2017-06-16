@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -93,9 +92,11 @@ public class UploadArchiveIT extends AbstractDaemonTest {
       }
     }
 
-    assertThat(entryNames.size()).isEqualTo(1);
-    assertThat(Iterables.getOnlyElement(entryNames))
-        .isEqualTo(String.format("%s/%s", abbreviated, PushOneCommit.FILE_NAME));
+    assertThat(entryNames)
+        .containsExactly(
+            String.format("%s/", abbreviated),
+            String.format("%s/%s", abbreviated, PushOneCommit.FILE_NAME))
+        .inOrder();
   }
 
   private String command(PushOneCommit.Result r, String abbreviated) {

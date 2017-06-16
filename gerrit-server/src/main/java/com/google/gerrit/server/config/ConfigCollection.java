@@ -44,7 +44,7 @@ public class ConfigCollection implements RestCollection<TopLevelResource, Config
 
   @Override
   public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
-    if (id.equals("server")) {
+    if (id.get().equals("server")) {
       return new ConfigResource();
     }
     throw new ResourceNotFoundException(id);

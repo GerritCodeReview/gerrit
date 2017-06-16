@@ -73,6 +73,7 @@ public class NotPredicateTest extends PredicateTest {
     assertEquals("-author:bob", not(f("author", "bob")).toString());
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   public void testEquals() {
     assertTrue(not(f("author", "bob")).equals(not(f("author", "bob"))));

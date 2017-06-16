@@ -60,8 +60,6 @@ public class IdString {
   public boolean equals(Object other) {
     if (other instanceof IdString) {
       return urlEncoded.equals(((IdString) other).urlEncoded);
-    } else if (other instanceof String) {
-      return urlEncoded.equals(other);
     }
     return false;
   }

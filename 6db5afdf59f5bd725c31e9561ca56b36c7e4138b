@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4ea820bc_63196458",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-16T07:42:12Z",
+      "side": 1,
+      "message": "Please document the new JSON field in rest-api-projects.txt#config-info and rest-api-projects.txt#config-input",
+      "revId": "6db5afdf59f5bd725c31e9561ca56b36c7e4138b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0df6530b_23e040d1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 4

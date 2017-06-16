@@ -5784,6 +5784,8 @@ If not set, the default is `NONE`.
 |`notify_details`   |optional|
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
+|`keep_reviewers`   |optional, defaults to false|
+If true, carries reviewers and ccs over from original change to newly created one.
 |===========================
 
 [[comment-info]]

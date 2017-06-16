@@ -26,4 +26,6 @@ public class CherryPickInput {
 
   public NotifyHandling notify = NotifyHandling.NONE;
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  public Boolean keepReviewers;
 }

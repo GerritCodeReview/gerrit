@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -32,11 +33,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -44,6 +47,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectState;
@@ -60,7 +64,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -85,6 +91,7 @@ public class CherryPickChange {
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
@@ -100,6 +107,7 @@ public class CherryPickChange {
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
+      ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil changeMessagesUtil,
       PatchSetUtil psUtil,
       NotifyUtil notifyUtil) {
@@ -112,6 +120,7 @@ public class CherryPickChange {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.approvalsUtil = approvalsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
@@ -350,6 +359,16 @@ public class CherryPickChange {
     ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+    if (input.keepReviewers) {
+      ReviewerSet reviewerSet = approvalsUtil.getReviewers(
+          dbProvider.get(), cherryPickCommit.getControl().getNotes());
+      Set<Account.Id> reviewers = new HashSet<>(
+          reviewerSet.byState(ReviewerStateInternal.REVIEWER));
+      reviewers.add(cherryPickCommit.change().getOwner());
+      Set<Account.Id> ccs = new HashSet<>(
+          reviewerSet.byState(ReviewerStateInternal.CC));
+      ins.setReviewers(reviewers).setExtraCC(ccs);
+    }
     bu.insertChange(ins);
     return changeId;
   }

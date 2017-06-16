@@ -15,9 +15,11 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -80,6 +82,11 @@ limitations under the License.
         background-color: #6B82D6;
         color: #fff;
       }
+      li:focus,
+      li.selected {
+        background-color: #EBF5FB;
+        outline: none;
+      }
       .topContent {
         display: block;
         padding: .85em 1em;
@@ -123,7 +130,9 @@ limitations under the License.
                   items="[[topContent]]"
                   as="item"
                   initial-count="75">
-                <div class$="[[_getClassIfBold(item.bold)]] top-item">
+                <div
+                    class$="[[_getClassIfBold(item.bold)]] top-item"
+                    tabindex="-1">
                   [[item.text]]
                 </div>
               </template>
@@ -134,23 +143,31 @@ limitations under the License.
               items="[[items]]"
               as="link"
               initial-count="75">
-            <li>
+            <li tabindex="0">
               <span
                   class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
                   data-id$="[[link.id]]"
                   on-tap="_handleItemTap"
-                  hidden$="[[link.url]]">[[link.name]]</span>
+                  hidden$="[[link.url]]"
+                  tabindex="-1">[[link.name]]</span>
               <a
                   class="itemAction"
                   href$="[[_computeLinkURL(link)]]"
                   rel$="[[_computeLinkRel(link)]]"
                   target$="[[link.target]]"
-                  hidden$="[[!link.url]]">[[link.name]]</a>
+                  hidden$="[[!link.url]]"
+                  tabindex="-1">[[link.name]]</a>
             </li>
           </template>
         </ul>
       </div>
     </iron-dropdown>
+    <gr-cursor-manager
+        id="cursor"
+        cursor-target-class="selected"
+        scroll-behavior="never"
+        focus-on-move
+        stops="[[_els]]"</gr-cursor-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-dropdown.js"></script>

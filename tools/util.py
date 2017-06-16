@@ -20,6 +20,7 @@ REPO_ROOTS = {
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
   'MAVEN_SNAPSHOT': 'https://oss.sonatype.org/content/repositories/snapshots',
+  'STAGING': 'https://oss.sonatype.org/content/repositories/orgeclipsejgit-1052',
 }
 
 

@@ -71,7 +71,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException, IOException {
-    if (id.equals("current")) {
+    if (id.get().equals("current")) {
       PatchSet ps = psUtil.current(dbProvider.get(), change.getNotes());
       if (ps != null && visible(change, ps)) {
         return new RevisionResource(change, ps).doNotCache();

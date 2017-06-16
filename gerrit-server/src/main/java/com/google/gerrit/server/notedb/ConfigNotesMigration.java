@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
@@ -79,62 +80,105 @@ public class ConfigNotesMigration extends NotesMigration {
     return cfg.toText();
   }
 
-  private final boolean writeChanges;
-  private final boolean readChanges;
-  private final boolean readChangeSequence;
-  private final PrimaryStorage changePrimaryStorage;
-  private final boolean disableChangeReviewDb;
-  private final boolean fuseUpdates;
+  @AutoValue
+  abstract static class Snapshot {
+    static Snapshot create(Config cfg) {
+      boolean writeChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false);
+      boolean readChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false);
+
+      // Reading change sequence numbers from NoteDb is not the default even if
+      // reading changes themselves is. Once this is enabled, it's not easy to
+      // undo: ReviewDb might hand out numbers that have already been assigned by
+      // NoteDb. This decision for the default may be reevaluated later.
+      boolean readChangeSequence = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, false);
+
+      PrimaryStorage changePrimaryStorage =
+          cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
+      boolean disableChangeReviewDb =
+          cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
+      boolean fuseUpdates = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false);
+
+      checkArgument(
+          !(disableChangeReviewDb && changePrimaryStorage != PrimaryStorage.NOTE_DB),
+          "cannot disable ReviewDb for changes if default change primary storage is ReviewDb");
+
+      return new AutoValue_ConfigNotesMigration_Snapshot(
+          writeChanges,
+          readChanges,
+          readChangeSequence,
+          changePrimaryStorage,
+          disableChangeReviewDb,
+          fuseUpdates);
+    }
+
+    abstract boolean writeChanges();
+
+    abstract boolean readChanges();
+
+    abstract boolean readChangeSequence();
+
+    abstract PrimaryStorage changePrimaryStorage();
+
+    abstract boolean disableChangeReviewDb();
+
+    abstract boolean fuseUpdates();
+  }
+
+  private volatile Snapshot snapshot;
 
   @Inject
   public ConfigNotesMigration(@GerritServerConfig Config cfg) {
-    writeChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false);
-    readChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false);
-
-    // Reading change sequence numbers from NoteDb is not the default even if
-    // reading changes themselves is. Once this is enabled, it's not easy to
-    // undo: ReviewDb might hand out numbers that have already been assigned by
-    // NoteDb. This decision for the default may be reevaluated later.
-    readChangeSequence = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, false);
-
-    changePrimaryStorage =
-        cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
-    disableChangeReviewDb =
-        cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
-    fuseUpdates = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false);
-
-    checkArgument(
-        !(disableChangeReviewDb && changePrimaryStorage != PrimaryStorage.NOTE_DB),
-        "cannot disable ReviewDb for changes if default change primary storage is ReviewDb");
+    this.snapshot = Snapshot.create(cfg);
   }
 
   @Override
   public boolean rawWriteChangesSetting() {
-    return writeChanges;
+    return snapshot.writeChanges();
   }
 
   @Override
   public boolean readChanges() {
-    return readChanges;
+    return snapshot.readChanges();
   }
 
   @Override
   public boolean readChangeSequence() {
-    return readChangeSequence;
+    return snapshot.readChangeSequence();
   }
 
   @Override
   public PrimaryStorage changePrimaryStorage() {
-    return changePrimaryStorage;
+    return snapshot.changePrimaryStorage();
   }
 
   @Override
   public boolean disableChangeReviewDb() {
-    return disableChangeReviewDb;
+    return snapshot.disableChangeReviewDb();
   }
 
   @Override
   public boolean fuseUpdates() {
-    return fuseUpdates;
+    return snapshot.fuseUpdates();
+  }
+
+  /**
+   * Set the in-memory values returned by this instance to match another instance.
+   *
+   * <p>This method is only intended for use by {@link
+   * com.google.gerrit.server.notedb.rebuild.NoteDbMigrator}.
+   *
+   * <p>This <em>only</em> modifies the in-memory state; if this instance was initialized from a
+   * file-based config, the underlying storage is not updated. Callers are responsible for managing
+   * the underlying storage on their own. This method is synchronized to aid in such
+   * implementations.
+   *
+   * @see NotesMigration#setFrom(NotesMigration)
+   */
+  @Override
+  public synchronized ConfigNotesMigration setFrom(NotesMigration other) {
+    Config cfg = new Config();
+    setConfigValues(cfg, other);
+    snapshot = Snapshot.create(cfg);
+    return this;
   }
 }

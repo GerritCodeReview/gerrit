@@ -1101,6 +1101,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "polymer-resin",
+    package = "polymer/polymer-resin",
+    sha1 = "677afcba133d89f2252c5cf2813a77e567043e6d",
+    version = "1.2.5-beta",
+)
+
+bower_archive(
     name = "promise-polyfill",
     package = "polymerlabs/promise-polyfill",
     sha1 = "a3b598c06cbd7f441402e666ff748326030905d6",

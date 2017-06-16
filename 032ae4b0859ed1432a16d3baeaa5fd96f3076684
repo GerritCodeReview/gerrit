@@ -16,6 +16,24 @@
       "revId": "032ae4b0859ed1432a16d3baeaa5fd96f3076684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3386a085_bc589eeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-16T20:05:05Z",
+      "side": 1,
+      "message": "As per report, the test is flaky so I believe some CI CPU allocating strategy just fails to provide reasonable amount of processing time.\n\nAlso, reducing test size was already done:\nhttps://gerrit-review.googlesource.com/c/110370/",
+      "parentUuid": "636a5db8_cfc3d797",
+      "revId": "032ae4b0859ed1432a16d3baeaa5fd96f3076684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

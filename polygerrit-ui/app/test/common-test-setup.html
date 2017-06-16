@@ -16,4 +16,13 @@ limitations under the License.
 -->
 
 <link rel="import"
+      href="../bower_components/polymer-resin/standalone/polymer-resin.html" />
+<script>
+  security.polymer_resin.install(
+      {
+        allowedIdentifierPrefixes: [''],
+        reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
+      });
+</script>
+<link rel="import"
     href="../bower_components/iron-test-helpers/iron-test-helpers.html" />

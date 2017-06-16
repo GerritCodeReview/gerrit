@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "636a5db8_cfc3d797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-16T19:44:56Z",
+      "side": 1,
+      "message": "So you think that the test is only failing because the timeout is too aggressive?\n\nIs making the test lighter weight an option? I\u0027d generally like a better explanation here.",
+      "revId": "032ae4b0859ed1432a16d3baeaa5fd96f3076684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

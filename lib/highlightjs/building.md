@@ -35,6 +35,7 @@ languages included. Build it with the following:
           java \
           javascript \
           json \
+          kotlin \
           lisp \
           lua \
           markdown \

@@ -1742,7 +1742,7 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 If `true` enable the automatic mixed mode
 (see link:http://www.h2database.com/html/features.html#auto_mixed_mode[Automatic Mixed Mode]).
 This enables concurrent access to the embedded H2 database from command line
-utils (e.g. RebuildNoteDb).
+utils (e.g. MigrateToNoteDb).
 +
 Default is `false`.
 

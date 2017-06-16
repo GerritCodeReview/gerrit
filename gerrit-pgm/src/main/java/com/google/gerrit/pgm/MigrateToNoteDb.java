@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
-import com.google.gerrit.server.notedb.rebuild.SiteRebuilder;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -37,23 +37,46 @@ import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
-public class RebuildNoteDb extends SiteProgram {
+public class MigrateToNoteDb extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--project", usage = "Projects to rebuild; recommended for debugging only")
+  @Option(
+    name = "--project",
+    usage =
+        "Only rebuild these projects, do no other migration; incompatible with --change;"
+            + " recommended for debugging only"
+  )
   private List<String> projects = new ArrayList<>();
 
   @Option(
     name = "--change",
-    usage = "Individual change numbers to rebuild; recommended for debugging only"
+    usage =
+        "Only rebuild these changes, do no other migration; incompatible with --project;"
+            + " recommended for debugging only"
   )
   private List<Integer> changes = new ArrayList<>();
+
+  @Option(
+    name = "--force",
+    usage =
+        "Force rebuilding changes where ReviewDb is still the source of truth, even if they"
+            + " were previously migrated"
+  )
+  private boolean force;
+
+  @Option(
+    name = "--trial",
+    usage =
+        "trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as"
+            + " the source of truth"
+  )
+  private boolean trial = true; // TODO(dborowitz): Default to false in 3.0.
 
   private Injector dbInjector;
   private Injector sysInjector;
 
-  @Inject private Provider<SiteRebuilder> rebuilderProvider;
+  @Inject private Provider<NoteDbMigrator> migratorProvider;
 
   @Override
   public int run() throws Exception {
@@ -71,19 +94,17 @@ public class RebuildNoteDb extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
-    try (SiteRebuilder rebuilder =
-        rebuilderProvider
+    try (NoteDbMigrator rebuilder =
+        migratorProvider
             .get()
             .setThreads(threads)
             .setProgressOut(System.err)
-            .setTrialMode(true)
-            .setForceRebuild(true)
             .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
             .setChanges(changes.stream().map(Change.Id::new).collect(toList()))) {
-      if (!projects.isEmpty() || !changes.isEmpty()) {
+      if (!changes.isEmpty() || !projects.isEmpty()) {
         rebuilder.rebuild();
       } else {
-        rebuilder.autoRebuild();
+        rebuilder.setTrialMode(trial).setForceRebuild(force).migrate();
       }
     }
     return 0;

@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "ae288f32_9e6401f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-17T14:28:45Z",
+      "side": 1,
+      "message": "Actually, the state we want to skip is READ_WRITE_WITH_SEQUENCE_**REVIEW_DB**_PRIMARY.\n\nWe need to make sure primaryStorage\u003dNOTE_DB (for new changes) *before* we start running PrimaryStorageMigrator, to account for changes that are created by other threads after we collect the initial list of ReviewDb change to migrate.",
+      "parentUuid": "c45ff9f0_a4b6e485",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 47
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef84b450_d0dfe676",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1

@@ -3920,9 +3920,12 @@ Defaults to an empty list, meaning no additional TLDs are allowed.
 [[site.allowOriginRegex]]site.allowOriginRegex::
 +
 List of regular expressions matching origins that should be permitted
-to use the Gerrit REST API to read content. These should be trusted
-applications as the sites may be able to use the user's credentials.
-Only applies to GET and HEAD requests.
+to use the full Gerrit REST API.  These should be trusted applications,
+as the sites may be able to use the user's credentials. Applies to
+all requests, including state changing methods (PUT, DELETE, POST).
++
+Expressions should not require trailing slash. For example a valid
+pattern might be `https://build-status[.]example[.]com`.
 +
 By default, unset, denying all cross-origin requests.
 

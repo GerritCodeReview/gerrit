@@ -14,11 +14,15 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -48,5 +52,92 @@ public class ParameterParserTest {
     exp.add("a_list", list);
 
     assertEquals(exp, obj);
+  }
+
+  @Test
+  public void parseQuery() throws BadRequestException {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("query=status%3aopen");
+    QueryParams qp = ParameterParser.getQueryParams(req);
+    assertThat(qp.accessToken()).isNull();
+    assertThat(qp.xdMethod()).isNull();
+    assertThat(qp.xdContentType()).isNull();
+    assertThat(qp.hasXdOverride()).isFalse();
+    assertThat(qp.config()).isEmpty();
+    assertThat(qp.params()).containsKey("query");
+    assertThat(qp.params().get("query")).containsExactly("status:open");
+  }
+
+  @Test
+  public void parseAccessToken() throws BadRequestException {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("query=status%3aopen&access_token=secr%65t");
+    QueryParams qp = ParameterParser.getQueryParams(req);
+    assertThat(qp.accessToken()).isEqualTo("secret");
+    assertThat(qp.xdMethod()).isNull();
+    assertThat(qp.xdContentType()).isNull();
+    assertThat(qp.hasXdOverride()).isFalse();
+    assertThat(qp.config()).isEmpty();
+    assertThat(qp.params()).containsKey("query");
+    assertThat(qp.params().get("query")).containsExactly("status:open");
+
+    req = new FakeHttpServletRequest();
+    req.setQueryString("access_token=secret");
+    qp = ParameterParser.getQueryParams(req);
+    assertThat(qp.accessToken()).isEqualTo("secret");
+    assertThat(qp.xdMethod()).isNull();
+    assertThat(qp.xdContentType()).isNull();
+    assertThat(qp.hasXdOverride()).isFalse();
+    assertThat(qp.config()).isEmpty();
+    assertThat(qp.params()).isEmpty();
+  }
+
+  @Test
+  public void parseXdOverride() throws BadRequestException {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("$m=PUT&$ct=json&access_token=secret");
+    QueryParams qp = ParameterParser.getQueryParams(req);
+    assertThat(qp.accessToken()).isEqualTo("secret");
+    assertThat(qp.xdMethod()).isEqualTo("PUT");
+    assertThat(qp.xdContentType()).isEqualTo("json");
+    assertThat(qp.hasXdOverride()).isTrue();
+    assertThat(qp.config()).isEmpty();
+    assertThat(qp.params()).isEmpty();
+  }
+
+  @Test
+  public void rejectDuplicateMethod() {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("$m=PUT&$m=DELETE");
+    try {
+      ParameterParser.getQueryParams(req);
+      fail("expected BadRequestException");
+    } catch (BadRequestException bad) {
+      assertThat(bad).hasMessageThat().isEqualTo("duplicate $m");
+    }
+  }
+
+  @Test
+  public void rejectDuplicateContentType() {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("$ct=json&$ct=string");
+    try {
+      ParameterParser.getQueryParams(req);
+      fail("expected BadRequestException");
+    } catch (BadRequestException bad) {
+      assertThat(bad).hasMessageThat().isEqualTo("duplicate $ct");
+    }
+  }
+
+  @Test
+  public void rejectInvalidMethod() {
+    FakeHttpServletRequest req = new FakeHttpServletRequest();
+    req.setQueryString("$m=CONNECT");
+    try {
+      ParameterParser.getQueryParams(req);
+      fail("expected BadRequestException");
+    } catch (BadRequestException bad) {
+      assertThat(bad).hasMessageThat().isEqualTo("invalid $m");
+    }
   }
 }

@@ -25,11 +25,13 @@
     <p>
       {if $email.changeUrl}
         To view, visit{sp}
-        <a href="{$email.changeUrl}">change {$change.changeNumber}</a>.
+        <a href="{$email.changeUrl}">change {$change.changeNumber}</a>.{\n}
       {/if}
-      {if $email.changeUrl and $email.settingsUrl}{sp}{/if}
+
+      {if $email.changeUrl and $email.settingsUrl}{sp}{\n}{/if}
+
       {if $email.settingsUrl}
-        To unsubscribe, visit <a href="{$email.settingsUrl}">settings</a>.
+        To unsubscribe, visit <a href="{$email.settingsUrl}">settings</a>.{\n}
       {/if}
     </p>
   {/if}

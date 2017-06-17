@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497644221 -0400\nnonce AH5c86Db/KBfn5surcqZ4K00i2/XHXhOKINceIoxdgL4TKVXjMc5AodJnWNna6vY6Z/oi8Ou0ORA\n\n0000000000000000000000000000000000000000 6f1cd75a45f8013b3b81895237d706add27abcca refs/for/master%topic\u003dmigrate-to-note-db,r\u003dekempin,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZRDy9AAoJEF/XxZqaEoiM1BsP/3q+efs10O5A/cvWj1rYFsQh\nDmOhVxlaG3B9CTuEND4C4vC305R7BjZbBFKASRYaLRpKNpvAIfWqi+iGiw9QuToi\nxTHnAWCtg51exiQne+t+4KOKQa934vM1yzKNVuKdKLAezWRMh8Tz7ZEX6DKZqtNK\nD5bxEwATMUtnvk1vqK3S6JfCa1osZ22IE6i4uDWSUzPDPtfAsVsZ6CFfrms+eKdc\nKYBKKvrUsXoZN8CJkps0sxq6nDGXAWTQdYDtezvRkAflQhtnMm6Vzguq604dNeie\nYZEV1ERVp41iveffV1tKfi+rnMjOXw83KOm6s7mn8BXdG9FyJfIhobS2WdWbXXod\ncmPwHisyRHCre8wFwxdSUfFCxdgD6DMTfT7+YMa3N2bAyh/xTD6UixJiHUMCPAgS\nJy0zz4SVqxRQCLHD3x1liDEFpITBNKVnazyosZ6H6OlWtMZgQUwuCAwzpaZ6jK2D\ndXzGhpmdcF7+Zu26DgLxBEnzgieqwrJjf0aOktwO29W0u+cvOP1kxLBd/wsQpVGD\n0at6UOo4POD54Zw0HgA7WzvVncnq8ycQ9wXhdlfVg2s9bB4BDsWL2PK3Q2r54JcN\nRc2YNmc04XGR/76nr7z3LRCG2HG1lz/3OqoB1hRbOoDtePwDINcQKWMJvkKbPkgp\nhqIRs10LdHfr9q8m7wu1\n\u003dloaK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bd184c1_cd40783f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:13:39Z",
+      "side": 1,
+      "message": "Say, FileRepository supports fused updates. This code would be adapted as following:\n\n  [...]\n  case NOTE_DB_UNFUSED:\n    // Done!\n    break;\n  case NOTE_DB:\n    // Done!\n    break;\n  [...]\n\nIs the absence of any action for NOTE_DB_UNFUSED and NOTE_DB states a clear indication that these states are superfluous; and consequently READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY could be renamed to NOTE_DB, and old stated NOTE_DB_UNFUSED and NOTE_DB could be dropped?",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 47
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef84b450_d0dfe676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:13:39Z",
+      "side": 1,
+      "message": "Except setting the new state, this should adapt NoteDB sequence generation process to start with the last existing ReviewDb change number + 1?",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 267,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85e6cd13_72654d94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:13:39Z",
+      "side": 1,
+      "message": "Isn\u0027t this just a no-op transition? Only pass prev state and save the new state here?\n\n  return saveState(prev, NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57ec8a70_66241052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:13:39Z",
+      "side": 1,
+      "message": "Same here:\n\n  return saveState(prev, NotesMigrationState.NOTE_DB_UNFUSED);",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

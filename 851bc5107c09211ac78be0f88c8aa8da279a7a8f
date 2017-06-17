@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5c65410f_d47a4acb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-17T14:10:09Z",
+      "side": 1,
+      "message": "\u003e Is the absence of any action for NOTE_DB_UNFUSED and NOTE_DB states a clear indication that these states are superfluous\n\nFair point, we should just start using fused updates as soon as they are available in the code, we shouldn\u0027t have to do any additional configuration.\n\n\u003e READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY could be renamed to NOTE_DB\n\nWell, these aren\u0027t exactly the same state, RWWSNDP has disableReviewDb\u003dfalse and NOTE_DB has disableReviewDb\u003dtrue. But we can probably disable ReviewDb as soon as all changes have NoteDb primary.\n\nI guess what I was thinking is we want to support running MigrateToNoteDb when the admin has configured it manually to be in the RWWSNDP state. This is certainly a phase we went through on googlesource.com. But that\u0027s probably overthinking it; the whole point is that we are supporting  a limited set of states and not asking admins to take any action. So we don\u0027t need to support RWWSNDP.",
+      "parentUuid": "0bd184c1_cd40783f",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 47
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef84b450_d0dfe676",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-06-17T05:13:39Z",
       "side": 1,
       "message": "Except setting the new state, this should adapt NoteDB sequence generation process to start with the last existing ReviewDb change number + 1?",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 267,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c36a11_016e9cfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-17T14:10:09Z",
+      "side": 1,
+      "message": "Basically, yeah. In a running server the gap needs to be larger because other threads may call db.nextChangeId() after the migrator gets an ID as a seed but before it saves it to the repo and changes the migration flag.",
+      "parentUuid": "ef84b450_d0dfe676",
       "range": {
         "startLine": 267,
         "startChar": 4,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "07fc4ba8_d3477409",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-17T14:10:09Z",
+      "side": 1,
+      "message": "No. Prior to this step, all existing changes in the database have ReviewDb primary. This step involves running PrimaryStorageMigrator on each change so they all have NoteDb primary.\n\nArguably, in an offline context we could set NoteDb primary as part of the rebuilding step. That might be worth it as an optimization, but it means we have more differences between the online/offline codepaths. I am going to start out keeping them the same, then see how performance is.",
+      "parentUuid": "85e6cd13_72654d94",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57ec8a70_66241052",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2017-06-17T05:13:39Z",
       "side": 1,
       "message": "Same here:\n\n  return saveState(prev, NotesMigrationState.NOTE_DB_UNFUSED);",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 67
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed16a3e4_1880d7f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-17T14:10:09Z",
+      "side": 1,
+      "message": "In this case yes, it\u0027s just a state change.\n\nThe plan is to implement them in order, though.",
+      "parentUuid": "57ec8a70_66241052",
       "range": {
         "startLine": 275,
         "startChar": 4,

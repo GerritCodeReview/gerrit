@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97502dc9_eb861921",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-17T15:03:10Z",
+      "side": 1,
+      "message": "This is the breakage identified by Palladox none. Browsers like Chrome send the Origin header even for requests made by the GWT UI running on the same origin as the XHR is going to.\n\nThe prior version simply didn\u0027t set the CORS headers, but still permitted the GET to execute. Since the origin was the same, the browser allowed the JS to read the XHR reply, even if the server didn\u0027t approve it with a CORS header.\n\nThe new version bails fast and doesn\u0027t allow the call to continue. And the old behavior wasn\u0027t tested in the CorsIT test so it was missed.",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 518,
+        "endChar": 7
+      },
+      "revId": "53ebad44d433fe1fb24c33013c9dd6e91d168fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

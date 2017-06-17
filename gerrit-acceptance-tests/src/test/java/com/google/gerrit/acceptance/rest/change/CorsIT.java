@@ -30,10 +30,13 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.truth.StringSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.testutil.ConfigSuite;
 import java.nio.charset.StandardCharsets;
@@ -63,14 +66,29 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void origin() throws Exception {
+  public void missingOriginIsAllowedWithNoCorsResponseHeaders() throws Exception {
     Result change = createChange();
-
     String url = "/changes/" + change.getChangeId() + "/detail";
     RestResponse r = adminRestSession.get(url);
     r.assertOK();
-    assertThat(r.getHeader(ACCESS_CONTROL_ALLOW_ORIGIN)).isNull();
-    assertThat(r.getHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS)).isNull();
+
+    String allowOrigin = r.getHeader(ACCESS_CONTROL_ALLOW_ORIGIN);
+    String allowCred = r.getHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS);
+    String maxAge = r.getHeader(ACCESS_CONTROL_MAX_AGE);
+    String allowMethods = r.getHeader(ACCESS_CONTROL_ALLOW_METHODS);
+    String allowHeaders = r.getHeader(ACCESS_CONTROL_ALLOW_HEADERS);
+
+    assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isNull();
+    assertThat(allowCred).named(ACCESS_CONTROL_ALLOW_CREDENTIALS).isNull();
+    assertThat(maxAge).named(ACCESS_CONTROL_MAX_AGE).isNull();
+    assertThat(allowMethods).named(ACCESS_CONTROL_ALLOW_METHODS).isNull();
+    assertThat(allowHeaders).named(ACCESS_CONTROL_ALLOW_HEADERS).isNull();
+  }
+
+  @Test
+  public void origins() throws Exception {
+    Result change = createChange();
+    String url = "/changes/" + change.getChangeId() + "/detail";
 
     check(url, true, "http://example.com");
     check(url, true, "https://sub.example.com");
@@ -81,7 +99,19 @@ public class CorsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putWithOriginAccepted() throws Exception {
+  public void putWithServerOriginAcceptedWithNoCorsResponseHeaders() throws Exception {
+    Result change = createChange();
+    String origin = adminRestSession.url();
+    RestResponse r =
+        adminRestSession.putWithHeader(
+            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
+    r.assertOK();
+    checkCors(r, false, origin);
+    checkTopic(change, "A");
+  }
+
+  @Test
+  public void putWithOtherOriginAccepted() throws Exception {
     Result change = createChange();
     String origin = "http://example.com";
     RestResponse r =
@@ -182,21 +212,40 @@ public class CorsIT extends AbstractDaemonTest {
     Header allowOrigin = r.getFirstHeader(ACCESS_CONTROL_ALLOW_ORIGIN);
     assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isNotNull();
     assertThat(allowOrigin.getValue()).named(ACCESS_CONTROL_ALLOW_ORIGIN).isEqualTo(origin);
-
-    ChangeInfo info = gApi.changes().id(change.getChangeId()).get();
-    assertThat(info.topic).named("topic").isEqualTo("test-xd");
+    checkTopic(change, "test-xd");
   }
 
-  private RestResponse check(String url, boolean accept, String origin) throws Exception {
+  @Test
+  public void crossDomainRejectsBadOrigin() throws Exception {
+    Result change = createChange();
+    UrlEncoded url =
+        new UrlEncoded(canonicalWebUrl.get() + "/changes/" + change.getChangeId() + "/topic");
+    url.put("$m", "PUT");
+    url.put("$ct", "application/json; charset=US-ASCII");
+
+    Request req = Request.Post(url.toString());
+    req.setHeader(CONTENT_TYPE, "text/plain");
+    req.setHeader(ORIGIN, "http://evil.attacker");
+    req.bodyByteArray("{\"topic\":\"test-xd\"}".getBytes(StandardCharsets.US_ASCII));
+    adminRestSession.execute(req).assertBadRequest();
+    checkTopic(change, null);
+  }
+
+  private void checkTopic(Result change, @Nullable String topic) throws RestApiException {
+    ChangeInfo info = gApi.changes().id(change.getChangeId()).get();
+    StringSubject t = assertThat(info.topic).named("topic");
+    if (topic != null) {
+      t.isEqualTo(topic);
+    } else {
+      t.isNull();
+    }
+  }
+
+  private void check(String url, boolean accept, String origin) throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
     RestResponse r = adminRestSession.getWithHeader(url, hdr);
-    if (accept) {
-      r.assertOK();
-    } else {
-      r.assertBadRequest();
-    }
+    r.assertOK();
     checkCors(r, accept, origin);
-    return r;
   }
 
   private void checkCors(RestResponse r, boolean accept, String origin) {

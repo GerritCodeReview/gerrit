@@ -547,18 +547,21 @@ public class RestApiServlet extends HttpServlet {
   private void checkCors(HttpServletRequest req, HttpServletResponse res, boolean isXd)
       throws BadRequestException {
     String origin = req.getHeader(ORIGIN);
-    if (!Strings.isNullOrEmpty(origin)) {
-      res.addHeader(VARY, ORIGIN);
-      if (!isOriginAllowed(origin)) {
+    if (isXd) {
+      // Cross-domain, non-preflighted requests must come from an approved origin.
+      if (Strings.isNullOrEmpty(origin) || !isOriginAllowed(origin)) {
         throw new BadRequestException("origin not allowed");
       }
-      if (isXd) {
-        res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-      } else {
+      res.addHeader(VARY, ORIGIN);
+      res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+    } else if (!Strings.isNullOrEmpty(origin)) {
+      // All other requests must be processed, but conditionally set CORS headers.
+      if (globals.allowOrigin != null) {
+        res.addHeader(VARY, ORIGIN);
+      }
+      if (isOriginAllowed(origin)) {
         setCorsHeaders(res, origin);
       }
-    } else if (isXd) {
-      throw new BadRequestException("expected " + ORIGIN);
     }
   }
 

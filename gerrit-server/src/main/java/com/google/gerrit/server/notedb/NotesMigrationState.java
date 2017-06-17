@@ -31,7 +31,7 @@ public enum NotesMigrationState {
 
   WRITE(false, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
-  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.NOTE_DB, false, false),
+  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
   READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY(
       true, true, true, PrimaryStorage.REVIEW_DB, false, false),

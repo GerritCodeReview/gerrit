@@ -22,6 +22,30 @@
       "revId": "53ebad44d433fe1fb24c33013c9dd6e91d168fe1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b221438_4a22eddb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-17T15:07:32Z",
+      "side": 1,
+      "message": "Also happens with safari",
+      "parentUuid": "97502dc9_eb861921",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 518,
+        "endChar": 7
+      },
+      "revId": "53ebad44d433fe1fb24c33013c9dd6e91d168fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

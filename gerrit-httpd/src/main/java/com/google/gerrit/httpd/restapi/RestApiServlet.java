@@ -1119,8 +1119,7 @@ public class RestApiServlet extends HttpServlet {
       throw new AmbiguousViewException(
           String.format(
               "Projection %s is ambiguous: %s",
-              name,
-              r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
+              name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
     }
   }
 

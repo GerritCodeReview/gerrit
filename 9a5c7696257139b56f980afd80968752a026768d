@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "3ff15557_39dabc71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/AnonymousUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:39:35Z",
+      "side": 1,
+      "message": "Remove the ctor entirely, then and let compiler generate it for you?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "9a5c7696257139b56f980afd80968752a026768d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3517c585_d9891696",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/InternalUser.java",
         "patchSetId": 3
@@ -90,6 +113,23 @@
         "endLine": 36,
         "endChar": 9
       },
+      "revId": "9a5c7696257139b56f980afd80968752a026768d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ca91edb_d7053cb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/InternalUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T05:39:35Z",
+      "side": 1,
+      "message": "Same here?",
       "revId": "9a5c7696257139b56f980afd80968752a026768d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -11,7 +11,7 @@
       "author": {
         "id": 1003935
       },
-      "writtenOn": "Jan 29, 2017 11:34:00 PM",
+      "writtenOn": "2017-01-30T07:34:00Z",
       "side": 1,
       "message": "published",
       "range": {
@@ -19,6 +19,29 @@
         "startChar": 16,
         "endLine": 295,
         "endChar": 21
+      },
+      "revId": "0c7ea3d9d13eab673583d93c94c44896b4e0e908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8434b46_8a9b9425",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-17T13:23:04Z",
+      "side": 1,
+      "message": "So the issue is 3 instead of 2?\n\n  1) deleteDraftPatchSetAndPushNewPublishedPatchSet(com.google.gerrit.acceptance.rest.change.DeleteDraftPatchSetIT)\n  java.lang.AssertionError: Not true that \u003c2\u003e is equal to \u003c3\u003e\n\nI\u0027m asking because changing 3 to 2 fixed this.",
+      "range": {
+        "startLine": 318,
+        "startChar": 51,
+        "endLine": 318,
+        "endChar": 52
       },
       "revId": "0c7ea3d9d13eab673583d93c94c44896b4e0e908",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

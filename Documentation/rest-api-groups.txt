@@ -687,7 +687,7 @@ numeric group ID.
 
 .Request
 ----
-  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
+  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/owner HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

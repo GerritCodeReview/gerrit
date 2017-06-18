@@ -25,12 +25,7 @@
     section: 'Groups',
     url: '/admin/groups',
     view: 'gr-admin-group-list',
-    children: [{
-      name: 'Create Group',
-      capability: 'createGroup',
-      url: '/admin/create-group',
-      view: 'gr-admin-create-group',
-    }],
+    children: [],
   }, {
     name: 'Plugins',
     capability: 'viewPlugins',
@@ -55,10 +50,10 @@
         type: Boolean,
         value: false,
       },
+      _showGroupList: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
-      _showGroupList: Boolean,
       _showPluginList: Boolean,
     },
 
@@ -132,12 +127,12 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
-      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
       if (params.project !== this._project) {
         this._project = params.project || '';

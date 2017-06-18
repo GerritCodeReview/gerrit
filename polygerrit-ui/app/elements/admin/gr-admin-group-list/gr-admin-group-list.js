@@ -35,6 +35,11 @@
         readOnly: true,
         value: '/admin/groups',
       },
+      _hasNewGroupName: Boolean,
+      _createNewCapability: {
+        type: Boolean,
+        value: false,
+      },
       _groups: Array,
 
       /**
@@ -62,9 +67,8 @@
       Gerrit.ListViewBehavior,
     ],
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
+    attached() {
+      this._getCreateGroupCapability();
     },
 
     _paramsChanged(params) {
@@ -78,6 +82,18 @@
 
     _computeGroupUrl(id) {
       return this.getUrl(this._path + '/', id);
+    },
+
+    _getCreateGroupCapability() {
+      return this.$.restAPI.getAccount().then(account => {
+        if (!account) { return; }
+        return this.$.restAPI.getAccountCapabilities(['createGroup'])
+            .then(capabilities => {
+              if (capabilities.createGroup) {
+                this._createNewCapability = true;
+              }
+            });
+      });
     },
 
     _getGroups(filter, groupsPerPage, offset) {
@@ -95,6 +111,18 @@
              });
             this._loading = false;
           });
+    },
+
+    _handleCreateGroup() {
+      this.$.createNewModal.handleCreateGroup();
+    },
+
+    _handleCloseCreate() {
+      this.$.createOverlay.close();
+    },
+
+    _handleCreateClicked() {
+      this.$.createOverlay.open();
     },
 
     _visibleToAll(item) {

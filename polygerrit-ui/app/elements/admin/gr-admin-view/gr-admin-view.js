@@ -44,12 +44,14 @@
       path: String,
       adminView: String,
 
-      _project: String,
+      _projectName: String,
+      _groupID: Number,
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
         value: false,
       },
+      _showGroup: Boolean,
       _showGroupList: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
@@ -90,25 +92,33 @@
         const linkCopy = Object.assign({}, link);
         linkCopy.children = linkCopy.children ?
             linkCopy.children.filter(filterFn) : [];
-        if (linkCopy.name === 'Projects' && this._project) {
+        if (linkCopy.name === 'Projects' && this._projectName) {
           linkCopy.subsection = {
-            name: `${this._project}`,
+            name: `${this._projectName}`,
             view: 'gr-project',
-            url: `/admin/projects/${this.encodeURL(this._project, true)}`,
+            url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
             children: [{
               name: 'Branches',
               detailType: 'branches',
               view: 'gr-project-detail-list',
-              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+              url: `/admin/projects/${this.encodeURL(this._projectName, true)}` +
                     ',branches',
             },
             {
               name: 'Tags',
               detailType: 'tags',
               view: 'gr-project-detail-list',
-              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+              url: `/admin/projects/${this.encodeURL(this._projectName, true)}` +
                     ',tags',
             }],
+          };
+        }
+        if (linkCopy.name === 'Groups' && this._groupID) {
+          linkCopy.subsection = {
+            name: `${this._groupID}`,
+            view: 'gr-group',
+            url: `/admin/groups/${this.encodeURL(this._groupID, true)}`,
+            children: [],
           };
         }
         filteredLinks.push(linkCopy);
@@ -127,6 +137,7 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
@@ -134,8 +145,13 @@
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
-      if (params.project !== this._project) {
-        this._project = params.project || '';
+      if (params.project !== this._projectName) {
+        this._projectName = params.project || '';
+        // Reloads the admin menu.
+        this.reload();
+      }
+      if (params.group !== this._groupID) {
+        this._groupID = params.group || '';
         // Reloads the admin menu.
         this.reload();
       }

@@ -235,10 +235,12 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           return res.files();
         }
 
-        try {
-          return copy(res.files(), res.patchSetId(), resource, userId);
-        } catch (IOException | PatchListNotAvailableException e) {
-          log.warn("Cannot copy patch review flags", e);
+        if (!o.isEmpty()) {
+          try {
+            return copy(res.files(), res.patchSetId(), resource, userId);
+          } catch (IOException | PatchListNotAvailableException e) {
+            log.warn("Cannot copy patch review flags", e);
+          }
         }
       }
 

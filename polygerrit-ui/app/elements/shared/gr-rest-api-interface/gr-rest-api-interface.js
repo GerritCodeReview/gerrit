@@ -145,10 +145,14 @@
     },
 
     createProject(config, opt_errFn, opt_ctx) {
-      if (!config.name) {
-        return '';
-      }
+      if (!config.name) { return ''; }
       return this.send('PUT', `/projects/${config.name}`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    createGroup(config, opt_errFn, opt_ctx) {
+      if (!config.name) { return ''; }
+      return this.send('PUT', `/groups/${config.name}`, config, opt_errFn,
           opt_ctx);
     },
 

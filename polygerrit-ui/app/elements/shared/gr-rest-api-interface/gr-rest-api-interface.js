@@ -170,12 +170,21 @@
     },
 
     createProject(config, opt_errFn, opt_ctx) {
-      if (!config.name) {
-        return '';
-      }
+      if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
       return this.send('PUT', `/projects/${encodeName}`, config, opt_errFn,
           opt_ctx);
+    },
+
+    createGroup(config, opt_errFn, opt_ctx) {
+      if (!config.name) { return ''; }
+      const encodeName = encodeURIComponent(config.name);
+      return this.send('PUT', `/groups/${encodeName}`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    getGroupConfig(group) {
+      return this._fetchSharedCacheURL('/groups/' + group + '/detail');
     },
 
     getVersion() {

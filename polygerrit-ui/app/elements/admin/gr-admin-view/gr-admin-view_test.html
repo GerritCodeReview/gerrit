@@ -138,7 +138,7 @@ limitations under the License.
     });
 
     test('Project shows up in nav', done => {
-      element._project = 'Test Project';
+      element._projectName = 'Test Project';
       sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({
           createGroup: true,

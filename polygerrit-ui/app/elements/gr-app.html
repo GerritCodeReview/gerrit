@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
+<link rel="import" href="./admin/gr-create-group/gr-create-group.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
@@ -155,6 +156,11 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showPluginListView]]" restamp="true">
         <gr-admin-plugin-list id="pluginList"></gr-admin-plugin-list>
+      </template>
+      <template is="dom-if" if="[[_createGroup]]" restamp="true">
+        <gr-create-group
+            params="[[params]]"
+            id="createGroup"></gr-create-group>
       </template>
       <template is="dom-if" if="[[_createProject]]" restamp="true">
         <gr-admin-create-project

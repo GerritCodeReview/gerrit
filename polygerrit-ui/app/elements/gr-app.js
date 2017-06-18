@@ -48,6 +48,11 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
+      _showProjectListView: Boolean,
+      _showAdminProject: Boolean,
+      _showPluginListView: Boolean,
+      _createGroup: Boolean,
+      _createProject: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _viewState: Object,
@@ -137,6 +142,8 @@
       this.set('_showDiffView', view === 'gr-diff-view');
       this.set('_showSettingsView', view === 'gr-settings-view');
       this.set('_showPluginListView', view === 'gr-admin-plugin-list');
+      this.set('_createGroup', view === 'gr-create-group');
+      this.set('_createProject', view === 'gr-admin-create-project');
       this.set('_showAdminView', view === 'gr-admin-view');
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {

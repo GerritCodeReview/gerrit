@@ -44,12 +44,18 @@
       path: String,
       adminView: String,
 
-      _project: String,
+      _projectName: String,
+      _groupId: {
+        type: Number,
+        observer: '_computeGroupName',
+      },
+      _groupName: String,
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
         value: false,
       },
+      _showGroup: Boolean,
       _showGroupList: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
@@ -90,25 +96,33 @@
         const linkCopy = Object.assign({}, link);
         linkCopy.children = linkCopy.children ?
             linkCopy.children.filter(filterFn) : [];
-        if (linkCopy.name === 'Projects' && this._project) {
+        if (linkCopy.name === 'Projects' && this._projectName) {
           linkCopy.subsection = {
-            name: `${this._project}`,
+            name: this._projectName,
             view: 'gr-project',
-            url: `/admin/projects/${this.encodeURL(this._project, true)}`,
+            url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
             children: [{
               name: 'Branches',
               detailType: 'branches',
               view: 'gr-project-detail-list',
-              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
-                    ',branches',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},branches`,
             },
             {
               name: 'Tags',
               detailType: 'tags',
               view: 'gr-project-detail-list',
-              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
-                    ',tags',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},tags`,
             }],
+          };
+        }
+        if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
+          linkCopy.subsection = {
+            name: this._groupName,
+            view: 'gr-group',
+            url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
+            children: [],
           };
         }
         filteredLinks.push(linkCopy);
@@ -127,6 +141,7 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
@@ -134,8 +149,13 @@
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
       this.set('_showPluginList', params.adminView === 'gr-plugin-list');
-      if (params.project !== this._project) {
-        this._project = params.project || '';
+      if (params.project !== this._projectName) {
+        this._projectName = params.project || '';
+        // Reloads the admin menu.
+        this.reload();
+      }
+      if (params.groupId !== this._groupId) {
+        this._groupId = params.groupId || '';
         // Reloads the admin menu.
         this.reload();
       }
@@ -166,6 +186,19 @@
         return '';
       }
       return itemView === params.adminView ? 'selected' : '';
+    },
+
+    _computeGroupName(groupId) {
+      if (!groupId) { return ''; }
+      this.$.restAPI.getGroupConfig(groupId).then(group => {
+        this._groupName = group.name;
+        this.reload();
+      });
+    },
+
+    _updateGroupName(e) {
+      this._groupName = e.detail.name;
+      this.reload();
     },
   });
 })();

@@ -138,7 +138,7 @@ limitations under the License.
     });
 
     test('Project shows up in nav', done => {
-      element._project = 'Test Project';
+      element._projectName = 'Test Project';
       sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({
           createGroup: true,
@@ -180,5 +180,41 @@ limitations under the License.
         adminView: 'gr-project'};
       assert.equal(element.reload.callCount, 2);
     });
+
+    test('Nav is reloaded when group changes', () => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      sandbox.stub(element.$.restAPI, 'getAccount', () => {
+        return Promise.resolve({_id: 1});
+      });
+      sandbox.stub(element, 'reload');
+      element.params = {groupId: '1', adminView: 'gr-group'};
+      assert.equal(element.reload.callCount, 1);
+    });
+
+    test('Nav is reloaded when group name changed', () => {
+      element._groupId = 1;
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      sandbox.stub(element.$.restAPI, 'getAccount', () => {
+        return Promise.resolve({_id: 1});
+      });
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve({name: 'test-group'});
+      });
+      sandbox.stub(element, 'reload');
+      assert.equal(element.reload.callCount, 0);
+    });
   });
+
 </script>

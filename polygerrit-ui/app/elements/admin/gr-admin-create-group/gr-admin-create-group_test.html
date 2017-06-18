@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-admin-create-group</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-admin-create-group.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-admin-create-group></gr-admin-create-group>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-admin-create-group tests', () => {
+    let element;
+    let sandbox;
+    const GROUP = 'test-group';
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+      });
+      element = fixture('basic');
+      element._groupConfig = {
+        name: 'test-group',
+      };
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('group created', done => {
+      const configInputObj = {
+        name: 'test-group',
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createGroup', () => {
+            return Promise.resolve({});
+          });
+
+      const button = element.$.submitBtn;
+
+      flushAsynchronousOperations();
+      element.$.projectNameInput.bindValue = configInputObj.name;
+
+      assert.isFalse(button.hasAttribute('disabled'));
+
+      assert.deepEqual(element._groupConfig, configInputObj);
+
+      element._handleCreateGroup().then(() => {
+        assert.isTrue(button.hasAttribute('disabled'));
+        assert.isTrue(saveStub.lastCall.calledWithExactly(GROUP,
+            configInputObj));
+        done();
+      });
+      MockInteractions.tap(button);
+      done();
+    });
+
+    test('test for button being called', done => {
+      const button = element.$.submitBtn;
+
+      flushAsynchronousOperations();
+      sandbox.stub(element, '_handleCreateGroup');
+      element._handleCreateGroup();
+      MockInteractions.tap(button);
+      assert.isTrue(element._handleCreateGroup.called);
+      done();
+    });
+
+    test('test for _handleCreateGroup being called', done => {
+      const button = element.$.submitBtn;
+
+      flushAsynchronousOperations();
+      MockInteractions.tap(button);
+      done();
+    });
+  });
+</script>

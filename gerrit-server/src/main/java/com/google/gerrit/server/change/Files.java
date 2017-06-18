@@ -45,6 +45,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+
+
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -235,7 +237,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       Optional<PatchSetWithReviewedFiles> o = accountPatchReviewStore.get()
           .findReviewed(patchSetId.getId(), userId);
 
-      if (o.isPresent()) {
+      if (o.isPresent() && 1 < resource.getPatchSet().getPatchSetId()) {
         PatchSetWithReviewedFiles res = o.get();
         if (res.patchSetId().equals(patchSetId.getId())) {
           return res.files();

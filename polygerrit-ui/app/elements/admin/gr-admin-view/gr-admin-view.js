@@ -55,6 +55,8 @@
         type: Boolean,
         value: false,
       },
+      _showCreateGroup: Boolean,
+      _showCreateProject: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectBranches: Boolean,
@@ -132,6 +134,12 @@
     },
 
     _paramsChanged(params) {
+<<<<<<< HEAD
+=======
+      this.set('_showCreateGroup', params.adminView === 'gr-create-group');
+      this.set('_showCreateProject',
+          params.adminView === 'gr-admin-create-project');
+>>>>>>> 993cad4f70... PolyGerrit: Implement /admin/create-group
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');

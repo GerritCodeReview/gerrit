@@ -158,6 +158,21 @@
       });
     });
 
+    // Matches /admin/groups/<group>
+    page(/^\/admin\/groups\/(.+)$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group',
+            groupId: data.params[0],
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     // Matches /admin/projects/<project>,branches[,<offset>].
     page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
       app.params = {

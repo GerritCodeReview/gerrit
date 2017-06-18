@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1fe909c9_447714b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-18T14:35:22Z",
+      "side": 1,
+      "message": "I noticed, it was added later in this series.",
+      "parentUuid": "b6179803_32aecab2",
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db5aaf95_a5ad7006",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1

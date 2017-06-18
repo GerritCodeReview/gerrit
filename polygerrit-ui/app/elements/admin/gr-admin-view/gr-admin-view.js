@@ -64,6 +64,7 @@
       _showCreateProject: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
+      _showGroup: Boolean,
       _showGroupList: Boolean,
       _showPluginList: Boolean,
     },
@@ -131,6 +132,7 @@
       this.set('_showProjectMain', params.adminView === 'gr-admin-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');
+      this.set('_showGroup', params.adminView === 'gr-admin-group');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
       if (params.project !== this._project) {

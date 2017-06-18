@@ -17,6 +17,29 @@
       "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db5aaf95_a5ad7006",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-18T07:20:47Z",
+      "side": 1,
+      "message": "I tried to verify that use case and noticed two issues:\n\n* 1. No reasons are given in addition to ISE why it\u0027s failed: http://paste.openstack.org/show/612966. I see, that it\u0027s fixed in the follow-up change, so that\u0027s fine.\n* 2. Probably not primary caused by this change, but in error case the process doesn\u0027t exit. I noticed this by chance, by running it from the console, and without noticing, that the process wasn\u0027t terminated, i tried to start yet another debugger session from the IDE and it was failing to start, because the database was locked. This is annoying. I applied quick and dirty patch, and that fixed it: http://paste.openstack.org/show/612967. Seems like ISE is not the right exception here? IIRC, I never saw, that the other site programs hung if some errors occured.",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

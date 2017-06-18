@@ -1,0 +1,130 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+
+<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-admin-group">
+  <template>
+    <style include="shared-styles">
+      main {
+        margin: 2em 1em;
+      }
+      h2.edited:after {
+        color: #444;
+        content: ' *';
+      }
+      .loading {
+        display: none;
+      }
+      #loading.loading {
+        display: block;
+      }
+      #loading:not(.loading) {
+        display: none;
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+      <main class="gr-form-styles read-only">
+        <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
+        <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
+          <h1 id="Title">[[_groupConfig.name]]</h1>
+          <h2 id="configurations"
+              class$="[[_computeHeaderClass(_configChanged)]]">General</h2>
+          <div id="form">
+            <fieldset>
+              <h3 id="groupUUID">Group UUID</h3>
+              <fieldset>
+                <iron-autogrow-textarea
+                    id="groupUUID"
+                    class="groupUUID"
+                    autocomplete="on"
+                    bind-value="{{_groupConfig.id}}"
+                    disabled="true"></iron-autogrow-textarea>
+              </fieldset>
+              <h3 id="groupName">Group Name</h3>
+              <fieldset>
+                <iron-autogrow-textarea
+                    id="groupName"
+                    class="groupName"
+                    autocomplete="on"
+                    bind-value="{{_groupConfig.name}}"
+                    disabled$="[[_groupOwner]]"></iron-autogrow-textarea>
+                <gr-button
+                    on-tap="_handleRenameGroupName"
+                    disabled$="[[_computeButtonDisabled(_groupOwner, _configChanged)]]">
+                  Rename Group</gr-button>
+              </fieldset>
+              <h3 id="groupName">Owners</h3>
+              <fieldset>
+                <iron-autogrow-textarea
+                    id="owners"
+                    class="owners"
+                    autocomplete="on"
+                    bind-value="{{_groupConfig.owner}}"
+                    disabled$="[[_groupOwner]]"></iron-autogrow-textarea>
+                <gr-button
+                    on-tap="_handleChangeGroupOwner"
+                    disabled$="[[_computeButtonDisabled(_groupOwner, _configChanged)]]">
+                  Change Owners</gr-button>
+              </fieldset>
+              <h3 id="groupName">Description</h3>
+              <fieldset>
+                <iron-autogrow-textarea
+                    id="description"
+                    class="description"
+                    autocomplete="on"
+                    bind-value="{{_groupConfig.description}}"
+                    disabled$="[[_groupOwner]]"></iron-autogrow-textarea>
+                <gr-button
+                    on-tap="_handleChangeDescription"
+                    disabled$="[[_computeButtonDisabled(_groupOwner, _configChanged)]]">
+                  Save Description</gr-button>
+              </fieldset>
+              <h3 id="Options">Group Options</h3>
+              <fieldset id="visableToAll">
+                <section>
+                  <span class="title">Make group visible to all registered users</span>
+                  <span class="value">
+                    <select
+                        id="visibleToAll"
+                        is="gr-select"
+                        bind-value="{{_groupConfig.options.visible_to_all}}">
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </span>
+                </section>
+                <gr-button
+                    on-tap="_handleSaveGroupConfig"
+                    disabled$="[[_computeButtonDisabled(_groupOwner, _configChanged)]]">
+                  Save Group Options</gr-button>
+              </fieldset>
+            </fieldset>
+          </div>
+        </div>
+      </main>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-admin-group.js"></script>
+</dom-module>

@@ -114,6 +114,18 @@
       });
     });
 
+    // Matches /admin/groups/<group>,info (backwords compat with gwtui)
+    // Redirects to /admin/groups/<group>
+    page(/^\/admin\/groups\/(.+),info$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          page.redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     // Matches /admin/groups[,<offset>][/].
     page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
@@ -152,6 +164,21 @@
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
             filter: data.params.filter || null,
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
+    // Matches /admin/groups/<group>
+    page(/^\/admin\/groups\/(.+)$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group',
+            groupId: data.params[0],
           };
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));

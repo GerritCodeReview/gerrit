@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497644221 -0400\nnonce AH5c86Db/KBfn5surcqZ4K00i2/XHXhOKINceIoxdgL4TKVXjMc5AodJnWNna6vY6Z/oi8Ou0ORA\n\n0000000000000000000000000000000000000000 6f1cd75a45f8013b3b81895237d706add27abcca refs/for/master%topic\u003dmigrate-to-note-db,r\u003dekempin,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZRDy9AAoJEF/XxZqaEoiM1BsP/3q+efs10O5A/cvWj1rYFsQh\nDmOhVxlaG3B9CTuEND4C4vC305R7BjZbBFKASRYaLRpKNpvAIfWqi+iGiw9QuToi\nxTHnAWCtg51exiQne+t+4KOKQa934vM1yzKNVuKdKLAezWRMh8Tz7ZEX6DKZqtNK\nD5bxEwATMUtnvk1vqK3S6JfCa1osZ22IE6i4uDWSUzPDPtfAsVsZ6CFfrms+eKdc\nKYBKKvrUsXoZN8CJkps0sxq6nDGXAWTQdYDtezvRkAflQhtnMm6Vzguq604dNeie\nYZEV1ERVp41iveffV1tKfi+rnMjOXw83KOm6s7mn8BXdG9FyJfIhobS2WdWbXXod\ncmPwHisyRHCre8wFwxdSUfFCxdgD6DMTfT7+YMa3N2bAyh/xTD6UixJiHUMCPAgS\nJy0zz4SVqxRQCLHD3x1liDEFpITBNKVnazyosZ6H6OlWtMZgQUwuCAwzpaZ6jK2D\ndXzGhpmdcF7+Zu26DgLxBEnzgieqwrJjf0aOktwO29W0u+cvOP1kxLBd/wsQpVGD\n0at6UOo4POD54Zw0HgA7WzvVncnq8ycQ9wXhdlfVg2s9bB4BDsWL2PK3Q2r54JcN\nRc2YNmc04XGR/76nr7z3LRCG2HG1lz/3OqoB1hRbOoDtePwDINcQKWMJvkKbPkgp\nhqIRs10LdHfr9q8m7wu1\n\u003dloaK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6179803_32aecab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-18T05:45:29Z",
+      "side": 1,
+      "message": "Optional: Mention \"option is mutually exclusive with --other\" for both options in RebuildNoteDb site program.",
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

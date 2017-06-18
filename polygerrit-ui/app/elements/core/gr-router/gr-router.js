@@ -108,6 +108,22 @@
       });
     });
 
+    // Matches /admin/create-group.
+    page('/admin/create-group', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        restAPI.getAccountCapabilities(false).then(permission => {
+          if (loggedIn &&
+              (permission.administrateServer || permission.createGroup)) {
+            app.params = {
+              view: 'gr-admin-create-group',
+            };
+          } else {
+            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          }
+        });
+      });
+    });
+
     // Matches /admin/groups[,<offset>][/].
     page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {

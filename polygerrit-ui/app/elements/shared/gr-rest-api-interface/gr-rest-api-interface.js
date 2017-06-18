@@ -248,6 +248,34 @@
           opt_errFn, opt_ctx);
     },
 
+    getIsGroupOwner(groupId) {
+      const encodeId = encodeURIComponent(groupId);
+      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeId);
+    },
+
+    saveGroupName(groupId, name) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/name`, {name: name});
+    },
+
+    saveGroupOwner(groupId, ownerId) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/owner`, {owner: ownerId});
+    },
+
+    saveGroupDescription(groupId, description) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/description`,
+          {description: description});
+    },
+
+    saveGroupOptions(groupId, options) {
+      const encodeId = encodeURIComponent(groupId);
+      console.log(options);
+      return this.send('PUT', `/groups/${encodeId}/options`,
+          {options});
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

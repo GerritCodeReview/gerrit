@@ -143,8 +143,28 @@
           '/access/?project=' + encodeURIComponent(project));
     },
 
-    saveProjectConfig(project, config, opt_errFn, opt_ctx) {
-      return this.send('PUT', `/projects/${project}/config`, config, opt_errFn,
+    getGroupConfig(group) {
+      return this._fetchSharedCacheURL(
+          '/groups/' + group + '/detail');
+    },
+
+    saveGroupNewName(group, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/groups/${group.name}/name`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    saveGroupDescription(group, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/groups/${group.id}/description`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    saveGroupOptions(group, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/groups/${group.id}/options`, config, opt_errFn,
+          opt_ctx);
+    },
+
+    saveGroupOwner(group, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/groups/${group.id}/owner`, config, opt_errFn,
           opt_ctx);
     },
 

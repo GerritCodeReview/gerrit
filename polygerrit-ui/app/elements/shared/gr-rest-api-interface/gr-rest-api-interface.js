@@ -148,6 +148,21 @@
           opt_ctx);
     },
 
+    checkGroupForIfYourTheOwner(group) {
+      return this._fetchSharedCacheURL(
+          '/groups/?owned&q=' + group);
+    },
+
+    getGroupConfig(group) {
+      return this._fetchSharedCacheURL(
+          '/groups/' + group + '/detail');
+    },
+
+    saveGroupConfig(api, group, config, opt_errFn, opt_ctx) {
+      return this.send('PUT', `/groups/${group}/${api}`, config, opt_errFn,
+          opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

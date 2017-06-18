@@ -60,6 +60,7 @@
         type: Boolean,
         value: false,
       },
+      _showCreateGroup: Boolean,
       _showCreateProject: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
@@ -134,6 +135,8 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showCreateGroup',
+          params.adminView === 'gr-create-group');
       this.set('_showCreateProject',
           params.adminView === 'gr-admin-create-project');
       this.set('_showProjectMain', params.adminView === 'gr-admin-project');

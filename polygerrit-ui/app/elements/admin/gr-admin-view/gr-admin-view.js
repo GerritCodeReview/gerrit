@@ -45,11 +45,17 @@
       adminView: String,
 
       _project: String,
+      _group: String,
+      _groupName: {
+        type: String,
+        value: '',
+      },
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
         value: false,
       },
+      _showGroup: Boolean,
       _showGroupList: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
@@ -111,6 +117,14 @@
             }],
           };
         }
+        if (linkCopy.name === 'Groups' && this._group) {
+          linkCopy.subsection = {
+            name: `${this._group}`,
+            view: 'gr-group',
+            url: `/admin/groups/${this.encodeURL(this._group, true)}`,
+            children: [],
+          };
+        }
         filteredLinks.push(linkCopy);
       }
       return filteredLinks;
@@ -127,6 +141,7 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
@@ -136,6 +151,11 @@
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
       if (params.project !== this._project) {
         this._project = params.project || '';
+        // Reloads the admin menu.
+        this.reload();
+      }
+      if (params.group !== this._group) {
+        this._group = params.group || '';
         // Reloads the admin menu.
         this.reload();
       }

@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
 public class AccountIndexDefinition
     extends IndexDefinition<Account.Id, AccountState, AccountIndex> {
@@ -29,10 +28,6 @@ public class AccountIndexDefinition
       AccountIndexCollection indexCollection,
       AccountIndex.Factory indexFactory,
       @Nullable AllAccountsIndexer allAccountsIndexer) {
-    super(
-        AccountSchemaDefinitions.INSTANCE,
-        indexCollection,
-        indexFactory,
-        Providers.of(allAccountsIndexer));
+    super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory, allAccountsIndexer);
   }
 }

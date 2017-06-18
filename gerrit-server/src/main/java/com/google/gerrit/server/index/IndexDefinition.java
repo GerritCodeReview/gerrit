@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableSortedMap;
-import com.google.inject.Provider;
 
 /**
  * Definition of an index over a Gerrit data type.
@@ -33,13 +32,13 @@ public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
   private final SchemaDefinitions<V> schemaDefs;
   private final IndexCollection<K, V, I> indexCollection;
   private final IndexFactory<K, V, I> indexFactory;
-  private final Provider<SiteIndexer<K, V, I>> siteIndexer;
+  private final SiteIndexer<K, V, I> siteIndexer;
 
   protected IndexDefinition(
       SchemaDefinitions<V> schemaDefs,
       IndexCollection<K, V, I> indexCollection,
       IndexFactory<K, V, I> indexFactory,
-      Provider<SiteIndexer<K, V, I>> siteIndexer) {
+      SiteIndexer<K, V, I> siteIndexer) {
     this.schemaDefs = schemaDefs;
     this.indexCollection = indexCollection;
     this.indexFactory = indexFactory;
@@ -67,6 +66,6 @@ public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
   }
 
   public final SiteIndexer<K, V, I> getSiteIndexer() {
-    return siteIndexer.get();
+    return siteIndexer;
   }
 }

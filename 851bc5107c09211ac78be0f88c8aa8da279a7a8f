@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "37374122_e363e2b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigrationState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-18T14:34:31Z",
+      "side": 1,
+      "message": "Never mind. This is correct, because not all permutations of attributes in NotesMigration are supported here. If the notedb section is missing, then the default is returned, but for some exotic combinations, there is no match.",
+      "parentUuid": "1abd0041_a9f51042",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "851bc5107c09211ac78be0f88c8aa8da279a7a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "624f8aa2_bec80225",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1

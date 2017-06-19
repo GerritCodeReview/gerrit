@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1350a995_510248c3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-19T23:28:48Z",
+      "side": 1,
+      "message": "Annotate this method as @Nullable?",
+      "revId": "8a0de0a005058e77de9a103b27b2c576c04f7713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

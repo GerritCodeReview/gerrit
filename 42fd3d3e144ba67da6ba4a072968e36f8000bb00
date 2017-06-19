@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "398449f0_3b79b7d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-19T10:04:35Z",
+      "side": 1,
+      "message": "Well, this is totally wrong. I guess you are trying to restore the original version from: [1], but the logic was inverted: \n\nfrom:\n\n  if (r.isEmpty() \u0026\u0026 1 \u003c resource.getPatchSet().getPatchSetId()) {\n\nto:\n\n  if (o.isPresent()) {\n\nPreviously, one select per patch set was fired. Since: [1] only one single select is fired for all patch sets. \n\nThe test is failing, because with your introduced condition (patch set id \u003e 1) you eliminated the review bit for patch set \u003d\u003d 1. And this is exactly what the test is testing here.\n\nSo again, as I said in the corresponding issues, you linked to this change: I cannot reproduce your problem. So, either you set up the debugger and debug the problem yourself, or, you tell us exactly, steps by step how to reproduce the problem, including exactly what version/commit.\n\n* [1] https://gerrit-review.googlesource.com/#/c/103070",
+      "range": {
+        "startLine": 238,
+        "startChar": 24,
+        "endLine": 238,
+        "endChar": 69
+      },
+      "revId": "42fd3d3e144ba67da6ba4a072968e36f8000bb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

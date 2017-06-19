@@ -257,6 +257,30 @@
     },
     {
       "key": {
+        "uuid": "9ae449ee_fa0c5fb0",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:32:36Z",
+      "side": 1,
+      "message": "No. Just the semicolon \u0027;\u0027 can be deleted :-)",
+      "parentUuid": "eede398d_81e0a0ab",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b36fd648_77817ad2",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 1

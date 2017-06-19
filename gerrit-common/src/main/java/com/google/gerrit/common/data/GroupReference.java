@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 /** Describes a group within a projects {@link AccessSection}s. */
@@ -32,6 +33,14 @@ public class GroupReference implements Comparable<GroupReference> {
 
   public static boolean isGroupReference(String configValue) {
     return configValue != null && configValue.startsWith(PREFIX);
+  }
+
+  @Nullable
+  public static String extractGroupName(String configValue) {
+    if (!isGroupReference(configValue)) {
+      return null;
+    }
+    return configValue.substring(PREFIX.length()).trim();
   }
 
   public static GroupReference fromString(String ref) {

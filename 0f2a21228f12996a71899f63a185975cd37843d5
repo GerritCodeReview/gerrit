@@ -88,6 +88,24 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433afdd6_9ce91b09",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-19T22:21:26Z",
+      "side": 1,
+      "message": "This whole thing doesn\u0027t look good to me, tbh.\n\nSo, you\u0027re checking here that two levels down there is an empty native input to travel right, left, and delete account chip.\n\nNot sure this should block this migration, though, since that\u0027s what\u0027s already happening in the code - it\u0027s just a code smell, I guess.",
+      "parentUuid": "448f80b8_a96ed292",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

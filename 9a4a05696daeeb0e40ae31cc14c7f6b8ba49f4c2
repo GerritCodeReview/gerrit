@@ -154,6 +154,30 @@
       "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5750b45b_9de3ab2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-19T14:36:32Z",
+      "side": 1,
+      "message": "Great, and thanks for tracking it down and fixing.",
+      "parentUuid": "32be0807_933c0ccf",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

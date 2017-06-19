@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "9f9d81e5_2e2c49f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T15:13:56Z",
+      "side": 1,
+      "message": "\u003e That can happen anytime we use RetryHelper, and it\u0027s harmless, gc will take care of it. Or is there some other duplication you\u0027re thinking of?\n\nYes, the orphaned blobs/commits are harmless but they might still be created (and stick around until GC runs after some time), which is something the previous code didn\u0027t do. I am not concerned about them. When I read the commit message, I got the impression that the new approach was only an improvement, which it mostly is except for this little detail. That\u0027s why I suggested to scale down the expectations a bit in the commit message but that isn\u0027t important for me.",
+      "parentUuid": "f0946c5c_5e96eedf",
+      "range": {
+        "startLine": 145,
+        "startChar": 21,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "839acec6365bcb135a02798341ebb7ec9b50019d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed6ec800_4f3ee9a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BanCommit.java",
         "patchSetId": 1

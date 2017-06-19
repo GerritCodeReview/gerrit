@@ -360,6 +360,30 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d84d7b6_c472ce2a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T10:48:05Z",
+      "side": 1,
+      "message": "\u003e This is subtle what onGerritReady actually means, and whether one single event will be sufficient:\n\nMy idea was that when the LifeCycleManager.start() finishes starting all of the LifeCycleListener\u0027s then Gerrit core is ready.",
+      "parentUuid": "8b957602_dca4af17",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

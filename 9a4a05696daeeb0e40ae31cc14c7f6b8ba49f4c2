@@ -106,6 +106,30 @@
       "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15928_c3f8916a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T14:33:23Z",
+      "side": 1,
+      "message": "\u003e I will add another change in this series to fix shutdown.\n\nTo avoid pain on rebasing, this will go towards the end. RebuildNoteDb was already broken, this series doesn\u0027t introduce a regression, so it\u0027s ok to hold off on a fix",
+      "parentUuid": "32be0807_933c0ccf",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

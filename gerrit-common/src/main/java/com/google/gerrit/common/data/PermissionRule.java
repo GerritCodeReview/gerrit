@@ -204,8 +204,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       r.append(' ');
     }
 
-    r.append(GroupReference.PREFIX);
-    r.append(getGroup().getName());
+    r.append(getGroup().toConfigValue());
 
     return r.toString();
   }

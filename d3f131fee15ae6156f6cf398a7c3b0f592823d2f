@@ -23,6 +23,30 @@
       "revId": "d3f131fee15ae6156f6cf398a7c3b0f592823d2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57752f5d_abd69a52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-19T10:43:32Z",
+      "side": 1,
+      "message": "You are right, without comment this is quite confusing. Added it.\n\nDone.",
+      "parentUuid": "f83254ce_0676b191",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 87
+      },
+      "revId": "d3f131fee15ae6156f6cf398a7c3b0f592823d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

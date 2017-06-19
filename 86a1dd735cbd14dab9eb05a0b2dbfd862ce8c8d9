@@ -240,6 +240,54 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16553569_8f3f60dc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T09:15:53Z",
+      "side": 1,
+      "message": "\u003e Properly written plugin dependencies should solve the problem\n \u003e right? But it is being raised multiple times time already ;)\n\nThis issue is not (only) about plugin dependencies but also about plugins depending on Gerrit core lifecycle events. AFAIK, Gerrit doesn\u0027t\ndocument when a plugins LifecycleListener.start() method will be called\nand which Gerrit core components are guaranteed to be started at that time.",
+      "parentUuid": "5a763f56_1406d629",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7897772c_e45fd57e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T09:15:53Z",
+      "side": 1,
+      "message": "\u003e I see, so you would need a way to know when Gerrit is ready and\n \u003e have your plugin activated at *that* time. Why don\u0027t we just define\n \u003e a new event for that?\n\n+1\nHowever, just we should in that case also improve the documentation\nand explain the difference between the LifecycleListener.start() and the (new) onGerritReady event.\n\n\u003e The start() of the lifecycle listener isn\u0027t\n \u003e the right place anyway, because you may have other plugins that are\n \u003e crucial for Gerrit authentication (e.g. OAuth) and you cannot\n \u003e assume that everything is up-and-running at the lifecycle listener\n \u003e start().\n \u003e \n \u003e IMHO you were making a too optimistic assumption on your plugin :-)\n\nWell, one could also say that the site indexer also made a too optimistic assumption that all plugins were loaded when it started. It could also have waited until the (new) onGerritReady event.",
+      "parentUuid": "524f10df_fc31affc",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

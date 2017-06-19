@@ -22,6 +22,30 @@
       "revId": "1befe6456c96885b67f11e9eec4ab3d1e6a80112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15c7284b_ed8d7d28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-19T15:46:55Z",
+      "side": 1,
+      "message": "It is once the change series is merged :) I don\u0027t think we should merge a change that adds a config by its own.",
+      "parentUuid": "0c8ccb1b_edae2d17",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "1befe6456c96885b67f11e9eec4ab3d1e6a80112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

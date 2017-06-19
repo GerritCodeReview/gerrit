@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1497865366 +0200\nnonce AH5c86DPatc0nl6XU1yOsGM3Ynbi81jXpFqKCoBWN9fIbv27wQVU1cyu2Z5akf0eVDwUJX20nUDH\n\n0000000000000000000000000000000000000000 d3f131fee15ae6156f6cf398a7c3b0f592823d2f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZR5yWAAoJEFG1/Zeg0O9RC8YIALg6h5ANlNQxygol1a5shWYe\nJ4CC6dS4mlLxkSMrFz9hPK5Q/cSB/eQ/Zd6WLP/TRjCaOQwP0PMxFkrDVFWealPr\n2jlZe8SWgcsCzYCqDFRWUVSLmq8zmtHhas5jn2II6CMaJlK85ff7flYSVu8MaECK\nu1/XQJmviSBDsMPJi3NVlqTM36QD5CuKwqVTh7SO0FhBHO3LGhG0yVbb58Gq4e+U\nfN+lJ62tXa08KdTYYlUcPZsiA+C73RVS41H5sakSSDiugGpyAnXDYCV7db8yWjuP\n3yUvNb0z/vcA+QwREe9gILARVuqWAplh/Gc6fCaJKgNvsk1nKW4EgA5VpNWZR4E\u003d\n\u003dshOG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f83254ce_0676b191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-19T09:48:53Z",
+      "side": 1,
+      "message": "This looks really confusing. From readying this line nobody will ever understand what is gong on, and why the version differs from:\n\n  return super.query(p);\n\nLeave a comment?",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 87
+      },
+      "revId": "d3f131fee15ae6156f6cf398a7c3b0f592823d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

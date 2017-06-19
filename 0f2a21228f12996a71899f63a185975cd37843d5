@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb4dd33c_973c2eca",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-19T19:59:13Z",
+      "side": 1,
+      "message": "Hm, does this work in shadow DOM?",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02cf3fa_40a4cdfa",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-19T20:13:23Z",
+      "side": 1,
+      "message": "Actually, I don\u0027t think I ought to change it. Due to the level of nesting of our components, that line would have to be changed to...\n\n    if (target \u003d\u003d\u003d this.$.entry.$.input.$.input) {\n\n...which is pretty nasty in its own right. Is there any reason we care, aside from specificity?",
+      "parentUuid": "93c10b92_1f18b9b1",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

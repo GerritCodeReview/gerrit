@@ -336,6 +336,30 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b957602_dca4af17",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-19T09:43:51Z",
+      "side": 1,
+      "message": "\u003e \u003e IMHO you were making a too optimistic assumption on your plugin\n \u003e :-)\n \u003e \n \u003e Well, one could also say that the site indexer also made a too\n \u003e optimistic assumption that all plugins were loaded when it started.\n \u003e It could also have waited until the (new) onGerritReady event.\n\nThis is subtle what onGerritReady actually means, and whether one single event will be sufficient:\n\n* 1. PluginsLoadReady\n* 2. SiteIndexerReady\n\nNow some specific plugins can listen to SiteIndexerReady event and perform their initialisation work the depends on indexes to be available.",
+      "parentUuid": "7897772c_e45fd57e",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

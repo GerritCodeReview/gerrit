@@ -22,11 +22,11 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
@@ -41,6 +41,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -675,6 +677,46 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickKeepReviewers() throws Exception {
+    createBranch(new NameKey(project, "stable"));
+
+    // admin creates the change.
+    PushOneCommit.Result r = createChange();
+    // Which is approved by admin2, who also adds user as a CC.
+    setApiUser(accountCreator.admin2());
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(accountCreator.admin2().email);
+    in.reviewer(user.email, ReviewerState.CC, true);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+
+    // Finally, cherrypicked by user2.
+    setApiUser(accountCreator.user2());
+    CherryPickInput cin = new CherryPickInput();
+    cin.message = "this need to go to stable";
+    cin.destination = "stable";
+    cin.keepReviewers = true;
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name())
+        .cherryPick(cin).get().reviewers;
+
+    // Therefore, admin and admin2 should both be reviewers (as the old
+    // owner and old reviewer), and user should still be on CC.
+    assertThat(result).containsKey(ReviewerState.REVIEWER);
+    List<Integer> reviewers =
+        result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    if (notesMigration.readChanges()) {
+      assertThat(result).containsKey(ReviewerState.CC);
+      List<Integer> ccs =
+          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+      assertThat(ccs).containsExactly(user.id.get());
+      assertThat(reviewers).containsExactly(admin.id.get(), accountCreator.admin2().id.get());
+    } else {
+      assertThat(reviewers)
+          .containsExactly(user.id.get(), admin.id.get(), accountCreator.admin2().id.get());
+    }
+  }
+
+  @Test
   public void cherryPickToMergedChangeRevision() throws Exception {
     createBranch(new NameKey(project, "foo"));
 
@@ -1199,7 +1241,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeMessageInfo message = Iterables.getLast(c.messages);
     assertThat(message.author._accountId).isEqualTo(admin.getId().get());
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
-    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+    assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 

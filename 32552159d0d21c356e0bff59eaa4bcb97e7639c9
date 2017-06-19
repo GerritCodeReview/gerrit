@@ -147,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "cf654b18_69bdbf70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T11:52:12Z",
+      "side": 1,
+      "message": "\u003e Done\n\nThe LockFailureException is still part of the signature in patch set 2. ;-)",
+      "parentUuid": "15cc4d48_8a752125",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "32552159d0d21c356e0bff59eaa4bcb97e7639c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90c9d421_40b92837",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
         "patchSetId": 1

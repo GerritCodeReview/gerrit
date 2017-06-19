@@ -254,10 +254,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
       src = src.substring(sp + 1).trim();
     }
 
-    if (GroupReference.isGroupReference(src)) {
-      src = src.substring(6).trim();
+    String groupName = GroupReference.extractGroupName(src);
+    if (groupName != null) {
       GroupReference group = new GroupReference();
-      group.setName(src);
+      group.setName(groupName);
       rule.setGroup(group);
     } else {
       throw new IllegalArgumentException("Rule must include group: " + orig);

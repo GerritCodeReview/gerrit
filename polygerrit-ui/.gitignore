@@ -4,3 +4,4 @@ dist
 fonts
 bower_components
 .tmp
+.vscode

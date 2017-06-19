@@ -17,6 +17,24 @@
       "revId": "1fd4996a3bcda9056e752dcf1d12971a3adf8f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64f2b064_c63c084d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T19:52:01Z",
+      "side": 1,
+      "message": "Right. We don\u0027t support modifying the @GerritServerConfig Config, we just support modifying ConfigNotesMigration and keeping that in sync with gerrit.config _on disk). This implies that callers need to not read any of the NoteDb migration values from @GerritServerConfig directly, and always depend on NotesMigration. But they really should not be doing that anyway, because they might e.g. be running in a test environment that uses TestNotesMigration instead of respecting those values.\n\nI suppose in theory we could modify the @GerritServerConfig as well, since Config is mutable and threadsafe. I didn\u0027t think it was necessary, given my reasoning above.",
+      "parentUuid": "16fc5caa_b06315d7",
+      "revId": "1fd4996a3bcda9056e752dcf1d12971a3adf8f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

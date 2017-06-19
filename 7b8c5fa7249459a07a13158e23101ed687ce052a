@@ -71,6 +71,30 @@
       "revId": "7b8c5fa7249459a07a13158e23101ed687ce052a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2508bbe4_1c9973d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T15:27:18Z",
+      "side": 0,
+      "message": "I don\u0027t think it was actually possible to get RefUpdate.Result.REJECTED in the old code, and it is certainly not possible to get it in the new code.\n\nREJECTED is what you get on a non-fast-forward. The only way this can happen is if we tried to base our commit on something that was not the tip of the branch at the time of the update. But we also always set the expected old ID in createRefUpdate below, so it should always fail with LOCK_FAILURE instead of REJECTED in this case.\n\nBatchRefUpdate uses a completely different codepath and even a completely different enum (ReceiveCommand.Result instead of RefUpdate.Result). If we set the wrong old value, it will fail with LOCK_FAILURE.\n\n(BTW, the fact that BatchRefUpdate and RefUpdate use subtly different enum values for their results is one reason why I hate these APIs and would like to abstract out the semantics that Gerrit actually cares about into a helper class.)",
+      "parentUuid": "d7a31989_3d1ba7cd",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 0
+      },
+      "revId": "7b8c5fa7249459a07a13158e23101ed687ce052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

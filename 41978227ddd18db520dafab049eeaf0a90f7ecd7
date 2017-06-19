@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c452fe9_e4e1dc1c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-19T19:57:56Z",
+      "side": 1,
+      "message": "Could this be target \u003d\u003d\u003d this.$.input?",
+      "revId": "41978227ddd18db520dafab049eeaf0a90f7ecd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d30a6a8f_4eaed6a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-19T19:57:56Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "41978227ddd18db520dafab049eeaf0a90f7ecd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -58,6 +58,30 @@
       "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c9778f5_72bfd50a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T13:52:33Z",
+      "side": 1,
+      "message": "\u003e * 1. No reasons are given in addition to ISE why it\u0027s failed: http://paste.openstack.org/show/612966. I see, that it\u0027s fixed in the follow-up change, so that\u0027s fine.\n\nRight, I didn\u0027t want to overthink it in this change.\n\n\u003e * 2. Probably not primary caused by this change, but in error case the process doesn\u0027t exit.\n\nInteresting. You\u0027re right that this is probably an issue for other programs as well. But it probably also indicates a problem with this code, my first idea being that maybe there is a threadpool holding some non-daemon threads that are still open. SiteRebuilder#close was supposed to take care of this but I might have missed something.\n\nI will take a look with jstack to see what\u0027s keeping the process alive",
+      "parentUuid": "db5aaf95_a5ad7006",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

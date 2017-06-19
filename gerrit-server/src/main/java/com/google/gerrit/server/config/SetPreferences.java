@@ -85,7 +85,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
       com.google.gerrit.server.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
       p.commit(md);
 
-      accountCache.evictAll();
+      accountCache.evictAllNoReindex();
 
       GeneralPreferencesInfo r =
           loadSection(

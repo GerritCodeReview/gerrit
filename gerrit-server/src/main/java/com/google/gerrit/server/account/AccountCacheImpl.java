@@ -130,11 +130,8 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public void evictAll() throws IOException {
+  public void evictAllNoReindex() {
     byId.invalidateAll();
-    for (Account.Id accountId : byId.asMap().keySet()) {
-      indexer.get().index(accountId);
-    }
   }
 
   @Override

@@ -233,6 +233,29 @@
     },
     {
       "key": {
+        "uuid": "dc3f0db7_6a28a548",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:28:15Z",
+      "side": 1,
+      "message": "Remove unnecessary usage of \"this.\" and be consistent with the usages of other fields in this class which are used without \"this.\".",
+      "range": {
+        "startLine": 93,
+        "startChar": 39,
+        "endLine": 93,
+        "endChar": 44
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4cbe98e_22898f2f",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 1

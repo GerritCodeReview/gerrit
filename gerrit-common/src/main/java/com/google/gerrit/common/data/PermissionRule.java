@@ -238,7 +238,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       src = src.substring("+force ".length()).trim();
     }
 
-    if (mightUseRange && !src.startsWith(GroupReference.PREFIX)) {
+    if (mightUseRange && !GroupReference.isGroupReference(src)) {
       int sp = src.indexOf(' ');
       String range = src.substring(0, sp);
 
@@ -254,7 +254,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       src = src.substring(sp + 1).trim();
     }
 
-    if (src.startsWith(GroupReference.PREFIX)) {
+    if (GroupReference.isGroupReference(src)) {
       src = src.substring(6).trim();
       GroupReference group = new GroupReference();
       group.setName(src);

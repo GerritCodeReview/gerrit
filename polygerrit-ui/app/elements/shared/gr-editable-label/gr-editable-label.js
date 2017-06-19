@@ -45,6 +45,15 @@
       _inputText: String,
     },
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
+    keyBindings: {
+      enter: '_handleEnter',
+      esc: '_handleEsc',
+    },
+
     hostAttributes: {
       tabindex: '0',
     },
@@ -87,11 +96,19 @@
       this._inputText = this.value;
     },
 
-    _handleInputKeydown(e) {
-      if (e.keyCode === 13) {  // Enter key
+    _handleEnter(e) {
+      e = this.getKeyboardEvent(e);
+      const target = Polymer.dom(e).rootTarget;
+      if (target === this.$.input) {
         e.preventDefault();
         this._save();
-      } else if (e.keyCode === 27) { // Escape key
+      }
+    },
+
+    _handleEsc(e) {
+      e = this.getKeyboardEvent(e);
+      const target = Polymer.dom(e).rootTarget;
+      if (target === this.$.input) {
         e.preventDefault();
         this._cancel();
       }

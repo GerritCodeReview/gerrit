@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6662f54d_824b6c7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-19T12:41:56Z",
+      "side": 1,
+      "message": "can you drop this? We had an internal problem, but 2 ops should not be that much slower than 1 op. The real core is that publish has state which is not visible in the UI.",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "c5f8013f02056d7485b9b56391523144413e5c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7444a24d_8c576e42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-19T12:41:56Z",
+      "side": 1,
+      "message": "built",
+      "range": {
+        "startLine": 21,
+        "startChar": 50,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "c5f8013f02056d7485b9b56391523144413e5c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

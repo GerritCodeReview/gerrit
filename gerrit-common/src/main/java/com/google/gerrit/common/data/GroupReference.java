@@ -30,6 +30,10 @@ public class GroupReference implements Comparable<GroupReference> {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
 
+  public static boolean isGroupReference(String configValue) {
+    return configValue.startsWith(PREFIX);
+  }
+
   public static GroupReference fromString(String ref) {
     String name = ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();
     String uuid = ref.substring(ref.lastIndexOf("/") + 1, ref.lastIndexOf("]")).trim();

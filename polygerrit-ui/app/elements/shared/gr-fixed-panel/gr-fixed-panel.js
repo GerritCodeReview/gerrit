@@ -18,6 +18,7 @@
     is: 'gr-fixed-panel',
 
     properties: {
+      floatingDisabled: Boolean,
       readyForMeasure: {
         type: Boolean,
         observer: '_readyForMeasureObserver',
@@ -45,6 +46,9 @@
     },
 
     attached() {
+      if (this.floatingDisabled) {
+        return;
+      }
       // Enable content measure unless blocked by param.
       if (this.readyForMeasure !== false) {
         this.readyForMeasure = true;
@@ -58,7 +62,9 @@
     detached() {
       this.unlisten(window, 'scroll', '_updateOnScroll');
       this.unlisten(window, 'resize', 'update');
-      this._observer.disconnect();
+      if (this._observer) {
+        this._observer.disconnect();
+      }
     },
 
     _readyForMeasureObserver(readyForMeasure) {
@@ -76,6 +82,9 @@
     },
 
     unfloat() {
+      if (this.floatingDisabled) {
+        return;
+      }
       this.$.header.style.top = '';
       this._headerFloating = false;
       this.customStyle['--header-height'] = '';
@@ -95,6 +104,9 @@
     },
 
     _updateDebounced() {
+      if (this.floatingDisabled) {
+        return;
+      }
       this._isMeasured = false;
       this._maybeFloatHeader();
       this._reposition();

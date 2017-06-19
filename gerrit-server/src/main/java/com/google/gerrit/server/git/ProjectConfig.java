@@ -640,7 +640,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, NotifyConfig.Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
-        if (dst.startsWith("group ")) {
+        if (dst.startsWith(GroupReference.PREFIX)) {
           String groupName = dst.substring(6).trim();
           GroupReference ref = groupsByName.get(groupName);
           if (ref == null) {

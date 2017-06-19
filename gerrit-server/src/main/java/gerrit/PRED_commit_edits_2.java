@@ -52,10 +52,23 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * </pre>
  */
 public class PRED_commit_edits_2 extends Predicate.P2 {
-  public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
+  protected enum Revision {
+    Old,
+    New,
+    Both
+  }
+
+  private Revision revision;
+
+  protected PRED_commit_edits_2(Term a1, Term a2, Operation n, Revision r) {
     arg1 = a1;
     arg2 = a2;
     cont = n;
+    revision = r;
+  }
+
+  public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
+    this(a1, a2, n, Revision.Both);
   }
 
   @Override
@@ -73,18 +86,22 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      final RevTree aTree;
-      final RevTree bTree;
+      RevTree aTree = null;
+      RevTree bTree = null;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
 
-      if (pl.getOldId() != null) {
-        aTree = rw.parseTree(pl.getOldId());
-      } else {
-        // Octopus merge with unknown automatic merge result, since the
-        // web UI returns no files to match against, just fail.
-        return engine.fail();
+      if (revision == Revision.Old || revision == Revision.Both) {
+        if (pl.getOldId() != null) {
+          aTree = rw.parseTree(pl.getOldId());
+        } else {
+          // Octopus merge with unknown automatic merge result, since the
+          // web UI returns no files to match against, just fail.
+          return engine.fail();
+        }
       }
-      bTree = bCommit.getTree();
+      if (revision == Revision.New || revision == Revision.Both) {
+        bTree = bCommit.getTree();
+      }
 
       for (PatchListEntry entry : pl.getPatches()) {
         String newName = entry.getNewName();
@@ -101,13 +118,21 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
           if (edits.isEmpty()) {
             continue;
           }
-          Text tA;
-          if (oldName != null) {
-            tA = load(aTree, oldName, reader);
-          } else {
-            tA = load(aTree, newName, reader);
+
+          Text tA = null;
+          if (aTree != null) {
+            if (oldName != null) {
+              tA = load(aTree, oldName, reader);
+            } else {
+              tA = load(aTree, newName, reader);
+            }
           }
-          Text tB = load(bTree, newName, reader);
+
+          Text tB = null;
+          if (bTree != null) {
+            tB = load(bTree, newName, reader);
+          }
+
           for (Edit edit : edits) {
             if (tA != Text.EMPTY) {
               String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);

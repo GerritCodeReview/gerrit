@@ -34,15 +34,22 @@ limitations under the License.
 <script>
   suite('gr-dropdown tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('tap on trigger opens menu', () => {
+      sandbox.stub(element, '_open', () => {element.$.dropdown.open();});
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(element.$.trigger);
       assert.isTrue(element.$.dropdown.opened);
@@ -91,8 +98,8 @@ limitations under the License.
     test('non link items', () => {
       const item0 = {name: 'item one', id: 'foo'};
       element.items = [item0, {name: 'item two', id: 'bar'}];
-      const fooTapped = sinon.stub();
-      const tapped = sinon.stub();
+      const fooTapped = sandbox.stub();
+      const tapped = sandbox.stub();
       element.addEventListener('tap-item-foo', fooTapped);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();
@@ -106,14 +113,55 @@ limitations under the License.
       element.items = [{name: 'item one', id: 'foo'}];
       element.disabledIds = ['foo'];
 
-      const stub = sinon.stub();
-      const tapped = sinon.stub();
+      const stub = sandbox.stub();
+      const tapped = sandbox.stub();
       element.addEventListener('tap-item-foo', stub);
       element.addEventListener('tap-item', tapped);
       flushAsynchronousOperations();
       MockInteractions.tap(element.$$('.itemAction'));
       assert.isFalse(stub.called);
       assert.isFalse(tapped.called);
+    });
+
+    suite('keyboard navigation', () => {
+      setup(() => {
+        element.items = [
+          {name: 'item one', id: 'foo'},
+          {name: 'item two', id: 'bar'},
+        ];
+        flushAsynchronousOperations();
+      });
+
+      test('down', () => {
+        const stub = sandbox.stub(element.$.cursor, 'next');
+        assert.isFalse(element.$.dropdown.opened);
+        MockInteractions.pressAndReleaseKeyOn(element, 40);
+        assert.isTrue(element.$.dropdown.opened);
+        MockInteractions.pressAndReleaseKeyOn(element, 40);
+        assert.isTrue(stub.called);
+      });
+
+      test('up', () => {
+        const stub = sandbox.stub(element.$.cursor, 'previous');
+        assert.isFalse(element.$.dropdown.opened);
+        MockInteractions.pressAndReleaseKeyOn(element, 38);
+        assert.isTrue(element.$.dropdown.opened);
+        MockInteractions.pressAndReleaseKeyOn(element, 38);
+        assert.isTrue(stub.called);
+      });
+
+      test('enter/space', () => {
+        // Because enter and space are handled by the same fn, we need only to
+        // test one.
+        assert.isFalse(element.$.dropdown.opened);
+        MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
+        assert.isTrue(element.$.dropdown.opened);
+
+        const el = element.$.cursor.target.querySelector(':not([hidden])');
+        const stub = sandbox.stub(el, 'click');
+        MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
+        assert.isTrue(stub.called);
+      });
     });
   });
 </script>

@@ -22,6 +22,30 @@
       "revId": "42fd3d3e144ba67da6ba4a072968e36f8000bb00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b16c44_33e36e20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-19T11:59:06Z",
+      "side": 1,
+      "message": "Ok I\u0027ve wrote back on your comment on the issue. The warning is only generated in the logs there is no ui facing issues.\n\nThe steps your provided are correct. So strange how it fails for me but works for you. I am using the master branch latest commit as of yesterday.",
+      "parentUuid": "398449f0_3b79b7d6",
+      "range": {
+        "startLine": 238,
+        "startChar": 24,
+        "endLine": 238,
+        "endChar": 69
+      },
+      "revId": "42fd3d3e144ba67da6ba4a072968e36f8000bb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

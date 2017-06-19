@@ -247,17 +247,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
                     throw new AbortUpdateException();
                   } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
                     // Another thread updated the state to something else.
-                    throw new ConflictingUpdateException(change, oldNoteDbState);
+                    throw new ConflictingUpdateRuntimeException(change, oldNoteDbState);
                   }
                   change.setNoteDbState(newNoteDbState);
                   return change;
                 }
               });
-    } catch (ConflictingUpdateException e) {
+    } catch (ConflictingUpdateRuntimeException e) {
       // Rethrow as an OrmException so the caller knows to use staged results. Strictly speaking
       // they are not completely up to date, but result we send to the caller is the same as if this
       // rebuild had executed before the other thread.
-      throw new OrmException(e.getMessage());
+      throw new ConflictingUpdateException(e);
     } catch (AbortUpdateException e) {
       if (NoteDbChangeState.parse(changeId, newNoteDbState)
           .isUpToDate(

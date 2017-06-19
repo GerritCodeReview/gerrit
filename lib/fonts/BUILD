@@ -11,3 +11,15 @@ filegroup(
     data = ["//lib:LICENSE-OFL1.1"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "robotomono",
+    srcs = [
+        "RobotoMono-Regular.woff",
+        "RobotoMono-Regular.woff2",
+        "RobotoMono-Bold.woff",
+        "RobotoMono-Bold.woff2",
+    ],
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+)

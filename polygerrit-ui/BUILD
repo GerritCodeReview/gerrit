@@ -28,7 +28,7 @@ bower_component_bundle(
 genrule2(
     name = "fonts",
     srcs = [
-        "//lib/fonts:sourcecodepro",
+        "//lib/fonts:robotomono",
     ],
     outs = ["fonts.zip"],
     cmd = " && ".join([

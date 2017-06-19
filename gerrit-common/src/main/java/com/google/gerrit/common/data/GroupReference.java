@@ -33,6 +33,13 @@ public class GroupReference implements Comparable<GroupReference> {
   public static boolean isGroupReference(String configValue) {
     return configValue.startsWith(PREFIX);
   }
+  
+  public static String extractGroupName(String configValue) {
+    if (!isGroupReference(configValue)) {
+      return null;
+    }
+    return configValue.substring(PREFIX.length()).trim();
+  }
 
   public static GroupReference fromString(String ref) {
     String name = ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();

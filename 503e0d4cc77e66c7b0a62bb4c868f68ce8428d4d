@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497885009 -0400\nnonce AH5c86ADwguqq8y6M21UTrQnR4dwulW0WqoPlqvbTxSPCjBcV95MRIrOpTC9hkwk6uMHubTWwln8\n\n0000000000000000000000000000000000000000 1fd4996a3bcda9056e752dcf1d12971a3adf8f8c refs/for/master%topic\u003dmigrate-to-note-db,r\u003dekempin,r\u003daliceks,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZR+lRAAoJEF/XxZqaEoiMiIwP/2HErx+7U9z9buzeeuinxykX\nMglDMaUdl8PgwlU3l8em50axSFEyBkTQfhubUXRSKSgnj2o/c+LG6pvhA/qWHsXW\nfStMLcrI8mrckVxkjYr9rte4gh1uSKo0Z3VMlxU1ta9W0N633nBYxmmiZZK2rd73\n0OHP8kBMQfaO1TC6GgGQ83LqdQ/6/vxkvhmCnPmhsZCeV9IpzWL/soaA4CBAMz0X\nlcq2K04285gfFrjwebmIzNp6yz3J7nWu6FdvVWr9ySt1HBF7tLOWHlpkV2GfrGPd\nLtLo7VTxRUtibyUj1vn4xQuzXlcH0X+mAZ6ZdXY+ijLxCTweTK9Gy+xL+FeEVYpJ\nGi+lLsaZJZHDrGDHMbd1dSzQ5uJM1NxgbWg10fUCjYbcG8rqYBo5ukKVYTrpNzVb\ndPiarZC3GbFrzWpuE3VBM/iQThOLk00/vVNkqSmwvBTqhu8xvaSyPbPHm+GusBDH\nSsfsrcAZ5Dqi72KBJgxqk/prJUWbvXuS+n4B0WPXOYFlwQ2wk7iJRb6k5d9qtGkg\n/p9C5n9pNRXjKoaBHcPiHreoCvT5weKM4Ts/w2bloKVY3NW5mh3v0OkEG4fwnG0M\nO9aR4eqlCN7b10urBC7KxT23+qZ5Tg7mV0mzKMhZoIk4cdSNCN+8s4ytQX8Jy8JH\nq/Jm4cppEUJoZi9Xn/JV\n\u003dO0Wn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "39d25e8e_0e6c05b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T16:36:52Z",
+      "side": 1,
+      "message": "I wonder whether we shouldn\u0027t completely adapt the builder pattern (that is keep an immutable SiteRebuilder instance). As this change adds several setters and follow-up changes add even more, introducing a builder might be worth it. Thus, we wouldn\u0027t have to worry about calling setters multiple times or other strange effects which might occur due to modifying the inputs while SiteRebuilder is running.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "503e0d4cc77e66c7b0a62bb4c868f68ce8428d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "534cfc61_df3f8c1a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T16:36:52Z",
+      "side": 1,
+      "message": "Is the switch from System.out to System.err deliberate?",
+      "range": {
+        "startLine": 84,
+        "startChar": 28,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "503e0d4cc77e66c7b0a62bb4c868f68ce8428d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbce5cc8_97641c74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T16:36:52Z",
+      "side": 1,
+      "message": "Would executing this code multiple times due to erroneously calling setThreads() several times on the same SiteRebuilder instance be harmful?",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "503e0d4cc77e66c7b0a62bb4c868f68ce8428d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e42523_0479ff2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T16:36:52Z",
+      "side": 1,
+      "message": "setProjects",
+      "range": {
+        "startLine": 131,
+        "startChar": 34,
+        "endLine": 131,
+        "endChar": 44
+      },
+      "revId": "503e0d4cc77e66c7b0a62bb4c868f68ce8428d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df361088_feb18d52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-19T16:36:52Z",
+      "side": 1,
+      "message": "optional: Wouldn\u0027t it be better to do this check early on (e.g. in the corresponding setters, or in a build() method if there was one)?",
+      "range": {
+        "startLine": 207,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 85
+      },
+      "revId": "503e0d4cc77e66c7b0a62bb4c868f68ce8428d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -298,25 +298,5 @@ limitations under the License.
       assert.equal(updates[2].date, tplus(100));
       assert.equal(updates[3].date, tplus(500));
     });
-
-    test('_advanceUpdates endurance', () => {
-      const makeRubbishUpdate = () => ({
-        date: '2016-02-17 19:04:18.000000000',
-        type: 'REVIEWER_UPDATE',
-        updates: [{
-          message: 'update within threshold',
-        }],
-      });
-      const makeRubbishMessage = () => ({
-        id: '6734489eb9d642de28dbf2bcf9bda875923800d8',
-        date: '2016-02-17 19:04:18.000000000',
-        message: 'Uploaded patch set 2.',
-      });
-      instance = new GrReviewerUpdatesParser({
-        messages: _.times(200, makeRubbishMessage),
-        reviewer_updates: _.times(200, makeRubbishUpdate),
-      });
-      instance._advanceUpdates();
-    }).timeout(2000);
   });
 </script>

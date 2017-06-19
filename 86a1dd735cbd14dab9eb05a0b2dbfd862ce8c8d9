@@ -144,6 +144,78 @@
       "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43c68c02_408839ee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-19T07:06:17Z",
+      "side": 1,
+      "message": "Unfortunately I can\u0027t share the code :/ but I can share what and why is failing. Your assumptions are correct it all happens in start and fails particularly with account creation (as account index is not yet ready):\n\nCaused by: java.lang.NullPointerException: no active search index configured for accounts\nat com.google.common.base.Preconditions.checkNotNull(Preconditions.java:787)\nat com.google.gerrit.server.index.account.AccountIndexRewriter.rewrite(AccountIndexRewriter.java:45)\nat com.google.gerrit.server.query.QueryProcessor.query(QueryProcessor.java:173)\nat com.google.gerrit.server.query.QueryProcessor.query(QueryProcessor.java:135)\nat com.google.gerrit.server.query.QueryProcessor.query(QueryProcessor.java:122)\nat com.google.gerrit.server.query.InternalQuery.query(InternalQuery.java:71)\nat com.google.gerrit.server.query.account.InternalAccountQuery.byExternalId(InternalAccountQuery.java:80)\nat com.google.gerrit.server.query.account.InternalAccountQuery.oneByExternalId(InternalAccountQuery.java:92)\nat com.google.gerrit.server.account.AccountManager.findExternalId(AccountManager.java:174)\nat com.google.gerrit.server.account.AccountManager.create(AccountManager.java:140)",
+      "parentUuid": "74d4442d_d6a1fa04",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42eda20b_847e6816",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-19T07:06:17Z",
+      "side": 1,
+      "message": "In order to reload over SSH one needs to authorise itself. It is not possible anymore if authorising plugin fails to start (this is our case). Touching the jar file works but I can\u0027t imagine this is production solution ;)",
+      "parentUuid": "71e93c77_84ebaaa7",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a763f56_1406d629",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-06-19T07:06:17Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t really intend to suggest any particular modifications to your plugin code but\nI guess that you had a good reason not to implement these All-Projects adaption as\nan init-step contributed by your plugin? After all, you want to run this adaption only\nonce, not every time when the plugin is started.\n\nIn theory (and in day to day practice) those modifications are done once (when Gerrit is started for the very first time) but in case one misconfigures instance it fixes itself during next reboot (or plugin reload to be precise) which is way faster and less scary than call to gerrit init. See my answer to Luca what is actually failing and why.\n\n\u003e Solution 1, has IMHO, one disadvantage: it considers plugin loading order based on\none criteria: before/after indexes are available but it doesn\u0027t propose how such approach\nwould evolve in future.\nWhat if, in future, we need to support yet another before/after policy.\nWhat if plugin A needs to be loaded before X is available but also after Y is available and Y is available after X is available?\n\nProperly written plugin dependencies should solve the problem right? But it is being raised multiple times time already ;)",
+      "parentUuid": "4357ea4d_1109dd96",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "86a1dd735cbd14dab9eb05a0b2dbfd862ce8c8d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -106,6 +106,24 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8177ae3_960c0cdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-19T22:40:55Z",
+      "side": 1,
+      "message": "Constructive feedback on the approach is welcome, but this is the way I did it as assigned a while ago.\n\nWe composed this account-list out of a few layers of existing PG components, and then further down the line decided we wanted them to be interactable via keyboard navigation.",
+      "parentUuid": "433afdd6_9ce91b09",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

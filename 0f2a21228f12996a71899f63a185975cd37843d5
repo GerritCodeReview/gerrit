@@ -70,6 +70,24 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "448f80b8_a96ed292",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-19T20:31:55Z",
+      "side": 1,
+      "message": "I don\u0027t think so -- the localTarget seemed to resolve to just this during my debugging.\n\nFWIW this was the approach recommended by the Polymer people.\nhttps://github.com/PolymerElements/iron-a11y-keys-behavior/issues/75",
+      "parentUuid": "12c1df40_4e7dc3de",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

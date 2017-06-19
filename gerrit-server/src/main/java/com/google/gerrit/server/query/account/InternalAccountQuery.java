@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.InternalQuery;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.List;
@@ -62,6 +63,13 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   public InternalAccountQuery noFields() {
     super.noFields();
     return this;
+  }
+
+  @Override
+  public List<AccountState> query(Predicate<AccountState> p) throws OrmException {
+    return super.query(
+        Predicate.and(
+            Predicate.or(AccountPredicates.isActive(), AccountPredicates.isNotActive()), p));
   }
 
   public List<AccountState> byDefault(String query) throws OrmException {

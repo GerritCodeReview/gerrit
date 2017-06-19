@@ -81,7 +81,7 @@ filegroup(
 genrule2(
     name = "polygerrit_ui",
     srcs = [
-        "//lib/fonts:sourcecodepro",
+        "//lib/fonts:robotomono",
         "//lib/js:highlightjs_files",
         ":top_sources",
         ":css_sources",
@@ -94,7 +94,7 @@ genrule2(
     cmd = " && ".join([
         "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
         "for f in $(locations :app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/gr-app.$$ext; done",
-        "cp $(locations //lib/fonts:sourcecodepro) $$TMP/polygerrit_ui/fonts/",
+        "cp $(locations //lib/fonts:robotomono) $$TMP/polygerrit_ui/fonts/",
         "for f in $(locations :top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
         "for f in $(locations :css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
         "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",

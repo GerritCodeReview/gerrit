@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -33,21 +36,19 @@ import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.SshMode;
-import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,14 +60,23 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
-public class GerritServer {
+public class GerritServer implements AutoCloseable {
+  public static class StartupException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    StartupException(String msg, Throwable cause) {
+      super(msg, cause);
+    }
+  }
+
   @AutoValue
-  abstract static class Description {
-    static Description forTestClass(org.junit.runner.Description testDesc, String configName) {
+  public abstract static class Description {
+    public static Description forTestClass(
+        org.junit.runner.Description testDesc, String configName) {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          true, // @UseLocalDisk is only valid on methods.
+          !has(UseLocalDisk.class, testDesc.getTestClass()),
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
@@ -76,11 +86,13 @@ public class GerritServer {
           null); // @GlobalPluginConfigs is only valid on methods.
     }
 
-    static Description forTestMethod(org.junit.runner.Description testDesc, String configName) {
+    public static Description forTestMethod(
+        org.junit.runner.Description testDesc, String configName) {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          testDesc.getAnnotation(UseLocalDisk.class) == null,
+          testDesc.getAnnotation(UseLocalDisk.class) == null
+              && !has(UseLocalDisk.class, testDesc.getTestClass()),
           testDesc.getAnnotation(NoHttpd.class) == null
               && !has(NoHttpd.class, testDesc.getTestClass()),
           testDesc.getAnnotation(Sandboxed.class) != null
@@ -160,10 +172,81 @@ public class GerritServer {
     }
   }
 
-  /** Returns fully started Gerrit server */
-  static GerritServer start(Description desc, Config baseConfig) throws Exception {
-    desc.checkValidAnnotations();
+  /**
+   * Initializes on-disk site but does not start server.
+   *
+   * @param desc server description
+   * @param baseConfig default config values; merged with config from {@code desc} and then written
+   *     into {@code site/etc/gerrit.config}.
+   * @param site temp directory where site will live.
+   * @throws Exception
+   */
+  public static void init(Description desc, Config baseConfig, Path site) throws Exception {
+    checkArgument(!desc.memory(), "can't initialize site path for in-memory test: %s", desc);
     Config cfg = desc.buildConfig(baseConfig);
+    Map<String, Config> pluginConfigs = desc.buildPluginConfigs();
+    Init init = new Init();
+    int rc =
+        init.main(
+            new String[] {
+              "-d", site.toString(), "--batch", "--no-auto-start", "--skip-plugins",
+            });
+    if (rc != 0) {
+      throw new RuntimeException("Couldn't initialize site");
+    }
+
+    MergeableFileBasedConfig gerritConfig =
+        new MergeableFileBasedConfig(
+            site.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
+    gerritConfig.load();
+    gerritConfig.merge(cfg);
+    mergeTestConfig(gerritConfig);
+    gerritConfig.save();
+
+    for (String pluginName : pluginConfigs.keySet()) {
+      MergeableFileBasedConfig pluginCfg =
+          new MergeableFileBasedConfig(
+              site.resolve("etc").resolve(pluginName + ".config").toFile(), FS.DETECTED);
+      pluginCfg.load();
+      pluginCfg.merge(pluginConfigs.get(pluginName));
+      pluginCfg.save();
+    }
+  }
+
+  /**
+   * Initializes new Gerrit site and returns started server.
+   *
+   * @param desc server description.
+   * @param baseConfig default config values; merged with config from {@code desc}. Must contain a
+   *     value for {@code gerrit.tempSiteDir} pointing to a temporary directory. This directory is
+   *     only actually used for on-disk sites ({@link Description#memory()} returns false), but it
+   *     must nonetheless exist for in-memory sites.
+   * @return started server.
+   * @throws Exception
+   */
+  public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
+    Path site = Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir"));
+    if (!desc.memory()) {
+      init(desc, baseConfig, site);
+    }
+    return start(desc, baseConfig, site);
+  }
+
+  /**
+   * Starts Gerrit server from existing on-disk site.
+   *
+   * @param desc server description.
+   * @param baseConfig default config values; merged with config from {@code desc}.
+   * @param site existing temporary directory for site. Required, but may be empty, for in-memory
+   *     servers. For on-disk servers, assumes that {@link #init} was previously called to
+   *     initialize this directory.
+   * @return started server.
+   * @throws Exception
+   */
+  public static GerritServer start(Description desc, Config baseConfig, Path site)
+      throws Exception {
+    checkArgument(site != null, "site is required (even for in-memory server");
+    desc.checkValidAnnotations();
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon =
@@ -178,89 +261,62 @@ public class GerritServer {
                 }
               }
             },
-            Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));
+            site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
     daemon.setEnableSshd(SshMode.useSsh());
 
-    final File site;
-    ExecutorService daemonService = null;
     if (desc.memory()) {
-      site = null;
-      mergeTestConfig(cfg);
-      // Set the log4j configuration to an invalid one to prevent system logs
-      // from getting configured and creating log files.
-      System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
-      cfg.setBoolean("httpd", null, "requestLog", false);
-      cfg.setBoolean("sshd", null, "requestLog", false);
-      cfg.setBoolean("index", "lucene", "testInmemory", true);
-      cfg.setString("gitweb", null, "cgi", "");
-      daemon.setEnableHttpd(desc.httpd());
-      daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
-      daemon.setDatabaseForTesting(
-          ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg)));
-      daemon.start();
-    } else {
-      site = initSite(cfg, desc.buildPluginConfigs());
-      daemonService = Executors.newSingleThreadExecutor();
-      @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          daemonService.submit(
-              new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                  int rc =
-                      daemon.main(
-                          new String[] {
-                            "-d",
-                            site.getPath(),
-                            "--headless",
-                            "--console-log",
-                            "--show-stack-trace",
-                          });
-                  if (rc != 0) {
-                    System.err.println("Failed to start Gerrit daemon");
-                    serverStarted.reset();
-                  }
-                  return null;
-                }
-              });
-      serverStarted.await();
-      System.out.println("Gerrit Server Started");
+      return startInMemory(desc, baseConfig, daemon);
     }
-
-    Injector i = createTestInjector(daemon);
-    return new GerritServer(desc, i, daemon, daemonService);
+    return startOnDisk(desc, site, daemon, serverStarted);
   }
 
-  private static File initSite(Config base, Map<String, Config> pluginConfigs) throws Exception {
-    File tmp = TempFileUtil.createTempDirectory();
-    Init init = new Init();
-    int rc =
-        init.main(
-            new String[] {
-              "-d", tmp.getPath(), "--batch", "--no-auto-start", "--skip-plugins",
-            });
-    if (rc != 0) {
-      throw new RuntimeException("Couldn't initialize site");
-    }
-
-    MergeableFileBasedConfig cfg =
-        new MergeableFileBasedConfig(new File(new File(tmp, "etc"), "gerrit.config"), FS.DETECTED);
-    cfg.load();
-    cfg.merge(base);
+  private static GerritServer startInMemory(Description desc, Config baseConfig, Daemon daemon)
+      throws Exception {
+    Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
-    cfg.save();
+    // Set the log4j configuration to an invalid one to prevent system logs
+    // from getting configured and creating log files.
+    System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
+    cfg.setBoolean("httpd", null, "requestLog", false);
+    cfg.setBoolean("sshd", null, "requestLog", false);
+    cfg.setBoolean("index", "lucene", "testInmemory", true);
+    cfg.setString("gitweb", null, "cgi", "");
+    daemon.setEnableHttpd(desc.httpd());
+    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
+    daemon.setDatabaseForTesting(ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg)));
+    daemon.start();
+    return new GerritServer(desc, createTestInjector(daemon), daemon, null);
+  }
 
-    for (String pluginName : pluginConfigs.keySet()) {
-      MergeableFileBasedConfig pluginCfg =
-          new MergeableFileBasedConfig(
-              new File(new File(tmp, "etc"), pluginName + ".config"), FS.DETECTED);
-      pluginCfg.load();
-      pluginCfg.merge(pluginConfigs.get(pluginName));
-      pluginCfg.save();
+  private static GerritServer startOnDisk(
+      Description desc, Path site, Daemon daemon, CyclicBarrier serverStarted) throws Exception {
+    checkNotNull(site);
+    ExecutorService daemonService = Executors.newSingleThreadExecutor();
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        daemonService.submit(
+            () -> {
+              int rc =
+                  daemon.main(
+                      new String[] {
+                        "-d", site.toString(), "--headless", "--console-log", "--show-stack-trace",
+                      });
+              if (rc != 0) {
+                System.err.println("Failed to start Gerrit daemon");
+                serverStarted.reset();
+              }
+              return null;
+            });
+    try {
+      serverStarted.await();
+    } catch (BrokenBarrierException e) {
+      daemon.stop();
+      throw new StartupException("Failed to start Gerrit daemon; see log", e);
     }
+    System.out.println("Gerrit Server Started");
 
-    return tmp;
+    return new GerritServer(desc, createTestInjector(daemon), daemon, daemonService);
   }
 
   private static void mergeTestConfig(Config cfg) {
@@ -348,7 +404,7 @@ public class GerritServer {
     return httpAddress;
   }
 
-  Injector getTestInjector() {
+  public Injector getTestInjector() {
     return testInjector;
   }
 
@@ -356,7 +412,8 @@ public class GerritServer {
     return desc;
   }
 
-  void stop() throws Exception {
+  @Override
+  public void close() throws Exception {
     try {
       checkNoteDbState();
     } finally {

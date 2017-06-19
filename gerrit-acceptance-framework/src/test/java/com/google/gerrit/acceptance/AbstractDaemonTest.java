@@ -299,7 +299,7 @@ public abstract class AbstractDaemonTest {
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
       try {
-        commonServer.stop();
+        commonServer.close();
       } finally {
         commonServer = null;
       }
@@ -341,11 +341,11 @@ public abstract class AbstractDaemonTest {
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.start(classDesc, baseConfig);
+        commonServer = GerritServer.initAndStart(classDesc, baseConfig);
       }
       server = commonServer;
     } else {
-      server = GerritServer.start(methodDesc, baseConfig);
+      server = GerritServer.initAndStart(methodDesc, baseConfig);
     }
 
     server.getTestInjector().injectMembers(this);
@@ -516,7 +516,7 @@ public abstract class AbstractDaemonTest {
       userSshSession.close();
     }
     if (server != commonServer) {
-      server.stop();
+      server.close();
       server = null;
     }
   }

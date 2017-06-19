@@ -187,6 +187,29 @@
     },
     {
       "key": {
+        "uuid": "f3bb6cfe_ac0fcf76",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:30:51Z",
+      "side": 1,
+      "message": "I think it would be more consistent to name this two constants Old and New because the new predicates also use old/new in their names.\n\nAlternatively, name these two as A and B to be consistent with the existing aTree and bTree names in the code below.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 10
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b0cca0_adaf0e9d",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 1

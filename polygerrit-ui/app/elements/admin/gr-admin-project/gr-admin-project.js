@@ -236,7 +236,8 @@
           title,
           command: commandObj[title]
               .replace('${project}', project)
-              .replace('${project-base-name}', project),
+              .replace('${project-base-name}',
+              project.substring(project.lastIndexOf('/') + 1)),
         });
       }
       return commands;

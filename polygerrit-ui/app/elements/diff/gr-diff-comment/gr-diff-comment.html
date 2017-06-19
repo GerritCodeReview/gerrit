@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -241,8 +242,7 @@ limitations under the License.
           monospace
           disabled="{{disabled}}"
           rows="4"
-          text="{{_messageText}}"
-          on-keydown="_handleTextareaKeydown"></gr-textarea>
+          text="{{_messageText}}"></gr-textarea>
       <gr-formatted-text class="message"
           content="[[comment.message]]"
           no-trailing-margin="[[!comment.__draft]]"

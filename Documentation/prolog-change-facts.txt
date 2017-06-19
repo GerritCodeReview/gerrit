@@ -96,6 +96,14 @@ the following table.
     example will be true if there is a modification of a `pom.xml` file such
     that an edited line contains or contained the string `'dependency'`.
 
+|`commit_new_edit/2`        |`commit_new_edit('/pom.xml$', 'dependency')`
+    |Same as `commit_edits/2`, but the predicate will be applied only on the
+    new revision.
+
+|`commit_old_edit/2`        |`commit_old_edit('/pom.xml$', 'dependency')`
+    |Same as `commit_edits/2`, but the predicate will be applied only on the
+    old revision.
+
 |`commit_message_matches/1` |`commit_message_matches('^Bug fix')`
     |True if the commit message matches the given regex.
 

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ccede849_460b0fc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T19:35:25Z",
+      "side": 1,
+      "message": "Probably not, but fixing it everywhere is not a yak I want to shave in this particular series.",
+      "parentUuid": "c5a651cd_fdf28f60",
+      "revId": "17616fc4de8f93bf6cba414a0f6335f886c1b9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3d237af_3f6d2769",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1e45de93_4d873155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T19:35:25Z",
+      "side": 1,
+      "message": "Honestly, these tests are slow enough (2-4s each on my fast workstation) that I would rather not.",
+      "parentUuid": "f3d237af_3f6d2769",
+      "revId": "17616fc4de8f93bf6cba414a0f6335f886c1b9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e750a3f0_c4360f0a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2017-06-19T16:58:05Z",
       "side": 1,
       "message": "If other site program suffers from the same problem, would it make sense to extract this method in parent class, or in utility class?",
+      "revId": "17616fc4de8f93bf6cba414a0f6335f886c1b9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "889d904e_3f2405e4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T19:35:25Z",
+      "side": 1,
+      "message": "The problem is it\u0027s tied to the injector setup, which is subtly different between various programs. Even Reindex does something weird because of the way it sets up modules for the index schema.\n\nNot saying this is not worth it in the long run, it\u0027s just nontrivial.",
+      "parentUuid": "e750a3f0_c4360f0a",
       "revId": "17616fc4de8f93bf6cba414a0f6335f886c1b9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

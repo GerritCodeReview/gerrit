@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "1f3661d1_37e46329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "before/after commit edits",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42630003_a03b06cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "predicates",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efc20f2b_eab4fa44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "existing",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2325bf75_59ad8275",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "changed line in both old and new revision",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b8c6f74_34dc796a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -46,6 +138,304 @@
       "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1a2530_4bc1d0d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "one of",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417d7112_48664dc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "which match the changed line in the old or in the new revision",
+      "range": {
+        "startLine": 13,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b0cca0_adaf0e9d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "I think this is not necessary and can be deleted",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 4
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b36fd648_77817ad2",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "unnecessary parenthesis here and in the right side of the || operator",
+      "range": {
+        "startLine": 93,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4cbe98e_22898f2f",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "remove unnecessary parentheses as in the line 93",
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bad066f_9d0d8a0c",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14e8ef78_8f379eb6",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_new_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "wrong year",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ac839f3_97fe10cd",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_new_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 21,
+        "startChar": 60,
+        "endLine": 21,
+        "endChar": 81
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a746362_95984201",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_new_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "append: in the new revision",
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f3d6821_1a0ae173",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_new_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "wrong predicate name?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb86e217_dfe854d7",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_old_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "wrong year",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5216e7d7_aa8467cc",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_old_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 21,
+        "startChar": 60,
+        "endLine": 21,
+        "endChar": 82
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c1b5f5_805015cb",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_old_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "append: in the old revision",
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45a3ffbe_bf139db3",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_old_edit_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-19T15:22:00Z",
+      "side": 1,
+      "message": "wrong predicate name",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "383adc1614a9e0da1d182ac0e7d30f1390e85969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

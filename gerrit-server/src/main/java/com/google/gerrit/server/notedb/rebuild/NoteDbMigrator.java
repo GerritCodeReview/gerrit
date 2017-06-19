@@ -45,9 +45,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
-import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
@@ -82,9 +80,7 @@ public class NoteDbMigrator implements AutoCloseable {
   public static class Builder {
     private final SitePaths sitePaths;
     private final SchemaFactory<ReviewDb> schemaFactory;
-    private final NoteDbUpdateManager.Factory updateManagerFactory;
     private final ChangeRebuilder rebuilder;
-    private final ChangeBundleReader bundleReader;
     private final WorkQueue workQueue;
     private final NotesMigration globalNotesMigration;
 
@@ -99,16 +95,12 @@ public class NoteDbMigrator implements AutoCloseable {
     Builder(
         SitePaths sitePaths,
         SchemaFactory<ReviewDb> schemaFactory,
-        NoteDbUpdateManager.Factory updateManagerFactory,
         ChangeRebuilder rebuilder,
-        ChangeBundleReader bundleReader,
         WorkQueue workQueue,
         NotesMigration globalNotesMigration) {
       this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
-      this.updateManagerFactory = updateManagerFactory;
       this.rebuilder = rebuilder;
-      this.bundleReader = bundleReader;
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
     }
@@ -208,9 +200,7 @@ public class NoteDbMigrator implements AutoCloseable {
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
-          updateManagerFactory,
           rebuilder,
-          bundleReader,
           globalNotesMigration,
           threads > 1
               ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
@@ -225,9 +215,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private final FileBasedConfig gerritConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeRebuilder rebuilder;
-  private final ChangeBundleReader bundleReader;
   private final NotesMigration globalNotesMigration;
 
   private final ListeningExecutorService executor;
@@ -240,9 +228,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
-      NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeRebuilder rebuilder,
-      ChangeBundleReader bundleReader,
       NotesMigration globalNotesMigration,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
@@ -251,9 +237,7 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean trial,
       boolean forceRebuild) {
     this.schemaFactory = schemaFactory;
-    this.updateManagerFactory = updateManagerFactory;
     this.rebuilder = rebuilder;
-    this.bundleReader = bundleReader;
     this.globalNotesMigration = globalNotesMigration;
 
     boolean hasChanges = !changes.isEmpty();
@@ -468,27 +452,37 @@ public class NoteDbMigrator implements AutoCloseable {
   private boolean rebuildProject(
       ReviewDb db,
       ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project)
-      throws IOException, OrmException {
+      Project.NameKey project) {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
     pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
-    try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
+    try {
       for (Change.Id changeId : allChanges.get(project)) {
+        // Update one change at a time, which ends up creating one NoteDbUpdateManager per change as
+        // well. This turns out to be no more expensive than batching, since each NoteDb operation
+        // is
+        // only writing single loose ref updates and loose objects. Plus we have to do one ReviewDb
+        // transaction per change due to the AtomicUpdate, so if we somehow batched NoteDb
+        // operations,
+        // ReviewDb would become the bottleneck.
         try {
-          rebuilder.buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
+          rebuilder.rebuild(db, changeId);
         } catch (NoPatchSetsException e) {
           log.warn(e.getMessage());
+        } catch (ConflictingUpdateException e) {
+          log.warn(
+              "Rebuilding detected a conflicting update for change {};"
+                  + " will be auto-rebuilt at runtime",
+              changeId);
         } catch (Throwable t) {
           log.error("Failed to rebuild change " + changeId, t);
           ok = false;
         }
         pm.update(1);
       }
-      manager.execute();
     } finally {
       pm.endTask();
     }

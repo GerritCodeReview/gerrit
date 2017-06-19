@@ -82,6 +82,30 @@
       "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32be0807_933c0ccf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-19T14:29:46Z",
+      "side": 1,
+      "message": "The offending non-daemon thread is DiskCache-Store-0. This is explicitly not set to daemon so we can wait for pending writes in H2CacheFactory#stop. The problem is we don\u0027t stop the LifecycleManager on shutdown.\n\nDaemon, as well as a few other standalone programs, accomplish this by using RuntimeShutdown. The way SiteProgram is structured now, it is the responsibility of each program to do this, because SiteProgram doesn\u0027t have any LifecycleManagers in scope.\n\nI will add another change in this series to fix shutdown. Thanks for noticing.",
+      "parentUuid": "6c9778f5_72bfd50a",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 38
+      },
+      "revId": "9a4a05696daeeb0e40ae31cc14c7f6b8ba49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

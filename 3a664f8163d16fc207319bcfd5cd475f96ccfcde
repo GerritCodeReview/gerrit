@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1e669c8_94461555",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-19T23:31:48Z",
+      "side": 1,
+      "message": "reference",
+      "range": {
+        "startLine": 426,
+        "startChar": 23,
+        "endLine": 426,
+        "endChar": 33
+      },
+      "revId": "3a664f8163d16fc207319bcfd5cd475f96ccfcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9712326a_b8699fcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-19T23:31:48Z",
+      "side": 1,
+      "message": "\"is used by at least one\"",
+      "range": {
+        "startLine": 426,
+        "startChar": 89,
+        "endLine": 427,
+        "endChar": 21
+      },
+      "revId": "3a664f8163d16fc207319bcfd5cd475f96ccfcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

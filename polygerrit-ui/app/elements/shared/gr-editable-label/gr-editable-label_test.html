@@ -49,12 +49,18 @@ limitations under the License.
     let element;
     let input;
     let label;
+    let sandbox;
 
     setup(() => {
       element = fixture('basic');
 
       input = element.$$('input');
       label = element.$$('label');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('element render', () => {
@@ -78,7 +84,7 @@ limitations under the License.
     });
 
     test('edit value', done => {
-      const editedStub = sinon.stub();
+      const editedStub = sandbox.stub();
       element.addEventListener('changed', editedStub);
 
       MockInteractions.tap(label);

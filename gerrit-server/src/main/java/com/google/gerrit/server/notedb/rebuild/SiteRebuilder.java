@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
@@ -152,14 +153,15 @@ public class SiteRebuilder implements AutoCloseable {
           MultimapBuilder.treeKeys(comparing(Project.NameKey::get))
               .treeSetValues(comparing(Change.Id::get))
               .build();
-      if (projects.isEmpty()) {
-        if (changes.isEmpty()) {
-          return byProject(db.changes().all(), c -> true, out);
-        }
+      if (!projects.isEmpty()) {
+        checkState(changes.isEmpty());
+        return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+      }
+      if (!changes.isEmpty()) {
+        checkState(projects.isEmpty());
         return byProject(db.changes().get(changes), c -> true, out);
       }
-      return byProject(
-          db.changes().all(), c -> changes.isEmpty() || changes.contains(c.getId()), out);
+      return byProject(db.changes().all(), c -> true, out);
     }
   }
 

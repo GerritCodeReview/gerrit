@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 /** Describes a group within a projects {@link AccessSection}s. */
 public class GroupReference implements Comparable<GroupReference> {
 
-  public static final String PREFIX = "group ";
+  private static final String PREFIX = "group ";
 
   /** @return a new reference to the given group description. */
   public static GroupReference forGroup(AccountGroup group) {
@@ -92,6 +92,10 @@ public class GroupReference implements Comparable<GroupReference> {
   @Override
   public boolean equals(Object o) {
     return o instanceof GroupReference && compareTo((GroupReference) o) == 0;
+  }
+
+  public String toConfigValue() {
+    return PREFIX + name;
   }
 
   @Override

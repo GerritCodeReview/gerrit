@@ -31,13 +31,16 @@ public enum NotesMigrationState {
 
   WRITE(false, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
-  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.NOTE_DB, false, false),
+  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.REVIEW_DB, false, false),
 
   READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY(
       true, true, true, PrimaryStorage.REVIEW_DB, false, false),
 
   READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY(true, true, true, PrimaryStorage.NOTE_DB, false, false),
 
+  // TODO(dborowitz): This only exists as a separate state to support testing in different
+  // NoteDbModes. Once FileRepository fuses BatchRefUpdates, we won't have separate fused/unfused
+  // states.
   NOTE_DB_UNFUSED(true, true, true, PrimaryStorage.NOTE_DB, true, false),
 
   NOTE_DB(true, true, true, PrimaryStorage.NOTE_DB, true, true);

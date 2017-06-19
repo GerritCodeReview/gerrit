@@ -64,7 +64,7 @@ public class FakeAccountCache implements AccountCache {
   }
 
   @Override
-  public synchronized void evictAll() {
+  public synchronized void evictAllNoReindex() {
     byId.clear();
     byUsername.clear();
   }

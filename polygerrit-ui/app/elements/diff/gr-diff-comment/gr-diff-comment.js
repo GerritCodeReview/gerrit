@@ -116,6 +116,15 @@
       '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
+    keyBindings: {
+      'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
+      'esc': '_handleEsc',
+    },
+
     attached() {
       if (this.editing) {
         this.collapsed = false;
@@ -256,23 +265,21 @@
       return draft == null || draft.trim() == '';
     },
 
-    _handleTextareaKeydown(e) {
-      switch (e.keyCode) {
-        case 13: // 'enter'
-          if (this._messageText.length !== 0 && (e.metaKey || e.ctrlKey)) {
-            this._handleSave(e);
-          }
-          break;
-        case 27: // 'esc'
-          if (this._messageText.length === 0) {
-            this._handleCancel(e);
-          }
-          break;
-        case 83: // 's'
-          if (this._messageText.length !== 0 && e.ctrlKey) {
-            this._handleSave(e);
-          }
-          break;
+    _handleSaveKey(e) {
+      const target = this.getRootTarget(e);
+      // Target is usually textarea, but could also be gr-textarea.
+      if (target.localName.includes('textarea') && this._messageText.length) {
+        e.preventDefault();
+        this._handleSave(e);
+      }
+    },
+
+    _handleEsc(e) {
+      const target = this.getRootTarget(e);
+      // Target is usually textarea, but could also be gr-textarea.
+      if (target.localName.includes('textarea') && !this._messageText.length) {
+        e.preventDefault();
+        this._handleCancel(e);
       }
     },
 

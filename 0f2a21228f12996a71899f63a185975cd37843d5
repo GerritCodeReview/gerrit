@@ -52,6 +52,24 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c1df40_4e7dc3de",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-19T20:22:41Z",
+      "side": 1,
+      "message": "Would localTarget be a better solution here?\nhttps://www.polymer-project.org/1.0/docs/devguide/events#retargeting",
+      "parentUuid": "d02cf3fa_40a4cdfa",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

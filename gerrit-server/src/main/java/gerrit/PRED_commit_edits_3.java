@@ -19,6 +19,7 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
+import com.googlecode.prolog_cafe.exceptions.IllegalDomainException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
@@ -45,17 +46,38 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
- * Returns true if any of the files that match FileNameRegex have edited lines that match EditRegex
+ * Returns true if "any of" or "all" the files that match FileNameRegex
+ * have edited lines that match EditRegex. Qualifier can assume
+ * only one of the following values:
+ *
+ * "all_of": EditRegex must match with all files that match FileNameRegex
+ *
+ * "any_of": EditRegex must match at least with one of the files that
+ *           matches FileNameRegex
  *
  * <pre>
- *   'commit_edits'(+FileNameRegex, +EditRegex)
+ *   'commit_edits'(+FileNameRegex, +EditRegex, +Qualifier)
  * </pre>
  */
-public class PRED_commit_edits_2 extends Predicate.P2 {
-  public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
+public class PRED_commit_edits_3 extends Predicate.P3 {
+  protected enum Revision {
+    Old,
+    New,
+    Both
+  }
+
+  private Revision revision;
+
+  protected PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n, Revision r) {
     arg1 = a1;
     arg2 = a2;
+    arg3 = a3;
     cont = n;
+    revision = r;
+  }
+
+  public PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n) {
+    this(a1, a2, a3, n, Revision.Both);
   }
 
   @Override
@@ -73,18 +95,23 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      final RevTree aTree;
-      final RevTree bTree;
+      RevTree aTree = null;
+      RevTree bTree = null;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      final boolean allOf = isAllOf(arg3.dereference());
 
-      if (pl.getOldId() != null) {
-        aTree = rw.parseTree(pl.getOldId());
-      } else {
-        // Octopus merge with unknown automatic merge result, since the
-        // web UI returns no files to match against, just fail.
-        return engine.fail();
+      if (revision == Revision.Old || revision == Revision.Both) {
+        if (pl.getOldId() != null) {
+          aTree = rw.parseTree(pl.getOldId());
+        } else {
+          // Octopus merge with unknown automatic merge result, since the
+          // web UI returns no files to match against, just fail.
+          return engine.fail();
+        }
       }
-      bTree = bCommit.getTree();
+      if (revision == Revision.New || revision == Revision.Both) {
+        bTree = bCommit.getTree();
+      }
 
       for (PatchListEntry entry : pl.getPatches()) {
         String newName = entry.getNewName();
@@ -101,27 +128,51 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
           if (edits.isEmpty()) {
             continue;
           }
-          Text tA;
-          if (oldName != null) {
-            tA = load(aTree, oldName, reader);
-          } else {
-            tA = load(aTree, newName, reader);
+
+          Text tA = null;
+          if (aTree != null) {
+            if (oldName != null) {
+              tA = load(aTree, oldName, reader);
+            } else {
+              tA = load(aTree, newName, reader);
+            }
           }
-          Text tB = load(bTree, newName, reader);
+
+          Text tB = null;
+          if (bTree != null) {
+            tB = load(bTree, newName, reader);
+          }
+
+          boolean ok = true;
           for (Edit edit : edits) {
             if (tA != Text.EMPTY) {
               String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);
               if (editRegex.matcher(aDiff).find()) {
-                return cont;
+                if (!allOf)
+                  return cont;
+              } else {
+                if (allOf) {
+                  ok = false;
+                  break;
+                }
               }
             }
             if (tB != Text.EMPTY) {
               String bDiff = tB.getString(edit.getBeginB(), edit.getEndB(), true);
               if (editRegex.matcher(bDiff).find()) {
-                return cont;
+                if (!allOf)
+                  return cont;
+              } else {
+                if (allOf) {
+                  ok = false;
+                  break;
+                }
               }
             }
           }
+
+          if (ok)
+            return cont;
         }
       }
     } catch (IOException err) {
@@ -131,14 +182,28 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     return engine.fail();
   }
 
-  private Pattern getRegexParameter(Term term) {
+  private void checkIsASymbolTerm(Term term) {
     if (term instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
     if (!(term instanceof SymbolTerm)) {
       throw new IllegalTypeException(this, 1, "symbol", term);
     }
+  }
+
+  private Pattern getRegexParameter(Term term) {
+    checkIsASymbolTerm(term);
+
     return Pattern.compile(term.name(), Pattern.MULTILINE);
+  }
+
+  private boolean isAllOf(Term term) {
+    checkIsASymbolTerm(term);
+
+    if (term.name() != "all_of" && term.name() != "any_of")
+      throw new IllegalDomainException(this, 3, "[any_of, all_of]", term);
+
+    return term.name() == "all_of";
   }
 
   private Text load(ObjectId tree, String path, ObjectReader reader)

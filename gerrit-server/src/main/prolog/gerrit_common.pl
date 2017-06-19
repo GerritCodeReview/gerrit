@@ -501,6 +501,30 @@ split_commit_delta(copy, NewPath, OldPath, add, NewPath) :- !.
 split_commit_delta(Type, Path, _, Type, Path).
 
 
+%% commit_edits/2:
+%%
+:- public commit_edits/2.
+%%
+commit_edits(FileNameRegex, EditRegex) :-
+  commit_edits(FileNameRegex, EditRegex, 'any_of').
+
+
+%% commit_edits_new/2:
+%%
+:- public commit_edits_new/2.
+%%
+commit_edits_new(FileNameRegex, EditRegex) :-
+  commit_edits_new(FileNameRegex, EditRegex, 'any_of').
+
+
+%% commit_edits_old/2:
+%%
+:- public commit_edits_old/2.
+%%
+commit_edits_old(FileNameRegex, EditRegex) :-
+  commit_edits_old(FileNameRegex, EditRegex, 'any_of').
+
+
 %% commit_message_matches/1:
 %%
 :- public commit_message_matches/1.

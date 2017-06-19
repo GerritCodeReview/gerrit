@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.BatchProgramModule;
+import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
@@ -75,40 +76,47 @@ public class MigrateToNoteDb extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
+  private LifecycleManager dbManager;
+  private LifecycleManager sysManager;
 
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
 
   @Override
   public int run() throws Exception {
-    mustHaveValidSite();
-    dbInjector = createDbInjector(MULTI_USER);
-    threads = ThreadLimiter.limitThreads(dbInjector, threads);
+    RuntimeShutdown.add(this::stop);
+    try {
+      mustHaveValidSite();
+      dbInjector = createDbInjector(MULTI_USER);
+      threads = ThreadLimiter.limitThreads(dbInjector, threads);
 
-    LifecycleManager dbManager = new LifecycleManager();
-    dbManager.add(dbInjector);
-    dbManager.start();
+      LifecycleManager dbManager = new LifecycleManager();
+      dbManager.add(dbInjector);
+      dbManager.start();
 
-    sysInjector = createSysInjector();
-    sysInjector.injectMembers(this);
-    LifecycleManager sysManager = new LifecycleManager();
-    sysManager.add(sysInjector);
-    sysManager.start();
+      sysInjector = createSysInjector();
+      sysInjector.injectMembers(this);
+      LifecycleManager sysManager = new LifecycleManager();
+      sysManager.add(sysInjector);
+      sysManager.start();
 
-    try (NoteDbMigrator migrator =
-        migratorBuilderProvider
-            .get()
-            .setThreads(threads)
-            .setProgressOut(System.err)
-            .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
-            .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
-            .setTrialMode(trial)
-            .setForceRebuild(force)
-            .build()) {
-      if (!projects.isEmpty() || !changes.isEmpty()) {
-        migrator.rebuild();
-      } else {
-        migrator.migrate();
+      try (NoteDbMigrator migrator =
+          migratorBuilderProvider
+              .get()
+              .setThreads(threads)
+              .setProgressOut(System.err)
+              .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
+              .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
+              .setTrialMode(trial)
+              .setForceRebuild(force)
+              .build()) {
+        if (!projects.isEmpty() || !changes.isEmpty()) {
+          migrator.rebuild();
+        } else {
+          migrator.migrate();
+        }
       }
+    } finally {
+      stop();
     }
     return 0;
   }
@@ -125,5 +133,21 @@ public class MigrateToNoteDb extends SiteProgram {
             factory(ChangeResource.Factory.class);
           }
         });
+  }
+
+  private void stop() {
+    try {
+      LifecycleManager m = sysManager;
+      sysManager = null;
+      if (m != null) {
+        m.stop();
+      }
+    } finally {
+      LifecycleManager m = dbManager;
+      dbManager = null;
+      if (m != null) {
+        m.stop();
+      }
+    }
   }
 }

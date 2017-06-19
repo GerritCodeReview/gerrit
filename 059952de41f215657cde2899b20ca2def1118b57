@@ -51,6 +51,30 @@
     },
     {
       "key": {
+        "uuid": "432442b7_f6c27e17",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-19T15:18:15Z",
+      "side": 1,
+      "message": "Right, I missed that try-with-resources was involved here.",
+      "parentUuid": "aef8012b_a7dfa628",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "059952de41f215657cde2899b20ca2def1118b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9884f16_5627eb18",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
         "patchSetId": 1

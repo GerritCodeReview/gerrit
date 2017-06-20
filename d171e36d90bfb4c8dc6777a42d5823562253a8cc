@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7269b4fe_ecf1920f",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-20T07:26:34Z",
+      "side": 1,
+      "message": "This name is a bit inconsistent with the commit_edits name (line 93). In the line 93 have have a plural and here a singular (edits vs edit).\n\nFurther, I would propose to name it: commit_edits_new. For me this name better reflects that it is related to the other two predicates (commit_edits and commit_edits_old) by sharing a common prefix in their name.",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6704700_316e02c0",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-20T07:26:34Z",
+      "side": 1,
+      "message": "commit_edits_old",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 17
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a54ae453_bacb2905",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-20T07:26:34Z",
+      "side": 1,
+      "message": "I think that this is not needed and can be deleted. If tA is null then tA !\u003d Text.EMPTY will anyway evaluate to false.\nIf tA is not null then the result of the whole if condition is again equal to just the right part of the expression tA !\u003d Text.EMPTY",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2ee2bde_022e37d4",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-20T07:26:34Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 143,
+        "startChar": 16,
+        "endLine": 143,
+        "endChar": 30
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

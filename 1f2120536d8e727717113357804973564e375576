@@ -22,6 +22,30 @@
       "revId": "1f2120536d8e727717113357804973564e375576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d909f002_8b3585e7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T15:13:34Z",
+      "side": 1,
+      "message": "It\u0027s because when you got to for example /register there\u0027s no path there so it will fail. /register/test will work as it has path /test.",
+      "parentUuid": "598c690b_51a0e48d",
+      "range": {
+        "startLine": 255,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 13
+      },
+      "revId": "1f2120536d8e727717113357804973564e375576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,7 +19,6 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -73,7 +72,8 @@ public class ChangeIndexer {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
   }
 
-  public static CheckedFuture<?, IOException> allAsList(
+  @SuppressWarnings("deprecation")
+  public static com.google.common.util.concurrent.CheckedFuture<?, IOException> allAsList(
       List<? extends ListenableFuture<?>> futures) {
     // allAsList propagates the first seen exception, wrapped in
     // ExecutionException, so we can reuse the same mapper as for a single
@@ -173,7 +173,9 @@ public class ChangeIndexer {
    * @param id change to index.
    * @return future for the indexing task.
    */
-  public CheckedFuture<?, IOException> indexAsync(Project.NameKey project, Change.Id id) {
+  @SuppressWarnings("deprecation")
+  public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
+      Project.NameKey project, Change.Id id) {
     return submit(new IndexTask(project, id));
   }
 
@@ -183,7 +185,8 @@ public class ChangeIndexer {
    * @param ids changes to index.
    * @return future for completing indexing of all changes.
    */
-  public CheckedFuture<?, IOException> indexAsync(
+  @SuppressWarnings("deprecation")
+  public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
       Project.NameKey project, Collection<Change.Id> ids) {
     List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
@@ -277,7 +280,8 @@ public class ChangeIndexer {
    * @param id change to delete.
    * @return future for the deleting task.
    */
-  public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
+  @SuppressWarnings("deprecation")
+  public com.google.common.util.concurrent.CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
     return submit(new DeleteTask(id));
   }
 
@@ -300,7 +304,9 @@ public class ChangeIndexer {
    * @param id ID of the change to index.
    * @return future for reindexing the change; returns true if the change was stale.
    */
-  public CheckedFuture<Boolean, IOException> reindexIfStale(Project.NameKey project, Change.Id id) {
+  @SuppressWarnings("deprecation")
+  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
+      Project.NameKey project, Change.Id id) {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
   }
 
@@ -324,11 +330,14 @@ public class ChangeIndexer {
     return indexes != null ? indexes.getWriteIndexes() : Collections.singleton(index);
   }
 
-  private <T> CheckedFuture<T, IOException> submit(Callable<T> task) {
+  @SuppressWarnings("deprecation")
+  private <T> com.google.common.util.concurrent.CheckedFuture<T, IOException> submit(
+      Callable<T> task) {
     return submit(task, executor);
   }
 
-  private static <T> CheckedFuture<T, IOException> submit(
+  @SuppressWarnings("deprecation")
+  private static <T> com.google.common.util.concurrent.CheckedFuture<T, IOException> submit(
       Callable<T> task, ListeningExecutorService executor) {
     return Futures.makeChecked(Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
   }

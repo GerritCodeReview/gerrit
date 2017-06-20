@@ -23,7 +23,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -321,7 +320,10 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
-  private final List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
+
+  @SuppressWarnings("deprecation")
+  private final List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
+      new ArrayList<>();
 
   @Inject
   ReviewDbBatchUpdate(

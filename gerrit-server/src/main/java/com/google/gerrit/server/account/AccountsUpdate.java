@@ -18,14 +18,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -34,6 +38,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.function.Consumer;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,8 +52,18 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * Updates accounts.
  *
- * <p>On updating accounts this class takes care to evict them from the account cache and thus
- * triggers reindex for them.
+ * <p>The account updates are written to both ReviewDb and NoteDb.
+ *
+ * <p>In NoteDb accounts are represented as user branches in the All-Users repository. Optionally a
+ * user branch can contain a 'account.config' file that stores account properties, such as full
+ * name, preferred email, status and the active flag. The timestamp of the first commit on a user
+ * branch denotes the registration date. The initial commit on the user branch may be empty (since
+ * having an 'account.config' is optional). See {@link AccountConfig} for details of the
+ * 'account.config' file format.
+ *
+ * <p>On updating accounts the accounts are evicted from the account cache and thus reindexed. The
+ * eviction from the account cache is done by the {@link ReindexAfterRefUpdate} class which receives
+ * the event about updating the user branch that is triggered by this class.
  */
 @Singleton
 public class AccountsUpdate {
@@ -61,56 +76,38 @@ public class AccountsUpdate {
   @Singleton
   public static class Server {
     private final GitRepositoryManager repoManager;
-    private final AccountCache accountCache;
+    private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdent;
+    private final Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
 
     @Inject
     public Server(
         GitRepositoryManager repoManager,
-        AccountCache accountCache,
+        GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+        OutgoingEmailValidator emailValidator,
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory) {
       this.repoManager = repoManager;
-      this.accountCache = accountCache;
+      this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.emailValidator = emailValidator;
       this.serverIdent = serverIdent;
+      this.metaDataUpdateServerFactory = metaDataUpdateServerFactory;
     }
 
     public AccountsUpdate create() {
       PersonIdent i = serverIdent.get();
-      return new AccountsUpdate(repoManager, accountCache, allUsersName, i, i);
-    }
-  }
-
-  /**
-   * Factory to create an AccountsUpdate instance for updating accounts by the Gerrit server.
-   *
-   * <p>Using this class will not perform reindexing for the updated accounts and they will also not
-   * be evicted from the account cache.
-   *
-   * <p>The Gerrit server identity will be used as author and committer for all commits that update
-   * the accounts.
-   */
-  @Singleton
-  public static class ServerNoReindex {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsersName;
-    private final Provider<PersonIdent> serverIdent;
-
-    @Inject
-    public ServerNoReindex(
-        GitRepositoryManager repoManager,
-        AllUsersName allUsersName,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
-      this.repoManager = repoManager;
-      this.allUsersName = allUsersName;
-      this.serverIdent = serverIdent;
-    }
-
-    public AccountsUpdate create() {
-      PersonIdent i = serverIdent.get();
-      return new AccountsUpdate(repoManager, null, allUsersName, i, i);
+      return new AccountsUpdate(
+          repoManager,
+          gitRefUpdated,
+          null,
+          allUsersName,
+          emailValidator,
+          i,
+          () -> metaDataUpdateServerFactory.get().create(allUsersName));
     }
   }
 
@@ -123,29 +120,42 @@ public class AccountsUpdate {
   @Singleton
   public static class User {
     private final GitRepositoryManager repoManager;
-    private final AccountCache accountCache;
+    private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
+    private final Provider<MetaDataUpdate.User> metaDataUpdateUserFactory;
 
     @Inject
     public User(
         GitRepositoryManager repoManager,
-        AccountCache accountCache,
+        GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        Provider<IdentifiedUser> identifiedUser) {
+        Provider<IdentifiedUser> identifiedUser,
+        Provider<MetaDataUpdate.User> metaDataUpdateUserFactory) {
       this.repoManager = repoManager;
-      this.accountCache = accountCache;
+      this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
       this.serverIdent = serverIdent;
+      this.emailValidator = emailValidator;
       this.identifiedUser = identifiedUser;
+      this.metaDataUpdateUserFactory = metaDataUpdateUserFactory;
     }
 
     public AccountsUpdate create() {
+      IdentifiedUser user = identifiedUser.get();
       PersonIdent i = serverIdent.get();
       return new AccountsUpdate(
-          repoManager, accountCache, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
+          repoManager,
+          gitRefUpdated,
+          user,
+          allUsersName,
+          emailValidator,
+          createPersonIdent(i, user),
+          () -> metaDataUpdateUserFactory.get().create(allUsersName));
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -154,22 +164,28 @@ public class AccountsUpdate {
   }
 
   private final GitRepositoryManager repoManager;
-  @Nullable private final AccountCache accountCache;
+  private final GitReferenceUpdated gitRefUpdated;
+  @Nullable private final IdentifiedUser currentUser;
   private final AllUsersName allUsersName;
+  private final OutgoingEmailValidator emailValidator;
   private final PersonIdent committerIdent;
-  private final PersonIdent authorIdent;
+  private final MetaDataUpdateFactory metaDataUpdateFactory;
 
   private AccountsUpdate(
       GitRepositoryManager repoManager,
-      @Nullable AccountCache accountCache,
+      GitReferenceUpdated gitRefUpdated,
+      @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
+      OutgoingEmailValidator emailValidator,
       PersonIdent committerIdent,
-      PersonIdent authorIdent) {
+      MetaDataUpdateFactory metaDataUpdateFactory) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
-    this.accountCache = accountCache;
+    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
+    this.currentUser = currentUser;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
+    this.emailValidator = checkNotNull(emailValidator, "emailValidator");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
-    this.authorIdent = checkNotNull(authorIdent, "authorIdent");
+    this.metaDataUpdateFactory = checkNotNull(metaDataUpdateFactory, "metaDataUpdateFactory");
   }
 
   /**
@@ -179,79 +195,116 @@ public class AccountsUpdate {
    * @param accountId ID of the new account
    * @param init consumer to populate the new account
    * @return the newly created account
+   * @throws OrmException if updating the database fails
    * @throws OrmDuplicateKeyException if the account already exists
    * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Account insert(ReviewDb db, Account.Id accountId, Consumer<Account> init)
-      throws OrmException, IOException {
-    Account account = new Account(accountId, TimeUtil.nowTs());
+      throws OrmException, IOException, ConfigInvalidException {
+    AccountConfig accountConfig = read(accountId);
+    Account account = accountConfig.getNewAccount();
     init.accept(account);
+
+    // Create in ReviewDb
     db.accounts().insert(ImmutableSet.of(account));
-    createUserBranch(account);
-    evictAccount(accountId);
+
+    // Create in NoteDb
+    commitNew(accountConfig);
     return account;
   }
 
-  /** Updates the account. */
-  public void update(ReviewDb db, Account account) throws OrmException, IOException {
+  /**
+   * Updates the account.
+   *
+   * <p>Changing the registration date of an account is not supported.
+   *
+   * @param db ReviewDb
+   * @param account the account
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
+   */
+  public void update(ReviewDb db, Account account)
+      throws OrmException, IOException, ConfigInvalidException {
+    // Update in ReviewDb
     db.accounts().update(ImmutableSet.of(account));
-    evictAccount(account.getId());
+
+    // Update in NoteDb
+    AccountConfig accountConfig = read(account.getId());
+    accountConfig.setAccount(account);
+    commit(accountConfig);
   }
 
   /**
    * Gets the account and updates it atomically.
    *
+   * <p>Changing the registration date of an account is not supported.
+   *
    * @param db ReviewDb
    * @param accountId ID of the account
    * @param consumer consumer to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws OrmException if updating the account fails
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Account atomicUpdate(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
-      throws OrmException, IOException {
-    Account account =
-        db.accounts()
-            .atomicUpdate(
-                accountId,
-                a -> {
-                  consumer.accept(a);
-                  return a;
-                });
-    evictAccount(accountId);
+      throws OrmException, IOException, ConfigInvalidException {
+    // Update in ReviewDb
+    db.accounts()
+        .atomicUpdate(
+            accountId,
+            a -> {
+              consumer.accept(a);
+              return a;
+            });
+
+    // Update in NoteDb
+    AccountConfig accountConfig = read(accountId);
+    Account account = accountConfig.getAccount();
+    consumer.accept(account);
+    commit(accountConfig);
     return account;
   }
 
-  /** Deletes the account. */
+  /**
+   * Deletes the account.
+   *
+   * @param db ReviewDb
+   * @param account the account that should be deleted
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   */
   public void delete(ReviewDb db, Account account) throws OrmException, IOException {
+    // Delete in ReviewDb
     db.accounts().delete(ImmutableSet.of(account));
+
+    // Delete in NoteDb
     deleteUserBranch(account.getId());
-    evictAccount(account.getId());
   }
 
-  /** Deletes the account. */
+  /**
+   * Deletes the account.
+   *
+   * @param db ReviewDb
+   * @param accountId the ID of the account that should be deleted
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   */
   public void deleteByKey(ReviewDb db, Account.Id accountId) throws OrmException, IOException {
+    // Delete in ReviewDb
     db.accounts().deleteKeys(ImmutableSet.of(accountId));
-    deleteUserBranch(accountId);
-    evictAccount(accountId);
-  }
 
-  private void createUserBranch(Account account) throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        ObjectInserter oi = repo.newObjectInserter()) {
-      String refName = RefNames.refsUsers(account.getId());
-      if (repo.exactRef(refName) != null) {
-        throw new IOException(
-            String.format(
-                "User branch %s for newly created account %s already exists.",
-                refName, account.getId().get()));
-      }
-      createUserBranch(
-          repo, oi, committerIdent, authorIdent, account.getId(), account.getRegisteredOn());
-    }
+    // Delete in NoteDb
+    deleteUserBranch(accountId);
   }
 
   public static void createUserBranch(
       Repository repo,
+      Project.NameKey project,
+      GitReferenceUpdated gitRefUpdated,
+      @Nullable IdentifiedUser user,
       ObjectInserter oi,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
@@ -271,6 +324,7 @@ public class AccountsUpdate {
     if (result != Result.NEW) {
       throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));
     }
+    gitRefUpdated.fire(project, ru, user != null ? user.getAccount() : null);
   }
 
   private static ObjectId createInitialEmptyCommit(
@@ -295,12 +349,18 @@ public class AccountsUpdate {
 
   private void deleteUserBranch(Account.Id accountId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      deleteUserBranch(repo, committerIdent, accountId);
+      deleteUserBranch(repo, allUsersName, gitRefUpdated, currentUser, committerIdent, accountId);
     }
   }
 
   public static void deleteUserBranch(
-      Repository repo, PersonIdent refLogIdent, Account.Id accountId) throws IOException {
+      Repository repo,
+      Project.NameKey project,
+      GitReferenceUpdated gitRefUpdated,
+      @Nullable IdentifiedUser user,
+      PersonIdent refLogIdent,
+      Account.Id accountId)
+      throws IOException {
     String refName = RefNames.refsUsers(accountId);
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
@@ -317,11 +377,37 @@ public class AccountsUpdate {
     if (result != Result.FORCED) {
       throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
     }
+    gitRefUpdated.fire(project, ru, user != null ? user.getAccount() : null);
   }
 
-  private void evictAccount(Account.Id accountId) throws IOException {
-    if (accountCache != null) {
-      accountCache.evict(accountId);
+  private AccountConfig read(Account.Id accountId) throws IOException, ConfigInvalidException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
+      accountConfig.load(repo);
+      return accountConfig;
     }
+  }
+
+  private void commitNew(AccountConfig accountConfig) throws IOException {
+    // When creating a new account we must allow empty commits so that the user branch gets created
+    // with an empty commit when no account properties are set and hence no 'account.config' file
+    // will be created.
+    commit(accountConfig, true);
+  }
+
+  private void commit(AccountConfig accountConfig) throws IOException {
+    commit(accountConfig, false);
+  }
+
+  private void commit(AccountConfig accountConfig, boolean allowEmptyCommit) throws IOException {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create()) {
+      md.setAllowEmpty(allowEmptyCommit);
+      accountConfig.commit(md);
+    }
+  }
+
+  @FunctionalInterface
+  private static interface MetaDataUpdateFactory {
+    MetaDataUpdate create() throws IOException;
   }
 }

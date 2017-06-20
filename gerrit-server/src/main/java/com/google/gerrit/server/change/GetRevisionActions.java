@@ -63,7 +63,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
 
   @Override
   public String getETag(RevisionResource rsrc) {
-    Hasher h = Hashing.md5().newHasher();
+    Hasher h = Hashing.murmur3_128().newHasher();
     CurrentUser user = rsrc.getControl().getUser();
     try {
       rsrc.getChangeResource().prepareETag(h, user);

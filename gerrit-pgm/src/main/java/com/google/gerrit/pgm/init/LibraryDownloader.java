@@ -280,7 +280,7 @@ class LibraryDownloader {
       System.err.flush();
       return;
     }
-    Hasher h = Hashing.sha1().newHasher();
+    Hasher h = Hashing.murmur3_128().newHasher();
     try (InputStream in = Files.newInputStream(dst);
         OutputStream out = Funnels.asOutputStream(h)) {
       ByteStreams.copy(in, out);

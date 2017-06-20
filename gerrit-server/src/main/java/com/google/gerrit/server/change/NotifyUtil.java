@@ -31,10 +31,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class NotifyUtil {
@@ -76,7 +78,7 @@ public class NotifyUtil {
 
   public ListMultimap<RecipientType, Account.Id> resolveAccounts(
       @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-      throws OrmException, BadRequestException {
+      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
     if (isNullOrEmpty(notifyDetails)) {
       return ImmutableListMultimap.of();
     }
@@ -96,7 +98,7 @@ public class NotifyUtil {
   }
 
   private List<Account.Id> find(ReviewDb db, List<String> nameOrEmails)
-      throws OrmException, BadRequestException {
+      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
     List<String> missing = new ArrayList<>(nameOrEmails.size());
     List<Account.Id> r = new ArrayList<>(nameOrEmails.size());
     for (String nameOrEmail : nameOrEmails) {

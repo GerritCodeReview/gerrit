@@ -73,6 +73,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -202,7 +203,7 @@ public class Submit
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException, UpdateException {
+          PermissionBackendException, UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -216,7 +217,7 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException, UpdateException {
+      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException {
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -249,7 +250,7 @@ public class Submit
         if (msg != null) {
           throw new ResourceConflictException(msg.getMessage());
         }
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case ABANDONED:
       case DRAFT:
       default:
@@ -478,7 +479,8 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException {
+      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException,
+          IOException, ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions().database(dbProvider);
     perm.check(ChangePermission.SUBMIT);
     perm.check(ChangePermission.SUBMIT_AS);
@@ -527,7 +529,7 @@ public class Submit
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-            PermissionBackendException, UpdateException {
+            PermissionBackendException, UpdateException, ConfigInvalidException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

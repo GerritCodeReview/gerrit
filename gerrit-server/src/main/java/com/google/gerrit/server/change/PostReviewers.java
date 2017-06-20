@@ -76,6 +76,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -148,7 +149,7 @@ public class PostReviewers
   protected AddReviewerResult applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
       throws IOException, OrmException, RestApiException, UpdateException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -170,7 +171,7 @@ public class PostReviewers
 
   public Addition prepareApplication(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
     String reviewer = input.reviewer;
     ReviewerState state = input.state();
     NotifyHandling notify = input.notify;
@@ -219,7 +220,7 @@ public class PostReviewers
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       boolean allowGroup,
       boolean allowByEmail)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
     Account.Id accountId = null;
     try {
       accountId = accounts.parse(reviewer).getAccountId();

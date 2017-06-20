@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -82,8 +83,12 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             throw new CmdLineException(owner, "user \"" + token + "\" not found");
         }
       }
-    } catch (OrmException | IOException e) {
+    } catch (OrmException e) {
       throw new CmdLineException(owner, "database is down");
+    } catch (IOException e) {
+      throw new CmdLineException(owner, "Failed to load account", e);
+    } catch (ConfigInvalidException e) {
+      throw new CmdLineException(owner, "Invalid account config", e);
     }
     setter.addValue(accountId);
     return 1;

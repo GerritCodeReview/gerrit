@@ -68,6 +68,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -226,7 +227,7 @@ public class ConsistencyChecker {
       if (accounts.get(db.get(), change().getOwner()) == null) {
         problem("Missing change owner: " + change().getOwner());
       }
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       error("Failed to look up owner", e);
     }
   }

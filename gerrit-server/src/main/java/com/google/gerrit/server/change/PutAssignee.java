@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
@@ -73,7 +74,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   protected AccountInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     input.assignee = Strings.nullToEmpty(input.assignee).trim();
@@ -109,7 +110,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;

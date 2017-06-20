@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -96,11 +97,8 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     }
 
     try {
-      for (ExternalId extId : toDelete) {
-        AuthRequest authRequest = new AuthRequest(extId.key());
-        authRequest.setEmailAddress(extId.email());
-        accountManager.unlink(extId.accountId(), authRequest);
-      }
+      accountManager.unlink(
+          resource.getUser().getAccountId(), toDelete.stream().map(e -> e.key()).collect(toSet()));
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

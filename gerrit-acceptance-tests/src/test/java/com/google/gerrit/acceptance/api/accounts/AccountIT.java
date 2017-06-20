@@ -547,7 +547,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(getEmails()).contains(email);
 
     gApi.accounts().self().deleteEmail(email);
-    accountIndexedCounter.assertReindexOf(admin, 2); // for each deleted external ID once
+    accountIndexedCounter.assertReindexOf(admin);
 
     resetCurrentApiUser();
     assertThat(getEmails()).doesNotContain(email);

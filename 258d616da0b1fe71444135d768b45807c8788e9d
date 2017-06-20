@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21cdf7d1_f6594a3e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T23:13:04Z",
+      "side": 1,
+      "message": "This needs to be imported HTML-side.",
+      "revId": "258d616da0b1fe71444135d768b45807c8788e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c1c24c_93024d54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T23:13:04Z",
+      "side": 1,
+      "message": "This fuzzy element filter feels clunky. This is why the handler is bound on the gr-textarea itself in the base patch.\n\nWhat\u0027s the advantage of doing it this way?",
+      "range": {
+        "startLine": 271,
+        "startChar": 10,
+        "endLine": 271,
+        "endChar": 47
+      },
+      "revId": "258d616da0b1fe71444135d768b45807c8788e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

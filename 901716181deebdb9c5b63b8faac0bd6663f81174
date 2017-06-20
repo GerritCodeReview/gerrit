@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1387cd4e_73e32db8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T14:54:29Z",
+      "side": 1,
+      "message": "Yes, the tests I added in this change.",
+      "parentUuid": "0bf04979_31e9bfe2",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f719ba4e_d6522df0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 5
@@ -118,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "db05c416_dfccb4ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T14:54:29Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure what you mean by \"a new change which has a topic which is already submitted\"\n\nDo you mean:\n\n* Create change 1 with topic foo\n* Submit change 1\n* Create change 2 with same topic foo as change 1\n* Submit change 2\n\n?\n\n(I don\u0027t think we have a test that does that. It seems mostly unrelated to this change, but then again I suppose I could see where a bug in this implementation would cause that to start failing.)",
+      "parentUuid": "1eb5cb03_098f13ee",
+      "range": {
+        "startLine": 880,
+        "startChar": 2,
+        "endLine": 880,
+        "endChar": 7
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "751a4c64_574a7d25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -129,6 +177,30 @@
       "writtenOn": "2017-06-20T14:22:20Z",
       "side": 1,
       "message": "Do we mind that retries influence this metric?",
+      "range": {
+        "startLine": 554,
+        "startChar": 6,
+        "endLine": 554,
+        "endChar": 48
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9956b8_8c50b1ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T14:54:29Z",
+      "side": 1,
+      "message": "Good point, this should be hoisted out of the retry loop.",
+      "parentUuid": "751a4c64_574a7d25",
       "range": {
         "startLine": 554,
         "startChar": 6,
@@ -187,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "63d9afe1_e23850d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T14:54:29Z",
+      "side": 1,
+      "message": "I didn\u0027t quite explain the issue clearly here.\n\nThe proximate problem is that short-circuiting on line 235 means that the submitter field (and possibly other fields) isn\u0027t set by updateChange, which causes an NPE later in this method when it attempts to read submitter. Short-circuiting here in the changeAlreadyMerged case is certainly the easiest way to avoid this NPE.\n\nBut suppose I tried harder to untangle the control flow of updateChange so we could proceed here. Then the issue with sending emails twice is not due to retries, it\u0027s due to racing with another submit process, where both batches succeed without lock failure, but the second one sees the change as merged in updateChange.\n\nIt may be worth trying to figure out how to support this case correctly, but I would rather fix the problem to reduce error rates first, and hone emails later.",
+      "parentUuid": "4baad795_82bb878b",
+      "range": {
+        "startLine": 502,
+        "startChar": 26,
+        "endLine": 503,
+        "endChar": 97
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce1892db_ca25a53d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/TestHelperOp.java",
         "patchSetId": 5
@@ -207,6 +303,30 @@
       "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86231ee1_fc7cac2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/TestHelperOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T14:54:29Z",
+      "side": 1,
+      "message": "This is identical to SubmitStrategyOp, and the submissionId ends with \u0027]\u0027 so there is a visual distinction.",
+      "parentUuid": "ce1892db_ca25a53d",
+      "range": {
+        "startLine": 55,
+        "startChar": 16,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

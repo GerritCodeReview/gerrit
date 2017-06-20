@@ -1,0 +1,383 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3712baea_7b0602fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Can we just call this gr-project-branches? I\u0027m thinking of actually renaming many of the admin components to not include \u0027admin\u0027, as it\u0027s redundant.",
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2cb6ebd_d915148e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "lets just call this _branches",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb7bea7a_633b3d11",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "let\u0027s call this _shownBranches",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0fc931a_714c4cc4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "let\u0027s call this _branchesPerPage",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e8f3ad9_74d8ec06",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "How about:  \n\nthis._loading \u003d true;\nif (!params || !params.project) { return; }\nif (params \u0026\u0026 params.project) {\n  this._project \u003d params.project;\n}",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d69ef2dd_7d8e5912",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "let\u0027s call this _getBranches",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94043172_108101a4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: I think this looks better with string interpolation. \n\n`/admin/projects/${project},branches`;",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 56
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b28119b5_37a271c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-branches-list/gr-admin-project-branches-list_test.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: Please use something more generic. Also, wrap if it still exceeds 80ch.",
+      "range": {
+        "startLine": 43,
+        "startChar": 15,
+        "endLine": 43,
+        "endChar": 86
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "021be2dc_b4f4d322",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Isn\u0027t this captured in the route on l.155?",
+      "range": {
+        "startLine": 183,
+        "startChar": 3,
+        "endLine": 190,
+        "endChar": 7
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e520303e_9bb0a097",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: out of order.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 101
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91f6b585_298b49ed",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: \u003e80ch, please wrap.",
+      "range": {
+        "startLine": 156,
+        "startChar": 5,
+        "endLine": 156,
+        "endChar": 81
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f3fdcd_4ec29699",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "this should probably be projectBranchList",
+      "range": {
+        "startLine": 159,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e01f8df1_a0c00bf9",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "this should just be _showProjectBranches",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 34
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "719165ff_f005838a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Thanks for fixing these!",
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472cbab9_c2295921",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "let\u0027s call this \u0027getProjectBranches\u0027",
+      "range": {
+        "startLine": 518,
+        "startChar": 4,
+        "endLine": 518,
+        "endChar": 23
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a760b6f6_71c98d7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "this can get wrapped to a line, and then eslint doesn\u0027t need to be disabled.",
+      "range": {
+        "startLine": 524,
+        "startChar": 10,
+        "endLine": 524,
+        "endChar": 95
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd47827_a2aca923",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: out of order.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 84
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

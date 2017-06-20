@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c5f42aa_a22a32a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Please wrap this string at 80ch, then remove the eslint-disable",
+      "range": {
+        "startLine": 524,
+        "startChar": 10,
+        "endLine": 524,
+        "endChar": 95
+      },
+      "revId": "241530a1073a76955c53b921924b6c2dc2c16cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00fb37b3_8dc66846",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Can this be added inline to the single line? Also with the specific rule?\nhttp://eslint.org/docs/user-guide/configuring#disabling-rules-with-inline-comments",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "241530a1073a76955c53b921924b6c2dc2c16cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf39e98_529b18bb",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T20:17:51Z",
+      "side": 1,
+      "message": "Nit: out of order.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 84
+      },
+      "revId": "241530a1073a76955c53b921924b6c2dc2c16cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

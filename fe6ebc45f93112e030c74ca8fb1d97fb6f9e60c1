@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d43f448a_8dc9fffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T16:37:27Z",
+      "side": 1,
+      "message": "IIRC, Becky created the shadow DOM cookie flag, maybe it\u0027s time for a consistent way to configure client runtime flags. Do you think this can be rolled into the cookie-based system?",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4863431d_bd0212b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T16:37:27Z",
+      "side": 1,
+      "message": "Nit: this bracket notation is not needed here, and several spots below.\n\n s/[\u0027access_token\u0027]/.access_token/",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

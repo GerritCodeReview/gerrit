@@ -204,8 +204,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       r.append(' ');
     }
 
-    r.append("group ");
-    r.append(getGroup().getName());
+    r.append(getGroup().toConfigValue());
 
     return r.toString();
   }
@@ -238,7 +237,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       src = src.substring("+force ".length()).trim();
     }
 
-    if (mightUseRange && !src.startsWith("group ")) {
+    if (mightUseRange && !GroupReference.isGroupReference(src)) {
       int sp = src.indexOf(' ');
       String range = src.substring(0, sp);
 
@@ -254,10 +253,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
       src = src.substring(sp + 1).trim();
     }
 
-    if (src.startsWith("group ")) {
-      src = src.substring(6).trim();
+    String groupName = GroupReference.extractGroupName(src);
+    if (groupName != null) {
       GroupReference group = new GroupReference();
-      group.setName(src);
+      group.setName(groupName);
       rule.setGroup(group);
     } else {
       throw new IllegalArgumentException("Rule must include group: " + orig);

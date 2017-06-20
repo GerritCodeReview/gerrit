@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -37,13 +36,14 @@ import com.google.inject.Singleton;
 @Singleton
 public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
-  private final ChangeMessagesUtil cmUtil;
+  private final WorkInProgressOp.Factory opFactory;
   private final Provider<ReviewDb> db;
 
   @Inject
-  SetReadyForReview(RetryHelper retryHelper, ChangeMessagesUtil cmUtil, Provider<ReviewDb> db) {
+  SetReadyForReview(
+      RetryHelper retryHelper, WorkInProgressOp.Factory opFactory, Provider<ReviewDb> db) {
     super(retryHelper);
-    this.cmUtil = cmUtil;
+    this.opFactory = opFactory;
     this.db = db;
   }
 
@@ -66,7 +66,7 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
 
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      bu.addOp(rsrc.getChange().getId(), new WorkInProgressOp(cmUtil, false, input));
+      bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
       bu.execute();
       return Response.ok("");
     }

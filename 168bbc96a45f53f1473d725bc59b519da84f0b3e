@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "17cdcb35_34cb28b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T21:04:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f83a718_c646df81",
+      "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96df87f1_3744640a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab3130a4_384006f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T21:04:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98624871_c28a9311",
+      "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d483faf6_c3ebe4fd",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T19:54:05Z",
+      "side": 1,
+      "message": "What is sourcecodepro used for? Shouldn\u0027t we have only one monospace font?",
+      "revId": "098de1bdccb8887e34acd8d45d51f7092df9d4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

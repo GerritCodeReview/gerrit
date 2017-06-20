@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -174,13 +175,21 @@ public class AccountsUpdate {
   /**
    * Inserts a new account.
    *
+   * @param db ReviewDb
+   * @param accountId ID of the new account
+   * @param init consumer to populate the new account
+   * @return the newly created account
    * @throws OrmDuplicateKeyException if the account already exists
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if updating the user branch fails *
    */
-  public void insert(ReviewDb db, Account account) throws OrmException, IOException {
+  public Account insert(ReviewDb db, Account.Id accountId, Consumer<Account> init)
+      throws OrmException, IOException {
+    Account account = new Account(accountId, TimeUtil.nowTs());
+    init.accept(account);
     db.accounts().insert(ImmutableSet.of(account));
     createUserBranch(account);
-    evictAccount(account.getId());
+    evictAccount(accountId);
+    return account;
   }
 
   /** Updates the account. */

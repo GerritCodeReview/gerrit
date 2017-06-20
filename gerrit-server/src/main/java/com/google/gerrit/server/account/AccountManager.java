@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -223,18 +222,23 @@ public class AccountManager {
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(db.nextAccountId());
-    Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    account.setFullName(who.getDisplayName());
-    account.setPreferredEmail(extId.email());
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
+    Account account;
     try {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
-      accountsUpdate.insert(db, account);
+      account =
+          accountsUpdate.insert(
+              db,
+              newId,
+              a -> {
+                a.setFullName(who.getDisplayName());
+                a.setPreferredEmail(extId.email());
+              });
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {

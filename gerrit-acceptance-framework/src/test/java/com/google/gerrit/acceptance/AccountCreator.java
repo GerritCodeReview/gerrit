@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
@@ -107,10 +106,15 @@ public class AccountCreator {
       }
       externalIdsUpdate.create().insert(extIds);
 
-      Account a = new Account(id, TimeUtil.nowTs());
-      a.setFullName(fullName);
-      a.setPreferredEmail(email);
-      accountsUpdate.create().insert(db, a);
+      accountsUpdate
+          .create()
+          .insert(
+              db,
+              id,
+              a -> {
+                a.setFullName(fullName);
+                a.setPreferredEmail(email);
+              });
 
       if (groups != null) {
         for (String n : groups) {

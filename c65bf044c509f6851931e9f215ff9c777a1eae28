@@ -70,6 +70,30 @@
       "revId": "c65bf044c509f6851931e9f215ff9c777a1eae28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d369ed1_c26c472d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T22:09:00Z",
+      "side": 1,
+      "message": "It doesn\u0027t really matter, but most style concerns \"don\u0027t really matter\" either. I dunno, just noticed an inconsistency and thought I should mention it.",
+      "parentUuid": "8e9c4c29_ff4fe49f",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 21
+      },
+      "revId": "c65bf044c509f6851931e9f215ff9c777a1eae28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

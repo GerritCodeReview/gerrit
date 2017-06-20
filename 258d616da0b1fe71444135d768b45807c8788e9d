@@ -63,6 +63,30 @@
       "revId": "258d616da0b1fe71444135d768b45807c8788e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad84f798_a3101eac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T23:30:28Z",
+      "side": 1,
+      "message": "Sorry for vagueness. I mean what\u0027s the advantage of setting up a keyBindings listener on the host element, rather than the textarea itself?",
+      "parentUuid": "4b71cf83_e1960dbf",
+      "range": {
+        "startLine": 271,
+        "startChar": 10,
+        "endLine": 271,
+        "endChar": 47
+      },
+      "revId": "258d616da0b1fe71444135d768b45807c8788e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

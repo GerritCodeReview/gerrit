@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5d1c27a9_0680ca96",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T18:51:49Z",
+      "side": 1,
+      "message": "Calling these elements \"computed\" in their name seems unnecessarily wordy to me, especially because the properties are clearly labeled \"computed\" in their declaration. I don\u0027t see any regular \"adminTopLinks\" or \"adminSideLinks\" vars, so maybe we can remove \"computed\". What do you think?",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0bdbd455_3fce6250",
         "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
         "patchSetId": 2

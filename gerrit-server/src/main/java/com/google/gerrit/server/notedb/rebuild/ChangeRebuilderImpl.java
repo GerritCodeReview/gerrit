@@ -179,8 +179,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private Result rebuild(ReviewDb db, Change.Id changeId, boolean checkReadOnly)
       throws IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
-    // Read change just to get project; this instance is then discarded so we
-    // can read a consistent ChangeBundle inside a transaction.
+    // Read change just to get project; this instance is then discarded so we can read a consistent
+    // ChangeBundle inside a transaction.
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
@@ -254,29 +254,27 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
                 }
               });
     } catch (ConflictingUpdateException e) {
-      // Rethrow as an OrmException so the caller knows to use staged results.
-      // Strictly speaking they are not completely up to date, but result we
-      // send to the caller is the same as if this rebuild had executed before
-      // the other thread.
+      // Rethrow as an OrmException so the caller knows to use staged results. Strictly speaking
+      // they are not completely up to date, but result we send to the caller is the same as if this
+      // rebuild had executed before the other thread.
       throw new OrmException(e.getMessage());
     } catch (AbortUpdateException e) {
       if (NoteDbChangeState.parse(changeId, newNoteDbState)
           .isUpToDate(
               manager.getChangeRepo().cmds.getRepoRefCache(),
               manager.getAllUsersRepo().cmds.getRepoRefCache())) {
-        // If the state in ReviewDb matches NoteDb at this point, it means
-        // another thread successfully completed this rebuild. It's ok to not
-        // execute the update in this case, since the object referenced in the
-        // Result was flushed to the repo by whatever thread won the race.
+        // If the state in ReviewDb matches NoteDb at this point, it means another thread
+        // successfully completed this rebuild. It's ok to not execute the update in this case,
+        // since the object referenced in the Result was flushed to the repo by whatever thread won
+        // the race.
         return r;
       }
-      // If the state doesn't match, that means another thread attempted this
-      // rebuild, but failed. Fall through and try to update the ref again.
+      // If the state doesn't match, that means another thread attempted this rebuild, but
+      // failed. Fall through and try to update the ref again.
     }
     if (migration.failChangeWrites()) {
-      // Don't even attempt to execute if read-only, it would fail anyway. But
-      // do throw an exception to the caller so they know to use the staged
-      // results instead of reading from the repo.
+      // Don't even attempt to execute if read-only, it would fail anyway. But do throw an exception
+      // to the caller so they know to use the staged results instead of reading from the repo.
       throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
     }
     manager.execute();
@@ -302,15 +300,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoPatchSetsException(change.getId());
     }
 
-    // We will rebuild all events, except for draft comments, in buckets based
-    // on author and timestamp.
+    // We will rebuild all events, except for draft comments, in buckets based on author and
+    // timestamp.
     List<Event> events = new ArrayList<>();
     ListMultimap<Account.Id, DraftCommentEvent> draftCommentEvents =
         MultimapBuilder.hashKeys().arrayListValues().build();
 
     events.addAll(getHashtagsEvents(change, manager));
 
-    // Delete ref only after hashtags have been read
+    // Delete ref only after hashtags have been read.
     deleteChangeMetaRef(change, manager.getChangeRepo().cmds);
     deleteDraftRefs(change, manager.getAllUsersRepo());
 
@@ -429,8 +427,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     setPostSubmitDeps(events);
     new EventSorter(events).sort();
 
-    // Ensure the first event in the list creates the change, setting the author
-    // and any required footers.
+    // Ensure the first event in the list creates the change, setting the author and any required
+    // footers.
     Event first = events.get(0);
     if (first instanceof PatchSetEvent && change.getOwner().equals(first.user)) {
       ((PatchSetEvent) first).createChange = true;
@@ -440,22 +438,19 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     // Final pass to correct some inconsistencies.
     //
-    // First, fill in any missing patch set IDs using the latest patch set of
-    // the change at the time of the event, because NoteDb can't represent
-    // actions with no associated patch set ID. This workaround is as if a user
-    // added a ChangeMessage on the change by replying from the latest patch
-    // set.
+    // First, fill in any missing patch set IDs using the latest patch set of the change at the time
+    // of the event, because NoteDb can't represent actions with no associated patch set ID. This
+    // workaround is as if a user added a ChangeMessage on the change by replying from the latest
+    // patch set.
     //
-    // Start with the first patch set that actually exists. If there are no
-    // patch sets at all, minPsNum will be null, so just bail and use 1 as the
-    // patch set ID. The corresponding patch set won't exist, but this change is
-    // probably corrupt anyway, as deleting the last draft patch set should have
-    // deleted the whole change.
+    // Start with the first patch set that actually exists. If there are no patch sets at all,
+    // minPsNum will be null, so just bail and use 1 as the patch set ID. The corresponding patch
+    // set won't exist, but this change is probably corrupt anyway, as deleting the last draft patch
+    // set should have deleted the whole change.
     //
-    // Second, ensure timestamps are nondecreasing, by copying the previous
-    // timestamp if this happens. This assumes that the only way this can happen
-    // is due to dependency constraints, and it is ok to give an event the same
-    // timestamp as one of its dependencies.
+    // Second, ensure timestamps are nondecreasing, by copying the previous timestamp if this
+    // happens. This assumes that the only way this can happen is due to dependency constraints, and
+    // it is ok to give an event the same timestamp as one of its dependencies.
     int ps = firstNonNull(minPsNum, 1);
     for (int i = 0; i < events.size(); i++) {
       Event e = events.get(i);
@@ -492,8 +487,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (projectCache != null) {
       labelNameComparator = projectCache.get(change.getProject()).getLabelTypes().nameComparator();
     } else {
-      // No project cache available, bail and use natural ordering; there's no
-      // semantic difference anyway difference.
+      // No project cache available, bail and use natural ordering; there's no semantic difference
+      // anyway difference.
       labelNameComparator = Ordering.natural();
     }
     ChangeUpdate update =

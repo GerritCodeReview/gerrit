@@ -46,6 +46,30 @@
       "revId": "680788cd2a29fe1b27b07fd5364fd750b7f5ae1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a0c8dfc_428b6686",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T18:36:11Z",
+      "side": 1,
+      "message": "In what way does adding newlines address the linked issue, though? The text that\u0027s emitted by this template is intended to be on a single line.",
+      "parentUuid": "40585f0e_a6ed1a65",
+      "range": {
+        "startLine": 28,
+        "startChar": 71,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "680788cd2a29fe1b27b07fd5364fd750b7f5ae1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,6 +38,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -251,20 +253,41 @@ public class AccountsUpdate {
    */
   public Account atomicUpdate(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
       throws OrmException, IOException, ConfigInvalidException {
+    return atomicUpdate(db, accountId, ImmutableList.of(consumer));
+  }
+
+  /**
+   * Gets the account and updates it atomically.
+   *
+   * <p>Changing the registration date of an account is not supported.
+   *
+   * @param db ReviewDb
+   * @param accountId ID of the account
+   * @param consumers consumers to update the account, only invoked if the account exists
+   * @return the updated account, {@code null} if the account doesn't exist
+   * @throws OrmException if updating the account fails
+   */
+  public Account atomicUpdate(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (consumers.isEmpty()) {
+      return null;
+    }
+
     // Update in ReviewDb
     db.accounts()
         .atomicUpdate(
             accountId,
             a -> {
-              consumer.accept(a);
+              consumers.stream().forEach(c -> c.accept(a));
               return a;
             });
 
     // Update in NoteDb
     AccountConfig accountConfig = read(accountId);
     Account account = accountConfig.getAccount();
-    consumer.accept(account);
+    consumers.stream().forEach(c -> c.accept(account));
     commit(accountConfig);
+
     return account;
   }
 

@@ -273,7 +273,7 @@ public class FileContentUtil {
     // an attacker could upload a *.class file and have us send a ZIP
     // that can be invoked through an applet tag in the victim's browser.
     //
-    Hasher h = Hashing.md5().newHasher();
+    Hasher h = Hashing.murmur3_128().newHasher();
     byte[] buf = new byte[8];
 
     NB.encodeInt64(buf, 0, TimeUtil.nowMs());

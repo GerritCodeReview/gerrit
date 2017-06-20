@@ -137,7 +137,7 @@ public class ChangeResource implements RestResource, HasETag {
   @Override
   public String getETag() {
     CurrentUser user = control.getUser();
-    Hasher h = Hashing.md5().newHasher();
+    Hasher h = Hashing.murmur3_128().newHasher();
     if (user.isIdentifiedUser()) {
       h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
     }

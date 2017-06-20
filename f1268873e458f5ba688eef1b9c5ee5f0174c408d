@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "669eaee5_69433797",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-20T15:04:56Z",
+      "side": 1,
+      "message": "You could get the Future\u003c?\u003e from submit and store that into a field of the TaskThunk so that the ContinuationListener\u0027s onTimeout can call cancel(true) on that Future. That may be a more natural idiom than the executor.remove(this) that you were trying to replace.\n\nYou can probably safely flip the order of these operations such that you can ensure the Future exists before the ContinuationListener is attached.\n\nI think I just got lazy and made them the same class with TaskThunk. You may find it cleaner to separate the ContinuationListener implementation from TaskThunk so that the ContinuationListener can have two final fields holding the TaskThunk and the Future\u003c?\u003e from submit, eliminating any race condition about initialization of the Future during the onTimeout callback.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 28
+      },
+      "revId": "f1268873e458f5ba688eef1b9c5ee5f0174c408d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a537b7d2_acd41b81",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-20T15:04:56Z",
+      "side": 1,
+      "message": "Jetty calls onTimeout if the task has been sitting in the pending queue longer than the timeout and its about to give up on this request because it can\u0027t get any CPU time.\n\nend() is insufficient as the task is still sitting in the executor\u0027s queue and can still come up for execution. What we want to do is cancel/remove the task from the executor\u0027s queue so that the queue size shrinks. end() doesn\u0027t do anything with the queue.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 12
+      },
+      "revId": "f1268873e458f5ba688eef1b9c5ee5f0174c408d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

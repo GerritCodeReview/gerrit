@@ -16,6 +16,24 @@
       "revId": "098de1bdccb8887e34acd8d45d51f7092df9d4ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b284912_deb76ab3",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T20:53:46Z",
+      "side": 1,
+      "message": "Like I said to Viktar, I haven\u0027t gotten around to removing all references yet.\n\nThis change should really still be in WIP mode, reverting it back there now.",
+      "parentUuid": "d483faf6_c3ebe4fd",
+      "revId": "098de1bdccb8887e34acd8d45d51f7092df9d4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

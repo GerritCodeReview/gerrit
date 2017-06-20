@@ -234,7 +234,7 @@ public class AccountManager {
 
     try {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
-      accountsUpdate.upsert(db, account);
+      accountsUpdate.insert(db, account);
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {

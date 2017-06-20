@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "598c690b_51a0e48d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-20T06:56:42Z",
+      "side": 1,
+      "message": "What is actually throwing the StringIndexOutOfBoundsException here?\n\nAccording to the Javadoc of HttpServletRequest#getPathInfo(), it returns null if there was no extra path information.  Can we first check if it returns null, and then only append it if not null?",
+      "range": {
+        "startLine": 255,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 13
+      },
+      "revId": "1f2120536d8e727717113357804973564e375576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

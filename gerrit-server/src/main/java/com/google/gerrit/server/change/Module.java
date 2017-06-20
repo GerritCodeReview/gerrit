@@ -168,15 +168,16 @@ public class Module extends RestApiModule {
     factory(ChangeEdits.Create.Factory.class);
     factory(ChangeEdits.DeleteFile.Factory.class);
     factory(ChangeInserter.Factory.class);
+    factory(ChangeResource.Factory.class);
+    factory(DeleteReviewerByEmailOp.Factory.class);
+    factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
+    factory(PostReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
-    factory(ChangeResource.Factory.class);
-    factory(DeleteReviewerOp.Factory.class);
-    factory(DeleteReviewerByEmailOp.Factory.class);
-    factory(PostReviewersOp.Factory.class);
+    factory(WorkInProgressOp.Factory.class);
   }
 }

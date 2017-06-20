@@ -384,6 +384,9 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   public void rebuild() throws MigrationException, OrmException {
+    checkState(
+        globalNotesMigration.commitChangeWrites(),
+        "cannot rebuild without noteDb.changes.write=true");
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");

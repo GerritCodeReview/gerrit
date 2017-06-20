@@ -46,6 +46,30 @@
       "revId": "1befe6456c96885b67f11e9eec4ab3d1e6a80112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35072477_9209957d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-20T06:26:16Z",
+      "side": 1,
+      "message": "Great to do this as a topic. Will keep the -1 until the other changes are uploaded so that this is not submitted accidentally alone.",
+      "parentUuid": "15c7284b_ed8d7d28",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "1befe6456c96885b67f11e9eec4ab3d1e6a80112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

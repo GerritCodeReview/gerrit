@@ -205,7 +205,7 @@ limitations under the License.
           </template>
           <template is="dom-if" if="[[!change.topic]]">
             <gr-editable-label
-                value="{{change.topic}}"
+                value="[[change.topic]]"
                 placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
                 read-only="[[_topicReadOnly]]"
                 on-changed="_handleTopicChanged"></gr-editable-label>

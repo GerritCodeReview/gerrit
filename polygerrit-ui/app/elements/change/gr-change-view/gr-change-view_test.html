@@ -1347,5 +1347,11 @@ limitations under the License.
       assert.isTrue(scrollStub.called);
       assert.equal(scrollStub.lastCall.args[0], 'TEST');
     });
+
+    test('topic update reloads related changes', () => {
+      sandbox.stub(element.$.relatedChanges, 'reload');
+      element.dispatchEvent(new CustomEvent('topic-changed'));
+      assert.isTrue(element.$.relatedChanges.reload.calledOnce);
+    });
   });
 </script>

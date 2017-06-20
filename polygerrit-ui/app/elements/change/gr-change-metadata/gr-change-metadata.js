@@ -25,6 +25,12 @@
   Polymer({
     is: 'gr-change-metadata',
 
+    /**
+     * Fired when the change topic is changed.
+     *
+     * @event topic-changed
+     */
+
     properties: {
       change: Object,
       commitInfo: Object,
@@ -149,8 +155,16 @@
     },
 
     _handleTopicChanged(e, topic) {
+      const lastTopic = this.change.topic;
       if (!topic.length) { topic = null; }
-      this.$.restAPI.setChangeTopic(this.change._number, topic);
+      this.$.restAPI.setChangeTopic(this.change._number, topic)
+          .then(newTopic => {
+            this.set(['change', 'topic'], newTopic);
+            if (newTopic !== lastTopic) {
+              this.dispatchEvent(
+                  new CustomEvent('topic-changed', {bubbles: true}));
+            }
+          });
     },
 
     _computeTopicReadOnly(mutable, change) {
@@ -276,8 +290,11 @@
     },
 
     _handleTopicRemoved() {
-      this.set(['change', 'topic'], '');
-      this.$.restAPI.setChangeTopic(this.change._number, null);
+      this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
+        this.set(['change', 'topic'], '');
+        this.dispatchEvent(
+            new CustomEvent('topic-changed', {bubbles: true}));
+      });
     },
 
     _computeIsWip(change) {

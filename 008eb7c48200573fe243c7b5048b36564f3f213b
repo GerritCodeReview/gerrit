@@ -22,6 +22,30 @@
       "revId": "008eb7c48200573fe243c7b5048b36564f3f213b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a64afa68_7c40bec3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-06-20T10:42:32Z",
+      "side": 0,
+      "message": "Sorry, my bad. This is what happen when you review late in the evening.",
+      "parentUuid": "b56c9e48_cda6a5fe",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 20
+      },
+      "revId": "008eb7c48200573fe243c7b5048b36564f3f213b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

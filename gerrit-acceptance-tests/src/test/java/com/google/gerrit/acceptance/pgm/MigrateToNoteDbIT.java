@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.config.SitePaths;
@@ -28,7 +29,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RebuildNoteDbIT {
+public class MigrateToNoteDbIT {
   private String sitePath;
   private StoredConfig gerritConfig;
 
@@ -37,6 +38,7 @@ public class RebuildNoteDbIT {
     SitePaths sitePaths = new SitePaths(TempFileUtil.createTempDirectory().toPath());
     sitePath = sitePaths.site_path.toString();
     gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+    initSite();
   }
 
   @After
@@ -45,10 +47,17 @@ public class RebuildNoteDbIT {
   }
 
   @Test
+  public void rebuildEmptySiteStartingWithNoteDbDisabed() throws Exception {
+    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
+    runGerrit("MigrateToNoteDb", "-d", sitePath, "--show-stack-trace");
+    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+  }
+
+  @Test
   public void rebuildEmptySiteStartingWithNoteDbEnabled() throws Exception {
-    initSite();
-    setNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
-    runGerrit("RebuildNoteDb", "-d", sitePath, "--show-stack-trace");
+    setNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+    runGerrit("MigrateToNoteDb", "-d", sitePath, "--show-stack-trace");
+    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
   }
 
   private void initSite() throws Exception {
@@ -70,5 +79,11 @@ public class RebuildNoteDbIT {
     gerritConfig.load();
     ConfigNotesMigration.setConfigValues(gerritConfig, state.migration());
     gerritConfig.save();
+  }
+
+  private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
+    gerritConfig.load();
+    assertThat(NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig)))
+        .hasValue(expected);
   }
 }

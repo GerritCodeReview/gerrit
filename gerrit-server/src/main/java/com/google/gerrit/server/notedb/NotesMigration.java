@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import java.util.Objects;
 
 /**
  * Current low-level settings of the NoteDb migration for changes.
@@ -39,7 +40,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
  * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
  * In general, any changes to these options should only be made by adventurous administrators, who
  * know what they're doing, on non-production data, for the purposes of testing the NoteDb
- * implementation. Changing options quite likely requires re-running {@code RebuildNoteDb}. For
+ * implementation. Changing options quite likely requires re-running {@code MigrateToNoteDb}. For
  * these reasons, the options remain undocumented.
  *
  * <p><strong>Note:</strong> Callers should not assume the values returned by {@code
@@ -116,7 +117,7 @@ public abstract class NotesMigration {
     return false;
   }
 
-  public boolean commitChangeWrites() {
+  public final boolean commitChangeWrites() {
     // It may seem odd that readChanges() without writeChanges() means we should
     // attempt to commit writes. However, this method is used by callers to know
     // whether or not they should short-circuit and skip attempting to read or
@@ -130,11 +131,38 @@ public abstract class NotesMigration {
     return rawWriteChangesSetting() || readChanges();
   }
 
-  public boolean failChangeWrites() {
+  public final boolean failChangeWrites() {
     return !rawWriteChangesSetting() && readChanges();
   }
 
-  public boolean enabled() {
+  public final boolean enabled() {
     return rawWriteChangesSetting() || readChanges();
+  }
+
+  @Override
+  public final boolean equals(Object o) {
+    if (!(o instanceof NotesMigration)) {
+      return false;
+    }
+    NotesMigration m = (NotesMigration) o;
+    return readChanges() == m.readChanges()
+        && rawWriteChangesSetting() == m.rawWriteChangesSetting()
+        && readChangeSequence() == m.readChangeSequence()
+        && changePrimaryStorage() == m.changePrimaryStorage()
+        && disableChangeReviewDb() == m.disableChangeReviewDb()
+        && fuseUpdates() == m.fuseUpdates()
+        && failOnLoad() == m.failOnLoad();
+  }
+
+  @Override
+  public final int hashCode() {
+    return Objects.hash(
+        readChanges(),
+        rawWriteChangesSetting(),
+        readChangeSequence(),
+        changePrimaryStorage(),
+        disableChangeReviewDb(),
+        fuseUpdates(),
+        failOnLoad());
   }
 }

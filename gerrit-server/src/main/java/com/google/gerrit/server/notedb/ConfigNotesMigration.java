@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.Config;
  * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
  * In general, any changes to these options should only be made by adventurous administrators, who
  * know what they're doing, on non-production data, for the purposes of testing the NoteDb
- * implementation. Changing options quite likely requires re-running {@code RebuildNoteDb}. For
+ * implementation. Changing options quite likely requires re-running {@code MigrateToNoteDb}. For
  * these reasons, the options remain undocumented.
  */
 @Singleton
@@ -71,6 +71,12 @@ public class ConfigNotesMigration extends NotesMigration {
     cfg.setBoolean(
         SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, migration.disableChangeReviewDb());
     cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, migration.fuseUpdates());
+  }
+
+  public static String toText(NotesMigration migration) {
+    Config cfg = new Config();
+    setConfigValues(cfg, migration);
+    return cfg.toText();
   }
 
   private final boolean writeChanges;

@@ -496,11 +496,16 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      Account a = accounts.get(db, id);
-      a.setFullName(fullName);
-      a.setPreferredEmail(email);
-      a.setActive(active);
-      accountsUpdate.create().update(db, a);
+      accountsUpdate
+          .create()
+          .atomicUpdate(
+              db,
+              id,
+              a -> {
+                a.setFullName(fullName);
+                a.setPreferredEmail(email);
+                a.setActive(active);
+              });
       return id;
     }
   }

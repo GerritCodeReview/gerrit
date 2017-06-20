@@ -84,7 +84,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -302,7 +301,6 @@ public class ReceiveCommits {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
-  private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdate;
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
@@ -377,7 +375,6 @@ public class ReceiveCommits {
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
-      Accounts accounts,
       AccountsUpdate.Server accountsUpdate,
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
@@ -417,7 +414,6 @@ public class ReceiveCommits {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
-    this.accounts = accounts;
     this.accountsUpdate = accountsUpdate;
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
@@ -2788,11 +2784,20 @@ public class ReceiveCommits {
 
         if (defaultName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
           try {
-            Account a = accounts.get(db, user.getAccountId());
-            if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
-              a.setFullName(c.getCommitterIdent().getName());
-              accountsUpdate.create().update(db, a);
-              user.getAccount().setFullName(a.getFullName());
+            String committerName = c.getCommitterIdent().getName();
+            Account account =
+                accountsUpdate
+                    .create()
+                    .atomicUpdate(
+                        db,
+                        user.getAccountId(),
+                        a -> {
+                          if (Strings.isNullOrEmpty(a.getFullName())) {
+                            a.setFullName(committerName);
+                          }
+                        });
+            if (account != null && Strings.isNullOrEmpty(account.getFullName())) {
+              user.getAccount().setFullName(account.getFullName());
             }
           } catch (OrmException | IOException | ConfigInvalidException e) {
             logWarn("Cannot default full_name", e);

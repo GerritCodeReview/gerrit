@@ -39,13 +39,21 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      element = fixture('basic');
       sandbox = sinon.sandbox.create();
+      element = fixture('basic');
       element.readyForMeasure = true;
     });
 
     teardown(() => {
       sandbox.restore();
+    });
+
+    test('can be disabled with floatingDisabled', () => {
+      element.floatingDisabled = true;
+      sandbox.stub(element, '_reposition');
+      window.dispatchEvent(new CustomEvent('resize'));
+      element.flushDebouncer('update');
+      assert.isFalse(element._reposition.called);
     });
 
     test('header is the height of the content', () => {

@@ -104,6 +104,10 @@
         type: Object,
         computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
       },
+      _panelFloatingDisabled: {
+        type: Boolean,
+        value: () => { return window.PANEL_FLOATING_DISABLED; },
+      },
     },
 
     behaviors: [
@@ -717,6 +721,12 @@
       }
 
       return skips;
+    },
+
+    _computeDiffClass(panelFloatingDisabled) {
+      if (panelFloatingDisabled) {
+        return 'noOverflow';
+      }
     },
   });
 })();

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7652f45e_192f53e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T12:14:33Z",
+      "side": 1,
+      "message": "Let\u0027s see how much of NoteDbMigrator I can test with normal acceptance tests first :)",
+      "parentUuid": "8422a529_b9c5863a",
+      "revId": "d1c5a93f76f76fd289e30dccad0069eb311b1605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "266e2f69_1ecc6d36",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 1

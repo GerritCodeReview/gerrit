@@ -34,6 +34,24 @@
       "revId": "0cfc0981b436e0eccb71258f7b4f3de891a9f8c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b43718b_c48f3b0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T12:15:21Z",
+      "side": 1,
+      "message": "\u003e If we don\u0027t need to preserve these, shall we just replace with the same as we did in gitiles?\n\nThat would be my preference, I was just trying to limit the amount of work you have to do :)",
+      "parentUuid": "3da33cef_48aad9f6",
+      "revId": "0cfc0981b436e0eccb71258f7b4f3de891a9f8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

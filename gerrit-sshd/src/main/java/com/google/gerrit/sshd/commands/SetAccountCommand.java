@@ -292,7 +292,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void putPreferred(String email)
-      throws RestApiException, OrmException, IOException, PermissionBackendException {
+      throws RestApiException, OrmException, IOException, PermissionBackendException,
+          ConfigInvalidException {
     for (EmailInfo e : getEmails.apply(rsrc)) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user, email), null);

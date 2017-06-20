@@ -97,7 +97,7 @@ public abstract class ExternalId implements Serializable {
      * notes branch.
      */
     public ObjectId sha1() {
-      return ObjectId.fromRaw(Hashing.sha1().hashString(get(), UTF_8).asBytes());
+      return ObjectId.fromRaw(Hashing.murmur3_128().hashString(get(), UTF_8).asBytes());
     }
 
     /**

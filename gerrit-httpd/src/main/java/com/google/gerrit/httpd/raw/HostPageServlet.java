@@ -133,7 +133,7 @@ public class HostPageServlet extends HttpServlet {
     String src = "gerrit_ui/gerrit_ui.nocache.js";
     try (InputStream in = servletContext.getResourceAsStream("/" + src)) {
       if (in != null) {
-        Hasher md = Hashing.md5().newHasher();
+        Hasher md = Hashing.murmur3_128().newHasher();
         byte[] buf = new byte[1024];
         int n;
         while ((n = in.read(buf)) > 0) {

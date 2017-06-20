@@ -93,6 +93,30 @@
       "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3683daeb_18f79015",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T18:23:31Z",
+      "side": 1,
+      "message": "Ah, sorry. I should\u0027ve been more specific. The chaining of the logical operator is incorrectly spaced.\n\n      return this.$.restAPI.getAccountCapabilities(params)\n          .then(capabilities \u003d\u003e {\n            this._adminLinks \u003d ADMIN_LINKS.filter(link \u003d\u003e {\n              return !link.capability ||\n                  capabilities.hasOwnProperty(link.capability);\n            });\n            this._nestedLinks \u003d NESTED_ADMIN_LINKS.filter(link \u003d\u003e {\n              return !link.capability ||\n                  capabilities.hasOwnProperty(link.capability);\n            });\n          });",
+      "parentUuid": "bd7e227a_e4e68072",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

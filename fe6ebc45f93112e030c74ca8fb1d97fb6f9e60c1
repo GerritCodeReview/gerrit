@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "236ad269_f8faf296",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T21:29:29Z",
+      "side": 1,
+      "message": "This all makes sense, and I agree there\u0027s room for improvement.\nMy only point is that existing interface is not significantly better that the one used in this change.",
+      "parentUuid": "41c29c14_5a5b9c1e",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4863431d_bd0212b9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
         "patchSetId": 4
@@ -141,6 +165,30 @@
       "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca99c1d9_57db949c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T21:29:29Z",
+      "side": 1,
+      "message": "I went ahead with dot notation. Hope this settles it.\n\nFYI: Advanced compilation would minify (rename) object properties.\n[] is one of the ways to prevent that.",
+      "parentUuid": "9538a1bc_b255deae",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

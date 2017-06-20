@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -82,8 +81,10 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
       throw new UnsupportedOperationException(MSG);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<Change, OrmException> getAsync(Change.Id key) {
+    public com.google.common.util.concurrent.CheckedFuture<Change, OrmException> getAsync(
+        Change.Id key) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -113,8 +114,10 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
       throw new UnsupportedOperationException(MSG);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchSetApproval, OrmException> getAsync(PatchSetApproval.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchSetApproval, OrmException> getAsync(
+        PatchSetApproval.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -149,8 +152,10 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
       throw new UnsupportedOperationException(MSG);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<ChangeMessage, OrmException> getAsync(ChangeMessage.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<ChangeMessage, OrmException> getAsync(
+        ChangeMessage.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -190,8 +195,10 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
       throw new UnsupportedOperationException(MSG);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchSet, OrmException> getAsync(PatchSet.Id key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchSet, OrmException> getAsync(
+        PatchSet.Id key) {
       throw new UnsupportedOperationException(MSG);
     }
 
@@ -221,8 +228,10 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
       throw new UnsupportedOperationException(MSG);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchLineComment, OrmException> getAsync(PatchLineComment.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchLineComment, OrmException> getAsync(
+        PatchLineComment.Key key) {
       throw new UnsupportedOperationException(MSG);
     }
 

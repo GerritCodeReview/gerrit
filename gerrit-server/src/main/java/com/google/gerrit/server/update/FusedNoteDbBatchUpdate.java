@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -81,7 +80,9 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     setRequestIds(updates, requestId);
 
     try {
-      List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
+      @SuppressWarnings("deprecation")
+      List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
+          new ArrayList<>();
       List<ChangesHandle> handles = new ArrayList<>(updates.size());
       Order order = getOrder(updates, listener);
       try {
@@ -357,12 +358,14 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
       FusedNoteDbBatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
     }
 
-    List<CheckedFuture<?, IOException>> startIndexFutures() {
+    @SuppressWarnings("deprecation")
+    List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> startIndexFutures() {
       if (dryrun) {
         return ImmutableList.of();
       }
       logDebug("Reindexing {} changes", results.size());
-      List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>(results.size());
+      List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
+          new ArrayList<>(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
         switch (e.getValue()) {

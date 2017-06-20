@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -51,7 +50,9 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
     return new ListResultSet<>(ImmutableList.of());
   }
 
-  private static <T, K extends Key<?>> CheckedFuture<T, OrmException> emptyFuture() {
+  @SuppressWarnings("deprecation")
+  private static <T, K extends Key<?>>
+      com.google.common.util.concurrent.CheckedFuture<T, OrmException> emptyFuture() {
     return Futures.immediateCheckedFuture(null);
   }
 
@@ -164,8 +165,9 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
       return empty();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public final CheckedFuture<T, OrmException> getAsync(K key) {
+    public final com.google.common.util.concurrent.CheckedFuture<T, OrmException> getAsync(K key) {
       return emptyFuture();
     }
 

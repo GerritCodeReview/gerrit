@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "dee4ccf9_a637cfcd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:54:19Z",
+      "side": 1,
+      "message": "Failed with\n\nIgnoring duplicate element definition: undefined\n____From Checking 1 JS files in //polygerrit-ui/app:closure_lib:\nbazel-out/local-fastbuild/bin/polygerrit-ui/app/gr-app.js:12193: WARNING - Parse error. String continuations are not recommended. See https://google.github.io/styleguide/javascriptguide.xml?showone\u003dMultiline_string_literals#Multiline_string_literals\n          `/projects/${project}/branches?n\u003d${projectsBranchesPerPage + 1}\u0026s\u003d\\\n                                                                        ^\n  ProTip: \"JSC_PARSE_ERROR\" can be added to the `suppress` attribute of:\n  //polygerrit-ui/app:closure_lib\n\n0 error(s), 1 warning(s)",
+      "parentUuid": "424ae68c_a1246e34",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 533,
+        "endChar": 77
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89955377_c5bfe6a9",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 26

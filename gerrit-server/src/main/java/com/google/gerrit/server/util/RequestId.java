@@ -47,7 +47,7 @@ public class RequestId {
   private final String str;
 
   private RequestId(String resourceId) {
-    Hasher h = Hashing.sha1().newHasher();
+    Hasher h = Hashing.murmur3_128().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
     str =
         "["

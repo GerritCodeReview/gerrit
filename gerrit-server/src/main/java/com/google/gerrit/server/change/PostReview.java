@@ -659,7 +659,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           comment.key.patchSetId,
           comment.lineNbr,
           Side.fromShort(comment.side),
-          Hashing.sha1().hashString(comment.message, UTF_8),
+          Hashing.murmur3_128().hashString(comment.message, UTF_8),
           comment.range);
     }
 

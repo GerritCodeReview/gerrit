@@ -765,6 +765,30 @@
     },
     {
       "key": {
+        "uuid": "65275890_a32c1adb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-20T18:37:33Z",
+      "side": 1,
+      "message": "Because just editing the commit message (equivalent to \"git commit --amend\") doesn\u0027t update the Author Name or Author Date fields, so this API shouldn\u0027t either.",
+      "parentUuid": "e803152d_4c7837e7",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 89
+      },
+      "revId": "6d2845cc94e09cda25c88cb00cbb5bbfb79bf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86664bc7_869866b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 7

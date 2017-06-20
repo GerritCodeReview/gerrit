@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
@@ -280,6 +281,10 @@ public class NoteDbMigrator implements AutoCloseable {
       throw new MigrationException(
           "Migration has already progressed past the endpoint of the \"trial mode\" state;"
               + " NoteDb is already the primary storage for some changes");
+    }
+    if (forceRebuild && state.compareTo(READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY) > 0) {
+      throw new MigrationException(
+          "Cannot force rebuild changes; NoteDb is already the primary storage for some changes");
     }
 
     boolean rebuilt = false;

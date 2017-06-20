@@ -183,17 +183,6 @@ public class AccountsUpdate {
     evictAccount(account.getId());
   }
 
-  /**
-   * Inserts or updates an account.
-   *
-   * <p>If the account already exists, it is overwritten, otherwise it is inserted.
-   */
-  public void upsert(ReviewDb db, Account account) throws OrmException, IOException {
-    db.accounts().upsert(ImmutableSet.of(account));
-    createUserBranchIfNeeded(account);
-    evictAccount(account.getId());
-  }
-
   /** Updates the account. */
   public void update(ReviewDb db, Account account) throws OrmException, IOException {
     db.accounts().update(ImmutableSet.of(account));
@@ -249,16 +238,6 @@ public class AccountsUpdate {
       }
       createUserBranch(
           repo, oi, committerIdent, authorIdent, account.getId(), account.getRegisteredOn());
-    }
-  }
-
-  private void createUserBranchIfNeeded(Account account) throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        ObjectInserter oi = repo.newObjectInserter()) {
-      if (repo.exactRef(RefNames.refsUsers(account.getId())) == null) {
-        createUserBranch(
-            repo, oi, committerIdent, authorIdent, account.getId(), account.getRegisteredOn());
-      }
     }
   }
 

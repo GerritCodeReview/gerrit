@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b0ea1d6_e393a41a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T19:46:34Z",
+      "side": 1,
+      "message": "I guess my main concern was differentiating them from the constants above, and thought that it might be confusing otherwise, though I don\u0027t feel incredibly strongly either way.",
+      "parentUuid": "5d1c27a9_0680ca96",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0bdbd455_3fce6250",
         "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
         "patchSetId": 2

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -412,45 +413,67 @@ public class AccountManager {
   }
 
   /**
-   * Unlink an authentication identity from an existing account.
+   * Unlink an external identity from an existing account.
    *
-   * @param from account to unlink the identity from.
-   * @param who the identity to delete
-   * @return the result of unlinking the identity from the user.
-   * @throws AccountException the identity belongs to a different account, or it cannot be unlinked
-   *     at this time.
+   * @param from account to unlink the external identity from
+   * @param extIdKey the key of the external ID that should be deleted
+   * @throws AccountException the identity belongs to a different account, or the identity was not
+   *     found
    */
-  public AuthResult unlink(Account.Id from, AuthRequest who)
+  public void unlink(Account.Id from, ExternalId.Key extIdKey)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
+    unlink(from, ImmutableList.of(extIdKey));
+  }
+
+  /**
+   * Unlink an external identities from an existing account.
+   *
+   * @param from account to unlink the external identity from
+   * @param extIdKeys the keys of the external IDs that should be deleted
+   * @throws AccountException any of the identity belongs to a different account, or any of the
+   *     identity was not found
+   */
+  public void unlink(Account.Id from, Collection<ExternalId.Key> extIdKeys)
+      throws AccountException, OrmException, IOException, ConfigInvalidException {
+    if (extIdKeys.isEmpty()) {
+      return;
+    }
+
     try (ReviewDb db = schema.open()) {
-      ExternalId extId = externalIds.get(who.getExternalIdKey());
-      if (extId != null) {
-        if (!extId.accountId().equals(from)) {
-          throw new AccountException(
-              "Identity '" + who.getExternalIdKey().get() + "' in use by another account");
+      List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
+      for (ExternalId.Key extIdKey : extIdKeys) {
+        ExternalId extId = externalIds.get(extIdKey);
+        if (extId != null) {
+          if (!extId.accountId().equals(from)) {
+            throw new AccountException(
+                "Identity '" + extIdKey.get() + "' in use by another account");
+          }
+          extIds.add(extId);
+        } else {
+          throw new AccountException("Identity '" + extIdKey.get() + "' not found");
         }
-        externalIdsUpdateFactory.create().delete(extId);
-
-        if (who.getEmailAddress() != null) {
-          accountsUpdateFactory
-              .create()
-              .update(
-                  db,
-                  from,
-                  a -> {
-                    if (a.getPreferredEmail() != null
-                        && a.getPreferredEmail().equals(who.getEmailAddress())) {
-                      a.setPreferredEmail(null);
-                    }
-                  });
-          byEmailCache.evict(who.getEmailAddress());
-        }
-
-      } else {
-        throw new AccountException("Identity '" + who.getExternalIdKey().get() + "' not found");
       }
 
-      return new AuthResult(from, who.getExternalIdKey(), false);
+      externalIdsUpdateFactory.create().delete(extIds);
+
+      if (extIds.stream().anyMatch(e -> e.email() != null)) {
+        accountsUpdateFactory
+            .create()
+            .update(
+                db,
+                from,
+                a -> {
+                  if (a.getPreferredEmail() != null) {
+                    for (ExternalId extId : extIds) {
+                      if (a.getPreferredEmail().equals(extId.email())) {
+                        a.setPreferredEmail(null);
+                        break;
+                      }
+                    }
+                  }
+                });
+        extIds.stream().forEach(e -> byEmailCache.evict(e.email()));
+      }
     }
   }
 }

@@ -22,6 +22,30 @@
       "revId": "680788cd2a29fe1b27b07fd5364fd750b7f5ae1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40585f0e_a6ed1a65",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T16:25:48Z",
+      "side": 1,
+      "message": "Oh, i thought you could use {\\n} in here but looks like that\u0027s for raw text.\n\nInstead we could use \u003cbr\u003e",
+      "parentUuid": "422dbe65_efe9731b",
+      "range": {
+        "startLine": 28,
+        "startChar": 71,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "680788cd2a29fe1b27b07fd5364fd750b7f5ae1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

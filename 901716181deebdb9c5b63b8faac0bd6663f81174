@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8d9ae9da_da9b8aca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T15:30:27Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the scenario I was thinking of. When I first read the description of the issue and the chosen solution, I was wondering whether that scenario would be influenced by this change. After taking a look at the code, I saw that it should be unrelated but still would feel better if we had a test documenting the expected behavior.",
+      "parentUuid": "db05c416_dfccb4ac",
+      "range": {
+        "startLine": 880,
+        "startChar": 2,
+        "endLine": 880,
+        "endChar": 7
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "751a4c64_574a7d25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -280,6 +304,30 @@
       "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d16de27_921c4723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T15:30:27Z",
+      "side": 1,
+      "message": "\u003e It may be worth trying to figure out how to support this case correctly, but I would rather fix the problem to reduce error rates first, and hone emails later.\n\nSure. Instead of the emails, I was rather concerned about not triggering ChangeMergedListeners but fixing the immediate issue should come first.",
+      "parentUuid": "63d9afe1_e23850d9",
+      "range": {
+        "startLine": 502,
+        "startChar": 26,
+        "endLine": 503,
+        "endChar": 97
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

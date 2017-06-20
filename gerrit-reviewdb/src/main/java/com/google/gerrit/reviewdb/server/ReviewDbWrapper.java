@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.server;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -190,8 +189,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.toMap(c);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<Change, OrmException> getAsync(Change.Id key) {
+    public com.google.common.util.concurrent.CheckedFuture<Change, OrmException> getAsync(
+        Change.Id key) {
       return delegate.getAsync(key);
     }
 
@@ -278,8 +279,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.toMap(c);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchSetApproval, OrmException> getAsync(PatchSetApproval.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchSetApproval, OrmException> getAsync(
+        PatchSetApproval.Key key) {
       return delegate.getAsync(key);
     }
 
@@ -384,8 +387,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.toMap(c);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<ChangeMessage, OrmException> getAsync(ChangeMessage.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<ChangeMessage, OrmException> getAsync(
+        ChangeMessage.Key key) {
       return delegate.getAsync(key);
     }
 
@@ -483,8 +488,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.toMap(c);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchSet, OrmException> getAsync(PatchSet.Id key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchSet, OrmException> getAsync(
+        PatchSet.Id key) {
       return delegate.getAsync(key);
     }
 
@@ -577,8 +584,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.toMap(c);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public CheckedFuture<PatchLineComment, OrmException> getAsync(PatchLineComment.Key key) {
+    public com.google.common.util.concurrent.CheckedFuture<PatchLineComment, OrmException> getAsync(
+        PatchLineComment.Key key) {
       return delegate.getAsync(key);
     }
 

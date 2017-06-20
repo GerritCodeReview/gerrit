@@ -22,7 +22,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -250,7 +249,8 @@ class UnfusedNoteDbBatchUpdate extends BatchUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   private final ReviewDb db;
 
-  private List<CheckedFuture<?, IOException>> indexFutures;
+  @SuppressWarnings("deprecation")
+  private List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures;
 
   @Inject
   UnfusedNoteDbBatchUpdate(

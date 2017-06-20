@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aa30482_3fab25da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T20:57:30Z",
+      "side": 1,
+      "message": "Nit: maybe this should call `reload`?",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "84f6907f91f868fb3fc6cbbf61c2ff4b8d25d399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

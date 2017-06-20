@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b55c8ad_f3e67703",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T18:10:19Z",
+      "side": 1,
+      "message": "There are few downsides to this proposal:\n- difficult for embedded PG to set this flag\n- this is strictly startup-time flag, and cookie-based interface allows for varying interpretations \n- using util is a code smell",
+      "parentUuid": "d43f448a_8dc9fffa",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4863431d_bd0212b9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603510ed_2b4c1df0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T18:10:19Z",
+      "side": 1,
+      "message": "I agree, but would rather keep it here.\nIf (when?) we enable Google Closure compiler minification, this would become necessary.\nNot feeling strongly, please reopen if you think it\u0027ll add value.",
+      "parentUuid": "4863431d_bd0212b9",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

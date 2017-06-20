@@ -101,7 +101,7 @@ public abstract class ExternalId implements Serializable {
     }
 
     /**
-     * Exports this external ID key as string with the format "scheme:id", or "id" id scheme is
+     * Exports this external ID key as string with the format "scheme:id", or "id" if scheme is
      * null.
      *
      * <p>This string representation is used as subsection name in the Git config file that stores

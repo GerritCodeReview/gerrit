@@ -18,16 +18,19 @@
     {
       url: '/admin/projects',
       name: 'Projects',
+      view: 'gr-admin-project-list',
       viewableToAll: true,
     },
     {
       url: '/admin/groups',
       name: 'Groups',
+      view: 'gr-admin-group-list',
     },
     {
       url: '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
+      view: 'gr-admin-plugin-list',
     },
   ];
 
@@ -37,12 +40,14 @@
       name: 'Create Project',
       capability: 'createProject',
       section: 'Projects',
+      view: 'gr-admin-create-project',
     },
     {
       url: '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup',
       section: 'Groups',
+      view: 'gr-admin-create-group',
     },
   ];
 
@@ -96,7 +101,7 @@
       return adminTopLinks.map(item => {
         const section = {
           name: item.name,
-          links: [{name: 'List', url: item.url}],
+          links: [{name: 'List', url: item.url, view: item.view}],
         };
         const newLinks = nestedLinks.filter(group => {
           return group.section === section.name;

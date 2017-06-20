@@ -55,6 +55,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -115,7 +116,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-          ResourceConflictException, OrmException, IOException {
+          ResourceConflictException, OrmException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new GroupInput();
     }

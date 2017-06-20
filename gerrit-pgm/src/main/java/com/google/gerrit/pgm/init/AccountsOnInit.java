@@ -19,11 +19,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
@@ -57,7 +59,15 @@ public class AccountsOnInit {
           ObjectInserter oi = repo.newObjectInserter()) {
         PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
         AccountsUpdate.createUserBranch(
-            repo, oi, serverIdent, serverIdent, account.getId(), account.getRegisteredOn());
+            repo,
+            new Project.NameKey(allUsers),
+            GitReferenceUpdated.DISABLED,
+            null,
+            oi,
+            serverIdent,
+            serverIdent,
+            account.getId(),
+            account.getRegisteredOn());
       }
     }
   }

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -88,7 +89,15 @@ public class Schema_146 extends SchemaVersion {
           rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue());
         } else {
           AccountsUpdate.createUserBranch(
-              repo, oi, serverIdent, serverIdent, e.getKey(), e.getValue());
+              repo,
+              allUsersName,
+              GitReferenceUpdated.DISABLED,
+              null,
+              oi,
+              serverIdent,
+              serverIdent,
+              e.getKey(),
+              e.getValue());
         }
       }
     } catch (IOException e) {

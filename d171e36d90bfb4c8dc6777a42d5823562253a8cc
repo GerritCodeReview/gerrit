@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cbefb9b_93029d14",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-20T07:34:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7269b4fe_ecf1920f",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 17
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6704700_316e02c0",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-20T07:26:34Z",
       "side": 1,
       "message": "commit_edits_old",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 17
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42d76c48_5b0ffa69",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-20T07:34:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6704700_316e02c0",
       "range": {
         "startLine": 103,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fffac9c9_3f30caeb",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-20T07:34:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a54ae453_bacb2905",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ee2bde_022e37d4",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-20T07:26:34Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 143,
+        "startChar": 16,
+        "endLine": 143,
+        "endChar": 30
+      },
+      "revId": "d171e36d90bfb4c8dc6777a42d5823562253a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33aa247d_93c1f2a4",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-20T07:34:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f2ee2bde_022e37d4",
       "range": {
         "startLine": 143,
         "startChar": 16,

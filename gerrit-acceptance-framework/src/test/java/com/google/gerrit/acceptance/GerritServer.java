@@ -117,7 +117,11 @@ public class GerritServer implements AutoCloseable {
 
     abstract boolean sandboxed();
 
-    abstract boolean useSsh();
+    abstract boolean useSshAnnotation();
+
+    boolean useSsh() {
+      return useSshAnnotation() && SshMode.useSsh();
+    }
 
     @Nullable
     abstract GerritConfig config();
@@ -252,7 +256,7 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setEnableSshd(SshMode.useSsh());
+    daemon.setEnableSshd(desc.useSsh());
 
     if (desc.memory()) {
       return startInMemory(desc, baseConfig, daemon);
@@ -330,6 +334,7 @@ public class GerritServer implements AutoCloseable {
         new FactoryModule() {
           @Override
           protected void configure() {
+            bindConstant().annotatedWith(SshEnabled.class).to(daemon.getEnableSshd());
             bind(AccountCreator.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());

@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gerrit.testutil.SshMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -59,6 +58,7 @@ public class AccountCreator {
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
   private final ExternalIdsUpdate.Server externalIdsUpdate;
+  private final boolean sshEnabled;
 
   @Inject
   AccountCreator(
@@ -69,7 +69,8 @@ public class AccountCreator {
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
-      ExternalIdsUpdate.Server externalIdsUpdate) {
+      ExternalIdsUpdate.Server externalIdsUpdate,
+      @SshEnabled boolean sshEnabled) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.accountsUpdate = accountsUpdate;
@@ -79,6 +80,7 @@ public class AccountCreator {
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
     this.externalIdsUpdate = externalIdsUpdate;
+    this.sshEnabled = sshEnabled;
   }
 
   public synchronized TestAccount create(
@@ -124,7 +126,7 @@ public class AccountCreator {
       }
 
       KeyPair sshKey = null;
-      if (SshMode.useSsh() && username != null) {
+      if (sshEnabled && username != null) {
         sshKey = genSshKey();
         authorizedKeys.addKey(id, publicKey(sshKey, email));
         sshKeyCache.evict(username);

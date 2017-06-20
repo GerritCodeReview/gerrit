@@ -16,6 +16,24 @@
       "revId": "8760741834448fc1249b31c92940816b75a2f492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ede5f79_4e538097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-20T16:01:22Z",
+      "side": 1,
+      "message": "I agree that there should be more nuance. Ideally this would take into account whether the reviewer is aware of the change, which can be easily determined (if NoteDb is authoritative on your site). I\u0027ve filed issue 6540 to follow up on this in the coming weeks.",
+      "parentUuid": "9b4ea15d_e9b6c0d5",
+      "revId": "8760741834448fc1249b31c92940816b75a2f492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

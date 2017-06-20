@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "41998f19_d0b97266",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T21:58:31Z",
+      "side": 1,
+      "message": "Ok, in that case you can still do \n\n`/projects/${project}/branches?n\u003d${projectsBranchesPerPage + 1}\u0026s\u003d` +\n`${offset}${filter}` (or something like that)",
+      "parentUuid": "dee4ccf9_a637cfcd",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 533,
+        "endChar": 77
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89955377_c5bfe6a9",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 26

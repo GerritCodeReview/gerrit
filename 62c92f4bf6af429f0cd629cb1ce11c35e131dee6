@@ -413,6 +413,30 @@
     },
     {
       "key": {
+        "uuid": "d1153f10_63546c2f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T21:30:21Z",
+      "side": 1,
+      "message": "If it can be merged, it should be, thanks!",
+      "parentUuid": "c94c471d_0b605787",
+      "range": {
+        "startLine": 183,
+        "startChar": 3,
+        "endLine": 190,
+        "endChar": 7
+      },
+      "revId": "62c92f4bf6af429f0cd629cb1ce11c35e131dee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e520303e_9bb0a097",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 23

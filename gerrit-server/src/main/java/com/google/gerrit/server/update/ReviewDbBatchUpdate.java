@@ -416,6 +416,9 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     batchRefUpdate.setRefLogMessage(refLogMessage, true);
     batchRefUpdate.setAllowNonFastForwards(true);
     repoView.getCommands().addTo(batchRefUpdate);
+    if (user.isIdentifiedUser()) {
+      batchRefUpdate.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+    }
     logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {
       return;

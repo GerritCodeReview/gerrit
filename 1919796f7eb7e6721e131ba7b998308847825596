@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f4c7e20_aa9a1158",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T17:24:22Z",
+      "side": 1,
+      "message": "You\u0027re mixing two things together here:\n\n* manually injecting dependencies needed to perform the operation\n* deciding details of behavior that the caller wants performed\n\nIt feels weird to be toggling behavior by injecting/not injecting dependencies.\n\nThe Guicier way to do this is to use assisted injection. Then there is a clear separation between arguments that are injected dependencies (implicit injected args) and arguments that control the behavior (assisted injected args, i.e. args to the factory create method). For a simple example of using assisted injection to create a BatchUpdateOp, see SetAssigneeOp",
+      "revId": "1919796f7eb7e6721e131ba7b998308847825596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

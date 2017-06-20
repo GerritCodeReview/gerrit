@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -103,7 +104,7 @@ final class CreateGroupCommand extends SshCommand {
   @Inject private AddIncludedGroups addIncludedGroups;
 
   @Override
-  protected void run() throws Failure, OrmException, IOException {
+  protected void run() throws Failure, OrmException, IOException, ConfigInvalidException {
     try {
       GroupResource rsrc = createGroup();
 
@@ -119,7 +120,8 @@ final class CreateGroupCommand extends SshCommand {
     }
   }
 
-  private GroupResource createGroup() throws RestApiException, OrmException, IOException {
+  private GroupResource createGroup()
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -132,7 +134,8 @@ final class CreateGroupCommand extends SshCommand {
     return groups.parse(TopLevelResource.INSTANCE, IdString.fromUrl(group.id));
   }
 
-  private void addMembers(GroupResource rsrc) throws RestApiException, OrmException, IOException {
+  private void addMembers(GroupResource rsrc)
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(
             initialMembers.stream().map(Object::toString).collect(toList()));

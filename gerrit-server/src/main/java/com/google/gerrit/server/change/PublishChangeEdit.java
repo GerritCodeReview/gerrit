@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
@@ -85,7 +86,8 @@ public class PublishChangeEdit
     @Override
     protected Response<?> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
-        throws IOException, OrmException, RestApiException, UpdateException {
+        throws IOException, OrmException, RestApiException, UpdateException,
+            ConfigInvalidException {
       CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {

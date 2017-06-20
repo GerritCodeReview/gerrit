@@ -49,6 +49,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -231,7 +232,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
     try (ReviewDb db = schema.open()) {
       return auth(accounts.get(db, id));
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       getServletContext().log("cannot query database", e);
       return null;
     }

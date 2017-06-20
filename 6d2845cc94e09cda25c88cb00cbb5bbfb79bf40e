@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "c2c02b26_8408fac1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-20T11:49:12Z",
+      "side": 1,
+      "message": "As I said, I have not looked at the code yet. If the situation is like this then i tend to agree with you. In any event, that fact should be mentioned in the commit message, as for why this code is rewritten from scratch.",
+      "parentUuid": "aecdd1e5_c92804e1",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "6d2845cc94e09cda25c88cb00cbb5bbfb79bf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5076478f_688c64f3",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

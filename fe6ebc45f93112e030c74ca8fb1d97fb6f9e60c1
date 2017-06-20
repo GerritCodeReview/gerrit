@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "41c29c14_5a5b9c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T18:49:00Z",
+      "side": 1,
+      "message": "\u003e There are few downsides to this proposal:\n\nI see. Don\u0027t let this block this change, but it sounds like we should find a way to configure such flags in a way that meets these constraints. Just brainstorming here.\n\n\u003e - difficult for embedded PG to set this flag\n\nI can imagine a way to set flags that could be configured by embedding host if embedded or cookies otherwise.\n\n\u003e - this is strictly startup-time flag, and cookie-based interface allows for varying interpretations \n\nThe meaning of the cookie flags could be understood to only affect startup.\n\n\u003e - using util is a code smell\n\nI agree, we could create something like gr-flags which encodes these different configuration scenarios (and can also document the fact that they only affect startup).\n\nFWIW, configuration via an un-namespaced global is also a smell.",
+      "parentUuid": "7b55c8ad_f3e67703",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4863431d_bd0212b9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
         "patchSetId": 4
@@ -93,6 +117,30 @@
       "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9538a1bc_b255deae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-gapi-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T18:49:00Z",
+      "side": 1,
+      "message": "\u003e If (when?) we enable Google Closure compiler minification, this would become necessary.\n\nIn what way would this give better minification? As I understand it, the JS semantics of bracket notation with a string are supposed to be the same as dot notation. What would an optimizing compiler do differently?",
+      "parentUuid": "603510ed_2b4c1df0",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "fe6ebc45f93112e030c74ca8fb1d97fb6f9e60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

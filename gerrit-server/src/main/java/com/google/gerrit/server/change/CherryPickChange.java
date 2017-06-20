@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.TimeZone;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -124,7 +125,7 @@ public class CherryPickChange {
       CherryPickInput input,
       RefControl refControl)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
-          UpdateException, RestApiException {
+          UpdateException, RestApiException, ConfigInvalidException {
     return cherryPick(
         batchUpdateFactory,
         change.getId(),
@@ -148,7 +149,7 @@ public class CherryPickChange {
       CherryPickInput input,
       RefControl destRefControl)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
-          UpdateException, RestApiException {
+          UpdateException, RestApiException, ConfigInvalidException {
 
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
@@ -320,7 +321,7 @@ public class CherryPickChange {
       ChangeControl destCtl,
       CodeReviewCommit cherryPickCommit,
       CherryPickInput input)
-      throws IOException, OrmException, BadRequestException {
+      throws IOException, OrmException, BadRequestException, ConfigInvalidException {
     Change destChange = destCtl.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSet current = psUtil.current(dbProvider.get(), destCtl.getNotes());
@@ -343,7 +344,7 @@ public class CherryPickChange {
       Branch.NameKey sourceBranch,
       ObjectId sourceCommit,
       CherryPickInput input)
-      throws OrmException, IOException, BadRequestException {
+      throws OrmException, IOException, BadRequestException, ConfigInvalidException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins =
         changeInserterFactory.create(changeId, cherryPickCommit, refName).setTopic(topic);

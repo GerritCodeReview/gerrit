@@ -39,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CherryPick
@@ -67,7 +68,7 @@ public class CherryPick
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     input.parent = input.parent == null ? 1 : input.parent;
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");

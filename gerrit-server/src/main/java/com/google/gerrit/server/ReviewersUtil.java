@@ -56,6 +56,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ReviewersUtil {
   @Singleton
@@ -146,7 +147,7 @@ public class ReviewersUtil {
       ProjectControl projectControl,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, OrmException {
+      throws IOException, OrmException, ConfigInvalidException {
     String query = suggestReviewers.getQuery();
     int limit = suggestReviewers.getLimit();
 
@@ -212,7 +213,7 @@ public class ReviewersUtil {
       SuggestReviewers suggestReviewers,
       ProjectControl projectControl,
       List<Account.Id> candidateList)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           changeNotes, suggestReviewers, projectControl, candidateList);

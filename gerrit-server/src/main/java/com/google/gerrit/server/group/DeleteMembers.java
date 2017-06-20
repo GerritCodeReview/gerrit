@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
@@ -64,7 +65,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          IOException {
+          IOException, ConfigInvalidException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -125,7 +126,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-            IOException {
+            IOException, ConfigInvalidException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

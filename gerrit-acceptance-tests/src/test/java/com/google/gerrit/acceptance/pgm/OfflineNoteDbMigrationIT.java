@@ -60,9 +60,16 @@ import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
+/**
+ * Tests for offline {@code migrate-to-note-db} program.
+ *
+ * <p><strong>Note:</strong> These tests are very slow due to the repeated daemon startup. Prefer
+ * adding tests to {@link com.google.gerrit.acceptance.server.notedb.OnlineNoteDbMigrationIT} if
+ * possible.
+ */
 @UseLocalDisk
 @NoHttpd
-public class MigrateToNoteDbIT {
+public class OfflineNoteDbMigrationIT {
   @Rule
   public TestWatcher testWatcher =
       new TestWatcher() {

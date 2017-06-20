@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da676671_ca4bf927",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "660ccd13_5e6b1f58",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd68df33_7e31b442",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-20T20:52:36Z",
       "side": 1,
       "message": "is this not included in getAccount?\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-info\n\nI don\u0027t think we need to have _checkUsername at all.",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 13
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe84a089_adffb6c7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cd68df33_7e31b442",
       "range": {
         "startLine": 48,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "39835d75_9952174d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fce208e4_6145fe52",
+      "range": {
+        "startLine": 76,
+        "startChar": 5,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ae29545_fdf0a948",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-20T20:52:36Z",
       "side": 1,
       "message": "Spaces should get removed again.",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 10
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a546e42e_6f2b25f2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ae29545_fdf0a948",
       "range": {
         "startLine": 64,
         "startChar": 8,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1e56ee48_5e1f23fe",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "389fa5a9_4de7fe25",
+      "range": {
+        "startLine": 163,
+        "startChar": 71,
+        "endLine": 163,
+        "endChar": 82
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c08e46aa_c7857094",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 10
@@ -128,6 +248,30 @@
       "writtenOn": "2017-06-20T20:52:36Z",
       "side": 1,
       "message": "Since we are using ES6 now, this is no longer needed.",
+      "range": {
+        "startLine": 255,
+        "startChar": 15,
+        "endLine": 256,
+        "endChar": 64
+      },
+      "revId": "cff204e0524cc9e09a22601a2d81030647e8d860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3fa4a97_a5590f45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:41:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c08e46aa_c7857094",
       "range": {
         "startLine": 255,
         "startChar": 15,

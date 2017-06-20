@@ -34,6 +34,23 @@
       "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96df87f1_3744640a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T16:40:02Z",
+      "side": 1,
+      "message": "Do we want this disabled by default?",
+      "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

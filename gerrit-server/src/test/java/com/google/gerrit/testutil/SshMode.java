@@ -19,6 +19,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 
+/**
+ * Whether to enable/disable tests using SSH by inspecting the global environment.
+ *
+ * <p>Acceptance tests should generally not inspect this directly, since SSH may also be disabled on
+ * a per-class or per-method basis. Inject {@code @SshEnabled boolean} instead.
+ */
 public enum SshMode {
   /** Tests annotated with UseSsh will be disabled. */
   NO,

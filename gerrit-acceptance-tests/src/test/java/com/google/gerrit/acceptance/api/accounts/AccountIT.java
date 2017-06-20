@@ -86,7 +86,6 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import com.google.gerrit.testutil.SshMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
@@ -215,7 +214,7 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount foo = accountCreator.create("foo");
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
     assertThat(info.username).isEqualTo("foo");
-    if (SshMode.useSsh()) {
+    if (useSsh) {
       accountIndexedCounter.assertReindexOf(
           foo, 3); // account creation + external ID creation + adding SSH keys
     } else {

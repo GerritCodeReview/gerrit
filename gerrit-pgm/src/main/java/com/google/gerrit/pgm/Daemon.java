@@ -190,6 +190,11 @@ public class Daemon extends SiteProgram {
     sshd = enable;
   }
 
+  @VisibleForTesting
+  public boolean getEnableSshd() {
+    return sshd;
+  }
+
   public void setEnableHttpd(boolean enable) {
     httpd = enable;
   }

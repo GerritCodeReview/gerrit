@@ -237,6 +237,7 @@ public abstract class AbstractDaemonTest {
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
   protected Description description;
+  protected boolean useSsh;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -245,7 +246,6 @@ public abstract class AbstractDaemonTest {
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
 
   private List<Repository> toClose;
-  private boolean useSsh;
 
   @Before
   public void clearSender() {
@@ -341,22 +341,18 @@ public abstract class AbstractDaemonTest {
 
     db = reviewDbProvider.open();
 
-    if (classDesc.useSsh() || methodDesc.useSsh()) {
-      useSsh = true;
-      if (SshMode.useSsh() && (adminSshSession == null || userSshSession == null)) {
-        // Create Ssh sessions
-        initSsh(admin);
-        Context ctx = newRequestContext(user);
-        atrScope.set(ctx);
-        userSshSession = ctx.getSession();
-        userSshSession.open();
-        ctx = newRequestContext(admin);
-        atrScope.set(ctx);
-        adminSshSession = ctx.getSession();
-        adminSshSession.open();
-      }
-    } else {
-      useSsh = false;
+    useSsh = SshMode.useSsh() && (classDesc.useSsh() || methodDesc.useSsh());
+    if (useSsh && (adminSshSession == null || userSshSession == null)) {
+      // Create Ssh sessions
+      initSsh(admin);
+      Context ctx = newRequestContext(user);
+      atrScope.set(ctx);
+      userSshSession = ctx.getSession();
+      userSshSession.open();
+      ctx = newRequestContext(admin);
+      atrScope.set(ctx);
+      adminSshSession = ctx.getSession();
+      adminSshSession.open();
     }
 
     resourcePrefix =

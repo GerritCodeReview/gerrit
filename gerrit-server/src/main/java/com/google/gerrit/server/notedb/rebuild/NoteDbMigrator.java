@@ -18,6 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
+import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 
@@ -273,15 +276,15 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     NotesMigrationState state = maybeState.get();
-    if (trial && state.compareTo(NotesMigrationState.READ_WRITE_NO_SEQUENCE) > 0) {
+    if (trial && state.compareTo(READ_WRITE_NO_SEQUENCE) > 0) {
       throw new MigrationException(
           "Migration has already progressed past the endpoint of the \"trial mode\" state;"
               + " NoteDb is already the primary storage for some changes");
     }
 
     boolean rebuilt = false;
-    while (state.compareTo(NotesMigrationState.NOTE_DB_UNFUSED) < 0) {
-      if (trial && state.compareTo(NotesMigrationState.READ_WRITE_NO_SEQUENCE) >= 0) {
+    while (state.compareTo(NOTE_DB_UNFUSED) < 0) {
+      if (trial && state.compareTo(READ_WRITE_NO_SEQUENCE) >= 0) {
         return;
       }
       switch (state) {
@@ -323,13 +326,13 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private NotesMigrationState turnOnWrites(NotesMigrationState prev) throws IOException {
-    return saveState(prev, NotesMigrationState.WRITE);
+    return saveState(prev, WRITE);
   }
 
   private NotesMigrationState rebuildAndEnableReads(NotesMigrationState prev)
       throws OrmException, IOException {
     rebuild();
-    return saveState(prev, NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+    return saveState(prev, READ_WRITE_NO_SEQUENCE);
   }
 
   private NotesMigrationState enableSequences() {

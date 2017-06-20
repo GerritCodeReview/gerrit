@@ -96,6 +96,7 @@ public abstract class ExternalId implements Serializable {
      * Returns the SHA1 of the external ID that is used as note ID in the refs/meta/external-ids
      * notes branch.
      */
+    @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
     public ObjectId sha1() {
       return ObjectId.fromRaw(Hashing.sha1().hashString(get(), UTF_8).asBytes());
     }

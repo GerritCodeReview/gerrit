@@ -482,6 +482,43 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitReusingOldTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    String topic = "test-topic";
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content", topic);
+    String id1 = change1.getChangeId();
+    String id2 = change2.getChangeId();
+    approve(id1);
+    approve(id2);
+    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
+    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
+    submit(id2);
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
+    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
+
+    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic);
+    String id3 = change3.getChangeId();
+    approve(id3);
+    assertSubmittedTogether(id3, ImmutableList.of());
+    submit(id3);
+
+    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    assertSubmittedTogether(id3, ImmutableList.of());
+  }
+
+  private void assertSubmittedTogether(String changeId, Iterable<String> expected)
+      throws Exception {
+    assertThat(gApi.changes().id(changeId).submittedTogether().stream().map(i -> i.changeId))
+        .containsExactlyElementsIn(expected);
+  }
+
+  @Test
   public void submitDraftChange() throws Exception {
     PushOneCommit.Result draft = createDraftChange();
     Change.Id num = draft.getChange().getId();

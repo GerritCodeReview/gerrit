@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "041ed5ef_d408ffe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-20T07:35:37Z",
+      "side": 1,
+      "message": "I thought the reasons given in the previous 2 paragraphs were sufficient explanation.",
+      "parentUuid": "218f224e_6ff11cb3",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "6d2845cc94e09cda25c88cb00cbb5bbfb79bf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0b0201_dab90f1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "aecdd1e5_c92804e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-20T11:23:41Z",
+      "side": 1,
+      "message": "Hmm ... I agree that this makes sense in general, but I am not sure if we should do that in this case.\n\nThe code previously also used some logic from [0] to edit the commit message. This has since been removed and the underlying infrastructure changed (towards using BatchUpdate). So it wouldn\u0027t be enough to just revert the commit but to make it work with BatchUpdate wich will basically give us what we have in this change minus some implementation details. What do you think?\n\n[0] https://gerrit.googlesource.com/gerrit/+/d79f49464308de4e7a05b508a8fe92227e4421bf/gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java#344",
+      "parentUuid": "663619f0_002ab340",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "6d2845cc94e09cda25c88cb00cbb5bbfb79bf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5076478f_688c64f3",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

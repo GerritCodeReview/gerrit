@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7dfb505_5e4d0f74",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/FieldPredicateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-20T01:05:06Z",
+      "side": 1,
+      "message": "This causes \"Unsupported @SuppressWarnings\" warning when using Eclipse version lower than 4.7 :(",
+      "revId": "f3b154199d36fd3a5a640000ed3883d007f3b50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f7ccdfe_3ab80857",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-20T23:47:41Z",
+      "side": 0,
+      "message": "This one needs to be kept.",
+      "range": {
+        "startLine": 100,
+        "startChar": 38,
+        "endLine": 100,
+        "endChar": 42
+      },
+      "revId": "6911cdeaf639c35317733b6cdf276333f9c76fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

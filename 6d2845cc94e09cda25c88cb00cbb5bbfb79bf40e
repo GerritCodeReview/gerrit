@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "218f224e_6ff11cb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-20T07:33:48Z",
+      "side": 1,
+      "message": "This is basically a revert of: [1]. Why we don\u0027t perform revert of revert. Can you provide reasons this is now re-implemented? ( I haven\u0027t looked into the code yet).\n\n* [1] https://gerrit-review.googlesource.com/63510",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "6d2845cc94e09cda25c88cb00cbb5bbfb79bf40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0b0201_dab90f1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bdbd455_3fce6250",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T00:54:23Z",
+      "side": 1,
+      "message": "Should we declare this as a constant?",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 69
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a705dcf_4867075d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T00:54:23Z",
+      "side": 1,
+      "message": "Spacing of these blocks is off.",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

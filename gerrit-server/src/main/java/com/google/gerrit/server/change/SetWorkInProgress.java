@@ -66,7 +66,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
 
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      bu.addOp(rsrc.getChange().getId(), new WorkInProgressOp(cmUtil, true, input));
+      bu.addOp(rsrc.getChange().getId(), new WorkInProgressOp(cmUtil, null, null, true, input));
       bu.execute();
       return Response.ok("");
     }

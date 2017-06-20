@@ -15,12 +15,20 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
 
 /* Set work in progress or ready for review state on a change */
@@ -36,18 +44,36 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   private final ChangeMessagesUtil cmUtil;
+  @Nullable private final EmailReviewComments.Factory email;
+  @Nullable private final PatchSetUtil psUtil;
   private final boolean workInProgress;
   private final Input in;
 
-  WorkInProgressOp(ChangeMessagesUtil cmUtil, boolean workInProgress, Input in) {
+  private Change change;
+  private ChangeNotes notes;
+  private PatchSet ps;
+  private ChangeMessage cmsg;
+
+  WorkInProgressOp(
+      ChangeMessagesUtil cmUtil,
+      @Nullable EmailReviewComments.Factory email,
+      @Nullable PatchSetUtil psUtil,
+      boolean workInProgress,
+      Input in) {
     this.cmUtil = cmUtil;
+    this.email = email;
+    this.psUtil = psUtil;
     this.workInProgress = workInProgress;
     this.in = in;
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws OrmException {
-    Change change = ctx.getChange();
+    change = ctx.getChange();
+    notes = ctx.getNotes();
+    if (psUtil != null) {
+      ps = psUtil.get(ctx.getDb(), ctx.getNotes(), change.currentPatchSetId());
+    }
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setWorkInProgress(workInProgress);
     if (!change.hasReviewStarted() && !workInProgress) {
@@ -70,7 +96,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
       buf.append(m);
     }
 
-    ChangeMessage cmsg =
+    cmsg =
         ChangeMessagesUtil.newMessage(
             ctx,
             buf.toString(),
@@ -79,5 +105,24 @@ public class WorkInProgressOp implements BatchUpdateOp {
                 : ChangeMessagesUtil.TAG_SET_READY);
 
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
+    if (email == null || ps == null) {
+      return;
+    }
+    email
+        .create(
+            NotifyHandling.ALL,
+            ImmutableListMultimap.of(),
+            notes,
+            ps,
+            ctx.getIdentifiedUser(),
+            cmsg,
+            ImmutableList.of(),
+            cmsg.getMessage(),
+            ImmutableList.of())
+        .sendAsync();
   }
 }

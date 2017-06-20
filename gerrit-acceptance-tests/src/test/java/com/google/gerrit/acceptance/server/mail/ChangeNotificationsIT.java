@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import org.junit.Before;
@@ -2202,5 +2203,51 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     AssigneeInput in = new AssigneeInput();
     in.assignee = to.email;
     gApi.changes().id(sc.changeId).setAssignee(in);
+  }
+
+  /*
+   * Start review and WIP tests.
+   */
+
+  @Test
+  public void startReviewOnWipChange() throws Exception {
+    StagedChange sc = stageWipChange();
+    startReview(sc);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+  }
+
+  @Test
+  public void startReviewOnWipChangeCcingSelf() throws Exception {
+    StagedChange sc = stageWipChange();
+    setEmailStrategy(sc.owner, CC_ON_OWN_COMMENTS);
+    startReview(sc);
+    assertThat(sender)
+        .sent("comment", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+  }
+
+  @Test
+  public void setWorkInProgress() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    gApi.changes().id(sc.changeId).setWorkInProgress();
+    assertThat(sender).notSent();
+  }
+
+  private void startReview(StagedChange sc) throws RestApiException {
+    setApiUser(sc.owner);
+    gApi.changes().id(sc.changeId).setReadyForReview();
+    // PolyGerrit current immediately follows up with a review.
+    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.noScore());
   }
 }

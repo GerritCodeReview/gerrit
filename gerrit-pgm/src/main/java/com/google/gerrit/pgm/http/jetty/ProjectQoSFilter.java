@@ -205,7 +205,7 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     public void onTimeout(Continuation self) {
-      executor.remove(this);
+      end();
     }
 
     @Override

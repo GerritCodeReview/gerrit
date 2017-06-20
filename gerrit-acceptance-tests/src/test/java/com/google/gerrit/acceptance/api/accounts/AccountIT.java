@@ -32,6 +32,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
@@ -74,6 +75,7 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -106,6 +108,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -114,6 +117,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -218,6 +222,67 @@ public class AccountIT extends AbstractDaemonTest {
   @UseSsh
   public void createWithSshKeys() throws Exception {
     create(3); // account creation + external ID creation + adding SSH keys
+  }
+  
+  private void create(int expectedAccountReindexCalls) throws Exception {
+    String name = "foo";
+    TestAccount foo = accountCreator.create(name);
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.username).isEqualTo(name);
+    assertThat(info.name).isEqualTo(name);
+    accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
+
+    // check user branch
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
+      assertThat(ref).isNotNull();
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      long timestampDiffMs =
+          Math.abs(
+              c.getCommitTime() * 1000L
+                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
+      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
+      
+      // Check the 'account.config' file.
+      try (TreeWalk tw = TreeWalk.forPath(or, AccountConfig.ACCOUNT_CONFIG, c.getTree())) {
+        assertThat(tw).isNotNull();
+        Config cfg = new Config();
+        cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
+        assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_FULL_NAME))
+            .isEqualTo(name);
+      }
+    }
+  }
+  
+  @Test
+  public void createAnonymousCoward() throws Exception {
+    TestAccount anonymousCoward = accountCreator.create();
+    accountIndexedCounter.assertReindexOf(anonymousCoward);
+
+    // check user branch
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(anonymousCoward.getId()));
+      assertThat(ref).isNotNull();
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      long timestampDiffMs =
+          Math.abs(
+              c.getCommitTime() * 1000L
+                  - accountCache
+                      .get(anonymousCoward.getId())
+                      .getAccount()
+                      .getRegisteredOn()
+                      .getTime());
+      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
+
+      // No account properties were set, hence an 'account.config' file was not created.
+      try (TreeWalk tw = TreeWalk.forPath(or, AccountConfig.ACCOUNT_CONFIG, c.getTree())) {
+        assertThat(tw).isNull();
+      }
+    }
   }
 
   @Test
@@ -1069,27 +1134,7 @@ public class AccountIT extends AbstractDaemonTest {
     checkInfo = gApi.config().server().checkConsistency(input);
     assertThat(checkInfo.checkAccountsResult.problems).hasSize(expectedProblems.size());
     assertThat(checkInfo.checkAccountsResult.problems).containsExactlyElementsIn(expectedProblems);
-  }
-
-  public void create(int expectedAccountReindexCalls) throws Exception {
-    TestAccount foo = accountCreator.create("foo");
-    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
-    assertThat(info.username).isEqualTo("foo");
-    accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
-
-    // check user branch
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-      long timestampDiffMs =
-          Math.abs(
-              c.getCommitTime() * 1000L
-                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
-    }
-  }
+  }  
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {
     int seq = 1;

@@ -1,4 +1,212 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497532090 -0400\nnonce AH5c86Bb83BiDNrGPL8fPBXBaRP418av+da2moJgBlDMOhvYdlgpm/YjDYQ3Ma141hkcim7BsTby\n\n0000000000000000000000000000000000000000 901716181deebdb9c5b63b8faac0bd6663f81174 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZQoa6AAoJEF/XxZqaEoiMbYAQALYwGC7OfXIqmlaK1Q2ZFV5j\nuuhvln8ZFUnliWDbGyOiUgeBWtKhNa9gqm8/VrPaKni0zu6i9a0tqJ/bpLC9CBjT\n3h8vpDaeEYczW4hSSAd3Ep+7MDN4tMQ99IaZIJAU5hZrqnjLAP86Xg+oy8ctmipy\nALH045UeXcvZEF2EfjzFZGrhcMJg5BWU+zzWta7fF/7BUcUAgjO7l3bfuJzs6dVx\nf6BSg2JCDCzD0rRS5zlu0tehBqtN5ahPUIFkXPEdNnh8shK8LY4bAMhXRcJkDKhn\nF2t6xbdQbV5V9GR/SkigR/PRSexAO1PYUmkiOEK+OENcWgG+8sDk5MmtTnLvNGEq\n2sUxBcRtpldYJb5a6WUflvfSGAJsdMX1QXq8hqxXNm6vFynzO8NGnkImj/6/Gb0l\nS/dMycIz6gbUY3uTztP8bvhTVJKLTwwSwnNF9eojwoSrD2Rh7Jibbb1wQIYR0KAn\n9lkTXFlzOIhyC94XW8tuUBwbH+0cXUwMLRw2VjGkFruzOTxYZb77ZYvgTXGI1I+s\n4/n0DT0nrDOsGrhpzWzLKL+u0YS1KMjJRkiO2b8M4WRyQsCnD+2XX+OEJ3A0QzuI\n05M2KcCA1kqhgFDDex3bpTVK4zkiDAewlUtLNwYKccNprPJKI/KRoGlEDfuF2hpU\nC67lT24nBGUI1vvsCSlg\n\u003dz0Ia\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bf04979_31e9bfe2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "Do we have a test which ensures that this works?",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f719ba4e_d6522df0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "nit: changeId1",
+      "range": {
+        "startLine": 787,
+        "startChar": 22,
+        "endLine": 787,
+        "endChar": 53
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c7ff9b_99ec1452",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "optional: Can\u0027t we rely on the default remote being origin?",
+      "range": {
+        "startLine": 812,
+        "startChar": 9,
+        "endLine": 812,
+        "endChar": 28
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd97c0c5_42a8af07",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "What are those two calls for? Is it an implicit check that getAdvertisedRef(\"refs/heads/master\") doesn\u0027t return null?",
+      "range": {
+        "startLine": 814,
+        "startChar": 8,
+        "endLine": 816,
+        "endChar": 0
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb5cb03_098f13ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "Do we have a test which tries to submit a new change which has a topic which is already submitted?",
+      "range": {
+        "startLine": 880,
+        "startChar": 2,
+        "endLine": 880,
+        "endChar": 7
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751a4c64_574a7d25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "Do we mind that retries influence this metric?",
+      "range": {
+        "startLine": 554,
+        "startChar": 6,
+        "endLine": 554,
+        "endChar": 48
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abd51d14_82397dc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "nit: id",
+      "range": {
+        "startLine": 261,
+        "startChar": 15,
+        "endLine": 261,
+        "endChar": 33
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4baad795_82bb878b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "Aren\u0027t all refs updated before postUpdate() is called and hence a LockFailureException will result in postUpdate() never being called for all involved BatchUpdateOps? If so, couldn\u0027t we just execute this method?",
+      "range": {
+        "startLine": 502,
+        "startChar": 26,
+        "endLine": 503,
+        "endChar": 97
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1892db_ca25a53d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/TestHelperOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-20T14:22:20Z",
+      "side": 1,
+      "message": "nit: Insert a delimiter between submissionId and msg?",
+      "range": {
+        "startLine": 55,
+        "startChar": 16,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -46,6 +46,30 @@
       "revId": "c65bf044c509f6851931e9f215ff9c777a1eae28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e9c4c29_ff4fe49f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-20T21:33:06Z",
+      "side": 1,
+      "message": "I don\u0027t think it matters...? if there were on the same line it\u0027d mean wrapping some of the attributes, so it\u0027s 2 lines either way. It wouldn\u0027t have content. It\u0027s merely being used to compute _adminLinks.",
+      "parentUuid": "75ad06cb_4eade330",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 21
+      },
+      "revId": "c65bf044c509f6851931e9f215ff9c777a1eae28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

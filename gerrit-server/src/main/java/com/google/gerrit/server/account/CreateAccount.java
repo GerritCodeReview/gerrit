@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -113,12 +113,15 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   }
 
   @Override
-  public Response<AccountInfo> apply(TopLevelResource rsrc, AccountInput input)
+  public Response<AccountInfo> apply(TopLevelResource rsrc, @Nullable AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           OrmException, IOException, ConfigInvalidException {
-    if (input == null) {
-      input = new AccountInput();
-    }
+    return apply(input != null ? input : new AccountInput());
+  }
+
+  public Response<AccountInfo> apply(AccountInput input)
+      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
+          OrmException, IOException, ConfigInvalidException {
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");
     }
@@ -171,10 +174,15 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
 
-    Account a = new Account(id, TimeUtil.nowTs());
-    a.setFullName(input.name);
-    a.setPreferredEmail(input.email);
-    accountsUpdate.create().insert(db, a);
+    accountsUpdate
+        .create()
+        .insert(
+            db,
+            id,
+            a -> {
+              a.setFullName(input.name);
+              a.setPreferredEmail(input.email);
+            });
 
     for (AccountGroup.Id groupId : groups) {
       AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));

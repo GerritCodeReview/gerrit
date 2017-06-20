@@ -155,6 +155,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -2789,7 +2790,7 @@ public class ReceiveCommits {
               accountsUpdate.create().update(db, a);
               user.getAccount().setFullName(a.getFullName());
             }
-          } catch (OrmException e) {
+          } catch (OrmException | IOException | ConfigInvalidException e) {
             logWarn("Cannot default full_name", e);
           } finally {
             defaultName = false;

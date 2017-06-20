@@ -28,6 +28,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
@@ -45,7 +46,7 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, OrmException, IOException {
+      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     Account account =
         accountsUpdate

@@ -31,6 +31,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
@@ -53,7 +54,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     if (self.get() == rsrc.getUser()) {
       throw new ResourceConflictException("cannot deactivate own account");
     }

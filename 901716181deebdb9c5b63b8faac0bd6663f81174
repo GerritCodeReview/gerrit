@@ -265,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "aca19854_ca15a86f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-20T17:13:19Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/110693",
+      "parentUuid": "8d9ae9da_da9b8aca",
+      "range": {
+        "startLine": 880,
+        "startChar": 2,
+        "endLine": 880,
+        "endChar": 7
+      },
+      "revId": "901716181deebdb9c5b63b8faac0bd6663f81174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "751a4c64_574a7d25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5

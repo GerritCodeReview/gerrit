@@ -31,7 +31,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class RevisionReviewers implements ChildCollection<RevisionResource, ReviewerResource> {
@@ -70,7 +72,8 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
 
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException, MethodNotAllowedException {
+      throws OrmException, ResourceNotFoundException, AuthException, MethodNotAllowedException,
+          IOException, ConfigInvalidException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot access on non-current patch set");
     }

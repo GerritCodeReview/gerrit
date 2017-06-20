@@ -33,14 +33,20 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -58,6 +64,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -82,6 +90,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected GerritApi gApi;
 
+  @Inject @GerritPersonIdent Provider<PersonIdent> serverIdent;
+
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject private Provider<AnonymousUser> anonymousUser;
@@ -97,6 +107,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected InternalAccountQuery internalAccountQuery;
 
   @Inject protected AllProjectsName allProjects;
+
+  @Inject protected AllUsersName allUsers;
+
+  @Inject protected GitRepositoryManager repoManager;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -383,11 +397,24 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void reindex() throws Exception {
     AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
 
-    // update account in the database so that account index is stale
+    // update account in ReviewDb without reindex so that account index is stale
     String newName = "Test User";
-    Account account = accounts.get(db, new Account.Id(user1._accountId));
+    Account.Id accountId = new Account.Id(user1._accountId);
+    Account account = accounts.get(db, accountId);
     account.setFullName(newName);
     db.accounts().update(ImmutableSet.of(account));
+
+    // update account in NoteDb without reindex so that account index is stale
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
+      PersonIdent ident = serverIdent.get();
+      md.getCommitBuilder().setAuthor(ident);
+      md.getCommitBuilder().setCommitter(ident);
+      AccountConfig accountConfig = new AccountConfig(null, accountId);
+      accountConfig.load(repo);
+      accountConfig.getAccount().setFullName(newName);
+      accountConfig.commit(md);
+    }
 
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));

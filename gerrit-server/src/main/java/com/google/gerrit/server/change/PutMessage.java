@@ -51,6 +51,7 @@ import java.util.TimeZone;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -107,7 +108,7 @@ public class PutMessage
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource resource, Input input)
       throws IOException, UnchangedCommitMessageException, RestApiException, UpdateException,
-          PermissionBackendException, OrmException {
+          PermissionBackendException, OrmException, ConfigInvalidException {
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");

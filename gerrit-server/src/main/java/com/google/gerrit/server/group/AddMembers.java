@@ -52,6 +52,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AddMembers implements RestModifyView<GroupResource, Input> {
@@ -115,7 +116,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          IOException {
+          IOException, ConfigInvalidException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -143,7 +144,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   Account findAccount(String nameOrEmailOrId)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException {
+      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+          ConfigInvalidException {
     try {
       return accounts.parse(nameOrEmailOrId).getAccount();
     } catch (UnprocessableEntityException e) {
@@ -235,7 +237,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public AccountInfo apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-            IOException {
+            IOException, ConfigInvalidException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       try {

@@ -93,7 +93,6 @@ import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -166,8 +165,8 @@ public class AccountIT extends AbstractDaemonTest {
     externalIdsUpdate = externalIdsUpdateFactory.create();
 
     savedExternalIds = new ArrayList<>();
-    savedExternalIds.addAll(getExternalIds(admin));
-    savedExternalIds.addAll(getExternalIds(user));
+    savedExternalIds.addAll(externalIds.byAccount(admin.id));
+    savedExternalIds.addAll(externalIds.byAccount(user.id));
   }
 
   @After
@@ -176,8 +175,8 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      externalIdsUpdate.delete(getExternalIds(admin));
-      externalIdsUpdate.delete(getExternalIds(user));
+      externalIdsUpdate.delete(externalIds.byAccount(admin.id));
+      externalIdsUpdate.delete(externalIds.byAccount(user.id));
       externalIdsUpdate.insert(savedExternalIds);
     }
   }
@@ -192,10 +191,6 @@ public class AccountIT extends AbstractDaemonTest {
         assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
     }
-  }
-
-  private Collection<ExternalId> getExternalIds(TestAccount account) throws Exception {
-    return accountCache.get(account.getId()).getExternalIds();
   }
 
   @After

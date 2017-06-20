@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,7 +83,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
   @Override
   public BinaryResult apply(RevisionResource rsrc)
-      throws OrmException, RestApiException, UpdateException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -110,7 +111,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException, UpdateException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
@@ -125,7 +126,12 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
-    } catch (OrmException | RestApiException | UpdateException | RuntimeException e) {
+    } catch (OrmException
+        | RestApiException
+        | UpdateException
+        | IOException
+        | ConfigInvalidException
+        | RuntimeException e) {
       op.close();
       throw e;
     }

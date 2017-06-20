@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0111f1c_41926646",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T21:22:26Z",
+      "side": 1,
+      "message": "Should we have the open and close tag on the same line?",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 21
+      },
+      "revId": "c65bf044c509f6851931e9f215ff9c777a1eae28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

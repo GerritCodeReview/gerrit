@@ -32,6 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
@@ -57,7 +58,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -65,7 +66,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, OrmException, IOException {
+      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
     Account account =
         accountsUpdate

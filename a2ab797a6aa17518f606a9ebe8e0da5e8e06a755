@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2352a436_2c1013d8",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:36:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6df55559_3911cee6",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 73
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7afef19a_309c1f79",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 26
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-20T21:30:21Z",
       "side": 1,
       "message": "You can still use a template literal with a slash at the end of the first line:\n\n`/projects/${project}/branches?n\u003d${projectsBranchesPerPage + 1}\u0026s\u003d\\\n${offset}${filter}`",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 533,
+        "endChar": 77
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424ae68c_a1246e34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:36:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7afef19a_309c1f79",
       "range": {
         "startLine": 532,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "207419a1_8909dc4e",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:36:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "89955377_c5bfe6a9",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "092d80f1_bc5d8cf3",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 26
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-20T21:30:21Z",
       "side": 1,
       "message": "This can be removed",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 20
+      },
+      "revId": "a2ab797a6aa17518f606a9ebe8e0da5e8e06a755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aed6cc54_9fabe132",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-20T21:36:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "092d80f1_bc5d8cf3",
       "range": {
         "startLine": 130,
         "startChar": 0,

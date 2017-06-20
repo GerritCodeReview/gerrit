@@ -16,6 +16,24 @@
       "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f83a718_c646df81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-20T16:18:06Z",
+      "side": 1,
+      "message": "Floating header doesn\u0027t work well with embedded version of PG.",
+      "parentUuid": "682b326c_2156f9df",
+      "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

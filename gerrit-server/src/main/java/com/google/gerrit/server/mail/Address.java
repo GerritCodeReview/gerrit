@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.mail.send.EmailHeader;
+import com.google.gerrit.server.mail.send.QuotedPrintableEncoding;
 
 public class Address {
   public static Address parse(String in) {
@@ -111,8 +112,8 @@ public class Address {
   }
 
   private static String quotedPhrase(String name) {
-    if (EmailHeader.needsQuotedPrintable(name)) {
-      return EmailHeader.quotedPrintable(name);
+    if (QuotedPrintableEncoding.needsEncoding(name)) {
+      return QuotedPrintableEncoding.encodeHeader(name);
     }
     for (int i = 0; i < name.length(); i++) {
       final char c = name.charAt(i);

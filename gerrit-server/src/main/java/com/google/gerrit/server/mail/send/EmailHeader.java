@@ -51,8 +51,8 @@ public abstract class EmailHeader {
 
     @Override
     public void write(Writer w) throws IOException {
-      if (needsQuotedPrintable(value)) {
-        w.write(quotedPrintable(value));
+      if (QuotedPrintableEncoding.needsEncoding(value)) {
+        w.write(QuotedPrintableEncoding.encodeHeader(value));
       } else {
         w.write(value);
       }
@@ -72,59 +72,6 @@ public abstract class EmailHeader {
     public java.lang.String toString() {
       return MoreObjects.toStringHelper(this).addValue(value).toString();
     }
-  }
-
-  public static boolean needsQuotedPrintable(java.lang.String value) {
-    for (int i = 0; i < value.length(); i++) {
-      if (value.charAt(i) < ' ' || '~' < value.charAt(i)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  static boolean needsQuotedPrintableWithinPhrase(int cp) {
-    switch (cp) {
-      case '!':
-      case '*':
-      case '+':
-      case '-':
-      case '/':
-      case '=':
-      case '_':
-        return false;
-      default:
-        if (('a' <= cp && cp <= 'z') || ('A' <= cp && cp <= 'Z') || ('0' <= cp && cp <= '9')) {
-          return false;
-        }
-        return true;
-    }
-  }
-
-  public static java.lang.String quotedPrintable(java.lang.String value) {
-    final StringBuilder r = new StringBuilder();
-
-    r.append("=?UTF-8?Q?");
-    for (int i = 0; i < value.length(); i++) {
-      final int cp = value.codePointAt(i);
-      if (cp == ' ') {
-        r.append('_');
-
-      } else if (needsQuotedPrintableWithinPhrase(cp)) {
-        byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes(UTF_8);
-        for (byte b : buf) {
-          r.append('=');
-          r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
-          r.append(Integer.toHexString(b & 0x0f).toUpperCase());
-        }
-
-      } else {
-        r.append(Character.toChars(cp));
-      }
-    }
-    r.append("?=");
-
-    return r.toString();
   }
 
   public static class Date extends EmailHeader {

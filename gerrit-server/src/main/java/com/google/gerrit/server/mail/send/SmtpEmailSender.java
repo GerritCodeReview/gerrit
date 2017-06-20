@@ -309,9 +309,9 @@ public class SmtpEmailSender implements EmailSender {
         + boundary
         + "\r\n"
         + "Content-Type: text/html; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "Content-Transfer-Encoding: quoted-printable\r\n"
         + "\r\n"
-        + htmlPart
+        + QuotedPrintableEncoding.encode(htmlPart)
         + "\r\n"
 
         // Output the closing boundary.

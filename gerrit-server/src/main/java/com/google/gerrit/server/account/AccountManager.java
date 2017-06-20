@@ -193,7 +193,8 @@ public class AccountManager {
     }
   }
 
-  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
+  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db)
+      throws OrmException, IOException, ConfigInvalidException {
     if (toUpdate == null) {
       toUpdate = accounts.get(db, accountId);
       if (toUpdate == null) {

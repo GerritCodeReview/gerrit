@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
+  private volatile boolean readChangeSequence;
   private volatile PrimaryStorage changePrimaryStorage = PrimaryStorage.REVIEW_DB;
   private volatile boolean disableChangeReviewDb;
   private volatile boolean fuseUpdates;
@@ -41,9 +42,7 @@ public class TestNotesMigration extends NotesMigration {
 
   @Override
   public boolean readChangeSequence() {
-    // Unlike ConfigNotesMigration, read change numbers from NoteDb by default
-    // when reads are enabled, to improve test coverage.
-    return readChanges;
+    return readChangeSequence;
   }
 
   @Override
@@ -83,6 +82,11 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
+  public TestNotesMigration setReadChangeSequence(boolean readChangeSequence) {
+    this.readChangeSequence = readChangeSequence;
+    return this;
+  }
+
   public TestNotesMigration setChangePrimaryStorage(PrimaryStorage changePrimaryStorage) {
     this.changePrimaryStorage = checkNotNull(changePrimaryStorage);
     return this;
@@ -115,6 +119,7 @@ public class TestNotesMigration extends NotesMigration {
   public TestNotesMigration setFrom(NotesMigration other) {
     setWriteChanges(other.rawWriteChangesSetting());
     setReadChanges(other.readChanges());
+    setReadChangeSequence(other.readChangeSequence());
     setChangePrimaryStorage(other.changePrimaryStorage());
     setDisableChangeReviewDb(other.disableChangeReviewDb());
     setFuseUpdates(other.fuseUpdates());

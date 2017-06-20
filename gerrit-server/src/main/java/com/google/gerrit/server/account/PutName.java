@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutName implements RestModifyView<AccountResource, Input> {
@@ -65,7 +66,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-          IOException, PermissionBackendException {
+          IOException, PermissionBackendException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -73,7 +74,8 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws MethodNotAllowedException, ResourceNotFoundException, OrmException, IOException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException, IOException,
+          ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }

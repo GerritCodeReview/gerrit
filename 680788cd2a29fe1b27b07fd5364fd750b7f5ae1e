@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "422dbe65_efe9731b",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-20T16:10:42Z",
+      "side": 1,
+      "message": "Does this only add newlines? In HTML emails newlines usually count only as spaces, so I don\u0027t see how this could fix the linked issue.",
+      "range": {
+        "startLine": 28,
+        "startChar": 71,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "680788cd2a29fe1b27b07fd5364fd750b7f5ae1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

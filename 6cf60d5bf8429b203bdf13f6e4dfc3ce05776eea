@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c8d22299_d854cde1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T21:21:32Z",
+      "side": 1,
+      "message": "I think I\u0027d rather have it shorter if possible, and maybe with a comment saying what these are computed from? It seems pretty clear to me, though, and I\u0027m a believer in both brevity and descriptiveness.",
+      "parentUuid": "6b0ea1d6_e393a41a",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "6cf60d5bf8429b203bdf13f6e4dfc3ce05776eea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0bdbd455_3fce6250",
         "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
         "patchSetId": 2

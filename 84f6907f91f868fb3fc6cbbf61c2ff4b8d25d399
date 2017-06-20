@@ -22,6 +22,23 @@
       "revId": "84f6907f91f868fb3fc6cbbf61c2ff4b8d25d399",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc09e334_a50373d1",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-20T21:21:32Z",
+      "side": 1,
+      "message": "Nit: Alphabetize.",
+      "revId": "84f6907f91f868fb3fc6cbbf61c2ff4b8d25d399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

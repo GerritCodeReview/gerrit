@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497903543 -0400\nnonce AH5c86DlcGJ8kgldY8vda0QJou5lcdHec7gMhlh4px0WDCbhjLmWh+MoCcf1uxesLxmYX76WEIjo\n\n0000000000000000000000000000000000000000 d1c5a93f76f76fd289e30dccad0069eb311b1605 refs/for/master%r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZSDG3AAoJEF/XxZqaEoiMOMYQAMBpXx6V9JtIgu7JnEgeLW+g\nSORFns/+tCN5eZfRlMJpG4DWCSJaSftLItQJg2eRJfxEWZXRhBCa2dbKfKKc+gt3\n9xG8YERrxmJO+3hyTSGy5tuje7i3GJms30kfYBlUCdo+HxdvdAaCugbGX/7mhOov\njdjRftKXHVIv1gHCnSOHlTAZaN14Gve+tjyDq8npwWqd9CMxFTpHFuLL9jf8sTTe\n7n2Ey8rX/ULmR9EpC897Kohcg1+3lQHJvezdiCHZe6UHEOM9ngrYPqJAxmYcfNwl\ndqNN8wZxSqNmznhOIfr+DgFGWV8xe12SRZA0rbv3X+hf6NHyh/3RSH29v9xqbzDU\nZyE7DFLsqFOMLuniGbyEJi8zS43MguLTx3PbWq5mv/iB1jUq2vBUi1053+xxadoS\nGNU5saf2kAI5SmjT3/cqSR6JHGM8fROJYe0bYbALF56tYEKdlsT2CdiolkfsFEZm\n0fK7GeSGadh35eDI5JPF3SHRRv4QJ2sXU9u8OwBbRcUuuhX4NI0DWB5bbbToK3Dw\nM79TExZwuBZieE1qeUvWd9KBTqieoL2ZwU0UfPAmVAI4KkDUr2tB9ox71TMfRNY6\nOvaR8EoLJyUOHDga7aI+7xg2x6CT1mAgfe/akuEm/DIf/Btxck8D8z3pSSQrN4mc\ndDonduTfgw64HWaxgzDU\n\u003dLVZx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8422a529_b9c5863a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-20T05:13:13Z",
+      "side": 1,
+      "message": "Another option is to tag those tests as manual, so that they wouldn\u0027t be run per default.",
+      "revId": "d1c5a93f76f76fd289e30dccad0069eb311b1605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "266e2f69_1ecc6d36",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-20T05:13:13Z",
+      "side": 1,
+      "message": "This is not needed in this change. Can be done later?",
+      "range": {
+        "startLine": 392,
+        "startChar": 2,
+        "endLine": 392,
+        "endChar": 8
+      },
+      "revId": "d1c5a93f76f76fd289e30dccad0069eb311b1605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

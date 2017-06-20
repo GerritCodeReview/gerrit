@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountExternalIdsInput;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -173,6 +174,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
     exception.expectMessage("access database not permitted");
     gApi.accounts()
         .id(admin.id.get())
+        .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
+  }
+
+  @Test
+  public void deleteExternalIdOfOtherUserUnderOwnAccount_UnprocessableEntity() throws Exception {
+    List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
+    setApiUser(user);
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage(String.format("External id %s does not exist", extIds.get(0).identity));
+    gApi.accounts()
+        .self()
         .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
   }
 

@@ -22,6 +22,30 @@
       "revId": "3d9f028ab4df2b6ee5028f3a35c680939eda595f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ad6e74_cce8174d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-20T14:32:31Z",
+      "side": 1,
+      "message": "+1 - 7% is really nice.",
+      "parentUuid": "b1cb260a_d13fd592",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 53
+      },
+      "revId": "3d9f028ab4df2b6ee5028f3a35c680939eda595f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "0cfc0981b436e0eccb71258f7b4f3de891a9f8c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac1eda17_eee44d4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-20T12:16:09Z",
+      "side": 1,
+      "message": "No problem, I\u0027ll rework it.",
+      "parentUuid": "7b43718b_c48f3b0a",
+      "revId": "0cfc0981b436e0eccb71258f7b4f3de891a9f8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

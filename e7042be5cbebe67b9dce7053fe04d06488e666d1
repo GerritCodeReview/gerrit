@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497902398 -0400\nnonce AH5c86DkCIT7AnEYzUeH9+rEl2nNy+mkTFhcrcMLxUum0XctZEVufxrSTRv3gxVrfZQJ+58nBTta\n\n0000000000000000000000000000000000000000 fb8277ea7b982f933cf90ddeef88518a6d5f807e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZSC0+AAoJEF/XxZqaEoiMfSQP+QHxpzugDX+afPVzEoFtvLa6\nXbEbpypBqTJg7bIzc3QPJ9Yv4nCNaQe2mQ6uZS698psBn3SxqP9WTRjtRiouPl6k\nqFfT7uPEUDQ3CYMnD9YYuufAE2EDPqDcUj8+7eeVfnfwYMKiPS8h4GN8qzmFKXN+\nu//eAd3rLUe4AD5n/jM+2HA4KABQPrf6vPgMA5CmwHTgDx6QQUBb9mKDN35gWBWW\nIYOaQcUXxVLbDFGFwGSeu0XP1wwecb0dXnir6R0NuwFUiFJYcF0f7uAWixgUFFRW\nyZo+mm9PT/5M2O2ri6NpXvLz3SywMAuFdZkueTgiXxGghYUQ60MdCqxo8l2QRUWH\n/qzvscOThXwVKoy5Z2tAp2t4kK9OuxP+GdB1ouwt9OE3x4Dycrhq3+saJ0jqX83p\n+IFgamDwuzXgLAw8i5EvitKuA5YS+ibs7s3n0pu3w2C3ghviL1nwPdVzLpJXIw8r\nrB6A3f4iat7htITICo87t42nct56qlC6nhNRjSFAsrKDSDQyKvbIIdv3A4tLarAb\nxHq+aN6250W/bOYkuWsf8tgoIMxV0vXePh3e9UIbztTV6d9FtWcsS9nzpBubekN7\nHdIbP3d9X8cyAfgg8CK0WmbJ386Q+CejpvhE4U0ZeNffWShvnGMAwEnlejjh87ix\n7c8FPdBWU3NvGnVnF0xp\n\u003dgWGE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5338c623_28880abe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/SiteRebuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-20T10:07:48Z",
+      "side": 1,
+      "message": "Fail if force mode is set but ReviewDb is not the source of truth anymore?",
+      "revId": "e7042be5cbebe67b9dce7053fe04d06488e666d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee7da87_63f7f18e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T17:12:06Z",
+      "side": 1,
+      "message": "I\u0027m very reluctant to change this serialVersionUID but I think that the bug could have corrupted this cache too. What\u0027s your opinion on this?\n\nDo I need to care about reindexing changes (e.g. by a schema upgrade) as this cache is used by the change index?",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

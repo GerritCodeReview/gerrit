@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5917a89e_e5fe521c",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T18:19:21Z",
+      "side": 1,
+      "message": "This is needed, as I have another fixed position element competing (see Wyatt\u0027s comment here: \n\nhttps://gerrit-review.googlesource.com/c/110760/4#message-8a97d0dbfb93d68972ef0c002e0dcebd8db977da",
+      "parentUuid": "eab591f0_5ab6ed16",
+      "revId": "5eb7b255f03e9669cc07970514c28c8e8ba656dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c1c3148_9ca4216e",
         "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-06-21T18:08:32Z",
       "side": 1,
       "message": "Explicit color seems like a better long-term option.\nUp to you.",
+      "range": {
+        "startLine": 57,
+        "startChar": 34,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "5eb7b255f03e9669cc07970514c28c8e8ba656dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d524c58_1c80ca90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T18:19:21Z",
+      "side": 1,
+      "message": "you\u0027re right, I meant to change that, thanks!",
+      "parentUuid": "7c1c3148_9ca4216e",
       "range": {
         "startLine": 57,
         "startChar": 34,

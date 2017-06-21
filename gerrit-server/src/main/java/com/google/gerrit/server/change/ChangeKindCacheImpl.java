@@ -224,8 +224,15 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           return ChangeKind.NO_CHANGE;
         }
 
-        if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
-            && (!onlyFirstParentChanged(prior, next) || prior.getParentCount() == 0)) {
+        if (prior.getParentCount() == 0 || next.getParentCount() == 0) {
+          // At this point we have considered all the kinds that could be applicable to root
+          // commits; the remainder of the checks in this method all assume that both commits have
+          // at least one parent.
+          return ChangeKind.REWORK;
+        }
+
+        if ((prior.getParentCount() > 1 || next.getParentCount() > 1)
+            && !onlyFirstParentChanged(prior, next)) {
           // Trivial rebases done by machine only work well on 1 parent.
           return ChangeKind.REWORK;
         }

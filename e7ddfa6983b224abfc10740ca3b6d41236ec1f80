@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c0a9c4e_0790b665",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-21T22:39:08Z",
+      "side": 1,
+      "message": "Oops. This is a vestige of an earlier version. Removed.",
+      "parentUuid": "1b7916fe_8976420e",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 20
+      },
+      "revId": "e7ddfa6983b224abfc10740ca3b6d41236ec1f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b58b25f4_a488fbf4",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
         "patchSetId": 18
@@ -39,6 +63,24 @@
       "revId": "e7ddfa6983b224abfc10740ca3b6d41236ec1f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19128aad_a0865975",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-21T22:39:08Z",
+      "side": 1,
+      "message": "Correct, it\u0027s not currently called, but this has been requested as part of the API.",
+      "parentUuid": "b58b25f4_a488fbf4",
+      "revId": "e7ddfa6983b224abfc10740ca3b6d41236ec1f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

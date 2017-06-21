@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498051475 +0200\nnonce AH5c86Cyu7UlXlCX9+t590v6pmCx14kPZeTW1sgxmU1D2gHuZtUGrJlQUeGmA3+QzNwmI9LMwqCL\n\n0000000000000000000000000000000000000000 8c86093c56ee5120f28039e6c92630e44dd3d03b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZSnOTAAoJEFG1/Zeg0O9R1roIAJcuyabcjX2k2z/sJVHArcZa\nKpHdU3BV3iJIeMq6QeHDK5Is0/hQRIIA8wbS5pPxwExLyOgONlAHZ06h8PYxV+P7\nzKtLYv+4kIXWLWqfzarcb8riAIjf7cgSeshVJalAunTuqBn0r1dKlkMLf6Xm/+PC\nvJB8DCRHy2cabb0eOoZB786VJaFqupJelnJDM3rUzF4cXsFiLv9B2az9UpOCuuRz\npsHJ3P9BY4KK2+N/m+7JdFcY2ID+914b6VjRrlMOXE8Ga//7Wm1XBQUXeNv4nnAM\n7bvjry6QL9Ls9HQC+ZseEJiSZFe5607wul1LHd8qr/cqtWzOqjMBvn2wGGTqoeA\u003d\n\u003d/BuV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e83879d0_de405b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:35:00Z",
+      "side": 1,
+      "message": "Aren\u0027t we using this internally for a different reason?",
+      "range": {
+        "startLine": 37,
+        "startChar": 67,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b83bf4e5_178eb35f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:35:00Z",
+      "side": 1,
+      "message": "Also mention somewhere that there is no difference between null and the empty string, since normally Config allows this distinction.",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64218d75_cfbab6b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:35:00Z",
+      "side": 1,
+      "message": "Optional nit: @FunctionalInterface",
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

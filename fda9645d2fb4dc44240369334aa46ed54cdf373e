@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7ecb356d_42eaf225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-21T14:24:21Z",
+      "side": 1,
+      "message": "As offline discuess with Patrick, should we set it to be None by default?\n\nChromium people are complaining this:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6543",
+      "range": {
+        "startLine": 70,
+        "startChar": 35,
+        "endLine": 70,
+        "endChar": 54
+      },
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e05abf01_607d4cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

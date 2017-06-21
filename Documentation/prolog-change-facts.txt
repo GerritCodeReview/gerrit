@@ -108,6 +108,22 @@ the following table.
 |`commit_edits/2`           |`commit_edits('/pom[a-z].xml$', 'dependency')`
     |Same as commit_edits/3, 'any_of' will be assumed as qualifier.
 
+|`commit_edits_new/3`        |`commit_edits_new('/pom.xml$', 'dependency', 'any_of')`
+    |Same as `commit_edits/3`, but the predicate will be applied only on the
+    new revision.
+
+|`commit_edits_new/2`        |`commit_edits_new('/pom.xml$', 'dependency')`
+    |Same as `commit_edits/2`, but the predicate will be applied only on the
+    new revision.
+
+|`commit_edits_old/3`        |`commit_edits_old('/pom.xml$', 'dependency', 'any_of')`
+    |Same as `commit_edits/3`, but the predicate will be applied only on the
+    old revision.
+
+|`commit_edits_old/2`        |`commit_edits_old('/pom.xml$', 'dependency')`
+    |Same as `commit_edits/2`, but the predicate will be applied only on the
+    old revision.
+
 |`commit_message_matches/1` |`commit_message_matches('^Bug fix')`
     |True if the commit message matches the given regex.
 

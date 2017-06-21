@@ -66,11 +66,24 @@ public class PRED_commit_edits_3 extends Predicate.P3 {
     Fail
   }
 
-  public PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n) {
+  protected enum Revision {
+    Old,
+    New,
+    Both
+  }
+
+  private Revision revision;
+
+  protected PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n, Revision r) {
     arg1 = a1;
     arg2 = a2;
     arg3 = a3;
     cont = n;
+    revision = r;
+  }
+
+  public PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n) {
+    this(a1, a2, a3, n, Revision.Both);
   }
 
   @Override
@@ -88,19 +101,23 @@ public class PRED_commit_edits_3 extends Predicate.P3 {
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      final RevTree aTree;
-      final RevTree bTree;
+      RevTree aTree = null;
+      RevTree bTree = null;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
       final boolean allOf = isAllOf(arg3.dereference());
 
-      if (pl.getOldId() != null) {
-        aTree = rw.parseTree(pl.getOldId());
-      } else {
-        // Octopus merge with unknown automatic merge result, since the
-        // web UI returns no files to match against, just fail.
-        return engine.fail();
+      if (revision == Revision.Old || revision == Revision.Both) {
+        if (pl.getOldId() != null) {
+          aTree = rw.parseTree(pl.getOldId());
+        } else {
+          // Octopus merge with unknown automatic merge result, since the
+          // web UI returns no files to match against, just fail.
+          return engine.fail();
+        }
       }
-      bTree = bCommit.getTree();
+      if (revision == Revision.New || revision == Revision.Both) {
+        bTree = bCommit.getTree();
+      }
 
       for (PatchListEntry entry : pl.getPatches()) {
         String newName = entry.getNewName();
@@ -117,13 +134,20 @@ public class PRED_commit_edits_3 extends Predicate.P3 {
           if (edits.isEmpty()) {
             continue;
           }
-          Text tA;
-          if (oldName != null) {
-            tA = load(aTree, oldName, reader);
-          } else {
-            tA = load(aTree, newName, reader);
+
+          Text tA = null;
+          if (aTree != null) {
+            if (oldName != null) {
+              tA = load(aTree, oldName, reader);
+            } else {
+              tA = load(aTree, newName, reader);
+            }
           }
-          Text tB = load(bTree, newName, reader);
+
+          Text tB = null;
+          if (bTree != null) {
+            tB = load(bTree, newName, reader);
+          }
 
           int editIdx;
           for (editIdx = 0; editIdx < edits.size(); ++editIdx) {

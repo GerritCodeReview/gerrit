@@ -60,6 +60,23 @@
     },
     {
       "key": {
+        "uuid": "80040cbf_508a7a94",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:31:12Z",
+      "side": 1,
+      "message": "Forgot to mention below, where the changeInfo variable came from. I add this line here:\n\n  ChangeInfo changeinfo \u003d gApi.changes().id(id.get()).info();",
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9850178_6fc0239b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
         "patchSetId": 1

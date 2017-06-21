@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9e1b8b73_747c8a18",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T11:34:58Z",
+      "side": 1,
+      "message": "As I\u0027ve implied elsewhere, I would rather keep this file minimal, and test different combinations of options in the smaller tests that do not take 4s each to run.",
+      "parentUuid": "8c15c31a_920c021a",
+      "revId": "9c41bee318e3ddcc1a9ff5dc67c7a3e9e7b487be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f894f7b_f12fffb4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java",
         "patchSetId": 2
@@ -60,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "47b31b52_51b02cd2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T11:34:58Z",
+      "side": 1,
+      "message": "Thanks for the report. I\u0027m sure there are more bugs, and I will fix them as I add more test coverage in later changes.",
+      "parentUuid": "2f894f7b_f12fffb4",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 23
+      },
+      "revId": "9c41bee318e3ddcc1a9ff5dc67c7a3e9e7b487be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9421c2b_825446fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
         "patchSetId": 2
@@ -71,6 +113,30 @@
       "writtenOn": "2017-06-21T05:10:42Z",
       "side": 1,
       "message": "Are there any circumstances when we would pass checkReadOnly \u003d false here?",
+      "range": {
+        "startLine": 471,
+        "startChar": 20,
+        "endLine": 471,
+        "endChar": 41
+      },
+      "revId": "9c41bee318e3ddcc1a9ff5dc67c7a3e9e7b487be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85cd9950_0d9489ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T11:34:58Z",
+      "side": 1,
+      "message": "Not from NoteDbMigrator itself, but we do use rebuildEvenIfReadOnly in PrimaryStorageMigrator. That will get called from the setReviewDbPrimary method.",
+      "parentUuid": "e9421c2b_825446fd",
       "range": {
         "startLine": 471,
         "startChar": 20,

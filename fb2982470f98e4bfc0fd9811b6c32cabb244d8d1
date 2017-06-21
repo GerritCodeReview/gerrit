@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "909b0453_bf7b09d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-21T18:22:15Z",
+      "side": 1,
+      "message": "visible?\nor viewableByAll?\nor alwaysVisible?",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6be9cd1_f5f67e64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-21T18:22:15Z",
+      "side": 1,
+      "message": "Looks like it\u0027s used in one place only, when reloading.\nAlternatively, you could do getAccount().then(() \u003d\u003e this._loadAccountCapabilities())",
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5db28854_b7bd491b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-21T18:22:15Z",
+      "side": 1,
+      "message": "Probably _reload could simply be made public.",
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

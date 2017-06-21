@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497973369 -0400\nnonce AH5c86B6GFUq1KWX4eZAD2nIa8pzNlo3NC1Pw2Sq32g0DxOwO898O2DcMw3rKoYAslvjVzOxIxFa\n\n0000000000000000000000000000000000000000 06d9b121e0be9278550523257431334e1bff5bd3 refs/for/master%topic\u003dmigrate-to-note-db,r\u003dekempin,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZSUJ5AAoJEF/XxZqaEoiMj74QAMWDw8dSx+Imoslj0J+iiFuu\nIfSFWpdsWcfjHsQ/bjRcVkorZ4po6umrD7t4dWW+1n6GmO8c3c04HJIKZ/PStqx9\nYTUg9Yx/BdzPJdRqihPRPchX1jUW4oNA6Ry7OoU8goUWq78afkMs4XmDL4h83zvV\nFNpfLmYf4NTikPgXK0W7ike5c9/w7QhseuwC8kS7THShhKTqJWkyjYCkfmgREmAF\n/fbxLzmUTnQZ2re6dAb/ngOcBMT8ttTilNtakJaHm1y57RmwFbfc6q1D0ZcyYoHj\npdnsS8wBf6y7EKQIvoI7DagW/Cy1kAPwsv8GpYSVlC3m37sg+GNQ+fzLSI0LKrcz\nF2/uTQlr8OShJy0LWLxn+3GpkjQ3GoaTL0N6a8q9x3PAfn9zpeVNu9Z5Llia+uPb\nR2ejtrFrTfYeqP8xJv7kkgHhstKBMR0XSOrIdtfa6Kef4bRcfbXx5uUGaLeHSIIS\n4p6wx3WDafIghILpcrV+gNe+RhTumER1aSByD0x4XmgJ3vusbdPVsuhgR2cSAH1v\nfDa9PKSusFJhYrCTwdrm8NBqiu3nptAXuLxJw2xb3dreubRvP4oRZNvNd4jUDYDv\nCNiLwSSo4tBF6PZAtDyaav/GZOLj32RUs2e/CCDox/NZA33E457P2XPGn/aSSzT9\nuJ+aABZopEq1nn/PSBsO\n\u003dPJRP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d15f96_2bdfadaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T05:57:22Z",
+      "side": 1,
+      "message": "Optional: Add a test for that. Though, the whole nine yards test, with creating test site, saving the wrong notedb state and trying to run migrate-to-note-db is pretty slow, many seconds on my laptop.",
+      "revId": "68e039bfca986463f6b3227416f327fdb734327e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

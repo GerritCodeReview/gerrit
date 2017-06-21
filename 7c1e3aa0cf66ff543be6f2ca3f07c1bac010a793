@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "2978947e_64a8cfaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-21T11:28:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d45e03ae_1d858575",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "7c1e3aa0cf66ff543be6f2ca3f07c1bac010a793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ea344a_9678309a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-21T11:28:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f82c15b_1018c23a",
+      "revId": "7c1e3aa0cf66ff543be6f2ca3f07c1bac010a793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07072509_4d4cff8b",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 4

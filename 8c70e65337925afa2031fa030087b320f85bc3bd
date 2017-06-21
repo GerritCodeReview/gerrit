@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498051475 +0200\nnonce AH5c86Cyu7UlXlCX9+t590v6pmCx14kPZeTW1sgxmU1D2gHuZtUGrJlQUeGmA3+QzNwmI9LMwqCL\n\n0000000000000000000000000000000000000000 8c86093c56ee5120f28039e6c92630e44dd3d03b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZSnOTAAoJEFG1/Zeg0O9R1roIAJcuyabcjX2k2z/sJVHArcZa\nKpHdU3BV3iJIeMq6QeHDK5Is0/hQRIIA8wbS5pPxwExLyOgONlAHZ06h8PYxV+P7\nzKtLYv+4kIXWLWqfzarcb8riAIjf7cgSeshVJalAunTuqBn0r1dKlkMLf6Xm/+PC\nvJB8DCRHy2cabb0eOoZB786VJaFqupJelnJDM3rUzF4cXsFiLv9B2az9UpOCuuRz\npsHJ3P9BY4KK2+N/m+7JdFcY2ID+914b6VjRrlMOXE8Ga//7Wm1XBQUXeNv4nnAM\n7bvjry6QL9Ls9HQC+ZseEJiSZFe5607wul1LHd8qr/cqtWzOqjMBvn2wGGTqoeA\u003d\n\u003d/BuV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e61b3c_e613db8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:44:29Z",
+      "side": 1,
+      "message": "Don\u0027t open the repo in a loop. Probably read() should take an explicit Repository arg.",
+      "revId": "8c70e65337925afa2031fa030087b320f85bc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbb28ccd_18881e95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:44:29Z",
+      "side": 1,
+      "message": "I guess RepositoryCache will probably handle this, but I would also prefer not reopening the repo in a loop here.",
+      "revId": "8c70e65337925afa2031fa030087b320f85bc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b7f615b_4cf118ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T13:44:29Z",
+      "side": 1,
+      "message": "What is the intended behavior if there is an invalid email stored in ReviewDb?\n\nIf I\u0027m reading right, this will skip validation during the conversion, but it will then throw a ValidationException the next time you try to read the account from NoteDb. But prior to this change, it wouldn\u0027t have been a problem to load the account from ReviewDb. So this may have the effect of breaking some accounts. Can we avoid this?",
+      "range": {
+        "startLine": 97,
+        "startChar": 54,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "8c70e65337925afa2031fa030087b320f85bc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

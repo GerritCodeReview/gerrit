@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.change.Submit.Output;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -58,9 +58,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -73,6 +71,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -84,8 +83,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput, Output>
-    implements UiAction<RevisionResource> {
+public class Submit
+    implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Submit.class);
 
   private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
@@ -119,13 +118,14 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
    */
   @VisibleForTesting
   public static class TestSubmitInput extends SubmitInput {
-    public final boolean failAfterRefUpdates;
+    public boolean failAfterRefUpdates;
 
-    public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
-      this.onBehalfOf = base.onBehalfOf;
-      this.notify = base.notify;
-      this.failAfterRefUpdates = failAfterRefUpdates;
-    }
+    /**
+     * For each change being submitted, an element is removed from this queue and, if the value is
+     * true, a bogus ref update is added to the batch, in order to generate a lock failure during
+     * execution.
+     */
+    public Queue<Boolean> generateLockFailures;
   }
 
   private final Provider<ReviewDb> dbProvider;
@@ -134,7 +134,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final MergeOp.Factory mergeOpFactory;
+  private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountsCollection accounts;
   private final String label;
@@ -152,24 +152,22 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
       Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
-      MergeOp.Factory mergeOpFactory,
+      Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
       AccountsCollection accounts,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil) {
-    super(retryHelper);
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
-    this.mergeOpFactory = mergeOpFactory;
+    this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
     this.label =
@@ -202,10 +200,9 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
   }
 
   @Override
-  protected Output applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, SubmitInput input)
+  public Output apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, UpdateException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -215,15 +212,11 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
       submitter = rsrc.getUser().asIdentifiedUser();
     }
 
-    return new Output(mergeChange(updateFactory, rsrc, submitter, input));
+    return new Output(mergeChange(rsrc, submitter, input));
   }
 
-  public Change mergeChange(
-      BatchUpdate.Factory updateFactory,
-      RevisionResource rsrc,
-      IdentifiedUser submitter,
-      SubmitInput input)
-      throws OrmException, RestApiException, IOException {
+  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
+      throws OrmException, RestApiException, IOException, UpdateException {
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -237,7 +230,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
               "revision %s is not current revision", rsrc.getPatchSet().getRevision().get()));
     }
 
-    try (MergeOp op = mergeOpFactory.create(updateFactory)) {
+    try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, submitter, true, input, false);
       try {
@@ -291,7 +284,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
         if (c.change().isWorkInProgress()) {
           return BLOCKED_WORK_IN_PROGRESS;
         }
-        MergeOp.checkSubmitRule(c);
+        MergeOp.checkSubmitRule(c, false);
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -328,7 +321,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
               && resource.isCurrent()
               && !resource.getPatchSet().isDraft()
               && resource.permissions().test(ChangePermission.SUBMIT);
-      MergeOp.checkSubmitRule(cd);
+      MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       visible = false;
     } catch (PermissionBackendException e) {
@@ -513,8 +506,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
     }
   }
 
-  public static class CurrentRevision
-      extends RetryingRestModifyView<ChangeResource, SubmitInput, ChangeInfo> {
+  public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;
     private final Submit submit;
     private final ChangeJson.Factory json;
@@ -523,11 +515,9 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
     @Inject
     CurrentRevision(
         Provider<ReviewDb> dbProvider,
-        RetryHelper retryHelper,
         Submit submit,
         ChangeJson.Factory json,
         PatchSetUtil psUtil) {
-      super(retryHelper);
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
@@ -535,10 +525,9 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
     }
 
     @Override
-    protected ChangeInfo applyImpl(
-        BatchUpdate.Factory updateFactory, ChangeResource rsrc, SubmitInput input)
+    public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, UpdateException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
@@ -546,7 +535,7 @@ public class Submit extends RetryingRestModifyView<RevisionResource, SubmitInput
         throw new AuthException("current revision not accessible");
       }
 
-      Output out = submit.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input);
+      Output out = submit.apply(new RevisionResource(rsrc, ps), input);
       return json.noOptions().format(out.change);
     }
   }

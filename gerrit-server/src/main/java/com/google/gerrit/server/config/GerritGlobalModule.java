@@ -115,7 +115,6 @@ import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitModules;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -401,7 +400,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedByPushOp.Factory.class);
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
-    factory(MergeOp.Factory.class);
 
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);

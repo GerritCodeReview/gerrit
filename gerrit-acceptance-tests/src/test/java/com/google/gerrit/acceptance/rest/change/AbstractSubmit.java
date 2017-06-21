@@ -67,6 +67,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -81,6 +82,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -482,6 +484,43 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitReusingOldTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    String topic = "test-topic";
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content", topic);
+    String id1 = change1.getChangeId();
+    String id2 = change2.getChangeId();
+    approve(id1);
+    approve(id2);
+    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
+    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
+    submit(id2);
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
+    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
+
+    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic);
+    String id3 = change3.getChangeId();
+    approve(id3);
+    assertSubmittedTogether(id3, ImmutableList.of());
+    submit(id3);
+
+    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    assertSubmittedTogether(id3, ImmutableList.of());
+  }
+
+  private void assertSubmittedTogether(String changeId, Iterable<String> expected)
+      throws Exception {
+    assertThat(gApi.changes().id(changeId).submittedTogether().stream().map(i -> i.changeId))
+        .containsExactlyElementsIn(expected);
+  }
+
+  @Test
   public void submitDraftChange() throws Exception {
     PushOneCommit.Result draft = createDraftChange();
     Change.Id num = draft.getChange().getId();
@@ -873,6 +912,81 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     master = rw.parseCommit(getRemoteHead(project, "master"));
     assertThat(rw.isMergedInto(merge, master)).isTrue();
     assertThat(rw.isMergedInto(fix, master)).isTrue();
+  }
+
+  @Test
+  public void retrySubmitSingleChangeOnLockFailure() throws Exception {
+    assume().that(notesMigration.fuseUpdates()).isTrue();
+
+    PushOneCommit.Result change = createChange();
+    String id = change.getChangeId();
+    approve(id);
+
+    TestSubmitInput input = new TestSubmitInput();
+    input.generateLockFailures =
+        new ArrayDeque<>(
+            ImmutableList.of(
+                true, // Attempt 1: lock failure
+                false, // Attempt 2: success
+                false)); // Leftover value to check total number of calls.
+    submit(id, input);
+    assertMerged(id);
+
+    testRepo.git().fetch().call();
+    RevWalk rw = testRepo.getRevWalk();
+    RevCommit master = rw.parseCommit(getRemoteHead(project, "master"));
+    RevCommit patchSet = parseCurrentRevision(rw, change);
+    assertThat(rw.isMergedInto(patchSet, master)).isTrue();
+
+    assertThat(input.generateLockFailures).containsExactly(false);
+  }
+
+  @Test
+  public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
+    assume().that(notesMigration.fuseUpdates()).isTrue();
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    String topic = "test-topic";
+
+    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
+    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
+
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoB, "master", "Change 2", "b.txt", "content", topic);
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+
+    TestSubmitInput input = new TestSubmitInput();
+    input.generateLockFailures =
+        new ArrayDeque<>(
+            ImmutableList.of(
+                false, // Change 1, attempt 1: success
+                true, // Change 2, attempt 1: lock failure
+                false, // Change 1, attempt 2: success
+                false, // Change 2, attempt 2: success
+                false)); // Leftover value to check total number of calls.
+    submit(change2.getChangeId(), input);
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+
+    repoA.git().fetch().call();
+    RevWalk rwA = repoA.getRevWalk();
+    RevCommit masterA = rwA.parseCommit(getRemoteHead(name("project-a"), "master"));
+    RevCommit change1Ps = parseCurrentRevision(rwA, change1);
+    assertThat(rwA.isMergedInto(change1Ps, masterA)).isTrue();
+
+    repoB.git().fetch().call();
+    RevWalk rwB = repoB.getRevWalk();
+    RevCommit masterB = rwB.parseCommit(getRemoteHead(name("project-b"), "master"));
+    RevCommit change2Ps = parseCurrentRevision(rwB, change2);
+    assertThat(rwB.isMergedInto(change2Ps, masterB)).isTrue();
+
+    assertThat(input.generateLockFailures).containsExactly(false);
   }
 
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {

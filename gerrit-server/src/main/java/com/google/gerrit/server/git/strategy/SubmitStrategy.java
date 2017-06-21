@@ -18,12 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -96,7 +98,7 @@ public abstract class SubmitStrategy {
           Set<RevCommit> alreadyAccepted,
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
-          NotifyHandling notifyHandling,
+          SubmitInput submitInput,
           ListMultimap<RecipientType, Account.Id> accountsToNotify,
           SubmoduleOp submoduleOp,
           boolean dryrun);
@@ -129,7 +131,7 @@ public abstract class SubmitStrategy {
     final Set<RevCommit> alreadyAccepted;
     final RequestId submissionId;
     final SubmitType submitType;
-    final NotifyHandling notifyHandling;
+    final SubmitInput submitInput;
     final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     final SubmoduleOp submoduleOp;
 
@@ -169,7 +171,7 @@ public abstract class SubmitStrategy {
         @Assisted Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
-        @Assisted NotifyHandling notifyHandling,
+        @Assisted SubmitInput submitInput,
         @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
@@ -199,7 +201,7 @@ public abstract class SubmitStrategy {
       this.alreadyAccepted = alreadyAccepted;
       this.submissionId = submissionId;
       this.submitType = submitType;
-      this.notifyHandling = notifyHandling;
+      this.submitInput = submitInput;
       this.accountsToNotify = accountsToNotify;
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
@@ -255,12 +257,21 @@ public abstract class SubmitStrategy {
     List<CodeReviewCommit> difference = new ArrayList<>(Sets.difference(toMerge, added));
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
-      bu.addOp(c.change().getId(), new ImplicitIntegrateOp(args, c));
+      Change.Id id = c.change().getId();
+      bu.addOp(id, new ImplicitIntegrateOp(args, c));
+      maybeAddTestHelperOp(bu, id);
     }
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
       bu.addOp(op.getId(), op);
+      maybeAddTestHelperOp(bu, op.getId());
+    }
+  }
+
+  private void maybeAddTestHelperOp(BatchUpdate bu, Change.Id changeId) {
+    if (args.submitInput instanceof TestSubmitInput) {
+      bu.addOp(changeId, new TestHelperOp(changeId, args));
     }
   }
 

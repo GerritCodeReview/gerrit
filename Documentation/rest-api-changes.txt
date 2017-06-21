@@ -3130,6 +3130,28 @@ request:
   HTTP/1.1 204 No Content
 ----
 
+[[set-message]]
+=== Set Commit Message
+--
+'PUT /changes/link:#change-id[\{change-id\}]/message'
+--
+
+Creates a new patch set with a new commit message.
+
+The new commit message must be provided in the request body inside a
+link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
+link:project-configuration.html#require-change-id[Require Change-Id] was specified.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "New Commit message \n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444\n"
+  }
+----
+
 [[revision-endpoints]]
 == Revision Endpoints
 
@@ -5920,6 +5942,25 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[commit-message-input]]
+=== CommitMessageInput
+The `CommitMessageInput` entity contains information for changing
+the commit message of a change.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`message`       ||New commit message.
+|`notify`        |optional|
+Notify handling that defines to whom email notifications should be sent
+after the commit message was updated. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|`notify_details`|optional|
+Additional information about whom to notify about the update as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[delete-comment-input]]
 === DeleteCommentInput

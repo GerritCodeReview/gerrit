@@ -190,6 +190,9 @@ public interface ChangeApi {
    */
   ChangeEditApi edit() throws RestApiException;
 
+  /** Create a new patch set with a new commit message. */
+  void setMessage(String message) throws RestApiException;
+
   /** Set hashtags on a change */
   void setHashtags(HashtagsInput input) throws RestApiException;
 
@@ -427,6 +430,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo info() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setMessage(String message) {
       throw new NotImplementedException();
     }
 

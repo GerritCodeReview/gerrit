@@ -403,7 +403,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public GroupReference resolve(GroupReference group) {
-    return groupList.resolve(group);
+    GroupReference groupRef = groupList.resolve(group);
+    if (groupRef != null
+        && groupRef.getUUID() != null
+        && !groupsByName.containsKey(groupRef.getName())) {
+      groupsByName.put(groupRef.getName(), groupRef);
+    }
+    return groupRef;
   }
 
   /** @return the group reference, if the group is used by at least one rule. */

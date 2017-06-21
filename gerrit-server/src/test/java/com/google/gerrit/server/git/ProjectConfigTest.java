@@ -466,6 +466,14 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                 + "\tkey1 = "
                 + staff.toConfigValue()
                 + "\n");
+    assertThat(text(rev, "groups"))
+        .isEqualTo(
+            "# UUID\tGroup Name\n" //
+                + "#\n" //
+                + staff.getUUID().get()
+                + "     \t"
+                + staff.getName()
+                + "\n");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

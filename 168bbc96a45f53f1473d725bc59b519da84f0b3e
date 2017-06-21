@@ -105,6 +105,29 @@
       "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9273a7d1_6e899d2f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-21T15:35:52Z",
+      "side": 1,
+      "message": "There are a lot of config options which are set on window. Should there be a general gerrit config? Seems like that would be more maintainable and discoverable?",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "168bbc96a45f53f1473d725bc59b519da84f0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

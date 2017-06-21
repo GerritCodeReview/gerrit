@@ -41,7 +41,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
@@ -196,7 +195,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
     final PermissionBackend permissionBackend;
-    final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
     final ChangeIndex index;
@@ -236,7 +234,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
-        CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
@@ -269,7 +266,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           userFactory,
           self,
           permissionBackend,
-          capabilityControlFactory,
           changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
@@ -304,7 +300,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
-        CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
@@ -335,7 +330,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.userFactory = userFactory;
       this.self = self;
       this.permissionBackend = permissionBackend;
-      this.capabilityControlFactory = capabilityControlFactory;
       this.notesFactory = notesFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
@@ -372,7 +366,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           userFactory,
           Providers.of(otherUser),
           permissionBackend,
-          capabilityControlFactory,
           changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
@@ -933,7 +926,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       for (GroupReference ref : suggestions) {
         ids.add(ref.getUUID());
       }
-      return visibleto(new SingleGroupUser(args.capabilityControlFactory, ids));
+      return visibleto(new SingleGroupUser(ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");

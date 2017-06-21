@@ -20,11 +20,14 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
@@ -143,6 +146,24 @@ public class DynamicOptions {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
 
+  /**
+   * MergedClassloaders allow us to load classes from both plugin classloaders. Store the merged
+   * classloaders in a Map to avoid creating a new classloader for each invocation. Use a
+   * WeakHashMap to avoid leaking these MergedClassLoaders once either plugin is unloaded. Since the
+   * WeakHashMap only takes care of ensuring the Keys can get garbage collected, use WeakReferences
+   * to store the MergedClassloaders in the WeakHashMap.
+   *
+   * <p>Outter keys are the bean plugin's classloaders (the plugin being extended)
+   *
+   * <p>Inner keys are the dynamicBeans plugin's classloaders (the extending plugin)
+   *
+   * <p>The value is the MergedClassLoader representing the merging of the outter and inner key
+   * classloaders.
+   */
+  protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>> mergedClByCls =
+      Collections.synchronizedMap(
+          new WeakHashMap<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>());
+
   protected Object bean;
   protected Map<String, DynamicBean> beansByPlugin;
   protected Injector injector;
@@ -184,7 +205,7 @@ public class DynamicOptions {
     if (beanCl != coreCl) { // bean from a plugin?
       ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
       if (beanCl != dynamicBeanCl) { // in a different plugin?
-        loader = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+        loader = getMergedClassLoader(beanCl, dynamicBeanCl);
       }
     }
 
@@ -216,6 +237,24 @@ public class DynamicOptions {
     }
 
     return dynamicBean;
+  }
+
+  protected ClassLoader getMergedClassLoader(ClassLoader beanCl, ClassLoader dynamicBeanCl) {
+    Map<ClassLoader, WeakReference<ClassLoader>> mergedClByCl = mergedClByCls.get(beanCl);
+    if (mergedClByCl == null) {
+      mergedClByCl = Collections.synchronizedMap(new WeakHashMap<>());
+      mergedClByCls.put(beanCl, mergedClByCl);
+    }
+    WeakReference<ClassLoader> mergedClRef = mergedClByCl.get(dynamicBeanCl);
+    ClassLoader mergedCl = null;
+    if (mergedClRef != null) {
+      mergedCl = mergedClRef.get();
+    }
+    if (mergedCl == null) {
+      mergedCl = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+      mergedClByCl.put(dynamicBeanCl, new WeakReference(mergedCl));
+    }
+    return mergedCl;
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {

@@ -31,6 +31,9 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +43,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javax.imageio.ImageIO;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -84,9 +88,59 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().deleteFile(FILE_NAME);
     gApi.changes().id(changeId).edit().publish();
 
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
+
     DiffInfo diff = gApi.changes().id(changeId).current().file(FILE_NAME).diff();
     assertThat(diff.metaA.lines).isEqualTo(100);
     assertThat(diff.metaB).isNull();
+  }
+
+  @Test
+  public void addedFileIsIncludedInDiff() throws Exception {
+    String newFilePath = "a_new_file.txt";
+    String newFileContent = "arbitrary content";
+    gApi.changes().id(changeId).edit().modifyFile(newFilePath, RawInputUtil.create(newFileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath);
+  }
+
+  @Test
+  public void renamedFileIsIncludedInDiff() throws Exception {
+    String newFilePath = "a_new_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath);
+  }
+
+  @Test
+  public void addedBinaryFileIsIncludedInDiff() throws Exception {
+    String imageFileName = "an_image.png";
+    byte[] imageBytes = createRgbImage(255, 0, 0);
+    gApi.changes().id(changeId).edit().modifyFile(imageFileName, RawInputUtil.create(imageBytes));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, imageFileName);
+  }
+
+  @Test
+  public void modifiedBinaryFileIsIncludedInDiff() throws Exception {
+    String imageFileName = "an_image.png";
+    byte[] imageBytes1 = createRgbImage(255, 100, 0);
+    ObjectId commit2 = addCommit(commit1, imageFileName, imageBytes1);
+
+    rebaseChangeOn(changeId, commit2);
+    byte[] imageBytes2 = createRgbImage(0, 100, 255);
+    gApi.changes().id(changeId).edit().modifyFile(imageFileName, RawInputUtil.create(imageBytes2));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, imageFileName);
   }
 
   @Test
@@ -148,6 +202,29 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
+  }
+
+  @Test
+  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenEquallyModifiedInBoth()
+      throws Exception {
+    Function<String, String> contentModification =
+        fileContent -> fileContent.replace("1st line\n", "First line\n");
+    addModifiedPatchSet(changeId, FILE_NAME2, contentModification);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the modification to be able to rebase.
+    addModifiedPatchSet(
+        changeId, FILE_NAME2, fileContent -> fileContent.replace("First line\n", "1st line\n"));
+
+    String renamedFileName = "renamed_file.txt";
+    ObjectId commit2 = addCommitRenamingFile(commit1, FILE_NAME2, renamedFileName);
+    rebaseChangeOn(changeId, commit2);
+    addModifiedPatchSet(changeId, renamedFileName, contentModification);
+    addModifiedPatchSet(changeId, FILE_NAME, "Another line\n"::concat);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
   }
 
@@ -1070,6 +1147,18 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     return result.getCommit();
   }
 
+  private ObjectId addCommit(ObjectId parentCommit, String filePath, byte[] fileContent)
+      throws Exception {
+    testRepo.reset(parentCommit);
+    PushOneCommit.Result result = createEmptyChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String currentRevision = gApi.changes().id(changeId).get().currentRevision;
+    GitUtil.fetch(testRepo, "refs/*:refs/*");
+    return ObjectId.fromString(currentRevision);
+  }
+
   private ObjectId addCommitRemovingFiles(ObjectId parentCommit, String... removedFilePaths)
       throws Exception {
     testRepo.reset(parentCommit);
@@ -1108,5 +1197,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(newContent));
     }
     gApi.changes().id(changeId).edit().publish();
+  }
+
+  private static byte[] createRgbImage(int red, int green, int blue) throws IOException {
+    BufferedImage bufferedImage = new BufferedImage(10, 20, BufferedImage.TYPE_INT_RGB);
+    for (int x = 0; x < bufferedImage.getWidth(); x++) {
+      for (int y = 0; y < bufferedImage.getHeight(); y++) {
+        int rgb = (red << 16) + (green << 8) + blue;
+        bufferedImage.setRGB(x, y, rgb);
+      }
+    }
+
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+    return byteArrayOutputStream.toByteArray();
   }
 }

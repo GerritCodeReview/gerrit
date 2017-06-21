@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class DiffSummaryKey implements Serializable {
-  public static final long serialVersionUID = 1L;
+  public static final long serialVersionUID = 2L;
 
   /** see PatchListKey#oldId */
   private transient ObjectId oldId;

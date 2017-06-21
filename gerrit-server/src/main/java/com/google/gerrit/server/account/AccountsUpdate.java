@@ -217,28 +217,6 @@ public class AccountsUpdate {
   }
 
   /**
-   * Updates the account.
-   *
-   * <p>Changing the registration date of an account is not supported.
-   *
-   * @param db ReviewDb
-   * @param account the account
-   * @throws OrmException if updating the database fails
-   * @throws IOException if updating the user branch fails
-   * @throws ConfigInvalidException if any of the account fields has an invalid value
-   */
-  public void update(ReviewDb db, Account account)
-      throws OrmException, IOException, ConfigInvalidException {
-    // Update in ReviewDb
-    db.accounts().update(ImmutableSet.of(account));
-
-    // Update in NoteDb
-    AccountConfig accountConfig = read(account.getId());
-    accountConfig.setAccount(account);
-    commit(accountConfig);
-  }
-
-  /**
    * Gets the account and updates it atomically.
    *
    * <p>Changing the registration date of an account is not supported.
@@ -289,6 +267,36 @@ public class AccountsUpdate {
     commit(accountConfig);
 
     return account;
+  }
+
+  /**
+   * Replaces the account.
+   *
+   * <p>The existing account with the same account ID is overwritten by the given account. Choosing
+   * to overwrite an account means that any updates that were done to the account by a racing
+   * request after the account was read are lost. Updates are also lost if the account was read from
+   * a stale account index. This is why using {@link #atomicUpdate(ReviewDb,
+   * com.google.gerrit.reviewdb.client.Account.Id, Consumer)} to do an atomic update is always
+   * preferred.
+   *
+   * <p>Changing the registration date of an account is not supported.
+   *
+   * @param db ReviewDb
+   * @param account the new account
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
+   * @see #atomicUpdate(ReviewDb, com.google.gerrit.reviewdb.client.Account.Id, Consumer)
+   */
+  public void replace(ReviewDb db, Account account)
+      throws OrmException, IOException, ConfigInvalidException {
+    // Update in ReviewDb
+    db.accounts().update(ImmutableSet.of(account));
+
+    // Update in NoteDb
+    AccountConfig accountConfig = read(account.getId());
+    accountConfig.setAccount(account);
+    commit(accountConfig);
   }
 
   /**

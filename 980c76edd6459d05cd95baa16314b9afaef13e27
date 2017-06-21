@@ -22,6 +22,30 @@
       "revId": "980c76edd6459d05cd95baa16314b9afaef13e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a775dd5a_ad185549",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-21T22:04:03Z",
+      "side": 1,
+      "message": "I like that. It\u0027s cleaner. Done.",
+      "parentUuid": "48616df8_185e229d",
+      "range": {
+        "startLine": 50,
+        "startChar": 19,
+        "endLine": 50,
+        "endChar": 31
+      },
+      "revId": "980c76edd6459d05cd95baa16314b9afaef13e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

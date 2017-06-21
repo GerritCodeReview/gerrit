@@ -17,6 +17,24 @@
       "revId": "68e039bfca986463f6b3227416f327fdb734327e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce2436dc_43d756ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T12:15:25Z",
+      "side": 1,
+      "message": "By now you can probably guess that my answer will be this is coming later today ;)",
+      "parentUuid": "10d15f96_2bdfadaa",
+      "revId": "68e039bfca986463f6b3227416f327fdb734327e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

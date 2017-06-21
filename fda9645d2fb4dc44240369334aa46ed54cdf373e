@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f4538efd_31840ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T15:39:45Z",
+      "side": 1,
+      "message": "+1, I\u0027m submitting this. We can still reconsider later.",
+      "parentUuid": "dfa9045e_0ecb7a8f",
+      "range": {
+        "startLine": 70,
+        "startChar": 35,
+        "endLine": 70,
+        "endChar": 54
+      },
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e05abf01_607d4cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

@@ -22,6 +22,30 @@
       "revId": "a29772693bba70d3bd8b2b2db936660ed9125b42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ecad2d3_d3379207",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-21T22:52:09Z",
+      "side": 0,
+      "message": "Because this function would just be an alias for this.$.restAPI.putChangeCommitMessage, so I removed the layer of indirection.",
+      "parentUuid": "9364ec4d_41cd1ba5",
+      "range": {
+        "startLine": 284,
+        "startChar": 6,
+        "endLine": 284,
+        "endChar": 56
+      },
+      "revId": "a29772693bba70d3bd8b2b2db936660ed9125b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

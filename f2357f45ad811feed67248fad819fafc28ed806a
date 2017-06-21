@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "7ead63ec_08e0a2d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-21T22:52:09Z",
+      "side": 1,
+      "message": "Came up with a slightly better solution. Linters are weird.",
+      "parentUuid": "1c6d5ff8_9f642127",
+      "range": {
+        "startLine": 265,
+        "startChar": 8,
+        "endLine": 270,
+        "endChar": 29
+      },
+      "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8f3a563_1184721c",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -62,6 +86,30 @@
       "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27167ecb_c25db574",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-21T22:52:09Z",
+      "side": 1,
+      "message": "I didn\u0027t want to do so because the underlying REST API does still exist, and it can\u0027t be faked using the generic saveChangeEdit method.",
+      "parentUuid": "b8f3a563_1184721c",
+      "range": {
+        "startLine": 697,
+        "startChar": 4,
+        "endLine": 698,
+        "endChar": 53
+      },
+      "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

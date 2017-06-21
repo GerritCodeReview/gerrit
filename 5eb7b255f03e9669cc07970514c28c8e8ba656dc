@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1bfe9171_e65b647a",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-21T18:23:58Z",
+      "side": 1,
+      "message": "Worth updating commit message, probably.",
+      "parentUuid": "5917a89e_e5fe521c",
+      "revId": "5eb7b255f03e9669cc07970514c28c8e8ba656dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c1c3148_9ca4216e",
         "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
         "patchSetId": 4

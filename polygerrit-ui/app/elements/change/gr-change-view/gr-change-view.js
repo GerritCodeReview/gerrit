@@ -260,7 +260,8 @@
       this.$.jsAPI.handleCommitMessage(this._change, message);
 
       this.$.commitMessageEditor.disabled = true;
-      this._saveCommitMessage(message).then(resp => {
+      this.$.restAPI.putChangeCommitMessage(
+          this._changeNum, message).then(resp => {
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
 
@@ -278,15 +279,6 @@
 
     _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
-    },
-
-    _saveCommitMessage(message) {
-      return this.$.restAPI.saveChangeCommitMessageEdit(
-          this._changeNum, message).then(resp => {
-            if (!resp.ok) { return resp; }
-
-            return this.$.restAPI.publishChangeEdit(this._changeNum);
-          });
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change) {

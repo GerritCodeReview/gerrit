@@ -996,7 +996,7 @@
 
     setChangeTopic(changeNum, topic) {
       return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
-          '/topic', {topic});
+          '/topic', {topic}).then(this.getResponseObject);
     },
 
     deleteAccountHttpPassword() {

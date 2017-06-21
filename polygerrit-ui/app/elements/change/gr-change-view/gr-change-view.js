@@ -189,6 +189,9 @@
       Gerrit.RESTClientBehavior,
     ],
 
+    listeners: {
+      'topic-changed': '_handleTopicChanged',
+    },
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
@@ -1305,6 +1308,10 @@
       } else if (!this._updateCheckTimerHandle) {
         this._startUpdateCheckTimer();
       }
+    },
+
+    _handleTopicChanged() {
+      this.$.relatedChanges.reload();
     },
 
     _computeHeaderClass(change) {

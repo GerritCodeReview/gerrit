@@ -237,10 +237,10 @@ limitations under the License.
           },
           removable_reviewers: [],
         };
+        flushAsynchronousOperations();
       });
 
       test('_computeCanDeleteVote hides delete button', () => {
-        flushAsynchronousOperations();
         const button = element.$$('gr-account-chip').$$('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
         element.mutable = true;
@@ -255,7 +255,6 @@ limitations under the License.
           },
         ];
         element.mutable = true;
-        flushAsynchronousOperations();
         const button = element.$$('gr-account-chip').$$('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
@@ -285,11 +284,20 @@ limitations under the License.
         MockInteractions.tap(button);
       });
 
-      test('changing topic calls setChangeTopic', () => {
-        const topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
-            () => {});
-        element._handleTopicChanged({}, 'the new topic');
-        assert.isTrue(topicStub.calledWith('the number', 'the new topic'));
+      test('changing topic', () => {
+        const newTopic = 'the new topic';
+        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+            Promise.resolve(newTopic));
+        element._handleTopicChanged({}, newTopic);
+        const topicChangedSpy = sandbox.spy();
+        element.addEventListener('topic-changed', topicChangedSpy);
+        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+            'the number', newTopic));
+        return element.$.restAPI.setChangeTopic.lastCall.returnValue
+            .then(() => {
+              assert.equal(element.change.topic, newTopic);
+              assert.isTrue(topicChangedSpy.called);
+            });
       });
 
       test('topic href has quotes', () => {
@@ -298,13 +306,20 @@ limitations under the License.
         assert.equal(hrefArr[1], 'test');
       });
 
-      test('clicking x on topic chip removes topic', () => {
-        const topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
-        flushAsynchronousOperations();
+      test('topic removal', () => {
+        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+            Promise.resolve());
         const remove = element.$$('gr-linked-chip').$.remove;
+        const topicChangedSpy = sandbox.spy();
+        element.addEventListener('topic-changed', topicChangedSpy);
         MockInteractions.tap(remove);
-        assert.equal(element.change.topic, '');
-        assert.isTrue(topicStub.called);
+        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
+            'the number', null));
+        return element.$.restAPI.setChangeTopic.lastCall.returnValue
+            .then(() => {
+              assert.equal(element.change.topic, '');
+              assert.isTrue(topicChangedSpy.called);
+            });
       });
 
       suite('assignee field', () => {

@@ -658,5 +658,20 @@ limitations under the License.
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
     });
+
+    test('gerrit auth is used by default', () => {
+      sandbox.stub(GrGerritAuth.prototype, 'fetch').returns(Promise.resolve());
+      element.fetchJSON('foo');
+      assert(GrGerritAuth.prototype.fetch.called);
+    });
+
+    test('gapi auth is enabled with USE_GAPI_AUTH', () => {
+      window.USE_GAPI_AUTH = true;
+      sandbox.stub(GrGapiAuth.prototype, 'fetch').returns(Promise.resolve());
+      element = fixture('basic');
+      element.fetchJSON('foo');
+      assert(GrGapiAuth.prototype.fetch.called);
+      delete window.USE_GAPI_AUTH;
+    });
   });
 </script>

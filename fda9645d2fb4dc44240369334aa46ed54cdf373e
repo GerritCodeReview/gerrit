@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "38f3e14e_a094778b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-21T16:17:55Z",
+      "side": 1,
+      "message": "\u0027ALL\u0027 should be fine for now; we\u0027ll be heavily using the WIP state to suppress emails like this.",
+      "parentUuid": "f4538efd_31840ade",
+      "range": {
+        "startLine": 70,
+        "startChar": 35,
+        "endLine": 70,
+        "endChar": 54
+      },
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e05abf01_607d4cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

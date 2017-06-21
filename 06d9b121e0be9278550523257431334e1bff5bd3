@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1497973369 -0400\nnonce AH5c86B6GFUq1KWX4eZAD2nIa8pzNlo3NC1Pw2Sq32g0DxOwO898O2DcMw3rKoYAslvjVzOxIxFa\n\n0000000000000000000000000000000000000000 06d9b121e0be9278550523257431334e1bff5bd3 refs/for/master%topic\u003dmigrate-to-note-db,r\u003dekempin,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZSUJ5AAoJEF/XxZqaEoiMj74QAMWDw8dSx+Imoslj0J+iiFuu\nIfSFWpdsWcfjHsQ/bjRcVkorZ4po6umrD7t4dWW+1n6GmO8c3c04HJIKZ/PStqx9\nYTUg9Yx/BdzPJdRqihPRPchX1jUW4oNA6Ry7OoU8goUWq78afkMs4XmDL4h83zvV\nFNpfLmYf4NTikPgXK0W7ike5c9/w7QhseuwC8kS7THShhKTqJWkyjYCkfmgREmAF\n/fbxLzmUTnQZ2re6dAb/ngOcBMT8ttTilNtakJaHm1y57RmwFbfc6q1D0ZcyYoHj\npdnsS8wBf6y7EKQIvoI7DagW/Cy1kAPwsv8GpYSVlC3m37sg+GNQ+fzLSI0LKrcz\nF2/uTQlr8OShJy0LWLxn+3GpkjQ3GoaTL0N6a8q9x3PAfn9zpeVNu9Z5Llia+uPb\nR2ejtrFrTfYeqP8xJv7kkgHhstKBMR0XSOrIdtfa6Kef4bRcfbXx5uUGaLeHSIIS\n4p6wx3WDafIghILpcrV+gNe+RhTumER1aSByD0x4XmgJ3vusbdPVsuhgR2cSAH1v\nfDa9PKSusFJhYrCTwdrm8NBqiu3nptAXuLxJw2xb3dreubRvP4oRZNvNd4jUDYDv\nCNiLwSSo4tBF6PZAtDyaav/GZOLj32RUs2e/CCDox/NZA33E457P2XPGn/aSSzT9\nuJ+aABZopEq1nn/PSBsO\n\u003dPJRP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "be3f2148_ddc3f9fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:29:35Z",
+      "side": 1,
+      "message": "+1.",
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a61967e_4e1d52f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:29:35Z",
+      "side": 1,
+      "message": "Should the pgm test be preserved? if yes, can we think of different names here or there? Currently two classes exist with the same name in pgm and notedb packages:\n\n* gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java\n* gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java\n\ns#notedb/MigrateToNoteDb#notedb/MigrateToNoteDbInRunningServer#?",
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643a3cd4_c38c8cc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:29:35Z",
+      "side": 1,
+      "message": "We spawn Gerrit Server per test class, and this class has only sinlge test, so that this annotaion is a no op, at least in this commit and could be removed.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9850178_6fc0239b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:29:35Z",
+      "side": 1,
+      "message": "I adjusted this to restrict to single project. On a site with thousands of projects we certainly want to support restriction of migration for only a small number of projects.\n\nThis seems to be prohibited right now. Not sure about changes, but project should be allowed, so I went ahead and commented out the check in NoteDbMigrator.migrate():\n\n   public void migrate() throws OrmException, IOException {\n//    checkState(\n//        changes.isEmpty() \u0026\u0026 projects.isEmpty(),\n//        \"cannot set changes or projects during auto-migration; call rebuild() instead\");\n\nVoilà comment ça marche:\n\ntry (NoteDbMigrator migrator \u003d\n      migratorBuilderProvider\n          .get()\n          .setTrialMode(true)\n          .setProjects(Collections.singleton(new Project.NameKey((changeinfo.project))))\n          .build()) {\n    migrator.migrate();\n  }\n\nSo, the restriction to a project works here, but not in site program as mentioned in my comment in another change.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

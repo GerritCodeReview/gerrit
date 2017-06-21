@@ -211,28 +211,13 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void create() throws Exception {
-    TestAccount foo = accountCreator.create("foo");
-    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
-    assertThat(info.username).isEqualTo("foo");
-    if (useSsh) {
-      accountIndexedCounter.assertReindexOf(
-          foo, 3); // account creation + external ID creation + adding SSH keys
-    } else {
-      accountIndexedCounter.assertReindexOf(foo, 2); // account creation + external ID creation
-    }
+    create(2); // account creation + external ID creation
+  }
 
-    // check user branch
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-      long timestampDiffMs =
-          Math.abs(
-              c.getCommitTime() * 1000L
-                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
-    }
+  @Test
+  @UseSsh
+  public void createWithSshKeys() throws Exception {
+    create(3); // account creation + external ID creation + adding SSH keys
   }
 
   @Test
@@ -1084,6 +1069,26 @@ public class AccountIT extends AbstractDaemonTest {
     checkInfo = gApi.config().server().checkConsistency(input);
     assertThat(checkInfo.checkAccountsResult.problems).hasSize(expectedProblems.size());
     assertThat(checkInfo.checkAccountsResult.problems).containsExactlyElementsIn(expectedProblems);
+  }
+
+  public void create(int expectedKeys) throws Exception {
+    TestAccount foo = accountCreator.create("foo");
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.username).isEqualTo("foo");
+    accountIndexedCounter.assertReindexOf(foo, expectedKeys);
+
+    // check user branch
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
+      assertThat(ref).isNotNull();
+      RevCommit c = rw.parseCommit(ref.getObjectId());
+      long timestampDiffMs =
+          Math.abs(
+              c.getCommitTime() * 1000L
+                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
+      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
+    }
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

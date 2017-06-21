@@ -237,7 +237,7 @@ public abstract class AbstractDaemonTest {
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
   protected Description description;
-  protected boolean useSsh;
+  protected boolean testRequiresSsh;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -259,7 +259,7 @@ public abstract class AbstractDaemonTest {
 
   @Before
   public void assumeSshIfRequired() {
-    if (useSsh) {
+    if (testRequiresSsh) {
       // If the test uses ssh, we use assume() to make sure ssh is enabled on
       // the test suite. JUnit will skip tests annotated with @UseSsh if we
       // disable them using the command line flag.
@@ -341,8 +341,10 @@ public abstract class AbstractDaemonTest {
 
     db = reviewDbProvider.open();
 
-    useSsh = SshMode.useSsh() && (classDesc.useSsh() || methodDesc.useSsh());
-    if (useSsh && (adminSshSession == null || userSshSession == null)) {
+    testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
+    if (testRequiresSsh
+        && SshMode.useSsh()
+        && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
       initSsh(admin);
       Context ctx = newRequestContext(user);

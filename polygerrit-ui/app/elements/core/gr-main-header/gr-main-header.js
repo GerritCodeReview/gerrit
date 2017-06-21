@@ -14,33 +14,6 @@
 (function() {
   'use strict';
 
-  const ADMIN_LINKS = [
-    {
-      url: '/admin/groups',
-      name: 'Groups',
-    },
-    {
-      url: '/admin/create-group',
-      name: 'Create Group',
-      capability: 'createGroup',
-    },
-    {
-      url: '/admin/projects',
-      name: 'Projects',
-      viewableToAll: true,
-    },
-    {
-      url: '/admin/create-project',
-      name: 'Create Project',
-      capability: 'createProject',
-    },
-    {
-      url: '/admin/plugins',
-      name: 'Plugins',
-      capability: 'viewPlugins',
-    },
-  ];
-
   const DEFAULT_LINKS = [{
     title: 'Changes',
     links: [
@@ -116,8 +89,7 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
-            '_docBaseUrl)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -171,16 +143,13 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks(defaultLinks, userLinks, adminLinks, docBaseUrl) {
+    _computeLinks(defaultLinks, userLinks, docBaseUrl) {
       const links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
           title: 'Your',
           links: userLinks,
         });
-      }
-      if (!adminLinks || !adminLinks.length) {
-        adminLinks = ADMIN_LINKS.filter(link => link.viewableToAll);
       }
       const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
@@ -189,10 +158,6 @@
           links: docLinks,
         });
       }
-      links.push({
-        title: 'More',
-        links: adminLinks,
-      });
       return links;
     },
 
@@ -249,18 +214,6 @@
         this._userLinks =
             prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
       });
-      this._loadAccountCapabilities();
-    },
-
-    _loadAccountCapabilities() {
-      const params = ['createProject', 'createGroup', 'viewPlugins'];
-      return this.$.restAPI.getAccountCapabilities(params)
-          .then(capabilities => {
-            this._adminLinks = ADMIN_LINKS.filter(link => {
-              return !link.capability ||
-              capabilities.hasOwnProperty(link.capability);
-            });
-          });
     },
 
     _fixMyMenuItem(linkObj) {

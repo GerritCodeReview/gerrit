@@ -18,6 +18,7 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
+import com.googlecode.prolog_cafe.exceptions.IllegalDomainException;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
@@ -45,16 +46,30 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
- * Returns true if any of the files that match FileNameRegex have edited lines that match EditRegex
+ * Returns true if "any of" or "all" the files that match FileNameRegex
+ * have edited lines that match EditRegex. Qualifier can assume
+ * only one of the following values:
+ *
+ * "all_of": EditRegex must match with all files that match FileNameRegex
+ *
+ * "any_of": EditRegex must match at least with one of the files that
+ *           matches FileNameRegex
  *
  * <pre>
- *   'commit_edits'(+FileNameRegex, +EditRegex)
+ *   'commit_edits'(+FileNameRegex, +EditRegex, +Qualifier)
  * </pre>
  */
-public class PRED_commit_edits_2 extends Predicate.P2 {
-  public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
+public class PRED_commit_edits_3 extends Predicate.P3 {
+  private enum MatchResult {
+    Ok,
+    Pass,
+    Fail
+  }
+
+  public PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n) {
     arg1 = a1;
     arg2 = a2;
+    arg3 = a3;
     cont = n;
   }
 
@@ -76,6 +91,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
       final RevTree aTree;
       final RevTree bTree;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      final boolean allOf = isAllOf(arg3.dereference());
 
       if (pl.getOldId() != null) {
         aTree = rw.parseTree(pl.getOldId());
@@ -108,19 +124,28 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
             tA = load(aTree, newName, reader);
           }
           Text tB = load(bTree, newName, reader);
-          for (Edit edit : edits) {
-            if (tA != Text.EMPTY) {
-              String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);
-              if (editRegex.matcher(aDiff).find()) {
-                return cont;
-              }
+
+          int editIdx;
+          for (editIdx = 0; editIdx < edits.size(); ++editIdx) {
+            final Edit edit = edits.get(editIdx);
+
+            final MatchResult mrA = match(edit.getBeginA(), edit.getEndA(), tA, editRegex, allOf);
+            if (mrA == MatchResult.Ok) {
+              return cont;
             }
-            if (tB != Text.EMPTY) {
-              String bDiff = tB.getString(edit.getBeginB(), edit.getEndB(), true);
-              if (editRegex.matcher(bDiff).find()) {
-                return cont;
-              }
+
+            final MatchResult mrB = match(edit.getBeginB(), edit.getEndB(), tB, editRegex, allOf);
+            if (mrB == MatchResult.Ok) {
+              return cont;
             }
+
+            if (mrA == MatchResult.Fail || mrB == MatchResult.Fail) {
+              break;
+            }
+          }
+
+          if (editIdx == edits.size()) {
+            return cont;
           }
         }
       }
@@ -131,14 +156,45 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     return engine.fail();
   }
 
-  private Pattern getRegexParameter(Term term) {
+  private MatchResult match(int startSeq, int endSeq, Text t, Pattern regex, boolean allOf) {
+    if (t != Text.EMPTY) {
+      String diff = t.getString(startSeq, endSeq, true);
+      if (regex.matcher(diff).find()) {
+        if (!allOf) {
+          return MatchResult.Ok;
+        }
+      } else {
+        if (allOf) {
+          return MatchResult.Fail;
+        }
+      }
+    }
+
+    return MatchResult.Pass;
+  }
+
+  private void checkIsASymbolTerm(Term term) {
     if (term instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
     if (!(term instanceof SymbolTerm)) {
       throw new IllegalTypeException(this, 1, "symbol", term);
     }
+  }
+
+  private Pattern getRegexParameter(Term term) {
+    checkIsASymbolTerm(term);
+
     return Pattern.compile(term.name(), Pattern.MULTILINE);
+  }
+
+  private boolean isAllOf(Term term) {
+    checkIsASymbolTerm(term);
+
+    if (term.name() != "all_of" && term.name() != "any_of")
+      throw new IllegalDomainException(this, 3, "[any_of, all_of]", term);
+
+    return term.name() == "all_of";
   }
 
   private Text load(ObjectId tree, String path, ObjectReader reader)

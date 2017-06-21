@@ -16,6 +16,24 @@
       "revId": "1919796f7eb7e6721e131ba7b998308847825596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51eaccd_21d45893",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-21T18:15:30Z",
+      "side": 1,
+      "message": "Ahh, thanks!",
+      "parentUuid": "0f4c7e20_aa9a1158",
+      "revId": "1919796f7eb7e6721e131ba7b998308847825596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

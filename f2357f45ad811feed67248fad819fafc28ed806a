@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "986f673d_4db16a52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-21T22:43:03Z",
+      "side": 1,
+      "message": "Wrap the commit at 72 characters.",
+      "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c6d5ff8_9f642127",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -18,6 +35,29 @@
         "startChar": 8,
         "endLine": 270,
         "endChar": 29
+      },
+      "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8f3a563_1184721c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-21T22:43:03Z",
+      "side": 1,
+      "message": "Can this method be removed?",
+      "range": {
+        "startLine": 697,
+        "startChar": 4,
+        "endLine": 698,
+        "endChar": 53
       },
       "revId": "f2357f45ad811feed67248fad819fafc28ed806a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

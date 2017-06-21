@@ -1,0 +1,342 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f5cef25_9fec9583",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "This sounds misleading, since the commit message of the latest patch set is not changed.\n\nmaybe better:\n\n\"Creates a new patch set with a new commit message.\"",
+      "range": {
+        "startLine": 3139,
+        "startChar": 0,
+        "endLine": 3139,
+        "endChar": 79
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34880a44_a118cca4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Better use a real-world example for the Change-Id.",
+      "range": {
+        "startLine": 3151,
+        "startChar": 50,
+        "endLine": 3151,
+        "endChar": 71
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f8c9be6_26deb981",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Should be 200 OK. 204 No Content is only used for deletions.\nIf it\u0027s 200 OK, you can drop the example response completely.",
+      "range": {
+        "startLine": 3157,
+        "startChar": 11,
+        "endLine": 3157,
+        "endChar": 25
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4398e6d4_280ee112",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5603,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Keep the section that describe the JSON entities sorted alphabetically.",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b60572_0f53e3a0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5607,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "If there are no optional fields, just have 2 columns:\n\n[options\u003d\"header\",cols\u003d\"1,6\"]\n|\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n|Field Name|Description\n|`message` |New commit message.\n|\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22af9cc8_66f1f541",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Also add a test to check that a commit message without Change-Id succeeds if Change-Ids are not required.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 2,
+        "endLine": 1232,
+        "endChar": 73
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b542b8dc_366bf785",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "better something like: \"Create a new patch set with a new commit message.\"",
+      "range": {
+        "startLine": 194,
+        "startChar": 5,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a58c209_357bcd17",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Should this be setMessage(...)?",
+      "range": {
+        "startLine": 197,
+        "startChar": 7,
+        "endLine": 197,
+        "endChar": 14
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72a26096_f2e86669",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "[optional] Support notify and notifyDetails right away. I\u0027m sure somebody wants to control notifications for this REST endpoint later...",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51b8aed8_d59d6906",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Response\u003cString\u003e",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 95,
+        "endChar": 23
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a8b68e8_0b3b1417",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Check that input is not null. If yes fail with BadRequestException.",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef9ae81d_5c3b3062",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Check that subject is not empty.",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0358104e_f6d8c933",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Why fail with 500 ISE in this case? Maybe better ResourceConflictException or even just return ok?",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c9791dc_db640008",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Better use the same timestamp that is provided to BatchUpdate.",
+      "range": {
+        "startLine": 135,
+        "startChar": 81,
+        "endLine": 135,
+        "endChar": 97
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6fcccc2_961805dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Response.ok(\"ok\")",
+      "range": {
+        "startLine": 144,
+        "startChar": 11,
+        "endLine": 144,
+        "endChar": 26
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49b444fd_b26fc6bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T09:01:10Z",
+      "side": 1,
+      "message": "Also fail if multiple Change-Ids are specified in the footers.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

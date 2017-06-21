@@ -50,6 +50,29 @@
     },
     {
       "key": {
+        "uuid": "592623f9_11857edf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T13:55:31Z",
+      "side": 1,
+      "message": "Should be there only once?",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b83bf4e5_178eb35f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountConfig.java",
         "patchSetId": 2

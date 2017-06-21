@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d45e03ae_1d858575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-21T11:20:12Z",
+      "side": 1,
+      "message": "one \"more\" too much\n\nBtw, it adds two new predicates so better write \"two new\" instead of \"more\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "7c1e3aa0cf66ff543be6f2ca3f07c1bac010a793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f82c15b_1018c23a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-21T11:20:12Z",
+      "side": 1,
+      "message": "Please split this into two changes: the first change which extends the existing commit_edits predicate and the second change which introduces two new predicates.",
+      "revId": "7c1e3aa0cf66ff543be6f2ca3f07c1bac010a793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07072509_4d4cff8b",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-21T11:20:12Z",
+      "side": 1,
+      "message": "Looks like the code duplication keeps increasing. One more reason to split this change into two changes or even three changes (where the first one refactors the existing code to reduce the code duplication).",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 13
+      },
+      "revId": "7c1e3aa0cf66ff543be6f2ca3f07c1bac010a793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

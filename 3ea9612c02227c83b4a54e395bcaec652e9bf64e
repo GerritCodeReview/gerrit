@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fed1618_86f87fc3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 0,
+      "message": "Do you happen to know why this was present? Don\u0027t we need it anymore?",
+      "range": {
+        "startLine": 827,
+        "startChar": 6,
+        "endLine": 829,
+        "endChar": 5
+      },
+      "revId": "3ea9612c02227c83b4a54e395bcaec652e9bf64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

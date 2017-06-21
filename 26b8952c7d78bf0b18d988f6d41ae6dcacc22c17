@@ -1,0 +1,763 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a7b522a_f416f3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "That isn\u0027t true. A few classes miss the annotation (e.g. FileTable). In addition, only marking the method/constructor arguments with @Nullable but not the fields breaks the chain for code analyzers.\n\nTo be honest, I would rather prefer to only support null where necessary. I got the impression that most classes could safely be transferred to a non-null usage of \u0027project\u0027. Thus, a lot of boilerplate code and confusion (e.g. \u0027Why is RebaseAction not protected against null for project but RestoreAction is?\u0027) could be avoided.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 54
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3fc9677_c1628452",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Don\u0027t we need to integrate the project name here too?",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 36
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52d0948e_5bb12a1d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "optional: Could be omitted.",
+      "range": {
+        "startLine": 174,
+        "startChar": 37,
+        "endLine": 174,
+        "endChar": 47
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24016269_99ddf4c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Please add the class name to this static method call as omitting it reduces readability.",
+      "range": {
+        "startLine": 182,
+        "startChar": 40,
+        "endLine": 182,
+        "endChar": 60
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8154804_1ff0e24a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "If the string consists only of \u0027project/+/changeId\u0027, wouldn\u0027t this throw an IndexOutOfBoundsException?",
+      "range": {
+        "startLine": 409,
+        "startChar": 11,
+        "endLine": 409,
+        "endChar": 52
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8c805aa_d9982497",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "At the moment, this class is just a utility class and should prevent inheritance and instantiation by specifying a private constructor.\n\nThere\u0027s a better alternative, though: Getting rid of this class by putting more logic into what is now called \u0027Result\u0027. \u0027Result\u0027 could have a factory method which contains the logic to parse the project and changeId from a string.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e083589f_ca4c6158",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "As this class is a bit more than just a DTO, I would prefer getters in combination with private fields. The getter for the project should ideally return an Optional.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f79483_893cffb0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "The visibility should be lowered to package-private or even to private if possible.",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8a0cc2_1c5da1b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "I found this code several times and each time it is implemented a little bit differently even though the result is the same. Would it be possible to add a common method?",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 91
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d45e952_552524ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027/+/\u0027?",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24310034_b4de0c46",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Why is the path mentioned in this example but not in the one which includes the project? The implementation is transparent regarding this suffix.",
+      "range": {
+        "startLine": 91,
+        "startChar": 73,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd138f4_b8c47ffa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "If this code was extracted to a method, couldn\u0027t it be reused for the case above?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00491930_35810ea6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "In addition to the suggestion above, it would be sufficient to have this code once in this method. The structure of this method would be:\n1. Test whether the project/change delimiter is found.\n2. If so, extract the project and remember the rest of the token. If not, set project to null.\n3. Try to extract the changeId.\n4. If successful, return the new Result. If not, throw the exception.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb23d4c_31489e99",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeIdParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "What about returning an OptionalInt or Optional\u003cInteger\u003e?",
+      "range": {
+        "startLine": 110,
+        "startChar": 17,
+        "endLine": 110,
+        "endChar": 24
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f9b7ca_22a1d588",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "The other constructors use a different order of the arguments.",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 30
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5bbb74_fb36345c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "getPatchSetId() uses changeInfo. Would it be safe to use it here too and call projectNameKey() on it? If so, a non-null value could be returned.",
+      "range": {
+        "startLine": 278,
+        "startChar": 11,
+        "endLine": 278,
+        "endChar": 18
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612230ab_694e35c4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Should this be \u0027/+/\u0027?",
+      "range": {
+        "startLine": 329,
+        "startChar": 28,
+        "endLine": 329,
+        "endChar": 29
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fb80a53_4d7c4294",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Please see this comment: https://gerrit-review.googlesource.com/c/108592/4/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java#1112.",
+      "range": {
+        "startLine": 472,
+        "startChar": 26,
+        "endLine": 472,
+        "endChar": 65
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "812c9e1c_23d8d4e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Why not use info.projectNameKey() here?",
+      "range": {
+        "startLine": 552,
+        "startChar": 31,
+        "endLine": 552,
+        "endChar": 38
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da74634d_c38a46fb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Why not use info.projectNameKey() here and below?",
+      "range": {
+        "startLine": 649,
+        "startChar": 32,
+        "endLine": 649,
+        "endChar": 39
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0320ac0_335b3418",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Could we use changeInfo.projectNameKey() here and below to have a non-null value?",
+      "range": {
+        "startLine": 687,
+        "startChar": 28,
+        "endLine": 687,
+        "endChar": 35
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adacf91f_2433487e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Is it intended that the search starts at \u0027f\u0027 when token is \u0027project/+/changeId/file.txt\u0027? Wouldn\u0027t this result in not recognizing that the URL contains a file name?",
+      "range": {
+        "startLine": 845,
+        "startChar": 31,
+        "endLine": 845,
+        "endChar": 60
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0905bd3_067cc4d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Can\u0027t we use info.project() here and remove the if-condition?",
+      "range": {
+        "startLine": 1075,
+        "startChar": 19,
+        "endLine": 1075,
+        "endChar": 32
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a87a495_1081ab60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "If loadConfigInfo made a call to info.projectNameKey() and passed that value down to this method, a non-null object could be used here. The same holds for the usages of \u0027project\u0027 below.",
+      "range": {
+        "startLine": 1112,
+        "startChar": 25,
+        "endLine": 1112,
+        "endChar": 64
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbab78bb_191c3545",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Isn\u0027t this always null?",
+      "range": {
+        "startLine": 78,
+        "startChar": 25,
+        "endLine": 78,
+        "endChar": 64
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "145dc182_5e994bd7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Can this value ever be null?",
+      "range": {
+        "startLine": 226,
+        "startChar": 54,
+        "endLine": 226,
+        "endChar": 61
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a415dba0_d17cfede",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Can this value ever be null?",
+      "range": {
+        "startLine": 87,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d855845f_46618dd0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027project, id, commit, \"cherrypick\"\u0027.",
+      "range": {
+        "startLine": 223,
+        "startChar": 9,
+        "endLine": 223,
+        "endChar": 33
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1203a5de_82e77be4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Why null?",
+      "range": {
+        "startLine": 727,
+        "startChar": 45,
+        "endLine": 727,
+        "endChar": 49
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4c9c471_299b216f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Please add your name to the ToDo.",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 11
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9f56ea_4129f2de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "When do we use this variant and when do we use \u0027project/+/changeId\u0027?",
+      "range": {
+        "startLine": 262,
+        "startChar": 17,
+        "endLine": 262,
+        "endChar": 58
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9efa502c_ee82762d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ChangeLink.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "The other constructors use a different order of the arguments. Shouldn\u0027t we stay consistent?",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 97
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82d5fe19_4a0e044c",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/change/ChangeIdParserTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-21T10:01:24Z",
+      "side": 1,
+      "message": "Could you swap the order? Thus, the tests would be easier to read.",
+      "range": {
+        "startLine": 82,
+        "startChar": 46,
+        "endLine": 82,
+        "endChar": 78
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

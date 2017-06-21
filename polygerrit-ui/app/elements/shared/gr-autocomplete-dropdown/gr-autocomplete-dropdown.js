@@ -160,7 +160,8 @@
 
     _resetCursorStops() {
       Polymer.dom.flush();
-      this._suggestionEls = this.$.suggestions.querySelectorAll('li');
+      this._suggestionEls =
+          Polymer.dom(this.$.suggestions.root).querySelectorAll('li');
     },
 
     _resetCursorIndex() {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b7916fe_8976420e",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T21:13:31Z",
+      "side": 1,
+      "message": "Is this going to be used anywhere? Right now it looks like it\u0027s not.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 20
+      },
+      "revId": "e7ddfa6983b224abfc10740ca3b6d41236ec1f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b58b25f4_a488fbf4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T21:13:31Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like destroy is getting called. Should it?",
+      "revId": "e7ddfa6983b224abfc10740ca3b6d41236ec1f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

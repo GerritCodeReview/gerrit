@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Throwables;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.patch.EditTransformer.ContextAwareEdit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -195,12 +197,13 @@ public class PatchListLoader implements Callable<PatchList> {
                 b,
                 comparisonType));
       }
-      Multimap<String, Edit> editsDueToRebasePerFilePath =
+      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath =
           key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF
               ? getEditsDueToRebasePerFilePath(aCommit, b)
               : ImmutableMultimap.of();
       for (DiffEntry diffEntry : diffEntries) {
-        Set<Edit> editsDueToRebase = getEditsDueToRebase(editsDueToRebasePerFilePath, diffEntry);
+        Set<ContextAwareEdit> editsDueToRebase =
+            getEditsDueToRebase(editsDueToRebasePerFilePath, diffEntry);
         Optional<PatchListEntry> patchListEntry =
             getPatchListEntry(reader, df, diffEntry, aTree, bTree, editsDueToRebase);
         patchListEntry.ifPresent(entries::add);
@@ -211,11 +214,11 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   /**
-   * Identifies the {@code Edit}s which are present between {@code commitA} and {@code commitB} due
-   * to other commits in between those two. {@code Edit}s which cannot be clearly attributed to
-   * those other commits (because they overlap with modifications introduced by {@code commitA} or
-   * {@code commitB}) are omitted from the result. The {@code Edit}s are expressed as differences
-   * between {@code treeA} of {@code commitA} and {@code treeB} of {@code commitB}.
+   * Identifies the edits which are present between {@code commitA} and {@code commitB} due to other
+   * commits in between those two. Edits which cannot be clearly attributed to those other commits
+   * (because they overlap with modifications introduced by {@code commitA} or {@code commitB}) are
+   * omitted from the result. The edits are expressed as differences between {@code treeA} of {@code
+   * commitA} and {@code treeB} of {@code commitB}.
    *
    * <p><b>Note:</b> If one of the commits is a merge commit, an empty {@code Multimap} will be
    * returned.
@@ -239,10 +242,10 @@ public class PatchListLoader implements Callable<PatchList> {
    *
    * @param commitA the commit defining {@code treeA}
    * @param commitB the commit defining {@code treeB}
-   * @return the {@code Edit}s per file path they modify in {@code treeB}
-   * @throws PatchListNotAvailableException if the {@code Edit}s can't be identified
+   * @return the edits per file path they modify in {@code treeB}
+   * @throws PatchListNotAvailableException if the edits can't be identified
    */
-  private Multimap<String, Edit> getEditsDueToRebasePerFilePath(
+  private Multimap<String, ContextAwareEdit> getEditsDueToRebasePerFilePath(
       RevCommit commitA, RevCommit commitB) throws PatchListNotAvailableException {
     if (commitA == null
         || isRootOrMergeCommit(commitA)
@@ -280,8 +283,8 @@ public class PatchListLoader implements Callable<PatchList> {
     return ObjectId.equals(commitA.getParent(0), commitB.getParent(0));
   }
 
-  private static Set<Edit> getEditsDueToRebase(
-      Multimap<String, Edit> editsDueToRebasePerFilePath, DiffEntry diffEntry) {
+  private static Set<ContextAwareEdit> getEditsDueToRebase(
+      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath, DiffEntry diffEntry) {
     if (editsDueToRebasePerFilePath.isEmpty()) {
       return ImmutableSet.of();
     }
@@ -299,18 +302,28 @@ public class PatchListLoader implements Callable<PatchList> {
       DiffEntry diffEntry,
       RevTree treeA,
       RevTree treeB,
-      Set<Edit> editsDueToRebase)
+      Set<ContextAwareEdit> editsDueToRebase)
       throws IOException {
     FileHeader fileHeader = toFileHeader(key, diffFormatter, diffEntry);
     long oldSize = getFileSize(objectReader, diffEntry.getOldMode(), diffEntry.getOldPath(), treeA);
     long newSize = getFileSize(objectReader, diffEntry.getNewMode(), diffEntry.getNewPath(), treeB);
+    Set<Edit> contentEditsDueToRebase = getContentEdits(editsDueToRebase);
     PatchListEntry patchListEntry =
-        newEntry(treeA, fileHeader, editsDueToRebase, newSize, newSize - oldSize);
+        newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
     // All edits in a file are due to rebase -> exclude the file from the diff.
-    if (patchListEntry.getEditsDueToRebase().containsAll(patchListEntry.getEdits())) {
+    if (EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
       return Optional.empty();
     }
     return Optional.of(patchListEntry);
+  }
+
+  private static Set<Edit> getContentEdits(Set<ContextAwareEdit> editsDueToRebase) {
+    return editsDueToRebase
+        .stream()
+        .map(ContextAwareEdit::toEdit)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(toSet());
   }
 
   private ComparisonType getComparisonType(RevObject a, RevCommit b) {

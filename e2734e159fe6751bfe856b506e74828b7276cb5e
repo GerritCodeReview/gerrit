@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5af2183f_3c66a7e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T13:39:54Z",
+      "side": 1,
+      "message": "We use it to avoid reindexing, because at this place we can\u0027t reindex. Now the reindexing is done by ReindexAfterRefUpdate and we can avoid invoking it by binding GitReferenceUpdated.DISABLED for GitReferenceUpdated. At least I think this should work. I will verify this before removing the -2.",
+      "parentUuid": "e83879d0_de405b3e",
+      "range": {
+        "startLine": 37,
+        "startChar": 67,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b83bf4e5_178eb35f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountConfig.java",
         "patchSetId": 2

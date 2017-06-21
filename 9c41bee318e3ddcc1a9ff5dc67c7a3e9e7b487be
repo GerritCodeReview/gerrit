@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5d3ab2a7_0bbe9d23",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T12:10:26Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "9e1b8b73_747c8a18",
+      "revId": "9c41bee318e3ddcc1a9ff5dc67c7a3e9e7b487be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f894f7b_f12fffb4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java",
         "patchSetId": 2

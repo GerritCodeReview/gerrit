@@ -321,7 +321,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       }
       accountsUpdate
           .create()
-          .atomicUpdate(
+          .update(
               db,
               id,
               a -> {

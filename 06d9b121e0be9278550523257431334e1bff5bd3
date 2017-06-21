@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b6d1bf80_00202061",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T12:09:27Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t mind renaming it, but I guess I also don\u0027t see what the\n \u003e problem is.\n\nI would prefer not to have same classes in different packages. Trying to open them in the IDE would end up with package selection. This is annoying.",
+      "parentUuid": "e5f80dbe_9680dcd5",
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "643a3cd4_c38c8cc5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
         "patchSetId": 1
@@ -130,6 +148,30 @@
       "side": 1,
       "message": "\u003e I adjusted this to restrict to single project. On a site with thousands of projects we certainly want to support restriction of migration for only a small number of projects.\n\nThere is no such thing as migrating a small number of projects. The migration simply doesn\u0027t work that way.\n\nThere is a single global readChanges bit in NotesMigration, which is either on or off. If it\u0027s on, then a live server always attempts to read the change from NoteDb, and compares the NoteDb state to ReviewDb. If they don\u0027t match, it *immediately* auto-rebuilds the change and stores the result in NoteDb.\n\nSo, if we implemented migrating to NotesMigrationState.READ_WRITE_NO_SEQUENCE but only converted changes in a subset of projects, what would actually happen is all changes not in that subset of projects would appear out-of-date and would be auto-rebuilt on first read.\n\n* migrate() means: do everything necessary so we can advance the NotesMigrationState\n* rebuild() means: don\u0027t touch the NotesMigrationState, just copy data from ReviewDb to NoteDb (possibly for a subset of projects)\n\nThat\u0027s exactly why this error exists:\n\n\u003e //        \"cannot set changes or projects during auto-migration; call rebuild() instead\");\n\nI am not completely ruling out the possibility of extending NotesMigration to enable reads on a per-project basis, but it would be a big departure from current behavior and potentially a lot of work. And we didn\u0027t need it for googlesource.com.",
       "parentUuid": "b9850178_6fc0239b",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3af10d0_f7daf805",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T12:09:27Z",
+      "side": 1,
+      "message": "\u003e I am not completely ruling out the possibility of extending\n \u003e NotesMigration to enable reads on a per-project basis, but it would\n \u003e be a big departure from current behavior and potentially a lot of\n \u003e work. And we didn\u0027t need it for googlesource.com.\n\nOK. Thanks for clarifying. Let\u0027s wait and see whether or not we really need that.",
+      "parentUuid": "51a4a09e_1aae41be",
       "range": {
         "startLine": 59,
         "startChar": 4,

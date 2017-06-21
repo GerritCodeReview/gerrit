@@ -229,9 +229,9 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account atomicUpdate(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
+  public Account update(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
       throws OrmException, IOException, ConfigInvalidException {
-    return atomicUpdate(db, accountId, ImmutableList.of(consumer));
+    return update(db, accountId, ImmutableList.of(consumer));
   }
 
   /**
@@ -243,9 +243,11 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param consumers consumers to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws OrmException if updating the account fails
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account atomicUpdate(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
+  public Account update(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
       throws OrmException, IOException, ConfigInvalidException {
     if (consumers.isEmpty()) {
       return null;

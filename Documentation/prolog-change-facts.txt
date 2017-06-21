@@ -90,11 +90,28 @@ the following table.
 |`commit_delta/4`           |`commit_delta('\\.java$', T, P, O)`
     |Like `commit_delta/3` plus the old path (via `O`) if applicable.
 
-|`commit_edits/2`           |`commit_edits('/pom.xml$', 'dependency')`
-    |True if any of the files matched by the file name regex (first parameter)
-    have edited lines that match the regex in the second parameter. This
-    example will be true if there is a modification of a `pom.xml` file such
-    that an edited line contains or contained the string `'dependency'`.
+.2+|`commit_edits/3`        |`commit_edits('/pom[a-z].xml$', 'dependency', 'any_of')`
+    .2+|True if any or all the files matched by the file name regex (first parameter)
+    have edited lines that match the regex in the second parameter. The third parameter
+    specifies only one of the following qualifiers:
+
+    `all_of`: the second parameter must match with all files that matched by the file
+    name regex
+
+    `any_of`: the second parameter must match at least with one of the files matched by
+    the file name regex
+
+    The first example will be true if there is a modification of any of the
+    `poma.xml` .. `pomz.xml` files such that an edited line contains or
+    contained the string `'dependency'`.
+
+    The second example will be true if there is a modification in all
+    `poma.xml` .. `pomz.xml` files such that all edited lines contain and
+    contained the string `'dependency'`.
+                            |`commit_edits('/pom[a-z].xml$', 'dependency', 'all_of')`
+
+|`commit_edits/2`           |`commit_edits('/pom[a-z].xml$', 'dependency')`
+    |Same as commit_edits/3, `any_of` will be assumed as qualifier.
 
 |`commit_message_matches/1` |`commit_message_matches('^Bug fix')`
     |True if the commit message matches the given regex.

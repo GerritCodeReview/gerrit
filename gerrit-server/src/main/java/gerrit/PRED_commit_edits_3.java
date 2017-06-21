@@ -18,6 +18,7 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
+import com.googlecode.prolog_cafe.exceptions.IllegalDomainException;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
@@ -45,16 +46,115 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
- * Returns true if any of the files that match FileNameRegex have edited lines that match EditRegex
+ * Returns true if "any of" or "all" the files that match FileNameRegex
+ * have edited lines that match EditRegex. Qualifier can assume
+ * only one of the following values:
+ *
+ * "all_of": EditRegex must match with all files that match FileNameRegex
+ *
+ * "any_of": EditRegex must match at least with one of the files that
+ *           matches FileNameRegex
  *
  * <pre>
- *   'commit_edits'(+FileNameRegex, +EditRegex)
+ *   'commit_edits'(+FileNameRegex, +EditRegex, +Qualifier)
  * </pre>
  */
-public class PRED_commit_edits_2 extends Predicate.P2 {
-  public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
+public class PRED_commit_edits_3 extends Predicate.P3 {
+  private static final String ALL_OF = "all_of";
+  private static final String ANY_OF = "any_of";
+
+  private interface Matcher {
+    /**
+     * The following values enumerate the possible outcome of a match.
+     *
+     * OK: the match is enough to make the predicate TRUE, no need to check for
+     *     other diffs. That never happens with the ALL_OF predicate.
+     *
+     * EVALUATE_NEXT: the match is not enough to make the predicate TRUE.
+     * That means:
+     * -   in the ALL_OF case, that the match is OK, but all other diffs must be checked too.
+     * -   in the ANY_OF case, that the match fails, but another diff could match,
+     *     so the loop must continue.
+     *
+     * EMPTY: there's no diff to evaluate.
+     *
+     * FAIL: the match fails, and there's no need to check other diffs,
+     *       the predicate is FALSE. That never happens with the ANY_OF predicate.
+     *
+     * If all diffs are EMPTY, whatever is the qualifier, the predicate is FALSE.
+     */
+    public enum Result {
+      OK,
+      EVALUATE_NEXT,
+      EMPTY,
+      FAIL
+    }
+
+    Result match(int startSeq, int endSeq);
+  }
+
+  private class BaseMatcher {
+    private Text text;
+    private Pattern regex;
+
+    protected BaseMatcher(Text t, Pattern r) {
+      text = t;
+      regex = r;
+    }
+
+    protected Text getText() {
+      return text;
+    }
+
+    protected Pattern getRegex() {
+      return regex;
+    }
+  }
+
+  private class MatchAnyOf extends BaseMatcher implements Matcher {
+    public MatchAnyOf(Text t, Pattern r) {
+      super(t, r);
+    }
+
+    @Override
+    public Matcher.Result match(int startSeq, int endSeq) {
+      if (getText() != Text.EMPTY) {
+        String diff = getText().getString(startSeq, endSeq, true);
+        if (getRegex().matcher(diff).find()) {
+          return Matcher.Result.OK;
+        } else {
+          return Matcher.Result.EVALUATE_NEXT;
+        }
+      } else {
+        return Matcher.Result.EMPTY;
+      }
+    }
+  }
+
+  private class MatchAllOf extends BaseMatcher implements Matcher {
+    public MatchAllOf(Text t, Pattern r) {
+      super(t, r);
+    }
+
+    @Override
+    public Matcher.Result match(int startSeq, int endSeq) {
+      if (getText() != Text.EMPTY) {
+        String diff = getText().getString(startSeq, endSeq, true);
+        if (!getRegex().matcher(diff).find()) {
+          return Matcher.Result.FAIL;
+        } else {
+          return Matcher.Result.EVALUATE_NEXT;
+        }
+      } else {
+        return Matcher.Result.EMPTY;
+      }
+    }
+  }
+
+  public PRED_commit_edits_3(Term a1, Term a2, Term a3, Operation n) {
     arg1 = a1;
     arg2 = a2;
+    arg3 = a3;
     cont = n;
   }
 
@@ -76,6 +176,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
       final RevTree aTree;
       final RevTree bTree;
       final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      boolean allOf = isAllOf(arg3.dereference());
 
       if (pl.getOldId() != null) {
         aTree = rw.parseTree(pl.getOldId());
@@ -86,6 +187,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
       }
       bTree = bCommit.getTree();
 
+      boolean atLeastOneDiff = false;
       for (PatchListEntry entry : pl.getPatches()) {
         String newName = entry.getNewName();
         String oldName = entry.getOldName();
@@ -101,28 +203,45 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
           if (edits.isEmpty()) {
             continue;
           }
+
           Text tA;
           if (oldName != null) {
             tA = load(aTree, oldName, reader);
           } else {
             tA = load(aTree, newName, reader);
           }
+          Matcher matcherA = (allOf)? new MatchAllOf(tA, editRegex) : new MatchAnyOf(tA, editRegex);
+
           Text tB = load(bTree, newName, reader);
+          Matcher matcherB = (allOf)? new MatchAllOf(tB, editRegex) : new MatchAnyOf(tB, editRegex);
+
           for (Edit edit : edits) {
-            if (tA != Text.EMPTY) {
-              String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);
-              if (editRegex.matcher(aDiff).find()) {
-                return cont;
-              }
+            Matcher.Result mrA = matcherA.match(edit.getBeginA(), edit.getEndA());
+            if (mrA == Matcher.Result.OK) {
+              return cont;
             }
-            if (tB != Text.EMPTY) {
-              String bDiff = tB.getString(edit.getBeginB(), edit.getEndB(), true);
-              if (editRegex.matcher(bDiff).find()) {
-                return cont;
-              }
+
+            Matcher.Result mrB = matcherB.match(edit.getBeginB(), edit.getEndB());
+            if (mrB == Matcher.Result.OK) {
+              return cont;
+            }
+
+            if (mrA == Matcher.Result.FAIL || mrB == Matcher.Result.FAIL) {
+              return engine.fail();
+            }
+
+            if (mrA != Matcher.Result.EMPTY || mrB != Matcher.Result.EMPTY) {
+              atLeastOneDiff = true;
             }
           }
         }
+      }
+
+      /* When using the ALL_OF qualifier, if we had at least one EVALUATE_NEXT,
+       * the predicate is TRUE.
+       */
+      if (atLeastOneDiff && allOf) {
+        return cont;
       }
     } catch (IOException err) {
       throw new JavaException(this, 1, err);
@@ -131,14 +250,28 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     return engine.fail();
   }
 
-  private Pattern getRegexParameter(Term term) {
+  private void checkIsASymbolTerm(Term term) {
     if (term instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
     }
     if (!(term instanceof SymbolTerm)) {
       throw new IllegalTypeException(this, 1, "symbol", term);
     }
+  }
+
+  private Pattern getRegexParameter(Term term) {
+    checkIsASymbolTerm(term);
+
     return Pattern.compile(term.name(), Pattern.MULTILINE);
+  }
+
+  private boolean isAllOf(Term term) {
+    checkIsASymbolTerm(term);
+
+    if (!term.name().equals(ALL_OF) && !term.name().equals(ANY_OF))
+      throw new IllegalDomainException(this, 3, String.format("[%s, %s]", ANY_OF, ALL_OF), term);
+
+    return term.name().equals(ALL_OF);
   }
 
   private Text load(ObjectId tree, String path, ObjectReader reader)

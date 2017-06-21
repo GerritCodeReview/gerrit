@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76474e03_95fadd0d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-21T17:41:52Z",
+      "side": 1,
+      "message": "Mmmhhh, that\u0027s wrong. I have to rewrite it.",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 21
+      },
+      "revId": "d4618b480f7c31ccaa2c8e5532550e7aecbdf58f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

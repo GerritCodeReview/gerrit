@@ -46,6 +46,30 @@
       "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aba6a97_d4a3cb63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-21T06:32:37Z",
+      "side": 1,
+      "message": "ffs. new eclipse workspace.\n\nthanks for fixing it.",
+      "parentUuid": "8cef9140_dd877a51",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 1
+      },
+      "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

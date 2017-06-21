@@ -186,7 +186,7 @@ public class AccountManager {
 
     if (!accountUpdates.isEmpty()) {
       Account account =
-          accountsUpdateFactory.create().atomicUpdate(db, user.getAccountId(), accountUpdates);
+          accountsUpdateFactory.create().update(db, user.getAccountId(), accountUpdates);
       if (account == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
@@ -365,7 +365,7 @@ public class AccountManager {
         if (who.getEmailAddress() != null) {
           accountsUpdateFactory
               .create()
-              .atomicUpdate(
+              .update(
                   db,
                   to,
                   a -> {
@@ -434,7 +434,7 @@ public class AccountManager {
         if (who.getEmailAddress() != null) {
           accountsUpdateFactory
               .create()
-              .atomicUpdate(
+              .update(
                   db,
                   from,
                   a -> {

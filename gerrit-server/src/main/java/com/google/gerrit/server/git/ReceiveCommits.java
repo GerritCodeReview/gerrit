@@ -2791,7 +2791,7 @@ public class ReceiveCommits {
             Account account =
                 accountsUpdate
                     .create()
-                    .atomicUpdate(
+                    .update(
                         db,
                         user.getAccountId(),
                         a -> {

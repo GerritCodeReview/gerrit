@@ -63,7 +63,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     Account account =
         accountsUpdate
             .create()
-            .atomicUpdate(
+            .update(
                 dbProvider.get(),
                 rsrc.getUser().getAccountId(),
                 a -> {

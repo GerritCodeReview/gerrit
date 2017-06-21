@@ -20,11 +20,14 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
@@ -144,6 +147,10 @@ public class DynamicOptions {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
 
+  protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>
+      mergedClByCls = Collections.synchronizedMap(
+          new WeakHashMap<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>());
+
   protected Object bean;
   protected Map<String, DynamicBean> beansByPlugin;
   protected Injector injector;
@@ -185,7 +192,7 @@ public class DynamicOptions {
     if (beanCl != coreCl) { // bean from a plugin?
       ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
       if (beanCl != dynamicBeanCl) { // in a different plugin?
-        loader = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+        loader = getMergedClassLoader(beanCl, dynamicBeanCl);
       }
     }
 
@@ -216,6 +223,27 @@ public class DynamicOptions {
     }
 
     return dynamicBean;
+  }
+
+  protected ClassLoader getMergedClassLoader(ClassLoader beanCl,
+      ClassLoader dynamicBeanCl) {
+    Map<ClassLoader, WeakReference<ClassLoader>> mergedClByCl =
+        mergedClByCls.get(beanCl);
+    if (mergedClByCl == null) {
+      mergedClByCl = Collections.synchronizedMap(
+          new WeakHashMap<ClassLoader, WeakReference<ClassLoader>>());
+      mergedClByCls.put(beanCl, mergedClByCl);
+    }
+    WeakReference<ClassLoader> mergedClRef = mergedClByCl.get(dynamicBeanCl);
+    ClassLoader mergedCl = null;
+    if (mergedClRef != null) {
+      mergedCl = mergedClRef.get();
+    }
+    if (mergedCl == null) {
+      mergedCl = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+      mergedClByCl.put(dynamicBeanCl, new WeakReference(mergedCl));
+    }
+    return mergedCl;
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {

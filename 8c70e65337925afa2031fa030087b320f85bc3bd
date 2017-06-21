@@ -57,6 +57,30 @@
       "revId": "8c70e65337925afa2031fa030087b320f85bc3bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb50867c_39c86d23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T14:41:49Z",
+      "side": 1,
+      "message": "Yes, null here means the validation is skipped. For now having an invalid preferred email doesn\u0027t prevent loading the account. When an invalid preferred email is detected we only write a warning to the log.\n\nAs a next step I would ignore an invalid preferred email address on loading of the account. This means the account can still be loaded by the preferred email field will not be set. For this some tests need to be adapted as they set invalid preferred email addresses and rely on it being set on account load.\n\nI don\u0027t think that loading the account should ever fail with a ValidationException in this case, but it\u0027s something that the account consistency checker should report.",
+      "parentUuid": "8b7f615b_4cf118ed",
+      "range": {
+        "startLine": 97,
+        "startChar": 54,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "8c70e65337925afa2031fa030087b320f85bc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

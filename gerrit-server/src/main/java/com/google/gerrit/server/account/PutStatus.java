@@ -84,7 +84,7 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     Account account =
         accountsUpdate
             .create()
-            .atomicUpdate(
+            .update(
                 dbProvider.get(),
                 user.getAccountId(),
                 a -> a.setStatus(Strings.nullToEmpty(newStatus)));

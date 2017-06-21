@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1f12cc2_9b6c0001",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T19:30:58Z",
+      "side": 1,
+      "message": "Changed to viewableByAll",
+      "parentUuid": "909b0453_bf7b09d1",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6be9cd1_f5f67e64",
         "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2017-06-21T18:22:15Z",
       "side": 1,
       "message": "Looks like it\u0027s used in one place only, when reloading.\nAlternatively, you could do getAccount().then(() \u003d\u003e this._loadAccountCapabilities())",
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5775c128_5f61d7cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T19:30:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6be9cd1_f5f67e64",
       "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -56,6 +98,24 @@
       "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab5ce12_0a592715",
+        "filename": "polygerrit-ui/app/elements/shared/gr-admin-links/gr-admin-links.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-21T19:30:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5db28854_b7bd491b",
+      "revId": "fb2982470f98e4bfc0fd9811b6c32cabb244d8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -118,6 +118,30 @@
       "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f663fc60_0e18c140",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-21T06:44:16Z",
+      "side": 1,
+      "message": "Thanks, I overlooked to switch to the right tab on the change screen.",
+      "parentUuid": "bd7a4fbe_553a6516",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 1
+      },
+      "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

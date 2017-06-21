@@ -22,6 +22,30 @@
       "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31d00b1_bb27ce5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T19:36:23Z",
+      "side": 1,
+      "message": "Any change to the set of files in a PatchListEntry theoretically requires a reindex, because those entries are directly copied into the PATH fields in the index. In the past I think we have not done this, since it\u0027s expensive to churn the cache and people are for the most part unlikely to notice.\n\nThe purpose of the DiffSummaryCache is so it can be smaller than the PatchListCache, such that we don\u0027t flush the PatchListCache when reindexing all changes. For googlesource.com we just completely disable this cache, because our PatchListCache is infinitely sized, and our reindexing doesn\u0027t happen offline so we don\u0027t care if it takes longer than usual.\n\nI think you should ask Saša what he thinks.",
+      "parentUuid": "5ee7da87_63f7f18e",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

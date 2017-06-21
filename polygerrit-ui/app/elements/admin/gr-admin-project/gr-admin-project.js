@@ -29,6 +29,10 @@
       value: 'FAST_FORWARD_ONLY',
       label: 'Fast forward only',
     },
+    rebaseAlways: {
+      value: 'REBASE_ALWAYS',
+      label: 'Rebase Always',
+    },
     rebaseIfNecessary: {
       value: 'REBASE_IF_NECESSARY',
       label: 'Rebase if necessary',

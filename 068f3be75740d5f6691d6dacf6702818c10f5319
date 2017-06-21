@@ -483,6 +483,24 @@
     },
     {
       "key": {
+        "uuid": "bf45bb5e_a5f57387",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T13:05:15Z",
+      "side": 1,
+      "message": "No, the call to the method will fail with NPE since input is null and it tries to access input.message",
+      "parentUuid": "cda647ab_d1a339a2",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef9ae81d_5c3b3062",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 9
@@ -512,6 +530,24 @@
       "side": 1,
       "message": "This is done in the method. I\u0027ve renamed it to make that clearer.",
       "parentUuid": "ef9ae81d_5c3b3062",
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a0fbc2d_18f7657a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T13:05:15Z",
+      "side": 1,
+      "message": "Hmm what if input.message \u003d \"\\n\\nChange-Id: I465d29f567f827868928b178037e26313e2b6cec\"?\n\nBelow in ensureCanEditCommitMessage you already parse it as RevCommit. I was thinking you could check that revCommit.getShortMessage() is non-null and non-empty.",
+      "parentUuid": "ef92ce73_7b9d2fc4",
       "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -640,6 +676,30 @@
       "writtenOn": "2017-06-21T09:01:10Z",
       "side": 1,
       "message": "Also fail if multiple Change-Ids are specified in the footers.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "068f3be75740d5f6691d6dacf6702818c10f5319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0d30ad_79a00891",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-21T13:05:15Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "49b444fd_b26fc6bf",
       "range": {
         "startLine": 193,
         "startChar": 4,

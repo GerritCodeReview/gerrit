@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e5f80dbe_9680dcd5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T11:47:38Z",
+      "side": 1,
+      "message": "\u003e Should the pgm test be preserved?\n\nYes, there are at least two specific codepaths I want to exercise:\n\n* Injector setup.\n* Writing migration state back to gerrit.config.\n\n\u003e if yes, can we think of different names here or there? Currently two classes exist with the same name in pgm and notedb packages:\n\u003e \n\u003e * gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java\n\u003e * gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/MigrateToNoteDbIT.java\n\u003e \n\u003e s#notedb/MigrateToNoteDb#notedb/MigrateToNoteDbInRunningServer#?\n\nI don\u0027t mind renaming it, but I guess I also don\u0027t see what the problem is.",
+      "parentUuid": "7a61967e_4e1d52f5",
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "643a3cd4_c38c8cc5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
         "patchSetId": 1
@@ -88,6 +106,30 @@
       "writtenOn": "2017-06-21T06:29:35Z",
       "side": 1,
       "message": "I adjusted this to restrict to single project. On a site with thousands of projects we certainly want to support restriction of migration for only a small number of projects.\n\nThis seems to be prohibited right now. Not sure about changes, but project should be allowed, so I went ahead and commented out the check in NoteDbMigrator.migrate():\n\n   public void migrate() throws OrmException, IOException {\n//    checkState(\n//        changes.isEmpty() \u0026\u0026 projects.isEmpty(),\n//        \"cannot set changes or projects during auto-migration; call rebuild() instead\");\n\nVoilà comment ça marche:\n\ntry (NoteDbMigrator migrator \u003d\n      migratorBuilderProvider\n          .get()\n          .setTrialMode(true)\n          .setProjects(Collections.singleton(new Project.NameKey((changeinfo.project))))\n          .build()) {\n    migrator.migrate();\n  }\n\nSo, the restriction to a project works here, but not in site program as mentioned in my comment in another change.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "06d9b121e0be9278550523257431334e1bff5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51a4a09e_1aae41be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/MigrateToNoteDbIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-21T11:47:38Z",
+      "side": 1,
+      "message": "\u003e I adjusted this to restrict to single project. On a site with thousands of projects we certainly want to support restriction of migration for only a small number of projects.\n\nThere is no such thing as migrating a small number of projects. The migration simply doesn\u0027t work that way.\n\nThere is a single global readChanges bit in NotesMigration, which is either on or off. If it\u0027s on, then a live server always attempts to read the change from NoteDb, and compares the NoteDb state to ReviewDb. If they don\u0027t match, it *immediately* auto-rebuilds the change and stores the result in NoteDb.\n\nSo, if we implemented migrating to NotesMigrationState.READ_WRITE_NO_SEQUENCE but only converted changes in a subset of projects, what would actually happen is all changes not in that subset of projects would appear out-of-date and would be auto-rebuilt on first read.\n\n* migrate() means: do everything necessary so we can advance the NotesMigrationState\n* rebuild() means: don\u0027t touch the NotesMigrationState, just copy data from ReviewDb to NoteDb (possibly for a subset of projects)\n\nThat\u0027s exactly why this error exists:\n\n\u003e //        \"cannot set changes or projects during auto-migration; call rebuild() instead\");\n\nI am not completely ruling out the possibility of extending NotesMigration to enable reads on a per-project basis, but it would be a big departure from current behavior and potentially a lot of work. And we didn\u0027t need it for googlesource.com.",
+      "parentUuid": "b9850178_6fc0239b",
       "range": {
         "startLine": 59,
         "startChar": 4,

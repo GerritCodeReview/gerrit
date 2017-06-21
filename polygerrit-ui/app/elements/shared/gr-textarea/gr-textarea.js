@@ -165,6 +165,7 @@
       e.preventDefault();
       e.stopPropagation();
       this.$.emojiSuggestions.cursorUp();
+      this.$.textarea.textarea.focus();
     },
 
     _handleDownKey(e) {
@@ -172,6 +173,7 @@
       e.preventDefault();
       e.stopPropagation();
       this.$.emojiSuggestions.cursorDown();
+      this.$.textarea.textarea.focus();
     },
 
     _handleEnterByKey(e) {

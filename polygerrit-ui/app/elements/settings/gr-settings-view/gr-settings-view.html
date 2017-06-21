@@ -16,6 +16,15 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-menu-page-styles.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../gr-account-info/gr-account-info.html">
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
@@ -23,15 +32,6 @@ limitations under the License.
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-ssh-editor/gr-ssh-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
-<link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-menu-page-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
 
 <dom-module id="gr-settings-view">
   <template>
@@ -58,6 +58,9 @@ limitations under the License.
             SSH Keys
           </a></li>
           <li><a href="#Groups">Groups</a></li>
+          <li hidden$="[[!_serverConfig.auth.contributor_agreements]]">
+            <a href="#Agreements">Agreements</a>
+          </li>
         </ul>
       </gr-page-nav>
       <main class="gr-form-styles">
@@ -360,6 +363,12 @@ limitations under the License.
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
         </fieldset>
+        <div hidden$="[[!_serverConfig.auth.contributor_agreements]]">
+          <h2 id="Agreements">Agreements</h2>
+          <fieldset>
+            <gr-agreements-list id="agreementsList"></gr-agreements-list>
+          </fieldset>
+        </div>
       </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

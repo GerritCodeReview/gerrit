@@ -282,6 +282,10 @@
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },
 
+    getAccountAgreements() {
+      return this._fetchSharedCacheURL('/accounts/self/agreements');
+    },
+
     getAccountCapabilities(opt_params) {
       let queryString = '';
       if (opt_params) {

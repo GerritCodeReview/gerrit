@@ -71,7 +71,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
     Account account =
         accountsUpdate
             .create()
-            .atomicUpdate(
+            .update(
                 dbProvider.get(),
                 user.getAccountId(),
                 a -> {

@@ -229,9 +229,9 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account atomicUpdate(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
+  public Account update(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
       throws OrmException, IOException, ConfigInvalidException {
-    return atomicUpdate(db, accountId, ImmutableList.of(consumer));
+    return update(db, accountId, ImmutableList.of(consumer));
   }
 
   /**
@@ -243,9 +243,11 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param consumers consumers to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws OrmException if updating the account fails
+   * @throws OrmException if updating the database fails
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account atomicUpdate(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
+  public Account update(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
       throws OrmException, IOException, ConfigInvalidException {
     if (consumers.isEmpty()) {
       return null;
@@ -275,7 +277,7 @@ public class AccountsUpdate {
    * <p>The existing account with the same account ID is overwritten by the given account. Choosing
    * to overwrite an account means that any updates that were done to the account by a racing
    * request after the account was read are lost. Updates are also lost if the account was read from
-   * a stale account index. This is why using {@link #atomicUpdate(ReviewDb,
+   * a stale account index. This is why using {@link #update(ReviewDb,
    * com.google.gerrit.reviewdb.client.Account.Id, Consumer)} to do an atomic update is always
    * preferred.
    *
@@ -286,7 +288,7 @@ public class AccountsUpdate {
    * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
-   * @see #atomicUpdate(ReviewDb, com.google.gerrit.reviewdb.client.Account.Id, Consumer)
+   * @see #update(ReviewDb, com.google.gerrit.reviewdb.client.Account.Id, Consumer)
    */
   public void replace(ReviewDb db, Account account)
       throws OrmException, IOException, ConfigInvalidException {

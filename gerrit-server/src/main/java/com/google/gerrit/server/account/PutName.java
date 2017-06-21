@@ -88,7 +88,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     Account account =
         accountsUpdate
             .create()
-            .atomicUpdate(dbProvider.get(), user.getAccountId(), a -> a.setFullName(newName));
+            .update(dbProvider.get(), user.getAccountId(), a -> a.setFullName(newName));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

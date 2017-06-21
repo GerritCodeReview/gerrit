@@ -22,7 +22,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -39,9 +38,9 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
-import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,9 +54,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -548,52 +545,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setAllowNonFastForwards(true);
 
     if (!dryrun) {
-      bru.execute(or.rw, NullProgressMonitor.INSTANCE);
-      checkResults(bru);
+      RefUpdateUtil.executeChecked(bru, or.rw);
     }
     return bru;
-  }
-
-  /**
-   * Check results of all commands in the update batch, reducing to a single exception if there was
-   * a failure.
-   *
-   * <p>Throws {@link LockFailureException} if at least one command failed with {@code
-   * LOCK_FAILURE}, and the entire transaction was aborted, i.e. any non-{@code LOCK_FAILURE}
-   * results, if there were any, failed with "transaction aborted".
-   *
-   * <p>In particular, if the underlying ref database does not {@link
-   * org.eclipse.jgit.lib.RefDatabase#performsAtomicTransactions() perform atomic transactions},
-   * then a combination of {@code LOCK_FAILURE} on one ref and {@code OK} or another result on other
-   * refs will <em>not</em> throw {@code LockFailureException}.
-   *
-   * @param bru batch update; should already have been executed.
-   * @throws LockFailureException if the transaction was aborted due to lock failure.
-   * @throws IOException if any result was not {@code OK}.
-   */
-  @VisibleForTesting
-  static void checkResults(BatchRefUpdate bru) throws LockFailureException, IOException {
-    int lockFailure = 0;
-    int aborted = 0;
-    int failure = 0;
-
-    for (ReceiveCommand cmd : bru.getCommands()) {
-      if (cmd.getResult() != ReceiveCommand.Result.OK) {
-        failure++;
-      }
-      if (cmd.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
-        lockFailure++;
-      } else if (cmd.getResult() == ReceiveCommand.Result.REJECTED_OTHER_REASON
-          && JGitText.get().transactionAborted.equals(cmd.getMessage())) {
-        aborted++;
-      }
-    }
-
-    if (lockFailure + aborted == bru.getCommands().size()) {
-      throw new LockFailureException("Update aborted with one or more lock failures: " + bru);
-    } else if (failure > 0) {
-      throw new IOException("Update failed: " + bru);
-    }
   }
 
   private void addCommands() throws OrmException, IOException {

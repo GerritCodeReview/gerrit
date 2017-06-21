@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
@@ -32,9 +32,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Unit tests for {@link NoteDbUpdateManager}. */
 @RunWith(JUnit4.class)
-public class NoteDbUpdateManagerTest {
+public class RefUpdateUtilTest {
   private static final Consumer<ReceiveCommand> OK = c -> c.setResult(ReceiveCommand.Result.OK);
   private static final Consumer<ReceiveCommand> LOCK_FAILURE =
       c -> c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
@@ -76,13 +75,13 @@ public class NoteDbUpdateManagerTest {
 
   @SafeVarargs
   private static void checkResults(Consumer<ReceiveCommand>... resultSetters) throws Exception {
-    NoteDbUpdateManager.checkResults(newBatchRefUpdate(resultSetters));
+    RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters));
   }
 
   @SafeVarargs
   private static void assertIoException(Consumer<ReceiveCommand>... resultSetters) {
     try {
-      NoteDbUpdateManager.checkResults(newBatchRefUpdate(resultSetters));
+      RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters));
       assert_().fail("expected IOException");
     } catch (IOException e) {
       assertThat(e).isNotInstanceOf(LockFailureException.class);
@@ -93,7 +92,7 @@ public class NoteDbUpdateManagerTest {
   private static void assertLockFailureException(Consumer<ReceiveCommand>... resultSetters)
       throws Exception {
     try {
-      NoteDbUpdateManager.checkResults(newBatchRefUpdate(resultSetters));
+      RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters));
       assert_().fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Expected.

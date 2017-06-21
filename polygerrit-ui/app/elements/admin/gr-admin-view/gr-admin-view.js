@@ -14,11 +14,168 @@
 (function() {
   'use strict';
 
+  const ADMIN_LINKS = [
+    {
+      name: 'Projects',
+      section: 'Projects',
+      topLevel: true,
+      url: '/admin/projects',
+      view: 'gr-admin-project-list',
+      viewableToAll: true,
+    },
+    {
+      name: 'Groups',
+      section: 'Groups',
+      topLevel: true,
+      url: '/admin/groups',
+      view: 'gr-admin-group-list',
+    },
+    {
+      name: 'Plugins',
+      capability: 'viewPlugins',
+      section: 'Plugins',
+      topLevel: true,
+      url: '/admin/plugins',
+      view: 'gr-admin-plugin-list',
+    },
+    {
+      name: 'Create Project',
+      capability: 'createProject',
+      section: 'Projects',
+      url: '/admin/create-project',
+      view: 'gr-admin-create-project',
+    },
+    {
+      name: 'Create Group',
+      capability: 'createGroup',
+      section: 'Groups',
+      url: '/admin/create-group',
+      view: 'gr-admin-create-group',
+    },
+  ];
+
+  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
+
   Polymer({
     is: 'gr-admin-view',
 
     properties: {
+      params: Object,
       path: String,
+      adminView: String,
+
+      _formattedLinks: {
+        type: Array,
+        computed: '_computeSideLinks(_unformattedLinks)',
+      },
+      _unformattedLinks: {
+        type: Array,
+        value() { return []; },
+      },
+      _showDownload: {
+        type: Boolean,
+        value: false,
+      },
+      _showProjectMain: Boolean,
+      _showTestView: Boolean,
+    },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
+    observers: [
+      '_paramsChanged(params)',
+    ],
+
+    attached() {
+      this.reload();
+    },
+
+    reload() {
+      return this.$.restAPI.getAccount().then(account => {
+        this._account = account;
+        if (!account) {
+          return this._unformattedLinks = ADMIN_LINKS.filter(link => {
+            return link.viewableToAll;
+          });
+        }
+        this._loadAccountCapabilities();
+      });
+    },
+
+    _loadAccountCapabilities() {
+      return this.$.restAPI.getAccountCapabilities(ACCOUNT_CAPABILITIES)
+          .then(capabilities => {
+            this._unformattedLinks = ADMIN_LINKS.filter(link => {
+              return !link.capability ||
+                  capabilities.hasOwnProperty(link.capability);
+            });
+          });
+    },
+
+    _computeSideLinks(unformattedLinks) {
+      const topLevelLinks = unformattedLinks.filter(link => {
+        return link.topLevel;
+      });
+
+      const nestedLinks = unformattedLinks.filter(link => {
+        return !link.topLevel;
+      });
+
+      return topLevelLinks.map(item => {
+        const section = {
+          name: item.name,
+          url: item.url,
+          view: item.view,
+          links: [],
+        };
+        const newLinks = nestedLinks.filter(group => {
+          return group.section === section.name;
+        });
+        section.links = section.links.concat(newLinks);
+        return section;
+      });
+    },
+
+    _paramsChanged(params) {
+      this.set('_showCreateProject',
+          params.adminView === 'gr-admin-create-project');
+      this.set('_showProjectMain', params.adminView === 'gr-admin-project');
+      this.set('_showProjectList',
+          params.adminView === 'gr-admin-project-list');
+      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
+      this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
+    },
+
+    // TODO (beckysiegel): Update these functions after router abstraction is
+    // updated. They are currently copied from gr-dropdown (and should be
+    // updated there as well once complete).
+    _computeURLHelper(host, path) {
+      return '//' + host + this.getBaseUrl() + path;
+    },
+
+    _computeRelativeURL(path) {
+      const host = window.location.host;
+      return this._computeURLHelper(host, path);
+    },
+
+    _computeLinkURL(link) {
+      if (typeof link.url === 'undefined') {
+        return '';
+      }
+      if (link.target) {
+        return link.url;
+      }
+      return this._computeRelativeURL(link.url);
+    },
+
+    _computeLinkRel(link) {
+      return link.target ? 'noopener' : null;
+    },
+
+    _computeSelectedClass(itemView, params) {
+      return itemView === params.adminView ? 'selected' : '';
     },
   });
 })();

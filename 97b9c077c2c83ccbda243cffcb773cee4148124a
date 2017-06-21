@@ -94,6 +94,30 @@
       "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd7a4fbe_553a6516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-21T06:36:10Z",
+      "side": 1,
+      "message": "They are not all ready. There are also changes on gitiles that need CR and VR labels.",
+      "parentUuid": "b4486764_2fb47017",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 1
+      },
+      "revId": "97b9c077c2c83ccbda243cffcb773cee4148124a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

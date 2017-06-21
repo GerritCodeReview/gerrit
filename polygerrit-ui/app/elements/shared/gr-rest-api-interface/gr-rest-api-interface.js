@@ -694,6 +694,11 @@
       );
     },
 
+    putChangeCommitMessage(changeNum, message) {
+      const url = this.getChangeActionURL(changeNum, null, '/message');
+      return this.send('PUT', url, {message});
+    },
+
     saveChangeCommitMessageEdit(changeNum, message) {
       const url = this.getChangeActionURL(changeNum, null, '/edit:message');
       return this.send('PUT', url, {message});

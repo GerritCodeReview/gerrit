@@ -16,20 +16,21 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Predicates;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
+import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gwtorm.server.OrmException;
@@ -93,6 +95,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final ChangeRebuilder rebuilder;
     private final WorkQueue workQueue;
     private final NotesMigration globalNotesMigration;
+    private final PrimaryStorageMigrator primaryStorageMigrator;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -112,7 +115,8 @@ public class NoteDbMigrator implements AutoCloseable {
         AllProjectsName allProjects,
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
-        NotesMigration globalNotesMigration) {
+        NotesMigration globalNotesMigration,
+        PrimaryStorageMigrator primaryStorageMigrator) {
       this.cfg = cfg;
       this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
@@ -121,6 +125,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.rebuilder = rebuilder;
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
+      this.primaryStorageMigrator = primaryStorageMigrator;
     }
 
     /**
@@ -256,6 +261,7 @@ public class NoteDbMigrator implements AutoCloseable {
           allProjects,
           rebuilder,
           globalNotesMigration,
+          primaryStorageMigrator,
           threads > 1
               ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
               : MoreExecutors.newDirectExecutorService(),
@@ -275,6 +281,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final AllProjectsName allProjects;
   private final ChangeRebuilder rebuilder;
   private final NotesMigration globalNotesMigration;
+  private final PrimaryStorageMigrator primaryStorageMigrator;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
@@ -292,6 +299,7 @@ public class NoteDbMigrator implements AutoCloseable {
       AllProjectsName allProjects,
       ChangeRebuilder rebuilder,
       NotesMigration globalNotesMigration,
+      PrimaryStorageMigrator primaryStorageMigrator,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
@@ -313,6 +321,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.repoManager = repoManager;
     this.allProjects = allProjects;
     this.globalNotesMigration = globalNotesMigration;
+    this.primaryStorageMigrator = primaryStorageMigrator;
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
     this.executor = executor;
     this.projects = projects;
@@ -385,11 +394,16 @@ public class NoteDbMigrator implements AutoCloseable {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
           } else {
-            state = setNoteDbPrimary();
+            state = setNoteDbPrimary(state);
           }
           break;
         case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
-          state = disableReviewDb();
+          // The only way we can get here is if there was a failure on a previous run of
+          // setNoteDbPrimary, since that method moves to NOTE_DB_UNFUSED if it completes
+          // successfully. Assume that not all changes were converted and re-run the step.
+          // migrateToNoteDbPrimary is a relatively fast no-op for already-migrated changes, so this
+          // isn't actually repeating work.
+          state = setNoteDbPrimary(state);
           break;
         case NOTE_DB_UNFUSED:
           // Done!
@@ -431,12 +445,61 @@ public class NoteDbMigrator implements AutoCloseable {
     return saveState(prev, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
   }
 
-  private NotesMigrationState setNoteDbPrimary() {
-    throw new UnsupportedOperationException("not yet implemented");
+  private NotesMigrationState setNoteDbPrimary(NotesMigrationState prev)
+      throws MigrationException, OrmException, IOException {
+    checkState(
+        projects.isEmpty() && changes.isEmpty(),
+        "Should not have attempted setNoteDbPrimary with a subset of changes");
+    checkState(
+        prev == READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY
+            || prev == READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY,
+        "Unexpected start state for setNoteDbPrimary: %s",
+        prev);
+
+    // Before changing the primary storage of old changes, ensure new changes are created with
+    // NoteDb primary.
+    prev = saveState(prev, READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);
+
+    Stopwatch sw = Stopwatch.createStarted();
+    log.info("Setting primary storage to NoteDb");
+    List<Change.Id> allChanges;
+    try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+      allChanges = Streams.stream(db.changes().all()).map(Change::getId).collect(toList());
+    }
+
+    List<ListenableFuture<Boolean>> futures =
+        allChanges
+            .stream()
+            .map(
+                id ->
+                    executor.submit(
+                        () -> {
+                          // TODO(dborowitz): Avoid reopening db if using a single thread.
+                          try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+                            primaryStorageMigrator.migrateToNoteDbPrimary(id);
+                            return true;
+                          } catch (Exception e) {
+                            log.error("Error migrating primary storage for " + id, e);
+                            return false;
+                          }
+                        }))
+            .collect(toList());
+
+    boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
+    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    log.info(
+        String.format(
+            "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
+            allChanges.size(), t, allChanges.size() / t));
+    if (!ok) {
+      throw new MigrationException("Migrating primary storage for some changes failed, see log");
+    }
+
+    return disableReviewDb(prev);
   }
 
-  private NotesMigrationState disableReviewDb() {
-    throw new UnsupportedOperationException("not yet implemented");
+  private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {
+    return saveState(prev, NOTE_DB_UNFUSED);
   }
 
   private Optional<NotesMigrationState> loadState() throws IOException {
@@ -481,7 +544,6 @@ public class NoteDbMigrator implements AutoCloseable {
     if (!globalNotesMigration.commitChangeWrites()) {
       throw new MigrationException("Cannot rebuild without noteDb.changes.write=true");
     }
-    boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");
 
@@ -503,13 +565,7 @@ public class NoteDbMigrator implements AutoCloseable {
       futures.add(future);
     }
 
-    try {
-      ok = Iterables.all(Futures.allAsList(futures).get(), Predicates.equalTo(true));
-    } catch (InterruptedException | ExecutionException e) {
-      log.error("Error rebuilding projects", e);
-      ok = false;
-    }
-
+    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     log.info(
         String.format(
@@ -588,5 +644,14 @@ public class NoteDbMigrator implements AutoCloseable {
       pm.endTask();
     }
     return ok;
+  }
+
+  private static boolean futuresToBoolean(List<ListenableFuture<Boolean>> futures, String errMsg) {
+    try {
+      return Futures.allAsList(futures).get().stream().allMatch(b -> b);
+    } catch (InterruptedException | ExecutionException e) {
+      log.error(errMsg, e);
+      return false;
+    }
   }
 }

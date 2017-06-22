@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -267,7 +266,6 @@ class UnfusedNoteDbBatchUpdate extends BatchUpdate {
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
     super(repoManager, serverIdent, project, user, when);
-    checkArgument(!db.changesTablesEnabled(), "expected Change tables to be disabled on %s", db);
     this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
     this.changeUpdateFactory = changeUpdateFactory;

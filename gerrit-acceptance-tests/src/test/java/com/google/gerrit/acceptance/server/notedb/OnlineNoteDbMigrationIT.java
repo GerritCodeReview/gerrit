@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
@@ -284,6 +285,50 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       @SuppressWarnings("deprecation")
       int nextFromReviewDb = db.nextChangeId();
       assertThat(nextFromReviewDb).isEqualTo(3);
+    }
+  }
+
+  @Test
+  public void fullMigration() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB_UNFUSED);
+
+    assertThat(sequences.nextChangeId()).isEqualTo(503);
+
+    ObjectId oldMetaId;
+    int rowVersion;
+    try (ReviewDb db = schemaFactory.open();
+        Repository repo = repoManager.openRepository(project)) {
+      Ref ref = repo.exactRef(RefNames.changeMetaRef(id));
+      assertThat(ref).isNotNull();
+      oldMetaId = ref.getObjectId();
+
+      Change c = db.changes().get(id);
+      assertThat(c.getTopic()).isNull();
+      rowVersion = c.getRowVersion();
+      NoteDbChangeState s = NoteDbChangeState.parse(c);
+      assertThat(s.getPrimaryStorage()).isEqualTo(PrimaryStorage.NOTE_DB);
+      assertThat(s.getRefState()).isEmpty();
+    }
+
+    // Do not open a new context, to simulate races with other threads that opened a context earlier
+    // in the migration process; this needs to work.
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+
+    // Of course, it should also work with a new context.
+    resetCurrentApiUser();
+    gApi.changes().id(id.get()).topic(name("another-topic"));
+
+    try (ReviewDb db = schemaFactory.open();
+        Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.exactRef(RefNames.changeMetaRef(id)).getObjectId()).isNotEqualTo(oldMetaId);
+
+      Change c = db.changes().get(id);
+      assertThat(c.getTopic()).isNull();
+      assertThat(c.getRowVersion()).isEqualTo(rowVersion);
     }
   }
 

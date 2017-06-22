@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "da385bbf_d57fbb40",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T18:22:15Z",
+      "side": 1,
+      "message": "By alphanumeric value. I\u0027d propose that we add whitespace between polymer.html and everything else if we want to have different rules for it.\n\n\u003clink rel\u003d\"import\" href\u003d\"../../../bower_components/polymer/polymer.html\"\u003e\n\n\u003clink rel\u003d\"import\" href\u003d\"../../../behaviors/base-url-behavior/base-url-behavior.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/gr-menu-page-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/shared-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-page-nav/gr-page-nav.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-placeholder/gr-placeholder.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-rest-api-interface/gr-rest-api-interface.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-admin-create-project/gr-admin-create-project.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-admin-group-list/gr-admin-group-list.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-admin-plugin-list/gr-admin-plugin-list.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-admin-project-list/gr-admin-project-list.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-admin-project/gr-admin-project.html\"\u003e\n\np.s./obvious tip: when in doubt, put the strings into an array and sort with the chrome console.",
+      "parentUuid": "dc330545_329376c1",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 61
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5287897c_3fc621fb",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
         "patchSetId": 7

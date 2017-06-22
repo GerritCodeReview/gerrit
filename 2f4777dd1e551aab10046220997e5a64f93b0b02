@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e674a622_c4a0a894",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-22T23:02:07Z",
+      "side": 1,
+      "message": "Nit: format this like\n\n\u003cscript\u003e\n  security.polymer_resin.install({\n    allowedIdentifierPrefixes: [\u0027\u0027],\n    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,\n  });\n\u003c/script\u003e",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "2f4777dd1e551aab10046220997e5a64f93b0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d98e26_95dc26b6",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-22T23:02:07Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "2f4777dd1e551aab10046220997e5a64f93b0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d12b9f7b_d965e620",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T16:39:15Z",
+      "side": 1,
+      "message": "Please put polymer.html first.",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb4dd33c_973c2eca",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -124,6 +141,47 @@
       "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adbc2f6b_351ccb12",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T16:39:15Z",
+      "side": 1,
+      "message": "Few points before moving on:\n- it\u0027s not obvious that the solution proposed by Polymer folk is the one and only way to solve this\n- crossing element boundaries (directly, via $.x.$.y, or indirectly, like here, relying on target.localName) is a code smell\n- there\u0027s probably a better way, but I\u0027m not sure this is the right place for design and refactoring.\n\nHaving said that, I don\u0027t think the existing code\u0027s health is better - with your change it just became more visible.\nUp to you, I\u0027d suggest adding a comment describing what and why is happening here.",
+      "parentUuid": "e8177ae3_960c0cdc",
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53184772_5d87094b",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T16:39:15Z",
+      "side": 1,
+      "message": "Looks like event is prevented in either case, you probably could move it out of if() {} else {} blocks",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 26
+      },
+      "revId": "0f2a21228f12996a71899f63a185975cd37843d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

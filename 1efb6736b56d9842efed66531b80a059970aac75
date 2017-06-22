@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db3cfeb3_41d101a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T14:00:07Z",
+      "side": 1,
+      "message": "I kind of thought this was already the case for merges, it shouldn\u0027t be copying the author date from one of the parents.\n\nBut, as a slight aside, I think we currently have a bug where we\u0027re not reusing timestamps properly:\n\n commit f63ad229a8637eea0aa5a2e6b7dc23b7f616dd88\n Merge: 45fba4cb6f 168bbc96a4\n Author:     Viktar Donich \u003cviktard@google.com\u003e\n AuthorDate: Tue Jun 20 21:05:10 2017 +0000\n Commit:     Gerrit Code Review \u003cnoreply-gerritcodereview@google.com\u003e\n CommitDate: Tue Jun 20 21:05:11 2017 +0000\n \n     Merge \"Add a setting to disable diff panel floating\"",
+      "revId": "1efb6736b56d9842efed66531b80a059970aac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

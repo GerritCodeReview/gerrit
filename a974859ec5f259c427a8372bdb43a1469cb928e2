@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cea7ca71_6486cb88",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-22T07:07:13Z",
+      "side": 1,
+      "message": "Should the variable names also be changed?",
+      "range": {
+        "startLine": 81,
+        "startChar": 38,
+        "endLine": 81,
+        "endChar": 55
+      },
+      "revId": "a974859ec5f259c427a8372bdb43a1469cb928e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

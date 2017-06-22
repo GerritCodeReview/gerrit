@@ -240,6 +240,7 @@
     page(/^\/register(\/.*)?/, function(ctx) {
       app.params = {justRegistered: true};
       var path = ctx.params[0] || '/';
+      if (path[0] !== '/') { return; }
       page.show(path);
     });
 

@@ -44,25 +44,20 @@ public class Sequences {
   @Inject
   Sequences(
       @GerritServerConfig Config cfg,
-      final Provider<ReviewDb> db,
+      Provider<ReviewDb> db,
       NotesMigration migration,
       GitRepositoryManager repoManager,
       AllProjectsName allProjects) {
     this.db = db;
     this.migration = migration;
 
-    final int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
+    int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
     changeSeq =
         new RepoSequence(
             repoManager,
             allProjects,
             CHANGES,
-            new RepoSequence.Seed() {
-              @Override
-              public int get() throws OrmException {
-                return db.get().nextChangeId() + gap;
-              }
-            },
+            () -> db.get().nextChangeId() + gap,
             cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
   }
 

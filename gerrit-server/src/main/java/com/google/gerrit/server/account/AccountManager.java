@@ -125,7 +125,7 @@ public class AccountManager {
     who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
-        ExternalId id = findExternalId(who.getExternalIdKey());
+        ExternalId id = externalIds.get(who.getExternalIdKey());
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -145,18 +145,6 @@ public class AccountManager {
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
-  }
-
-  private ExternalId findExternalId(ExternalId.Key key) throws OrmException {
-    AccountState accountState = accountQueryProvider.get().oneByExternalId(key);
-    if (accountState != null) {
-      for (ExternalId extId : accountState.getExternalIds()) {
-        if (extId.key().equals(key)) {
-          return extId;
-        }
-      }
-    }
-    return null;
   }
 
   private void update(ReviewDb db, AuthRequest who, ExternalId extId)
@@ -364,7 +352,7 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     try (ReviewDb db = schema.open()) {
-      ExternalId extId = findExternalId(who.getExternalIdKey());
+      ExternalId extId = externalIds.get(who.getExternalIdKey());
       if (extId != null) {
         if (!extId.accountId().equals(to)) {
           throw new AccountException("Identity in use by another account");
@@ -431,7 +419,7 @@ public class AccountManager {
   public AuthResult unlink(Account.Id from, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     try (ReviewDb db = schema.open()) {
-      ExternalId extId = findExternalId(who.getExternalIdKey());
+      ExternalId extId = externalIds.get(who.getExternalIdKey());
       if (extId != null) {
         if (!extId.accountId().equals(from)) {
           throw new AccountException(

@@ -800,6 +800,43 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushAccountConfigToUserBranchIsRejected() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = new Config();
+    try (TreeWalk tw =
+        TreeWalk.forPath(
+            allUsersRepo.getRepository(),
+            AccountConfig.ACCOUNT_CONFIG,
+            getHead(allUsersRepo.getRepository()).getTree())) {
+      assertThat(tw).isNotNull();
+      ac.fromText(
+          new String(
+              allUsersRepo
+                  .getRevWalk()
+                  .getObjectReader()
+                  .open(tw.getObjectId(0), OBJ_BLOB)
+                  .getBytes(),
+              UTF_8));
+    }
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "OOO");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("account update not allowed");
+  }
+
+  @Test
   @Sandboxed
   public void cannotCreateUserBranch() throws Exception {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);

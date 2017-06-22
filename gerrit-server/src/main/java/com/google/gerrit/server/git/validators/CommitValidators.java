@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
@@ -55,6 +57,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -67,6 +70,7 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +124,8 @@ public class CommitValidators {
               new ConfigValidator(refctl, rw, allUsers),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker)));
+              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
+              new AccountValidator(allUsers)));
     }
 
     public CommitValidators forGerritCommits(
@@ -135,7 +140,8 @@ public class CommitValidators {
               new ChangeIdValidator(refctl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(refctl, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker)));
+              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
+              new AccountValidator(allUsers)));
     }
 
     public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, RefControl refControl) {
@@ -676,6 +682,62 @@ public class CommitValidators {
         }
       }
       return Collections.emptyList();
+    }
+  }
+
+  /** Rejects updates to 'account.config' in user branches. */
+  public static class AccountValidator implements CommitValidationListener {
+    private final AllUsersName allUsers;
+
+    public AccountValidator(AllUsersName allUsers) {
+      this.allUsers = allUsers;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+        return Collections.emptyList();
+      }
+
+      Account.Id accountId = Account.Id.fromRef(receiveEvent.refName);
+      if (accountId == null) {
+        return Collections.emptyList();
+      }
+
+      if (receiveEvent.commit.getParentCount() > 1) {
+        throw new CommitValidationException(
+            String.format(
+                "Merge commits not allowed on user branches:"
+                    + " Commit %s for user branch of account %s is a merge commit",
+                receiveEvent.commit.name(), accountId.get()));
+      }
+
+      try {
+        byte[] newContent = getAccountConfig(receiveEvent.revWalk, receiveEvent.commit);
+        byte[] oldContent =
+            receiveEvent.commit.getParentCount() == 1
+                ? getAccountConfig(receiveEvent.revWalk, receiveEvent.commit.getParent(0))
+                : null;
+        if (!Arrays.equals(oldContent, newContent)) {
+          throw new CommitValidationException("account update not allowed");
+        }
+      } catch (IOException e) {
+        String m = String.format("Validating update for account %s failed", accountId.get());
+        log.error(m, e);
+        throw new CommitValidationException(m, e);
+      }
+      return Collections.emptyList();
+    }
+
+    private byte[] getAccountConfig(RevWalk rw, RevCommit commit) throws IOException {
+      rw.parseCommit(commit);
+      try (TreeWalk tw =
+          TreeWalk.forPath(rw.getObjectReader(), AccountConfig.ACCOUNT_CONFIG, commit.getTree())) {
+        return tw != null
+            ? rw.getObjectReader().open(tw.getObjectId(0), OBJ_BLOB).getBytes()
+            : null;
+      }
     }
   }
 

@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c2e2d44a_57b08307",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T20:05:39Z",
+      "side": 1,
+      "message": "Thanks, done. Sorry about that.",
+      "parentUuid": "c4954809_b477baef",
+      "range": {
+        "startLine": 61,
+        "startChar": 30,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e3cf3a2_e7ebb9e6",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
         "patchSetId": 10
@@ -461,6 +485,30 @@
       "writtenOn": "2017-06-22T19:58:13Z",
       "side": 1,
       "message": "this can just be something like {name: this._name}",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36af5d33_35df4b5b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T20:05:39Z",
+      "side": 1,
+      "message": "Thanks, done. Sorry about that.",
+      "parentUuid": "57d92ecd_4533fbad",
       "range": {
         "startLine": 64,
         "startChar": 40,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83ce39f_3cdaead1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T16:40:21Z",
+      "side": 1,
+      "message": "Where is this function called?",
+      "revId": "51c5f346267493363770cf56b9c5bd6135744781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

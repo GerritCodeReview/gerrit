@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b22193f_1f5acfdd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T21:27:28Z",
+      "side": 1,
+      "message": "These imports are not in alphabetical order.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de36230e_8f787fa9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T21:27:28Z",
+      "side": 1,
+      "message": "These imports are not in alphabetical order.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990188e7_117df09c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T21:27:28Z",
+      "side": 1,
+      "message": "You need to import gr-agreements-list.",
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

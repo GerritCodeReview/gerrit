@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "a1c50402_688f6445",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-22T14:11:35Z",
+      "side": 1,
+      "message": "If multiple commits are pushed this validator is invoked multiple times, once for each of the new commits. However in between the branch is not updated.\n\nI think I found another reason why comparing against the parent is wrong. If this is a force push of a commit which is based on an older commit in the history it can overwrite the current HEAD and hence undo account modifications that have been done:\n\n  C  D \u003c-- HEAD of the user branch\n  | /\n  |/\n  B\n  |\n  |\n  A\n\n\nIf D was created by Gerrit, e.g. because the user changed its account status through a REST endpoint, then the status differs between B and D. If C has the same account state as B and is force pushed, then comparing C against its parent B would show no modification and we would allow the commit. But this undos the modifications from D.\n\nSo I will change the code to do the check against the current HEAD, but also this is not 100% safe, as the current HEAD can be changed by a racing request, and then a force push could still overwrite these modifications. But that\u0027s quite unlikely especially since we don\u0027t expect many pushes to the user branches.",
+      "parentUuid": "ab56985d_b1fad6b4",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

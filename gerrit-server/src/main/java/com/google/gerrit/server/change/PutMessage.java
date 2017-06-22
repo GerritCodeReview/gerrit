@@ -132,7 +132,7 @@ public class PutMessage
       RevCommit patchSetCommit = revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
 
       String currentCommitMessage = patchSetCommit.getFullMessage();
-      if (input.equals(currentCommitMessage)) {
+      if (input.message.equals(currentCommitMessage)) {
         throw new ResourceConflictException("new and existing commit message are the same");
       }
 

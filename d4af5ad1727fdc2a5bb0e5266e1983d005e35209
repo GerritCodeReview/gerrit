@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "ab56985d_b1fad6b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T13:38:52Z",
+      "side": 1,
+      "message": "ISTM you should be comparing against the current tip of the branch, not against a parent of the tip of the push. In theory the user could push multiple commits, tip \u003c- A \u003c- B, where A is a different state, but B reverts it back to the state at the tip. This is arguably valid, because the account hasn\u0027t changed, and we don\u0027t generally care about the old history.\n\nI guess I could also see the argument that you only want to allow pushing one commit at a time, but in that case you would want to check that there is only one parent and it equals the tip.",
+      "parentUuid": "e4184dfe_7ab43b8a",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

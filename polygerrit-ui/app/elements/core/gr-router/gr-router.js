@@ -113,7 +113,8 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-admin-view',
+            adminView: 'gr-admin-group-list',
             offset: data.params[1] || 0,
             filter: null,
           };
@@ -127,7 +128,8 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-admin-view',
+            adminView: 'gr-admin-group-list',
             offset: data.params.offset,
             filter: data.params.filter,
           };
@@ -141,7 +143,8 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-admin-view',
+            adminView: 'gr-admin-group-list',
             filter: data.params.filter || null,
           };
         } else {
@@ -157,7 +160,8 @@
           if (loggedIn &&
               (permission.administrateServer || permission.createProject)) {
             app.params = {
-              view: 'gr-admin-create-project',
+              view: 'gr-admin-view',
+              adminView: 'gr-admin-create-project',
             };
           } else {
             page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -169,7 +173,8 @@
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-admin-view',
+        adminView: 'gr-admin-project-list',
         offset: data.params[1] || 0,
         filter: null,
       };
@@ -177,7 +182,8 @@
 
     page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-admin-view',
+        adminView: 'gr-admin-project-list',
         offset: data.params.offset,
         filter: data.params.filter,
       };
@@ -185,7 +191,8 @@
 
     page('/admin/projects/q/filter::filter', loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-admin-view',
+        adminView: 'gr-admin-project-list',
         filter: data.params.filter || null,
       };
     });
@@ -193,8 +200,9 @@
     // Matches /admin/projects/<project>
     page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-project',
+        view: 'gr-admin-view',
         project: data.params[0],
+        adminView: 'gr-admin-project',
       };
     });
 
@@ -202,7 +210,8 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-plugin-list',
+            view: 'gr-admin-view',
+            adminView: 'gr-admin-plugin-list',
           };
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -214,6 +223,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = 'gr-admin-view';
+          data.params.placeholder = true;
           app.params = data.params;
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));

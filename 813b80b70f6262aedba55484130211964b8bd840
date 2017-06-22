@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68526f5b_867bf1c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-22T23:30:43Z",
+      "side": 1,
+      "message": "This is filtering events to input elements, but the component doesn\u0027t host any inputs directly, meaning it\u0027s distributing implementation details -- And it\u0027s distributing them several layers!\n\nI really don\u0027t think this is the right approach. We need to work out a better way to use iron-a11y-keys, perhaps by using the iron-a11y-keys element rather than the behavior.",
+      "revId": "813b80b70f6262aedba55484130211964b8bd840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

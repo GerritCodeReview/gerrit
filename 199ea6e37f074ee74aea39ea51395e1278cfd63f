@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efdf2a59_28e12c44",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-22T23:30:43Z",
+      "side": 0,
+      "message": "This is a custom event fired by gr-autocomplete. Shouldn\u0027t the iron-a11y-keys behavior be added to that element?",
+      "revId": "199ea6e37f074ee74aea39ea51395e1278cfd63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

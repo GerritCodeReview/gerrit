@@ -37,6 +37,10 @@ import org.eclipse.jgit.lib.Config;
 public class Sequences {
   public static final String CHANGES = "changes";
 
+  public static int getChangeSequenceGap(Config cfg) {
+    return cfg.getInt("noteDb", "changes", "initialSequenceGap", 1000);
+  }
+
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final RepoSequence changeSeq;
@@ -51,7 +55,7 @@ public class Sequences {
     this.db = db;
     this.migration = migration;
 
-    int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
+    int gap = getChangeSequenceGap(cfg);
     changeSeq =
         new RepoSequence(
             repoManager,

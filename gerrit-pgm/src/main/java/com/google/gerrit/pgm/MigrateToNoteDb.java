@@ -74,6 +74,12 @@ public class MigrateToNoteDb extends SiteProgram {
   )
   private boolean trial = true; // TODO(dborowitz): Default to false in 3.0.
 
+  @Option(
+    name = "--sequence-gap",
+    usage = "gap in change sequence numbers between last ReviewDb number and first NoteDb number"
+  )
+  private int sequenceGap = 0;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private LifecycleManager dbManager;
@@ -108,6 +114,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
               .setTrialMode(trial)
               .setForceRebuild(force)
+              .setSequenceGap(sequenceGap)
               .build()) {
         if (!projects.isEmpty() || !changes.isEmpty()) {
           migrator.rebuild();

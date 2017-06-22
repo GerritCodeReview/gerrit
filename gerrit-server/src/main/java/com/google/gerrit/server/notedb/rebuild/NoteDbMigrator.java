@@ -281,8 +281,14 @@ public class NoteDbMigrator implements AutoCloseable {
 
     boolean rebuilt = false;
     while (state.compareTo(NOTE_DB_UNFUSED) < 0) {
+      boolean stillNeedsRebuild = forceRebuild && !rebuilt;
       if (trial && state.compareTo(READ_WRITE_NO_SEQUENCE) >= 0) {
-        return;
+        if (stillNeedsRebuild && state == READ_WRITE_NO_SEQUENCE) {
+          // We're at the end state of trial mode, but still need a rebuild due to forceRebuild. Let
+          // the loop go one more time.
+        } else {
+          return;
+        }
       }
       switch (state) {
         case REVIEW_DB:
@@ -293,18 +299,20 @@ public class NoteDbMigrator implements AutoCloseable {
           rebuilt = true;
           break;
         case READ_WRITE_NO_SEQUENCE:
-          if (forceRebuild && !rebuilt) {
+          if (stillNeedsRebuild) {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
+          } else {
+            state = enableSequences();
           }
-          state = enableSequences();
           break;
         case READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY:
-          if (forceRebuild && !rebuilt) {
+          if (stillNeedsRebuild) {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
+          } else {
+            state = setNoteDbPrimary();
           }
-          state = setNoteDbPrimary();
           break;
         case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
           state = disableReviewDb();

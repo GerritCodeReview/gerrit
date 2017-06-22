@@ -15,38 +15,45 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-list-view/gr-styled-table.html">
+<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
-<dom-module id="gr-admin-plugin-list">
+<dom-module id="gr-group-list">
   <template>
     <style include="shared-styles"></style>
-    <gr-styled-table>
+    <gr-list-view
+        filter="[[_filter]]"
+        items="[[_groups]]"
+        items-per-page="[[_groupsPerPage]]"
+        loading="[[_loading]]"
+        offset="[[_offset]]"
+        path="/admin/groups">
       <table id="list">
         <tr class="headerRow">
-          <th class="name topHeader">Plugin Name</th>
-          <th class="version topHeader">Version</th>
-          <th class="status topHeader">Status</th>
+          <th class="name topHeader">Group Name</th>
+          <th class="description topHeader">Group Description</th>
+          <th class="visibleToAll topHeader">Visible To All</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_plugins]]"
+        <template is="dom-repeat" items="[[_shownGroups]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
-              <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+              <a href$="[[_computeGroupUrl(item.group_id)]]">[[item.name]]</a>
             </td>
-            <td class="version">[[item.version]]</td>
-            <td class="status">[[_status(item)]]</td>
+            <td class="description">[[item.description]]</td>
+            <td class="visibleToAll">[[_visibleToAll(item)]]</td>
           </tr>
         </template>
       </table>
-    </gr-styled-table>
+    </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-admin-plugin-list.js"></script>
+  <script src="gr-group-list.js"></script>
 </dom-module>

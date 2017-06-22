@@ -48,7 +48,7 @@
   };
 
   Polymer({
-    is: 'gr-admin-project',
+    is: 'gr-project',
 
     properties: {
       params: Object,

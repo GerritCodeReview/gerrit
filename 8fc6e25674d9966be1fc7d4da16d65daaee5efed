@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f707f41e_7cd98776",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T21:19:27Z",
+      "side": 1,
+      "message": "this whole section should be de-dented two spaces.",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4efb8e2c_a2b4801a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T21:19:27Z",
+      "side": 1,
+      "message": "this should be removed",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 51
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b7fa36c_5a4607d7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T21:19:27Z",
+      "side": 1,
+      "message": "Let\u0027s just say \u0027Create\u0027",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 49
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b054f157_b47a261d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T21:19:27Z",
+      "side": 1,
+      "message": "This should be a String.",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d95791a_8b752524",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T21:19:27Z",
+      "side": 1,
+      "message": "You should use page.show instead. Then also remove the hidden link and _groupCreated.",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -43,18 +43,7 @@ limitations under the License.
     });
 
     test('computed fields', () => {
-      assert.equal(element._computeOwnerLink(
-          {
-            _account_id: 123,
-            email: 'andybons+gerrit@gmail.com',
-          }),
-          '/q/owner:andybons%2Bgerrit%40gmail.com');
-
-      assert.equal(element._computeOwnerLink({_account_id: 42}),
-          '/q/owner:42');
-
       assert.equal(element._computeShowEmail({name: 'asd'}), false);
-
       assert.equal(element._computeShowEmail({}), true);
     });
   });

@@ -300,12 +300,6 @@ limitations under the License.
             });
       });
 
-      test('topic href has quotes', () => {
-        const hrefArr = element._computeTopicURL('test')
-            .split('%2522'); // Double-escaped quote.
-        assert.equal(hrefArr[1], 'test');
-      });
-
       test('topic removal', () => {
         sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
             Promise.resolve());

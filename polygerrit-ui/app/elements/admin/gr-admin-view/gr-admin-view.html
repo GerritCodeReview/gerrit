@@ -15,11 +15,72 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../styles/gr-menu-page-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-admin-create-project/gr-admin-create-project.html">
+<link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
+<link rel="import" href="../gr-admin-plugin-list/gr-admin-plugin-list.html">
+<link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
+<link rel="import" href="../gr-admin-project/gr-admin-project.html">
 
 <dom-module id="gr-admin-view">
   <template>
-    <gr-placeholder title="Admin" path="[[path]]"></gr-placeholder>
+    <style include="shared-styles"></style>
+    <style include="gr-menu-page-styles"></style>
+    <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
+      <ul class="sectionContent">
+        <template is="dom-repeat" items="[[_filteredLinks]]">
+          <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
+            <a class="title" href="[[_computeLinkURL(item)]]"
+                  rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
+          </li>
+          <template is="dom-repeat" items="[[item.children]]">
+            <li class$="[[_computeSelectedClass(item.view, params)]]">
+              <a href="[[_computeLinkURL(item)]]"
+                  rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
+            </li>
+          </template>
+        </template>
+      </ul>
+    </gr-page-nav>
+    <template is="dom-if" if="[[_showProjectList]]" restamp="true">
+      <main class="table">
+        <gr-admin-project-list class="table" params="[[params]]">
+        </gr-admin-project-list>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showProjectMain]]" restamp="true">
+      <main>
+        <gr-admin-project project="[[params.project]]"></gr-admin-project>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showGroupList]]" restamp="true">
+      <main class="table">
+        <gr-admin-group-list class="table" params="[[params]]">
+        </gr-admin-group-list>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showPluginList]]" restamp="true">
+      <main class="table">
+        <gr-admin-plugin-list class="table"></gr-admin-plugin-list>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showCreateProject]]" restamp="true">
+      <main class="table">
+        <gr-admin-create-project
+            params="[[params]]"
+            id="createProject"></gr-admin-create-project>
+      </main>
+    </template>
+    <template is="dom-if" if="[[params.placeholder]]" restamp="true">
+      <gr-placeholder title="Admin" path="[[path]]"></gr-placeholder>
+    </template>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-admin-view.js"></script>
 </dom-module>

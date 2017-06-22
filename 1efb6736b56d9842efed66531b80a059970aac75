@@ -16,6 +16,24 @@
       "revId": "1efb6736b56d9842efed66531b80a059970aac75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4113415c_2dc3ec4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T16:25:17Z",
+      "side": 1,
+      "message": "Unresolved: it\u0027s not clear to me why this is necessary.",
+      "parentUuid": "db3cfeb3_41d101a6",
+      "revId": "1efb6736b56d9842efed66531b80a059970aac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

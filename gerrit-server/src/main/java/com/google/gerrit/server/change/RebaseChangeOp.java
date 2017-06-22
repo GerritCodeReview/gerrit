@@ -67,6 +67,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean copyApprovals = true;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
+  private boolean matchAuthorToCommitterDate = false;
 
   private RevCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -128,6 +129,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   public RebaseChangeOp setPostMessage(boolean postMessage) {
     this.postMessage = postMessage;
+    return this;
+  }
+
+  public RebaseChangeOp setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
+    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
     return this;
   }
 
@@ -262,6 +268,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
       cb.setCommitter(committerIdent);
     } else {
       cb.setCommitter(ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
+    }
+    if (matchAuthorToCommitterDate) {
+      cb.setAuthor(
+          new PersonIdent(
+              cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();

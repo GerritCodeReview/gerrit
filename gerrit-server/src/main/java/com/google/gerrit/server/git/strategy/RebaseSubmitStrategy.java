@@ -179,7 +179,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 .setDetailedCommitMessage(rebaseAlways)
                 // Do not post message after inserting new patchset because there
                 // will be one about change being merged already.
-                .setPostMessage(false);
+                .setPostMessage(false)
+                .setMatchAuthorToCommitterDate(args.project.isMatchAuthorToCommitterDate());
         try {
           rebaseOp.updateRepo(ctx);
         } catch (MergeConflictException | NoSuchChangeException e) {

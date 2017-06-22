@@ -248,6 +248,7 @@ public class MergeUtil {
       mergeCommit.setAuthor(originalCommit.getAuthorIdent());
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
+      matchAuthorToCommitterDate(project, mergeCommit);
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
     throw new MergeConflictException("merge conflict");
@@ -667,6 +668,7 @@ public class MergeUtil {
     mergeCommit.setAuthor(author);
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
+    matchAuthorToCommitterDate(project, mergeCommit);
 
     CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
     mergeResult.setControl(n.getControl());
@@ -855,6 +857,16 @@ public class MergeUtil {
       throw new BadRequestException(e.getMessage());
     } catch (MissingObjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
+    }
+  }
+
+  private static void matchAuthorToCommitterDate(ProjectState project, CommitBuilder commit) {
+    if (project.isMatchAuthorToCommitterDate()) {
+      commit.setAuthor(
+          new PersonIdent(
+              commit.getAuthor(),
+              commit.getCommitter().getWhen(),
+              commit.getCommitter().getTimeZone()));
     }
   }
 }

@@ -612,24 +612,24 @@ maven_jar(
     sha1 = "cd9886f498ee2ab2d994f0c779e5553b2c450416",
 )
 
-BC_VERS = "1.56"
+BC_VERS = "1.57"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "a153c6f9744a3e9dd6feab5e210e1c9861362ec7",
+    sha1 = "f66a135611d42c992e5745788c3f94eb06464537",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "9c3f2e7072c8cc1152079b5c25291a9f462631f1",
+    sha1 = "7b2d587f5e3780b79e1d35af3e84d00634e9420b",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "4648af70268b6fdb24674fb1fd7c1fcc73db1231",
+    sha1 = "5c96e34bc9bd4cd6870e6d193a99438f1e274ca7",
 )
 
 # TODO(davido): Remove exlusion of file system provider, when this issue is fixed:

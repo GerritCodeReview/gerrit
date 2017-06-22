@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "f2457525_1299a2e6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T18:24:54Z",
+      "side": 1,
+      "message": "Fails, locally when i remove _createGroup, attached and _formatGroupConfigForSave\n\nfails at\n\n    _handleCreateGroup() {\n      return this.$.restAPI.createGroup(this._groupConfig)\n          .then(groupRegistered \u003d\u003e {\n            if (groupRegistered.status \u003d\u003d\u003d 201) {\n              this._groupCreated \u003d true;\n              this.$.redirect.click();\n            }\n          });\n    },\n\nTypeError: undefined is not an object (evaluating \u0027config.name\u0027) — gr-app.js:1770:380",
+      "parentUuid": "80e76a44_2b40c262",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ccff558_f6f7ac10",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 10

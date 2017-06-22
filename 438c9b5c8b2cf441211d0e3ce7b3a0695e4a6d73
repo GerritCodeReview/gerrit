@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6bb3fb0_c27260a7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T22:12:36Z",
+      "side": 1,
+      "message": "Why is this here?",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "438c9b5c8b2cf441211d0e3ce7b3a0695e4a6d73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

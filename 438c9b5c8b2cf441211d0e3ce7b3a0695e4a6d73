@@ -22,6 +22,29 @@
       "revId": "438c9b5c8b2cf441211d0e3ce7b3a0695e4a6d73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b26119_06f1c2ba",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T22:16:57Z",
+      "side": 1,
+      "message": "This should probably exist outside of the table. Let\u0027s put it after the closing table tag.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 63
+      },
+      "revId": "438c9b5c8b2cf441211d0e3ce7b3a0695e4a6d73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

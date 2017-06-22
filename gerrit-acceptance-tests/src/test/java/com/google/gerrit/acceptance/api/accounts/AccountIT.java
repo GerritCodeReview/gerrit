@@ -759,6 +759,36 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmit() throws Exception {
+    String userRefName = RefNames.refsUsers(admin.id);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRefName + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "OOO");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(MagicBranch.NEW_CHANGE + userRefName);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format("update of %s not allowed", AccountConfig.ACCOUNT_CONFIG));
+    gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
   public void pushWatchConfigToUserBranch() throws Exception {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
@@ -797,6 +827,28 @@ public class AccountIT extends AbstractDaemonTest {
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
             WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchIsRejected() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "OOO");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("account update not allowed");
   }
 
   @Test
@@ -1255,6 +1307,26 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
+  }
+
+  private Config getAccountConfig(TestRepository<?> allUsersRepo) throws Exception {
+    Config ac = new Config();
+    try (TreeWalk tw =
+        TreeWalk.forPath(
+            allUsersRepo.getRepository(),
+            AccountConfig.ACCOUNT_CONFIG,
+            getHead(allUsersRepo.getRepository()).getTree())) {
+      assertThat(tw).isNotNull();
+      ac.fromText(
+          new String(
+              allUsersRepo
+                  .getRevWalk()
+                  .getObjectReader()
+                  .open(tw.getObjectId(0), OBJ_BLOB)
+                  .getBytes(),
+              UTF_8));
+    }
+    return ac;
   }
 
   private static class AccountIndexedCounter implements AccountIndexedListener {

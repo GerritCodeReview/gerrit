@@ -16,6 +16,24 @@
       "revId": "2bc0ba4f42e939c46ae3e5622847c0f111a3a446",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6987ecd0_74f11b44",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-22T21:20:08Z",
+      "side": 1,
+      "message": "Why remove it? This still provides the actual version of Gerrit. The versionInfo is in addition to the version (e.g. build number).",
+      "parentUuid": "c1d1238f_ec4ab0b3",
+      "revId": "2bc0ba4f42e939c46ae3e5622847c0f111a3a446",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

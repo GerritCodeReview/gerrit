@@ -17,7 +17,7 @@ package com.google.gerrit.server.notedb.rebuild;
 import java.io.IOException;
 
 /** Exception thrown by {@link NoteDbMigrator} when migration fails. */
-class MigrationException extends IOException {
+public class MigrationException extends IOException {
   private static final long serialVersionUID = 1L;
 
   MigrationException(String message) {

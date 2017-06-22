@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f40637b1_995010bd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-22T16:13:06Z",
+      "side": 1,
+      "message": "final",
+      "range": {
+        "startLine": 153,
+        "startChar": 18,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "a2146acb2f23caf923db131564f763e538160882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4e5717d_a9f3b1f8",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
         "patchSetId": 3
@@ -13,6 +36,30 @@
       "writtenOn": "2017-06-22T13:37:20Z",
       "side": 1,
       "message": "sop, what do you think?",
+      "range": {
+        "startLine": 164,
+        "startChar": 23,
+        "endLine": 164,
+        "endChar": 32
+      },
+      "revId": "a2146acb2f23caf923db131564f763e538160882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5f22b37_8e90e1ee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-06-22T16:13:06Z",
+      "side": 1,
+      "message": "I think its fine to interrupt here.",
+      "parentUuid": "c4e5717d_a9f3b1f8",
       "range": {
         "startLine": 164,
         "startChar": 23,

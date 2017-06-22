@@ -122,6 +122,10 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // want precise control over when auto-rebuilding happens.
     cfg.setBoolean("index", null, "testAutoReindexIfStale", false);
 
+    // setNotesMigration tries to keep IDs in sync between ReviewDb and NoteDb, which is behavior
+    // unique to this test. This gets prohibitively slow if we use the default sequence gap.
+    cfg.setInt("noteDb", "changes", "initialSequenceGap", 0);
+
     return cfg;
   }
 

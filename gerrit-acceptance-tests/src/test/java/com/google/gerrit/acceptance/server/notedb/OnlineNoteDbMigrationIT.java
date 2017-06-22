@@ -17,6 +17,12 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
+import static com.google.gerrit.server.notedb.NotesMigrationState.REVIEW_DB;
+import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -28,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
@@ -37,13 +44,18 @@ import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.MigrationException;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.schema.ReviewDbFactory;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -56,12 +68,21 @@ import org.junit.Test;
 public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   private static final String INVALID_STATE = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setInt("noteDb", "changes", "sequenceBatchSize", 10);
+    cfg.setInt("noteDb", "changes", "initialSequenceGap", 500);
+    return cfg;
+  }
+
   // Tests in this class are generally interested in the actual ReviewDb contents, but the shifting
   // migration state may result in various kinds of wrappers showing up unexpectedly.
   @Inject @ReviewDbFactory private SchemaFactory<ReviewDb> schemaFactory;
 
   @Inject private SitePaths sitePaths;
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
+  @Inject private Sequences sequences;
 
   private FileBasedConfig gerritConfig;
 
@@ -69,7 +90,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
-    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
+    assertNotesMigrationState(REVIEW_DB);
   }
 
   @Test
@@ -88,14 +109,16 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
         "Cannot set changes or projects during auto-migration",
         b -> b.setProjects(ps),
         NoteDbMigrator::migrate);
+    assertMigrationException(
+        "Sequence gap must be non-negative", b -> b.setSequenceGap(-1), m -> {});
 
-    setNotesMigrationState(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
+    setNotesMigrationState(READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
     assertMigrationException(
         "Migration has already progressed past the endpoint of the \"trial mode\" state",
         b -> b.setTrialMode(true),
         NoteDbMigrator::migrate);
 
-    setNotesMigrationState(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);
+    setNotesMigrationState(READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);
     assertMigrationException(
         "Cannot force rebuild changes; NoteDb is already the primary storage for some changes",
         b -> b.setForceRebuild(true),
@@ -110,7 +133,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     try (NoteDbMigrator migrator = migratorBuilderProvider.get().setTrialMode(true).build()) {
       migrator.migrate();
     }
-    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
 
     ObjectId oldMetaId;
     try (Repository repo = repoManager.openRepository(project);
@@ -134,7 +157,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
 
     migrate(b -> b.setTrialMode(true));
-    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
 
     try (Repository repo = repoManager.openRepository(project);
         ReviewDb db = schemaFactory.open()) {
@@ -145,7 +168,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
 
     migrate(b -> b.setTrialMode(true).setForceRebuild(true));
-    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
 
     try (Repository repo = repoManager.openRepository(project);
         ReviewDb db = schemaFactory.open()) {
@@ -163,7 +186,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildSubsetOfChanges() throws Exception {
-    setNotesMigrationState(NotesMigrationState.WRITE);
+    setNotesMigrationState(WRITE);
 
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
@@ -191,7 +214,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildSubsetOfProjects() throws Exception {
-    setNotesMigrationState(NotesMigrationState.WRITE);
+    setNotesMigrationState(WRITE);
 
     Project.NameKey p2 = createProject("project2");
     TestRepository<?> tr2 = cloneProject(p2, admin);
@@ -218,6 +241,49 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
       NoteDbChangeState s2 = NoteDbChangeState.parse(db.changes().get(id2));
       assertThat(s2.getChangeMetaId().name()).isNotEqualTo(invalidState);
+    }
+  }
+
+  @Test
+  public void enableSequencesNoGap() throws Exception {
+    testEnableSequences(0, 3, "13");
+  }
+
+  @Test
+  public void enableSequencesWithGap() throws Exception {
+    testEnableSequences(null, 503, "513");
+  }
+
+  private void testEnableSequences(
+      Integer builderOption, int expectedFirstId, String expectedRefValue) throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    assertThat(id.get()).isEqualTo(1);
+
+    migrate(
+        b ->
+            b.setSequenceGap(builderOption)
+                .setStopAtStateForTesting(READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY));
+
+    // Implementation always discards 1 ID in addition to the gap.
+    assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId);
+    assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 1);
+
+    try (Repository repo = repoManager.openRepository(allProjects);
+        ObjectReader reader = repo.newObjectReader()) {
+      Ref ref = repo.exactRef("refs/sequences/changes");
+      assertThat(ref).isNotNull();
+      ObjectLoader loader = reader.open(ref.getObjectId());
+      assertThat(loader.getType()).isEqualTo(Constants.OBJ_BLOB);
+      // Acquired a block of 10 to serve the first nextChangeId call after migration.
+      assertThat(new String(loader.getCachedBytes(), UTF_8)).isEqualTo(expectedRefValue);
+    }
+
+    try (ReviewDb db = schemaFactory.open()) {
+      // Underlying, unused ReviewDb is still on its own sequence.
+      @SuppressWarnings("deprecation")
+      int nextFromReviewDb = db.nextChangeId();
+      assertThat(nextFromReviewDb).isEqualTo(3);
     }
   }
 

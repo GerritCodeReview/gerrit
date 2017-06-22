@@ -1,6 +1,6 @@
 def documentation_attributes():
   return [
-    "toc",
+    "toc2",
     'newline="\\n"',
     'asterisk="&#42;"',
     'plus="&#43;"',

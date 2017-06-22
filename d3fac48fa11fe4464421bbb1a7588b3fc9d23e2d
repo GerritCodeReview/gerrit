@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8811d6e9_84081c94",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: this can go on a single line.",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51eda152_b42509ca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: remove space.",
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "812a8aa7_04ec5a3d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: remove space.",
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f75acf_c05040c6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: this can go on a single line.",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 13
+      },
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451c2c7f_025a547a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: this can go on a single line.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 7
+      },
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7749455_94db3711",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T16:57:36Z",
+      "side": 1,
+      "message": "Nit: Please break up the string so that it doesn\u0027t wrap onto a new line.",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 83
+      },
+      "revId": "d3fac48fa11fe4464421bbb1a7588b3fc9d23e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

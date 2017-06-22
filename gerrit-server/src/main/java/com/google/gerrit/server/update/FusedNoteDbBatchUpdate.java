@@ -286,7 +286,6 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
     super(repoManager, serverIdent, project, user, when);
-    checkArgument(!db.changesTablesEnabled(), "expected Change tables to be disabled on %s", db);
     this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
     this.changeUpdateFactory = changeUpdateFactory;

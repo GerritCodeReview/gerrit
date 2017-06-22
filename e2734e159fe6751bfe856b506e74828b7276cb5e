@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "1991d355_5738e4b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T13:00:36Z",
+      "side": 1,
+      "message": "Got it, should have read more closely, this is implied by \"AccountsUpdate doesn\u0027t reindex accounts\" :)",
+      "parentUuid": "5af2183f_3c66a7e2",
+      "range": {
+        "startLine": 37,
+        "startChar": 67,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592623f9_11857edf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -141,6 +165,30 @@
       "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b57834b3_637ea71b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T13:00:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d79922c8_17612e64",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "e2734e159fe6751bfe856b506e74828b7276cb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

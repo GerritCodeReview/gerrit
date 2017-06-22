@@ -53,6 +53,7 @@ package_licenses = {
   "neon-animation": "polymer",
   "page": "page.js",
   "polymer": "polymer",
+  "polymer-resin": "polymer",
   "promise-polyfill": "promise-polyfill",
   "web-animations-js": "Apache2.0",
   "webcomponentsjs": "polymer",

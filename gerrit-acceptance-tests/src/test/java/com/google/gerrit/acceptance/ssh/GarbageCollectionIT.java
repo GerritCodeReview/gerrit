@@ -57,7 +57,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     String response =
         adminSshSession.exec("gerrit gc \"" + project.get() + "\" \"" + project2.get() + "\"");
     assert_()
-        .withFailureMessage(adminSshSession.getError())
+        .withMessage(adminSshSession.getError())
         .that(adminSshSession.hasError())
         .isFalse();
     assertNoError(response);
@@ -70,7 +70,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   public void testGcAll() throws Exception {
     String response = adminSshSession.exec("gerrit gc --all");
     assert_()
-        .withFailureMessage(adminSshSession.getError())
+        .withMessage(adminSshSession.getError())
         .that(adminSshSession.hasError())
         .isFalse();
     assertNoError(response);

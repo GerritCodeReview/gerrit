@@ -1209,7 +1209,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
     assert_()
-        .withFailureMessage(String.format("%s not equal %s", localHead.name(), remoteHead.name()))
+        .withMessage(String.format("%s not equal %s", localHead.name(), remoteHead.name()))
         .that(localHead.getId())
         .isNotEqualTo(remoteHead.getId());
     assertThat(remoteHead.getParentCount()).isEqualTo(1);

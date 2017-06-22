@@ -104,14 +104,14 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
     String path = scproot + "/hooks/" + name;
     String errorMessage = "Cannot locate " + path + " in CLASSPATH";
     URL url = cl().getResource(path);
-    assert_().withFailureMessage(errorMessage).that(url).isNotNull();
+    assert_().withMessage(errorMessage).that(url).isNotNull();
 
     String protocol = url.getProtocol();
-    assert_().withFailureMessage("Cannot invoke " + url).that(protocol).isAnyOf("file", "jar");
+    assert_().withMessage("Cannot invoke " + url).that(protocol).isAnyOf("file", "jar");
 
     if ("file".equals(protocol)) {
       hook = new File(url.getPath());
-      assert_().withFailureMessage(errorMessage).that(hook.isFile()).isTrue();
+      assert_().withMessage(errorMessage).that(hook.isFile()).isTrue();
       long time = hook.lastModified();
       hook.setExecutable(true);
       hook.setLastModified(time);

@@ -173,7 +173,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
   private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
     assert_()
-        .withFailureMessage("Cannot invoke " + pkg + ":" + name)
+        .withMessage("Cannot invoke " + pkg + ":" + name)
         .that(env.execute(Prolog.BUILTIN, "call", head))
         .isTrue();
   }

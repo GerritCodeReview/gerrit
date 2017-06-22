@@ -141,11 +141,11 @@
       this.set('_showChangeView', view === 'gr-change-view');
       this.set('_showDiffView', view === 'gr-diff-view');
       this.set('_showSettingsView', view === 'gr-settings-view');
-      this.set('_showGroupListView', view === 'gr-admin-group-list');
-      this.set('_showProjectListView', view === 'gr-admin-project-list');
-      this.set('_showAdminProject', view === 'gr-admin-project');
-      this.set('_showPluginListView', view === 'gr-admin-plugin-list');
-      this.set('_createProject', view === 'gr-admin-create-project');
+      this.set('_showGroupListView', view === 'gr-group-list');
+      this.set('_showProjectListView', view === 'gr-project-list');
+      this.set('_showAdminProject', view === 'gr-project');
+      this.set('_showPluginListView', view === 'gr-plugin-list');
+      this.set('_createProject', view === 'gr-create-project');
       this.set('_showAdminView', view === 'gr-admin-view');
       this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {

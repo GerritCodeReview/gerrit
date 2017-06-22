@@ -119,7 +119,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-group-list',
             offset: data.params[1] || 0,
             filter: null,
           };
@@ -133,7 +133,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-group-list',
             offset: data.params.offset,
             filter: data.params.filter,
           };
@@ -147,7 +147,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-group-list',
+            view: 'gr-group-list',
             filter: data.params.filter || null,
           };
         } else {
@@ -163,7 +163,7 @@
           if (loggedIn &&
               (permission.administrateServer || permission.createProject)) {
             app.params = {
-              view: 'gr-admin-create-project',
+              view: 'gr-create-project',
             };
           } else {
             page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -175,7 +175,7 @@
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-project-list',
         offset: data.params[1] || 0,
         filter: null,
       };
@@ -183,7 +183,7 @@
 
     page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-project-list',
         offset: data.params.offset,
         filter: data.params.filter,
       };
@@ -191,7 +191,7 @@
 
     page('/admin/projects/q/filter::filter', loadUser, data => {
       app.params = {
-        view: 'gr-admin-project-list',
+        view: 'gr-project-list',
         filter: data.params.filter || null,
       };
     });
@@ -199,7 +199,7 @@
     // Matches /admin/projects/<project>
     page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-project',
+        view: 'gr-project',
         project: data.params[0],
       };
     });
@@ -208,7 +208,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-plugin-list',
+            view: 'gr-plugin-list',
           };
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));

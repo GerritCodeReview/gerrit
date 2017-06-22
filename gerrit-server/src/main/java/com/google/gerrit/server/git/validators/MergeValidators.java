@@ -20,12 +20,16 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -35,7 +39,10 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -48,6 +55,7 @@ public class MergeValidators {
 
   private final DynamicSet<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
+  private final AccountValidator.Factory accountValidatorFactory;
 
   public interface Factory {
     MergeValidators create();
@@ -56,9 +64,11 @@ public class MergeValidators {
   @Inject
   MergeValidators(
       DynamicSet<MergeValidationListener> mergeValidationListeners,
-      ProjectConfigValidator.Factory projectConfigValidatorFactory) {
+      ProjectConfigValidator.Factory projectConfigValidatorFactory,
+      AccountValidator.Factory accountValidatorFactory) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
+    this.accountValidatorFactory = accountValidatorFactory;
   }
 
   public void validatePreMerge(
@@ -72,7 +82,8 @@ public class MergeValidators {
     List<MergeValidationListener> validators =
         ImmutableList.of(
             new PluginMergeValidationListener(mergeValidationListeners),
-            projectConfigValidatorFactory.create());
+            projectConfigValidatorFactory.create(),
+            accountValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
       validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
@@ -207,6 +218,61 @@ public class MergeValidators {
         throws MergeValidationException {
       for (MergeValidationListener validator : mergeValidationListeners) {
         validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
+      }
+    }
+  }
+
+  public static class AccountValidator implements MergeValidationListener {
+    public interface Factory {
+      AccountValidator create();
+    }
+
+    private final Provider<ReviewDb> dbProvider;
+    private final AllUsersName allUsersName;
+    private final ChangeData.Factory changeDataFactory;
+
+    @Inject
+    public AccountValidator(
+        Provider<ReviewDb> dbProvider,
+        AllUsersName allUsersName,
+        ChangeData.Factory changeDataFactory) {
+      this.dbProvider = dbProvider;
+      this.allUsersName = allUsersName;
+      this.changeDataFactory = changeDataFactory;
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        Branch.NameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      if (!allUsersName.equals(destProject.getProject().getNameKey())
+          || Account.Id.fromRef(destBranch.get()) == null) {
+        return;
+      }
+
+      if (commit.getParentCount() > 1) {
+        // for merge commits we cannot ensure that the 'account.config' file is not modified, since
+        // for merge commits file modifications that come in through the merge don't appear in the
+        // file list that is returned by ChangeData#currentFilePaths()
+        throw new MergeValidationException("cannot submit merge commit to user branch");
+      }
+
+      ChangeData cd =
+          changeDataFactory.create(
+              dbProvider.get(), destProject.getProject().getNameKey(), patchSetId.getParentKey());
+      try {
+        if (cd.currentFilePaths().contains(AccountConfig.ACCOUNT_CONFIG)) {
+          throw new MergeValidationException(
+              String.format("update of %s not allowed", AccountConfig.ACCOUNT_CONFIG));
+        }
+      } catch (OrmException e) {
+        log.error("Cannot validate account update", e);
+        throw new MergeValidationException("account validation unavailable");
       }
     }
   }

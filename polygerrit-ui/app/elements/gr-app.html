@@ -18,12 +18,12 @@ limitations under the License.
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
-<link rel="import" href="./admin/gr-admin-create-project/gr-admin-create-project.html">
-<link rel="import" href="./admin/gr-admin-group-list/gr-admin-group-list.html">
-<link rel="import" href="./admin/gr-admin-plugin-list/gr-admin-plugin-list.html">
-<link rel="import" href="./admin/gr-admin-project-list/gr-admin-project-list.html">
-<link rel="import" href="./admin/gr-admin-project/gr-admin-project.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
+<link rel="import" href="./admin/gr-create-project/gr-create-project.html">
+<link rel="import" href="./admin/gr-group-list/gr-group-list.html">
+<link rel="import" href="./admin/gr-plugin-list/gr-plugin-list.html">
+<link rel="import" href="./admin/gr-project/gr-project.html">
+<link rel="import" href="./admin/gr-project-list/gr-project-list.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
@@ -145,25 +145,25 @@ limitations under the License.
         </gr-settings-view>
       </template>
       <template is="dom-if" if="[[_showGroupListView]]" restamp="true">
-        <gr-admin-group-list
+        <gr-group-list
             params="[[params]]"
-            id="groupList"></gr-admin-group-list>
+            id="groupList"></gr-group-list>
       </template>
       <template is="dom-if" if="[[_showProjectListView]]" restamp="true">
-        <gr-admin-project-list
+        <gr-project-list
             params="[[params]]"
-            id="projectList"></gr-admin-project-list>
+            id="projectList"></gr-project-list>
       </template>
       <template is="dom-if" if="[[_showAdminProject]]" restamp="true">
-        <gr-admin-project project="[[params.project]]"></gr-admin-project>
+        <gr-project project="[[params.project]]"></gr-project>
       </template>
       <template is="dom-if" if="[[_showPluginListView]]" restamp="true">
-        <gr-admin-plugin-list id="pluginList"></gr-admin-plugin-list>
+        <gr-plugin-list id="pluginList"></gr-plugin-list>
       </template>
       <template is="dom-if" if="[[_createProject]]" restamp="true">
-        <gr-admin-create-project
+        <gr-create-project
             params="[[params]]"
-            id="createProject"></gr-admin-create-project>
+            id="createProject"></gr-create-project>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"></gr-admin-view>

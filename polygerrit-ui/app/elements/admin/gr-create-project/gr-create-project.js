@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-create-project',
+    is: 'gr-create-project',
 
     properties: {
       params: Object,

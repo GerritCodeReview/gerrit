@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "80e76a44_2b40c262",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:10:26Z",
+      "side": 1,
+      "message": "You don\u0027t need anything to get set-up on attached. Please try to do it with simply passing the name to the rest API.",
+      "parentUuid": "3ea62671_9372000e",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ccff558_f6f7ac10",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 10

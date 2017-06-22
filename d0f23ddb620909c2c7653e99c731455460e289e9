@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d155c222_0f4518ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T22:05:31Z",
+      "side": 1,
+      "message": "Im wonder what does this check do?",
+      "range": {
+        "startLine": 351,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 38
+      },
+      "revId": "d0f23ddb620909c2c7653e99c731455460e289e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,29 @@
       "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "459a0afd_8039a5d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-22T07:52:51Z",
+      "side": 1,
+      "message": "nit: Should this be ContextAwareEdit now? ContextAwareEdit doesn\u0027t seem to be a subclass of Edit.",
+      "range": {
+        "startLine": 89,
+        "startChar": 36,
+        "endLine": 89,
+        "endChar": 40
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

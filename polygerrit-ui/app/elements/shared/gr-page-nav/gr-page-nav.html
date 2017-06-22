@@ -13,9 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-page-nav">
@@ -41,11 +40,17 @@ limitations under the License.
         border-top: 1px solid transparent;
         padding: 0 2em;
       }
+      #nav ::content .subsectionItem {
+        padding-left: 3em;
+      }
+      #nav ::content .hideSubsection {
+        display: none;
+      }
       #nav ::content li.sectionTitle {
         padding: 0 2em 0 1.5em;
       }
       #nav ::content li.sectionTitle:not(:first-child) {
-        padding-top: 1em;
+        margin-top: 1em;
       }
       #nav ::content .title {
         display: flex;

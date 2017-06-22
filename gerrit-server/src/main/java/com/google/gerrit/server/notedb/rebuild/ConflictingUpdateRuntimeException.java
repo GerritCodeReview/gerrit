@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,16 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwtorm.server.OrmRuntimeException;
 
-/**
- * {@link com.google.gwtorm.server.OrmException} thrown by {@link ChangeRebuilder} when rebuilding a
- * change failed because another operation modified its {@link
- * com.google.gerrit.server.notedb.NoteDbChangeState}.
- */
-public class ConflictingUpdateException extends OrmException {
+class ConflictingUpdateRuntimeException extends OrmRuntimeException {
   private static final long serialVersionUID = 1L;
 
-  // Always created from a ConflictingUpdateRuntimeException because it originates from an
-  // AtomicUpdate, which cannot throw checked exceptions.
-  ConflictingUpdateException(ConflictingUpdateRuntimeException cause) {
-    super(cause.getMessage(), cause);
+  ConflictingUpdateRuntimeException(Change change, String expectedNoteDbState) {
+    super(
+        String.format(
+            "Expected change %s to have noteDbState %s but was %s",
+            change.getId(), expectedNoteDbState, change.getNoteDbState()));
   }
 }

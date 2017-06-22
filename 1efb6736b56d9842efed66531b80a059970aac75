@@ -34,6 +34,24 @@
       "revId": "1efb6736b56d9842efed66531b80a059970aac75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18087be9_d0f0066c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-22T16:36:26Z",
+      "side": 1,
+      "message": "writeMergeCommit() is called only by mergeOneCommit(), which in turn is called by strategy/CherryPick.java:CherryPickMultipleParentsOp, strategy/RebaseSubmitStrategy.java:RebaseMultipleParentsOp, and strategy/MergeOneOp.java in their code for handling the submission of a change which itself is a merge commit. So I think this code is less about the merge commit automatically created by one of the Merge strategies, and more about someone trying to land a merge commit using one of the other strategies. If someone has uploaded a merge commit for review, but the submit strategy is \"Rebase Always\", I\u0027d expect that merge commit to have its Author Timestamp overwritten when it gets submitted.",
+      "parentUuid": "4113415c_2dc3ec4b",
+      "revId": "1efb6736b56d9842efed66531b80a059970aac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

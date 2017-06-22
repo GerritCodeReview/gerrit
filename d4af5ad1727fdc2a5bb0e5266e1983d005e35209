@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498135019 +0200\nnonce AH5c86B11zlihHFAb8RGjraUYrQee9IB+gLfeKe9qClH/XagHoNU3j3frUGBDSlxqolAYyi1Ly6n\n\n0000000000000000000000000000000000000000 8627eb888672b97dd3b79aef7f86f528f441db64 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZS7nrAAoJEFG1/Zeg0O9RU6AIAKHCX+dwB9S3ylp2Bb9G9nRB\ndmrki6Krw06WawG/cBWED3lsCEgzQ/JEifZ33ssoPhOWlY1n++heCJbe03VKeDkY\nNW8qPt2qFU/c01H6eZ3ftswIIwlMoFXDVon7x6G9BTy+2Rk58F7eUSwsbIXE80tT\nuwnEF6vd4oC9y+8/NUww4JwEiOIEODCIRTJIL1pG92CVI7UkQM/FxZhAzA/HfWgA\n/830+u8+1+lgGO6WivuJnCf/6Ou5oMGqgG8xjCvUHiMy9vCXd9CKwVQu9CfbyY2C\noWdw98N1dfbnlaBSoplhT+I9b37XS0gb7wUT9VSefx9nr9wBIChm1LjJoW0Q97w\u003d\n\u003dVxr6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca5e5bb8_9d9dd577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T13:02:36Z",
+      "side": 1,
+      "message": "Is this true? We don\u0027t allow them on change meta refs because we depend on parsing commit messages in order, but that issue doesn\u0027t apply to accounts.",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77542403_9556f94c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T13:02:36Z",
+      "side": 1,
+      "message": "Can\u0027t you just compare the blob SHA-1s (from a TreeWalk.forPath or whatever) rather than reading the bytes?",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

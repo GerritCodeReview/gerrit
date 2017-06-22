@@ -19,10 +19,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit.Key;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
@@ -30,9 +33,12 @@ import java.util.Optional;
 
 /** A schema which adds the 'created on' field to groups. */
 public class Schema_151 extends SchemaVersion {
+  private final GroupIndexCollection groupIndexCollection;
+
   @Inject
-  protected Schema_151(Provider<Schema_150> prior) {
+  protected Schema_151(Provider<Schema_150> prior, GroupIndexCollection groupIndexCollection) {
     super(prior);
+    this.groupIndexCollection = groupIndexCollection;
   }
 
   @Override
@@ -46,11 +52,23 @@ public class Schema_151 extends SchemaVersion {
               .map(AccountGroupMemberAudit::getKey)
               .map(Key::getAddedOn)
               .min(Comparator.naturalOrder());
-      Timestamp createdOn =
-          firstTimeMentioned.orElseGet(() -> AccountGroup.auditCreationInstantTs());
+      Timestamp createdOn = firstTimeMentioned.orElseGet(AccountGroup::auditCreationInstantTs);
 
       accountGroup.setCreatedOn(createdOn);
     }
     db.accountGroups().update(accountGroups);
+    try {
+      reindex(accountGroups);
+    } catch (IOException e) {
+      throw new OrmException("Failed to index groups", e);
+    }
+  }
+
+  private void reindex(List<AccountGroup> accountGroups) throws IOException {
+    for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
+      for (AccountGroup accountGroup : accountGroups) {
+        groupIndex.replace(accountGroup);
+      }
+    }
   }
 }

@@ -30,7 +30,6 @@ import com.google.gerrit.server.index.account.AccountIndexDefinition;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.inject.AbstractModule;
@@ -74,8 +73,6 @@ public class IndexModuleOnInit extends AbstractModule {
     // by the Reindex program and the OnlineReindexer which are both not used
     // during init, hence we don't need AllGroupsIndexer.
     bind(AllGroupsIndexer.class).toProvider(Providers.of(null));
-
-    bind(GroupIndexCollection.class);
 
     bind(new TypeLiteral<Map<String, Integer>>() {})
         .annotatedWith(Names.named(SingleVersionModule.SINGLE_VERSIONS))

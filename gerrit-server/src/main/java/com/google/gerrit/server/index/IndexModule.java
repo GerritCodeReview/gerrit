@@ -105,7 +105,6 @@ public class IndexModule extends LifecycleModule {
     factory(ChangeIndexer.Factory.class);
 
     bind(GroupIndexRewriter.class);
-    bind(GroupIndexCollection.class);
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
   }

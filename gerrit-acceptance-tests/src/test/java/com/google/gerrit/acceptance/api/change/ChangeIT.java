@@ -118,6 +118,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2906,6 +2907,98 @@ public class ChangeIT extends AbstractDaemonTest {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change 2: needs All-Comments-Resolved");
     gApi.changes().id(result2.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void changeCommitMessage() throws Exception {
+    // Tests mutating the commit message as both the owner of the change and a regular user with
+    // addPatchSet permission. Asserts that both cases succeed.
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    for (TestAccount acc : ImmutableList.of(admin, user)) {
+      setApiUser(acc);
+      String newMessage =
+          "modified commit by " + acc.username + "\n\nChange-Id: " + r.getChangeId() + "\n";
+      gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+      RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+      assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
+      assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
+    }
+  }
+
+  @Test
+  public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
+    ConfigInput configInput = new ConfigInput();
+    configInput.requireChangeId = InheritableBoolean.FALSE;
+    gApi.projects().name(project.get()).config(configInput);
+
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    String newMessage = "modified commit\n";
+    gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+    RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
+    assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
+    assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
+  }
+
+  @Test
+  public void changeCommitMessageWithNoChangeIdFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("missing Change-Id footer");
+    gApi.changes().id(r.getChangeId()).setMessage("modified commit\n");
+  }
+
+  @Test
+  public void changeCommitMessageWithWrongChangeIdFails() throws Exception {
+    PushOneCommit.Result otherChange = createChange();
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("wrong Change-Id footer");
+    gApi.changes()
+        .id(r.getChangeId())
+        .setMessage("modified commit\n\nChange-Id: " + otherChange.getChangeId() + "\n");
+  }
+
+  @Test
+  public void changeCommitMessageWithoutPermissionFails() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSetEdit");
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
+    // Block default permission
+    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    // Create change as user
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    // Try to change the commit message
+    exception.expect(AuthException.class);
+    exception.expectMessage("modifying commit message not permitted");
+    gApi.changes().id(r.getChangeId()).setMessage("foo");
+  }
+
+  @Test
+  public void changeCommitMessageWithSameMessageFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("new and existing commit message are the same");
+    gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
+  }
+
+  private String getCommitMessage(String changeId) throws RestApiException, IOException {
+    return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }
 
   private void addComment(

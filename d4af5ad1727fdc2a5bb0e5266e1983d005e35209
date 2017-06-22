@@ -92,6 +92,24 @@
     },
     {
       "key": {
+        "uuid": "a476d066_7aabfd92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-22T14:57:16Z",
+      "side": 1,
+      "message": "receiveEvent.command.getOldId() only works for direct pushes, when pushing for code review receiveEvent.command is a CreateCommand with the zero ID as old ID. This is fine, but it means we should prevent submitting changes to user branches which modify the account.config file. The only way for this is implementing a MergeValidationListener, but this doesn\u0027t provide us the old ID *sigh*\n\nNot sure how to solve this. Maybe nobody would notice if we disable submitting changes to user branches until we are done with migrating accounts to NoteDb?",
+      "parentUuid": "be3d9c98_cf713b09",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

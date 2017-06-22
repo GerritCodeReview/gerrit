@@ -24,10 +24,12 @@ import static java.util.stream.Collectors.toMap;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.diff.Edit;
@@ -82,25 +84,25 @@ class EditTransformer {
   }
 
   /**
-   * Returns the transformed {@code Edit}s per file path they modify in {@code treeB'}.
+   * Returns the transformed edits per file path they modify in {@code treeB'}.
    *
-   * @return the transformed {@code Edit}s per file path
+   * @return the transformed edits per file path
    */
-  public Multimap<String, Edit> getEditsPerFilePath() {
+  public Multimap<String, ContextAwareEdit> getEditsPerFilePath() {
     return edits
         .stream()
         .collect(
             toMultimap(
-                ContextAwareEdit::getNewFilePath,
-                ContextAwareEdit::toEdit,
-                ArrayListMultimap::create));
+                ContextAwareEdit::getNewFilePath, Function.identity(), ArrayListMultimap::create));
   }
 
-  private static Stream<ContextAwareEdit> toEdits(PatchListEntry patchListEntry) {
-    return patchListEntry
-        .getEdits()
-        .stream()
-        .map(edit -> ContextAwareEdit.create(patchListEntry, edit));
+  public static Stream<ContextAwareEdit> toEdits(PatchListEntry patchListEntry) {
+    ImmutableList<Edit> edits = patchListEntry.getEdits();
+    if (edits.isEmpty()) {
+      return Stream.of(ContextAwareEdit.createForNoContentEdit(patchListEntry));
+    }
+
+    return edits.stream().map(edit -> ContextAwareEdit.create(patchListEntry, edit));
   }
 
   private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
@@ -187,6 +189,10 @@ class EditTransformer {
           edit.getEndB());
     }
 
+    static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
+      return create(patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1);
+    }
+
     static ContextAwareEdit create(
         String oldFilePath, String newFilePath, int beginA, int endA, int beginB, int endB) {
       String adjustedOldFilePath = MoreObjects.firstNonNull(oldFilePath, newFilePath);
@@ -206,8 +212,12 @@ class EditTransformer {
 
     public abstract int getEndB();
 
-    public Edit toEdit() {
-      return new Edit(getBeginA(), getEndA(), getBeginB(), getEndB());
+    public Optional<Edit> toEdit() {
+      if (getBeginA() < 0) {
+        return Optional.empty();
+      }
+
+      return Optional.of(new Edit(getBeginA(), getEndA(), getBeginB(), getEndB()));
     }
   }
 

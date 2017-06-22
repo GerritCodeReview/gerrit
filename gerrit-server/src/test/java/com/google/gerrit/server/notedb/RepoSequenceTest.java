@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
-import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
@@ -45,16 +44,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class RepoSequenceTest {
+  // Don't sleep in tests.
   private static final Retryer<RefUpdate.Result> RETRYER =
-      RepoSequence.retryerBuilder()
-          .withBlockStrategy(
-              new BlockStrategy() {
-                @Override
-                public void block(long sleepTime) {
-                  // Don't sleep in tests.
-                }
-              })
-          .build();
+      RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
 
   @Rule public ExpectedException exception = ExpectedException.none();
 

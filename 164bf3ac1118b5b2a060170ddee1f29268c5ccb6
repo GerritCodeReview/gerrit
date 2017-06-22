@@ -46,6 +46,144 @@
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9a8e6f4_f53732f6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "I think as per polymer guides, polymer import should come first, and for the rest of the imports order doesn\u0027t matter, so alphabetical is probably ok.",
+      "parentUuid": "57297b72_05578760",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 61
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5287897c_3fc621fb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "You can add multiple included style modules, using spaces as separators.\nUp to you.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21316914_6f9f4eed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "Can \u003cmain\u003e be moved out of dom-if?\nLooks like all dom-if contents are wrapped.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb3ff58e_fdfe694f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "Do you need this return here?",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 16
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc151ff_8ee49296",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "Isn\u0027t links always [] here, as per line #131? Assignment probably would be enough.",
+      "range": {
+        "startLine": 136,
+        "startChar": 16,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699f6a5f_ab26eb0e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "Sorry for nitpicking, but indent probably should be at +4 here.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eade71ec_40e562e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-22T17:25:58Z",
+      "side": 1,
+      "message": "please put this one on the previous line.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "e4184dfe_7ab43b8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-22T13:07:53Z",
+      "side": 1,
+      "message": "Hmm, if there are several parents, how would we know which parent represents the old account state? So that we can verify it wasn\u0027t modified by the new commit?",
+      "parentUuid": "ca5e5bb8_9d9dd577",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

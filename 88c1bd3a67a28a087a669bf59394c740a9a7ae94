@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "2018e7f9_c7ce72df",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T18:48:26Z",
+      "side": 1,
+      "message": "Im not understanding, how will it get it\u0027s value if i remove _groupConfig?",
+      "parentUuid": "87b5f2c3_48082342",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ccff558_f6f7ac10",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 10

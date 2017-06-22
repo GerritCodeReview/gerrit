@@ -110,6 +110,24 @@
     },
     {
       "key": {
+        "uuid": "f705e20f_70da8045",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T15:41:57Z",
+      "side": 1,
+      "message": "\u003e Not sure how to solve this. Maybe nobody would notice if we disable submitting changes to user branches until we are done with migrating accounts to NoteDb?\n\nThat seems simplest. I don\u0027t know of anybody who depends strongly on pushing to user branches directly; AFAIK anything you could possibly want to do i (e.g. edit preferences) is doable in the UI.",
+      "parentUuid": "a476d066_7aabfd92",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

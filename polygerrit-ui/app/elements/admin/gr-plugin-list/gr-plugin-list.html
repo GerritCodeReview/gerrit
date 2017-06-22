@@ -15,58 +15,38 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
-<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-list-view/gr-styled-table.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
-
-<dom-module id="gr-admin-project-list">
+<dom-module id="gr-plugin-list">
   <template>
     <style include="shared-styles"></style>
-    <gr-list-view
-        filter="[[_filter]]"
-        items-per-page="[[_projectsPerPage]]"
-        items="[[_projects]]"
-        loading="[[_loading]]"
-        offset="[[_offset]]"
-        path="/admin/projects">
+    <gr-styled-table>
       <table id="list">
         <tr class="headerRow">
-          <th class="name topHeader">Project Name</th>
-          <th class="description topHeader">Project Description</th>
-          <th class="repositoryBrowser topHeader">Repository Browser</th>
-          <th class="readOnly topHeader">Read only</th>
+          <th class="name topHeader">Plugin Name</th>
+          <th class="version topHeader">Version</th>
+          <th class="status topHeader">Status</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownProjects]]"
+        <template is="dom-repeat" items="[[_plugins]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">
-              <a href$="[[_computeProjectUrl(item.name)]]">[[item.name]]</a>
+              <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
             </td>
-            <td class="description">[[item.description]]</td>
-            <td class="repositoryBrowser">
-              <template is="dom-repeat"
-                  items="[[_computeWeblink(item)]]" as="link">
-                <a href$="[[link.url]]"
-                    class="webLink"
-                    rel="noopener"
-                    target="_blank">
-                  ([[link.name]])
-                </a>
-              </template>
-            </td>
-            <td class="readOnly">[[_readOnly(item)]]</td>
+            <td class="version">[[item.version]]</td>
+            <td class="status">[[_status(item)]]</td>
           </tr>
         </template>
       </table>
-    </gr-list-view>
+    </gr-styled-table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-admin-project-list.js"></script>
+  <script src="gr-plugin-list.js"></script>
 </dom-module>

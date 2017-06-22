@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-group-list',
+    is: 'gr-project-list',
 
     properties: {
       /**
@@ -33,20 +33,20 @@
       _path: {
         type: String,
         readOnly: true,
-        value: '/admin/groups/',
+        value: '/admin/projects/',
       },
-      _groups: Array,
+      _projects: Array,
 
       /**
-       * Because  we request one more than the groupsPerPage, _shownGroups
-       * may be one less than _groups.
+       * Because  we request one more than the projectsPerPage, _shownProjects
+       * maybe one less than _projects.
        * */
-      _shownGroups: {
+      _shownProjects: {
         type: Array,
-        computed: 'computeShownItems(_groups)',
+        computed: 'computeShownItems(_projects)',
       },
 
-      _groupsPerPage: {
+      _projectsPerPage: {
         type: Number,
         value: 25,
       },
@@ -62,43 +62,46 @@
       Gerrit.ListViewBehavior,
     ],
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
-    },
-
     _paramsChanged(params) {
       this._loading = true;
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getGroups(this._filter, this._groupsPerPage,
+      return this._getProjects(this._filter, this._projectsPerPage,
           this._offset);
     },
 
-    _computeGroupUrl(id) {
-      return this.getUrl(this._path, id);
+    _computeProjectUrl(name) {
+      return this.getUrl(this._path, name);
     },
 
-    _getGroups(filter, groupsPerPage, offset) {
-      this._groups = [];
-      return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
-          .then(groups => {
-            if (!groups) {
+    _getProjects(filter, projectsPerPage, offset) {
+      this._projects = [];
+      return this.$.restAPI.getProjects(filter, projectsPerPage, offset)
+          .then(projects => {
+            if (!projects) {
               return;
             }
-            this._groups = Object.keys(groups)
+            this._projects = Object.keys(projects)
              .map(key => {
-               const group = groups[key];
-               group.name = key;
-               return group;
+               const project = projects[key];
+               project.name = key;
+               return project;
              });
             this._loading = false;
           });
     },
 
-    _visibleToAll(item) {
-      return item.options.visible_to_all === true ? 'Y' : 'N';
+    _readOnly(item) {
+      return item.state === 'READ_ONLY' ? 'Y' : 'N';
+    },
+
+    _computeWeblink(project) {
+      if (!project.web_links) {
+        return '';
+      }
+      const webLinks = project.web_links;
+      return webLinks.length ? webLinks : null;
     },
   });
 })();

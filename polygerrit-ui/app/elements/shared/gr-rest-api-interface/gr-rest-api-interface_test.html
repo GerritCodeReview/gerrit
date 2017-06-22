@@ -614,6 +614,24 @@ limitations under the License.
       );
     });
 
+    test('putChangeCommitMessage', done => {
+      const change_num = '1';
+      const message = 'this is a commit message';
+      sandbox.stub(element, 'send').returns(
+          Promise.resolve([change_num, message])
+      );
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve([change_num, message]));
+      element._cache['/changes/' + change_num + '/message'] = {};
+      element.putChangeCommitMessage(change_num, message).then(
+          () => {
+            assert.isTrue(element.send.calledWith('PUT',
+                '/changes/' + change_num + '/message', {message}));
+            done();
+          }
+      );
+    });
+
     test('startWorkInProgress', () => {
       sandbox.stub(element, 'send').returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');

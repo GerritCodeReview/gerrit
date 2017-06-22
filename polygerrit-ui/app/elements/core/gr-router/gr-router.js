@@ -348,6 +348,7 @@
     page(/^\/register(\/.*)?/, ctx => {
       app.params = {justRegistered: true};
       const path = ctx.params[0] || '/';
+      if (!path.startsWith('/')) { return; }
       page.show(path);
     });
 

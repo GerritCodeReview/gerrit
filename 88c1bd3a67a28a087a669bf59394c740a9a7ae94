@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcd83265_8ce6379c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "Not used",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb3444f_6a7e2b83",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "won\u0027t be used.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 103
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8767318_48542633",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "Not used",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 64
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3907b663_7994de89",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "Not used",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 64
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3cf3a2_e7ebb9e6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "This should just be an iron-input, since it doesn\u0027t contain a lot of text that needs to grow.",
+      "range": {
+        "startLine": 58,
+        "startChar": 14,
+        "endLine": 62,
+        "endChar": 39
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c08cfb_c44df253",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "let\u0027s just call this gr-create-group (I\u0027m going to go back and change some of the other ones later).",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3fcc2c_6991d6a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-group/gr-admin-create-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "config is simply {name: xxx}\n\nThis process seems overly convoluted. I don\u0027t think you need the attached() function, or the _createGroup() function, or the _formatGroupConfigForSave() function. Simply pass the name here.",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccff558_f6f7ac10",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "This is already below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 79
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d993fbcf_5ebdb76d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T17:33:19Z",
+      "side": 1,
+      "message": "Nit: this can be on a single line (in createProject too if you have a chance)",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 7
+      },
+      "revId": "88c1bd3a67a28a087a669bf59394c740a9a7ae94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

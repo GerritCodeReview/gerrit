@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc70a60_b5a0e5a8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-22T20:52:58Z",
+      "side": 1,
+      "message": "Let\u0027s space this a bit more cleanly.\n\n          \u003cli hidden$\u003d\"[[!_serverConfig.auth.contributor_agreements]]\"\u003e\n            \u003ca href\u003d\"#Agreements\"\u003eAgreements\u003c/a\u003e\n          \u003c/li\u003e",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "0e264798db3fa9e3d363655b5fd59908c748e2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

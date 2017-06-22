@@ -60,6 +60,14 @@
       '_statusChanged(_account.status)',
     ],
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
+    keyBindings: {
+      enter: '_handleEnter',
+    },
+
     loadData() {
       const promises = [];
 
@@ -98,8 +106,8 @@
 
     _maybeSetName() {
       return this._hasNameChange && this.mutable ?
-                this.$.restAPI.setAccountName(this._account.name) :
-                Promise.resolve();
+          this.$.restAPI.setAccountName(this._account.name) :
+          Promise.resolve();
     },
 
     _maybeSetStatus() {
@@ -126,11 +134,10 @@
       this._hasNameChange = true;
     },
 
-    _handleKeydown(e) {
-      if (e.keyCode === 13) { // Enter
-        e.stopPropagation();
-        this.save();
-      }
+    _handleEnter(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.save();
     },
   });
 })();

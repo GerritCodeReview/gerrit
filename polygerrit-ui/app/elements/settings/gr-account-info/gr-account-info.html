@@ -16,12 +16,11 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-info">
   <template>
@@ -60,7 +59,6 @@ limitations under the License.
               is="iron-input"
               id="nameInput"
               disabled="[[_saving]]"
-              on-keydown="_handleKeydown"
               bind-value="{{_account.name}}">
         </span>
       </section>
@@ -71,7 +69,6 @@ limitations under the License.
               is="iron-input"
               id="statusInput"
               disabled="[[_saving]]"
-              on-keydown="_handleKeydown"
               bind-value="{{_account.status}}">
           </span>
       </section>

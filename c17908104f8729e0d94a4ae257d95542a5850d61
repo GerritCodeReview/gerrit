@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9150a6fd_15053dc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T23:26:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "141603c3_36109076",
+      "revId": "c17908104f8729e0d94a4ae257d95542a5850d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97abdd28_5967d06c",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
         "patchSetId": 17
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ff9d8f02_06fe5c47",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T23:26:58Z",
+      "side": 1,
+      "message": "Yeh, Thanks, done.",
+      "parentUuid": "97abdd28_5967d06c",
+      "range": {
+        "startLine": 48,
+        "startChar": 26,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "c17908104f8729e0d94a4ae257d95542a5850d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79c9dfd8_3b07c0f4",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
         "patchSetId": 17
@@ -53,6 +95,30 @@
       "writtenOn": "2017-06-22T23:23:06Z",
       "side": 1,
       "message": "Why is this check needed? Why would this.$.username be falsy? Likewise for this.$.name and this.$.email?",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "c17908104f8729e0d94a4ae257d95542a5850d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed767660_c0be9f45",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T23:26:58Z",
+      "side": 1,
+      "message": "I got an undefined checked in the log when you try entering either email, username may go undefined due to no username being set by default.\n\nSame for email, and name. Just adds a safty check to prevent these types of problems.",
+      "parentUuid": "79c9dfd8_3b07c0f4",
       "range": {
         "startLine": 70,
         "startChar": 10,

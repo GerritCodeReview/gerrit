@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5cc6397_e6796d00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-22T09:11:11Z",
+      "side": 1,
+      "message": "I think we normally prefer to use \u0027PushOneCommit.Result\u0027 as the \u0027PushOneCommit\u0027 adds additionally context whereas \u0027Result\u0027 is a bit meaningless on its own.",
+      "parentUuid": "89c8236f_dbf213a1",
+      "range": {
+        "startLine": 1153,
+        "startChar": 4,
+        "endLine": 1153,
+        "endChar": 24
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ee7da87_63f7f18e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bc06b6c9_e0dbce26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-22T09:11:11Z",
+      "side": 1,
+      "message": "Well, then I prefer to not change this serialVersionUID. I switched it back to 1 in patch set 2.\n\nSaša, what is you preference? If I don\u0027t get an answer from you within the next hours, I would like to submit this bug fix without the increment, and increase the serialVersionUID in a follow-up change if you favor the increment.",
+      "parentUuid": "c31d00b1_bb27ce5a",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "459a0afd_8039a5d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
         "patchSetId": 1
@@ -92,6 +140,30 @@
       "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a35646_f97675e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-22T09:11:11Z",
+      "side": 1,
+      "message": "I went with \u0027edits\u0027.",
+      "parentUuid": "459a0afd_8039a5d0",
+      "range": {
+        "startLine": 89,
+        "startChar": 36,
+        "endLine": 89,
+        "endChar": 40
+      },
+      "revId": "1a6d7dc78ceb3ca4b0edfba1ffb658793e88a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "dc330545_329376c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "So what is \u0027alphabetical\u0027 when dealing with different file system levels?",
+      "parentUuid": "f9a8e6f4_f53732f6",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 61
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5287897c_3fc621fb",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
         "patchSetId": 7
@@ -90,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "f687a263_39029919",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "I don\u0027t see the documentation on that? \nhttps://www.polymer-project.org/1.0/docs/devguide/styling\n\n\u003cstyle include\u003d\"shared-styles,gr-menu-page-styles\"\u003e\u003c/style\u003e\n\ndidn\u0027t seem to work.",
+      "parentUuid": "5287897c_3fc621fb",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21316914_6f9f4eed",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
         "patchSetId": 7
@@ -101,6 +143,24 @@
       "writtenOn": "2017-06-22T17:25:58Z",
       "side": 1,
       "message": "Can \u003cmain\u003e be moved out of dom-if?\nLooks like all dom-if contents are wrapped.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1341d32_2005fda4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "They have different classes depending on the type of \u0027page\u0027 is being rendered. Mainly whether it\u0027s a form-like page or a table-list page.",
+      "parentUuid": "21316914_6f9f4eed",
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -130,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "105d7cab_476b0fde",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "The return is there because if there is not an account, we don\u0027t load the account capabilities (l.103). Added a comment.",
+      "parentUuid": "eb3ff58e_fdfe694f",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 16
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffc151ff_8ee49296",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 7
@@ -153,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "fd87bdcd_6bc592b5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "Yep, good point. done.",
+      "parentUuid": "ffc151ff_8ee49296",
+      "range": {
+        "startLine": 136,
+        "startChar": 16,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "699f6a5f_ab26eb0e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
         "patchSetId": 7
@@ -164,6 +272,24 @@
       "writtenOn": "2017-06-22T17:25:58Z",
       "side": 1,
       "message": "Sorry for nitpicking, but indent probably should be at +4 here.",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67aa2165_16a819f6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "Since it\u0027s after the function open, wouldn\u0027t it only be at 2?",
+      "parentUuid": "699f6a5f_ab26eb0e",
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -184,6 +310,24 @@
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1fa9dd_2e304a5e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-22T18:17:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eade71ec_40e562e4",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1f867edc_241a577a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group/gr-admin-group.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T20:10:05Z",
+      "side": 1,
+      "message": "Hmm, i like idea 1, but that may use alot more code for me. I could do number 2.",
+      "parentUuid": "839c7d55_8ed2f5fd",
+      "range": {
+        "startLine": 57,
+        "startChar": 22,
+        "endLine": 57,
+        "endChar": 61
+      },
+      "revId": "6d790db8dd4b737201fb328f65f689731c6e766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e67b6bea_d52d5795",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-group/gr-admin-group.html",
         "patchSetId": 28
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "92f9bdc4_82522a76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group/gr-admin-group.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T20:10:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e67b6bea_d52d5795",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "6d790db8dd4b737201fb328f65f689731c6e766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7edcd804_e30283db",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-group/gr-admin-group.html",
         "patchSetId": 28
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-22T17:20:20Z",
       "side": 1,
       "message": "This button still appears to the right",
+      "range": {
+        "startLine": 99,
+        "startChar": 16,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "6d790db8dd4b737201fb328f65f689731c6e766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1da16691_482a0732",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group/gr-admin-group.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T20:10:05Z",
+      "side": 1,
+      "message": "Hmm, not sure why that is.",
+      "parentUuid": "7edcd804_e30283db",
       "range": {
         "startLine": 99,
         "startChar": 16,

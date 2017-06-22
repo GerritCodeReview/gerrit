@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RunnableScheduledFuture;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -82,7 +83,7 @@ public class WorkQueue {
         }
       };
 
-  private ScheduledThreadPoolExecutor defaultQueue;
+  private ScheduledExecutorService defaultQueue;
   private int defaultQueueSize;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
@@ -99,7 +100,7 @@ public class WorkQueue {
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
-  public synchronized ScheduledThreadPoolExecutor getDefaultQueue() {
+  public synchronized ScheduledExecutorService getDefaultQueue() {
     if (defaultQueue == null) {
       defaultQueue = createQueue(defaultQueueSize, "WorkQueue");
     }
@@ -107,7 +108,7 @@ public class WorkQueue {
   }
 
   /** Create a new executor queue. */
-  public ScheduledThreadPoolExecutor createQueue(int poolsize, String prefix) {
+  public ScheduledExecutorService createQueue(int poolsize, String prefix) {
     return createQueue(poolsize, prefix, Thread.NORM_PRIORITY);
   }
 

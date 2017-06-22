@@ -196,8 +196,7 @@
 
     _resetCursorStops() {
       Polymer.dom.flush();
-      // TODO(kaspern): This is broken in shadow DOM.
-      this._listElements = this.querySelectorAll('li');
+      this._listElements = Polymer.dom(this.root).querySelectorAll('li');
     },
   });
 })();

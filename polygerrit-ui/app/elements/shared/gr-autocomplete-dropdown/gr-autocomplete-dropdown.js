@@ -102,14 +102,12 @@
       }
     },
 
-    // TODO @beckysiegel make this work with shadow dom.
     cursorDown(e) {
       if (!this.hidden) {
         this.$.cursor.next();
       }
     },
 
-    // TODO @beckysiegel make this work with shadow dom.
     cursorUp(e) {
       if (!this.hidden) {
         this.$.cursor.previous();

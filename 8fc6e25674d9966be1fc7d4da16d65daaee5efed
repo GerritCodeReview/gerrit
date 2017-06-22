@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ef995039_0323301e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T21:25:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f707f41e_7cd98776",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4efb8e2c_a2b4801a",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-22T21:19:27Z",
       "side": 1,
       "message": "this should be removed",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 51
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f35d3e6a_574ddf1e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T21:25:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4efb8e2c_a2b4801a",
       "range": {
         "startLine": 41,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "caf4e6f8_fd3cd492",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T21:25:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1b7fa36c_5a4607d7",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 49
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b054f157_b47a261d",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
         "patchSetId": 13
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "4fd7a5e9_65cf74b0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T21:25:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b054f157_b47a261d",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d95791a_8b752524",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
         "patchSetId": 13
@@ -105,6 +201,30 @@
       "writtenOn": "2017-06-22T21:19:27Z",
       "side": 1,
       "message": "You should use page.show instead. Then also remove the hidden link and _groupCreated.",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "8fc6e25674d9966be1fc7d4da16d65daaee5efed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "688a014a_b68cce00",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-22T21:25:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9d95791a_8b752524",
       "range": {
         "startLine": 44,
         "startChar": 14,

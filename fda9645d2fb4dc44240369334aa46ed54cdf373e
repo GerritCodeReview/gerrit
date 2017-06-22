@@ -97,6 +97,29 @@
     },
     {
       "key": {
+        "uuid": "7c25180e_6f811d24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-22T14:47:27Z",
+      "side": 1,
+      "message": "Our shiny new Eclipse warning tells me this is is comparing an Input to a String, so this will always return false. Also smells like we need a test.",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 44
+      },
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e05abf01_607d4cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

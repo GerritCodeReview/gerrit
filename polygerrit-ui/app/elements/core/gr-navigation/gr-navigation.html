@@ -47,6 +47,7 @@ limitations under the License.
 
       View: {
         CHANGE: 'change',
+        DIFF: 'diff',
         SEARCH: 'search',
       },
 
@@ -128,6 +129,22 @@ limitations under the License.
           id: change._number,
         });
       },
+
+      /**
+       * @param {String} changeNumger The change number.
+       * @param {Object} patchRange The range of the patch.
+       * @param {String} fileName The file name.
+       * @return {String}
+       */
+      getUrlForDiff(changeNumber, patchRange, fileName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.DIFF,
+          patchRange: patchRange,
+          fileName: fileName,
+          id: changeNumber,
+        });
+      },
+
 
       /**
        * @param {Object} change The change object.

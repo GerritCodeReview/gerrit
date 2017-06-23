@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa0c32be_85719234",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-23T13:30:34Z",
+      "side": 1,
+      "message": "Not sure why it starts with 3",
+      "range": {
+        "startLine": 249,
+        "startChar": 27,
+        "endLine": 249,
+        "endChar": 28
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cf031af_f03e4865",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
         "patchSetId": 2
@@ -181,6 +204,30 @@
     },
     {
       "key": {
+        "uuid": "76e2eb6a_cabb5dd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-23T13:30:34Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "acc91284_9b2f2edb",
+      "range": {
+        "startLine": 239,
+        "startChar": 14,
+        "endLine": 239,
+        "endChar": 26
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91c1294f_a990075a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
         "patchSetId": 2
@@ -215,6 +262,30 @@
       "writtenOn": "2017-06-23T06:36:03Z",
       "side": 1,
       "message": "initialSequenceGap",
+      "range": {
+        "startLine": 243,
+        "startChar": 33,
+        "endLine": 243,
+        "endChar": 50
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab2f79b4_e071d494",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-23T13:30:34Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "876004e9_a582c735",
       "range": {
         "startLine": 243,
         "startChar": 33,

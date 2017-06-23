@@ -639,6 +639,30 @@
     },
     {
       "key": {
+        "uuid": "6223c83f_92d70440",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-23T17:20:00Z",
+      "side": 1,
+      "message": "I\u0027m not asking what makes the test pass. You are still not actually thinking about what is happening. Why are you pressing a button and separately calling the function that should get called by pressing the button?  Then you assert that the function you explicitly called was called?  Read through each of the things and write tests that make sense.",
+      "parentUuid": "279ba5c3_85f51244",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "f08f5cc8ec43f19ec9552ead11daf51137cf5395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec09f2b8_e0ca27f1",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
         "patchSetId": 16

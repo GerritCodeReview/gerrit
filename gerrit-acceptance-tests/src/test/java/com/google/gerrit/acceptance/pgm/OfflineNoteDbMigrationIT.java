@@ -127,7 +127,7 @@ public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
   }
 
   @Test
-  public void migrationDoesNotRequireIndex() throws Exception {
+  public void migrationWithReindex() throws Exception {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     setUpOneChange();
 
@@ -136,15 +136,13 @@ public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
     assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
     status.setReady(ChangeSchemaDefinitions.NAME, version, false);
     status.save();
+    assertServerStartupFails();
 
     migrate("--trial", "false");
     assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
 
     status = new GerritIndexStatus(sitePaths);
-    assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isFalse();
-
-    // TODO(dborowitz): Remove when offline migration includes reindex.
-    assertServerStartupFails();
+    assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
   }
 
   private void setUpOneChange() throws Exception {

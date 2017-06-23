@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8692457_1a37a6ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-23T16:59:56Z",
+      "side": 1,
+      "message": "These look alarming, but this patch also looks like it\u0027s not included in this change. Can this \"Differences\" section of the commit message be removed?",
+      "range": {
+        "startLine": 74,
+        "startChar": 52,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "2f01c42452da5f7b2d998b747e67c5e8a7848a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

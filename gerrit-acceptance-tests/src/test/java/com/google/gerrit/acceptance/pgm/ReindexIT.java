@@ -14,48 +14,14 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.testutil.TempFileUtil;
-import java.io.File;
-import org.junit.After;
-import org.junit.Before;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.StandaloneSiteTest;
 import org.junit.Test;
 
-public class ReindexIT {
-  private File sitePath;
-
-  @Before
-  public void createTempDirectory() throws Exception {
-    sitePath = TempFileUtil.createTempDirectory();
-  }
-
-  @After
-  public void destroySite() throws Exception {
-    if (sitePath != null) {
-      TempFileUtil.cleanup();
-    }
-  }
-
+@NoHttpd
+public class ReindexIT extends StandaloneSiteTest {
   @Test
   public void reindexEmptySite() throws Exception {
-    initSite();
-    runGerrit("reindex", "-d", sitePath.toString(), "--show-stack-trace");
-  }
-
-  private void initSite() throws Exception {
-    runGerrit(
-        "init",
-        "-d",
-        sitePath.getPath(),
-        "--batch",
-        "--no-auto-start",
-        "--skip-plugins",
-        "--show-stack-trace");
-  }
-
-  private static void runGerrit(String... args) throws Exception {
-    assertThat(GerritLauncher.mainImpl(args)).isEqualTo(0);
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
   }
 }

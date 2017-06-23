@@ -21,31 +21,33 @@ limitations under the License.
 
 <dom-module id="gr-group-list">
   <template>
-    <style include="shared-styles">
-      .nameHeader {
-        width: 15em;
-      }
-      .descriptionHeader {
-        width: 21.5em;
-      }
-      .visibleCell {
-        text-align: center;
-      }
-    </style>
-    <style include="gr-form-styles"></style>
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+        #groups .nameColumn {
+          min-width: 11em;
+          width: auto;
+        }
+        .descriptionHeader {
+          min-width: 21.5em;
+        }
+        .visibleCell {
+          text-align: center;
+          width: 6em;
+        }
+      </style>
     <div class="gr-form-styles">
-      <table>
+      <table id="groups">
         <thead>
           <tr>
             <th class="nameHeader">Name</th>
             <th class="descriptionHeader">Description</th>
-            <th>Visible to all</th>
+            <th class="visibleCell">Visible to all</th>
           </tr>
         </thead>
         <tbody>
           <template is="dom-repeat" items="[[_groups]]">
             <tr>
-              <td>[[item.name]]</td>
+              <td class="nameColumn">[[item.name]]</td>
               <td>[[item.description]]</td>
               <td class="visibleCell">[[_computeVisibleToAll(item)]]</td>
             </tr>

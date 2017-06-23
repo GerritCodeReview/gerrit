@@ -37,6 +37,7 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 public class MigrateToNoteDb extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
@@ -70,7 +71,8 @@ public class MigrateToNoteDb extends SiteProgram {
     name = "--trial",
     usage =
         "trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as"
-            + " the source of truth"
+            + " the source of truth",
+    handler = ExplicitBooleanOptionHandler.class
   )
   private boolean trial = true; // TODO(dborowitz): Default to false in 3.0.
 

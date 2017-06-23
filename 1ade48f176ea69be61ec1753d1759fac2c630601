@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1498248003 -0400\nnonce AH5c86DobLYpgTfrNYiv4vkFYnG2Bmuk076QPV7xFUs8QKqqOj3BXtLe/lENJGhSbBEbEgu/HGhH\n\n0000000000000000000000000000000000000000 621b55b1e798fc68a3248ce26ea5ec60b7bb405b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZTXNDAAoJEF/XxZqaEoiMfDwQAMx1NtYDCmluv/CLFHvAd9DF\nEAmfxSCFjM1zuB/UbvckxxliXEwDHG9yJcDATKzrDgcXT9fwowf0axBuPl1jNZst\nZjit967xERG7AMsTq6DNQGh/rw0BHd+lXtPdfFEdxN8Q8Cqcx6O9tMKlGNKnPyrA\noygq25+oxfVc+FQ4t+O6R3TkCj/yjTwQe/aAhzbkrp6ayjSe3FSob7OYjJR9iZnR\nVKfIyN1xLrHHX/h1yFqbIEusJQXo+Lf+mdru6bmo1hM38MBLxVZLlaf7VqBYcEIi\nMHPq6gx9R70CU1rwjjaFtXJerd+RxpsULCxu0ybAbgXWxuMVAtyKUDwo15AN7R6B\nscWwkA1eemk9xh1WGKl1o+oA5fPgNuT5guHk+voGlfkG2gggLE5D2iW4+gP8jG6K\nam+ys5OE7H4/ieVVfbvOdH77ganjmgihnKi12/YB14JkRSIzszdWgs6Ml1SrIJYv\ndvfuxQ4GNYhD40upufmGcgpHlcIHROYUsitZTg9Ri6ji+vlRhYtuNMeDtlCEIj9X\nfOR66lK6OXL3Fko0JQN+nepnK+Dnx8RwnRwDdcfFSFLkKMpip7Xqaqk+SOT16HYi\ns6iHLuzI2YGwFUTeRLpj7ekEdHrj5Ri9BRgJs1ToIcbwNnBPqDURBhPTz0wR+W+E\nDLkP7MGSrb2J00Aq3c49\n\u003dHiAx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "75e66f17_50704529",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/OfflineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T20:49:43Z",
+      "side": 1,
+      "message": "If I run this text from Eclipse I\u0027m getting this exception: [1]. Do you see this too?\n\n* [1] http://paste.openstack.org/show/613552/",
+      "range": {
+        "startLine": 140,
+        "startChar": 14,
+        "endLine": 140,
+        "endChar": 30
+      },
+      "revId": "1ade48f176ea69be61ec1753d1759fac2c630601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c8584bb_b47e503a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/OfflineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T20:49:43Z",
+      "side": 1,
+      "message": "Check that meta ref exists for change2?\n\n  try (Repository repo \u003d repoManager.openRepository(project)) {\n     assertThat(repo.exactRef(RefNames.changeMetaRef(id2))).isNotNull();\n  }",
+      "revId": "1ade48f176ea69be61ec1753d1759fac2c630601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "894db4ca_d7b25fa4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T20:49:43Z",
+      "side": 1,
+      "message": "Nice solution for the problem: [1].\n\n* [1] https://github.com/kohsuke/args4j/issues/45",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 48
+      },
+      "revId": "1ade48f176ea69be61ec1753d1759fac2c630601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

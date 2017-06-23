@@ -558,7 +558,7 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(content.getContentType(), path);
       }
     }
-    mv = MergeView.create(editor, Configuration.create()
+    Configuration cfg = Configuration.create()
         .set("autoCloseBrackets", prefs.autoCloseBrackets())
         .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
@@ -575,6 +575,12 @@ public class EditScreen extends Screen {
         .set("tabSize", prefs.tabSize())
         .set("theme", prefs.theme().name().toLowerCase())
         .set("value", ""));
+
+    if (editContent.contains("\r\n")) {
+      cfg.set("lineSeparator", "\r\n");
+    }
+
+    mv = MergeView.create(editor, cfg);
 
     cmBase = mv.leftOriginal();
     cmBase.getWrapperElement().addClassName(style.base());

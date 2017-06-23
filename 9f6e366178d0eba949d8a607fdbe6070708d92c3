@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2ae6c7_e6c6b491",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-23T21:09:40Z",
+      "side": 1,
+      "message": "This isn\u0027t used anymore.",
+      "range": {
+        "startLine": 27,
+        "startChar": 32,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "9f6e366178d0eba949d8a607fdbe6070708d92c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

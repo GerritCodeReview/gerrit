@@ -39,6 +39,24 @@
       "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea4cde4_cfae02dd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-23T10:23:33Z",
+      "side": 1,
+      "message": "We have multiple injectors in Gerrit and what has possibly happened is that I missed this one because I never had to replace anything that was in there.\n\nWhen I needed to use the lib module mechanism to replace the permission backend, I realized that this was missing ... (facepalm) :-(",
+      "parentUuid": "15bb567d_b20d8feb",
+      "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

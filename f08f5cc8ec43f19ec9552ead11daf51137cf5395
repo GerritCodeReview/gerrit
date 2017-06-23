@@ -591,6 +591,30 @@
     },
     {
       "key": {
+        "uuid": "aac04a58_5f98ef4c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-23T17:07:37Z",
+      "side": 1,
+      "message": "Please look at these tests carefully and think about what they are doing.\n\n1) I just ran them with and without the flush, and the tests technically \u0027pass\u0027 in both cases, but with console errors\n2) Consider what is happening. You are calling functions that clicking the button are supposed to call. And then clicking the button after.  Please be clear on what you are testing.\n3) done can only be called once per function.\n\nYou really need to think through carefully what each of your tests is testing for.",
+      "parentUuid": "d89aa04b_9075476b",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "f08f5cc8ec43f19ec9552ead11daf51137cf5395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec09f2b8_e0ca27f1",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
         "patchSetId": 16

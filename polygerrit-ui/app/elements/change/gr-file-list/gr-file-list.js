@@ -114,10 +114,8 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
-      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -238,8 +236,9 @@
     _handlePatchChange(e) {
       const patchRange = Object.assign({}, this.patchRange);
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
-      page.show(this.encodeURL('/c/' + this.changeNum + '/' +
-          this._patchRangeStr(patchRange), true));
+
+      Gerrit.Nav.navigateToChange(this.change, patchRange.patchNum,
+          this._getBasePatchNum(patchRange));
     },
 
     _updateDiffPreferences() {
@@ -601,8 +600,8 @@
 
     _openCursorFile() {
       const diff = this.$.diffCursor.getTargetDiffElement();
-      page.show(this._computeDiffURL(diff.changeNum, diff.patchRange,
-          diff.path));
+      Gerrit.Nav.navigateToDiff(this.change, diff.path,
+          diff.patchRange.patchNum, this._getBasePatchNum(this.patchRange));
     },
 
     _openSelectedFile(opt_index) {
@@ -610,8 +609,9 @@
         this.$.fileCursor.setCursorAtIndex(opt_index);
       }
       if (!this._files[this.$.fileCursor.index]) { return; }
-      page.show(this._computeDiffURL(this.changeNum, this.patchRange,
-          this._files[this.$.fileCursor.index].__path));
+      Gerrit.Nav.navigateToDiff(this.change,
+          this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
+          this._getBasePatchNum(this.patchRange));
     },
 
     _addDraftAtTarget() {
@@ -635,15 +635,14 @@
       return status || 'M';
     },
 
-    _computeDiffURL(changeNum, patchRange, path) {
-      return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
-          this._patchRangeStr(patchRange) + '/' + path, true);
+    _computeDiffURL(change, patchRange, path) {
+      return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
+          this._getBasePatchNum(patchRange));
     },
 
-    _patchRangeStr(patchRange) {
-      return patchRange.basePatchNum !== 'PARENT' ?
-          patchRange.basePatchNum + '..' + patchRange.patchNum :
-          patchRange.patchNum + '';
+    _getBasePatchNum(patchRange) {
+      return patchRange.basePatchNum === 'PARENT' ?
+          undefined : patchRange.basePatchNum;
     },
 
     _computeFileDisplayName(path) {

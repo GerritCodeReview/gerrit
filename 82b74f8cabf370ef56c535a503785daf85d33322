@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8fb2f6fa_baec4f76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T10:20:38Z",
+      "side": 1,
+      "message": "Two words with low case: lib modules.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15bb567d_b20d8feb",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2

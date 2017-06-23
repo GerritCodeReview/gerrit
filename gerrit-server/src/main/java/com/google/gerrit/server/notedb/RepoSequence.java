@@ -67,6 +67,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * numbers.
  */
 public class RepoSequence {
+  @FunctionalInterface
   public interface Seed {
     int get() throws OrmException;
   }

@@ -17,6 +17,24 @@
       "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ef6013_4d28c879",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-23T21:46:32Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s possible to get in an endless loop in a single (offline) process. setNoteDbPrimary always returns NOTE_DB_UNFUSED if it completes; if it fails, then it throws an exception which kills MigrateToNoteDb.\n\nIt\u0027s true that if you run the program again, there\u0027s a chance it will fail again and stay in the same state, but this is not a runaway infinite loop scenario. I haven\u0027t fully thought through the online process but I am also thinking it will not retry without human intervention. You (the admin) may give up after a few tries, then file a bug and run it again when your bug is fixed. (Of course, this hopefully only happens to early adopters in the RC period, and there are no bugs in 3.0 final :)",
+      "parentUuid": "37caf433_5af5cc39",
+      "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

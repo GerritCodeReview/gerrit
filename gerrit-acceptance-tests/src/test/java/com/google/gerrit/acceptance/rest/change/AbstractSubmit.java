@@ -42,6 +42,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -989,6 +990,31 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(input.generateLockFailures).containsExactly(false);
   }
 
+  @Test
+  public void authorAndCommitDateAreEqual() throws Exception {
+    assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
+
+    ConfigInput ci = new ConfigInput();
+    ci.matchAuthorToCommitterDate = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(ci);
+
+    RevCommit initialHead = getRemoteHead();
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change = createChange("Change 1", "b", "b");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
+
+    if (getSubmitType() == SubmitType.MERGE_IF_NECESSARY
+        || getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+      // Merge another change so that change2 is not a fast-forward
+      submit(change.getChangeId());
+    }
+
+    submit(change2.getChangeId());
+    assertAuthorAndCommitDateEquals(getRemoteHead());
+  }
+
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {
     for (PushOneCommit.Result change : changes) {
       try (BatchUpdate bu =
@@ -1140,6 +1166,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(actual.getEmailAddress()).isEqualTo(expected.getEmailAddress());
     assertThat(actual.getName()).isEqualTo(expected.getName());
     assertThat(actual.getTimeZone()).isEqualTo(expected.getTimeZone());
+  }
+
+  protected void assertAuthorAndCommitDateEquals(RevCommit commit) {
+    assertThat(commit.getAuthorIdent().getWhen()).isEqualTo(commit.getCommitterIdent().getWhen());
+    assertThat(commit.getAuthorIdent().getTimeZone())
+        .isEqualTo(commit.getCommitterIdent().getTimeZone());
   }
 
   protected void assertSubmitter(String changeId, int psId) throws Exception {

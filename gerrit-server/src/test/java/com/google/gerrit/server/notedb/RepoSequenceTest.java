@@ -267,12 +267,7 @@ public class RepoSequenceTest {
         repoManager,
         project,
         name,
-        new RepoSequence.Seed() {
-          @Override
-          public int get() {
-            return start;
-          }
-        },
+        () -> start,
         batchSize,
         afterReadRef,
         retryer);

@@ -185,7 +185,6 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new ConfigNotesMigration.Module());
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

@@ -198,3 +198,111 @@ sh_test(
         "manual",
     ],
 )
+
+
+# Embed bundle
+
+genrule2(
+    name = "polygerrit_embed_ui",
+    srcs = [
+        "//lib/js:highlightjs_files",
+        ":top_sources",
+        ":css_sources",
+        ":embed_sources",
+        # we extract from the zip, but depend on the component for license checking.
+        "@webcomponentsjs//:zipfile",
+        "//lib/js:webcomponentsjs",
+    ],
+    outs = ["polygerrit_embed_ui.zip"],
+    cmd = " && ".join([
+        "mkdir -p $$TMP/polygerrit_ui/{styles,bower_components/{highlightjs,webcomponentsjs},elements}",
+        "for f in $(locations :embed_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/change-diff-views.$$ext; done",
+        "for f in $(locations :top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
+        "for f in $(locations :css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
+        "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+        "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
+        "cd $$TMP",
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -qr $$ROOT/$@ *",
+    ]),
+)
+
+vulcanize(
+    name = "change-diff-views",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+        ],
+        exclude = [
+            "bower_components/**",
+            "index.html",
+            "test/**",
+            "**/*_test.html",
+        ],
+    ),
+    app = "embed/change-diff-views.html",
+    deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+)
+
+closure_js_library(
+    name = "embed_closure_lib",
+    srcs = ["change-diff-views.js"],
+    convention = "GOOGLE",
+    # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
+    # and remove this supression
+    suppress = ["JSC_UNUSED_LOCAL_ASSIGNMENT"],
+    deps = [
+        "//lib/polymer_externs:polymer_closure",
+        "@io_bazel_rules_closure//closure/library",
+    ],
+)
+
+closure_js_binary(
+    name = "embed_closure_bin",
+    # Known issue: Closure compilation not compatible with Polymer behaviors.
+    # See: https://github.com/google/closure-compiler/issues/2042
+    compilation_level = "WHITESPACE_ONLY",
+    defs = [
+        "--polymer_pass",
+        "--jscomp_off=duplicate",
+        "--force_inject_library=es6_runtime",
+    ],
+    language = "ECMASCRIPT5",
+    deps = [":embed_closure_lib"],
+)
+
+filegroup(
+    name = "embed_sources",
+    srcs = [
+        "change-diff-views.js",
+        "change-diff-views.html",
+    ],
+)
+
+filegroup(
+    name = "embed_test_files",
+    srcs = glob(
+        [
+            "embed/**/*_test.html",
+        ],
+    ),
+)
+
+sh_test(
+    name = "embed_test",
+    size = "large",
+    srcs = ["embed_test.sh"],
+    data = [
+        "test/common-test-setup.html",
+        "embed/test.html",
+        ":embed_test_files",
+        ":polygerrit_embed_ui.zip",
+        ":test_components.zip",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)

@@ -636,8 +636,7 @@
     },
 
     _computeDiffURL(changeNum, patchRange, path) {
-      return this.encodeURL(this.getBaseUrl() + '/c/' + changeNum + '/' +
-          this._patchRangeStr(patchRange) + '/' + path, true);
+      return Gerrit.Nav.getUrlForDiff(changeNum, patchRange, path);
     },
 
     _patchRangeStr(patchRange) {

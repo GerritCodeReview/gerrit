@@ -393,6 +393,11 @@
         url = '/q/' + operators.join('+');
       } else if (params.view === Gerrit.Nav.View.CHANGE) {
         url = '/c/' + params.id;
+      } else if (params.view === Gerrit.Nav.View.DIFF) {
+        const patchRange = params.patchRange.basePatchNum !== 'PARENT' ?
+          params.patchRange.basePatchNum + '..' + params.patchRange.patchNum :
+          params.patchRange.patchNum + '';
+        url = params.id + '/' + patchRange + '/' + params.fileName;
       } else {
         throw new Error('Can\'t generate');
       }

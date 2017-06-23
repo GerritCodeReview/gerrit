@@ -68,6 +68,32 @@ limitations under the License.
         };
         assert.equal(element._generateUrl(params), '/c/1234');
       });
+
+      test('diff from parent', () => {
+        const params = {
+          view: Gerrit.Nav.View.DIFF,
+          id: '1234',
+          patchRange: {
+            basePatchNum: 'PARENT',
+            pathNum: 2,
+          },
+          fileName: 'readme.md'
+        };
+        assert.equal(element._generateUrl(params), '/c/1234/2/readme.md');
+      });
+
+      test('diff from not parent', () => {
+        const params = {
+          view: Gerrit.Nav.View.DIFF,
+          id: '1234',
+          patchRange: {
+            basePatchNum: 3,
+            pathNum: 5,
+          },
+          fileName: 'readme.md'
+        };
+        assert.equal(element._generateUrl(params), '/c/1234/3..5/readme.md');
+      });
     });
   });
 </script>

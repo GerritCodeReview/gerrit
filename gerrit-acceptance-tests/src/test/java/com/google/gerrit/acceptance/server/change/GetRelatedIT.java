@@ -517,7 +517,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.testAutoReindexIfStale", value = "false")
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void getRelatedForStaleChange() throws Exception {
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
 

@@ -84,8 +84,7 @@ public class Reindex extends SiteProgram {
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
     checkNotSlaveMode();
-    disableLuceneAutomaticCommit();
-    disableChangeCache();
+    overrideConfig();
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
@@ -177,15 +176,18 @@ public class Reindex extends SiteProgram {
     return dbInjector.createChildInjector(modules);
   }
 
-  private void disableLuceneAutomaticCommit() {
+  private void overrideConfig() {
+    // Disable auto-commit for speed; committing will happen at the end of the process.
     if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
       globalConfig.setLong("index", "changes_open", "commitWithin", -1);
       globalConfig.setLong("index", "changes_closed", "commitWithin", -1);
     }
-  }
 
-  private void disableChangeCache() {
+    // Disable change cache.
     globalConfig.setLong("cache", "changes", "maximumWeight", 0);
+
+    // Disable auto-reindexing if stale, since there are no concurrent writes to race with.
+    globalConfig.setBoolean("index", null, "autoReindexIfStale", false);
   }
 
   private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def)

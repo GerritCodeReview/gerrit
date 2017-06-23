@@ -47,6 +47,7 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -440,6 +441,7 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }
+    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     return cfgInjector.createChildInjector(modules);
   }
 

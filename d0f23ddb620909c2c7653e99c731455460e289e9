@@ -22,6 +22,30 @@
       "revId": "d0f23ddb620909c2c7653e99c731455460e289e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4179f7db_3e96f521",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-23T00:23:39Z",
+      "side": 1,
+      "message": "Just a little added safety to confirm that the parameter is a relative URL.",
+      "parentUuid": "d155c222_0f4518ab",
+      "range": {
+        "startLine": 351,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 38
+      },
+      "revId": "d0f23ddb620909c2c7653e99c731455460e289e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1498166494 -0400\nnonce AH5c86CnGnNBpFfsBVlX+ogZ/59T84rD5S7u6KXmuPW7SdkCJLUQ5w183NYHhkYDZ7FcissGRHB2\n\n0000000000000000000000000000000000000000 17d8f31c659e4ce015ccc4aeae59c6e4463690b0 refs/for/master%topic\u003dnote-db-migrator,r\u003ddavid.ostrovsky@gmail.com,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZTDTeAAoJEF/XxZqaEoiMWp4P/3E2blKWskCBeuSyPJWtP6YH\nOZ/phmRQKMlYp+76IMdQg9M7asg0MQ5u1WyS8HWlPmnp3D5aRWaI+gp+xidGLHER\noJoLRJ4xGDZOJh4qPUacIpL5RSj2YNMLLNRVnaJ29zxsC2C8P9GUgPMvuYaSvYSR\nw8rwp5gvGgfT84JdZiFZDiKK3DiQXq/OfBOcaoQaWxhSzV/1JWvKEYxFPEaeFRZB\n+yUwR4814TpUdF5rGwr4wwThmytVqRDyDpY7spwHW50ZjJB3+31o0bCCVMsee889\np54zAZE55ah422NKt90JMwJwkWFoyZpcwDPXN/LXskLQ7z+IgfdnSanUaQ73QqEn\n6S+6OmoITV6RP3IeHUwkVPos8QwZUwDMfuN5zPKI6yP1H00GknMS1p5PWyVwa08C\njVtESJeeCvxrMDj6KkG+qNMEVP82RhhpgbFprJgPPLhanycySuWQMLbasvjBZjfy\n5rVEZRPMOd0EVHdcGxnZRmEWB1zh42axQyMD3gRuiqtK8hgq0RPZMyuwDBiZhEe0\nY8af77RHVlcNtysgE66kk7oMAcujeF24dJKsLPxLhIg+G50726I1B2rwDd2uy0X1\nEY9vO1g5xW6nMkWP3MEhF+22Chaq/oWSnlNlQ/ohjt51G/X6+SA7d+REYRK+x+dE\n5j0TPC70V1BFjdRvW7ua\n\u003dB1/Z\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db58b69_965631d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T05:30:14Z",
+      "side": 1,
+      "message": "Optional: Add rebuild(PrepareBuilder b) method too, that would simplify the caller sites, without need to pass NoteDbMigrator::rebuild method reference.\n\n  rebuild(b);",
+      "range": {
+        "startLine": 248,
+        "startChar": 2,
+        "endLine": 250,
+        "endChar": 3
+      },
+      "revId": "3c7f7c481eed3ecdc0c288f350572d3de2fe9f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

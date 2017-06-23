@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "992a251c_4850d7cf",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-23T20:04:53Z",
+      "side": 1,
+      "message": "I\u0027m not proposing a performance gain. I\u0027m just proposing that the code make it more clear that only one response type is patched by this.",
+      "parentUuid": "34f2d1f3_b6301a2f",
+      "range": {
+        "startLine": 82,
+        "startChar": 25,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6045604_1d2966c2",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1

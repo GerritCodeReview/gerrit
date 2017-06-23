@@ -128,6 +128,24 @@
     },
     {
       "key": {
+        "uuid": "9a26ba33_78ab122a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-23T07:52:43Z",
+      "side": 1,
+      "message": "Direct push to the user branches was not the problem, but pushing a change for a user branch for review and then submitting it. I think this is even less likely needed than direct push. However I think I found a way to get it done now.\n\nDone.",
+      "parentUuid": "f705e20f_70da8045",
+      "revId": "d4af5ad1727fdc2a5bb0e5266e1983d005e35209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77542403_9556f94c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1

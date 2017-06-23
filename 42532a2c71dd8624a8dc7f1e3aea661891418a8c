@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "befbdf6a_98114eed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T20:10:53Z",
+      "side": 0,
+      "message": "We should really fix (or better to say implement) the verification job on the CI side and make voting on Code-Style label work.\n\nWe have two preparation changes. Would you mean to have a look (if not to say decide) which one your prefer, and if you are OK with my gjf fork, vote LC+1 on it?\n\n* https://gerrit-review.googlesource.com/100691\n* https://gerrit-review.googlesource.com/108188",
+      "revId": "42532a2c71dd8624a8dc7f1e3aea661891418a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

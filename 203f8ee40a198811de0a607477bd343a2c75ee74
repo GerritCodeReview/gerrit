@@ -16,6 +16,24 @@
       "revId": "203f8ee40a198811de0a607477bd343a2c75ee74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17932da2_4062f273",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-23T21:07:03Z",
+      "side": 0,
+      "message": "This is *any* site program, including Gerrit itself.\n\nYes, you are right, it would impact the Gerrit init as well. However, the DB Injector isn\u0027t the right place because it is not used throughout Gerrit and is missing a lot of bindings.\n\nI believe I have been misled by the line 186, where the Git Repository Manager was installed and I thought this was the right point: I was wrong.\n\nIt is very little you can do by injecting your modules at this point and it would be challenging (or impossible?) to understand in which context your module is getting instantiated.",
+      "parentUuid": "8e5e9361_d2118209",
+      "revId": "203f8ee40a198811de0a607477bd343a2c75ee74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

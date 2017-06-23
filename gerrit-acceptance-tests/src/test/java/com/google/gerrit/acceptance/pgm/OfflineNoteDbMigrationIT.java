@@ -18,21 +18,18 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritServer;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -43,28 +40,17 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
-import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import java.nio.file.Path;
-import java.util.stream.Stream;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 
 /**
  * Tests for offline {@code migrate-to-note-db} program.
@@ -73,21 +59,8 @@ import org.junit.runner.Description;
  * adding tests to {@link com.google.gerrit.acceptance.server.notedb.OnlineNoteDbMigrationIT} if
  * possible.
  */
-@UseLocalDisk
 @NoHttpd
-public class OfflineNoteDbMigrationIT {
-  @Rule
-  public TestWatcher testWatcher =
-      new TestWatcher() {
-        @Override
-        protected void starting(Description description) {
-          serverDesc = GerritServer.Description.forTestMethod(description, ConfigSuite.DEFAULT);
-        }
-      };
-
-  private GerritServer.Description serverDesc;
-
-  private Path site;
+public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
   private StoredConfig gerritConfig;
 
   private Account.Id accountId;
@@ -96,14 +69,7 @@ public class OfflineNoteDbMigrationIT {
 
   @Before
   public void setUp() throws Exception {
-    site = TempFileUtil.createTempDirectory().toPath();
-    GerritServer.init(serverDesc, new Config(), site);
-    gerritConfig = new FileBasedConfig(new SitePaths(site).gerrit_config.toFile(), FS.detect());
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    TempFileUtil.cleanup();
+    gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
   }
 
   @Test
@@ -175,7 +141,7 @@ public class OfflineNoteDbMigrationIT {
     setUpOneChange();
 
     int version = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
-    GerritIndexStatus status = new GerritIndexStatus(new SitePaths(site));
+    GerritIndexStatus status = new GerritIndexStatus(sitePaths);
     assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
     status.setReady(ChangeSchemaDefinitions.NAME, version, false);
     status.save();
@@ -183,7 +149,7 @@ public class OfflineNoteDbMigrationIT {
     migrate("--trial", "false");
     assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
 
-    status = new GerritIndexStatus(new SitePaths(site));
+    status = new GerritIndexStatus(sitePaths);
     assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isFalse();
 
     // TODO(dborowitz): Remove when offline migration includes reindex.
@@ -208,28 +174,11 @@ public class OfflineNoteDbMigrationIT {
     }
   }
 
-  private GerritServer startServer() throws Exception {
-    return GerritServer.start(serverDesc, new Config(), site);
-  }
-
-  private ManualRequestContext openContext(GerritServer server) throws Exception {
-    Injector i = server.getTestInjector();
-    TestAccount a = i.getInstance(AccountCreator.class).admin();
-    return openContext(server, a.getId());
-  }
-
-  private ManualRequestContext openContext(GerritServer server, Account.Id accountId)
-      throws Exception {
-    return server.getTestInjector().getInstance(OneOffRequestContext.class).openAs(accountId);
-  }
-
   private void migrate(String... additionalArgs) throws Exception {
-    String[] args =
-        Stream.concat(
-                Stream.of("migrate-to-note-db", "-d", site.toString(), "--show-stack-trace"),
-                Stream.of(additionalArgs))
-            .toArray(String[]::new);
-    assertThat(GerritLauncher.mainImpl(args)).isEqualTo(0);
+    runGerrit(
+        ImmutableList.of(
+            "migrate-to-note-db", "-d", sitePaths.site_path.toString(), "--show-stack-trace"),
+        ImmutableList.copyOf(additionalArgs));
   }
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {

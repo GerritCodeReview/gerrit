@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b777d3d_e180ae80",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-23T00:18:31Z",
+      "side": 1,
+      "message": "Yeah, it was for the filter. I created a filter function that should take care of this without flattening and then un-flattening.",
+      "parentUuid": "2bd4dbe8_a3881074",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "a72a792ab2473ed9565008b31c59c499d977aede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "747f3421_d2c698c4",
         "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-styled-table.html",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "a72a792ab2473ed9565008b31c59c499d977aede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6326c338_5eaaf7aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-styled-table.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-23T00:18:31Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s actually needed. removed.",
+      "parentUuid": "747f3421_d2c698c4",
+      "revId": "a72a792ab2473ed9565008b31c59c499d977aede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

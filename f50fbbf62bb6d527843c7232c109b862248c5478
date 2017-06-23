@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0288242a_f872030f",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-23T18:48:08Z",
+      "side": 1,
+      "message": "This makes it look like every REST API request will be patched with plugins when actually patchResponse only patches the one. Can the path check for \"/config/server/info\" be moved into here, so that it\u0027s clear how few requests are patched?\n\nbody :\u003d res.Body\nif r.URL.EscapedPath() \u003d\u003d \"/config/server/info\" {\n  body \u003d patchResponse(r, res)\n}\nif _, err :\u003d io.Copy(w, body); err !\u003d nil {\n  // ...\n\n\n... Not that I actually know how to write Go.",
+      "range": {
+        "startLine": 82,
+        "startChar": 25,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

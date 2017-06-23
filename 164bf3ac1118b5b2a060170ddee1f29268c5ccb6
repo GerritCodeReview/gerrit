@@ -180,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "d8a4bdc2_9ae7c235",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-23T20:41:25Z",
+      "side": 1,
+      "message": "Totally up to you, just to share the info:\nUse spaces as separator instead of commas.",
+      "parentUuid": "f687a263_39029919",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21316914_6f9f4eed",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
         "patchSetId": 7
@@ -212,6 +230,24 @@
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1579261f_168fcb15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-23T20:41:25Z",
+      "side": 1,
+      "message": "Doh..\nYeah, structure could be more optimal probably but not sure if that\u0027s worth it.\nUp to you.",
+      "parentUuid": "c1341d32_2005fda4",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -341,6 +377,24 @@
       "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa760e2a_cc67cb9f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-23T20:41:25Z",
+      "side": 1,
+      "message": "It\u0027s inside [] and {} at the same time.\nBut looks like we\u0027re using +2 in such cases, so nvm - sorry.",
+      "parentUuid": "67aa2165_16a819f6",
+      "revId": "164bf3ac1118b5b2a060170ddee1f29268c5ccb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

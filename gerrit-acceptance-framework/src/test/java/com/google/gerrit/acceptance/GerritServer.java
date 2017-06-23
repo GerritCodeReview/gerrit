@@ -61,6 +61,14 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
 public class GerritServer implements AutoCloseable {
+  public static class StartupException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    StartupException(String msg, Throwable cause) {
+      super(msg, cause);
+    }
+  }
+
   @AutoValue
   public abstract static class Description {
     public static Description forTestClass(
@@ -301,7 +309,11 @@ public class GerritServer implements AutoCloseable {
               }
               return null;
             });
-    serverStarted.await();
+    try {
+      serverStarted.await();
+    } catch (BrokenBarrierException e) {
+      throw new StartupException("Failed to start Gerrit daemon; see log", e);
+    }
     System.out.println("Gerrit Server Started");
 
     return new GerritServer(desc, createTestInjector(daemon), daemon, daemonService);

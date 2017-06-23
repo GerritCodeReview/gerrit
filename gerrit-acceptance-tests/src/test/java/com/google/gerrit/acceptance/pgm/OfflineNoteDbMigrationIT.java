@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AccountCreator;
@@ -31,19 +32,24 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.NotesMigrationState;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
@@ -84,6 +90,10 @@ public class OfflineNoteDbMigrationIT {
   private Path site;
   private StoredConfig gerritConfig;
 
+  private Account.Id accountId;
+  private Project.NameKey project;
+  private Change.Id changeId;
+
   @Before
   public void setUp() throws Exception {
     site = TempFileUtil.createTempDirectory().toPath();
@@ -97,38 +107,11 @@ public class OfflineNoteDbMigrationIT {
   }
 
   @Test
-  public void rebuildEmptySiteStartingWithNoteDbDisabed() throws Exception {
-    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
-    migrate();
-    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
-  }
-
-  @Test
-  public void rebuildEmptySiteStartingWithNoteDbEnabled() throws Exception {
-    setNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
-    migrate();
-    assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
-  }
-
-  @Test
   public void rebuildOneChangeTrialMode() throws Exception {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
-    Project.NameKey project = new Project.NameKey("project");
+    setUpOneChange();
 
-    Account.Id accountId;
-    Change.Id id;
-    try (GerritServer server = startServer();
-        ManualRequestContext ctx = openContext(server)) {
-      accountId = ctx.getUser().getAccountId();
-      GerritApi gApi = server.getTestInjector().getInstance(GerritApi.class);
-      gApi.projects().create("project");
-
-      ChangeInput in = new ChangeInput(project.get(), "master", "Test change");
-      in.newBranch = true;
-      id = new Change.Id(gApi.changes().create(in).info()._number);
-    }
-
-    migrate("--trial");
+    migrate();
     assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
 
     try (GerritServer server = startServer();
@@ -137,18 +120,91 @@ public class OfflineNoteDbMigrationIT {
           server.getTestInjector().getInstance(GitRepositoryManager.class);
       ObjectId metaId;
       try (Repository repo = repoManager.openRepository(project)) {
-        Ref ref = repo.exactRef(RefNames.changeMetaRef(id));
+        Ref ref = repo.exactRef(RefNames.changeMetaRef(changeId));
         assertThat(ref).isNotNull();
         metaId = ref.getObjectId();
       }
 
-      ReviewDb db = ReviewDbUtil.unwrapDb(ctx.getReviewDbProvider().get());
-      Change c = db.changes().get(id);
-      assertThat(c).isNotNull();
-      NoteDbChangeState state = NoteDbChangeState.parse(c);
-      assertThat(state).isNotNull();
-      assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-      assertThat(state.getRefState()).hasValue(RefState.create(metaId, ImmutableMap.of()));
+      try (ReviewDb db = openUnderlyingReviewDb(server)) {
+        Change c = db.changes().get(changeId);
+        assertThat(c).isNotNull();
+        NoteDbChangeState state = NoteDbChangeState.parse(c);
+        assertThat(state).isNotNull();
+        assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
+        assertThat(state.getRefState()).hasValue(RefState.create(metaId, ImmutableMap.of()));
+      }
+    }
+  }
+
+  @Test
+  public void migrateOneChange() throws Exception {
+    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
+    setUpOneChange();
+
+    migrate("--trial", "false");
+    assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+
+    try (GerritServer server = startServer();
+        ManualRequestContext ctx = openContext(server, accountId)) {
+      GitRepositoryManager repoManager =
+          server.getTestInjector().getInstance(GitRepositoryManager.class);
+      try (Repository repo = repoManager.openRepository(project)) {
+        assertThat(repo.exactRef(RefNames.changeMetaRef(changeId))).isNotNull();
+      }
+
+      try (ReviewDb db = openUnderlyingReviewDb(server)) {
+        Change c = db.changes().get(changeId);
+        assertThat(c).isNotNull();
+        NoteDbChangeState state = NoteDbChangeState.parse(c);
+        assertThat(state).isNotNull();
+        assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.NOTE_DB);
+        assertThat(state.getRefState()).isEmpty();
+
+        ChangeInput in = new ChangeInput(project.get(), "master", "NoteDb-only change");
+        in.newBranch = true;
+        GerritApi gApi = server.getTestInjector().getInstance(GerritApi.class);
+        Change.Id id2 = new Change.Id(gApi.changes().create(in).info()._number);
+        assertThat(db.changes().get(id2)).isNull();
+      }
+    }
+  }
+
+  @Test
+  public void migrationDoesNotRequireIndex() throws Exception {
+    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
+    setUpOneChange();
+
+    int version = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
+    GerritIndexStatus status = new GerritIndexStatus(new SitePaths(site));
+    assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
+    status.setReady(ChangeSchemaDefinitions.NAME, version, false);
+    status.save();
+
+    migrate("--trial", "false");
+    assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+
+    status = new GerritIndexStatus(new SitePaths(site));
+    assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isFalse();
+
+    // TODO(dborowitz): Remove when offline migration includes reindex.
+    try (GerritServer server = startServer()) {
+      fail("expected server startup to fail");
+    } catch (GerritServer.StartupException e) {
+      // Expected.
+    }
+  }
+
+  private void setUpOneChange() throws Exception {
+    project = new Project.NameKey("project");
+    try (GerritServer server = startServer();
+        ManualRequestContext ctx = openContext(server)) {
+      accountId = ctx.getUser().getAccountId();
+      GerritApi gApi = server.getTestInjector().getInstance(GerritApi.class);
+      gApi.projects().create("project");
+
+      ChangeInput in = new ChangeInput(project.get(), "master", "Test change");
+      in.newBranch = true;
+      changeId = new Change.Id(gApi.changes().create(in).info()._number);
     }
   }
 
@@ -176,15 +232,16 @@ public class OfflineNoteDbMigrationIT {
     assertThat(GerritLauncher.mainImpl(args)).isEqualTo(0);
   }
 
-  private void setNotesMigrationState(NotesMigrationState state) throws Exception {
-    gerritConfig.load();
-    ConfigNotesMigration.setConfigValues(gerritConfig, state.migration());
-    gerritConfig.save();
-  }
-
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
     gerritConfig.load();
     assertThat(NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig)))
         .hasValue(expected);
+  }
+
+  private ReviewDb openUnderlyingReviewDb(GerritServer server) throws Exception {
+    return server
+        .getTestInjector()
+        .getInstance(Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}, ReviewDbFactory.class))
+        .open();
   }
 }

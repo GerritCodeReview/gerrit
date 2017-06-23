@@ -70,6 +70,24 @@
       "revId": "1efb6736b56d9842efed66531b80a059970aac75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e838db7f_8a1cd744",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-23T12:15:54Z",
+      "side": 1,
+      "message": "\u003e MergeOneOp.java in their code for handling the submission of a change which itself is a merge commit.\n\u003e ...\n\u003e So I think this code is less about the merge commit automatically created by one of the Merge strategies\n\nNot true: MergeOneOp is the op used by Merge{Always,IfNecessary}.\n\nSo the behavior before this change is that we call writeMergeCommit with the author and commiter PersonIdent instances always having different timestamps.\n\nThe behavior after this change is that we continue to do that wrong thing, then paper over it, but only paper over it in the case that the MatchAuthorToCommitterDate bit is set.\n\nThis is suboptimal. There\u0027s a point at which it is too much unrelated digging to fix the underlying problem, but please take a few minutes.",
+      "parentUuid": "5397eb7f_4fdb9c9e",
+      "revId": "1efb6736b56d9842efed66531b80a059970aac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

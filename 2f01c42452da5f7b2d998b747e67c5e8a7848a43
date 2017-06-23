@@ -22,6 +22,30 @@
       "revId": "2f01c42452da5f7b2d998b747e67c5e8a7848a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a045e29_10158174",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1039557
+      },
+      "writtenOn": "2017-06-23T18:25:57Z",
+      "side": 1,
+      "message": "This patch is not relevant to differences.  It\u0027s how I show that polymer-resin actually does something useful.\n\n\u003e 3.  Testing for true negatives\n\u003e   I patched in the diff at the end of this description, and reran\n\u003e   both server environments.\n\u003e   I noted that browsing to localhost:8081/#javascript:alert(1)\n\u003e   and localhost:8080/#javascript:alert(1) both showed a\n\u003e   violation report about javascript:alert(1) being rejected.\n\u003e   Clicking Changes / XSS did not result in a popup.",
+      "parentUuid": "d8692457_1a37a6ba",
+      "range": {
+        "startLine": 74,
+        "startChar": 52,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "2f01c42452da5f7b2d998b747e67c5e8a7848a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

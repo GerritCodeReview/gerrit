@@ -78,10 +78,12 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
 
   @Override
   public synchronized void stop() {
+    new Exception("Closing data source " + ds).printStackTrace();
     if (ds instanceof BasicDataSource) {
       try {
         ((BasicDataSource) ds).close();
       } catch (SQLException e) {
+        new Exception("Failed to close", e).printStackTrace();
         // Ignore the close failure.
       }
     }
@@ -93,6 +95,7 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
   }
 
   private DataSource open(Config cfg, Context context, DataSourceType dst) {
+    new Exception("Opening data source").printStackTrace();
     ConfigSection dbs = new ConfigSection(cfg, "database");
     String driver = dbs.optional("driver");
     if (Strings.isNullOrEmpty(driver)) {

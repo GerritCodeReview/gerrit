@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b21c9ba_27f0b3a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "Add\n\nUse present tense for explaining what this change does. Past tense is used to explain the state\nbefore this commit. See our contribution guidelines [1]\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7907e2_fbbf792d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "Looking at the documentation of other predicates, the constants are formatted using the back-ticks (see line 88).",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f81a04_3770eb55",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "I am not sure if this kind of source text formatting means anything for asciidoc? Have you checked how does it look like when formatted as Gerrit documentation?\n\nWhat about providing multiple examples (one for all_of and one for any_of) in multiple rows?\nSee above the documentation for the commit_label as an example.",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1dbb368_50649fa4",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "1. What is a difference between OK and Pass\n\n2. Enum constants are usually all uppercase",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30543148_cd69571d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "Better introduce an enum with any_of, all_of as constants and compare enums in the code below.",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dba3713b_1d10995e",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "What\u0027s wrong with the for loop as it was before this change:\n\n  for (Edit edit : edits) {\n    ...",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 49
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bb737b2_aa102e32",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "remove\n\nwe don\u0027t use final\u0027s for local variables and method parameters, unless really necessary",
+      "range": {
+        "startLine": 132,
+        "startChar": 12,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9adcd93f_d9f0872c",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "This is hard to read. Under which circumstances will \"return cont\" here be reached?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a45afdd7_ca4f468a",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "This is not so easy to read. I would rather create two match methods: matchAny and matchAll and simplify the code. In that case you can likely also eliminate the MatchResult enum as these methods will only need to return a boolean.\n\nIt may be even better to create a Matcher interface here and two subclasses MatchAll and MatchAny. Then the calling code only needs to once instantiate the appropriate matcher.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 7
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cff43136_f3bf3044",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "The Pass is returned here but no code in this class checks for this value?",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85ad9db8_6383de2c",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "Based on the method name I would only expect the code in the lines 176-178.",
+      "range": {
+        "startLine": 172,
+        "startChar": 15,
+        "endLine": 172,
+        "endChar": 33
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "720c9f7b_e306dd9b",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "Define all_of and any_of as String constants, or even better as values of an enum",
+      "range": {
+        "startLine": 190,
+        "startChar": 24,
+        "endLine": 190,
+        "endChar": 30
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef67b97b_ba189d8e",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "use equals for String comparison",
+      "range": {
+        "startLine": 190,
+        "startChar": 19,
+        "endLine": 190,
+        "endChar": 23
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36b33618_04fb8389",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-23T13:49:06Z",
+      "side": 1,
+      "message": "use equals for String comparison",
+      "range": {
+        "startLine": 193,
+        "startChar": 22,
+        "endLine": 193,
+        "endChar": 26
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

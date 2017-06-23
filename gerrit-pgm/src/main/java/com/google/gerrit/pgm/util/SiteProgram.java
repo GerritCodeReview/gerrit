@@ -24,7 +24,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
-import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -185,7 +184,6 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new ConfigNotesMigration.Module());
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

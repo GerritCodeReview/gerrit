@@ -13,15 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
-<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../gr-search-bar/gr-search-bar.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-main-header">
   <template>
@@ -68,6 +66,9 @@ limitations under the License.
         display: inline-block;
         position: relative;
       }
+      .linksTitle:hover {
+        opacity: .75;
+      }
       .rightItems {
         align-items: center;
         display: flex;
@@ -81,6 +82,10 @@ limitations under the License.
       }
       gr-dropdown {
         padding: 0.5em;
+      }
+      .more {
+        padding: 1em;
+        text-decoration: none;
       }
       .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
       .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
@@ -135,11 +140,16 @@ limitations under the License.
           </gr-dropdown>
           </li>
         </template>
+        <li>
+          <a class="more linksTitle" href$="[[_computeRelativeURL('/admin/projects')]]">
+            More</a>
+        </li>
       </ul>
       <div class="rightItems">
         <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
         <div class="accountContainer" id="accountContainer">
-          <a class="loginButton" href$="[[_loginURL]]" on-tap="_loginTapHandler">Sign in</a>
+          <a class="loginButton" href$="[[_loginURL]]"
+              on-tap="_loginTapHandler">Sign in</a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
         </div>
       </div>

@@ -22,42 +22,30 @@ limitations under the License.
 
 <dom-module id="gr-watched-projects-editor">
   <template>
-    <style include="shared-styles">
-      th.projectHeader {
-        width: 11em;
-      }
-      th.notificationHeader {
-        text-align: center;
-      }
-      th.notifType {
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+      #watchedProjects .notifType {
         text-align: center;
         padding: 0 0.4em;
       }
-      td.notifControl {
+      .notifControl {
         cursor: pointer;
         text-align: center;
       }
-      td.notifControl:hover {
-        border: 1px solid #ddd;
+      .notifControl:hover {
+        outline: 1px solid #ddd;
       }
       .projectFilter {
         color: #777;
         font-style: italic;
         margin-left: 1em;
       }
-      input {
-        font-size: 1em;
-      }
-      .newProjectInput {
-        width: 10em;
-      }
       .newFilterInput {
-        width: 26em;
+        width: 100%;
       }
     </style>
-    <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
-      <table>
+      <table id="watchedProjects">
         <thead>
           <tr>
             <th class="projectHeader">Project</th>
@@ -93,7 +81,7 @@ limitations under the License.
                       checked$="[[_computeCheckboxChecked(project, type.key)]]">
                 </td>
               </template>
-              <td class="delete-column">
+              <td>
                 <gr-button
                     data-index$="[[projectIndex]]"
                     on-tap="_handleRemoveProject">Delete</gr-button>
@@ -106,7 +94,6 @@ limitations under the License.
             <th>
               <gr-autocomplete
                   id="newProject"
-                  class="newProjectInput"
                   query="[[_query]]"
                   threshold="3"
                   placeholder="Project"></gr-autocomplete>

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class GroupInfo extends GroupBaseInfo {
@@ -25,6 +26,7 @@ public class GroupInfo extends GroupBaseInfo {
   public Integer groupId;
   public String owner;
   public String ownerId;
+  public Timestamp createdOn;
   public Boolean _moreGroups;
 
   // These fields are only supplied for internal groups, and only if requested.

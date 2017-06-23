@@ -17,6 +17,24 @@
       "revId": "85e6d4506a5cd22c6954f1454a056e3fc0ce4cdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1680248d_d4ff0b10",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/OfflineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-23T21:47:30Z",
+      "side": 1,
+      "message": "I\u0027d rather not, most tests should not be using the @ReviewDbFactory, this should be limited to the NoteDb migration tests.",
+      "parentUuid": "29a168de_fe3eb12f",
+      "revId": "85e6d4506a5cd22c6954f1454a056e3fc0ce4cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -93,6 +93,24 @@
       "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a42f6cd8_523978dd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T10:37:32Z",
+      "side": 1,
+      "message": "That rocks! BTW, we support lib modules since 2.14 release: [1], so let us move this fix rather to stable-2.14 branch. (Even though, permission backend exists since 2.15, who know who will use lib modules for something different in 2.14).\n\n*  https://gerrit-review.googlesource.com/91605",
+      "parentUuid": "f01b0733_29a54a42",
+      "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

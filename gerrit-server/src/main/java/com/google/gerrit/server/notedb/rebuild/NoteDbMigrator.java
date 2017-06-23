@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
@@ -197,7 +196,7 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
-    public NoteDbMigrator build() {
+    public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
@@ -236,17 +235,16 @@ public class NoteDbMigrator implements AutoCloseable {
       ImmutableList<Change.Id> changes,
       OutputStream progressOut,
       boolean trial,
-      boolean forceRebuild) {
+      boolean forceRebuild)
+      throws MigrationException {
+    if (!changes.isEmpty() && !projects.isEmpty()) {
+      throw new MigrationException("Cannot set both changes and projects");
+    }
+
     this.schemaFactory = schemaFactory;
     this.rebuilder = rebuilder;
     this.globalNotesMigration = globalNotesMigration;
-
-    boolean hasChanges = !changes.isEmpty();
-    boolean hasProjects = !projects.isEmpty();
-    checkArgument(!(hasChanges && hasProjects), "cannot set both changes and projects");
-
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
-
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
@@ -261,9 +259,10 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   public void migrate() throws OrmException, IOException {
-    checkState(
-        changes.isEmpty() && projects.isEmpty(),
-        "cannot set changes or projects during auto-migration; call rebuild() instead");
+    if (!changes.isEmpty() || !projects.isEmpty()) {
+      throw new MigrationException(
+          "Cannot set changes or projects during auto-migration; call rebuild() instead");
+    }
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {
       throw new MigrationException("Could not determine initial migration state");
@@ -282,8 +281,14 @@ public class NoteDbMigrator implements AutoCloseable {
 
     boolean rebuilt = false;
     while (state.compareTo(NOTE_DB_UNFUSED) < 0) {
+      boolean stillNeedsRebuild = forceRebuild && !rebuilt;
       if (trial && state.compareTo(READ_WRITE_NO_SEQUENCE) >= 0) {
-        return;
+        if (stillNeedsRebuild && state == READ_WRITE_NO_SEQUENCE) {
+          // We're at the end state of trial mode, but still need a rebuild due to forceRebuild. Let
+          // the loop go one more time.
+        } else {
+          return;
+        }
       }
       switch (state) {
         case REVIEW_DB:
@@ -294,18 +299,20 @@ public class NoteDbMigrator implements AutoCloseable {
           rebuilt = true;
           break;
         case READ_WRITE_NO_SEQUENCE:
-          if (forceRebuild && !rebuilt) {
+          if (stillNeedsRebuild) {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
+          } else {
+            state = enableSequences();
           }
-          state = enableSequences();
           break;
         case READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY:
-          if (forceRebuild && !rebuilt) {
+          if (stillNeedsRebuild) {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
+          } else {
+            state = setNoteDbPrimary();
           }
-          state = setNoteDbPrimary();
           break;
         case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
           state = disableReviewDb();
@@ -384,9 +391,9 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   public void rebuild() throws MigrationException, OrmException {
-    checkState(
-        globalNotesMigration.commitChangeWrites(),
-        "cannot rebuild without noteDb.changes.write=true");
+    if (!globalNotesMigration.commitChangeWrites()) {
+      throw new MigrationException("Cannot rebuild without noteDb.changes.write=true");
+    }
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");

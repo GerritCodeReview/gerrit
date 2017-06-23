@@ -52,6 +52,24 @@
       "revId": "1efb6736b56d9842efed66531b80a059970aac75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5397eb7f_4fdb9c9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-23T07:00:21Z",
+      "side": 1,
+      "message": "I can only second what Aaron said, when this is removed, tests start failing because the timestamps are different.",
+      "parentUuid": "18087be9_d0f0066c",
+      "revId": "1efb6736b56d9842efed66531b80a059970aac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

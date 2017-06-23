@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43ddabaa_9ca3eb16",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-23T22:00:50Z",
+      "side": 1,
+      "message": "I have a slightly different interface in I86be8a2f9b where it has a little validity check on the patch range and it uses the right encoding on the path.\n\nWould you be opposed to rebasing and using that interface?\n\nSorry for the crossed-wires.",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 8
+      },
+      "revId": "52bb6ad43ea111e27269bc6053c1c647689b67d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

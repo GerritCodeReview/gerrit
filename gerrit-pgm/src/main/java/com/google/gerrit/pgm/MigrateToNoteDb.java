@@ -14,9 +14,12 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -29,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.index.DummyIndexModule;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.inject.Inject;
@@ -85,6 +89,13 @@ public class MigrateToNoteDb extends SiteProgram {
   )
   private int sequenceGap;
 
+  @Option(
+    name = "--reindex",
+    usage = "Reindex all changes after migration; defaults to false in trial mode, true otherwise",
+    handler = ExplicitBooleanOptionHandler.class
+  )
+  private Boolean reindex;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private LifecycleManager dbManager;
@@ -130,7 +141,23 @@ public class MigrateToNoteDb extends SiteProgram {
     } finally {
       stop();
     }
-    return 0;
+
+    boolean reindex = firstNonNull(this.reindex, !trial);
+    if (!reindex) {
+      return 0;
+    }
+    List<String> reindexArgs =
+        ImmutableList.of(
+            "--site-path",
+            getSitePath().toString(),
+            "--threads",
+            Integer.toString(threads),
+            "--index",
+            ChangeSchemaDefinitions.NAME);
+    System.out.println("Migration complete, reindexing changes with:");
+    System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
+    Reindex reindexPgm = new Reindex();
+    return reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
   private Injector createSysInjector() {

@@ -20,11 +20,13 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -218,6 +220,25 @@ public class GroupsIT extends AbstractDaemonTest {
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.groups().create(name("newGroup"));
+  }
+
+  @Test
+  public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
+    Timestamp testStartTime = TimeUtil.nowTs();
+    String newGroupName = name("newGroup");
+    GroupInfo group = gApi.groups().create(newGroupName).get();
+
+    assertThat(group.createdOn).isAtLeast(testStartTime);
+  }
+
+  @Test
+  public void createdOnFieldDefaultsToAuditCreationInstantBeforeSchemaUpgrade() throws Exception {
+    String newGroupName = name("newGroup");
+    GroupInfo newGroup = gApi.groups().create(newGroupName).get();
+    setCreatedOnToNull(new AccountGroup.Id(newGroup.groupId));
+
+    GroupInfo updatedGroup = gApi.groups().id(newGroup.id).get();
+    assertThat(updatedGroup.createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
   }
 
   @Test
@@ -613,5 +634,12 @@ public class GroupsIT extends AbstractDaemonTest {
     name = name(name);
     accountCreator.create(name, group);
     return name;
+  }
+
+  private void setCreatedOnToNull(AccountGroup.Id groupId) throws Exception {
+    AccountGroup group = db.accountGroups().get(groupId);
+    group.setCreatedOn(null);
+    db.accountGroups().update(ImmutableList.of(group));
+    groupCache.evict(group);
   }
 }

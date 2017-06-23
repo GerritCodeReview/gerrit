@@ -107,6 +107,7 @@ public class GroupJson {
           info.owner = o.getName();
         }
       }
+      info.createdOn = g.getCreatedOn();
     }
 
     return info;

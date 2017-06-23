@@ -37,9 +37,7 @@
     getReporting().timeEnd('WebComponentsReady');
   });
 
-  function encode(s) {
-    return window.Gerrit.URLEncodingBehavior.encodeURL(s, false);
-  }
+  const encode = window.Gerrit.URLEncodingBehavior.encodeURL;
 
   function startRouter(generateUrl) {
     const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
@@ -359,7 +357,7 @@
     is: 'gr-router',
     start() {
       if (!app) { return; }
-      startRouter(this._generateUrl);
+      startRouter(this._generateUrl.bind(this));
     },
 
     _generateUrl(params) {
@@ -392,12 +390,27 @@
         }
         url = '/q/' + operators.join('+');
       } else if (params.view === Gerrit.Nav.View.CHANGE) {
-        url = '/c/' + params.id;
+        let range = this._getPatchRangeExpression(params);
+        if (range.length) { range = '/' + range; }
+
+        url = `/c/${params.id}${range}`;
+      } else if (params.view === Gerrit.Nav.View.DIFF) {
+        let range = this._getPatchRangeExpression(params);
+        if (range.length) { range = '/' + range; }
+
+        url = `/c/${params.changeId}${range}/${encode(params.path, true)}`;
       } else {
         throw new Error('Can\'t generate');
       }
 
       return base + url;
+    },
+
+    _getPatchRangeExpression(params) {
+      let range = '';
+      if (params.patchNum) { range = '' + params.patchNum; }
+      if (params.basePatchNum) { range = params.basePatchNum + '..' + range; }
+      return range;
     },
   });
 })();

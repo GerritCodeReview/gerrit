@@ -57,6 +57,24 @@
       "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a2343e9_e713f7e3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T10:26:19Z",
+      "side": 1,
+      "message": "\u003e When I needed to use the lib module mechanism to replace the\n \u003e permission backend, I realized that this was missing ... (facepalm)\n \u003e :-(\n\ndouble facepalm ;-(",
+      "parentUuid": "7ea4cde4_cfae02dd",
+      "revId": "82b74f8cabf370ef56c535a503785daf85d33322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

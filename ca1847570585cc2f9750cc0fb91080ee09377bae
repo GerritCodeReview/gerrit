@@ -22,6 +22,30 @@
       "revId": "ca1847570585cc2f9750cc0fb91080ee09377bae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad0f8d8_febe94ec",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-23T23:24:57Z",
+      "side": 0,
+      "message": "Right, this should not be removed.  I\u0027m assuming it was committed accidentally.",
+      "parentUuid": "03e50644_f0b70944",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "ca1847570585cc2f9750cc0fb91080ee09377bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

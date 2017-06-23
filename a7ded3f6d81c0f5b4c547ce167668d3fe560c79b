@@ -1,4 +1,229 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1498166494 -0400\nnonce AH5c86CnGnNBpFfsBVlX+ogZ/59T84rD5S7u6KXmuPW7SdkCJLUQ5w183NYHhkYDZ7FcissGRHB2\n\n0000000000000000000000000000000000000000 17d8f31c659e4ce015ccc4aeae59c6e4463690b0 refs/for/master%topic\u003dnote-db-migrator,r\u003ddavid.ostrovsky@gmail.com,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZTDTeAAoJEF/XxZqaEoiMWp4P/3E2blKWskCBeuSyPJWtP6YH\nOZ/phmRQKMlYp+76IMdQg9M7asg0MQ5u1WyS8HWlPmnp3D5aRWaI+gp+xidGLHER\noJoLRJ4xGDZOJh4qPUacIpL5RSj2YNMLLNRVnaJ29zxsC2C8P9GUgPMvuYaSvYSR\nw8rwp5gvGgfT84JdZiFZDiKK3DiQXq/OfBOcaoQaWxhSzV/1JWvKEYxFPEaeFRZB\n+yUwR4814TpUdF5rGwr4wwThmytVqRDyDpY7spwHW50ZjJB3+31o0bCCVMsee889\np54zAZE55ah422NKt90JMwJwkWFoyZpcwDPXN/LXskLQ7z+IgfdnSanUaQ73QqEn\n6S+6OmoITV6RP3IeHUwkVPos8QwZUwDMfuN5zPKI6yP1H00GknMS1p5PWyVwa08C\njVtESJeeCvxrMDj6KkG+qNMEVP82RhhpgbFprJgPPLhanycySuWQMLbasvjBZjfy\n5rVEZRPMOd0EVHdcGxnZRmEWB1zh42axQyMD3gRuiqtK8hgq0RPZMyuwDBiZhEe0\nY8af77RHVlcNtysgE66kk7oMAcujeF24dJKsLPxLhIg+G50726I1B2rwDd2uy0X1\nEY9vO1g5xW6nMkWP3MEhF+22Chaq/oWSnlNlQ/ohjt51G/X6+SA7d+REYRK+x+dE\n5j0TPC70V1BFjdRvW7ua\n\u003dB1/Z\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cf031af_f03e4865",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "I don\u0027t see how this null-value semantic and thus gerrit.config value (500 in this case) usage is reached from the CLI.",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 42
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a202473_d0f303de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "This is actually confusing, at least to me. Say, I expand the consumption of the sequences code above, with:\n\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 1);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 2);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 3);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 4);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 5);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 6);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 7);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 8);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 9);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 10);\n  assertThat(sequences.nextChangeId()).isEqualTo(expectedFirstId + 11);\n\nAns the test would still succeed?",
+      "range": {
+        "startLine": 278,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 89
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3fcb71_029f0642",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "Optional: Add a comment why it\u0027s not 2, as we\u0027ve only created one single change in this test. The reason is, because another db.nextChangeId() was called during notedb sequence migration.",
+      "range": {
+        "startLine": 286,
+        "startChar": 45,
+        "endLine": 286,
+        "endChar": 46
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ae0693_e440332d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "Actually we don\u0027t care, while this should this be ever used? In ideal world we should check that this method is not allowed to be called any more, once notedb sequence is activated.",
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b6bf44_1d3f6091",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "Not needed for instance variables, see JLS: [1].\n\n*  Each class variable, instance variable, or array component is initialized with a default value when it is created (§15.9, §15.10):\n[...]\n* For type int, the default value is zero, that is, 0.\n\n\n\n* [1] https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.12.5",
+      "range": {
+        "startLine": 81,
+        "startChar": 25,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ee548de_edd0cb0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "Not related to this change, but this is still not documented.",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 62
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a137369_8a5fe31a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "And this",
+      "range": {
+        "startLine": 65,
+        "startChar": 45,
+        "endLine": 65,
+        "endChar": 62
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acc91284_9b2f2edb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "set to 0.",
+      "range": {
+        "startLine": 239,
+        "startChar": 14,
+        "endLine": 239,
+        "endChar": 26
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91c1294f_a990075a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "I don\u0027t see how this supposed to work, because 0 isn\u0027t converted to null, here, but assigned to Integer 0, so that not setting this from the migrate-to-note-db site program would still set this to 0 and would even miss the configured value in gerrit.config.\n\nI would expect that if 0 is passed, then the value should be used form gerrit.config, that would end up to be default 1000, when nothing was set, neither a gap value was passed from CLI, nor a values was set in gerrit.config.\n\nThat would complicate the configuration, if 0 should be used as a gap: it must be configured in gerrit.config, but would simplify the 99% use case: site admin would say anything and the desired default 1000 would be used.\n\nActually I see the test code that is testing sequenceGap \u003d null code path, but I fail to see, how this code path can be reached from the CLI.",
+      "range": {
+        "startLine": 242,
+        "startChar": 67,
+        "endLine": 242,
+        "endChar": 91
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876004e9_a582c735",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-23T06:36:03Z",
+      "side": 1,
+      "message": "initialSequenceGap",
+      "range": {
+        "startLine": 243,
+        "startChar": 33,
+        "endLine": 243,
+        "endChar": 50
+      },
+      "revId": "a7ded3f6d81c0f5b4c547ce167668d3fe560c79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

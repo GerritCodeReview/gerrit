@@ -23,6 +23,30 @@
       "revId": "663b0c5cd6d985d8528140760a9c4d8366ee104f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7188e1de_51e52ad0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-23T21:48:30Z",
+      "side": 1,
+      "message": "Not at all, I\u0027m showing the admin how to bandage their foot after shooting themselves in it :)",
+      "parentUuid": "8e5f3ad0_ee37bfcb",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "663b0c5cd6d985d8528140760a9c4d8366ee104f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

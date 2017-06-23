@@ -22,46 +22,49 @@ limitations under the License.
 
 <dom-module id="gr-email-editor">
   <template>
-    <style include="shared-styles">
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
       th {
         color: #666;
         text-align: left;
       }
-      th.emailHeader {
-        width: 32.5em;
+      #email-table .email-column {
+        min-width: 32.5em;
+        width: auto;
       }
-      th.preferredHeader {
+      #email-table .preferred-header {
         text-align: center;
         width: 6em;
       }
-      tbody tr:nth-child(even) {
-        background-color: #f4f4f4;
-      }
-      td.preferredControl {
+      #email-table .preferredControl {
         cursor: pointer;
+        height: auto;
         text-align: center;
       }
-      td.preferredControl:hover {
-        border: 1px solid #ddd;
+      #email-table .preferredControl .preferred-radio {
+        height: auto;
+      }
+      .preferredControl:hover {
+        outline: 1px solid #d1d2d3;
       }
     </style>
-    <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
-      <table>
+      <table id="email-table">
         <thead>
           <tr>
-            <th class="emailHeader">Email</th>
-            <th class="preferredHeader">Preferred</th>
+            <th class="email-column">Email</th>
+            <th class="preferred-header">Preferred</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <template is="dom-repeat" items="[[_emails]]">
             <tr>
-              <td>[[item.email]]</td>
+              <td class="email-column">[[item.email]]</td>
               <td class="preferredControl" on-tap="_handlePreferredControlTap">
                 <input
                     is="iron-input"
+                    class="preferred-radio"
                     type="radio"
                     on-change="_handlePreferredChange"
                     name="preferred"

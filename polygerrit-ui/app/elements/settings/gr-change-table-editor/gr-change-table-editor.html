@@ -24,29 +24,28 @@ limitations under the License.
 
 <dom-module id="gr-change-table-editor">
   <template>
-    <style include="shared-styles">
-      table {
-        margin-top: 1em;
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+      #change-cols {
+        width: auto;
       }
-      th.nameHeader {
-        width: 11em;
+      #change-cols .visible-header {
+        text-align: center;
       }
-      td.checkboxContainer {
-        border: 1px solid #fff;
+      .checkboxContainer {
         cursor: pointer;
         text-align: center;
       }
-      td.checkboxContainer:hover {
-        border: 1px solid #ddd;
+      .checkboxContainer:hover {
+        outline: 1px solid #ddd;
       }
     </style>
-    <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
-      <table>
+      <table id="change-cols">
         <thead>
           <tr>
             <th class="nameHeader">Column</th>
-            <th>Visible</th>
+            <th class="visible-header">Visible</th>
           </tr>
         </thead>
         <tbody>

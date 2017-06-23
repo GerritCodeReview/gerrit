@@ -23,11 +23,12 @@ limitations under the License.
 <dom-module id="gr-agreements-list">
   <template>
     <style include="shared-styles">
-      .nameHeader {
-        width: 15em;
+      table tr .name-column {
+        min-width: 11em;
+        width: auto;
       }
-      .descriptionHeader {
-        width: 21.5em;
+      table tr .description-column {
+        width: auto;
       }
     </style>
     <style include="gr-form-styles"></style>
@@ -35,15 +36,15 @@ limitations under the License.
       <table>
         <thead>
           <tr>
-            <th class="nameHeader">Name</th>
-            <th class="descriptionHeader">Description</th>
+            <th class="name-column">Name</th>
+            <th class="description-column">Description</th>
           </tr>
         </thead>
         <tbody>
           <template is="dom-repeat" items="[[_agreements]]">
             <tr>
-              <td><a href$="[[getUrlBase(item.url)]]">[[item.name]]</a></td>
-              <td>[[item.description]]</td>
+              <td class="name-column"><a href$="[[getUrlBase(item.url)]]">[[item.name]]</a></td>
+              <td class="description-column">[[item.description]]</td>
             </tr>
           </template>
         </tbody>

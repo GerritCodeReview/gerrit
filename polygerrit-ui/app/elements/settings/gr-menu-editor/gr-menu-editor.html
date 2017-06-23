@@ -25,8 +25,12 @@ limitations under the License.
 <dom-module id="gr-menu-editor">
   <template>
     <style include="shared-styles">
-      th.nameHeader {
-        width: 11em;
+      .button-column {
+        width: 2em;
+      }
+      .move-up-button,
+      .move-down-button {
+        width: 100%
       }
       tbody tr:first-of-type td .move-up-button,
       tbody tr:last-of-type td .move-down-button {
@@ -35,11 +39,8 @@ limitations under the License.
       td.urlCell {
         word-break: break-word;
       }
-      .newTitleInput {
-        width: 10em;
-      }
       .newUrlInput {
-        width: 23em;
+        min-width: 23em;
       }
     </style>
     <style include="gr-form-styles"></style>
@@ -56,13 +57,13 @@ limitations under the License.
             <tr>
               <td>[[item.name]]</td>
               <td class="urlCell">[[item.url]]</td>
-              <td>
+              <td class="button-column">
                 <gr-button
                     data-index="[[index]]"
                     on-tap="_handleMoveUpButton"
                     class="move-up-button">↑</gr-button>
               </td>
-              <td>
+              <td class="button-column">
                 <gr-button
                     data-index="[[index]]"
                     on-tap="_handleMoveDownButton"
@@ -81,7 +82,6 @@ limitations under the License.
           <tr>
             <th>
               <input
-                  class="newTitleInput"
                   is="iron-input"
                   placeholder="New Title"
                   on-keydown="_handleInputKeydown"

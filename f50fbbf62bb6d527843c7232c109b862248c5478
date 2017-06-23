@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34f2d1f3_b6301a2f",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-23T19:45:37Z",
+      "side": 1,
+      "message": "You\u0027re proposing to inline a function call, in other words.\nI\u0027m not sure performance gain worth it.",
+      "parentUuid": "0288242a_f872030f",
+      "range": {
+        "startLine": 82,
+        "startChar": 25,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6045604_1d2966c2",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5d7d7b8_176b47e5",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-23T19:45:37Z",
+      "side": 1,
+      "message": "I followed naming convention in handleRESTProxy.\nLet me know if you feel strongly about this.",
+      "parentUuid": "c6045604_1d2966c2",
+      "range": {
+        "startLine": 115,
+        "startChar": 19,
+        "endLine": 115,
+        "endChar": 54
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

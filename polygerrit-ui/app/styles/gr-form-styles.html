@@ -19,17 +19,23 @@ limitations under the License.
       .gr-form-styles h1 {
         margin-bottom: .1em;
       }
+      .gr-form-styles h2 {
+        margin-bottom: .3em;
+      }
       .gr-form-styles fieldset {
         border: none;
         margin: 0 0 2em 2em;
       }
       .gr-form-styles section {
-        margin-bottom: .5em;
+        margin: .15em 0;
+        min-height: 2em;
+      }
+      .gr-form-styles section * {
+        vertical-align: middle;
       }
       .gr-form-styles .title,
       .gr-form-styles .value {
         display: inline-block;
-        vertical-align: top;
       }
       .gr-form-styles .title {
         color: #666;
@@ -37,18 +43,76 @@ limitations under the License.
         padding-right: .5em;
         width: 11em;
       }
-      .gr-form-styles input {
-        font-size: 1em;
-      }
       .gr-form-styles iron-autogrow-textarea {
         font-size: 1em;
       }
       .gr-form-styles th {
         color: #666;
         text-align: left;
+        vertical-align: bottom;
+      }
+      .gr-form-styles td,
+      .gr-form-styles tfoot th {
+        height: 2em;
+        vertical-align: middle;
+      }
+      .gr-form-styles .emptyHeader {
+        text-align: right;
       }
       .gr-form-styles tbody tr:nth-child(even) {
         background-color: #f4f4f4;
+      }
+      .gr-form-styles table {
+        width: 50em;
+      }
+      .gr-form-styles th:first-child,
+      .gr-form-styles td:first-child {
+        width: 11em;
+      }
+      .gr-form-styles th:first-child input,
+      .gr-form-styles td:first-child input {
+        width: 10em;
+      }
+      .gr-form-styles input:not([type="checkbox"]),
+      .gr-form-styles select,
+      .gr-form-styles textarea {
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
+        font-size: 1em;
+        height: 2em;
+        padding: 0 .15em;
+      }
+      .gr-form-styles gr-button:not([link]) {
+        height: 2.2em;
+      }
+      .gr-form-styles td:last-child {
+        width: 5em;
+      }
+      .gr-form-styles th:last-child gr-button,
+      .gr-form-styles td:last-child gr-button {
+        width: 100%;
+      }
+      .gr-form-styles iron-autogrow-textarea {
+        border: none;
+        height: auto;
+        min-height: 2em;
+        --iron-autogrow-textarea: {
+          border: 1px solid #d1d2d3;
+          border-radius: 2px;
+          font-size: 1em;
+          padding: .25em .15em 0 .15em;
+        }
+      }
+      .gr-form-styles gr-autocomplete {
+        border: none;
+        --gr-autocomplete: {
+          border: 1px solid #d1d2d3;
+          border-radius: 2px;
+          font-size: 1em;
+          height: 2em;
+          padding: 0 .15em;
+          width: 10em;
+        }
       }
       @media only screen and (max-width: 40em) {
         .gr-form-styles section {
@@ -57,6 +121,9 @@ limitations under the License.
         .gr-form-styles .title,
         .gr-form-styles .value {
           display: block;
+        }
+        .gr-form-styles table {
+          width: 100%;
         }
       }
     </style>

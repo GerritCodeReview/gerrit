@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44a76ddc_76c11181",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-23T23:08:06Z",
+      "side": 1,
+      "message": "I\u0027m worried this logic will need to be duplicated.",
+      "range": {
+        "startLine": 643,
+        "startChar": 4,
+        "endLine": 643,
+        "endChar": 30
+      },
+      "revId": "4fd17cc048cd1c9eb89a899e7580db7c907133b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

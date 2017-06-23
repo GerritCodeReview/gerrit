@@ -235,7 +235,7 @@ link:http://help.sap.com/saphelp_hanaplatform/helpdata/en/ff/15928cf5594d78b841f
 It needs to be stored in the 'lib' folder of the review site.
 
 In the following sample database section it is assumed that HANA is running on
-the host 'hana.host' with the instance number 00 where a schema/user GERRIT2
+the host 'hana.host' and listening on port '4242' where a schema/user GERRIT2
 was created:
 
 In $site_path/etc/gerrit.config:
@@ -243,8 +243,23 @@ In $site_path/etc/gerrit.config:
 ----
 [database]
         type = hana
-        instance = 00
         hostname = hana.host
+        port = 4242
+        username = GERRIT2
+
+----
+
+In order to configure a specific database in a multi-database environment (MDC)
+the database name has to be specified additionally:
+
+In $site_path/etc/gerrit.config:
+
+----
+[database]
+        type = hana
+        hostname = hana.host
+        database = tdb1
+        port = 4242
         username = GERRIT2
 
 ----

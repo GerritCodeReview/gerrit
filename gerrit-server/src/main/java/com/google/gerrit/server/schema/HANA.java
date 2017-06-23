@@ -17,11 +17,13 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.schema.JdbcUtil.hostname;
 import static com.google.gerrit.server.schema.JdbcUtil.port;
 
+import java.io.IOException;
+import org.eclipse.jgit.lib.Config;
+
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-import java.io.IOException;
-import org.eclipse.jgit.lib.Config;
 
 class HANA extends BaseDataSourceType {
 
@@ -39,9 +41,11 @@ class HANA extends BaseDataSourceType {
     final ConfigSection dbs = new ConfigSection(cfg, "database");
     b.append("jdbc:sap://");
     b.append(hostname(dbs.required("hostname")));
-    int instance = Integer.parseInt(dbs.required("instance"));
-    String port = "3" + String.format("%02d", instance) + "15";
-    b.append(port(port));
+    b.append(port(dbs.optional("port")));
+    String database = dbs.optional("database");
+    if (!Strings.isNullOrEmpty(database)) {
+      b.append("?databaseName=").append(database);
+    }
     return b.toString();
   }
 

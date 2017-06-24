@@ -16,19 +16,21 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Predicates;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
@@ -42,12 +44,18 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
+import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -65,6 +73,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -78,31 +87,45 @@ public class NoteDbMigrator implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(NoteDbMigrator.class);
 
   public static class Builder {
+    private final Config cfg;
     private final SitePaths sitePaths;
     private final SchemaFactory<ReviewDb> schemaFactory;
+    private final GitRepositoryManager repoManager;
+    private final AllProjectsName allProjects;
     private final ChangeRebuilder rebuilder;
     private final WorkQueue workQueue;
     private final NotesMigration globalNotesMigration;
+    private final PrimaryStorageMigrator primaryStorageMigrator;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
     private ImmutableList<Change.Id> changes = ImmutableList.of();
     private OutputStream progressOut = NullOutputStream.INSTANCE;
+    private NotesMigrationState stopAtState;
     private boolean trial;
     private boolean forceRebuild;
+    private int sequenceGap = -1;
 
     @Inject
     Builder(
+        @GerritServerConfig Config cfg,
         SitePaths sitePaths,
         SchemaFactory<ReviewDb> schemaFactory,
+        GitRepositoryManager repoManager,
+        AllProjectsName allProjects,
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
-        NotesMigration globalNotesMigration) {
+        NotesMigration globalNotesMigration,
+        PrimaryStorageMigrator primaryStorageMigrator) {
+      this.cfg = cfg;
       this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
+      this.repoManager = repoManager;
+      this.allProjects = allProjects;
       this.rebuilder = rebuilder;
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
+      this.primaryStorageMigrator = primaryStorageMigrator;
     }
 
     /**
@@ -166,6 +189,18 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     /**
+     * Stop at a specific migration state, for testing only.
+     *
+     * @param stopAtState state to stop at.
+     * @return this.
+     */
+    @VisibleForTesting
+    public Builder setStopAtStateForTesting(NotesMigrationState stopAtState) {
+      this.stopAtState = stopAtState;
+      return this;
+    }
+
+    /**
      * Rebuild in "trial mode": configure Gerrit to write to and read from NoteDb, but leave
      * ReviewDb as the source of truth for all changes.
      *
@@ -196,61 +231,108 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Gap between ReviewDb change sequence numbers and NoteDb.
+     *
+     * <p>If NoteDb sequences are enabled in a running server, there is a race between the migration
+     * step that calls {@code nextChangeId()} to seed the ref, and other threads that call {@code
+     * nextChangeId()} to create new changes. In order to prevent these operations stepping on one
+     * another, we use this value to skip some predefined sequence numbers. This is strongly
+     * recommended in a running server.
+     *
+     * <p>If the migration takes place offline, there is no race with other threads, and this option
+     * may be set to 0. However, admins may still choose to use a gap, for example to make it easier
+     * to distinguish changes that were created before and after the NoteDb migration.
+     *
+     * <p>By default, uses the value from {@code noteDb.changes.initialSequenceGap} in {@code
+     * gerrit.config}, which defaults to 1000.
+     *
+     * @param sequenceGap sequence gap size; if negative, use the default.
+     * @return this.
+     */
+    public Builder setSequenceGap(int sequenceGap) {
+      this.sequenceGap = sequenceGap;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
+          repoManager,
+          allProjects,
           rebuilder,
           globalNotesMigration,
+          primaryStorageMigrator,
           threads > 1
               ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
               : MoreExecutors.newDirectExecutorService(),
           projects,
           changes,
           progressOut,
+          stopAtState,
           trial,
-          forceRebuild);
+          forceRebuild,
+          sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg));
     }
   }
 
   private final FileBasedConfig gerritConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjects;
   private final ChangeRebuilder rebuilder;
   private final NotesMigration globalNotesMigration;
+  private final PrimaryStorageMigrator primaryStorageMigrator;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
   private final ImmutableList<Change.Id> changes;
   private final OutputStream progressOut;
+  private final NotesMigrationState stopAtState;
   private final boolean trial;
   private final boolean forceRebuild;
+  private final int sequenceGap;
 
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjects,
       ChangeRebuilder rebuilder,
       NotesMigration globalNotesMigration,
+      PrimaryStorageMigrator primaryStorageMigrator,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
       OutputStream progressOut,
+      NotesMigrationState stopAtState,
       boolean trial,
-      boolean forceRebuild)
+      boolean forceRebuild,
+      int sequenceGap)
       throws MigrationException {
     if (!changes.isEmpty() && !projects.isEmpty()) {
       throw new MigrationException("Cannot set both changes and projects");
     }
+    if (sequenceGap < 0) {
+      throw new MigrationException("Sequence gap must be non-negative: " + sequenceGap);
+    }
 
     this.schemaFactory = schemaFactory;
     this.rebuilder = rebuilder;
+    this.repoManager = repoManager;
+    this.allProjects = allProjects;
     this.globalNotesMigration = globalNotesMigration;
+    this.primaryStorageMigrator = primaryStorageMigrator;
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
     this.progressOut = progressOut;
+    this.stopAtState = stopAtState;
     this.trial = trial;
     this.forceRebuild = forceRebuild;
+    this.sequenceGap = sequenceGap;
   }
 
   @Override
@@ -281,6 +363,9 @@ public class NoteDbMigrator implements AutoCloseable {
 
     boolean rebuilt = false;
     while (state.compareTo(NOTE_DB_UNFUSED) < 0) {
+      if (state.equals(stopAtState)) {
+        return;
+      }
       boolean stillNeedsRebuild = forceRebuild && !rebuilt;
       if (trial && state.compareTo(READ_WRITE_NO_SEQUENCE) >= 0) {
         if (stillNeedsRebuild && state == READ_WRITE_NO_SEQUENCE) {
@@ -303,7 +388,7 @@ public class NoteDbMigrator implements AutoCloseable {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
           } else {
-            state = enableSequences();
+            state = enableSequences(state);
           }
           break;
         case READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY:
@@ -311,11 +396,16 @@ public class NoteDbMigrator implements AutoCloseable {
             state = rebuildAndEnableReads(state);
             rebuilt = true;
           } else {
-            state = setNoteDbPrimary();
+            state = setNoteDbPrimary(state);
           }
           break;
         case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
-          state = disableReviewDb();
+          // The only way we can get here is if there was a failure on a previous run of
+          // setNoteDbPrimary, since that method moves to NOTE_DB_UNFUSED if it completes
+          // successfully. Assume that not all changes were converted and re-run the step.
+          // migrateToNoteDbPrimary is a relatively fast no-op for already-migrated changes, so this
+          // isn't actually repeating work.
+          state = setNoteDbPrimary(state);
           break;
         case NOTE_DB_UNFUSED:
           // Done!
@@ -340,16 +430,80 @@ public class NoteDbMigrator implements AutoCloseable {
     return saveState(prev, READ_WRITE_NO_SEQUENCE);
   }
 
-  private NotesMigrationState enableSequences() {
-    throw new UnsupportedOperationException("not yet implemented");
+  private NotesMigrationState enableSequences(NotesMigrationState prev)
+      throws OrmException, IOException {
+    try (ReviewDb db = schemaFactory.open()) {
+      @SuppressWarnings("deprecation")
+      RepoSequence seq =
+          new RepoSequence(
+              repoManager,
+              allProjects,
+              Sequences.CHANGES,
+              // If sequenceGap is 0, this writes into the sequence ref the same ID that is returned
+              // by the call to seq.next() below. If we actually used this as a change ID, that
+              // would be a problem, but we just discard it, so this is safe.
+              () -> db.nextChangeId() + sequenceGap - 1,
+              1);
+      seq.next();
+    }
+    return saveState(prev, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
   }
 
-  private NotesMigrationState setNoteDbPrimary() {
-    throw new UnsupportedOperationException("not yet implemented");
+  private NotesMigrationState setNoteDbPrimary(NotesMigrationState prev)
+      throws MigrationException, OrmException, IOException {
+    checkState(
+        projects.isEmpty() && changes.isEmpty(),
+        "Should not have attempted setNoteDbPrimary with a subset of changes");
+    checkState(
+        prev == READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY
+            || prev == READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY,
+        "Unexpected start state for setNoteDbPrimary: %s",
+        prev);
+
+    // Before changing the primary storage of old changes, ensure new changes are created with
+    // NoteDb primary.
+    prev = saveState(prev, READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);
+
+    Stopwatch sw = Stopwatch.createStarted();
+    log.info("Setting primary storage to NoteDb");
+    List<Change.Id> allChanges;
+    try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+      allChanges = Streams.stream(db.changes().all()).map(Change::getId).collect(toList());
+    }
+
+    List<ListenableFuture<Boolean>> futures =
+        allChanges
+            .stream()
+            .map(
+                id ->
+                    executor.submit(
+                        () -> {
+                          // TODO(dborowitz): Avoid reopening db if using a single thread.
+                          try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+                            primaryStorageMigrator.migrateToNoteDbPrimary(id);
+                            return true;
+                          } catch (Exception e) {
+                            log.error("Error migrating primary storage for " + id, e);
+                            return false;
+                          }
+                        }))
+            .collect(toList());
+
+    boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
+    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    log.info(
+        String.format(
+            "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
+            allChanges.size(), t, allChanges.size() / t));
+    if (!ok) {
+      throw new MigrationException("Migrating primary storage for some changes failed, see log");
+    }
+
+    return disableReviewDb(prev);
   }
 
-  private NotesMigrationState disableReviewDb() {
-    throw new UnsupportedOperationException("not yet implemented");
+  private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {
+    return saveState(prev, NOTE_DB_UNFUSED);
   }
 
   private Optional<NotesMigrationState> loadState() throws IOException {
@@ -394,7 +548,6 @@ public class NoteDbMigrator implements AutoCloseable {
     if (!globalNotesMigration.commitChangeWrites()) {
       throw new MigrationException("Cannot rebuild without noteDb.changes.write=true");
     }
-    boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");
 
@@ -416,13 +569,7 @@ public class NoteDbMigrator implements AutoCloseable {
       futures.add(future);
     }
 
-    try {
-      ok = Iterables.all(Futures.allAsList(futures).get(), Predicates.equalTo(true));
-    } catch (InterruptedException | ExecutionException e) {
-      log.error("Error rebuilding projects", e);
-      ok = false;
-    }
-
+    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     log.info(
         String.format(
@@ -501,5 +648,14 @@ public class NoteDbMigrator implements AutoCloseable {
       pm.endTask();
     }
     return ok;
+  }
+
+  private static boolean futuresToBoolean(List<ListenableFuture<Boolean>> futures, String errMsg) {
+    try {
+      return Futures.allAsList(futures).get().stream().allMatch(b -> b);
+    } catch (InterruptedException | ExecutionException e) {
+      log.error(errMsg, e);
+      return false;
+    }
   }
 }

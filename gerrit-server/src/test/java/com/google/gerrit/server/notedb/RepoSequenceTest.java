@@ -264,13 +264,7 @@ public class RepoSequenceTest {
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
     return new RepoSequence(
-        repoManager,
-        project,
-        name,
-        () -> start,
-        batchSize,
-        afterReadRef,
-        retryer);
+        repoManager, project, name, () -> start, batchSize, afterReadRef, retryer);
   }
 
   private ObjectId writeBlob(String sequenceName, String value) {

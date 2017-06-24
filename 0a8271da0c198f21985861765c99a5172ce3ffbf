@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c807fabd_10925872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/HANA.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-24T04:56:33Z",
+      "side": 1,
+      "message": "This wasn\u0027t formatted with google-java-format.",
+      "revId": "0a8271da0c198f21985861765c99a5172ce3ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

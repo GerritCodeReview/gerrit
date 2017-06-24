@@ -227,6 +227,12 @@ limitations under the License.
       .collapseToggleContainer {
         display: flex;
       }
+      #relatedChangesToggle {
+        display: none;
+      }
+      #relatedChangesToggle.showToggle {
+        display: flex;
+      }
       .collapseToggleContainer gr-button {
         display: block;
       }
@@ -425,8 +431,7 @@ limitations under the License.
               </gr-related-changes-list>
               <div
                   id="relatedChangesToggle"
-                  class="collapseToggleContainer"
-                  hidden$="[[_computeRelatedChangesToggleHidden(_relatedChangesLoading)]]">
+                  class$="collapseToggleContainer [[_computeRelatedChangesToggleClass(_relatedChangesLoading)]]">
                 <gr-button
                     link
                     id="relatedChangesToggleButton"

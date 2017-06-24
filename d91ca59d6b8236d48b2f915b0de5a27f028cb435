@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e5e279f_275c5d7c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-24T07:37:25Z",
+      "side": 1,
+      "message": "Assert querying account index and group index as well?",
+      "revId": "d91ca59d6b8236d48b2f915b0de5a27f028cb435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

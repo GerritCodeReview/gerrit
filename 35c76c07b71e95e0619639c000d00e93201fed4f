@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a67b7e_fad9c1d4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-24T05:10:13Z",
+      "side": 1,
+      "message": "Optional: Never ending story discussing what is the right plural form for the English word \"index\". My preference is the other form. As always, if in doubt, do what the majority did before you:\n\n  $ git grep indices | wc -l\n  34\n  $ git grep indexes | wc -l\n  149",
+      "range": {
+        "startLine": 148,
+        "startChar": 19,
+        "endLine": 148,
+        "endChar": 26
+      },
+      "revId": "35c76c07b71e95e0619639c000d00e93201fed4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

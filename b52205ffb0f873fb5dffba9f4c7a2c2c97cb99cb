@@ -35,6 +35,24 @@
       "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d96fa4d3_f5adfcbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-24T04:35:09Z",
+      "side": 1,
+      "message": "\u003e It\u0027s true that if you run the program again, there\u0027s a chance it\n \u003e will fail again and stay in the same state, but this is not a\n \u003e runaway infinite loop scenario. I haven\u0027t fully thought through the\n \u003e online process but I am also thinking it will not retry without\n \u003e human intervention. You (the admin) may give up after a few tries,\n \u003e then file a bug and run it again when your bug is fixed. (Of\n \u003e course, this hopefully only happens to early adopters in the RC\n \u003e period, and there are no bugs in 3.0 final :)\n\nWe can investigate the situation later when it\u0027s clear, how the online process is started and terminated to see if there is a danger of endless loop here. Just mentioning, that libreoffice infra team is very conservative considerung using alpha quality releases of any product. And I can already assure you, that the guys wouldn\u0027t use Gerrit 3.0 and wait until at least 3.3.10 or something ;-)",
+      "parentUuid": "84ef6013_4d28c879",
+      "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

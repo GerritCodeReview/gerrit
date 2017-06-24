@@ -32,6 +32,11 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
+    <style>
+      .gr-admin-view {
+        max-width: 69em
+      }
+    </style>
     <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
       <ul class="sectionContent">
         <template is="dom-repeat" items="[[_filteredLinks]]">

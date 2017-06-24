@@ -39,6 +39,13 @@
     </developer>
     <developer>
       <name>David Pursehouse</name>
+      <timezone>Asia/Tokyo</timezone>
+      <properties>
+        <publicKey>
+          <id>9FFC2102</id>
+          <fingerprint>0A76 9EB0 5339 B93B DD89  95ED 0C3A F664 9FFC 2102</fingerprint>
+        </publicKey>
+      </properties>
     </developer>
     <developer>
       <name>Edwin Kempin</name>

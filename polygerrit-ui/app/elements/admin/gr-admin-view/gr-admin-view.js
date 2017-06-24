@@ -163,5 +163,13 @@
     _computeSelectedClass(itemView, params) {
       return itemView === params.adminView ? 'selected' : '';
     },
+
+    _toggleMobileNav() {
+      this.$.nav.classList.toggle('show');
+    },
+
+    _hideMobileNav() {
+      this.$.nav.classList.toggle('hide');
+    },
   });
 })();

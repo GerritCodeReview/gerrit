@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09ead045_588caec7",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-24T22:40:28Z",
+      "side": 1,
+      "message": "Isen\u0027t this a duplicate of what is now in gr-admin-view?",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "f40489eb089b8ff210eab7fd3423d33f9419bc4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

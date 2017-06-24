@@ -39,12 +39,17 @@ limitations under the License.
       #newEmailInput {
         width: 20em;
       }
+      @media screen and (max-width: 50em) {
+        .nav {
+          display: none;
+        }
+      }
     </style>
     <style include="gr-form-styles"></style>
     <style include="gr-menu-page-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <gr-page-nav>
+      <gr-page-nav class="nav">
         <ul>
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Preferences">Preferences</a></li>

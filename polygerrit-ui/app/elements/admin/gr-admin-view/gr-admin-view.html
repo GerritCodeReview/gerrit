@@ -32,7 +32,28 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
-    <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
+    <style>
+      .mobile {
+        display: none;
+      }
+      @media screen and (max-width: 53em) {
+        .mobile {
+          align-items: center;
+          display: flex;
+          padding: 1em;
+        }
+        .nav {
+          display: none;
+        }
+        .nav.show {
+          display: block !important;
+        }
+        .sectionContent {
+          padding: 3em 0 !importatn;
+        }
+      }
+    </style>
+    <gr-page-nav id="nav" class$="nav [[_computeLoadingClass(_loading)]]">
       <ul class="sectionContent">
         <template is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
@@ -48,6 +69,9 @@ limitations under the License.
         </template>
       </ul>
     </gr-page-nav>
+    <div class="mobile">
+      <gr-button on-tap="_toggleMobileNav">&#9776;</gr-button>
+    </div>
     <template is="dom-if" if="[[_showProjectList]]" restamp="true">
       <main class="table">
         <gr-admin-project-list class="table" params="[[params]]">

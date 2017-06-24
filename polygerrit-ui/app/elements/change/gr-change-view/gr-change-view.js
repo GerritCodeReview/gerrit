@@ -1260,9 +1260,14 @@
       this.updateStyles();
     },
 
-    _computeRelatedChangesToggleHidden() {
-      return this._getScrollHeight(this.$.relatedChanges) <=
-          this._getOffsetHeight(this.$.relatedChanges);
+    _computeRelatedChangesToggleClass() {
+      // Prevents showMore from showing when click on related change, since the
+      // line height would be positive, but related changes height is 0.
+      if (!this._getScrollHeight(this.$.relatedChanges)) { return ''; }
+
+      return this._getScrollHeight(this.$.relatedChanges) >
+          (this._getOffsetHeight(this.$.relatedChanges) +
+          this._getLineHeight(this.$.relatedChanges)) ? 'showToggle' : '';
     },
 
     _startUpdateCheckTimer() {

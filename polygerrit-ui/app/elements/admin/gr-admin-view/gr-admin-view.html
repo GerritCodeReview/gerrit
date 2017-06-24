@@ -55,8 +55,9 @@ limitations under the License.
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectMain]]" restamp="true">
-      <main>
-        <gr-admin-project project="[[params.project]]"></gr-admin-project>
+      <main class="table">
+        <gr-admin-project class="table" project="[[params.project]]">
+        </gr-admin-project>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupList]]" restamp="true">

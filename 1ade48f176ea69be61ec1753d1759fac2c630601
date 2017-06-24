@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "0be4141d_4849f9d3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/OfflineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-06-24T04:35:53Z",
+      "side": 1,
+      "message": "\u003e Yeah, I\u0027ve seen that before, but I haven\u0027t investigated because the\n \u003e tests still pass.\n\nOK.",
+      "parentUuid": "3aafbc4a_9a8e3c52",
+      "range": {
+        "startLine": 140,
+        "startChar": 14,
+        "endLine": 140,
+        "endChar": 30
+      },
+      "revId": "1ade48f176ea69be61ec1753d1759fac2c630601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c8584bb_b47e503a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/OfflineNoteDbMigrationIT.java",
         "patchSetId": 4

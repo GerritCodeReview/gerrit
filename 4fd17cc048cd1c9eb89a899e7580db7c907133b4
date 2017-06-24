@@ -22,6 +22,30 @@
       "revId": "4fd17cc048cd1c9eb89a899e7580db7c907133b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "720fc06c_0462f62d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-24T00:24:01Z",
+      "side": 1,
+      "message": "You\u0027re right. It\u0027s not the most _pure_ interface, but maybe the simplest approach might be to accept \u0027PARENT\u0027 in the opt_basePatchNum parameter and treat it like null/undefined at the Gerrit.Nav level.",
+      "parentUuid": "44a76ddc_76c11181",
+      "range": {
+        "startLine": 643,
+        "startChar": 4,
+        "endLine": 643,
+        "endChar": 30
+      },
+      "revId": "4fd17cc048cd1c9eb89a899e7580db7c907133b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

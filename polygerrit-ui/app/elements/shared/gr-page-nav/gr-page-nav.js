@@ -48,6 +48,9 @@
 
     /* Functions used for test purposes */
     _getOffsetParent(element) {
+      if element.offsetParent === null) {
+        return '';
+      }
       return element.offsetParent;
     },
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb319d8f_0512fe6e",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-24T01:10:51Z",
+      "side": 1,
+      "message": "This section largely duplicates the set of rules above doesn\u0027t it? (With key variations, naturally.)\n\nCan we refactor this into a .bzl file so that these two sets of similar rules can be in a single bazel function?",
+      "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -140,27 +140,6 @@ limitations under the License.
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
       </template>
-      <template is="dom-if" if="[[_showGroupListView]]" restamp="true">
-        <gr-admin-group-list
-            params="[[params]]"
-            id="groupList"></gr-admin-group-list>
-      </template>
-      <template is="dom-if" if="[[_showProjectListView]]" restamp="true">
-        <gr-admin-project-list
-            params="[[params]]"
-            id="projectList"></gr-admin-project-list>
-      </template>
-      <template is="dom-if" if="[[_showAdminProject]]" restamp="true">
-        <gr-admin-project project="[[params.project]]"></gr-admin-project>
-      </template>
-      <template is="dom-if" if="[[_showPluginListView]]" restamp="true">
-        <gr-admin-plugin-list id="pluginList"></gr-admin-plugin-list>
-      </template>
-      <template is="dom-if" if="[[_createProject]]" restamp="true">
-        <gr-admin-create-project
-            params="[[params]]"
-            id="createProject"></gr-admin-create-project>
-      </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"
             params=[[params]]></gr-admin-view>

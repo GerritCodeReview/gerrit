@@ -19,13 +19,22 @@
     url: '/admin/projects',
     view: 'gr-admin-project-list',
     viewableToAll: true,
-    children: [{
-      name: 'Create Project',
-      capability: 'createProject',
-      section: 'Projects',
-      url: '/admin/create-project',
-      view: 'gr-admin-create-project',
-    }],
+    children: [
+      {
+        name: 'General',
+        section: 'Projects',
+        url: '/admin/projects/<name>',
+        view: 'gr-admin-project',
+        projectPage: true,
+      },
+      {
+        name: 'Create Project',
+        capability: 'createProject',
+        section: 'Projects',
+        url: '/admin/create-project',
+        view: 'gr-admin-create-project',
+      },
+    ],
   }, {
     name: 'Groups',
     section: 'Groups',
@@ -85,6 +94,9 @@
         if (!account) {
           // Return so that  account capabilities don't load with no account.
           return this._filteredLinks = this._filterLinks(link => {
+            if (this.params.adminView === 'gr-admin-project' && link.children.projectPage) {
+              return link.children.projectPage;
+            }
             return link.viewableToAll;
           });
         }
@@ -96,6 +108,9 @@
       const links = ADMIN_LINKS.filter(filterFn);
       for (const link of links) {
         link.children = link.children ? link.children.filter(filterFn) : [];
+      }
+      if (link.children && link.children.view === 'gr-admin-project' && this.params.adminView !== 'gr-admin-project') {
+        return '';
       }
       return links;
     },
@@ -155,9 +170,12 @@
       return this._computeURLHelper(host, path);
     },
 
-    _computeLinkURL(link) {
+    _computeLinkURL(link, params) {
       if (typeof link.url === 'undefined') {
         return '';
+      }
+      if (params.adminView === 'gr-admin-project' && link.url === '/admin/projects/<name>') {
+        return '//' + window.location.host + this.getBaseUrl() + '/admin/projects/' + params.project;
       }
       if (link.target) {
         return link.url;

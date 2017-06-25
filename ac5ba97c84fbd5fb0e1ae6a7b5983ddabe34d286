@@ -47,6 +47,30 @@
       "revId": "ac5ba97c84fbd5fb0e1ae6a7b5983ddabe34d286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42d432d4_86acb19c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-25T06:45:33Z",
+      "side": 1,
+      "message": "Gah, sorry, I already changed and merged it :(",
+      "parentUuid": "3ca99883_1792c65c",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "ac5ba97c84fbd5fb0e1ae6a7b5983ddabe34d286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

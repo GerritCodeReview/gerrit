@@ -36,12 +36,12 @@ limitations under the License.
       <ul class="sectionContent">
         <template is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
-            <a class="title" href="[[_computeLinkURL(item)]]"
+            <a class="title" href="[[_computeLinkURL(item, params)]]"
                   rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
           </li>
           <template is="dom-repeat" items="[[item.children]]">
             <li class$="[[_computeSelectedClass(item.view, params)]]">
-              <a href="[[_computeLinkURL(item)]]"
+              <a href="[[_computeLinkURL(item, params)]]"
                   rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
             </li>
           </template>

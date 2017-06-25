@@ -14,37 +14,6 @@
 (function() {
   'use strict';
 
-  const ADMIN_LINKS = [{
-    name: 'Projects',
-    url: '/admin/projects',
-    view: 'gr-admin-project-list',
-    viewableToAll: true,
-    children: [{
-      name: 'Create Project',
-      capability: 'createProject',
-      section: 'Projects',
-      url: '/admin/create-project',
-      view: 'gr-admin-create-project',
-    }],
-  }, {
-    name: 'Groups',
-    section: 'Groups',
-    url: '/admin/groups',
-    view: 'gr-admin-group-list',
-    children: [{
-      name: 'Create Group',
-      capability: 'createGroup',
-      url: '/admin/create-group',
-      view: 'gr-admin-create-group',
-    }],
-  }, {
-    name: 'Plugins',
-    capability: 'viewPlugins',
-    section: 'Plugins',
-    url: '/admin/plugins',
-    view: 'gr-admin-plugin-list',
-  }];
-
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
 
   Polymer({
@@ -54,6 +23,8 @@
       params: Object,
       path: String,
       adminView: String,
+      projectView: String,
+      projectName: String,
 
       _filteredLinks: Array,
       _showDownload: {
@@ -93,6 +64,56 @@
     },
 
     _filterLinks(filterFn) {
+      let PROJECT = [];
+      if (this.projectView === 'gr-admin-project') {
+        PROJECT = {
+            name: 'General',
+            section: 'Projects',
+            url: '/admin/projects/' + this.projectName,
+            view: 'gr-admin-project',
+            projectPage: true,
+        };
+      }
+      const ADMIN_LINKS = [{
+        name: 'Projects',
+        url: '/admin/projects',
+        view: 'gr-admin-project-list',
+        viewableToAll: true,
+        children: [
+          PROJECT,
+         /* {
+            name: 'General',
+            section: 'Projects',
+            url: '/admin/projects/<name>',
+            view: 'gr-admin-project',
+            projectPage: true,
+          },*/
+          {
+            name: 'Create Project',
+            capability: 'createProject',
+            section: 'Projects',
+            url: '/admin/create-project',
+            view: 'gr-admin-create-project',
+          },
+        ],
+      }, {
+        name: 'Groups',
+        section: 'Groups',
+        url: '/admin/groups',
+        view: 'gr-admin-group-list',
+        children: [{
+          name: 'Create Group',
+          capability: 'createGroup',
+          url: '/admin/create-group',
+          view: 'gr-admin-create-group',
+        }],
+      }, {
+        name: 'Plugins',
+        capability: 'viewPlugins',
+        section: 'Plugins',
+        url: '/admin/plugins',
+        view: 'gr-admin-plugin-list',
+      }];
       const links = ADMIN_LINKS.filter(filterFn);
       for (const link of links) {
         link.children = link.children ? link.children.filter(filterFn) : [];
@@ -134,6 +155,10 @@
     },
 
     _paramsChanged(params) {
+      if (params.project) {
+        this.projectName = params.project;
+      }
+      this.projectView = params.adminView;
       this.set('_showCreateProject',
           params.adminView === 'gr-admin-create-project');
       this.set('_showProjectMain', params.adminView === 'gr-admin-project');
@@ -155,9 +180,12 @@
       return this._computeURLHelper(host, path);
     },
 
-    _computeLinkURL(link) {
+    _computeLinkURL(link, params) {
       if (typeof link.url === 'undefined') {
         return '';
+      }
+      if (params.adminView === 'gr-admin-project' && link.url === '/admin/projects/<name>') {
+        return '//' + window.location.host + this.getBaseUrl() + '/admin/projects/' + params.project;
       }
       if (link.target) {
         return link.url;

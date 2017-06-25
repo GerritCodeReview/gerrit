@@ -153,7 +153,7 @@ class ProjectBasicAuthFilter implements Filter {
     whoAuth.setPassword(password);
 
     try {
-      AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
+      AuthResult whoAuthResult = accountManager.authenticate(whoAuth, false);
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {

@@ -102,34 +102,48 @@ public class AccountManager {
     }
   }
 
+  public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
+    return authenticate(who, true);
+  }
+
   /**
    * Authenticate the user, potentially creating a new account if they are new.
    *
    * @param who identity of the user, with any details we received about them.
+   * @param autoUpdate create a new account if new and update if existing
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
    *     cannot be located, or is inactive.
    */
-  public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
+  public AuthResult authenticate(AuthRequest who, boolean autoUpdate)
+      throws AccountException, IOException {
     who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
-        ExternalId id = externalIds.get(who.getExternalIdKey());
-        if (id == null) {
-          // New account, automatically create and return.
-          //
-          return create(db, who);
+        Account act;
+
+        if (autoUpdate) {
+          ExternalId id = externalIds.get(who.getExternalIdKey());
+          if (id == null) {
+            // New account, automatically create and return.
+            //
+            return create(db, who);
+          }
+          act = byIdCache.get(id.accountId()).getAccount();
+          if (act.isActive()) {
+            update(db, who, id);
+          }
+        } else {
+          act = byIdCache.getByUsername(who.getUserName()).getAccount();
         }
 
         // Account exists
-        Account act = byIdCache.get(id.accountId()).getAccount();
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }
 
         // return the identity to the caller.
-        update(db, who, id);
-        return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
+        return new AuthResult(act.getId(), who.getExternalIdKey(), false);
       }
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);

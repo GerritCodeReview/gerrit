@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f974f749_cde6de01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-26T18:42:02Z",
+      "side": 1,
+      "message": "Not directly related to this change, but logging a stack trace here might be nice.",
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

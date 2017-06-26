@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
@@ -267,33 +266,6 @@ public class StarredChangesUtil {
     }
   }
 
-  public Set<Account.Id> byChange(Change.Id changeId, String label) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))
-          .stream()
-          .map(Account.Id::parse)
-          .filter(accountId -> hasStar(repo, changeId, accountId, label))
-          .collect(toSet());
-    } catch (IOException e) {
-      throw new OrmException(
-          String.format("Get accounts that starred change %d failed", changeId.get()), e);
-    }
-  }
-
-  private boolean hasStar(Repository repo, Change.Id changeId, Account.Id accountId, String label) {
-    try {
-      return readLabels(repo, RefNames.refsStarredChanges(changeId, accountId))
-          .labels()
-          .contains(label);
-    } catch (IOException e) {
-      log.error(
-          String.format(
-              "Cannot query stars by account %d on change %d", accountId.get(), changeId.get()),
-          e);
-      return false;
-    }
-  }
-
   public ImmutableListMultimap<Account.Id, String> byChangeFromIndex(Change.Id changeId)
       throws OrmException {
     Set<String> fields = ImmutableSet.of(ChangeField.ID.getName(), ChangeField.STAR.getName());
@@ -335,7 +307,7 @@ public class StarredChangesUtil {
   }
 
   public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) throws OrmException {
-    return byChange(changeId, IGNORE_LABEL).contains(accountId);
+    return getLabels(accountId, changeId).contains(IGNORE_LABEL);
   }
 
   private static String getMuteLabel(Change change) {
@@ -363,7 +335,7 @@ public class StarredChangesUtil {
   }
 
   public boolean isMutedBy(Change change, Account.Id accountId) throws OrmException {
-    return byChange(change.getId(), getMuteLabel(change)).contains(accountId);
+    return getLabels(accountId, change.getId()).contains(getMuteLabel(change));
   }
 
   private static StarRef readLabels(Repository repo, String refName) throws IOException {

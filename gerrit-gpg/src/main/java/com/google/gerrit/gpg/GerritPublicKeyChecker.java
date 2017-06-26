@@ -176,6 +176,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
   private boolean hasAllowedUserId(PGPPublicKey key, Set<String> allowedUserIds)
       throws PGPException {
+    @SuppressWarnings("unchecked")
     Iterator<String> userIds = key.getUserIDs();
     while (userIds.hasNext()) {
       String userId = userIds.next();

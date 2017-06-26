@@ -381,6 +381,7 @@ public class PublicKeyChecker {
     }
 
     List<CheckResult> signerResults = new ArrayList<>();
+    @SuppressWarnings("unchecked")
     Iterator<String> userIds = key.getUserIDs();
     while (userIds.hasNext()) {
       String userId = userIds.next();

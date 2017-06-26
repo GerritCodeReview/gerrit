@@ -398,6 +398,7 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   public static String keyToString(PGPPublicKey key) {
+    @SuppressWarnings("unchecked")
     Iterator<String> it = key.getUserIDs();
     return String.format(
         "%s %s(%s)",

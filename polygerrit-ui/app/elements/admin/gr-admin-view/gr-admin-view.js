@@ -55,6 +55,7 @@
       path: String,
       adminView: String,
 
+      _project: String,
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
@@ -69,6 +70,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -94,10 +96,23 @@
 
     _filterLinks(filterFn) {
       const links = ADMIN_LINKS.filter(filterFn);
+      const filteredLinks = [];
       for (const link of links) {
-        link.children = link.children ? link.children.filter(filterFn) : [];
+        const linkCopy = Object.assign({}, link);
+        linkCopy.children = linkCopy.children ?
+            linkCopy.children.filter(filterFn) : [];
+        if (linkCopy.name === 'Projects' && this._project) {
+          linkCopy.subsection = {
+            name: `${this._project}`,
+            view: 'gr-admin-project',
+            url: `/admin/projects/${this.encodeURL(this._project, true)}`,
+            // TODO(beckysiegel): Branches
+            children: [],
+          };
+        }
+        filteredLinks.push(linkCopy);
       }
-      return links;
+      return filteredLinks;
     },
 
     _loadAccountCapabilities() {
@@ -110,29 +125,6 @@
           });
     },
 
-    _computeSideLinks(unformattedLinks) {
-      const topLevelLinks = unformattedLinks.filter(link => {
-        return link.topLevel;
-      });
-
-      const nestedLinks = unformattedLinks.filter(link => {
-        return !link.topLevel;
-      });
-
-      return topLevelLinks.map(item => {
-        const section = {
-          name: item.name,
-          url: item.url,
-          view: item.view,
-        };
-        const newLinks = nestedLinks.filter(group => {
-          return group.section === section.name;
-        });
-        section.links = newLinks;
-        return section;
-      });
-    },
-
     _paramsChanged(params) {
       this.set('_showCreateProject',
           params.adminView === 'gr-admin-create-project');
@@ -141,6 +133,11 @@
           params.adminView === 'gr-admin-project-list');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
+      if (params.project !== this._project) {
+        this._project = params.project || '';
+        // Reloads the admin menu.
+        this.reload();
+      }
     },
 
     // TODO (beckysiegel): Update these functions after router abstraction is
@@ -156,17 +153,11 @@
     },
 
     _computeLinkURL(link) {
-      if (typeof link.url === 'undefined') {
-        return '';
-      }
+      if (!link || typeof link.url === 'undefined') { return ''; }
       if (link.target) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);
-    },
-
-    _computeLinkRel(link) {
-      return link.target ? 'noopener' : null;
     },
 
     _computeSelectedClass(itemView, params) {

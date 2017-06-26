@@ -28,6 +28,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     created() {
       this.hidden = true;
     },
@@ -64,7 +68,8 @@
           return avatars[i].url;
         }
       }
-      return '/accounts/' + account._account_id + '/avatar?s=' + this.imageSize;
+      return this.getBaseUrl() + '/accounts/' +
+        account._account_id + '/avatar?s=' + this.imageSize;
     },
   });
 })();

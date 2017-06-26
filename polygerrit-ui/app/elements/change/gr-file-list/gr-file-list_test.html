@@ -293,6 +293,7 @@ limitations under the License.
           basePatchNum: 'PARENT',
           patchNum: '2',
         };
+        element.change = {_number: 42};
         element.$.fileCursor.setCursorAtIndex(0);
       });
 
@@ -328,7 +329,7 @@ limitations under the License.
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
-        const showStub = sandbox.stub(page, 'show');
+        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
         assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
 
@@ -340,7 +341,9 @@ limitations under the License.
         assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
-        assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
+
+        assert(navStub.lastCall.calledWith(element.change,
+            'file_added_in_rev2.txt', '2'),
             'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -629,17 +632,8 @@ limitations under the License.
       }
     });
 
-    test('patch range string', () => {
-      assert.equal(
-          element._patchRangeStr({basePatchNum: 'PARENT', patchNum: '1'}),
-          '1');
-      assert.equal(
-          element._patchRangeStr({basePatchNum: '1', patchNum: '3'}),
-          '1..3');
-    });
-
     test('diff against dropdown', done => {
-      const showStub = sandbox.stub(page, 'show');
+      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -658,9 +652,9 @@ limitations under the License.
         assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
         selectEl.addEventListener('change', () => {
           assert.equal(selectEl.value, '2');
-          assert(showStub.lastCall.calledWithExactly('/c/42/2..3'),
+          assert(navStub.lastCall.calledWithExactly(element.change, '3', '2'),
               'Should navigate to /c/42/2..3');
-          showStub.restore();
+          navStub.restore();
           done();
         });
         selectEl.value = '2';
@@ -691,24 +685,6 @@ limitations under the License.
       MockInteractions.tap(showHideLabel);
       assert.isOk(showHideCheck.checked);
       assert.notEqual(element._expandedFilePaths.indexOf('myfile.txt'), -1);
-    });
-
-    test('path should be properly escaped', () => {
-      element._files = [
-        {__path: 'foo bar/my+file.txt%'},
-      ];
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
-      flushAsynchronousOperations();
-      // Slashes should be preserved, and spaces should be translated to `+`.
-      // @see Issue 4255 regarding double-encoding.
-      // @see Issue 4577 regarding more readable URLs.
-      assert.equal(
-          element.$$('a').getAttribute('href'),
-          '/c/42/2/foo+bar/my%252Bfile.txt%2525');
     });
 
     test('diff mode correctly toggles the diffs', () => {
@@ -1201,16 +1177,16 @@ limitations under the License.
     test('_openSelectedFile behavior', () => {
       const _files = element._files;
       element.set('_files', []);
-      const showStub = sandbox.stub(page, 'show');
+      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
       // Noop when there are no files.
       element._openSelectedFile();
-      assert.isFalse(showStub.called);
+      assert.isFalse(navStub.called);
 
       element.set('_files', _files);
       flushAsynchronousOperations();
        // Navigates when a file is selected.
       element._openSelectedFile();
-      assert.isTrue(showStub.called);
+      assert.isTrue(navStub.called);
     });
 
     test('_displayLine', () => {

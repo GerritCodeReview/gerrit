@@ -2926,6 +2926,7 @@ public class ChangeIT extends AbstractDaemonTest {
       RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
       assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
       assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
+      assertThat(rApi.description()).isEqualTo("Edit commit message");
     }
   }
 

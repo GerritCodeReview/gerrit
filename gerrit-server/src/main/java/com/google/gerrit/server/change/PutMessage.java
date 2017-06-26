@@ -150,6 +150,7 @@ public class PutMessage
             psInserterFactory.create(resource.getControl(), psId, newCommit);
         inserter.setMessage(
             String.format("Patch Set %s: Commit message was updated.", psId.getId()));
+        inserter.setDescription("Edit commit message");
         inserter.setNotify(input.notify);
         inserter.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
         bu.addOp(resource.getChange().getId(), inserter);

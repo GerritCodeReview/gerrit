@@ -77,7 +77,7 @@ public class TestKey {
   }
 
   public String getFirstUserId() {
-    return getPublicKey().getUserIDs().next();
+    return (String) getPublicKey().getUserIDs().next();
   }
 
   public PGPPrivateKey getPrivateKey() throws PGPException {

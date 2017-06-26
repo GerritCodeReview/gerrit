@@ -57,6 +57,7 @@
         type: Object,
         notify: true,
         value() { return {}; },
+        observer: '_changeViewStatehanged',
       },
 
       _patchRange: Object,
@@ -141,21 +142,7 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
-        if (loggedIn) {
-          this._setReviewed(true);
-        }
       });
-      if (this.changeViewState.diffMode === null) {
-        // If screen size is small, always default to unified view.
-        this.$.restAPI.getPreferences().then(prefs => {
-          this.set('changeViewState.diffMode', prefs.default_diff_view);
-        });
-      }
-
-      if (this._path) {
-        this.fire('title-change',
-            {title: this._computeFileDisplayName(this._path)});
-      }
 
       this.$.cursor.push('diffs', this.$.diff);
     },
@@ -474,6 +461,28 @@
       this._loadCommentMap().then(commentMap => {
         this._commentMap = commentMap;
       });
+    },
+
+    _changeViewStatehanged(newChangeViewState, oldChangeViewState) {
+      if (!oldChangeViewState) {
+        this._getLoggedIn().then(loggedIn => {
+          if (loggedIn) {
+            this._setReviewed(true);
+          }
+        });
+      }
+
+      if (newChangeViewState.diffMode === null) {
+        // If screen size is small, always default to unified view.
+        this.$.restAPI.getPreferences().then(prefs => {
+          this.set('changeViewState.diffMode', prefs.default_diff_view);
+        });
+      }
+
+      if (this._path) {
+        this.fire('title-change',
+            {title: this._computeFileDisplayName(this._path)});
+      }
     },
 
     /**

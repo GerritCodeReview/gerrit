@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94f6c9b2_83b3be4f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 50
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:29:50Z",
+      "side": 1,
+      "message": "@Becky do you know how i can get this working please?\n\nIt fails with\n\nError: Cannot read property \u0027url\u0027 of undefined\n      flush at gr-project-branches_test.html:90",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 9
+      },
+      "revId": "135c307cd3a29c68e656accb103baf99282e88cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

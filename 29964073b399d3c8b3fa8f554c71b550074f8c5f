@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "fb2d6b4a_3d3b2387",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-26T18:41:40Z",
+      "side": 1,
+      "message": "Is this class used in CSS?",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "29964073b399d3c8b3fa8f554c71b550074f8c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47c8aa3_1ef22426",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-26T18:41:40Z",
+      "side": 1,
+      "message": "Instead of this class, can we use something like...\n\n th:first-of-type input",
+      "range": {
+        "startLine": 85,
+        "startChar": 25,
+        "endLine": 85,
+        "endChar": 40
+      },
+      "revId": "29964073b399d3c8b3fa8f554c71b550074f8c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ef34a94_d2e72dad",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.html",
         "patchSetId": 2

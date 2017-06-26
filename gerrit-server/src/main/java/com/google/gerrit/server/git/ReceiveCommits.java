@@ -1077,15 +1077,23 @@ public class ReceiveCommits {
     } catch (AuthException err) {
       ok = false;
     }
-    if (ok && ctl.canCreate(rp.getRepository(), obj)) {
-      if (!validRefOperation(cmd)) {
-        return;
-      }
-      validateNewCommits(ctl, cmd);
-      actualCommands.add(cmd);
-    } else {
-      reject(cmd, "prohibited by Gerrit: create access denied for " + cmd.getRefName());
+
+    if (!ok) {
+      reject(cmd, "prohibited by Gerrit: 'create' permission missing on " + cmd.getRefName());
+      return;
     }
+
+    String rejectReason = ctl.canCreate(rp.getRepository(), obj);
+    if (rejectReason != null) {
+      reject(cmd, "prohibited by Gerrit: " + rejectReason);
+      return;
+    }
+
+    if (!validRefOperation(cmd)) {
+      return;
+    }
+    validateNewCommits(ctl, cmd);
+    actualCommands.add(cmd);
   }
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {

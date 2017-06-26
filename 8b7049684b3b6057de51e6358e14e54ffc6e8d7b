@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efa97182_7cf260b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-26T08:52:35Z",
+      "side": 1,
+      "message": "Wrong indentation. google-java-format not applied on this change.",
+      "revId": "8b7049684b3b6057de51e6358e14e54ffc6e8d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

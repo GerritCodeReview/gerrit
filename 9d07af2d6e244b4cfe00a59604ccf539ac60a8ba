@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5382e429_7da8a1ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T16:40:00Z",
+      "side": 1,
+      "message": "Does this need a null check? Can it be\n\nif (!element.offsetParent) { return \u0027\u0027; }",
+      "range": {
+        "startLine": 51,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "9d07af2d6e244b4cfe00a59604ccf539ac60a8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

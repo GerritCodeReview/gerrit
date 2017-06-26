@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab9342d9_2d614f32",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "nit: I think most comments in Gerrit test code just describe the actions taken in the block without an introduction so I would leave out \"Which is\", \"Therefore, \", \"Finally\".",
+      "range": {
+        "startLine": 684,
+        "startChar": 7,
+        "endLine": 684,
+        "endChar": 16
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e6684f3_1d9407ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "If you pass in change, all of this can be inferred.",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 28
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3435542_139fbbfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "optional (typically we aren\u0027t very strict with this): Annotate with @Nullable",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 12
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "879854ac_1a346e99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "nit: this can be inlined:\n\n  Branch.NameKey sourceBranch \u003d sourceChange \u003d\u003d null ? null : sourceChange.getDest();",
+      "range": {
+        "startLine": 363,
+        "startChar": 68,
+        "endLine": 363,
+        "endChar": 80
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccb17505_e401c835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "Since you have the change here it would be cleaner to obtain the source notes by using ChangeNotes.Factory#createChecked(db, change).",
+      "range": {
+        "startLine": 371,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 29
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71286e70_ac6d8fcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-06-26T15:28:16Z",
+      "side": 1,
+      "message": "You might want to remove the current user here since they will own the change. That also applies to CCs.",
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

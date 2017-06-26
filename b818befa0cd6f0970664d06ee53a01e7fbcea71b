@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6931c639_686151dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3b21c9ba_27f0b3a5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec7907e2_fbbf792d",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73412fa2_6a2d7a07",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec7907e2_fbbf792d",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "726c0506_743390e9",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "31f81a04_3770eb55",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1dbb368_50649fa4",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -70,6 +130,30 @@
       "writtenOn": "2017-06-23T13:49:06Z",
       "side": 1,
       "message": "1. What is a difference between OK and Pass\n\n2. Enum constants are usually all uppercase",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43b38c77_1a973a1f",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "1. The idea is:\n\nOK: Approve it, without checking for further matches\nPass: The match is OK, but further matches must be verified\n\n2. ACK",
+      "parentUuid": "e1dbb368_50649fa4",
       "range": {
         "startLine": 64,
         "startChar": 0,
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "84dcdbf8_123b67ef",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "30543148_cd69571d",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dba3713b_1d10995e",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -110,6 +212,30 @@
       "writtenOn": "2017-06-23T13:49:06Z",
       "side": 1,
       "message": "What\u0027s wrong with the for loop as it was before this change:\n\n  for (Edit edit : edits) {\n    ...",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 49
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d44a553_f6815540",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Nothing, I forgot to revert it ... sorry :-(",
+      "parentUuid": "dba3713b_1d10995e",
       "range": {
         "startLine": 128,
         "startChar": 0,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "ebb8caae_ecf48ea1",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4bb737b2_aa102e32",
+      "range": {
+        "startLine": 132,
+        "startChar": 12,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adcd93f_d9f0872c",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -156,6 +306,30 @@
       "writtenOn": "2017-06-23T13:49:06Z",
       "side": 1,
       "message": "This is hard to read. Under which circumstances will \"return cont\" here be reached?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc1f7897_26de6ac1",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "The \"return cont\" is reached when all regexs match (that\u0027s the case of \"all_of\")",
+      "parentUuid": "9adcd93f_d9f0872c",
       "range": {
         "startLine": 142,
         "startChar": 0,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "2797257f_e9f07f1e",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "I\u0027ll try that.",
+      "parentUuid": "a45afdd7_ca4f468a",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 7
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cff43136_f3bf3044",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -208,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "4cbd96c4_9bca9b29",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "It was checked \"indirectly\" during the regexs loop (i.e. it\u0027s not OK or Fail).",
+      "parentUuid": "cff43136_f3bf3044",
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85ad9db8_6383de2c",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -219,6 +435,30 @@
       "writtenOn": "2017-06-23T13:49:06Z",
       "side": 1,
       "message": "Based on the method name I would only expect the code in the lines 176-178.",
+      "range": {
+        "startLine": 172,
+        "startChar": 15,
+        "endLine": 172,
+        "endChar": 33
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00e99da_ed37218b",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "I just created a new method to avoid code duplication in \"getRegexParameter\" and \"isAllOf\". Is the name wrong?",
+      "parentUuid": "85ad9db8_6383de2c",
       "range": {
         "startLine": 172,
         "startChar": 15,
@@ -277,6 +517,54 @@
     },
     {
       "key": {
+        "uuid": "97804e7c_7487809e",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "720c9f7b_e306dd9b",
+      "range": {
+        "startLine": 190,
+        "startChar": 24,
+        "endLine": 190,
+        "endChar": 30
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "270323cf_060a6f8e",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef67b97b_ba189d8e",
+      "range": {
+        "startLine": 190,
+        "startChar": 19,
+        "endLine": 190,
+        "endChar": 23
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b33618_04fb8389",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
         "patchSetId": 6
@@ -297,6 +585,30 @@
       "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc294e0_f3114371",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-26T08:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "36b33618_04fb8389",
+      "range": {
+        "startLine": 193,
+        "startChar": 22,
+        "endLine": 193,
+        "endChar": 26
+      },
+      "revId": "b818befa0cd6f0970664d06ee53a01e7fbcea71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

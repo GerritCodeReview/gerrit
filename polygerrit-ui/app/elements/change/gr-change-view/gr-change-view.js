@@ -73,6 +73,7 @@
         type: Object,
         notify: true,
         value() { return {}; },
+        observer: '_viewStateChanged',
       },
       backPage: String,
       hasParent: Boolean,
@@ -87,6 +88,7 @@
       _diffPrefs: Object,
       _numFilesShown: {
         type: Number,
+        value: DEFAULT_NUM_FILES_SHOWN,
         observer: '_numFilesShownChanged',
       },
       _account: {
@@ -220,9 +222,6 @@
           });
         }
       });
-
-      this._numFilesShown = this.viewState.numFilesShown ?
-          this.viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-discard',
@@ -519,8 +518,15 @@
       }
     },
 
+    _viewStateChanged(viewState) {
+      this._numFilesShown = viewState.numFilesShown ?
+          viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
+    },
+
     _numFilesShownChanged(numFilesShown) {
-      this.viewState.numFilesShown = numFilesShown;
+      if (this.viewState.numFilesShown !== numFilesShown){
+        this.viewState.numFilesShown = numFilesShown;
+      }
     },
 
     _maybeScrollToMessage(hash) {

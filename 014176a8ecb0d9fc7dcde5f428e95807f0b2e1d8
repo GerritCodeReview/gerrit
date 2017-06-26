@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "1a1069cc_1e0b58ba",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T17:54:13Z",
+      "side": 1,
+      "message": "\u003clink rel\u003d\"import\" href\u003d\"../../../styles/shared-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/gr-menu-page-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/gr-form-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../settings/gr-change-table-editor/gr-change-table-editor.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-button/gr-button.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-date-formatter/gr-date-formatter.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-page-nav/gr-page-nav.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-rest-api-interface/gr-rest-api-interface.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-select/gr-select.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-account-info/gr-account-info.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-email-editor/gr-email-editor.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-group-list/gr-group-list.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-http-password/gr-http-password.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-menu-editor/gr-menu-editor.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-ssh-editor/gr-ssh-editor.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../gr-watched-projects-editor/gr-watched-projects-editor.html\"\u003e\n\nThis is correct alphabetical order.",
+      "parentUuid": "8ff1f123_c818e55b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "990188e7_117df09c",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 10

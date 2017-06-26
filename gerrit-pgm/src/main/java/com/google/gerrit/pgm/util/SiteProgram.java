@@ -68,9 +68,6 @@ public abstract class SiteProgram extends AbstractProgram {
     aliases = {"-d"},
     usage = "Local directory containing site data"
   )
-  private void setSitePath(String path) {
-    sitePath = Paths.get(path);
-  }
 
   protected Provider<DataSource> dsProvider;
 

@@ -56,11 +56,12 @@
     },
 
     placeAbove(el) {
+      Polymer.dom.flush();
       const rect = this._getTargetBoundingRect(el);
       const boxRect = this.getBoundingClientRect();
       const parentRect = this.parentElement.getBoundingClientRect();
       this.style.top =
-          rect.top - parentRect.top - boxRect.height - 4 + 'px';
+          rect.top - parentRect.top - boxRect.height - 6 + 'px';
       this.style.left =
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
     },

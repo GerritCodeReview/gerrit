@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -259,17 +260,17 @@ public class RefControl {
    *
    * @param repo repository on which user want to create
    * @param object the object the user will start the reference with.
-   * @return {@code true} if the user specified can create a new Git ref
+   * @return {@code null} if the user specified can create a new Git ref, or a String describing
+   *   why the creation is not allowed.
    */
-  public boolean canCreate(Repository repo, RevObject object) {
+  public String canCreate(Repository repo, RevObject object) {
     if (!isProjectStatePermittingWrite()) {
-      return false;
+      return "project state does not permit write";
     }
 
     if (object instanceof RevCommit) {
       if (!canPerform(Permission.CREATE)) {
-        // No create permissions.
-        return false;
+        return "no create permission";
       }
       return canCreateCommit(repo, (RevCommit) object);
     } else if (object instanceof RevTag) {
@@ -277,7 +278,7 @@ public class RefControl {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        return false;
+        return "I/O exception for revwalk";
       }
 
       // If tagger is present, require it matches the user's email.
@@ -292,18 +293,20 @@ public class RefControl {
           valid = false;
         }
         if (!valid && !canForgeCommitter()) {
-          return false;
+          return "no 'Forge Committer' permission";
         }
       }
 
       RevObject tagObject = tag.getObject();
       if (tagObject instanceof RevCommit) {
-        if (!canCreateCommit(repo, (RevCommit) tagObject)) {
-          return false;
+        String rejectReason = canCreateCommit(repo, (RevCommit) tagObject);
+        if (rejectReason != null){
+          return rejectReason;
         }
       } else {
-        if (!canCreate(repo, tagObject)) {
-          return false;
+        String rejectReason = canCreate(repo, tagObject);
+        if (rejectReason != null) {
+          return rejectReason;
         }
       }
 
@@ -311,27 +314,33 @@ public class RefControl {
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return canPerform(Permission.CREATE_SIGNED_TAG);
+        return canPerform(Permission.CREATE_SIGNED_TAG) ? null
+            : "'create signed tag' permission missing";
       }
-      return canPerform(Permission.CREATE_TAG);
-    } else {
-      return false;
+      return canPerform(Permission.CREATE_TAG) ? null : "'create tag' permission missing";
     }
+
+    return null;
   }
 
-  private boolean canCreateCommit(Repository repo, RevCommit commit) {
+  /**
+   * Check if the user is allowed to create new commit objects. If not allowed, returns a string
+   * describe why it's not allowed.
+   */
+  @Nullable
+  private String canCreateCommit(Repository repo, RevCommit commit) {
     if (canUpdate()) {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
-      return true;
+      return null;
     } else if (isMergedIntoBranchOrTag(repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
       // even if they don't have push permission.
-      return true;
+      return null;
     }
-    return false;
+    return "creating new commit object requires 'push' permission";
   }
 
   private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {

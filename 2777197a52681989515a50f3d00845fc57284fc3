@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2eec0f03_4aad0b24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "40555aa5_1357f84d",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c59202e_6e6137e0",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
         "patchSetId": 45
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4cd38c46_05ad2a24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8c59202e_6e6137e0",
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e10d07a_0c0c80bf",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
         "patchSetId": 45
@@ -53,6 +95,30 @@
       "writtenOn": "2017-06-26T22:41:02Z",
       "side": 1,
       "message": "I don\u0027t think this check is needed given the return above.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a0173b_3727bf0f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0e10d07a_0c0c80bf",
       "range": {
         "startLine": 62,
         "startChar": 6,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6b677a63_3b529844",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "99cfe0a1_c8203421",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e19edd15_e38a36b5",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
         "patchSetId": 45
@@ -99,6 +189,30 @@
       "writtenOn": "2017-06-26T22:41:02Z",
       "side": 1,
       "message": "this should be encoded.",
+      "range": {
+        "startLine": 84,
+        "startChar": 30,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c96f06_510000f5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e19edd15_e38a36b5",
       "range": {
         "startLine": 84,
         "startChar": 30,
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "796167cb_967bf8c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "38bd62fa_ec817f37",
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8eb87bc_d11d6021",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
         "patchSetId": 45
@@ -139,6 +271,30 @@
       "writtenOn": "2017-06-26T22:41:02Z",
       "side": 1,
       "message": "how about _stripRefsHeads(name)",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 18
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bfb06d1_62ec2a09",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 45
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b8eb87bc_d11d6021",
       "range": {
         "startLine": 93,
         "startChar": 4,
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "0a46f3d0_a31e6f72",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Ah, woops, thanks, done.",
+      "parentUuid": "350eac1f_55b3da01",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02e4370e_515410a8",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
         "patchSetId": 45
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "a2a92f78_d2cf81c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "02e4370e_515410a8",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 19
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b46fd136_e74c98aa",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
         "patchSetId": 45
@@ -208,6 +412,30 @@
       "writtenOn": "2017-06-26T22:41:02Z",
       "side": 1,
       "message": "can you test that this is just displayed as test2?",
+      "range": {
+        "startLine": 85,
+        "startChar": 49,
+        "endLine": 85,
+        "endChar": 67
+      },
+      "revId": "2777197a52681989515a50f3d00845fc57284fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa8d187f_ce314e1d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 45
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T23:07:10Z",
+      "side": 1,
+      "message": "Yep, how do i check for the branch name colum? I know it is something like this.$.\u003cvalue\u003e but not entirely sure.",
+      "parentUuid": "b46fd136_e74c98aa",
       "range": {
         "startLine": 85,
         "startChar": 49,

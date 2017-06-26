@@ -45,6 +45,30 @@
       "revId": "8e6e56d0f9cdd65ebfbe5caf30b92457b2efa946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cc9d75d_714f455f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T18:39:28Z",
+      "side": 1,
+      "message": "Accidentally set ready for review, sorry about that.\n\nFWIW I am indeed using the redundant ID to navigate some CSS issues. There are several different instances in this change where simple rules refuse to apply due to other rules in shared-styles or gr-form-styles having more specific selectors, and so some of the selectors I\u0027m writing may seem redundant. I don\u0027t really see a better way to handle that problem, would love some advice.",
+      "parentUuid": "e934e169_e41d59e7",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "8e6e56d0f9cdd65ebfbe5caf30b92457b2efa946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

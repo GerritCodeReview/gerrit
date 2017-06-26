@@ -16,6 +16,24 @@
       "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c00f49_e0879a93",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-26T17:30:26Z",
+      "side": 1,
+      "message": "While this is the way to go, I\u0027d rather do it later, because:\n- it\u0027s not straightforward\n- there are multiple dependencies to pass through (css, sources, etc)\n- license checking depends on existing rules, and this needs to be ported carefully\n\nOverall, looks like it\u0027s more than half-day of work so I\u0027d rather file a follow-up bug.",
+      "parentUuid": "fb319d8f_0512fe6e",
+      "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

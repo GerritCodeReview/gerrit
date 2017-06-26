@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c68ad7ef_aa1b95a6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T22:16:21Z",
+      "side": 1,
+      "message": "These tests still need work. Why are they both tapping a button? How is the first one testing if a group is created? Is the second one testing the button tap or the handleCreate function?  Split things up so they make sense. Make more tests that test individual things... like tapping the button calls the function that you want... etc.",
+      "revId": "4dc457f74d3460616eb7857aefcfccdf228e5fcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

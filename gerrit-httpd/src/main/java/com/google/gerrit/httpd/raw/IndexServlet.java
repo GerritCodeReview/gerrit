@@ -22,12 +22,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyMapData;
-import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +33,7 @@ public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   protected final byte[] indexSource;
 
-  IndexServlet(String canonicalURL, @Nullable String cdnPath) throws URISyntaxException {
+  IndexServlet(String canonicalPath, SanitizedContent staticPath) {
     String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.add(Resources.getResource(resourcePath));
@@ -46,7 +43,7 @@ public class IndexServlet extends HttpServlet {
             .compileToTofu()
             .newRenderer("com.google.gerrit.httpd.raw.Index")
             .setContentKind(SanitizedContent.ContentKind.HTML)
-            .setData(getTemplateData(canonicalURL, cdnPath));
+            .setData(getTemplateData(canonicalPath, staticPath));
     indexSource = renderer.render().getBytes(UTF_8);
   }
 
@@ -60,31 +57,9 @@ public class IndexServlet extends HttpServlet {
     }
   }
 
-  static String computeCanonicalPath(String canonicalURL) throws URISyntaxException {
-    // If we serving from a sub-directory rather than root, determine the path
-    // from the cannonical web URL.
-    URI uri = new URI(canonicalURL);
-    return uri.getPath().replaceAll("/$", "");
-  }
-
-  static SoyMapData getTemplateData(String canonicalURL, String cdnPath) throws URISyntaxException {
-    String canonicalPath = computeCanonicalPath(canonicalURL);
-
-    String staticPath = "";
-    if (cdnPath != null) {
-      staticPath = cdnPath;
-    } else if (canonicalPath != null) {
-      staticPath = canonicalPath;
-    }
-
-    // The resource path must be typed as safe for use in a script src.
-    // TODO(wyatta): Upgrade this to use an appropriate safe URL type.
-    SanitizedContent sanitizedStaticPath =
-        UnsafeSanitizedContentOrdainer.ordainAsSafe(
-            staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
-
+  static SoyMapData getTemplateData(String canonicalPath, SanitizedContent staticPath) {
     return new SoyMapData(
         "canonicalPath", canonicalPath,
-        "staticResourcePath", sanitizedStaticPath);
+        "staticResourcePath", staticPath);
   }
 }

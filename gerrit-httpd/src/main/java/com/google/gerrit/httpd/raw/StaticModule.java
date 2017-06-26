@@ -39,9 +39,11 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.google.template.soy.data.SanitizedContent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
@@ -254,8 +256,11 @@ public class StaticModule extends ServletModule {
     HttpServlet getPolyGerritUiIndexServlet(
         @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
         throws URISyntaxException {
-      String cdnPath = cfg.getString("gerrit", null, "cdnPath");
-      return new IndexServlet(canonicalUrl, cdnPath);
+      // If we serving from a sub-directory rather than root, determine the path from the cannonical
+      // web URL.
+      String canonicalPath = new URI(canonicalUrl).getPath().replaceAll("/$", "");
+      SanitizedContent staticPath = StaticPathOrdainer.ordainStaticPath(canonicalPath, cfg);
+      return new IndexServlet(canonicalPath, staticPath);
     }
 
     @Provides

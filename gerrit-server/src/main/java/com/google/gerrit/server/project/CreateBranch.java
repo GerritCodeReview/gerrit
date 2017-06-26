@@ -117,8 +117,9 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      if (!refControl.canCreate(repo, object)) {
-        throw new AuthException("Cannot create \"" + ref + "\"");
+      String rejectReason = refControl.canCreate(repo, object);
+      if (rejectReason != null) {
+        throw new AuthException("Cannot create \"" + ref + "\": " + rejectReason);
       }
 
       try {
@@ -155,7 +156,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
               }
               refPrefix = RefUtil.getRefPrefix(refPrefix);
             }
-            //$FALL-THROUGH$
+            // $FALL-THROUGH$
           case FORCED:
           case IO_FAILURE:
           case NOT_ATTEMPTED:

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "106be751_910aa60f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T23:28:03Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f6af4ea_8b75b352",
         "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
         "patchSetId": 5
@@ -18,6 +41,75 @@
         "startChar": 74,
         "endLine": 46,
         "endChar": 96
+      },
+      "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d56e1c51_2f757a0c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T23:28:03Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 7
+      },
+      "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c5806c9_362b77e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T23:28:03Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af0a344_024dfb07",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T23:28:03Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 9
       },
       "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

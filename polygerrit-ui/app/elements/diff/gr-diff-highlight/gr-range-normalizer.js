@@ -100,6 +100,8 @@
     _getLength(node) {
       return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;
     },
+
+
   };
 
   window.GrRangeNormalizer = GrRangeNormalizer;

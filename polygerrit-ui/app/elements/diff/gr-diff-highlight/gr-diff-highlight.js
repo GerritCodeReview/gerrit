@@ -94,6 +94,24 @@
       }
     },
 
+    _getNormalizedRange() {
+      const selection = window.getSelection();
+      const rangeCount = selection.rangeCount;
+      if (rangeCount === 0) {
+        return null;
+      } else if (rangeCount === 1) {
+        return this._normalizeRange(selection.getRangeAt(0));
+      } else {
+        const startRange = this._normalizeRange(selection.getRangeAt(0));
+        const endRange = this._normalizeRange(
+            selection.getRangeAt(rangeCount - 1));
+        return {
+          start: startRange.start,
+          end: endRange.end,
+        };
+      }
+    },
+
     _normalizeRange(domRange) {
       const range = GrRangeNormalizer.normalize(domRange);
       return this._fixTripleClickSelection({
@@ -204,15 +222,11 @@
     },
 
     _handleSelection() {
-      const selection = window.getSelection();
-      if (selection.rangeCount != 1) {
+      const normalizedRange = this._getNormalizedRange();
+      if (!normalizedRange) {
         return;
       }
-      const range = selection.getRangeAt(0);
-      if (range.collapsed) {
-        return;
-      }
-      const normalizedRange = this._normalizeRange(range);
+      const domRange = window.getSelection().getRangeAt(0);
       const start = normalizedRange.start;
       if (!start) {
         return;
@@ -239,7 +253,7 @@
       };
       actionBox.side = start.side;
       if (start.line === end.line) {
-        actionBox.placeAbove(range);
+        actionBox.placeAbove(domRange);
       } else if (start.node instanceof Text) {
         actionBox.placeAbove(start.node.splitText(start.column));
         start.node.parentElement.normalize(); // Undo splitText from above.

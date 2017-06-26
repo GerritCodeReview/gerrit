@@ -70,6 +70,30 @@
       "revId": "c8d54c6865977ef0d79f9c94165ba5805a5ac472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "800a3b72_420f2b4d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T17:57:16Z",
+      "side": 1,
+      "message": "not sure. I doint know what a modal is.\n\nThough i\u0027ve disabled it for now.",
+      "parentUuid": "15a47b89_23253e04",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "c8d54c6865977ef0d79f9c94165ba5805a5ac472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

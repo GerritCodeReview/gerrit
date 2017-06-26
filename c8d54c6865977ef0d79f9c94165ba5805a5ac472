@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6152e295_11fe1364",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T17:38:49Z",
+      "side": 1,
+      "message": "Out of curiosity, why is this an \u003ca\u003e? Are you planning on creating another view for signing a new agreement or something?\n\nI\u0027m not super familiar with how these agreements work, but in my head this might work better as a button that opens a modal instead of a brand new view. What do you think?\n\nAlso, in any case, we might as well hide this element (or just not add it) while it isn\u0027t supported in PG.",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "c8d54c6865977ef0d79f9c94165ba5805a5ac472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

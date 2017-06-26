@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b569e1d0_5f1d09c4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T17:38:49Z",
+      "side": 1,
+      "message": "This is still not done. To be clear, what I mean when I say this is that each import should be sorted alphabetically by its href attr. That would look like this:\n\n\u003clink rel\u003d\"import\" href\u003d\"../../../behaviors/base-url-behavior/base-url-behavior.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../bower_components/polymer/polymer.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/gr-form-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/shared-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-rest-api-interface/gr-rest-api-interface.html\"\u003e",
+      "parentUuid": "c0d2a78b_13bdc9c1",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de36230e_8f787fa9",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 10
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Thanks, done.",
       "parentUuid": "de36230e_8f787fa9",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9d3dfc_30556835",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T17:38:49Z",
+      "side": 1,
+      "message": "This is still not done. Please see my other comment for an explanation.",
+      "parentUuid": "74fbf348_9dc39517",
       "range": {
         "startLine": 18,
         "startChar": 0,

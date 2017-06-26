@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b74820db_5556320b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab9342d9_2d614f32",
+      "range": {
+        "startLine": 684,
+        "startChar": 7,
+        "endLine": 684,
+        "endChar": 16
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e6684f3_1d9407ee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b3a44c_14e02588",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "removed dest and topic; can\u0027t remove project because cherryPick is also called by CherryPickCommit, which passes a null change but a real projectName.",
+      "parentUuid": "2e6684f3_1d9407ee",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 28
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "41fd09cb_b1b041a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3435542_139fbbfb",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 12
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "879854ac_1a346e99",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2437f2ce_9aa6f31c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "879854ac_1a346e99",
+      "range": {
+        "startLine": 363,
+        "startChar": 68,
+        "endLine": 363,
+        "endChar": 80
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "72383852_933ab054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccb17505_e401c835",
+      "range": {
+        "startLine": 371,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 29
+      },
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71286e70_ac6d8fcb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 4
@@ -131,6 +251,24 @@
       "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031338ea_07dc293a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:37:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71286e70_ac6d8fcb",
+      "revId": "36a79c22c9454a2400209b5b34a4823275d29631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

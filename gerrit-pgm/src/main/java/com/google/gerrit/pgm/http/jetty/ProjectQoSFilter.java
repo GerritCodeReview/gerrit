@@ -30,7 +30,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Matcher;
@@ -114,7 +113,7 @@ public class ProjectQoSFilter implements Filter {
       cont.suspend(rsp);
       cont.setAttribute(TASK, task);
 
-      Future f = getExecutor().submit(task);
+      Future<?> f = getExecutor().submit(task);
       cont.addContinuationListener(new Listener(f));
     } else if (cont.isExpired()) {
       rsp.sendError(SC_SERVICE_UNAVAILABLE);
@@ -150,9 +149,9 @@ public class ProjectQoSFilter implements Filter {
   public void destroy() {}
 
   private final class Listener implements ContinuationListener {
-    final Future future;
+    final Future<?> future;
 
-    Listener(Future future) {
+    Listener(Future<?> future) {
       this.future = future;
     }
 
@@ -163,7 +162,6 @@ public class ProjectQoSFilter implements Filter {
     public void onTimeout(Continuation self) {
       future.cancel(true);
     }
-
   }
 
   private final class TaskThunk implements CancelableRunnable {

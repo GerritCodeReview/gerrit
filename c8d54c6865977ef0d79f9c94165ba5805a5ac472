@@ -22,6 +22,30 @@
       "revId": "c8d54c6865977ef0d79f9c94165ba5805a5ac472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bea3970_9849d0e6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T17:46:00Z",
+      "side": 1,
+      "message": "Because this is a link, so needs to be in a \u003ca\u003e tag.\n\nI\u0027ve disabled it for now with \u003c!-- --\u003e",
+      "parentUuid": "6152e295_11fe1364",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "c8d54c6865977ef0d79f9c94165ba5805a5ac472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

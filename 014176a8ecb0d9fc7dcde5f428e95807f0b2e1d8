@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7e76a20d_0504a106",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T17:46:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b569e1d0_5f1d09c4",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de36230e_8f787fa9",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 10
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "This is still not done. Please see my other comment for an explanation.",
       "parentUuid": "74fbf348_9dc39517",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff1f123_c818e55b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T17:46:00Z",
+      "side": 1,
+      "message": "It looks correct too me. I\u0027ve done it in alphabetical order unless im missing one?",
+      "parentUuid": "6b9d3dfc_30556835",
       "range": {
         "startLine": 18,
         "startChar": 0,

@@ -192,10 +192,10 @@
     },
 
     _updateSuggestions() {
-      if (!this.text || this._disableSuggestions) { return; }
-      if (this.text.length < this.threshold) {
+      if (this._disableSuggestions) { return; }
+      if (this.text === undefined || this.text.length < this.threshold) {
         this._suggestions = [];
-        this.value = null;
+        this.value = '';
         return;
       }
       const text = this.text;
@@ -211,7 +211,7 @@
         this._suggestions = suggestions;
         Polymer.dom.flush();
         if (this._index === -1) {
-          this.value = null;
+          this.value = '';
         }
       });
     },

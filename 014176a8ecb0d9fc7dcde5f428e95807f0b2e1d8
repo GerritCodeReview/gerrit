@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "b4c7e735_39c09983",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T18:07:53Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1a1069cc_1e0b58ba",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "014176a8ecb0d9fc7dcde5f428e95807f0b2e1d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "990188e7_117df09c",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 10

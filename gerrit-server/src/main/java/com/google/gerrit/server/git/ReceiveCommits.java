@@ -1070,15 +1070,20 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(rp.getRepository(), obj)) {
-      if (!validRefOperation(cmd)) {
-        return;
-      }
-      validateNewCommits(ctl, cmd);
-      actualCommands.add(cmd);
-    } else {
-      reject(cmd, "prohibited by Gerrit: create access denied for " + cmd.getRefName());
+    String rejectReason = ctl.canCreate(rp.getRepository(), obj);
+    if (rejectReason != null) {
+      reject(cmd, "prohibited by Gerrit: " + rejectReason);
+      return;
     }
+
+    if (!validRefOperation(cmd)) {
+      // validRefOp sets messages; do these get propagated?
+      reject(cmd, "prohibited by Gerrit: not a valid ref operation: " + cmd.getRefName());
+      return;
+    }
+
+    validateNewCommits(ctl, cmd);
+    actualCommands.add(cmd);
   }
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {

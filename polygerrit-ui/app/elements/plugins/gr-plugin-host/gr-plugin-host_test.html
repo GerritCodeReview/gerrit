@@ -45,23 +45,93 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('counts plugins', () => {
-      sandbox.stub(Gerrit, '_setPluginsCount');
+    // test('counts plugins', () => {
+    //   sandbox.stub(Gerrit, '_setPluginsCount');
+    //   element.config = {
+    //     html_resource_paths: ['foo/bar', 'baz'],
+    //     js_resource_paths: ['42'],
+    //   };
+    //   assert.isTrue(Gerrit._setPluginsCount.calledWith(3));
+    // });
+
+    // test('imports relative html plugins from config', () => {
+    //   element.config = {
+    //     html_resource_paths: ['foo/bar', 'baz'],
+    //   };
+    //   assert.isTrue(element.importHref.calledWith(
+    //       '/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    //   assert.isTrue(element.importHref.calledWith(
+    //       '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    // });
+
+    // test('imports relative html plugins from config with a base url', () => {
+    //   sandbox.stub(element, 'getBaseUrl').returns('/the-base');
+    //   element.config = {
+    //     html_resource_paths: ['foo/bar', 'baz'],
+    //   };
+    //   assert.isTrue(element.importHref.calledWith(
+    //       '/the-base/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    //   assert.isTrue(element.importHref.calledWith(
+    //       '/the-base/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    // });
+
+    // test('imports absolute html plugins from config', () => {
+    //   element.config = {
+    //     html_resource_paths: [
+    //       'http://example.com/foo/bar',
+    //       'https://example.com/baz',
+    //     ],
+    //   };
+    //   assert.isTrue(element.importHref.calledWith(
+    //       'http://example.com/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    //   assert.isTrue(element.importHref.calledWith(
+    //       'https://example.com/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    // });
+    function makeScript(src) {
+      const scriptEl = document.createElement('script');
+      scriptEl.defer = true;
+      scriptEl.src = src;
+      scriptEl.onerror = Gerrit._pluginInstalled;
+      return scriptEl.outerHTML;
+    }
+    function scriptTagForCall(callNumber) {
+      return document.body.appendChild.getCall(callNumber).args[0].outerHTML;
+    }
+    test('adds js plugins from config to the body', () => {
       element.config = {
-        html_resource_paths: ['foo/bar', 'baz'],
-        js_resource_paths: ['42'],
+        js_resource_paths: ['foo/bar', 'baz'],
       };
-      assert.isTrue(Gerrit._setPluginsCount.calledWith(3));
+      assert.isTrue(document.body.appendChild.calledTwice);
     });
 
-    test('imports html plugins from config', () => {
+    test('imports relative js plugins from config', () => {
       element.config = {
-        html_resource_paths: ['foo/bar', 'baz'],
+        js_resource_paths: ['foo/bar', 'baz'],
       };
-      assert.isTrue(element.importHref.calledWith(
-          '/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
-      assert.isTrue(element.importHref.calledWith(
-          '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+      assert.equal(scriptTagForCall(0), makeScript('/foo/bar'));
+      assert.equal(scriptTagForCall(1), makeScript('/baz'));
     });
+
+    test('imports relative html plugins from config with a base url', () => {
+      sandbox.stub(element, 'getBaseUrl').returns('/the-base');
+      element.config = {
+        js_resource_paths: ['foo/bar', 'baz'],
+      };
+      assert.equal(scriptTagForCall(0), makeScript('/the-base/foo/bar'));
+      assert.equal(scriptTagForCall(1), makeScript('/the-base/baz'));
+    });
+
+    test('imports absolute html plugins from config', () => {
+      element.config = {
+        js_resource_paths: [
+          'http://example.com/foo/bar',
+          'https://example.com/baz',
+        ],
+      };
+      assert.equal(scriptTagForCall(0),
+        makeScript('http://example.com/foo/bar'));
+      assert.equal(scriptTagForCall(1), makeScript('https://example.com/baz'));
+    });
+
   });
 </script>

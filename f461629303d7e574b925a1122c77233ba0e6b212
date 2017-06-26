@@ -16,6 +16,24 @@
       "revId": "f461629303d7e574b925a1122c77233ba0e6b212",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e718ebf8_b02d6d41",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/QuotedPrintableEncodingTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T22:54:00Z",
+      "side": 1,
+      "message": "boo 😞 💩 💔",
+      "parentUuid": "0b2cfcd5_1d3ca03f",
+      "revId": "f461629303d7e574b925a1122c77233ba0e6b212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

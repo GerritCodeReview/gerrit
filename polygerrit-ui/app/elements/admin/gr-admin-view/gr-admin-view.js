@@ -55,6 +55,7 @@
       path: String,
       adminView: String,
 
+      _project: String,
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
@@ -94,10 +95,32 @@
 
     _filterLinks(filterFn) {
       const links = ADMIN_LINKS.filter(filterFn);
+      const filteredLinks = [];
       for (const link of links) {
-        link.children = link.children ? link.children.filter(filterFn) : [];
+        const linkCpy = Object.assign({}, link);
+        linkCpy.children = linkCpy.children ?
+            linkCpy.children.filter(filterFn) : [];
+        if (linkCpy.name === 'Projects' && this._project) {
+          linkCpy.subsection = {
+            name: `${this._project}`,
+            view: 'gr-admin-project',
+            url: `/admin/projects/${this._project}`,
+            // Temporarily commented out while branches is not yet implemented.
+            // If it were there, would get routed to the regular project page
+            // when it shouldn't. But this is an example of how it will be used
+            // and will get added in soon.
+            children: [
+            // {
+            //   name: 'Branches',
+            //   view: 'gr-project-branches',
+            //   url: `/admin/projects/${this._project},branches`,
+            // }
+            ],
+          };
+        }
+        filteredLinks.push(linkCpy);
       }
-      return links;
+      return filteredLinks;
     },
 
     _loadAccountCapabilities() {
@@ -110,29 +133,6 @@
           });
     },
 
-    _computeSideLinks(unformattedLinks) {
-      const topLevelLinks = unformattedLinks.filter(link => {
-        return link.topLevel;
-      });
-
-      const nestedLinks = unformattedLinks.filter(link => {
-        return !link.topLevel;
-      });
-
-      return topLevelLinks.map(item => {
-        const section = {
-          name: item.name,
-          url: item.url,
-          view: item.view,
-        };
-        const newLinks = nestedLinks.filter(group => {
-          return group.section === section.name;
-        });
-        section.links = newLinks;
-        return section;
-      });
-    },
-
     _paramsChanged(params) {
       this.set('_showCreateProject',
           params.adminView === 'gr-admin-create-project');
@@ -141,6 +141,11 @@
           params.adminView === 'gr-admin-project-list');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
+      if (params.project !== this._project) {
+        this._project = params.project || '';
+        // Reloads the admin menu.
+        this.reload();
+      }
     },
 
     // TODO (beckysiegel): Update these functions after router abstraction is
@@ -156,9 +161,7 @@
     },
 
     _computeLinkURL(link) {
-      if (typeof link.url === 'undefined') {
-        return '';
-      }
+      if (!link || typeof link.url === 'undefined') { return ''; }
       if (link.target) {
         return link.url;
       }
@@ -166,6 +169,7 @@
     },
 
     _computeLinkRel(link) {
+      if (!link) { return null; }
       return link.target ? 'noopener' : null;
     },
 

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
@@ -62,7 +63,7 @@ public class ReindexIT extends StandaloneSiteTest {
       changeId = gApi.changes().create(in).info().changeId;
     }
 
-    MoreFiles.deleteRecursively(sitePaths.index_dir);
+    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
     Files.createDirectory(sitePaths.index_dir);
     assertServerStartupFails();
 

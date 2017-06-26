@@ -123,13 +123,13 @@ limitations under the License.
 
       test('placeAbove for Element argument', () => {
         element.placeAbove(target);
-        assert.equal(element.style.top, '27px');
+        assert.equal(element.style.top, '25px');
         assert.equal(element.style.left, '72px');
       });
 
       test('placeAbove for Text Node argument', () => {
         element.placeAbove(target.firstChild);
-        assert.equal(element.style.top, '27px');
+        assert.equal(element.style.top, '25px');
         assert.equal(element.style.left, '72px');
       });
 

@@ -267,7 +267,8 @@
       // TODO (viktard): Drop empty first and last lines from selection.
 
       const actionBox = document.createElement('gr-selection-action-box');
-      Polymer.dom(this.root).appendChild(actionBox);
+      const root = Polymer.dom(this.root);
+      root.insertBefore(actionBox, root.firstElementChild);
       actionBox.range = {
         startLine: start.line,
         startChar: start.column,

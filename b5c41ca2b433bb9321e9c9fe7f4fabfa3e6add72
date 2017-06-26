@@ -45,6 +45,30 @@
       "revId": "b5c41ca2b433bb9321e9c9fe7f4fabfa3e6add72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326de317_d6b7f8d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T21:11:50Z",
+      "side": 1,
+      "message": "Thanks, there was a typo. should work now.",
+      "parentUuid": "42455e25_b668977f",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 14
+      },
+      "revId": "b5c41ca2b433bb9321e9c9fe7f4fabfa3e6add72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

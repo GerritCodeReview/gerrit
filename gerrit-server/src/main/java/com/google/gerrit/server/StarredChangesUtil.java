@@ -280,22 +280,6 @@ public class StarredChangesUtil {
     }
   }
 
-  @Deprecated
-  // To be used only for IsStarredByLegacyPredicate.
-  public Set<Change.Id> byAccount(Account.Id accountId, String label) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getRefNames(repo, RefNames.REFS_STARRED_CHANGES)
-          .stream()
-          .filter(refPart -> refPart.endsWith("/" + accountId.get()))
-          .map(Change.Id::fromRefPart)
-          .filter(changeId -> hasStar(repo, changeId, accountId, label))
-          .collect(toSet());
-    } catch (IOException e) {
-      throw new OrmException(
-          String.format("Get changes that were starred by %d failed", accountId.get()), e);
-    }
-  }
-
   private boolean hasStar(Repository repo, Change.Id changeId, Account.Id accountId, String label) {
     try {
       return readLabels(repo, RefNames.refsStarredChanges(changeId, accountId))

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0b8a6da_aca232f7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 3154,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-26T16:46:45Z",
+      "side": 1,
+      "message": "Both the API calls to add content to a change edit and to publish a change edit return 204 No Content. Why does this API return 200 instead?",
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ecb356d_42eaf225",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

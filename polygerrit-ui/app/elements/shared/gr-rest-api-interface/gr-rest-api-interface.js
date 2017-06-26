@@ -694,6 +694,7 @@
       );
     },
 
+    // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
       const url = this.getChangeActionURL(changeNum, null, '/edit:message');
       return this.send('PUT', url, {message});
@@ -702,6 +703,11 @@
     publishChangeEdit(changeNum) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null, '/edit:publish'));
+    },
+
+    putChangeCommitMessage(changeNum, message) {
+      const url = this.getChangeActionURL(changeNum, null, '/message');
+      return this.send('PUT', url, {message});
     },
 
     saveChangeStarred(changeNum, starred) {

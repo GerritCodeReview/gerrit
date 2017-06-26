@@ -73,6 +73,52 @@
     },
     {
       "key": {
+        "uuid": "a196a228_6d4a6d88",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-26T11:59:31Z",
+      "side": 1,
+      "message": "getJSONPropByPath",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f995d9_1c792330",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-26T11:59:31Z",
+      "side": 1,
+      "message": "setJSONPropByPath",
+      "range": {
+        "startLine": 103,
+        "startChar": 5,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "f50fbbf62bb6d527843c7232c109b862248c5478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6045604_1d2966c2",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1

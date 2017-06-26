@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b5d9132d_5191a0b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-26T12:33:17Z",
+      "side": 1,
+      "message": "this barfs on darwin for the Bazel build\n\nhttp://ci.bazel.io/view/Dashboard/job/gerrit/434/BAZEL_VERSION\u003dHEAD,PLATFORM_NAME\u003ddarwin-x86_64/testReport/junit/com.google.gerrit.acceptance.pgm/ReindexIT/reindexFromScratch/\n\n\ncom.google.common.io.InsecureRecursiveDeleteException: /private/var/tmp/_bazel_ci/ecb628661259d45b1bcf8030dc6f079b/bazel-sandbox/7730120916919040001/execroot/gerrit/_tmp/ff8b08214fa90845664f7291ce4981ef/junit5993214329966165074/index: unable to guarantee security of recursive delete\n\tat com.google.common.io.MoreFiles.checkAllowsInsecure(MoreFiles.java:739)\n\tat com.google.common.io.MoreFiles.deleteRecursively(MoreFiles.java:525)\n\tat com.google.gerrit.acceptance.pgm.ReindexIT.reindexFromScratch(ReindexIT.java:43)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "d91ca59d6b8236d48b2f915b0de5a27f028cb435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e5e279f_275c5d7c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
         "patchSetId": 5

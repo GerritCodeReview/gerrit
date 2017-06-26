@@ -22,6 +22,30 @@
       "revId": "2203a4a42d5cf2514cf1093a75e55003e458f293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec3f62a3_a7f7ad7c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T16:56:31Z",
+      "side": 1,
+      "message": "Thanks, done. But i think i had troubles without doing this.",
+      "parentUuid": "215a369d_72197491",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 9
+      },
+      "revId": "2203a4a42d5cf2514cf1093a75e55003e458f293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

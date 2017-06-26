@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02f38a64_de1d10c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T23:17:56Z",
+      "side": 1,
+      "message": "Is there a bug for this?",
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78582079_e15a02eb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T23:17:56Z",
+      "side": 1,
+      "message": "Driveby meta-comment: we need to standardize casing for CSS classes. I see you like camelCase, I\u0027ve always used the bootstrap-esque hyphens-to-separate-words.\n\nI think this is a good read (though I don\u0027t follow it myself): https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e6740dd_ef1938a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T23:17:56Z",
+      "side": 1,
+      "message": "Sorry to nit, but not a huge fan of this variable name. Could we just make it linkCopy?",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 15
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4684fe2a_8540add9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-26T23:17:56Z",
+      "side": 1,
+      "message": "Can be...\n  return link \u0026\u0026 link.target ? \u0027noopener\u0027 : null;",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 45
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

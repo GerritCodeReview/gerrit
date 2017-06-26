@@ -54,6 +54,8 @@ limitations under the License.
         getDiffChangeDetail() { return Promise.resolve(null); },
         getChangeFiles() { return Promise.resolve({}); },
         saveFileReviewed() { return Promise.resolve(); },
+        getDiffRobotComments() { return Promise.resolve(); },
+        getDiffDrafts() { return Promise.resolve(); },
       });
       element = fixture('basic');
     });
@@ -469,16 +471,21 @@ limitations under the License.
     });
 
     test('file review status', done => {
-      element._loggedIn = true;
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: '1',
-        patchNum: '2',
-      };
-      element._fileList = ['/COMMIT_MSG'];
-      element._path = '/COMMIT_MSG';
+      stub('gr-rest-api-interface', {
+        getDiffComments() { return Promise.resolve({}); },
+      });
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
+      sandbox.stub(element.$.diff, 'reload');
+
+      element._loggedIn = true;
+      element.params = {
+        view: 'gr-diff-view',
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
 
       flush(() => {
         const commitMsg = Polymer.dom(element.root).querySelector(
@@ -625,7 +632,6 @@ limitations under the License.
     suite('_loadCommentMap', () => {
       test('empty', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments() { return Promise.resolve({}); },
           getDiffComments() { return Promise.resolve({}); },
         });
         element._loadCommentMap().then(map => {
@@ -636,7 +642,6 @@ limitations under the License.
 
       test('paths in patch range', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments() { return Promise.resolve({}); },
           getDiffComments() {
             return Promise.resolve({
               'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
@@ -658,7 +663,6 @@ limitations under the License.
 
       test('empty for paths outside patch range', done => {
         stub('gr-rest-api-interface', {
-          getDiffRobotComments() { return Promise.resolve({}); },
           getDiffComments() {
             return Promise.resolve({
               'path/to/file/one.cpp': [{patch_set: 'PARENT', message: 'lorem'}],

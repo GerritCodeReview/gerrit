@@ -16,6 +16,24 @@
       "revId": "4dc457f74d3460616eb7857aefcfccdf228e5fcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b28a3d54_c725d460",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-26T22:37:13Z",
+      "side": 1,
+      "message": "One of the tests taps the button. Second taps button and confirms that it redirects to the group you just created.",
+      "parentUuid": "c68ad7ef_aa1b95a6",
+      "revId": "4dc457f74d3460616eb7857aefcfccdf228e5fcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

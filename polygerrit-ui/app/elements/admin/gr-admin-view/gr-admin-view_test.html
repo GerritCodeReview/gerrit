@@ -39,6 +39,11 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      stub('gr-rest-api-interface', {
+        getProjectConfig() {
+          return Promise.resolve({});
+        },
+      });
     });
 
     teardown(() => {
@@ -99,6 +104,7 @@ limitations under the License.
 
         // Projects
         assert.equal(element._filteredLinks[0].children.length, 1);
+        assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Groups
         assert.equal(element._filteredLinks[1].children.length, 1);
@@ -118,6 +124,7 @@ limitations under the License.
 
         // Projects
         assert.equal(element._filteredLinks[0].children.length, 0);
+        assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Groups
         assert.equal(element._filteredLinks[1].children.length, 0);
@@ -131,8 +138,53 @@ limitations under the License.
 
         // Projects
         assert.equal(element._filteredLinks[0].children.length, 0);
+        assert.isNotOk(element._filteredLinks[0].subsection);
         done();
       });
+    });
+
+    test('Project shows up in nav', done => {
+      element._project = 'Test Project';
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      element._loadAccountCapabilities().then(() => {
+        assert.equal(element._filteredLinks.length, 3);
+
+        // Projects
+        assert.equal(element._filteredLinks[0].children.length, 1);
+        assert.equal(element._filteredLinks[0].subsection.name, 'Test Project');
+
+        // Groups
+        assert.equal(element._filteredLinks[1].children.length, 1);
+
+        // Plugins
+        assert.equal(element._filteredLinks[2].children.length, 0);
+        done();
+      });
+    });
+
+    test('Nav is reloaded when project changes', () => {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      sandbox.stub(element.$.restAPI, 'getAccount', () => {
+        return Promise.resolve({_id: 1});
+      });
+      sandbox.stub(element, 'reload');
+      element.params = {project: 'Test Project', adminView: 'gr-admin-project'};
+      assert.equal(element.reload.callCount, 1);
+      element.params = {project: 'Test Project 2',
+        adminView: 'gr-admin-project'};
+      assert.equal(element.reload.callCount, 2);
     });
   });
 </script>

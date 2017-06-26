@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6af4ea_8b75b352",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-26T22:10:13Z",
+      "side": 1,
+      "message": "Nit: can be moved to next line.",
+      "range": {
+        "startLine": 46,
+        "startChar": 74,
+        "endLine": 46,
+        "endChar": 96
+      },
+      "revId": "7f0e41fd687b3ca3d2139f8867c0aeb7b8b6c2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -32,11 +33,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -44,6 +47,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectState;
@@ -60,7 +65,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -85,6 +92,8 @@ public class CherryPickChange {
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
@@ -100,6 +109,8 @@ public class CherryPickChange {
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory changeNotesFactory,
+      ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil changeMessagesUtil,
       PatchSetUtil psUtil,
       NotifyUtil notifyUtil) {
@@ -112,6 +123,8 @@ public class CherryPickChange {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.changeNotesFactory = changeNotesFactory;
+    this.approvalsUtil = approvalsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
@@ -127,10 +140,8 @@ public class CherryPickChange {
           UpdateException, RestApiException {
     return cherryPick(
         batchUpdateFactory,
-        change.getId(),
+        change,
         patch.getId(),
-        change.getDest(),
-        change.getTopic(),
         change.getProject(),
         ObjectId.fromString(patch.getRevision().get()),
         input,
@@ -139,10 +150,8 @@ public class CherryPickChange {
 
   public Change.Id cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
-      @Nullable Change.Id sourceChangeId,
+      @Nullable Change sourceChange,
       @Nullable PatchSet.Id sourcePatchId,
-      @Nullable Branch.NameKey sourceBranch,
-      @Nullable String sourceChangeTopic,
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
@@ -239,22 +248,16 @@ public class CherryPickChange {
             // Change key not found on destination branch. We can create a new
             // change.
             String newTopic = null;
-            if (!Strings.isNullOrEmpty(sourceChangeTopic)) {
-              newTopic = sourceChangeTopic + "-" + newDest.getShortName();
+            if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+              newTopic = sourceChange.getTopic() + "-" + newDest.getShortName();
             }
             result =
                 createNewChange(
-                    bu,
-                    cherryPickCommit,
-                    destRefControl.getRefName(),
-                    newTopic,
-                    sourceBranch,
-                    sourceCommit,
-                    input);
+                    bu, cherryPickCommit, destRefName, newTopic, sourceChange, sourceCommit, input);
 
-            if (sourceChangeId != null && sourcePatchId != null) {
+            if (sourceChange != null && sourcePatchId != null) {
               bu.addOp(
-                  sourceChangeId,
+                  sourceChange.getId(),
                   new AddMessageToSourceChangeOp(
                       changeMessagesUtil,
                       sourcePatchId,
@@ -340,16 +343,29 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit,
       String refName,
       String topic,
-      Branch.NameKey sourceBranch,
+      @Nullable Change sourceChange,
       ObjectId sourceCommit,
       CherryPickInput input)
       throws OrmException, IOException, BadRequestException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
-    ChangeInserter ins =
-        changeInserterFactory.create(changeId, cherryPickCommit, refName).setTopic(topic);
+    ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
+    Branch.NameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(messageForDestinationChange(ins.getPatchSetId(), sourceBranch, sourceCommit))
+        .setTopic(topic)
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
+    if (input.keepReviewers && sourceChange != null) {
+      ReviewerSet reviewerSet =
+          approvalsUtil.getReviewers(
+              dbProvider.get(), changeNotesFactory.createChecked(dbProvider.get(), sourceChange));
+      Set<Account.Id> reviewers =
+          new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
+      reviewers.add(sourceChange.getOwner());
+      reviewers.remove(user.get().getAccountId());
+      Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
+      ccs.remove(user.get().getAccountId());
+      ins.setReviewers(reviewers).setExtraCC(ccs);
+    }
     bu.insertChange(ins);
     return changeId;
   }

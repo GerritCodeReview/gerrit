@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -82,10 +84,15 @@ public class RevisionResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    // Conservative estimate: refresh the revision if its parent change has
-    // changed, so we don't have to check whether a given modification affected
-    // this revision specifically.
-    return change.getETag();
+    Hasher h = Hashing.murmur3_128().newHasher();
+    prepareETag(h, getUser());
+    return h.hash().toString();
+  }
+
+  void prepareETag(Hasher h, CurrentUser user) {
+    // Conservative estimate: refresh the revision if its parent change has changed, so we don't
+    // have to check whether a given modification affected this revision specifically.
+    change.prepareETag(h, user);
   }
 
   Account.Id getAccountId() {

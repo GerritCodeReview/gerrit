@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e0062e9_b2420182",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-26T23:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23c5d38_54ba5973",
+      "range": {
+        "startLine": 53,
+        "startChar": 23,
+        "endLine": 53,
+        "endChar": 58
+      },
+      "revId": "3c4758dca322a3f63c114a897776ad017d63a988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25d8e5ac_e5d14800",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-26T23:36:21Z",
       "side": 1,
       "message": "Actually, this can be this.\n\nSo this.getBaseUrl(). Since you included behaviors: above.",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "3c4758dca322a3f63c114a897776ad017d63a988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d2c736a_36643162",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-26T23:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d8e5ac_e5d14800",
       "range": {
         "startLine": 71,
         "startChar": 13,

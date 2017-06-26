@@ -24,6 +24,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     _configChanged(config) {
       const jsPlugins = config.js_resource_paths || [];
       const htmlPlugins = config.html_resource_paths || [];
@@ -46,7 +50,7 @@
       for (let i = 0; i < plugins.length; i++) {
         const scriptEl = document.createElement('script');
         scriptEl.defer = true;
-        scriptEl.src = '/' + plugins[i];
+        scriptEl.src = Gerrit.BaseUrlBehavior.getBaseUrl() + '/' + plugins[i];
         scriptEl.onerror = Gerrit._pluginInstalled;
         document.body.appendChild(scriptEl);
       }

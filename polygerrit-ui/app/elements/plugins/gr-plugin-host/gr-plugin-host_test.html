@@ -63,5 +63,14 @@ limitations under the License.
       assert.isTrue(element.importHref.calledWith(
           '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
     });
+
+    test('imports js plugins from config', () => {
+      sandbox.stub(element, '_createScriptTag');
+      element.config = {
+        js_resource_paths: ['foo/bar', 'http://baz'],
+      };
+      assert.isTrue(element._createScriptTag.calledWith('/foo/bar'));
+      assert.isTrue(element._createScriptTag.calledWith('http://baz'));
+    });
   });
 </script>

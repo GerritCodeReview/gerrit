@@ -38,7 +38,7 @@ limitations under the License.
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
             <a class="title" href="[[_computeLinkURL(item)]]"
-                  rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
+                  rel="noopener">[[item.name]]</a>
           </li>
           <template is="dom-repeat" items="[[item.children]]" as="child">
             <li class$="[[_computeSelectedClass(child.view, params)]]">
@@ -50,7 +50,7 @@ limitations under the License.
             <!--If a section has a subsection, render that.-->
             <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
               <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
-                  rel$="[[_computeLinkRel(item.subsection)]]">
+                  rel="noopener">
                 [[item.subsection.name]]</a>
             </li>
             <!--Loop through the links in the sub-section.-->

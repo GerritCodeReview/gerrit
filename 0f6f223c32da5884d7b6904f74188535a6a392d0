@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498555004 +0200\nnonce AH5c86AeEqmDVBUwwLzISkUNEGxOTdLAOtaVdS/dQskySm2eOSESerZFFYF96HUhUq42mpJjY3ns\n\n0000000000000000000000000000000000000000 0f6f223c32da5884d7b6904f74188535a6a392d0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZUiJ8AAoJEFG1/Zeg0O9R4sAH/io5cwDRS+EVS+qXv2B289zQ\nBB7qC4AeN859GZtWM1LWD4KV6BEpWHYpmoDAonxDS0UAvdp1QckBAdAdhWbIDQr9\nh18fHF6j6GJIJRIz+vYio7hVQLnAPFEyzrsqjyC8BbijBnUyRgkwSrbY/IoKTJPY\n4H5Fh/wkH531aVekEut7KbfU7ekB2K8OJNVGKaRkJSJKEoTItvBuqdMYz9Av/0Zq\nTQBEHLuPhB6aXQGU1L78sm9YNdR5d744dkMCbmCE1UYGGos3Go9EmVkL4WOJUbT+\nNXMx8UGFp+gEYhx9aMCDqNqs4Gynt4QHlD8AwOXkJZQHgNfgYRILDMu5Grvh8ZQ\u003d\n\u003d0W+j\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "13822786_244d729a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-27T10:38:43Z",
+      "side": 1,
+      "message": "Please run buildifier on this file.",
+      "revId": "0f6f223c32da5884d7b6904f74188535a6a392d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

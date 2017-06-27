@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "189a9c0a_a24e3325",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-06-27T13:41:54Z",
+      "side": 1,
+      "message": "nit: unused import.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "51f17d0b10714670ee5757e9fc502cacc295bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

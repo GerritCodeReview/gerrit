@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780f7a44_0ba9a1bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T23:43:52Z",
+      "side": 1,
+      "message": "Can you add some context for how the positioning got mixed-up?\n\nWas it a change to z-indices or DOM order or something like that?",
+      "revId": "61f41a64f72a320775afed70b3683e57734031aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ee8a07_43c2c43b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T23:43:52Z",
+      "side": 1,
+      "message": "Why 10?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "61f41a64f72a320775afed70b3683e57734031aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -278,6 +278,13 @@ public class RefControl {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
+        String msg =
+            String.format(
+                "RevWalk(%s) for pushing tag %s:",
+                projectControl.getProject().getNameKey(),
+                tag.name());
+        log.error(msg, e);
+
         return "I/O exception for revwalk";
       }
 

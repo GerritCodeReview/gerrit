@@ -100,7 +100,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
 
     Capable r = projectControl.canPushToAtLeastOneRef();
-    if (r != Capable.OK) {
+    if (r != Capable.OK && !projectControl.isOwner()) {
       throw new PermissionDeniedException(r.getMessage());
     }
 

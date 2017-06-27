@@ -1070,14 +1070,7 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    boolean ok;
-    try {
-      permissions.ref(cmd.getRefName()).check(RefPermission.CREATE);
-      ok = true;
-    } catch (AuthException err) {
-      ok = false;
-    }
-    if (ok && ctl.canCreate(rp.getRepository(), obj)) {
+    if (ctl.canCreate(rp.getRepository(), obj)) {
       if (!validRefOperation(cmd)) {
         return;
       }

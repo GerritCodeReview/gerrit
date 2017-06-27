@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae1c742b_8c086eca",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T01:09:11Z",
+      "side": 1,
+      "message": "Nitpick: these should be alpha-sorted by href after the Polymer import, so this (and the import in the other diff) should appear immediately after Polymer.",
+      "revId": "86e8847f5ada215dda45df0e4f922c2cb88ffad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

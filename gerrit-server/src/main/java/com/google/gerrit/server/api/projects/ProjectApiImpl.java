@@ -277,7 +277,7 @@ public class ProjectApiImpl implements ProjectApi {
     if (project == null) {
       throw new ResourceNotFoundException(name);
     }
-    return projectJson.format(project);
+    return projectJson.format(project.getControl());
   }
 
   @Override

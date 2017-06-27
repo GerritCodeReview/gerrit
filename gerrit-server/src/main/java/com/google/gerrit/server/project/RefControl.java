@@ -282,8 +282,7 @@ public class RefControl {
         String msg =
             String.format(
                 "RevWalk(%s) for pushing tag %s:",
-                projectControl.getProject().getNameKey(),
-                tag.name());
+                projectControl.getProject().getNameKey(), tag.name());
         log.error(msg, e);
 
         return "I/O exception for revwalk";
@@ -333,8 +332,8 @@ public class RefControl {
   }
 
   /**
-   * Check if the user is allowed to create a new commit object if this introduces a new commit
-   * to the project. If not allowed, returns a string describing why it's not allowed.
+   * Check if the user is allowed to create a new commit object if this introduces a new commit to
+   * the project. If not allowed, returns a string describing why it's not allowed.
    */
   @Nullable
   private String canCreateCommit(Repository repo, RevCommit commit) {
@@ -349,7 +348,7 @@ public class RefControl {
       // even if they don't have push permission.
       return null;
     }
-    return "lacks permission " + Permission.PUSH  + " for creating new commit object";
+    return "lacks permission " + Permission.PUSH + " for creating new commit object";
   }
 
   private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {

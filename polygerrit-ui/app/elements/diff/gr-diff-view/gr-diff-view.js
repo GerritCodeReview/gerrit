@@ -57,6 +57,7 @@
         type: Object,
         notify: true,
         value() { return {}; },
+        observer: '_changeViewStatehanged',
       },
 
       _patchRange: Object,
@@ -120,6 +121,7 @@
     observers: [
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
+      '_setReviewedObserver(_loggedIn, params.*)',
     ],
 
     keyBindings: {
@@ -141,21 +143,7 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
-        if (loggedIn) {
-          this._setReviewed(true);
-        }
       });
-      if (this.changeViewState.diffMode === null) {
-        // If screen size is small, always default to unified view.
-        this.$.restAPI.getPreferences().then(prefs => {
-          this.set('changeViewState.diffMode', prefs.default_diff_view);
-        });
-      }
-
-      if (this._path) {
-        this.fire('title-change',
-            {title: this._computeFileDisplayName(this._path)});
-      }
 
       this.$.cursor.push('diffs', this.$.diff);
     },
@@ -476,6 +464,21 @@
       });
     },
 
+    _changeViewStatehanged(changeViewState) {
+      if (changeViewState.diffMode === null) {
+        // If screen size is small, always default to unified view.
+        this.$.restAPI.getPreferences().then(prefs => {
+          this.set('changeViewState.diffMode', prefs.default_diff_view);
+        });
+      }
+    },
+
+    _setReviewedObserver(_loggedIn) {
+      if (_loggedIn) {
+        this._setReviewed(true);
+      }
+    },
+
     /**
      * If the URL hash is a diff address then configure the diff cursor.
      */
@@ -492,14 +495,15 @@
     },
 
     _pathChanged(path) {
+      if (path) {
+        this.fire('title-change',
+            {title: this._computeFileDisplayName(path)});
+      }
+
       if (this._fileList.length == 0) { return; }
 
       this.set('changeViewState.selectedFileIndex',
           this._fileList.indexOf(path));
-
-      if (this._loggedIn) {
-        this._setReviewed(true);
-      }
     },
 
     _getDiffURL(changeNum, patchRange, path) {
@@ -522,6 +526,7 @@
 
     _computeAvailablePatches(revisions) {
       const patchNums = [];
+      if (!revisions) { return patchNums; }
       for (const rev of Object.values(revisions)) {
         patchNums.push(rev._number);
       }

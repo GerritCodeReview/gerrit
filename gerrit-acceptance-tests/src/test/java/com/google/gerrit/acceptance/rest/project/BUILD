@@ -7,6 +7,7 @@ acceptance_tests(
     deps = [
         ":project",
         ":refassert",
+        ":push_tag_util",
     ],
 )
 
@@ -33,5 +34,16 @@ java_library(
         "//gerrit-server:server",
         "//lib:gwtorm",
         "//lib:truth",
+    ],
+)
+
+java_library(
+    name = "push_tag_util",
+    testonly = 1,
+    srcs = [
+        "AbstractPushTag.java"
+    ],
+    deps = [
+        "//gerrit-acceptance-tests:lib",
     ],
 )

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58f68baf_50f28588",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-27T20:02:33Z",
+      "side": 1,
+      "message": "Here and below: \nOver 80 ch",
+      "revId": "efd1fc11d1330aacc9cad42e06d3a399ec189171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

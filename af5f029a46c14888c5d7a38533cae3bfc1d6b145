@@ -46,6 +46,30 @@
       "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49eb9aa2_a41d475e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 58
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T21:05:13Z",
+      "side": 1,
+      "message": "I think the branchGenerator doesn\u0027t reset the iterator each time it is used.\n\nIt should reset each time it\u0027s called (here and in other instances it\u0027s used) so that it is predictable.",
+      "parentUuid": "ffc0268f_1750051f",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 21
+      },
+      "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

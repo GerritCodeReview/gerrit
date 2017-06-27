@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "750bbfc2_b7539787",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T00:52:16Z",
+      "side": 1,
+      "message": "From the \"PolyGerrit UI Style Guide\"\n\n\u003e All CSS identifiers should be camelCase.\n\nWe aren\u0027t fully consistent, but that is the standard.",
+      "parentUuid": "78582079_e15a02eb",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e6740dd_ef1938a9",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 6

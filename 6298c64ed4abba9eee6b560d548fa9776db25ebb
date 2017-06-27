@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b54e3d57_f06adbf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-27T12:32:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75b243ee_489953ad",
+      "range": {
+        "startLine": 1081,
+        "startChar": 3,
+        "endLine": 1084,
+        "endChar": 5
+      },
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bed882ff_87d4b16d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3

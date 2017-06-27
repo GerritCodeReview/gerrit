@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d441db_d5de1f0c",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_3.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1046842
+      },
+      "writtenOn": "2017-06-27T15:24:37Z",
+      "side": 1,
+      "message": "I was not able to get rid of the enumeration. Moreover, I found out that a case was missing (the EMPTY one), so I add to add it.",
+      "revId": "c2f2ac9f4ef08a32da4f87881c26eda84dd6b3be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

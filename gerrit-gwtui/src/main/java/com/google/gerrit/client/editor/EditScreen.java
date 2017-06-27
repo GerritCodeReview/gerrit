@@ -541,26 +541,23 @@ public class EditScreen extends Screen {
         mode = ModeInfo.findMode(content.getContentType(), path);
       }
     }
-    mv =
-        MergeView.create(
-            editor,
-            Configuration.create()
-                .set("autoCloseBrackets", prefs.autoCloseBrackets())
-                .set("cursorBlinkRate", prefs.cursorBlinkRate())
-                .set("cursorHeight", 0.85)
-                .set("indentUnit", prefs.indentUnit())
-                .set("keyMap", prefs.keyMapType().name().toLowerCase())
-                .set("lineNumbers", prefs.hideLineNumbers())
-                .set("lineWrapping", false)
-                .set("matchBrackets", prefs.matchBrackets())
-                .set("mode", mode != null ? mode.mime() : null)
-                .set("origLeft", editContent)
-                .set("scrollbarStyle", "overlay")
-                .set("showTrailingSpace", prefs.showWhitespaceErrors())
-                .set("styleSelectedText", true)
-                .set("tabSize", prefs.tabSize())
-                .set("theme", prefs.theme().name().toLowerCase())
-                .set("value", ""));
+
+    Configuration cfg = Configuration.create().set("autoCloseBrackets", prefs.autoCloseBrackets())
+        .set("cursorBlinkRate", prefs.cursorBlinkRate()).set("cursorHeight", 0.85)
+        .set("indentUnit", prefs.indentUnit())
+        .set("keyMap", prefs.keyMapType().name().toLowerCase())
+        .set("lineNumbers", prefs.hideLineNumbers()).set("lineWrapping", false)
+        .set("matchBrackets", prefs.matchBrackets()).set("mode", mode != null ? mode.mime() : null)
+        .set("origLeft", editContent).set("scrollbarStyle", "overlay")
+        .set("showTrailingSpace", prefs.showWhitespaceErrors()).set("styleSelectedText", true)
+        .set("tabSize", prefs.tabSize()).set("theme", prefs.theme().name().toLowerCase())
+        .set("value", "");
+
+    if (editContent.contains("\r\n")) {
+      cfg.set("lineSeparator", "\r\n");
+    }
+
+    mv = MergeView.create(editor, cfg);
 
     cmBase = mv.leftOriginal();
     cmBase.getWrapperElement().addClassName(style.base());

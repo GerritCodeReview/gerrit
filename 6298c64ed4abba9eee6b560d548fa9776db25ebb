@@ -16,6 +16,24 @@
       "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de5c1f2b_1dbbd031",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-27T11:33:15Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/111297/",
+      "parentUuid": "f974f749_cde6de01",
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

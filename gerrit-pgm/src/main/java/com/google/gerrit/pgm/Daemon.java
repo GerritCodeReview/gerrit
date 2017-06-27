@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.EventBroker;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
@@ -69,6 +70,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
@@ -174,6 +176,7 @@ public class Daemon extends SiteProgram {
   private boolean test;
   private AbstractModule luceneModule;
   private Module emailModule;
+  private Module testSysModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -294,6 +297,11 @@ public class Daemon extends SiteProgram {
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     test = true;
+  }
+
+  @VisibleForTesting
+  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
+    testSysModule = m;
   }
 
   @VisibleForTesting
@@ -442,6 +450,9 @@ public class Daemon extends SiteProgram {
       modules.add(new ChangeCleanupRunner.Module());
     }
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
+    if (testSysModule != null) {
+      modules.add(testSysModule);
+    }
     return cfgInjector.createChildInjector(modules);
   }
 
@@ -452,11 +463,16 @@ public class Daemon extends SiteProgram {
     if (luceneModule != null) {
       return luceneModule;
     }
+    boolean onlineUpgrade = VersionManager.getOnlineUpgrade(config);
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
+        return onlineUpgrade
+            ? LuceneIndexModule.latestVersionWithOnlineUpgrade()
+            : LuceneIndexModule.latestVersionWithoutOnlineUpgrade();
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
+        return onlineUpgrade
+            ? ElasticIndexModule.latestVersionWithOnlineUpgrade()
+            : ElasticIndexModule.latestVersionWithoutOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

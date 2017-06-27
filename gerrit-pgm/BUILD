@@ -9,6 +9,7 @@ RSRCS = "src/main/resources/com/google/gerrit/pgm/"
 INIT_API_SRCS = glob([SRCS + "init/api/*.java"])
 
 BASE_JETTY_DEPS = [
+    "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
     "//gerrit-gwtexpui:linker_server",
@@ -35,7 +36,7 @@ java_library(
     name = "init-api",
     srcs = INIT_API_SRCS,
     visibility = ["//visibility:public"],
-    deps = DEPS + ["//gerrit-common:annotations"],
+    deps = DEPS,
 )
 
 java_library(
@@ -46,7 +47,6 @@ java_library(
     deps = DEPS + [
         ":init-api",
         ":util",
-        "//gerrit-common:annotations",
         "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-launcher:launcher",  # We want this dep to be provided_deps
         "//gerrit-lucene:lucene",

@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.Config;
@@ -113,19 +115,23 @@ public abstract class StandaloneSiteTest {
   }
 
   protected ServerContext startServer() throws Exception {
-    return new ServerContext(startImpl());
+    return startServer(null);
+  }
+
+  protected ServerContext startServer(@Nullable Module testSysModule) throws Exception {
+    return new ServerContext(startImpl(testSysModule));
   }
 
   protected void assertServerStartupFails() throws Exception {
-    try (GerritServer server = startImpl()) {
+    try (GerritServer server = startImpl(null)) {
       fail("expected server startup to fail");
     } catch (GerritServer.StartupException e) {
       // Expected.
     }
   }
 
-  private GerritServer startImpl() throws Exception {
-    return GerritServer.start(serverDesc, baseConfig, sitePaths.site_path);
+  private GerritServer startImpl(@Nullable Module testSysModule) throws Exception {
+    return GerritServer.start(serverDesc, baseConfig, sitePaths.site_path, testSysModule);
   }
 
   protected static void runGerrit(String... args) throws Exception {

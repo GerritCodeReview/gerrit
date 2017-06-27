@@ -70,6 +70,30 @@
       "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74b74b1_a2dc2265",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 58
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T21:08:29Z",
+      "side": 1,
+      "message": "Yep, im trying to figure out how to do that. Im searching through github / google. But havent found anything yet.",
+      "parentUuid": "49eb9aa2_a41d475e",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 21
+      },
+      "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -54,7 +54,7 @@ limitations under the License.
       assert.isTrue(Gerrit._setPluginsCount.calledWith(3));
     });
 
-    test('imports html plugins from config', () => {
+    test('imports relative html plugins from config', () => {
       element.config = {
         html_resource_paths: ['foo/bar', 'baz'],
       };
@@ -64,13 +64,72 @@ limitations under the License.
           '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
     });
 
-    test('imports js plugins from config', () => {
+    test('imports relative html plugins from config with a base url', () => {
+      sandbox.stub(element, 'getBaseUrl').returns('/the-base');
+      element.config = {
+        html_resource_paths: ['foo/bar', 'baz'],
+      };
+      assert.isTrue(element.importHref.calledWith(
+          '/the-base/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled,
+          true));
+      assert.isTrue(element.importHref.calledWith(
+          '/the-base/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled,
+          true));
+    });
+
+    test('imports absolute html plugins from config', () => {
+      element.config = {
+        html_resource_paths: [
+          'http://example.com/foo/bar',
+          'https://example.com/baz',
+        ],
+      };
+      assert.isTrue(element.importHref.calledWith(
+          'http://example.com/foo/bar', Gerrit._pluginInstalled,
+          Gerrit._pluginInstalled, true));
+      assert.isTrue(element.importHref.calledWith(
+          'https://example.com/baz', Gerrit._pluginInstalled,
+          Gerrit._pluginInstalled, true));
+    });
+
+    test('adds js plugins from config to the body', () => {
+      element.config = {
+        js_resource_paths: ['foo/bar', 'baz'],
+      };
+      assert.isTrue(document.body.appendChild.calledTwice);
+    });
+
+    test('imports relative js plugins from config', () => {
       sandbox.stub(element, '_createScriptTag');
       element.config = {
-        js_resource_paths: ['foo/bar', 'http://baz'],
+        js_resource_paths: ['foo/bar', 'baz'],
       };
       assert.isTrue(element._createScriptTag.calledWith('/foo/bar'));
-      assert.isTrue(element._createScriptTag.calledWith('http://baz'));
+      assert.isTrue(element._createScriptTag.calledWith('/baz'));
+    });
+
+    test('imports relative html plugins from config with a base url', () => {
+      sandbox.stub(element, '_createScriptTag');
+      sandbox.stub(element, 'getBaseUrl').returns('/the-base');
+      element.config = {
+        js_resource_paths: ['foo/bar', 'baz'],
+      };
+      assert.isTrue(element._createScriptTag.calledWith('/the-base/foo/bar'));
+      assert.isTrue(element._createScriptTag.calledWith('/the-base/baz'));
+    });
+
+    test('imports absolute html plugins from config', () => {
+      sandbox.stub(element, '_createScriptTag');
+      element.config = {
+        js_resource_paths: [
+          'http://example.com/foo/bar',
+          'https://example.com/baz',
+        ],
+      };
+      assert.isTrue(element._createScriptTag.calledWith(
+          'http://example.com/foo/bar'));
+      assert.isTrue(element._createScriptTag.calledWith(
+          'https://example.com/baz'));
     });
   });
 </script>

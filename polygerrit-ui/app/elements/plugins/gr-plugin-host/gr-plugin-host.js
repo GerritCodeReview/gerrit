@@ -24,6 +24,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     _configChanged(config) {
       const jsPlugins = config.js_resource_paths || [];
       const htmlPlugins = config.html_resource_paths || [];
@@ -33,21 +37,16 @@
     },
 
     _importHtmlPlugins(plugins) {
-      for (let url of plugins) {
-        if (!url.startsWith('http')) {
-          url = '/' + url;
-        }
+      for (const url of plugins) {
         this.importHref(
-            url, Gerrit._pluginInstalled, Gerrit._pluginInstalled, true);
+            this._urlFor(url), Gerrit._pluginInstalled, Gerrit._pluginInstalled,
+            true);
       }
     },
 
     _loadJsPlugins(plugins) {
-      for (let url of plugins) {
-        if (!url.startsWith('http')) {
-          url = '/' + url;
-        }
-        this._createScriptTag(url);
+      for (const url of plugins) {
+        this._createScriptTag(this._urlFor(url));
       }
     },
 
@@ -57,6 +56,13 @@
       el.src = url;
       el.onerror = Gerrit._pluginInstalled;
       return document.body.appendChild(el);
+    },
+
+    _urlFor(pathOrUrl) {
+      if (pathOrUrl.startsWith('http')) {
+        return pathOrUrl;
+      }
+      return this.getBaseUrl() + '/' + pathOrUrl;
     },
   });
 })();

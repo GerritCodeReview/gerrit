@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cc015fe_35a2d6a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:23:31Z",
+      "side": 1,
+      "message": "Shoudn\u0027t this be used somewhere? Or is that in a later change?",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 23
+      },
+      "revId": "1d5add0f7fd23029b98ed832387ac5b0954246a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

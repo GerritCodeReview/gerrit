@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95007bc4_02722dc5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T13:34:05Z",
+      "side": 1,
+      "message": "Duplicate arrow. Could that be removed please?\n\nIm doing the same for the rest in https://gerrit-review.googlesource.com/#/c/111351/",
+      "range": {
+        "startLine": 188,
+        "startChar": 50,
+        "endLine": 188,
+        "endChar": 51
+      },
+      "revId": "7bb41a98a1a18b3c502d4675c6245fca83e4f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

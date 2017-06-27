@@ -36,6 +36,7 @@ limitations under the License.
         path="[[_getPath(_project)]]">
       <table id="list">
         <tr class="headerRow">
+          <th class="deleteBranches topHeader" hidden$="[[_notOwner]]" hidden>Delete Branche(s)</th>
           <th class="name topHeader">Branch Name</th>
           <th class="description topHeader">Revision</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
@@ -46,6 +47,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
+            <td class=""><td>
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
             <td class="description">[[item.revision]]</td>
             <td class="repositoryBrowser">

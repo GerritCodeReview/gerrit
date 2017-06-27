@@ -49,12 +49,25 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _notOwner: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
 
     _paramsChanged(params) {
       this._loading = true;
@@ -65,7 +78,17 @@
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getBranches(this._filter, this._project,
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._notOwner = !access[this._project].is_owner;
+          });
+        }
+      });
+
+      this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
     },
 

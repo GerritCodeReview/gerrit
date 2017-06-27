@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -36,6 +37,9 @@ limitations under the License.
         path="[[_getPath(_project)]]">
       <table id="list">
         <tr class="headerRow">
+          <th class="deleteBranches topHeader" hidden$="[[_notOwner]]" hidden>
+            Delete Branche(s)
+          </th>
           <th class="name topHeader">Branch Name</th>
           <th class="description topHeader">Revision</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
@@ -46,6 +50,19 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
+            <td class="delete">
+              <!--<input id="deleteBranches"
+                     class="deleteBranches"
+                     type="checkbox"
+                     on-change="_handleReviewedChange"
+                     hidden$="[[_notOwner]]" hidden>
+                     checked$="[[_computeCheckboxChecked(item.ref, type.key)]]"-->
+              <input
+                  type="checkbox"
+                  data-index$="[[_stripRefsHeads(item.ref)]]"
+                  on-change="_handleCheckboxChange"
+                  hidden$="[[_notOwner]]" hidden>
+            </td>
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
             <td class="description">[[item.revision]]</td>
             <td class="repositoryBrowser">
@@ -62,6 +79,9 @@ limitations under the License.
           </tr>
         </template>
       </table>
+      <gr-button
+          data-index$="[[_branches.ref]]"
+          on-tap="_handleDeleteBranches" hidden$="[[_notOwner]]">Delete</gr-button>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

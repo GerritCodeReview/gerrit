@@ -31,6 +31,7 @@
        */
       _offset: Number,
       _project: Object,
+      _projectBranches: Array,
       _branches: Array,
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
@@ -49,12 +50,25 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _notOwner: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
 
     _paramsChanged(params) {
       this._loading = true;
@@ -64,6 +78,18 @@
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this._projectBranches = [];
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._notOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
@@ -91,6 +117,18 @@
 
     _stripRefsHeads(item) {
       return item.replace('refs/heads/', '');
+    },
+
+    _handleCheckboxChange(e) {
+      const index = parseInt(e.target.getAttribute('data-index'), 10);
+      const checked = e.target.checked;
+      this.set(['_projectBranches', index], !!checked);
+      this.hasUnsavedChanges = true;
+    },
+
+    _handleDeleteBranches() {
+      return this.$.restAPI.deleteBranches(this._project,
+          this._stripRefsHeads(this._branches.ref));
     },
   });
 })();

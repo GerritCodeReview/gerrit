@@ -22,6 +22,30 @@
       "revId": "674e978d634d99eb1a2f6d6c1bf9efd2e502be44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afb7d384_91afcd70",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-27T20:39:15Z",
+      "side": 1,
+      "message": "That is incorrect. The template will stamp when the if attribute evaluates to true.",
+      "parentUuid": "bb2eb96b_53217869",
+      "range": {
+        "startLine": 369,
+        "startChar": 36,
+        "endLine": 369,
+        "endChar": 81
+      },
+      "revId": "674e978d634d99eb1a2f6d6c1bf9efd2e502be44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

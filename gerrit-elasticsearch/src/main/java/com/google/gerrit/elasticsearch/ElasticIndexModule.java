@@ -18,17 +18,20 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.SingleVersionModule;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
-public class ElasticIndexModule extends LifecycleModule {
+public class ElasticIndexModule extends AbstractModule {
   private final int threads;
   private final Map<String, Integer> singleVersions;
 
@@ -63,7 +66,7 @@ public class ElasticIndexModule extends LifecycleModule {
 
     install(new IndexModule(threads));
     if (singleVersions == null) {
-      listener().to(ElasticVersionManager.class);
+      install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule(singleVersions));
     }
@@ -73,5 +76,14 @@ public class ElasticIndexModule extends LifecycleModule {
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
     return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
+  }
+
+  private static class MultiVersionModule extends LifecycleModule {
+    @Override
+    public void configure() {
+      bind(VersionManager.class).to(ElasticVersionManager.class);
+      listener().to(ElasticVersionManager.class);
+      listener().to(OnlineUpgrader.class);
+    }
   }
 }

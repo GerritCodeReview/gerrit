@@ -16,13 +16,15 @@ package com.google.gerrit.lucene;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
+import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -36,10 +38,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class LuceneVersionManager extends AbstractVersionManager implements LifecycleListener {
+public class LuceneVersionManager extends VersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
 
-  private static class Version<V> extends AbstractVersionManager.Version<V> {
+  private static class Version<V> extends VersionManager.Version<V> {
     private final boolean exists;
 
     private Version(Schema<V> schema, int version, boolean exists, boolean ready) {
@@ -56,22 +58,22 @@ public class LuceneVersionManager extends AbstractVersionManager implements Life
   LuceneVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      DynamicSet<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
-    super(cfg, sitePaths, defs);
+    super(cfg, sitePaths, listeners, defs);
   }
 
   @Override
   protected <V> boolean isDirty(
-      Collection<com.google.gerrit.server.index.AbstractVersionManager.Version<V>> inUse,
-      com.google.gerrit.server.index.AbstractVersionManager.Version<V> v) {
+      Collection<com.google.gerrit.server.index.VersionManager.Version<V>> inUse,
+      com.google.gerrit.server.index.VersionManager.Version<V> v) {
     return !inUse.contains(v) && ((Version<V>) v).exists;
   }
 
   @Override
-  protected <K, V, I extends Index<K, V>>
-      TreeMap<Integer, AbstractVersionManager.Version<V>> scanVersions(
-          IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
-    TreeMap<Integer, AbstractVersionManager.Version<V>> versions = new TreeMap<>();
+  protected <K, V, I extends Index<K, V>> TreeMap<Integer, VersionManager.Version<V>> scanVersions(
+      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
+    TreeMap<Integer, VersionManager.Version<V>> versions = new TreeMap<>();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
       Path p = getDir(sitePaths, def.getName(), schema);

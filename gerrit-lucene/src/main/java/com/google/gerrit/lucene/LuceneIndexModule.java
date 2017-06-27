@@ -19,7 +19,9 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.SingleVersionModule;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -90,7 +92,9 @@ public class LuceneIndexModule extends LifecycleModule {
   private static class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
+      bind(VersionManager.class).to(LuceneVersionManager.class);
       listener().to(LuceneVersionManager.class);
+      listener().to(OnlineUpgrader.class);
     }
   }
 }

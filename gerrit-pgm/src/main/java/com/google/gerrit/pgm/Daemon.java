@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.EventBroker;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
@@ -174,6 +175,7 @@ public class Daemon extends SiteProgram {
   private boolean test;
   private AbstractModule luceneModule;
   private Module emailModule;
+  private Module testSysModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -294,6 +296,11 @@ public class Daemon extends SiteProgram {
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
     test = true;
+  }
+
+  @VisibleForTesting
+  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
+    testSysModule = m;
   }
 
   @VisibleForTesting
@@ -442,6 +449,9 @@ public class Daemon extends SiteProgram {
       modules.add(new ChangeCleanupRunner.Module());
     }
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
+    if (testSysModule != null) {
+      modules.add(testSysModule);
+    }
     return cfgInjector.createChildInjector(modules);
   }
 

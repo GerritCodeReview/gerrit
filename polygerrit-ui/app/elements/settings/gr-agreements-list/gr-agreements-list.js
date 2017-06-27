@@ -19,6 +19,10 @@
 
     properties: {
       _agreements: Array,
+      _disableAgreements: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -30,8 +34,14 @@
     },
 
     loadData() {
-      return this.$.restAPI.getAccountAgreements().then(agreements => {
-        this._agreements = agreements;
+      this.$.restAPI.getConfig().then(config => {
+        if (config.auth.use_contributor_agreements) {
+          return this.$.restAPI.getAccountAgreements().then(agreements => {
+            this._agreements = agreements;
+
+            this._disableAgreements = false;
+          });
+        }
       });
     },
 

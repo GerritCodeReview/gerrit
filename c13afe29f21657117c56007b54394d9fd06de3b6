@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "adb7c9ea_043d9d0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T09:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17b30f2b_7764e413",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4e195fa_208f60d9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-06-27T08:36:32Z",
       "side": 1,
       "message": "Receive",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22b9bd2_8eff4d8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T09:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e195fa_208f60d9",
       "range": {
         "startLine": 17,
         "startChar": 5,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a212fafa_a83a7301",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T09:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8135417b_6b025928",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ee806f1_5a0a84b6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
         "patchSetId": 2
@@ -83,6 +155,24 @@
       "writtenOn": "2017-06-27T08:36:32Z",
       "side": 1,
       "message": "trailing WS, here and in many more lines below",
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84afe02c_6e95562b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T09:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ee806f1_5a0a84b6",
       "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

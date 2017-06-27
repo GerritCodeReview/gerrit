@@ -17,6 +17,24 @@
       "revId": "9a38b012fc6dfb47e5ca82232bde441f3c7025b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aade274_b094b6fa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushAnnotatedTagIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T09:17:22Z",
+      "side": 1,
+      "message": "I would keep the abstract method to be consistent with how AbstractSubmit is implemented, but I changed AbstractPush to get the tag type in the setup method that is annotated with @Before.",
+      "parentUuid": "25ebe56e_ea3bd85b",
+      "revId": "9a38b012fc6dfb47e5ca82232bde441f3c7025b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

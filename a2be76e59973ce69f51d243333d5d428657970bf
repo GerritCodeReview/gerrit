@@ -22,6 +22,30 @@
       "revId": "a2be76e59973ce69f51d243333d5d428657970bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e6875b_f514d97a",
+        "filename": "polygerrit-ui/app/embed/change-diff-views.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:44:18Z",
+      "side": 1,
+      "message": "Removed. Thanks.",
+      "parentUuid": "96a73651_2d21541e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 55
+      },
+      "revId": "a2be76e59973ce69f51d243333d5d428657970bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

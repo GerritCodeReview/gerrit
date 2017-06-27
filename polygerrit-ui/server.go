@@ -122,6 +122,9 @@ func patchResponse(r *http.Request, res *http.Response) io.Reader {
 }
 
 func injectLocalPlugins(r io.Reader) io.Reader {
+	if len(*plugins) == 0 {
+		return r
+	}
 	// Skip escape prefix
 	io.CopyN(ioutil.Discard, r, 5)
 	dec := json.NewDecoder(r)

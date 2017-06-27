@@ -21,6 +21,7 @@
       comments: Object,
       loggedIn: Boolean,
       _cachedDiffBuilder: Object,
+      _selectionNormalizer: Object,
       isAttached: Boolean,
     },
 
@@ -40,6 +41,14 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
+    },
+
+    get selectionNormalizer() {
+      if (!this._selectionNormalizer) {
+        this._selectionNormalizer = new GrSelectionNormalizer(
+          this, this.diffBuilder);
+      }
+      return this._selectionNormalizer;
     },
 
     _enableSelectionObserver(loggedIn, isAttached) {
@@ -94,158 +103,8 @@
       }
     },
 
-    /**
-     * Get current normalized selection.
-     * Merges multiple ranges, accounts for triple click, accounts for
-     * syntax highligh, convert native DOM Range objects to Gerrit concepts
-     * (line, side, etc).
-     * @return {{
-     *   start: {
-     *     node: Node,
-     *     side: string,
-     *     line: Number,
-     *     column: Number
-     *   },
-     *   end: {
-     *     node: Node,
-     *     side: string,
-     *     line: Number,
-     *     column: Number
-     *   }
-     * }}
-     */
-    _getNormalizedRange() {
-      const selection = window.getSelection();
-      const rangeCount = selection.rangeCount;
-      if (rangeCount === 0) {
-        return null;
-      } else if (rangeCount === 1) {
-        return this._normalizeRange(selection.getRangeAt(0));
-      } else {
-        const startRange = this._normalizeRange(selection.getRangeAt(0));
-        const endRange = this._normalizeRange(
-            selection.getRangeAt(rangeCount - 1));
-        return {
-          start: startRange.start,
-          end: endRange.end,
-        };
-      }
-    },
-
-    /**
-     * Normalize a specific DOM Range.
-     */
-    _normalizeRange(domRange) {
-      const range = GrRangeNormalizer.normalize(domRange);
-      return this._fixTripleClickSelection({
-        start: this._normalizeSelectionSide(
-            range.startContainer, range.startOffset),
-        end: this._normalizeSelectionSide(
-            range.endContainer, range.endOffset),
-      }, domRange);
-    },
-
-    /**
-     * Adjust triple click selection for the whole line.
-     * domRange.endContainer may be one of the following:
-     * 1) 0 offset at right column's line number cell, or
-     * 2) 0 offset at left column's line number at the next line.
-     * Case 1 means left column was triple clicked.
-     * Case 2 means right column or unified view triple clicked.
-     * @param {!Object} range Normalized range, ie column/line numbers
-     * @param {!Range} domRange DOM Range object
-     * @return {!Object} fixed normalized range
-     */
-    _fixTripleClickSelection(range, domRange) {
-      if (!range.start) {
-        // Selection outside of current diff.
-        return range;
-      }
-      const start = range.start;
-      const end = range.end;
-      const endsAtOtherSideLineNum =
-          domRange.endOffset === 0 &&
-          domRange.endContainer.nodeName === 'TD' &&
-          (domRange.endContainer.classList.contains('left') ||
-              domRange.endContainer.classList.contains('right'));
-      const endsOnOtherSideStart = endsAtOtherSideLineNum ||
-          end &&
-          end.column === 0 &&
-          end.line === start.line &&
-          end.side != start.side;
-      if (endsOnOtherSideStart || endsAtOtherSideLineNum) {
-        // Selection ends at the beginning of the next line.
-        // Move the selection to the end of the previous line.
-        range.end = {
-          node: start.node,
-          column: this._getLength(
-              domRange.cloneContents().querySelector('.contentText')),
-          side: start.side,
-          line: start.line,
-        };
-      }
-      return range;
-    },
-
-    /**
-     * Convert DOM Range selection to concrete numbers (line, column, side).
-     * Moves range end if it's not inside td.content.
-     * Returns null if selection end is not valid (outside of diff).
-     *
-     * @param {Node} node td.content child
-     * @param {number} offset offset within node
-     * @return {{
-     *   node: Node,
-     *   side: string,
-     *   line: Number,
-     *   column: Number
-     * }}
-     */
-    _normalizeSelectionSide(node, offset) {
-      let column;
-      if (!this.contains(node)) {
-        return;
-      }
-      const lineEl = this.diffBuilder.getLineElByChild(node);
-      if (!lineEl) {
-        return;
-      }
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      if (!side) {
-        return;
-      }
-      const line = this.diffBuilder.getLineNumberByChild(lineEl);
-      if (!line) {
-        return;
-      }
-      const contentText = this.diffBuilder.getContentByLineEl(lineEl);
-      if (!contentText) {
-        return;
-      }
-      const contentTd = contentText.parentElement;
-      if (!contentTd.contains(node)) {
-        node = contentText;
-        column = 0;
-      } else {
-        const thread = contentTd.querySelector('gr-diff-comment-thread');
-        if (thread && thread.contains(node)) {
-          column = this._getLength(contentText);
-          node = contentText;
-        } else {
-          column = this._convertOffsetToColumn(node, offset);
-        }
-      }
-
-      return {
-        node,
-        side,
-        line,
-        column,
-      };
-    },
-
     _handleSelection() {
-      const normalizedRange = this._getNormalizedRange();
+      const normalizedRange = this.selectionNormalizer.getNormalizedRange();
       if (!normalizedRange) {
         return;
       }
@@ -300,62 +159,6 @@
       const actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
-      }
-    },
-
-    _convertOffsetToColumn(el, offset) {
-      if (el instanceof Element && el.classList.contains('content')) {
-        return offset;
-      }
-      while (el.previousSibling ||
-          !el.parentElement.classList.contains('content')) {
-        if (el.previousSibling) {
-          el = el.previousSibling;
-          offset += this._getLength(el);
-        } else {
-          el = el.parentElement;
-        }
-      }
-      return offset;
-    },
-
-    /**
-     * Traverse Element from right to left, call callback for each node.
-     * Stops if callback returns true.
-     *
-     * @param {!Node} startNode
-     * @param {function(Node):boolean} callback
-     * @param {Object=} opt_flags If flags.left is true, traverse left.
-     */
-    _traverseContentSiblings(startNode, callback, opt_flags) {
-      const travelLeft = opt_flags && opt_flags.left;
-      let node = startNode;
-      while (node) {
-        if (node instanceof Element &&
-            node.tagName !== 'HL' &&
-            node.tagName !== 'SPAN') {
-          break;
-        }
-        const nextNode = travelLeft ? node.previousSibling : node.nextSibling;
-        if (callback(node)) {
-          break;
-        }
-        node = nextNode;
-      }
-    },
-
-    /**
-     * Get length of a node. If the node is a content node, then only give the
-     * length of its .contentText child.
-     *
-     * @param {!Node} node
-     * @return {number}
-     */
-    _getLength(node) {
-      if (node instanceof Element && node.classList.contains('content')) {
-        return this._getLength(node.querySelector('.contentText'));
-      } else {
-        return GrAnnotation.getLength(node);
       }
     },
   });

@@ -32,6 +32,7 @@
     properties: {
       diff: Object,
       _cachedDiffBuilder: Object,
+      _selectionNormalizer: Object,
       _linesCache: {
         type: Object,
         value: getNewCache(),
@@ -57,6 +58,14 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
+    },
+
+    get selectionNormalizer() {
+      if (!this._selectionNormalizer) {
+        this._selectionNormalizer = new GrSelectionNormalizer(
+          this, this.diffBuilder);
+      }
+      return this._selectionNormalizer;
     },
 
     _diffChanged() {
@@ -156,7 +165,7 @@
       if (commentSelected) {
         return this._getCommentLines(sel, side);
       }
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      const range = this._selectionNormalizer.normalize(sel.getRangeAt(0));
       const startLineEl =
           this.diffBuilder.getLineElByChild(range.startContainer);
       const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
@@ -220,7 +229,7 @@
      * @return {string} The selected comment text.
      */
     _getCommentLines(sel, side) {
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      const range = this._selectionNormalizer.normalize(sel.getRangeAt(0));
       const content = [];
       // Query the diffElement for comments.
       const messages = this.diffBuilder.diffElement.querySelectorAll(

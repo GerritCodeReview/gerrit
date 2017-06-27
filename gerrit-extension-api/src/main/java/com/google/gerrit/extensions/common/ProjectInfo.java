@@ -17,8 +17,17 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.client.ProjectState;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ProjectInfo {
+  public static class LabelInfo {
+    public Map<Integer, String> values;
+
+    public LabelInfo() {
+      values = new TreeMap<>();
+    }
+  };
+
   public String id;
   public String name;
   public String parent;
@@ -26,4 +35,5 @@ public class ProjectInfo {
   public ProjectState state;
   public Map<String, String> branches;
   public List<WebLinkInfo> webLinks;
+  public Map<String, LabelInfo> labels;
 }

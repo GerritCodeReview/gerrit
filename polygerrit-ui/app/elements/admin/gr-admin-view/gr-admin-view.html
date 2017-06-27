@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
@@ -34,16 +35,31 @@ limitations under the License.
     <style include="gr-menu-page-styles"></style>
     <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
       <ul class="sectionContent">
-        <template is="dom-repeat" items="[[_filteredLinks]]">
+        <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
             <a class="title" href="[[_computeLinkURL(item)]]"
                   rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
           </li>
-          <template is="dom-repeat" items="[[item.children]]">
-            <li class$="[[_computeSelectedClass(item.view, params)]]">
-              <a href="[[_computeLinkURL(item)]]"
-                  rel$="[[_computeLinkRel(item)]]">[[item.name]]</a>
+          <template is="dom-repeat" items="[[item.children]]" as="child">
+            <li class$="[[_computeSelectedClass(child.view, params)]]">
+              <a href$="[[_computeLinkURL(child)]]"
+                  rel="noopener">[[child.name]]</a>
             </li>
+          </template>
+          <template is="dom-if" if="[[item.subsection]]">
+            <!--If a section has a subsection, render that.-->
+            <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
+              <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
+                  rel$="[[_computeLinkRel(item.subsection)]]">
+                [[item.subsection.name]]</a>
+            </li>
+            <!--Loop through the links in the sub-section.-->
+            <template is="dom-repeat"
+                items="[[item.subsection.children]]" as="child">
+              <li class$="subsectionItem [[_computeSelectedClass(child.view, params)]]">
+                <a href$="[[_computeLinkURL(child)]]">[[child.name]]</a>
+              </li>
+            </template>
           </template>
         </template>
       </ul>

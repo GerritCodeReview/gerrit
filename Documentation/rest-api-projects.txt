@@ -346,7 +346,16 @@ describes the project.
     "name": "plugins/replication",
     "parent": "Public-Plugins",
     "description": "Copies to other servers using the Git protocol",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "labels": {
+      "Code-Review": {
+        "values": {
+          " 0": "No score",
+          "+1": "Approved"
+        },
+        "default_value": 0
+      }
+    }
   }
 ----
 
@@ -2732,6 +2741,19 @@ The boolean value inherited from the parent. +
 Not set if there is no parent.
 |================================
 
+
+[[label-type-info]]
+== LabelTypeInfo
+The `LabelTypeInfo` entity contains metadata about the labels that a
+project has.
+
+[options="header",cols="1,^2,4"]
+|===============================
+|Field Name        ||Description
+|`values`           |optional|Map of values to value descriptions
+|`default_value`    |optional|The default value of this labe.
+|================================
+
 [[max-object-size-limit-info]]
 === MaxObjectSizeLimitInfo
 The `MaxObjectSizeLimitInfo` entity contains information about the
@@ -2809,6 +2831,7 @@ is increased for each non-visible project).
 |`description` |optional|The description of the project.
 |`state`       |optional|`ACTIVE`, `READ_ONLY` or `HIDDEN`.
 |`branches`    |optional|Map of branch names to HEAD revisions.
+|`labels`      |optional|Map of label names to  link:rest-api-changes.html#label-type-info[LabelTypeInfo] entries.
 |`web_links`   |optional|
 Links to the project in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.

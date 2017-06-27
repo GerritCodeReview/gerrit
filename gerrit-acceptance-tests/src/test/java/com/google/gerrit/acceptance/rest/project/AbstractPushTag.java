@@ -19,8 +19,8 @@ import static com.google.gerrit.acceptance.GitUtil.createAnnotatedTag;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
-import static com.google.gerrit.acceptance.rest.project.PushTagIT.TagType.ANNOTATED;
-import static com.google.gerrit.acceptance.rest.project.PushTagIT.TagType.LIGHTWEIGHT;
+import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.ANNOTATED;
+import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.LIGHTWEIGHT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.base.MoreObjects;
@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
-public class PushTagIT extends AbstractDaemonTest {
+public abstract class AbstractPushTag extends AbstractDaemonTest {
   enum TagType {
     LIGHTWEIGHT(Permission.CREATE),
     ANNOTATED(Permission.CREATE_TAG);
@@ -51,6 +51,7 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   private RevCommit initialHead;
+  private TagType tagType;
 
   @Before
   public void setup() throws Exception {
@@ -58,145 +59,131 @@ public class PushTagIT extends AbstractDaemonTest {
     testRepo = cloneProject(project, user);
 
     initialHead = getRemoteHead();
+    tagType = getTagType();
   }
+
+  protected abstract TagType getTagType();
 
   @Test
   public void createTagForExistingCommit() throws Exception {
-    for (TagType tagType : TagType.values()) {
-      pushTagForExistingCommit(tagType, Status.REJECTED_OTHER_REASON);
+    pushTagForExistingCommit(Status.REJECTED_OTHER_REASON);
 
-      allowTagCreation(tagType);
-      pushTagForExistingCommit(tagType, Status.OK);
+    allowTagCreation();
+    pushTagForExistingCommit(Status.OK);
 
-      allowPushOnRefsTags();
-      pushTagForExistingCommit(tagType, Status.OK);
+    allowPushOnRefsTags();
+    pushTagForExistingCommit(Status.OK);
 
-      removePushFromRefsTags();
-    }
+    removePushFromRefsTags();
   }
 
   @Test
   public void createTagForNewCommit() throws Exception {
-    for (TagType tagType : TagType.values()) {
-      pushTagForNewCommit(tagType, Status.REJECTED_OTHER_REASON);
+    pushTagForNewCommit(Status.REJECTED_OTHER_REASON);
 
-      allowTagCreation(tagType);
-      pushTagForNewCommit(tagType, Status.REJECTED_OTHER_REASON);
+    allowTagCreation();
+    pushTagForNewCommit(Status.REJECTED_OTHER_REASON);
 
-      allowPushOnRefsTags();
-      pushTagForNewCommit(tagType, Status.OK);
+    allowPushOnRefsTags();
+    pushTagForNewCommit(Status.OK);
 
-      removePushFromRefsTags();
-    }
+    removePushFromRefsTags();
   }
 
   @Test
   public void fastForward() throws Exception {
-    for (TagType tagType : TagType.values()) {
-      allowTagCreation(tagType);
-      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+    allowTagCreation();
+    String tagName = pushTagForExistingCommit(Status.OK);
 
-      fastForwardTagToExistingCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
-      fastForwardTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowTagDeletion();
-      fastForwardTagToExistingCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
-      fastForwardTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    allowTagDeletion();
+    fastForwardTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    fastForwardTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowPushOnRefsTags();
-      Status expectedStatus = tagType == ANNOTATED ? Status.REJECTED_OTHER_REASON : Status.OK;
-      fastForwardTagToExistingCommit(tagType, tagName, expectedStatus);
-      fastForwardTagToNewCommit(tagType, tagName, expectedStatus);
+    allowPushOnRefsTags();
+    Status expectedStatus = tagType == ANNOTATED ? Status.REJECTED_OTHER_REASON : Status.OK;
+    fastForwardTagToExistingCommit(tagName, expectedStatus);
+    fastForwardTagToNewCommit(tagName, expectedStatus);
 
-      allowForcePushOnRefsTags();
-      fastForwardTagToExistingCommit(tagType, tagName, Status.OK);
-      fastForwardTagToNewCommit(tagType, tagName, Status.OK);
+    allowForcePushOnRefsTags();
+    fastForwardTagToExistingCommit(tagName, Status.OK);
+    fastForwardTagToNewCommit(tagName, Status.OK);
 
-      removePushFromRefsTags();
-    }
+    removePushFromRefsTags();
   }
 
   @Test
   public void forceUpdate() throws Exception {
-    for (TagType tagType : TagType.values()) {
-      allowTagCreation(tagType);
-      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+    allowTagCreation();
+    String tagName = pushTagForExistingCommit(Status.OK);
 
-      forceUpdateTagToExistingCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
-      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowPushOnRefsTags();
-      forceUpdateTagToExistingCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
-      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    allowPushOnRefsTags();
+    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowTagDeletion();
-      forceUpdateTagToExistingCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
-      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    allowTagDeletion();
+    forceUpdateTagToExistingCommit(tagName, Status.REJECTED_OTHER_REASON);
+    forceUpdateTagToNewCommit(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowForcePushOnRefsTags();
-      forceUpdateTagToExistingCommit(tagType, tagName, Status.OK);
-      forceUpdateTagToNewCommit(tagType, tagName, Status.OK);
+    allowForcePushOnRefsTags();
+    forceUpdateTagToExistingCommit(tagName, Status.OK);
+    forceUpdateTagToNewCommit(tagName, Status.OK);
 
-      removePushFromRefsTags();
-    }
+    removePushFromRefsTags();
   }
 
   @Test
   public void delete() throws Exception {
-    for (TagType tagType : TagType.values()) {
-      allowTagCreation(tagType);
-      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+    allowTagCreation();
+    String tagName = pushTagForExistingCommit(Status.OK);
 
-      pushTagDeletion(tagType, tagName, Status.REJECTED_OTHER_REASON);
+    pushTagDeletion(tagName, Status.REJECTED_OTHER_REASON);
 
-      allowPushOnRefsTags();
-      pushTagDeletion(tagType, tagName, Status.REJECTED_OTHER_REASON);
-    }
+    allowPushOnRefsTags();
+    pushTagDeletion(tagName, Status.REJECTED_OTHER_REASON);
 
     allowForcePushOnRefsTags();
-    for (TagType tagType : TagType.values()) {
-      String tagName = pushTagForExistingCommit(tagType, Status.OK);
-      pushTagDeletion(tagType, tagName, Status.OK);
-    }
+    tagName = pushTagForExistingCommit(Status.OK);
+    pushTagDeletion(tagName, Status.OK);
 
     removePushFromRefsTags();
     allowTagDeletion();
-    for (TagType tagType : TagType.values()) {
-      String tagName = pushTagForExistingCommit(tagType, Status.OK);
-      pushTagDeletion(tagType, tagName, Status.OK);
-    }
+    tagName = pushTagForExistingCommit(Status.OK);
+    pushTagDeletion(tagName, Status.OK);
   }
 
-  private String pushTagForExistingCommit(TagType tagType, Status expectedStatus) throws Exception {
-    return pushTag(tagType, null, false, false, expectedStatus);
+  private String pushTagForExistingCommit(Status expectedStatus) throws Exception {
+    return pushTag(null, false, false, expectedStatus);
   }
 
-  private String pushTagForNewCommit(TagType tagType, Status expectedStatus) throws Exception {
-    return pushTag(tagType, null, true, false, expectedStatus);
+  private String pushTagForNewCommit(Status expectedStatus) throws Exception {
+    return pushTag(null, true, false, expectedStatus);
   }
 
-  private void fastForwardTagToExistingCommit(
-      TagType tagType, String tagName, Status expectedStatus) throws Exception {
-    pushTag(tagType, tagName, false, false, expectedStatus);
-  }
-
-  private void fastForwardTagToNewCommit(TagType tagType, String tagName, Status expectedStatus)
+  private void fastForwardTagToExistingCommit(String tagName, Status expectedStatus)
       throws Exception {
-    pushTag(tagType, tagName, true, false, expectedStatus);
+    pushTag(tagName, false, false, expectedStatus);
   }
 
-  private void forceUpdateTagToExistingCommit(
-      TagType tagType, String tagName, Status expectedStatus) throws Exception {
-    pushTag(tagType, tagName, false, true, expectedStatus);
+  private void fastForwardTagToNewCommit(String tagName, Status expectedStatus) throws Exception {
+    pushTag(tagName, true, false, expectedStatus);
   }
 
-  private void forceUpdateTagToNewCommit(TagType tagType, String tagName, Status expectedStatus)
+  private void forceUpdateTagToExistingCommit(String tagName, Status expectedStatus)
       throws Exception {
-    pushTag(tagType, tagName, true, true, expectedStatus);
+    pushTag(tagName, false, true, expectedStatus);
   }
 
-  private String pushTag(
-      TagType tagType, String tagName, boolean newCommit, boolean force, Status expectedStatus)
+  private void forceUpdateTagToNewCommit(String tagName, Status expectedStatus) throws Exception {
+    pushTag(tagName, true, true, expectedStatus);
+  }
+
+  private String pushTag(String tagName, boolean newCommit, boolean force, Status expectedStatus)
       throws Exception {
     if (force) {
       testRepo.reset(initialHead);
@@ -234,15 +221,14 @@ public class PushTagIT extends AbstractDaemonTest {
     return tagName;
   }
 
-  private void pushTagDeletion(TagType tagType, String tagName, Status expectedStatus)
-      throws Exception {
+  private void pushTagDeletion(String tagName, Status expectedStatus) throws Exception {
     String tagRef = tagRef(tagName);
     PushResult r = deleteRef(testRepo, tagRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertThat(refUpdate.getStatus()).named(tagType.name()).isEqualTo(expectedStatus);
   }
 
-  private void allowTagCreation(TagType tagType) throws Exception {
+  private void allowTagCreation() throws Exception {
     grant(project, "refs/tags/*", tagType.createPermission, false, REGISTERED_USERS);
   }
 

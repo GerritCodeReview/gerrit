@@ -93,8 +93,14 @@
       this._reviewers = result.filter(reviewer => {
         return reviewer._account_id != owner._account_id;
       });
-      this._displayedReviewers =
+      // If there is one more than the max reviewers, don't show the 'show more'
+      // button, because it takes up just as much space.
+      if (this._reviewers.length <= MAX_REVIEWERS_DISPLAYED + 1) {
+        this._displayedReviewers = this._reviewers;
+      } else {
+        this._displayedReviewers =
           this._reviewers.slice(0, MAX_REVIEWERS_DISPLAYED);
+      }
     },
 
     _computeHiddenCount(reviewers, displayedReviewers) {

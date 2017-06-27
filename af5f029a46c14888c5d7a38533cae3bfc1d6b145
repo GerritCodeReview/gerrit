@@ -94,6 +94,30 @@
       "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "071fe94e_e8b6c1b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches_test.html",
+        "patchSetId": 58
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T22:29:45Z",
+      "side": 1,
+      "message": "I\u0027ve been trying to look, but carn\u0027t figure out how to reset this as it works similar to how the others do it, https://github.com/GerritCodeReview/gerrit/search?utf8\u003d✓\u0026q\u003d_.times%28\u0026type\u003d",
+      "parentUuid": "d74b74b1_a2dc2265",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 21
+      },
+      "revId": "af5f029a46c14888c5d7a38533cae3bfc1d6b145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

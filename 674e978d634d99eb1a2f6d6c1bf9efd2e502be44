@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb2eb96b_53217869",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T20:37:35Z",
+      "side": 1,
+      "message": "I wonder if this should have been !_serverConfig.auth.use_contributor_agreements?\n\nSince it will hide now if it is true. I didnt notice earlier or think of this until now since was dealing with puppet issues.\n\nSame for above too.",
+      "range": {
+        "startLine": 369,
+        "startChar": 36,
+        "endLine": 369,
+        "endChar": 81
+      },
+      "revId": "674e978d634d99eb1a2f6d6c1bf9efd2e502be44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

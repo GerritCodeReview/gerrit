@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "58506209_97a8794f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T22:12:26Z",
+      "side": 1,
+      "message": "I thought i already do that with\n\n      element._handleCreateGroup().then(() \u003d\u003e {\n        assert.isTrue(button.hasAttribute(\u0027disabled\u0027));\n        assert.isTrue(saveStub.lastCall.calledWithExactly(GROUP_NAME,\n            GROUP_NAME));\n      });\n?",
+      "parentUuid": "d8a7446d_bf9c0842",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "4dc457f74d3460616eb7857aefcfccdf228e5fcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe87543c_15dc0f63",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group/gr-create-group_test.html",
         "patchSetId": 33

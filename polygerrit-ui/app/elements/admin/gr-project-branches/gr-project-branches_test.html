@@ -67,6 +67,7 @@ limitations under the License.
         branches = _.times(26, branchGenerator);
 
         stub('gr-rest-api-interface', {
+          getLoggedIn() { return Promise.resolve(true); },
           getProjectBranches(num, project, offset) {
             return Promise.resolve(branches);
           },
@@ -112,6 +113,7 @@ limitations under the License.
         branches = _.times(25, branchGenerator);
 
         stub('gr-rest-api-interface', {
+          getLoggedIn() { return Promise.resolve(true); },
           getProjectBranches(num, project, offset) {
             return Promise.resolve(branches);
           },

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e7e7704_77f5b442",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T00:29:43Z",
+      "side": 1,
+      "message": "Should this part just be an observer on both the _loggedIn property and the changeViewState property?\n\n  observers: [\n    \u0027_setReviewedObserver(_loggedIn, changeViewState)\u0027,\n  ],\n\n  // ...\n\n  _setReviewedObserver(_loggedIn, changeViewState) {\n    if (_loggedIn) { this._setReviewed(true); }\n  },\n\nMaybe not, now that I look at that \n\n if (!oldChangeViewState) {",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 11
+      },
+      "revId": "d5b9d0751e9debff71b30f525491eb73e81679de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

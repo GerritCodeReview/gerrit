@@ -1,28 +1,40 @@
 Adrian Görler <adrian.goerler@sap.com>                                                      Adrian Goerler <adrian.goerler@sap.com>
 Ahaan Ugale <ahaanugale@gmail.com>                                                          <augale@codeaurora.org>
 Alex Blewitt <alex.blewitt@gmail.com>                                                       <alex.blewitt@gs.com>
+Alex Blewitt <alex.blewitt@gmail.com>                                                       <alex.blewitt@credit-suisse.com>
 Alex Ryazantsev <alex.ryazantsev@gmail.com>                                                 alex <alex.ryazantsev@gmail.com>
 Alex Ryazantsev <alex.ryazantsev@gmail.com>                                                 alex.ryazantsev <alex.ryazantsev@gmail.com>
+Andrew Bonventre <andybons@chromium.org>                                                    <andybons@google.com>
 Becky Siegel <beckysiegel@google.com>                                                       beckysiegel <beckysiegel@google.com>
 Brad Larson <bklarson@gmail.com>                                                            <brad.larson@garmin.com>
-Bruce Zu <bruce.zu@sonymobile.com>                                                          <bruce.zu@sonyericsson.com>
+Bruce Zu <bruce.zu.run10@gmail.com>                                                         <bruce.zu@sonyericsson.com>
+Bruce Zu <bruce.zu.run10@gmail.com>                                                         <bruce.zu@sonymobile.com>
 Carlos Eduardo Baldacin <carloseduardo.baldacin@sonyericsson.com>                           carloseduardo.baldacin <carloseduardo.baldacin@sonyericsson.com>
+Dariusz Luksza <dluksza@collab.net>                                                         <dariusz@luksza.org>
 David Ostrovsky <david@ostrovsky.org>                                                       <d.ostrovsky@gmx.de>
+David Ostrovsky <david@ostrovsky.org>                                                       <david.ostrovsky@gmail.com>
+David Pursehouse <dpursehouse@collab.net>                                                   <david.pursehouse@sonymobile.com>
 Deniz Türkoglu <deniz@spotify.com>                                                          Deniz Türkoglu <deniz@spotify.com>
 Deniz Türkoglu <deniz@spotify.com>                                                          Deniz Turkoglu <deniz@spotify.com>
+Doug Kelly <dougk.ff7@gmail.com>                                                            <doug.kelly@garmin.com>
 Edwin Kempin <ekempin@google.com>                                                           Edwin Kempin <edwin.kempin@gmail.com>
 Edwin Kempin <ekempin@google.com>                                                           Edwin Kempin <edwin.kempin@sap.com>
 Edwin Kempin <ekempin@google.com>                                                           ekempin <ekempin@google.com>
 Eryk Szymanski <eryksz@gmail.com>                                                           <eryksz@google.com>
 Fredrik Luthander <fredrik.luthander@sonymobile.com>                                        <fredrik@gandaraj.com>
 Fredrik Luthander <fredrik.luthander@sonymobile.com>                                        <fredrik.luthander@sonyericsson.com>
-Gustaf Lundh <gustaf.lundh@sonymobile.com>                                                  <gustaf.lundh@sonyericsson.com>
+Gustaf Lundh <gustaflh@axis.com>                                                            <gustaf.lundh@axis.com>
+Gustaf Lundh <gustaflh@axis.com>                                                            <gustaf.lundh@sonyericsson.com>
+Gustaf Lundh <gustaflh@axis.com>                                                            <gustaf.lundh@sonymobile.com>
 Hugo Arès <hugo.ares@ericsson.com>                                                          Hugo Ares <hugo.ares@ericsson.com>
+Jacek Centkowski <jcentkowski@collab.net>                                                   <gemincia.programs@gmail.com>
+Jacek Centkowski <jcentkowski@collab.net>                                                   <geminica.programs@gmail.com>
 Jason Huntley <jhuntley@houghtonassociates.com>                                             jhuntley <jhuntley@houghtonassociates.com>
 Jiří Engelthaler <EngyCZ@gmail.com>                                                         <engycz@gmail.com>
 Joe Onorato <onoratoj@gmail.com>                                                            <joeo@android.com>
 Joel Dodge <dodgejoel@gmail.com>                                                            dodgejoel <dodgejoel@gmail.com>
 Johan Björk <jbjoerk@gmail.com>                                                             Johan Bjork <phb@spotify.com>
+JT Olds <hello@jtolds.com>                                                                  <jtolds@gmail.com>
 Lincoln Oliveira Campos Do Nascimento <lincoln.oliveiracamposdonascimento@sonyericsson.com> lincoln <lincoln.oliveiracamposdonascimento@sonyericsson.com>
 Luca Milanesio <luca.milanesio@gmail.com>                                                   <luca@gitent-scm.com>
 Magnus Bäck <baeck@google.com>                                                              <magnus.back@sonyericsson.com>
@@ -36,10 +48,15 @@ Nasser Grainawi <nasser@grainawi.org>                                           
 Peter Jönsson <peter.joensson@gmail.com>                                                    Peter Jönsson <peter.joensson@gmail.com>
 Rafael Rabelo Silva <rafael.rabelosilva@sonyericsson.com>                                   rafael.rabelosilva <rafael.rabelosilva@sonyericsson.com>
 Richard Möhn <richard.moehn@posteo.de>                                                      <richard.moehn@fu-berlin.de>
+Sam Saccone <samccone@google.com>                                                           <samccone@gmail.com>
 Saša Živkov <sasa.zivkov@sap.com>                                                           Sasa Zivkov <sasa.zivkov@sap.com>
 Saša Živkov <sasa.zivkov@sap.com>                                                           Saša Živkov <zivkov@gmail.com>
+Saša Živkov <sasa.zivkov@sap.com>                                                           Sasa Zivkov <zivkov@gmail.com>
+Scott Dial <scott@scottdial.com>                                                            <geekmug@gmail.com>
 Shawn Pearce <sop@google.com>                                                               Shawn O. Pearce <sop@google.com>
 Sixin Li <sixin210@gmail.com>                                                               sixin li <sixin210@gmail.com>
+Sven Selberg <svense@axis.com>                                                              <sven.selberg@axis.com>
+Sven Selberg <svense@axis.com>                                                              <sven.selberg@sonymobile.com>
 Tom Wang <twang10@gmail.com>                                                                Tom <twang10@gmail.com>
 Tomas Westling <thomas.westling@sonyericsson.com>                                           thomas.westling <thomas.westling@sonyericsson.com>
 Ulrik Sjölin <ulrik.sjolin@sonyericsson.com>                                                <ulrik.sjolin@gmail.com>

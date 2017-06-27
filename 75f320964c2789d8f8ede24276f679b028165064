@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e39e68b5_52280207",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T17:03:02Z",
+      "side": 1,
+      "message": "Hmm... I don\u0027t think there would be.. since we don\u0027t use window.opener for anything in the app.",
+      "parentUuid": "0ef2bbb3_761c1c6e",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eb61bf4_1c745304",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "625ab83e_0b8743be",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T17:03:02Z",
+      "side": 1,
+      "message": "No, I don\u0027t think so.",
+      "parentUuid": "3eb61bf4_1c745304",
+      "range": {
+        "startLine": 49,
+        "startChar": 57,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "532275ba_9a434a75",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 7
@@ -68,6 +116,30 @@
       "revId": "75f320964c2789d8f8ede24276f679b028165064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63393a85_0bc917b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T17:03:02Z",
+      "side": 1,
+      "message": "sure",
+      "parentUuid": "532275ba_9a434a75",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 14
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

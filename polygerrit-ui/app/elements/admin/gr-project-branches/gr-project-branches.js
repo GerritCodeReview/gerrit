@@ -49,6 +49,16 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _notOwner: {
+        type: Boolean,
+        value: true,
+      },
+      _refName: Array,
     },
 
     behaviors: [
@@ -56,14 +66,33 @@
       Gerrit.URLEncodingBehavior,
     ],
 
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
+
     _paramsChanged(params) {
       this._loading = true;
+      this._refName = {
+        branches: [],
+      };
       if (!params || !params.project) { return; }
 
       this._project = params.project;
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this._projectBranches = [];
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._notOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
@@ -91,6 +120,48 @@
 
     _stripRefsHeads(item) {
       return item.replace('refs/heads/', '');
+    },
+
+    _handleTargetTap(e) {
+      let checkbox = Polymer.dom(e.target).querySelector('input');
+      if (checkbox) {
+        checkbox.click();
+      } else {
+        // The target is the checkbox itself.
+        checkbox = Polymer.dom(e).rootTarget;
+      }
+      console.log(checkbox.name);
+      this._refName.branches.push(checkbox.name);
+    },
+
+    _handleDeleteBranchConfirm() {
+      const el = this.$.confirmDeleteBranch;
+      this.$.overlay.close();
+      el.hidden = true;
+      return this.$.restAPI.deleteBranches(this._project,
+          this._refName);
+    },
+
+    _handleConfirmDialogCancel() {
+      const dialogEls =
+          Polymer.dom(this.root).querySelectorAll('.confirmDialog');
+      for (const dialogEl of dialogEls) { dialogEl.hidden = true; }
+      this.$.overlay.close();
+    },
+
+    _showActionDialog(dialog) {
+      this._handleConfirmDialogCancel();
+
+      dialog.hidden = false;
+      this.$.overlay.open().then(() => {
+        if (dialog.resetFocus) {
+          dialog.resetFocus();
+        }
+      });
+    },
+
+    _handleDeleteBranches(e) {
+      this._showActionDialog(this.$.confirmDeleteBranch);
     },
   });
 })();

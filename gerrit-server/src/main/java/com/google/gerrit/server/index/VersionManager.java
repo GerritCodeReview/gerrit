@@ -15,11 +15,13 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexDefinition.IndexFactory;
 import com.google.inject.ProvisionException;
@@ -31,7 +33,11 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-public abstract class AbstractVersionManager implements LifecycleListener {
+public abstract class VersionManager implements LifecycleListener {
+  public static boolean getOnlineUpgrade(Config cfg) {
+    return cfg.getBoolean("index", null, "onlineUpgrade", true);
+  }
+
   public static class Version<V> {
     public final Schema<V> schema;
     public final int version;
@@ -48,22 +54,28 @@ public abstract class AbstractVersionManager implements LifecycleListener {
   protected final boolean onlineUpgrade;
   protected final String runReindexMsg;
   protected final SitePaths sitePaths;
+
+  private final DynamicSet<OnlineUpgradeListener> listeners;
+
+  // The following fields must be accessed synchronized on this.
   protected final Map<String, IndexDefinition<?, ?, ?>> defs;
   protected final Map<String, OnlineReindexer<?, ?, ?>> reindexers;
 
-  protected AbstractVersionManager(
-      @GerritServerConfig Config cfg,
+  protected VersionManager(
       SitePaths sitePaths,
-      Collection<IndexDefinition<?, ?, ?>> defs) {
+      DynamicSet<OnlineUpgradeListener> listeners,
+      Collection<IndexDefinition<?, ?, ?>> defs,
+      boolean onlineUpgrade) {
     this.sitePaths = sitePaths;
+    this.listeners = listeners;
     this.defs = Maps.newHashMapWithExpectedSize(defs.size());
     for (IndexDefinition<?, ?, ?> def : defs) {
       this.defs.put(def.getName(), def);
     }
 
-    reindexers = Maps.newHashMapWithExpectedSize(defs.size());
-    onlineUpgrade = cfg.getBoolean("index", null, "onlineUpgrade", true);
-    runReindexMsg =
+    this.reindexers = Maps.newHashMapWithExpectedSize(defs.size());
+    this.onlineUpgrade = onlineUpgrade;
+    this.runReindexMsg =
         "No index versions for index '%s' ready; run java -jar "
             + sitePaths.gerrit_war.toAbsolutePath()
             + " reindex";
@@ -162,11 +174,37 @@ public abstract class AbstractVersionManager implements LifecycleListener {
     synchronized (this) {
       if (!reindexers.containsKey(def.getName())) {
         int latest = write.get(0).version;
-        OnlineReindexer<K, V, I> reindexer = new OnlineReindexer<>(def, latest);
+        OnlineReindexer<K, V, I> reindexer =
+            new OnlineReindexer<>(def, search.version, latest, listeners);
         reindexers.put(def.getName(), reindexer);
-        if (onlineUpgrade && latest != search.version) {
-          reindexer.start();
-        }
+      }
+    }
+  }
+
+  synchronized void startOnlineUpgrade() {
+    checkState(onlineUpgrade, "online upgrade not enabled");
+    for (IndexDefinition<?, ?, ?> def : defs.values()) {
+      String name = def.getName();
+      IndexCollection<?, ?, ?> indexes = def.getIndexCollection();
+      Index<?, ?> search = indexes.getSearchIndex();
+      checkState(
+          search != null, "no search index ready for %s; should have failed at startup", name);
+      int searchVersion = search.getSchema().getVersion();
+
+      List<Index<?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
+      checkState(
+          !write.isEmpty(),
+          "no write indexes set for %s; should have been initialized at startup",
+          name);
+      int latestWriteVersion = write.get(0).getSchema().getVersion();
+
+      if (latestWriteVersion != searchVersion) {
+        OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+        checkState(
+            reindexer != null,
+            "no reindexer found for %s; should have been initialized at startup",
+            name);
+        reindexer.start();
       }
     }
   }

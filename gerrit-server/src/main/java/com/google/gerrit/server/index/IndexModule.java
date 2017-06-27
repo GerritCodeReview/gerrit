@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -108,6 +109,8 @@ public class IndexModule extends LifecycleModule {
     bind(GroupIndexCollection.class);
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
+
+    DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
   }
 
   @Provides

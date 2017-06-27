@@ -18,8 +18,12 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../gr-confirm-delete-branch-dialog/gr-confirm-delete-branch-dialog.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -36,8 +40,11 @@ limitations under the License.
         path="[[_getPath(_project)]]">
       <table id="list">
         <tr class="headerRow">
+          <th class="deleteBranches topHeader" hidden$="[[_notOwner]]" hidden>
+            Delete Branche(s)
+          </th>
           <th class="name topHeader">Branch Name</th>
-          <th class="description topHeader">Revision</th>
+          <th class="revision topHeader">Revision</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
@@ -46,8 +53,17 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
+            <td class="delete" on-tap="_handleTargetTap">
+              <input
+                  class="deleteBranchesCheckBox"
+                  id="deleteBranchesCheckBox"
+                  type="checkbox"
+                  name="[[item.ref]]"
+                  hidden$="[[!item.can_delete]]"
+                  hidden$="[[_notOwner]]" hidden>
+            </td>
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
-            <td class="description">[[item.revision]]</td>
+            <td class="revision">[[item.revision]]</td>
             <td class="repositoryBrowser">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">
@@ -62,6 +78,16 @@ limitations under the License.
           </tr>
         </template>
       </table>
+      <gr-button
+          on-tap="_handleDeleteBranches" hidden$="[[_notOwner]]" hidden>Delete</gr-button>
+      <gr-overlay id="overlay" with-backdrop hidden$="[[_notOwner]]" hidden>
+        <gr-confirm-delete-branch-dialog id="confirmDeleteBranch"
+            class="confirmDialog"
+            on-confirm="_handleDeleteBranchConfirm"
+            on-cancel="_handleConfirmDialogCancel"
+            branch="[[_refName.branches]]"
+            hidden></gr-confirm-delete-branch-dialog>
+      </gr-overlay>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

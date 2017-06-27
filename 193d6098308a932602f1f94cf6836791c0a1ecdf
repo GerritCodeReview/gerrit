@@ -34,6 +34,24 @@
       "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "794435c1_a333dcfe",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T21:05:51Z",
+      "side": 1,
+      "message": "What is the breakage? Do you see how, without including the base in this line, it may redirect to the wrong place?",
+      "parentUuid": "c22e42f5_f63ad20a",
+      "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

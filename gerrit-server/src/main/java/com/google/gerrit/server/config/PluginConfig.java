@@ -159,6 +159,7 @@ public class PluginConfig {
   }
 
   public void setGroupReference(String name, GroupReference value) {
-    setString(name, value.toConfigValue());
+    GroupReference groupRef = projectConfig.resolve(value);
+    setString(name, groupRef.toConfigValue());
   }
 }

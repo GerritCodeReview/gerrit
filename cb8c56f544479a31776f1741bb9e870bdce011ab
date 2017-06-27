@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "416cee6e_072dfeee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T18:27:17Z",
+      "side": 1,
+      "message": "Can we add some comments that explain the difference between `_normalizeRange` and `_getNormalizedRange`?",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 23
+      },
+      "revId": "cb8c56f544479a31776f1741bb9e870bdce011ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e83bace6_fe189304",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.js",
         "patchSetId": 1
@@ -13,6 +36,23 @@
       "writtenOn": "2017-06-27T18:27:13Z",
       "side": 1,
       "message": "Stray whitespace.",
+      "revId": "cb8c56f544479a31776f1741bb9e870bdce011ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fb2df7_6d751581",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T18:27:17Z",
+      "side": 1,
+      "message": "Remove blank lines.",
       "revId": "cb8c56f544479a31776f1741bb9e870bdce011ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

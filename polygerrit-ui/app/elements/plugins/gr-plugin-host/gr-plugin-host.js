@@ -43,13 +43,20 @@
     },
 
     _loadJsPlugins(plugins) {
-      for (let i = 0; i < plugins.length; i++) {
-        const scriptEl = document.createElement('script');
-        scriptEl.defer = true;
-        scriptEl.src = '/' + plugins[i];
-        scriptEl.onerror = Gerrit._pluginInstalled;
-        document.body.appendChild(scriptEl);
+      for (let url of plugins) {
+        if (!url.startsWith('http')) {
+          url = '/' + url;
+        }
+        this._createScriptTag(url);
       }
+    },
+
+    _createScriptTag(url) {
+      const el = document.createElement('script');
+      el.defer = true;
+      el.src = url;
+      el.onerror = Gerrit._pluginInstalled;
+      return document.body.appendChild(el);
     },
   });
 })();

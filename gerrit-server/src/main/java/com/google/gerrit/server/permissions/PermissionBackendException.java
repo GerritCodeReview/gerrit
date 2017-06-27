@@ -15,12 +15,11 @@
 package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.account.GroupBackend;
 
 /**
  * Thrown when {@link PermissionBackend} cannot compute the result.
  *
- * <p>This is typically a transient failure, such as a required {@link GroupBackend} not responding
+ * <p>This is typically a transient failure, such as a required group backend not responding
  * to membership requests.
  */
 public class PermissionBackendException extends Exception {

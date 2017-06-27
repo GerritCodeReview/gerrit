@@ -52,6 +52,24 @@
       "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37bbc55_8ee7f6a0",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-27T22:06:43Z",
+      "side": 1,
+      "message": "I, too, am not comfortable with this level of code duplication. It really seems like most of this can be abstracted out.",
+      "parentUuid": "3c528a38_7268e740",
+      "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461e2d66_50a22aae",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-27T17:39:58Z",
+      "side": 1,
+      "message": "May I suggest following:\na) extract url logic into own method\nb) using it for _importHtmlPlugins too\nc) add tests\nd) (optional) support for absolute urls",
+      "revId": "9c41c5a08aa0727e1cd1da93f3285f48021d87ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

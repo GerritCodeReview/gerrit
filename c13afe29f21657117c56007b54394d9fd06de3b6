@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498552117 +0200\nnonce AH5c86ACoYvFMHoWmyg8zeTA7kiUL1xegL8agL9QJQ6C8gfGKe6VcykgKzORuCHCVe/Ihc7efUOw\n\n0000000000000000000000000000000000000000 c13afe29f21657117c56007b54394d9fd06de3b6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZUhc1AAoJEFG1/Zeg0O9RO/YH/3F6SuuJYtkZ93xT8EFcLlFT\n+Tx30Vjp4iV/VKXEBQTQxDpnHPnNTwnQpsbnmz/MA8a7jtnskDbaktZi8ohkBKIj\noArR+t3+eoEm5vCwaUBlZ5rBL2jiiBL57SY6hS3eQTGsjoohG1cZyk6cinU+bYv0\n6VOccJJSDZokcXAF9aY6NeDNbctyk+sq3fTpzlh9PKMruo1tgEHjl0CrDMFO+0rX\n2R5o/h63Aaf+K5qS9153yVv4AVT8dGzKp8a2LJUrlMoHWkLxQLERKDMZVl4wYzy6\nIcYz4tRhOqfw48XhSRol5n0MXc51PFkskCh01YAnQsg94VDuoRK9Qmy64ESZybA\u003d\n\u003dtl/z\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17b30f2b_7764e413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-27T08:36:32Z",
+      "side": 1,
+      "message": "Receive",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4e195fa_208f60d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-27T08:36:32Z",
+      "side": 1,
+      "message": "Receive",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8135417b_6b025928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-27T08:36:32Z",
+      "side": 1,
+      "message": "Receive",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ee806f1_5a0a84b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-27T08:36:32Z",
+      "side": 1,
+      "message": "trailing WS, here and in many more lines below",
+      "revId": "c13afe29f21657117c56007b54394d9fd06de3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

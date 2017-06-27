@@ -233,7 +233,7 @@ public class GerritServer implements AutoCloseable {
     if (!desc.memory()) {
       init(desc, baseConfig, site);
     }
-    return start(desc, baseConfig, site);
+    return start(desc, baseConfig, site, null);
   }
 
   /**
@@ -244,10 +244,12 @@ public class GerritServer implements AutoCloseable {
    * @param site existing temporary directory for site. Required, but may be empty, for in-memory
    *     servers. For on-disk servers, assumes that {@link #init} was previously called to
    *     initialize this directory.
+   * @param testSysModule optional additional module to add to the system injector.
    * @return started server.
    * @throws Exception
    */
-  public static GerritServer start(Description desc, Config baseConfig, Path site)
+  public static GerritServer start(
+      Description desc, Config baseConfig, Path site, @Nullable Module testSysModule)
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
@@ -264,6 +266,7 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
+    daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
 
     if (desc.memory()) {

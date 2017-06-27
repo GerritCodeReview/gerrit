@@ -16,14 +16,15 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
+import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -34,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class ElasticVersionManager extends AbstractVersionManager implements LifecycleListener {
+public class ElasticVersionManager extends VersionManager {
   private static final Logger log = LoggerFactory.getLogger(ElasticVersionManager.class);
 
   private final String prefix;
@@ -44,9 +45,10 @@ public class ElasticVersionManager extends AbstractVersionManager implements Lif
   ElasticVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      DynamicSet<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs,
       ElasticIndexVersionDiscovery versionDiscovery) {
-    super(cfg, sitePaths, defs);
+    super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
     this.versionDiscovery = versionDiscovery;
     prefix = MoreObjects.firstNonNull(cfg.getString("index", null, "prefix"), "gerrit");
   }

@@ -59,9 +59,11 @@ limitations under the License.
             SSH Keys
           </a></li>
           <li><a href="#Groups">Groups</a></li>
-          <li hidden$="[[!_serverConfig.auth.contributor_agreements]]">
-            <a href="#Agreements">Agreements</a>
-          </li>
+          <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
+            <li>
+              <a href="#Agreements">Agreements</a>
+            </li>
+          </template>
         </ul>
       </gr-page-nav>
       <main class="gr-form-styles">
@@ -364,12 +366,12 @@ limitations under the License.
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
         </fieldset>
-        <div hidden$="[[!_serverConfig.auth.contributor_agreements]]">
+        <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
           <h2 id="Agreements">Agreements</h2>
           <fieldset>
             <gr-agreements-list id="agreementsList"></gr-agreements-list>
           </fieldset>
-        </div>
+        </template>
       </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

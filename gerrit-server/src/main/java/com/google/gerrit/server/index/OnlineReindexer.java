@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,16 +27,26 @@ import org.slf4j.LoggerFactory;
 public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private static final Logger log = LoggerFactory.getLogger(OnlineReindexer.class);
 
+  private final String name;
   private final IndexCollection<K, V, I> indexes;
   private final SiteIndexer<K, V, I> batchIndexer;
-  private final int version;
+  private final int oldVersion;
+  private final int newVersion;
+  private final DynamicSet<OnlineUpgradeListener> listeners;
   private I index;
   private final AtomicBoolean running = new AtomicBoolean();
 
-  public OnlineReindexer(IndexDefinition<K, V, I> def, int version) {
+  public OnlineReindexer(
+      IndexDefinition<K, V, I> def,
+      int oldVersion,
+      int newVersion,
+      DynamicSet<OnlineUpgradeListener> listeners) {
+    this.name = def.getName();
     this.indexes = def.getIndexCollection();
     this.batchIndexer = def.getSiteIndexer();
-    this.version = version;
+    this.oldVersion = oldVersion;
+    this.newVersion = newVersion;
+    this.listeners = listeners;
   }
 
   public void start() {
@@ -44,14 +55,21 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
           new Thread() {
             @Override
             public void run() {
+              boolean ok = false;
               try {
                 reindex();
+                ok = true;
               } finally {
                 running.set(false);
+                if (!ok) {
+                  for (OnlineUpgradeListener listener : listeners) {
+                    listener.onFailure(name, oldVersion, newVersion);
+                  }
+                }
               }
             }
           };
-      t.setName(String.format("Reindex v%d-v%d", version(indexes.getSearchIndex()), version));
+      t.setName(String.format("Reindex v%d-v%d", version(indexes.getSearchIndex()), newVersion));
       t.start();
     }
   }
@@ -61,7 +79,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   }
 
   public int getVersion() {
-    return version;
+    return newVersion;
   }
 
   private static int version(Index<?, ?> i) {
@@ -69,9 +87,14 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   }
 
   private void reindex() {
+    for (OnlineUpgradeListener listener : listeners) {
+      listener.onStart(name, oldVersion, newVersion);
+    }
     index =
         checkNotNull(
-            indexes.getWriteIndex(version), "not an active write schema version: %s", version);
+            indexes.getWriteIndex(newVersion),
+            "not an active write schema version: %s",
+            newVersion);
     log.info(
         "Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()),
@@ -88,6 +111,9 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     }
     log.info("Reindex to version {} complete", version(index));
     activateIndex();
+    for (OnlineUpgradeListener listener : listeners) {
+      listener.onSuccess(name, oldVersion, newVersion);
+    }
   }
 
   public void activateIndex() {

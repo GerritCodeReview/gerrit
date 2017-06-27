@@ -15,6 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -24,6 +27,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Singleton
 public class ProjectJson {
@@ -38,7 +43,20 @@ public class ProjectJson {
   }
 
   public ProjectInfo format(ProjectResource rsrc) {
-    return format(rsrc.getControl().getProject());
+    ProjectControl ctl = rsrc.getControl();
+    ProjectInfo info = format(ctl.getProject());
+    info.labels = new TreeMap<>();
+    for (LabelType t : ctl.getLabelTypes().getLabelTypes()) {
+      LabelTypeInfo labelInfo = new LabelTypeInfo();
+      labelInfo.values =
+          t.getValues()
+              .stream()
+              .collect(Collectors.toMap(LabelValue::formatValue, LabelValue::getText));
+      labelInfo.defaultValue = t.getDefaultValue();
+      info.labels.put(t.getName(), labelInfo);
+    }
+
+    return info;
   }
 
   public ProjectInfo format(Project p) {

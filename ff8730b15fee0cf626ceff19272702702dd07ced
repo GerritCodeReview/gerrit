@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ebfca09_92dba644",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T19:23:10Z",
+      "side": 1,
+      "message": "Whoops, these are valid tests. Did this before finding out about test.only",
+      "parentUuid": "a5230900_18c7b263",
+      "revId": "ff8730b15fee0cf626ceff19272702702dd07ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "693e9381_b0287a14",
         "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "ff8730b15fee0cf626ceff19272702702dd07ced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "babb6c4e_de32f1a6",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T19:23:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "693e9381_b0287a14",
+      "revId": "ff8730b15fee0cf626ceff19272702702dd07ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

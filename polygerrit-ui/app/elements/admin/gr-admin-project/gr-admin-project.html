@@ -97,7 +97,7 @@ limitations under the License.
                         id="submitTypeSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.submit_type}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
@@ -128,7 +128,7 @@ limitations under the License.
                         id="newChangeSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                       <template is="dom-repeat"
                           items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
                         <option value="[[item.value]]">[[item.label]]</option>
@@ -143,7 +143,7 @@ limitations under the License.
                         id="requireChangeIdSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.require_change_id.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                       <template is="dom-repeat"
                           items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
                         <option value="[[item.value]]">[[item.label]]</option>
@@ -159,7 +159,7 @@ limitations under the License.
                         id="rejectImplicitMergesSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                       <template is="dom-repeat"
                           items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
                         <option value="[[item.value]]">[[item.label]]</option>
@@ -189,7 +189,7 @@ limitations under the License.
                         id="contributorAgreementSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                     <template is="dom-repeat"
                         items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
                       <option value="[[item.value]]">[[item.label]]</option>
@@ -204,7 +204,7 @@ limitations under the License.
                         id="useSignedOffBySelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.use_signed_off_by.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                     <template is="dom-repeat"
                         items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
                       <option value="[[item.value]]">[[item.label]]</option>

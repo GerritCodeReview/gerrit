@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5230900_18c7b263",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-27T18:49:43Z",
+      "side": 1,
+      "message": "Please remove commented code.",
+      "revId": "ff8730b15fee0cf626ceff19272702702dd07ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693e9381_b0287a14",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-27T18:49:43Z",
+      "side": 1,
+      "message": "It would be easier to move element creation into own method and stub it, like this:\nhttps://gerrit-review.googlesource.com/c/111372/1/polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host_test.html#68",
+      "revId": "ff8730b15fee0cf626ceff19272702702dd07ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -30,6 +30,7 @@ public class GetProjectIT extends AbstractDaemonTest {
     String name = project.get();
     ProjectInfo p = gApi.projects().name(name).get();
     assertThat(p.name).isEqualTo(name);
+    assertThat(p.labels.get("Code-Review").values.get("0")).isEqualTo("No score");
   }
 
   @Test

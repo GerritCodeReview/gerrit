@@ -346,7 +346,16 @@ describes the project.
     "name": "plugins/replication",
     "parent": "Public-Plugins",
     "description": "Copies to other servers using the Git protocol",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "labels": {
+      "Code-Review": {
+        "values": {
+          "0": "No score",
+          "1": "Approved"
+	},
+	"defaultValue": 0
+      }
+    }
   }
 ----
 

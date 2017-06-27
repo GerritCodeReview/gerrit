@@ -160,6 +160,10 @@
       return this._computeRelativeURL(link.url);
     },
 
+    _computeLinkRel(link) {
+      return link.target ? 'noopener' : null;
+    },
+
     _computeSelectedClass(itemView, params) {
       return itemView === params.adminView ? 'selected' : '';
     },

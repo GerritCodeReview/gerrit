@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "950b6fca_4134e82d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cea9d67_5ef63b99",
+      "range": {
+        "startLine": 527,
+        "startChar": 5,
+        "endLine": 527,
+        "endChar": 59
+      },
+      "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fecbe5fc_43575721",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "62b849c1_3b5108d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1cfdaf86_62994191",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 6
+      },
+      "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad080b14_2f058a62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fecbe5fc_43575721",
+      "range": {
+        "startLine": 124,
+        "startChar": 39,
+        "endLine": 125,
+        "endChar": 27
+      },
+      "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92d73dcd_ad698a3e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "37658420_b6150af4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d73dcd_ad698a3e",
+      "range": {
+        "startLine": 477,
+        "startChar": 34,
+        "endLine": 477,
+        "endChar": 66
+      },
+      "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7565d45_dd46cd02",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ffebe4d_85b2845c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7565d45_dd46cd02",
+      "range": {
+        "startLine": 481,
+        "startChar": 0,
+        "endLine": 482,
+        "endChar": 7
+      },
+      "revId": "cdb41a137ca900a34c69acf6981a6a5c4d5d6f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

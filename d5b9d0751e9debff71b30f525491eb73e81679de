@@ -70,6 +70,30 @@
       "revId": "d5b9d0751e9debff71b30f525491eb73e81679de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ea612f_bb1b2988",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-06-27T17:52:34Z",
+      "side": 1,
+      "message": "Changing it to params.* fixed the issue.",
+      "parentUuid": "3f0796d2_688a49bc",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 11
+      },
+      "revId": "d5b9d0751e9debff71b30f525491eb73e81679de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

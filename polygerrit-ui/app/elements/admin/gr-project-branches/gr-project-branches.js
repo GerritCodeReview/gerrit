@@ -49,12 +49,25 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _notOwner: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
 
     _paramsChanged(params) {
       this._loading = true;
@@ -65,7 +78,17 @@
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getBranches(this._filter, this._project,
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._notOwner = !access[this._project].is_owner;
+          });
+        }
+      });
+
+      this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
     },
 
@@ -91,6 +114,27 @@
 
     _stripRefsHeads(item) {
       return item.replace('refs/heads/', '');
+    },
+
+    _handleCheckboxChange(e) {
+      const index = parseInt(e.target.getAttribute('data-index'), 10);
+      const checked = e.target.checked;
+      this.set(['_projects', index], !!checked);
+      this.hasUnsavedChanges = true;
+    },
+
+    _deleteBranches(reviewed) {
+      this.$.reviewed.checked = reviewed;
+      this._deleteBranch(reviewed).catch(err => {
+        alert('Couldn’t change file review status. Check the console ' +
+            'and contact the PolyGerrit team for assistance.');
+        throw err;
+      });
+    },
+
+    _deleteBranch(reviewed) {
+      return this.$.restAPI.deleteBranches(this._project,
+          this._patchRange.patchNum, this._path, reviewed);
     },
   });
 })();

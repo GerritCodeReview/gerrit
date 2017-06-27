@@ -33,7 +33,7 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  let counter = 0;
+  let counter;
   const projectGenerator = () => {
     return {
       id: `test${++counter}`,
@@ -56,6 +56,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      counter = 0;
     });
 
     teardown(() => {

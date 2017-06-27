@@ -34,6 +34,24 @@
       "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c528a38_7268e740",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T21:38:54Z",
+      "side": 1,
+      "message": "\u003e - it\u0027s not straightforward\n\nUnless I\u0027m misunderstanding, it\u0027s just a separate file with a Python function isn\u0027t it?\nhttps://bazel.build/versions/master/docs/skylark/macros.html\n\n\u003e - there are multiple dependencies to pass through (css, sources, etc)\n\nIn what ways do this set of embed rules differ from the non-embed rules?\n\n\u003e - license checking depends on existing rules, and this needs to be ported carefully\n\nOnce again, I may be wrong, but I think there is no difference in license checking because executing the Bazel macro evaluates to the same set of rule defs.",
+      "parentUuid": "12c00f49_e0879a93",
+      "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

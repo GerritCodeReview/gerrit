@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ef2bbb3_761c1c6e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T00:50:25Z",
+      "side": 1,
+      "message": "Is there any downside to letting this be rel\u003d\"noopener\" for all links, even if they are relative?",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb61bf4_1c745304",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T00:50:25Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 49,
+        "startChar": 57,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532275ba_9a434a75",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T00:50:25Z",
+      "side": 1,
+      "message": "Seems pretty simple. Can this just be...\n\n // TODO(beckysiegel): Branches\n children: [],\n\n...?",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 14
+      },
+      "revId": "75f320964c2789d8f8ede24276f679b028165064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -36,6 +36,9 @@ limitations under the License.
         path="[[_getPath(_project)]]">
       <table id="list">
         <tr class="headerRow">
+          <th class="deleteBranches topHeader" hidden$="[[_notOwner]]" hidden>
+            Delete Branche(s)
+          </th>
           <th class="name topHeader">Branch Name</th>
           <th class="description topHeader">Revision</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
@@ -46,6 +49,19 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
+            <td class="delete"><td>
+              <!--<input id="deleteBranches"
+                     class="deleteBranches"
+                     type="checkbox"
+                     on-change="_handleReviewedChange"
+                     hidden$="[[_notOwner]]" hidden>
+                  checked$="[[_computeCheckboxChecked(item.ref, type.key)]]"-->
+              <input
+                  type="checkbox"
+                  data-index$="[[_stripRefsHeads(item.ref)]]"
+                  on-change="_handleCheckboxChange"
+                  hidden$="[[_notOwner]]" hidden>
+            </td>
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
             <td class="description">[[item.revision]]</td>
             <td class="repositoryBrowser">

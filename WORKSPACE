@@ -581,10 +581,10 @@ maven_jar(
 
 maven_jar(
     name = "blame_cache",
-    artifact = "com/google/gitiles:blame-cache:0.2-1",
+    artifact = "com/google/gitiles:blame-cache:0.2-2",
     attach_source = False,
     repository = GERRIT,
-    sha1 = "da7977e8b140b63f18054214c1d1b86ffa6896cb",
+    sha1 = "ac8693b319b3e70506fb27df1b77b598cfdcd00f",
 )
 
 # Keep this version of Soy synchronized with the version used in Gitiles.

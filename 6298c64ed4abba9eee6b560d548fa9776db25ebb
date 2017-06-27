@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "75b243ee_489953ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T11:49:15Z",
+      "side": 1,
+      "message": "Can you please rebase this change onto https://gerrit-review.googlesource.com/111291 ?",
+      "range": {
+        "startLine": 1081,
+        "startChar": 3,
+        "endLine": 1084,
+        "endChar": 5
+      },
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bed882ff_87d4b16d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T11:49:15Z",
+      "side": 1,
+      "message": "Please decide on a consistent formatting of the permission names:\n\n1. server side names \u0027create\u0027/\u0027forgeCommitter\u0027/\u0027createTag\u0027 vs. client-side names \u0027Create Reference\u0027/\u0027Forge Committer\u0027/\u0027Create Annotated Tag\u0027 (documentation is using the latter)\n\n2. consistently use quotes around the permission name and the same case",
+      "range": {
+        "startLine": 273,
+        "startChar": 19,
+        "endLine": 273,
+        "endChar": 25
+      },
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f974f749_cde6de01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -34,6 +80,52 @@
       "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f14ebd2e_ea57a0ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T11:49:15Z",
+      "side": 1,
+      "message": "\"a new commit\"\n\nMore precisely it also checks if the commit is new and if not no permission is needed.",
+      "range": {
+        "startLine": 328,
+        "startChar": 44,
+        "endLine": 328,
+        "endChar": 62
+      },
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fedeb_530d7724",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T11:49:15Z",
+      "side": 1,
+      "message": "describing",
+      "range": {
+        "startLine": 329,
+        "startChar": 5,
+        "endLine": 329,
+        "endChar": 13
+      },
+      "revId": "6298c64ed4abba9eee6b560d548fa9776db25ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "f48c0e5f_077df137",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T16:38:31Z",
+      "side": 1,
+      "message": "For now, added word-break.",
+      "parentUuid": "9e25c324_bbd403b7",
+      "range": {
+        "startLine": 106,
+        "startChar": 19,
+        "endLine": 106,
+        "endChar": 35
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4684fe2a_8540add9",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 6

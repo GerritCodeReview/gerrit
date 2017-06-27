@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d737fd32_d96ef4c1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "Nit should be camelCase (and below)",
+      "range": {
+        "startLine": 55,
+        "startChar": 22,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "022abe0d_f46bd038",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "I know this wasn\u0027t your doing, but maybe camelCase these while you\u0027re at it?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2033d001_19b1431b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "Should this be across the board in gr-form-styles?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43a8cb90_e7c17e3c",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "Nit: this can just be \nmargin: .15em, 0;",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea636526_9ba522d8",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "Nit: this can just be:\n\npadding: 0 .15em;",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca19b1e_bdc329cf",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-27T20:54:48Z",
+      "side": 1,
+      "message": "Nit: this can just be:\n\npadding: 0 .15em;",
+      "range": {
+        "startLine": 110,
+        "startChar": 19,
+        "endLine": 110,
+        "endChar": 35
+      },
+      "revId": "fed90b0cb74eaaaf430e4657e09e4ffcdc3e4d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64bc43d_5066e33c",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-27T23:20:04Z",
+      "side": 1,
+      "message": "My only point is that this is low-value, complicated, potentially risky thing to do.\nIt looks like it\u0027s desired though, so I\u0027ll do it.",
+      "parentUuid": "a37bbc55_8ee7f6a0",
+      "revId": "120b90efbe25b2c25c3aeacdb860043e86cf98ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

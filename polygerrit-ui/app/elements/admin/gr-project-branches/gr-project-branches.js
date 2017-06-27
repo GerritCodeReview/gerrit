@@ -49,12 +49,27 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _isOwner: {
+        type: Boolean,
+        value: true,
+      },
+      _refName: Array,
+      _branchDeleted: Boolean,
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
 
     _paramsChanged(params) {
       this._loading = true;
@@ -64,6 +79,18 @@
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this._projectBranches = [];
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._isOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
@@ -91,6 +118,52 @@
 
     _stripRefsHeads(item) {
       return item.replace('refs/heads/', '');
+    },
+
+    _handleDeleteBranchConfirm() {
+      this.$.overlay.close();
+      return this.$.restAPI.deleteBranches(this._project,
+          this._refName)
+          .then(branchDeleted => {
+            if (branchDeleted.status === 204) {
+              location.reload();
+            }
+          });
+    },
+
+    _handleConfirmDialogCancel() {
+      this.$.overlay.close();
+    },
+
+    _showActionDialog(dialog) {
+      this._handleConfirmDialogCancel();
+
+      this.$.overlay.open();
+    },
+
+    _handleDeleteBranches(e) {
+      const name = e.target.dataBranch;
+      if (!name) { return; }
+      this._refName = name;
+      this._showActionDialog(this.$.confirmDeleteBranch);
+    },
+
+    _computeHideClass(item) {
+      if (item) {
+        return 'hidden';
+      }
+
+      return '';
+    },
+
+    // Similar to above but needs
+    // to check if the value is false
+    _computeHideClass2(item) {
+      if (!item) {
+        return 'hidden';
+      }
+
+      return '';
     },
   });
 })();

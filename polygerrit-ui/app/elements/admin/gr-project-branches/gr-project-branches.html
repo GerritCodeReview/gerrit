@@ -18,8 +18,12 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../gr-confirm-delete-branch-dialog/gr-confirm-delete-branch-dialog.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -27,6 +31,11 @@ limitations under the License.
 <dom-module id="gr-project-branches">
   <template>
     <style include="shared-styles"></style>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_branchesPerPage]]"
@@ -37,8 +46,11 @@ limitations under the License.
       <table id="list">
         <tr class="headerRow">
           <th class="name topHeader">Branch Name</th>
-          <th class="description topHeader">Revision</th>
+          <th class="revision topHeader">Revision</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
+          <th class$="[[_computeHideClass(_isOwner)]] deleteBranches topHeader">
+            Delete Branch(es)
+          </th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
@@ -47,7 +59,7 @@ limitations under the License.
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
-            <td class="description">[[item.revision]]</td>
+            <td class="revision">[[item.revision]]</td>
             <td class="repositoryBrowser">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">
@@ -59,9 +71,24 @@ limitations under the License.
                 </a>
               </template>
             </td>
+            <td class$="[[_computeHideClass(_isOwner)]] delete">
+              <gr-button
+                  class$="[[_computeHideClass2(item.can_delete)]]"
+                  data-branch="[[_stripRefsHeads(item.ref)]]"
+                  on-tap="_handleDeleteBranches">
+                Delete
+              </gr-button>
+            </td>
           </tr>
         </template>
       </table>
+      <gr-overlay id="overlay" with-backdrop>
+        <gr-confirm-delete-branch-dialog id="confirmDeleteBranch"
+            class="confirmDialog"
+            on-confirm="_handleDeleteBranchConfirm"
+            on-cancel="_handleConfirmDialogCancel"
+            branch="[[_refName]]"></gr-confirm-delete-branch-dialog>
+      </gr-overlay>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

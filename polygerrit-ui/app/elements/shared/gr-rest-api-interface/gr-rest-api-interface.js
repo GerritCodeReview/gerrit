@@ -152,6 +152,14 @@
           opt_ctx);
     },
 
+    deleteBranches(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      return this.send('DELETE', `/projects/${project}/branches/${ref}`, '',
+          opt_errFn, opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

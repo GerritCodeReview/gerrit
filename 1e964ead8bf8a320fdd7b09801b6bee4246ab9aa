@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09d8e5fe_80535b35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T08:27:47Z",
+      "side": 1,
+      "message": "Checking the \u0027Create Reference\u0027 permission here seems wrong, as now pushing tags (on existing commits) is wrongly requiring this permission, breaking some callers.\n\nFixed by:\n  https://gerrit-review.googlesource.com/111291",
+      "range": {
+        "startLine": 1073,
+        "startChar": 4,
+        "endLine": 1079,
+        "endChar": 5
+      },
+      "revId": "1e964ead8bf8a320fdd7b09801b6bee4246ab9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa14af11_0627057b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-27T08:27:47Z",
+      "side": 1,
+      "message": "The check above also seems also redundant as we are checking for the \u0027Create Reference\u0027 permission here if it is needed (pushing new branch or lightweight tag).",
+      "range": {
+        "startLine": 1080,
+        "startChar": 14,
+        "endLine": 1080,
+        "endChar": 27
+      },
+      "revId": "1e964ead8bf8a320fdd7b09801b6bee4246ab9aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

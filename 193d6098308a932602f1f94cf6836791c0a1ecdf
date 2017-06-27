@@ -52,6 +52,24 @@
       "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52dee09e_c513ed80",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T21:09:09Z",
+      "side": 1,
+      "message": "it redirects to /register.",
+      "parentUuid": "794435c1_a333dcfe",
+      "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "9e25c324_bbd403b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T01:01:45Z",
+      "side": 1,
+      "message": "The project name could be large thus taking a lot of space.\n\nAnd I like that it goes as an underneath.\n\nBut maybe there should be a cutoff point for a project name which is then replaced with ... if it gives over the limit?",
+      "parentUuid": "a227e046_dad2bf02",
+      "range": {
+        "startLine": 106,
+        "startChar": 19,
+        "endLine": 106,
+        "endChar": 35
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4684fe2a_8540add9",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 6

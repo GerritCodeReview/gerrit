@@ -49,12 +49,27 @@
         value: true,
       },
       _filter: String,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
+      _notOwner: {
+        type: Boolean,
+        value: true,
+      },
+      _refName: Array,
+      _branchDeleted: Boolean,
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _loggedInChanged(_loggedIn) {
+      if (!_loggedIn) { return; }
+    },
 
     _paramsChanged(params) {
       this._loading = true;
@@ -64,6 +79,18 @@
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this._projectBranches = [];
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._notOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getBranches(this._filter, this._project,
           this._branchesPerPage, this._offset);
@@ -91,6 +118,60 @@
 
     _stripRefsHeads(item) {
       return item.replace('refs/heads/', '');
+    },
+
+    _handleDeleteBranchConfirm() {
+      const el = this.$.confirmDeleteBranch;
+      this.$.overlay.close();
+      el.hidden = true;
+      return this.$.restAPI.deleteBranches(this._project,
+          this._refName)
+          .then(branchDeleted => {
+            if (branchDeleted.status === 204) {
+              location.reload();
+            }
+          });
+    },
+
+    _handleConfirmDialogCancel() {
+      const dialogEls =
+          Polymer.dom(this.root).querySelectorAll('.confirmDialog');
+      for (const dialogEl of dialogEls) { dialogEl.hidden = true; }
+      this.$.overlay.close();
+    },
+
+    _showActionDialog(dialog) {
+      this._handleConfirmDialogCancel();
+
+      dialog.hidden = false;
+      this.$.overlay.open().then(() => {
+        if (dialog.resetFocus) {
+          dialog.resetFocus();
+        }
+      });
+    },
+
+    _handleDeleteBranches(e) {
+      const index = e.target.dataBranch;
+      if (!index) { return; }
+      this._refName = index;
+      this._showActionDialog(this.$.confirmDeleteBranch);
+    },
+
+    hideClass(item, item2) {
+      if (item) {
+        return 'display';
+      }
+
+      return '';
+    },
+
+    hideClass2(item) {
+      if (!item) {
+        return 'display';
+      }
+
+      return '';
     },
   });
 })();

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 /** A single vote on a label, consisting of a label name and a value. */
 @AutoValue
@@ -67,10 +66,6 @@ public abstract class LabelVote {
 
   public static LabelVote create(String label, short value) {
     return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value);
-  }
-
-  public static LabelVote create(PatchSetApproval psa) {
-    return create(psa.getLabel(), psa.getValue());
   }
 
   public abstract String label();

@@ -46,6 +46,30 @@
       "revId": "d5b9d0751e9debff71b30f525491eb73e81679de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f0796d2_688a49bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T17:21:09Z",
+      "side": 1,
+      "message": "I too see two calls to /reviewed when navigating between diffs. I can have a look at debugging that in a bit.",
+      "parentUuid": "b1a03c48_1eddbd61",
+      "range": {
+        "startLine": 468,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 11
+      },
+      "revId": "d5b9d0751e9debff71b30f525491eb73e81679de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

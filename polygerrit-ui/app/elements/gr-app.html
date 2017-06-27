@@ -15,6 +15,13 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
+<script>
+  security.polymer_resin.install({
+    allowedIdentifierPrefixes: [''],
+    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
+  });
+</script>
 
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">

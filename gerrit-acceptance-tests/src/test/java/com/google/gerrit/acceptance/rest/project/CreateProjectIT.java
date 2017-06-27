@@ -57,6 +57,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
     r.assertCreated();
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);
+
+    // Check that we populate the label data in the HTTP path. See {@link GetProjectIT#getProject}
+    // for
+    // more extensive coverage of the LabelTypeInfo .
+    assertThat(p.labels).hasSize(1);
+
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);

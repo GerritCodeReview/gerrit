@@ -217,7 +217,14 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
     }
 
-    return Response.created(json.format(p));
+    ProjectControl ctl;
+    try {
+      ctl = projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
+    } catch (NoSuchProjectException e) {
+      throw new IllegalStateException(e);
+    }
+
+    return Response.created(json.format(new ProjectResource(ctl)));
   }
 
   private Project createProject(CreateProjectArgs args)

@@ -22,6 +22,30 @@
       "revId": "1d5add0f7fd23029b98ed832387ac5b0954246a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48dfc8aa_a30625ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-27T21:34:32Z",
+      "side": 1,
+      "message": "It\u0027s used on l.248.",
+      "parentUuid": "1cc015fe_35a2d6a7",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 23
+      },
+      "revId": "1d5add0f7fd23029b98ed832387ac5b0954246a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

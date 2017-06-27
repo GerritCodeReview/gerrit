@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9e3226b_998edd2f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-27T18:43:39Z",
+      "side": 1,
+      "message": "We will want this to be use_contributor_agreements\n\nsince that has a boolean value.\n\nplease.",
+      "range": {
+        "startLine": 369,
+        "startChar": 55,
+        "endLine": 369,
+        "endChar": 77
+      },
+      "revId": "f31a118d1dc05f5c969e6c4bec1f36261235cac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,15 +14,20 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.SingleVersionModule;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -30,30 +35,40 @@ import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
-public class LuceneIndexModule extends LifecycleModule {
+public class LuceneIndexModule extends AbstractModule {
   public static LuceneIndexModule singleVersionAllLatest(int threads) {
-    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads);
+    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads, false);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads) {
-    return new LuceneIndexModule(versions, threads);
+    return new LuceneIndexModule(versions, threads, false);
   }
 
   public static LuceneIndexModule latestVersionWithOnlineUpgrade() {
-    return new LuceneIndexModule(null, 0);
+    return new LuceneIndexModule(null, 0, true);
+  }
+
+  public static LuceneIndexModule latestVersionWithoutOnlineUpgrade() {
+    return new LuceneIndexModule(null, 0, false);
   }
 
   static boolean isInMemoryTest(Config cfg) {
     return cfg.getBoolean("index", "lucene", "testInmemory", false);
   }
 
-  private final int threads;
   private final Map<String, Integer> singleVersions;
+  private final int threads;
+  private final boolean onlineUpgrade;
 
-  private LuceneIndexModule(Map<String, Integer> singleVersions, int threads) {
+  private LuceneIndexModule(
+      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade) {
+    if (singleVersions != null) {
+      checkArgument(!onlineUpgrade, "online upgrade is incompatible with single version map");
+    }
     this.singleVersions = singleVersions;
     this.threads = threads;
+    this.onlineUpgrade = onlineUpgrade;
   }
 
   @Override
@@ -87,10 +102,14 @@ public class LuceneIndexModule extends LifecycleModule {
     return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
   }
 
-  private static class MultiVersionModule extends LifecycleModule {
+  private class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
+      bind(VersionManager.class).to(LuceneVersionManager.class);
       listener().to(LuceneVersionManager.class);
+      if (onlineUpgrade) {
+        listener().to(OnlineUpgrader.class);
+      }
     }
   }
 }

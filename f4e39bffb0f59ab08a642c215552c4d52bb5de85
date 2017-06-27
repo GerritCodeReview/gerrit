@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "51cf5757_a077b5bd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-27T16:50:28Z",
+      "side": 1,
+      "message": "Don\u0027t think this is done.",
+      "parentUuid": "a6cee804_6a4ac5e6",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 15
+      },
+      "revId": "f4e39bffb0f59ab08a642c215552c4d52bb5de85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "90c2127c_12448c79",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 6

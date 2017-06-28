@@ -94,6 +94,30 @@
       "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20ce4326_82a1dd0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-28T18:06:57Z",
+      "side": 1,
+      "message": "I totally see your point, but I\u0027m not entirely sure how this would work from an implementation standpoint. \n\n\"Showing default suggestions\" would mean calling gr-autocomplete\u0027s this.query every time this.text.length \u003d\u003d\u003d 0, while the normal functionality is to call this.query every time this.text.length \u003e\u003d threshold.\n- What would happen if threshold had a value of 0? \n- What is the practical circumstance for wanting both a threshold \u003e 1 and default suggestions to show?\n- If a user begins typing, and then deletes the text, should the default suggestions show back up?",
+      "parentUuid": "372bf2f6_8afba313",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

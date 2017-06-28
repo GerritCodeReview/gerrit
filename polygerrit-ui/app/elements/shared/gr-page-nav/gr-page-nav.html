@@ -71,14 +71,37 @@ limitations under the License.
         display: inline-block;
         margin: .4em 0;
       }
+      #toggleBtn {
+        display: none;
+      }
       @media only screen and (max-width: 53em) {
-        #nav {
+        #toggleBtn {
+          display: block;
+          float: right;
+          margin: .5em;
+        }
+        #nav:not(.show) {
+          background-color: transparent;
+        }
+        #nav:not(.show) .contentWrapper {
           display: none;
+        }
+        #nav {
+          height: auto;
+          width: 100%;
+          z-index: 100;
+        }
+        #nav.show {
+          display: block;
         }
       }
     </style>
+
     <nav id="nav">
-      <content></content>
+      <!--<gr-button id="toggleBtn" on-tap="_toggleMobileNav">&#9776;</gr-button>-->
+      <!--<div class="contentWrapper">-->
+        <content></content>
+      <!--</div>-->
     </nav>
   </template>
   <script src="gr-page-nav.js"></script>

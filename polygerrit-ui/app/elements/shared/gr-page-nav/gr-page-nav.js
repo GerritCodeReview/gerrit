@@ -59,5 +59,9 @@
     _getScrollY() {
       return window.scrollY;
     },
+
+    _toggleMobileNav() {
+      this.$.nav.classList.toggle('show');
+    },
   });
 })();

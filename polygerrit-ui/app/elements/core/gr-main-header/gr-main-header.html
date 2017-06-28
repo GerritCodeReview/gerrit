@@ -116,11 +116,16 @@ limitations under the License.
           font-size: 14px;
           font-weight: bold;
         }
-        gr-search-bar {
+        gr-search-bar,
+        .more,
+        li.hideOnMobile {
           display: none;
         }
         .accountContainer {
           margin-left: .5em !important;
+        }
+        gr-dropdown {
+          padding: .5em 0 .5em .5em;
         }
       }
     </style>
@@ -128,7 +133,7 @@ limitations under the License.
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle"></a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
-          <li>
+          <li class$="[[linkGroup.class]]">
           <gr-dropdown
               link
               down-arrow

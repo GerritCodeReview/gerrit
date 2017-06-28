@@ -156,6 +156,7 @@
         links.push({
           title: 'Documentation',
           links: docLinks,
+          class: 'hideOnMobile',
         });
       }
       return links;

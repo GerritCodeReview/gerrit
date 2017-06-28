@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34339f4f_1225bfe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-28T09:44:36Z",
+      "side": 0,
+      "message": "If this is unused, better to make the commit message something like \"Remove unused public method\"",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "c72b3a0cc1adc7067553f16d0405233ab41ac9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "ca877e745930905f5bc721e74aef79c7dd533be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3849e1_0d0584f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-28T06:55:22Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t read this carefully.\n\nWhat I meant is. It\u0027s not okay that the project owner can now do changes without having a contributor agreement signed.",
+      "parentUuid": "c3166518_bef23173",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "ca877e745930905f5bc721e74aef79c7dd533be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

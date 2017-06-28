@@ -97,7 +97,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private static final Logger log = LoggerFactory.getLogger(ReplaceOp.class);
 
-  private static final String CHANGE_IS_CLOSED = "change is closed";
+  public static final String CHANGE_IS_CLOSED = "change is closed";
 
   private final AccountResolver accountResolver;
   private final ApprovalCopier approvalCopier;

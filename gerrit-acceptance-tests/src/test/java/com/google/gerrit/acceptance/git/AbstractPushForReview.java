@@ -62,6 +62,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -454,13 +455,37 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     // Make the change work-in-progress again.
-    r = pushTo("refs/for/master%wip");
+    r = amendChange(r.getChangeId(), "refs/for/master%wip");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
     // Can't use --wip and --ready together.
-    r = pushTo("refs/for/master%wip,ready");
+    r = amendChange(r.getChangeId(), "refs/for/master%wip,ready");
     r.assertErrorStatus();
+  }
+
+  @Test
+  public void pushWorkInProgressChangeWhenNotOwner() throws Exception {
+    TestRepository<?> userRepo = cloneProject(project, user);
+    PushOneCommit.Result r =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
+    testRepo.reset("ps");
+    r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
+    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
+
+    r = pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master%ready");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
+    testRepo.reset("ps");
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
+    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
   }
 
   @Test

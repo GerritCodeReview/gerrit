@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "244e4720_00c50397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-28T00:09:14Z",
+      "side": 1,
+      "message": "The threshold of 3 is there for performance reasons, isn\u0027t it? Wouldn\u0027t it be a bit safer to add a special case for when there is no input text (so that the default suggestions appear) but still not send specific queries until the threshold is passed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

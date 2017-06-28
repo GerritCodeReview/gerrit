@@ -246,6 +246,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Indent With Tabs</ui:msg></th>
+        <td><g:ToggleButton ui:field='indentWithTabs'>
+          <g:upFace><ui:msg>Off</ui:msg></g:upFace>
+          <g:downFace><ui:msg>On</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <th><ui:msg>Auto Close Brackets</ui:msg></th>
         <td><g:ToggleButton ui:field='autoCloseBrackets'>
           <g:upFace><ui:msg>Off</ui:msg></g:upFace>

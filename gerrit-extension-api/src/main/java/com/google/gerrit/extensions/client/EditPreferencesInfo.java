@@ -27,6 +27,7 @@ public class EditPreferencesInfo {
   public Boolean hideLineNumbers;
   public Boolean matchBrackets;
   public Boolean lineWrapping;
+  public Boolean indentWithTabs;
   public Boolean autoCloseBrackets;
   public Boolean showBase;
   public Theme theme;
@@ -45,6 +46,7 @@ public class EditPreferencesInfo {
     i.hideLineNumbers = false;
     i.matchBrackets = true;
     i.lineWrapping = false;
+    i.indentWithTabs = false;
     i.autoCloseBrackets = false;
     i.showBase = false;
     i.theme = Theme.DEFAULT;

@@ -118,6 +118,30 @@
       "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "281eb5f1_671d1204",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-28T18:36:27Z",
+      "side": 1,
+      "message": "Good point. It\u0027d be weird to have default suggestions but have them disappear after typing one or two characters of their name.\n\nMaybe we can just add a comment to the suggestFrom property of gr-account-entry that says 0 is the special value to enable default suggestions.",
+      "parentUuid": "20ce4326_82a1dd0a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -238,7 +238,7 @@
       patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
 
       Gerrit.Nav.navigateToChange(this.change, patchRange.patchNum,
-          this._getBasePatchNum(patchRange));
+          patchRange.basePatchNum);
     },
 
     _updateDiffPreferences() {
@@ -601,7 +601,7 @@
     _openCursorFile() {
       const diff = this.$.diffCursor.getTargetDiffElement();
       Gerrit.Nav.navigateToDiff(this.change, diff.path,
-          diff.patchRange.patchNum, this._getBasePatchNum(this.patchRange));
+          diff.patchRange.patchNum, this.patchRange.basePatchNum);
     },
 
     _openSelectedFile(opt_index) {
@@ -611,7 +611,7 @@
       if (!this._files[this.$.fileCursor.index]) { return; }
       Gerrit.Nav.navigateToDiff(this.change,
           this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
-          this._getBasePatchNum(this.patchRange));
+          this.patchRange.basePatchNum);
     },
 
     _addDraftAtTarget() {
@@ -637,12 +637,7 @@
 
     _computeDiffURL(change, patchRange, path) {
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
-          this._getBasePatchNum(patchRange));
-    },
-
-    _getBasePatchNum(patchRange) {
-      return patchRange.basePatchNum === 'PARENT' ?
-          undefined : patchRange.basePatchNum;
+          patchRange.basePatchNum);
     },
 
     _computeFileDisplayName(path) {

@@ -47,7 +47,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
-      sendStub = sandbox.stub().returns(Promise.resolve());
+      sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       stub('gr-rest-api-interface', {
         getAccount() {
           return Promise.resolve({name: 'Judy Hopps'});
@@ -76,24 +76,47 @@ limitations under the License.
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
-    test('get', done => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      plugin.get('/url', r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
-        assert.strictEqual(r, response);
-        done();
+    test('_send on failure rejects with response text', () => {
+      sendStub.returns(Promise.resolve(
+          {status: 400, text() {return Promise.resolve('text');}}));
+      return plugin._send().catch(r => {
+        assert.equal(r, 'text');
       });
     });
 
-    test('post', done => {
+    test('_send on failure without text rejects with code', () => {
+      sendStub.returns(Promise.resolve(
+          {status: 400, text() {return Promise.resolve(null);}}));
+      return plugin._send().catch(r => {
+        assert.equal(r, '400');
+      });
+    });
+
+    test('get', () => {
+      const response = {foo: 'foo'};
+      getResponseObjectStub.returns(Promise.resolve(response));
+      return plugin.get('/url', r => {
+        assert.isTrue(sendStub.calledWith('GET', '/url'));
+        assert.strictEqual(r, response);
+      });
+    });
+
+    test('get using Promise', () => {
+      const response = {foo: 'foo'};
+      getResponseObjectStub.returns(Promise.resolve(response));
+      return plugin.get('/url', r => 'rubbish').then(r => {
+        assert.isTrue(sendStub.calledWith('GET', '/url'));
+        assert.strictEqual(r, response);
+      });
+    });
+
+    test('post', () => {
       const payload = {foo: 'foo'};
       const response = {bar: 'bar'};
       getResponseObjectStub.returns(Promise.resolve(response));
-      plugin.post('/url', payload, r => {
+      return plugin.post('/url', payload, r => {
         assert.isTrue(sendStub.calledWith('POST', '/url', payload));
         assert.strictEqual(r, response);
-        done();
       });
     });
 

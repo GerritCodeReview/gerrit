@@ -107,9 +107,24 @@
   };
 
   Plugin.prototype._send = function(method, url, callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload)
-        .then(getRestAPI().getResponseObject)
-        .then(callback);
+    return getRestAPI().send(method, url, opt_payload).then(response => {
+      if (response.status < 200 || response.status >= 300) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(text);
+          } else {
+            return Promise.reject(response.status);
+          }
+        });
+      } else {
+        return getRestAPI().getResponseObject(response);
+      }
+    }).then(response => {
+      if (callback) {
+        callback(response);
+      }
+      return response;
+    });
   };
 
   Plugin.prototype.get = function(url, callback) {

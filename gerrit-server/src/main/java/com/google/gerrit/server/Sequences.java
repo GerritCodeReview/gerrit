@@ -18,6 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -34,15 +39,20 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class Sequences {
-  public static final String CHANGES = "changes";
+  public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {
     return cfg.getInt("noteDb", "changes", "initialSequenceGap", 1000);
   }
 
+  private enum SequenceType {
+    CHANGES;
+  }
+
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final RepoSequence changeSeq;
+  private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
   Sequences(
@@ -50,7 +60,8 @@ public class Sequences {
       Provider<ReviewDb> db,
       NotesMigration migration,
       GitRepositoryManager repoManager,
-      AllProjectsName allProjects) {
+      AllProjectsName allProjects,
+      MetricMaker metrics) {
     this.db = db;
     this.migration = migration;
 
@@ -59,18 +70,31 @@ public class Sequences {
     RepoSequence.Seed seed = () -> db.get().nextChangeId() + gap;
     int batchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
     changeSeq = new RepoSequence(repoManager, allProjects, CHANGES, seed, batchSize);
+
+    nextIdLatency =
+        metrics.newTimer(
+            "sequence/next_id_latency",
+            new Description("Latency of requesting IDs from repo sequences")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            Field.ofEnum(SequenceType.class, "sequence"),
+            Field.ofBoolean("multiple"));
   }
 
   public int nextChangeId() throws OrmException {
     if (!migration.readChangeSequence()) {
       return nextChangeId(db.get());
     }
-    return changeSeq.next();
+    try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
+      return changeSeq.next();
+    }
   }
 
   public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
     if (migration.readChangeSequence()) {
-      return changeSeq.next(count);
+      try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
+        return changeSeq.next(count);
+      }
     }
 
     if (count == 0) {

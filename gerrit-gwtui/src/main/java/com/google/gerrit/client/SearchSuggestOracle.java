@@ -54,7 +54,6 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                           if ("self".startsWith(request.getQuery())) {
                             final ArrayList<SuggestOracle.Suggestion> r =
                                 new ArrayList<>(response.getSuggestions().size() + 1);
-                            r.addAll(response.getSuggestions());
                             r.add(
                                 new SuggestOracle.Suggestion() {
                                   @Override
@@ -67,6 +66,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                                     return "self";
                                   }
                                 });
+                            r.addAll(response.getSuggestions());
                             response.setSuggestions(r);
                           }
                           done.onSuggestionsReady(request, response);

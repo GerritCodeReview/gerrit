@@ -52,6 +52,8 @@ limitations under the License.
       console.warn('Use of uninitialized routing');
     };
 
+    const PARENT_PATCHNUM = 'PARENT';
+
     window.Gerrit.Nav = {
 
       View: {
@@ -90,15 +92,15 @@ limitations under the License.
       /**
        * Generate a URL for the given route parameters.
        * @param {Object} params
-       * @return {String}
+       * @return {string}
        */
       _getUrlFor(params) {
         return this._generateUrl(params);
       },
 
       /**
-       * @param {String} project The name of the project.
-       * @return {String}
+       * @param {string} project The name of the project.
+       * @return {string}
        */
       getUrlForProject(project) {
         return this._getUrlFor({
@@ -108,10 +110,10 @@ limitations under the License.
       },
 
       /**
-       * @param {String} branch The name of the branch.
-       * @param {String} project The name of the project.
-       * @param {String} status The status to search.
-       * @return {String}
+       * @param {string} branch The name of the branch.
+       * @param {string} project The name of the project.
+       * @param {string} status The status to search.
+       * @return {string}
        */
       getUrlForBranch(branch, project, status) {
         return this._getUrlFor({
@@ -123,8 +125,8 @@ limitations under the License.
       },
 
       /**
-       * @param {String} topic The name of the topic.
-       * @return {String}
+       * @param {string} topic The name of the topic.
+       * @return {string}
        */
       getUrlForTopic(topic) {
         return this._getUrlFor({
@@ -136,11 +138,16 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
-       * @return {String}
+       * @param {number} opt_patchNum
+       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
+       * @return {string}
        */
       getUrlForChange(change, opt_patchNum, opt_basePatchNum) {
+        if (opt_basePatchNum === PARENT_PATCHNUM) {
+          opt_basePatchNum = undefined;
+        }
+
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.CHANGE,
@@ -152,9 +159,10 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
-       * @return {String}
+       * @param {number} opt_patchNum
+       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
+       * @return {string}
        */
       navigateToChange(change, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForChange(change, opt_patchNum,
@@ -164,11 +172,16 @@ limitations under the License.
       /**
        * @param {!Object} change The change object.
        * @param {!String} path The file path.
-       * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
-       * @return {String}
+       * @param {number} opt_patchNum
+       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
+       * @return {string}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+        if (opt_basePatchNum === PARENT_PATCHNUM) {
+          opt_basePatchNum = undefined;
+        }
+
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.DIFF,
@@ -182,8 +195,9 @@ limitations under the License.
       /**
        * @param {!Object} change The change object.
        * @param {!String} path The file path.
-       * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
+       * @param {number} opt_patchNum
+       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
        */
       navigateToDiff(change, path, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForDiff(change, path, opt_patchNum,
@@ -191,8 +205,8 @@ limitations under the License.
       },
 
       /**
-       * @param {String} owner The name of the owner.
-       * @return {String}
+       * @param {string} owner The name of the owner.
+       * @return {string}
        */
       getUrlForOwner(owner) {
         return this._getUrlFor({

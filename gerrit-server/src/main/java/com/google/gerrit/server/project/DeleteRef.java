@@ -86,6 +86,7 @@ public class DeleteRef {
     this.queryProvider = queryProvider;
     this.resource = resource;
     this.refsToDelete = new ArrayList<>();
+    this.prefix = "refs/heads/";
   }
 
   public DeleteRef ref(String ref) {

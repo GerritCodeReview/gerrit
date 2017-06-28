@@ -97,7 +97,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private static final Logger log = LoggerFactory.getLogger(ReplaceOp.class);
 
-  private static final String CHANGE_IS_CLOSED = "change is closed";
+  public static final String CHANGE_IS_CLOSED = "change is closed";
 
   private final AccountResolver accountResolver;
   private final ApprovalCopier approvalCopier;
@@ -432,6 +432,10 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws Exception {
+    if (rejectMessage != null) {
+      return;
+    }
+
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);

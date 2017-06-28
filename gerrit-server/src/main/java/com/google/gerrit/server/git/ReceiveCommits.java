@@ -202,6 +202,9 @@ public class ReceiveCommits {
           + "Squash the commits with the same Change-Id or "
           + "ensure Change-Ids are unique for each commit";
 
+  public static final String ONLY_OWNER_CAN_MODIFY_WIP =
+      "only change owner can modify Work-in-Progress";
+
   private enum Error {
     CONFIG_UPDATE(
         "You are not allowed to perform this operation.\n"
@@ -2482,6 +2485,14 @@ public class ReceiveCommits {
           }
           addMessage(msg.toString());
         }
+      }
+
+      if (magicBranch != null
+          && (magicBranch.workInProgress || magicBranch.ready)
+          && magicBranch.workInProgress != change.isWorkInProgress()
+          && !user.getAccountId().equals(change.getOwner())) {
+        reject(inputCommand, ONLY_OWNER_CAN_MODIFY_WIP);
+        return false;
       }
 
       if (magicBranch != null && magicBranch.edit) {

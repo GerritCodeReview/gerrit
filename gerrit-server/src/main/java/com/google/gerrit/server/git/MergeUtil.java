@@ -668,6 +668,7 @@ public class MergeUtil {
     mergeCommit.setAuthor(author);
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
+    matchAuthorToCommitterDate(project, mergeCommit);
 
     CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
     mergeResult.setControl(n.getControl());

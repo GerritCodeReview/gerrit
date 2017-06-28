@@ -1525,6 +1525,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
     "hide_line_numbers": true,
     "match_brackets": true,
     "line_wrapping": false,
+    "indent_with_tabs": false,
     "auto_close_brackets": true
   }
 ----
@@ -2428,6 +2429,8 @@ Number of spaces that should be used to display one tab.
 Default font size in pixels for change to be displayed in the diff view.
 |`line_wrapping`               |optional|
 Whether to enable line wrapping or not.
+|`indent_with_tabs`            |optional|
+Whether to enable indent with tabs or not.
 |===========================================
 
 [[edit-preferences-info]]

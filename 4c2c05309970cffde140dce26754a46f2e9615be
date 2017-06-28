@@ -46,6 +46,30 @@
       "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "837c15ca_729051b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-28T16:36:54Z",
+      "side": 1,
+      "message": "Supporting default suggestions AND having a threshold before executing specific queries are orthogonal features. It seems sloppy to me to disable one to enable the other.",
+      "parentUuid": "2f3250fc_d664e5cf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

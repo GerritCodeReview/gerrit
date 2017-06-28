@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f50f7578_24343369",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-28T20:44:03Z",
+      "side": 1,
+      "message": "this should be encoded.",
+      "range": {
+        "startLine": 114,
+        "startChar": 38,
+        "endLine": 114,
+        "endChar": 54
+      },
+      "revId": "47a19bbc5baffdedfe36feb8fa0ff04e928d696e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

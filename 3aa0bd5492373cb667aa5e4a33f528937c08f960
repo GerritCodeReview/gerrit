@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acdaa8a4_b3caacac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-28T14:58:11Z",
+      "side": 1,
+      "message": "Please rather fix the NullPointerException instead of fixing the documentation. The \"refs/heads/\" prefix should be optional.",
+      "revId": "3aa0bd5492373cb667aa5e4a33f528937c08f960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

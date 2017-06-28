@@ -70,6 +70,30 @@
       "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "372bf2f6_8afba313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-28T17:01:44Z",
+      "side": 1,
+      "message": "I should have worded that better. I\u0027m sorry for the tone of my previous message.\n\nI just think that a tidier solution would avoid coupling the threshold to the default suggestions behavior.\n\nPlease don\u0027t consider this a blocking comment on my part.",
+      "parentUuid": "837c15ca_729051b5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

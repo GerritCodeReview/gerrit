@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
-@SuppressWarnings("deprecation")
 @Singleton
 public class Sequences {
   public static final String CHANGES = "changes";
@@ -56,18 +55,15 @@ public class Sequences {
     this.migration = migration;
 
     int gap = getChangeSequenceGap(cfg);
-    changeSeq =
-        new RepoSequence(
-            repoManager,
-            allProjects,
-            CHANGES,
-            () -> db.get().nextChangeId() + gap,
-            cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
+    @SuppressWarnings("deprecation")
+    RepoSequence.Seed seed = () -> db.get().nextChangeId() + gap;
+    int batchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
+    changeSeq = new RepoSequence(repoManager, allProjects, CHANGES, seed, batchSize);
   }
 
   public int nextChangeId() throws OrmException {
     if (!migration.readChangeSequence()) {
-      return db.get().nextChangeId();
+      return nextChangeId(db.get());
     }
     return changeSeq.next();
   }
@@ -84,7 +80,7 @@ public class Sequences {
     List<Integer> ids = new ArrayList<>(count);
     ReviewDb db = this.db.get();
     for (int i = 0; i < count; i++) {
-      ids.add(db.nextChangeId());
+      ids.add(nextChangeId(db));
     }
     return ImmutableList.copyOf(ids);
   }
@@ -92,5 +88,10 @@ public class Sequences {
   @VisibleForTesting
   public RepoSequence getChangeIdRepoSequence() {
     return changeSeq;
+  }
+
+  @SuppressWarnings("deprecation")
+  private static int nextChangeId(ReviewDb db) throws OrmException {
+    return db.nextChangeId();
   }
 }

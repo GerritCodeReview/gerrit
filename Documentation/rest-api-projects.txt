@@ -1314,7 +1314,7 @@ Deletes a branch.
 
 .Request
 ----
-  DELETE /projects/MyProject/branches/stable HTTP/1.0
+  DELETE /projects/MyProject/branches/refs/heads/stable HTTP/1.0
 ----
 
 .Response
@@ -1340,8 +1340,8 @@ link:#delete-branches-input[DeleteBranchesInput] entity.
 
   {
     "branches": [
-      "stable-1.0",
-      "stable-2.0"
+      "refs/heads/stable-1.0",
+      "refs/heads/stable-2.0"
     ]
   }
 ----

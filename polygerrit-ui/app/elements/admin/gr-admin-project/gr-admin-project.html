@@ -111,7 +111,7 @@ limitations under the License.
                         id="contentMergeSelect"
                         is="gr-select"
                         bind-value="{{_projectConfig.use_content_merge.configured_value}}"
-                        disabled$="[[_readOnly]]">>
+                        disabled$="[[_readOnly]]">
                       <template is="dom-repeat"
                           items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
                         <option value="[[item.value]]">[[item.label]]</option>

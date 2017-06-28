@@ -883,13 +883,13 @@ maven_jar(
 maven_jar(
     name = "codemirror_minified",
     artifact = "org.webjars.npm:codemirror-minified:" + CM_VERSION,
-    sha1 = "a62e6dc43acc09df962edeb8013c987da7739e7a",
+    sha1 = "7464d1bf59a36b081981b855a51839bf3a1f302d",
 )
 
 maven_jar(
     name = "codemirror_original",
     artifact = "org.webjars.npm:codemirror:" + CM_VERSION,
-    sha1 = "7a5ae457aa3bc0023d21bc75793bac86b83b0c51",
+    sha1 = "8bcf4d541eba5c1c6916cb449fe4baf73d2ebd6f",
 )
 
 maven_jar(

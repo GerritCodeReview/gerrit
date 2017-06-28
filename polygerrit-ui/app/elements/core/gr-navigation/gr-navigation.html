@@ -52,6 +52,8 @@ limitations under the License.
       console.warn('Use of uninitialized routing');
     };
 
+    const PARENT_PATCHNUM = 'PARENT';
+
     window.Gerrit.Nav = {
 
       View: {
@@ -137,10 +139,15 @@ limitations under the License.
       /**
        * @param {!Object} change The change object.
        * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
+       * @param {Number|String} opt_basePatchNum The string 'PARENT' can be used
+       *   for none.
        * @return {String}
        */
       getUrlForChange(change, opt_patchNum, opt_basePatchNum) {
+        if (opt_basePatchNum === PARENT_PATCHNUM) {
+          opt_basePatchNum = undefined;
+        }
+
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.CHANGE,
@@ -153,7 +160,8 @@ limitations under the License.
       /**
        * @param {!Object} change The change object.
        * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
+       * @param {Number|String} opt_basePatchNum The string 'PARENT' can be used
+       *   for none.
        * @return {String}
        */
       navigateToChange(change, opt_patchNum, opt_basePatchNum) {
@@ -165,10 +173,15 @@ limitations under the License.
        * @param {!Object} change The change object.
        * @param {!String} path The file path.
        * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
+       * @param {Number|String} opt_basePatchNum The string 'PARENT' can be used
+       *   for none.
        * @return {String}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+        if (opt_basePatchNum === PARENT_PATCHNUM) {
+          opt_basePatchNum = undefined;
+        }
+
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.DIFF,
@@ -183,7 +196,8 @@ limitations under the License.
        * @param {!Object} change The change object.
        * @param {!String} path The file path.
        * @param {Number} opt_patchNum
-       * @param {Number} opt_basePatchNum
+       * @param {Number|String} opt_basePatchNum The string 'PARENT' can be used
+       *   for none.
        */
       navigateToDiff(change, path, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForDiff(change, path, opt_patchNum,

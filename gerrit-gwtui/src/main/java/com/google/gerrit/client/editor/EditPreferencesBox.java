@@ -69,6 +69,7 @@ public class EditPreferencesBox extends Composite {
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton matchBrackets;
   @UiField ToggleButton lineWrapping;
+  @UiField ToggleButton indentWithTabs;
   @UiField ToggleButton autoCloseBrackets;
   @UiField ToggleButton showBase;
   @UiField ListBox theme;
@@ -106,6 +107,7 @@ public class EditPreferencesBox extends Composite {
     lineNumbers.setValue(prefs.hideLineNumbers());
     matchBrackets.setValue(prefs.matchBrackets());
     lineWrapping.setValue(prefs.lineWrapping());
+    indentWithTabs.setValue(prefs.indentWithTabs());
     autoCloseBrackets.setValue(prefs.autoCloseBrackets());
     showBase.setValue(prefs.showBase());
     setTheme(prefs.theme());
@@ -214,6 +216,15 @@ public class EditPreferencesBox extends Composite {
       view.getEditor().setOption("lineWrapping", prefs.lineWrapping());
     }
   }
+
+  @UiHandler("indentWithTabs")
+  void onIndentWithTabs(ValueChangeEvent<Boolean> e) {
+    prefs.indentWithTabs(e.getValue());
+    if (view != null) {
+      view.getEditor().setOption("indentWithTabs", prefs.indentWithTabs());
+    }
+  }
+
 
   @UiHandler("autoCloseBrackets")
   void onCloseBrackets(ValueChangeEvent<Boolean> e) {

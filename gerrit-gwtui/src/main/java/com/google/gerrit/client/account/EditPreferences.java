@@ -33,6 +33,7 @@ public class EditPreferences extends JavaScriptObject {
     p.hideLineNumbers(in.hideLineNumbers);
     p.matchBrackets(in.matchBrackets);
     p.lineWrapping(in.lineWrapping);
+    p.indentWithTabs(in.indentWithTabs);
     p.autoCloseBrackets(in.autoCloseBrackets);
     p.showBase(in.showBase);
     p.theme(in.theme);
@@ -52,6 +53,7 @@ public class EditPreferences extends JavaScriptObject {
     p.hideLineNumbers = hideLineNumbers();
     p.matchBrackets = matchBrackets();
     p.lineWrapping = lineWrapping();
+    p.indentWithTabs = indentWithTabs();
     p.autoCloseBrackets = autoCloseBrackets();
     p.showBase = showBase();
     p.theme = theme();
@@ -93,6 +95,8 @@ public class EditPreferences extends JavaScriptObject {
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
 
   public final native void lineWrapping(boolean w) /*-{ this.line_wrapping = w }-*/;
+
+  public final native void indentWithTabs(boolean w) /*-{ this.indent_with_tabs = w }-*/;
 
   public final native void autoCloseBrackets(boolean c) /*-{ this.auto_close_brackets = c }-*/;
 
@@ -143,6 +147,8 @@ public class EditPreferences extends JavaScriptObject {
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
 
   public final native boolean lineWrapping() /*-{ return this.line_wrapping || false }-*/;
+
+  public final native boolean indentWithTabs() /*-{ return this.indent_with_tabs || false }-*/;
 
   public final native boolean
       autoCloseBrackets() /*-{ return this.auto_close_brackets || false }-*/;

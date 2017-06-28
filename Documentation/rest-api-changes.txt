@@ -2121,7 +2121,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
 ----
 
 [[set-work-in-pogress]]
-== Set Work-In-Progress
+=== Set Work-In-Progress
 --
 'POST /changes/link:#change-id[\{change-id\}]/wip'
 --
@@ -2149,7 +2149,7 @@ notifying *OWNER* instead of *ALL*.
 ----
 
 [[set-ready-for-review]]
-== Set Ready-For-Review
+=== Set Ready-For-Review
 --
 'POST /changes/link:#change-id[\{change-id\}]/ready'
 --

@@ -46,6 +46,7 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
@@ -54,6 +55,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.lib.Config;
@@ -245,11 +247,17 @@ public class GerritServer implements AutoCloseable {
    *     servers. For on-disk servers, assumes that {@link #init} was previously called to
    *     initialize this directory.
    * @param testSysModule optional additional module to add to the system injector.
+   * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
+   *     the test is not in-memory.
    * @return started server.
    * @throws Exception
    */
   public static GerritServer start(
-      Description desc, Config baseConfig, Path site, @Nullable Module testSysModule)
+      Description desc,
+      Config baseConfig,
+      Path site,
+      @Nullable Module testSysModule,
+      String... additionalArgs)
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
@@ -270,9 +278,10 @@ public class GerritServer implements AutoCloseable {
     daemon.setEnableSshd(desc.useSsh());
 
     if (desc.memory()) {
+      checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
       return startInMemory(desc, baseConfig, daemon);
     }
-    return startOnDisk(desc, site, daemon, serverStarted);
+    return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
 
   private static GerritServer startInMemory(Description desc, Config baseConfig, Daemon daemon)
@@ -294,18 +303,25 @@ public class GerritServer implements AutoCloseable {
   }
 
   private static GerritServer startOnDisk(
-      Description desc, Path site, Daemon daemon, CyclicBarrier serverStarted) throws Exception {
+      Description desc,
+      Path site,
+      Daemon daemon,
+      CyclicBarrier serverStarted,
+      String[] additionalArgs)
+      throws Exception {
     checkNotNull(site);
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
+    String[] args =
+        Stream.concat(
+                Stream.of(
+                    "-d", site.toString(), "--headless", "--console-log", "--show-stack-trace"),
+                Arrays.stream(additionalArgs))
+            .toArray(String[]::new);
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         daemonService.submit(
             () -> {
-              int rc =
-                  daemon.main(
-                      new String[] {
-                        "-d", site.toString(), "--headless", "--console-log", "--show-stack-trace",
-                      });
+              int rc = daemon.main(args);
               if (rc != 0) {
                 System.err.println("Failed to start Gerrit daemon");
                 serverStarted.reset();

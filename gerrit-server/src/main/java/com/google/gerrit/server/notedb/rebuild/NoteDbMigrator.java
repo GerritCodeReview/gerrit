@@ -438,7 +438,7 @@ public class NoteDbMigrator implements AutoCloseable {
           new RepoSequence(
               repoManager,
               allProjects,
-              Sequences.CHANGES,
+              Sequences.NAME_CHANGES,
               // If sequenceGap is 0, this writes into the sequence ref the same ID that is returned
               // by the call to seq.next() below. If we actually used this as a change ID, that
               // would be a problem, but we just discard it, so this is safe.

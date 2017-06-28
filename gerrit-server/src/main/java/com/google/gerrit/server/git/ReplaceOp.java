@@ -260,13 +260,15 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setPrivate(true);
         update.setPrivate(true);
       }
-      if (magicBranch.ready) {
-        change.setWorkInProgress(false);
-        change.setReviewStarted(true);
-        update.setWorkInProgress(false);
-      } else if (magicBranch.workInProgress) {
-        change.setWorkInProgress(true);
-        update.setWorkInProgress(true);
+      if (ctx.getAccountId().equals(change.getOwner())) {
+        if (magicBranch.ready) {
+          change.setWorkInProgress(false);
+          change.setReviewStarted(true);
+          update.setWorkInProgress(false);
+        } else if (magicBranch.workInProgress) {
+          change.setWorkInProgress(true);
+          update.setWorkInProgress(true);
+        }
       }
       if (shouldPublishComments()) {
         comments = publishComments(ctx);

@@ -464,6 +464,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWorkInProgressChangeWhenNotOwner() throws Exception {
+    PushOneCommit.Result r = pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Pushing as admin with %ready should succeed, but have no effect on WIP.
+    r = amendChange(r.getChangeId(), "refs/for/master%wip");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    // Push as owner to move out of WIP.
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", user, testRepo);
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    // Pushing as admin with %wip should succeed, but have no effect on WIP.
+    r = amendChange(r.getChangeId(), "refs/for/master%ready");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+  }
+
+  @Test
   public void pushForMasterAsDraft() throws Exception {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");

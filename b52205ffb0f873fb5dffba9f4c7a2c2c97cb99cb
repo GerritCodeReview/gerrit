@@ -53,6 +53,29 @@
       "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e322d82d_01d6a91b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-28T23:54:04Z",
+      "side": 1,
+      "message": "This block is causing an error in Eclipse:\n\n Cannot infer type argument(s) for \u003cR\u003e map(Function\u003c? super T,? extends R\u003e)",
+      "range": {
+        "startLine": 474,
+        "startChar": 4,
+        "endLine": 490,
+        "endChar": 31
+      },
+      "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

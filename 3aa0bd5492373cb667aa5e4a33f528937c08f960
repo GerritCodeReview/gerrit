@@ -16,6 +16,24 @@
       "revId": "3aa0bd5492373cb667aa5e4a33f528937c08f960",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f46921a_88b3811c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-28T15:12:00Z",
+      "side": 1,
+      "message": "Im not sure how to fix it. Since it already does this https://github.com/GerritCodeReview/gerrit/blob/f230f8817b5bcaca172127d30cd41e6c8cb1a395/gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java#L121 which should prevent this if you did not include the prefix but seems it did not.",
+      "parentUuid": "acdaa8a4_b3caacac",
+      "revId": "3aa0bd5492373cb667aa5e4a33f528937c08f960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

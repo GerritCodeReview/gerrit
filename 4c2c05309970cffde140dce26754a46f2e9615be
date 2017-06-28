@@ -22,6 +22,30 @@
       "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f3250fc_d664e5cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-28T00:15:19Z",
+      "side": 1,
+      "message": "That was the justification for the threshold initially, yes. Using GWT, however, it seems that there was no threshold on that input. The autocomplete suggestions are definitely slower when you have a broader query, sure, but we have handling for that in [1], so I think we\u0027re fine with this.\n\nIt was also Patrick who filed this feature request in the first place.\n\n[1] https://gerrit-review.googlesource.com/c/111490/2/polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js#204",
+      "parentUuid": "244e4720_00c50397",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "4c2c05309970cffde140dce26754a46f2e9615be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

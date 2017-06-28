@@ -178,6 +178,21 @@ limitations under the License.
                         disabled$="[[_readOnly]]">
                   </span>
                 </section>
+                <section>
+                  <span class="title">Match authored date with committer date upon submit</span>
+                  <span class="value">
+                    <select
+                        id="matchAuthoredDateWithCommitterDateSelect"
+                        is="gr-select"
+                        bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}"
+                        disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </span>
+                </section>
               </fieldset>
               <h3 id="Options">Contributor Agreements</h3>
               <fieldset id="agreements">

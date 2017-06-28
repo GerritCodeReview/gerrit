@@ -619,13 +619,12 @@
         }
         if (patchNum === currentPatchNum &&
             this._patchRange.basePatchNum === 'PARENT') {
-          page.show(this.changePath(this._changeNum));
+          Gerrit.Nav.navigateToChange(this._change);
           return;
         }
       }
-      const patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
-          this._patchRange.basePatchNum + '..' + patchNum;
-      page.show(this.changePath(this._changeNum) + '/' + patchExpr);
+      Gerrit.Nav.navigateToChange(this._change, patchNum,
+          this._patchRange.basePatchNum);
     },
 
     _computeChangeUrl(change) {
@@ -790,7 +789,7 @@
     _handleCapitalRKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
-      page.show('/c/' + this._change._number);
+      Gerrit.Nav.navigateToChange(this._change);
     },
 
     _handleSKey(e) {
@@ -835,7 +834,7 @@
     _determinePageBack() {
       // Default backPage to '/' if user came to change view page
       // via an email link, etc.
-      page.show(this.backPage || '/');
+      Gerrit.Nav.navigateToRelativeUrl(this.backPage || '/');
     },
 
     _handleLabelRemoved(splices, path) {
@@ -883,7 +882,7 @@
         // If the change was rebased, we need to reload the page with the
         // latest patch.
         if (e.detail.action === 'rebase') {
-          page.show(this.changePath(this._changeNum));
+          Gerrit.Nav.navigateToChange(this._change);
         }
       });
     },

@@ -70,6 +70,24 @@
       "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e806050c_a5198df2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-28T15:57:21Z",
+      "side": 1,
+      "message": "Tested locally now, and works.\n\nI guess when i tested it, it may have hit the cache from before. ive cleaned the cache this time.\n\nThanks, done. :)",
+      "parentUuid": "52dee09e_c513ed80",
+      "revId": "193d6098308a932602f1f94cf6836791c0a1ecdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

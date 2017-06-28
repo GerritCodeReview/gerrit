@@ -80,6 +80,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -696,7 +697,8 @@ public class NoteDbMigrator implements AutoCloseable {
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
     pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try {
-      for (Change.Id changeId : allChanges.get(project)) {
+      Collection<Change.Id> changes = allChanges.get(project);
+      for (Change.Id changeId : changes) {
         // Update one change at a time, which ends up creating one NoteDbUpdateManager per change as
         // well. This turns out to be no more expensive than batching, since each NoteDb operation
         // is only writing single loose ref updates and loose objects. Plus we have to do one
@@ -706,6 +708,8 @@ public class NoteDbMigrator implements AutoCloseable {
           rebuilder.rebuild(db, changeId);
         } catch (NoPatchSetsException e) {
           log.warn(e.getMessage());
+        } catch (RepositoryNotFoundException e) {
+          log.warn("Repository {} not found while rebuilding change {}", project, changeId);
         } catch (ConflictingUpdateException e) {
           log.warn(
               "Rebuilding detected a conflicting ReviewDb update for change {};"

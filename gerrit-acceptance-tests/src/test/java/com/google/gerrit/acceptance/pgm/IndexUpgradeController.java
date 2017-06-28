@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.truth.Truth.assert_;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +25,6 @@ import com.google.inject.Module;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 class IndexUpgradeController implements OnlineUpgradeListener {
   @AutoValue
@@ -105,21 +103,7 @@ class IndexUpgradeController implements OnlineUpgradeListener {
 
   void runUpgrades() throws Exception {
     readyToStart.countDown();
-
-    // Wait with a timeout. Startup should happen quickly, but bugs preventing upgrading from
-    // starting might not be that uncommon, so we don't want to have to wait forever to discover
-    // them.
-    int timeoutSec = 60;
-    if (!started.await(timeoutSec, TimeUnit.SECONDS)) {
-      assert_()
-          .fail(
-              "%s/%s online upgrades started after %ss",
-              numExpected - started.getCount(), numExpected, timeoutSec);
-    }
-
-    // Wait with no timeout. Reindexing might be slow, and given that upgrading started
-    // successfully, it's unlikely there is a bug preventing it from tripping the finished latch
-    // eventually, even if it takes longer than we might guess.
+    started.await();
     finished.await();
   }
 

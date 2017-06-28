@@ -75,6 +75,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
+import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
@@ -113,6 +114,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,6 +165,13 @@ public class Daemon extends SiteProgram {
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
+
+  @Option(
+    name = "--migrate-to-note-db",
+    usage = "(EXPERIMENTAL) Automatically migrate changes to NoteDb",
+    handler = ExplicitBooleanOptionHandler.class
+  )
+  private boolean migrateToNoteDb;
 
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
@@ -450,6 +459,9 @@ public class Daemon extends SiteProgram {
       modules.add(new ChangeCleanupRunner.Module());
     }
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
+    if (migrateToNoteDb) {
+      modules.add(new OnlineNoteDbMigrator.Module());
+    }
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
@@ -463,7 +475,10 @@ public class Daemon extends SiteProgram {
     if (luceneModule != null) {
       return luceneModule;
     }
-    boolean onlineUpgrade = VersionManager.getOnlineUpgrade(config);
+    boolean onlineUpgrade =
+        VersionManager.getOnlineUpgrade(config)
+            // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
+            && !migrateToNoteDb;
     switch (indexType) {
       case LUCENE:
         return onlineUpgrade

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe40b60d_74f4d53c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-28T20:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "780f7a44_0ba9a1bf",
+      "revId": "61f41a64f72a320775afed70b3683e57734031aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1ee8a07_43c2c43b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-06-27T23:43:52Z",
       "side": 1,
       "message": "Why 10?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "61f41a64f72a320775afed70b3683e57734031aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5bb46f2_9868d8c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-28T20:24:58Z",
+      "side": 1,
+      "message": "No particular reason.\nIt should be more than anything in the diff, since now gr-action-box is inserted into DOM before it.",
+      "parentUuid": "a1ee8a07_43c2c43b",
       "range": {
         "startLine": 36,
         "startChar": 0,

@@ -974,24 +974,24 @@ maven_jar(
     sha1 = "1c12d070e602efd8021891cdd7fd18bc129372d4",
 )
 
-JACKSON_VERSION = "2.6.6"
+JACKSON_VERSION = "2.8.9"
 
 maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
-    sha1 = "02eb801df67aacaf5b1deb4ac626e1964508e47b",
+    sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
 )
 
 maven_jar(
     name = "jackson_dataformat_smile",
     artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "ccbfc948748ed2754a58c1af9e0a02b5cc1aed69",
+    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
 )
 
 maven_jar(
     name = "jackson_dataformat_cbor",
     artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
-    sha1 = "34c7b7ff495fc6b049612bdc9db0900a68e112f8",
+    sha1 = "93242092324cad33d777e06c0515e40a6b862659",
 )
 
 maven_jar(

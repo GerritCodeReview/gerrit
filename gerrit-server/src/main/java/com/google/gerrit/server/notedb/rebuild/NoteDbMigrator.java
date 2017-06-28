@@ -57,6 +57,8 @@ import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -92,6 +94,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final GitRepositoryManager repoManager;
     private final AllProjectsName allProjects;
+    private final OneOffRequestContext requestContext;
     private final ChangeRebuilder rebuilder;
     private final WorkQueue workQueue;
     private final NotesMigration globalNotesMigration;
@@ -113,6 +116,7 @@ public class NoteDbMigrator implements AutoCloseable {
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
         AllProjectsName allProjects,
+        OneOffRequestContext requestContext,
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
         NotesMigration globalNotesMigration,
@@ -122,6 +126,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.schemaFactory = schemaFactory;
       this.repoManager = repoManager;
       this.allProjects = allProjects;
+      this.requestContext = requestContext;
       this.rebuilder = rebuilder;
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
@@ -261,6 +266,7 @@ public class NoteDbMigrator implements AutoCloseable {
           schemaFactory,
           repoManager,
           allProjects,
+          requestContext,
           rebuilder,
           globalNotesMigration,
           primaryStorageMigrator,
@@ -281,6 +287,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjects;
+  private final OneOffRequestContext requestContext;
   private final ChangeRebuilder rebuilder;
   private final NotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
@@ -299,6 +306,7 @@ public class NoteDbMigrator implements AutoCloseable {
       SchemaFactory<ReviewDb> schemaFactory,
       GitRepositoryManager repoManager,
       AllProjectsName allProjects,
+      OneOffRequestContext requestContext,
       ChangeRebuilder rebuilder,
       NotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
@@ -322,6 +330,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.rebuilder = rebuilder;
     this.repoManager = repoManager;
     this.allProjects = allProjects;
+    this.requestContext = requestContext;
     this.globalNotesMigration = globalNotesMigration;
     this.primaryStorageMigrator = primaryStorageMigrator;
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
@@ -479,7 +488,7 @@ public class NoteDbMigrator implements AutoCloseable {
                     executor.submit(
                         () -> {
                           // TODO(dborowitz): Avoid reopening db if using a single thread.
-                          try (ReviewDb db = unwrapDb(schemaFactory.open())) {
+                          try (ManualRequestContext ctx = requestContext.open()) {
                             primaryStorageMigrator.migrateToNoteDbPrimary(id);
                             return true;
                           } catch (Exception e) {

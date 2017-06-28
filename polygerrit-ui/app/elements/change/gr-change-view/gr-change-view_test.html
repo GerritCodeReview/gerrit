@@ -37,12 +37,12 @@ limitations under the License.
   suite('gr-change-view tests', () => {
     let element;
     let sandbox;
-    let showStub;
+    let navigateToChangeStub;
     const TEST_SCROLL_TOP_PX = 100;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      showStub = sandbox.stub(page, 'show');
+      navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({test: 'config'}); },
         getAccount() { return Promise.resolve(null); },
@@ -65,14 +65,21 @@ limitations under the License.
       });
 
       test('U should navigate to / if no backPage set', () => {
+        const relativeNavStub = sandbox.stub(Gerrit.Nav,
+            'navigateToRelativeUrl');
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert(showStub.lastCall.calledWithExactly('/'));
+        assert.isTrue(relativeNavStub.called);
+        assert.isTrue(relativeNavStub.lastCall.calledWithExactly('/'));
       });
 
       test('U should navigate to backPage if set', () => {
+        const relativeNavStub = sandbox.stub(Gerrit.Nav,
+            'navigateToRelativeUrl');
         element.backPage = '/dashboard/self';
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-        assert(showStub.lastCall.calledWithExactly('/dashboard/self'));
+        assert.isTrue(relativeNavStub.called);
+        assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
+            '/dashboard/self'));
       });
 
       test('A fires an error event when not logged in', done => {
@@ -145,11 +152,14 @@ limitations under the License.
 
             sandbox.stub(element.$.actions, 'reload');
 
-            showStub.restore();
-            showStub = sandbox.stub(page, 'show', arg => {
-              assert.equal(arg, '/c/42');
-              done();
-            });
+            navigateToChangeStub.restore();
+            navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',
+                (change, patchNum, basePatchNum) => {
+                  assert.equal(change, element._change);
+                  assert.isUndefined(patchNum);
+                  assert.isUndefined(basePatchNum);
+                  done();
+                });
 
             MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
           });
@@ -528,13 +538,13 @@ limitations under the License.
         assert.equal(element.viewState.diffMode, 'UNIFIED');
         numEvents++;
         if (numEvents == 1) {
-          assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-              'Should navigate to /c/42/1');
+          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change, 1, 'PARENT'));
           selectEl.value = '3';
           element.fire('change', {}, {node: selectEl});
         } else if (numEvents == 2) {
-          assert(showStub.lastCall.calledWithExactly('/c/42/3'),
-              'Should navigate to /c/42/3');
+          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change, 3, 'PARENT'));
           done();
         }
       });
@@ -577,13 +587,13 @@ limitations under the License.
       selectEl.addEventListener('change', e => {
         numEvents++;
         if (numEvents == 1) {
-          assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-              'Should navigate to /c/42/1');
+          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change, 1, 'PARENT'));
           selectEl.value = '3';
           element.fire('change', {}, {node: selectEl});
         } else if (numEvents == 2) {
-          assert(showStub.lastCall.calledWithExactly('/c/42/3'),
-              'Should navigate to /c/42/3');
+          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change, 3, 'PARENT'));
           done();
         }
       });
@@ -650,12 +660,14 @@ limitations under the License.
       };
 
       element._changePatchNum(13);
-      assert(showStub.lastCall.calledWithExactly('/c/42/2..13'));
+      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+          element._change, 13, '2'));
 
       element._patchRange.basePatchNum = 'PARENT';
 
       element._changePatchNum(3);
-      assert(showStub.lastCall.calledWithExactly('/c/42/3'));
+      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+          element._change, 3, 'PARENT'));
     });
 
     test('related changes are updated and new patch selected after rebase',
@@ -668,7 +680,8 @@ limitations under the License.
               () => { return Promise.resolve(); });
           const e = {detail: {action: 'rebase'}};
           element._handleReloadChange(e).then(() => {
-            assert.isTrue(showStub.lastCall.calledWithExactly('/c/42'));
+            assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
+                element._change));
             done();
           });
         });
@@ -679,7 +692,7 @@ limitations under the License.
       sandbox.stub(element.$.relatedChanges, 'reload');
       const e = {detail: {action: 'abandon'}};
       element._handleReloadChange(e).then(() => {
-        assert.isFalse(showStub.called);
+        assert.isFalse(navigateToChangeStub.called);
         done();
       });
     });

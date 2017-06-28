@@ -214,6 +214,17 @@ limitations under the License.
           owner,
         });
       },
+
+      /**
+       * Navigate to an arbitrary relative URL.
+       * @param {!string} relativeUrl
+       */
+      navigateToRelativeUrl(relativeUrl) {
+        if (!relativeUrl.startsWith('/')) {
+          throw new Error('navigateToRelativeUrl with non-relative URL');
+        }
+        this._navigate(relativeUrl);
+      },
     };
   })(window);
 </script>

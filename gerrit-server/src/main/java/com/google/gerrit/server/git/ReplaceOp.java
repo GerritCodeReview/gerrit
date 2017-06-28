@@ -97,7 +97,9 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private static final Logger log = LoggerFactory.getLogger(ReplaceOp.class);
 
-  private static final String CHANGE_IS_CLOSED = "change is closed";
+  public static final String CHANGE_IS_CLOSED = "change is closed";
+  public static final String ONLY_OWNER_CAN_MODIFY_WIP =
+      "only change owner can modify Work-in-Progress";
 
   private final AccountResolver accountResolver;
   private final ApprovalCopier approvalCopier;
@@ -261,10 +263,18 @@ public class ReplaceOp implements BatchUpdateOp {
         update.setPrivate(true);
       }
       if (magicBranch.ready) {
+        if (!ctx.getAccountId().equals(change.getOwner())) {
+          rejectMessage = ONLY_OWNER_CAN_MODIFY_WIP;
+          return false;
+        }
         change.setWorkInProgress(false);
         change.setReviewStarted(true);
         update.setWorkInProgress(false);
       } else if (magicBranch.workInProgress) {
+        if (!ctx.getAccountId().equals(change.getOwner())) {
+          rejectMessage = ONLY_OWNER_CAN_MODIFY_WIP;
+          return false;
+        }
         change.setWorkInProgress(true);
         update.setWorkInProgress(true);
       }
@@ -432,6 +442,10 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) throws Exception {
+    if (rejectMessage != null) {
+      return;
+    }
+
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);

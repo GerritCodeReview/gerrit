@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -36,7 +38,7 @@ import org.junit.Test;
 @NoHttpd
 public class DeleteTagsIT extends AbstractDaemonTest {
   private static final ImmutableList<String> TAGS =
-      ImmutableList.of("refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3");
+      ImmutableList.of("refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3", "test-4");
 
   @Before
   public void setUp() throws Exception {
@@ -112,7 +114,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
     for (String tag : tags) {
       message
           .append("Cannot delete ")
-          .append(tag)
+          .append(prefixRef(tag))
           .append(": it doesn't exist or you do not have permission ")
           .append("to delete it\n");
     }
@@ -122,16 +124,22 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   private HashMap<String, RevCommit> initialRevisions(List<String> tags) throws Exception {
     HashMap<String, RevCommit> result = new HashMap<>();
     for (String tag : tags) {
-      result.put(tag, getRemoteHead(project, tag));
+      String ref = prefixRef(tag);
+      result.put(ref, getRemoteHead(project, ref));
     }
     return result;
   }
 
   private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions) throws Exception {
     for (String tag : revisions.keySet()) {
-      RevCommit revision = revisions.get(tag);
-      eventRecorder.assertRefUpdatedEvents(project.get(), tag, null, revision, revision, null);
+      RevCommit revision = revisions.get(prefixRef(tag));
+      eventRecorder.assertRefUpdatedEvents(
+          project.get(), prefixRef(tag), null, revision, revision, null);
     }
+  }
+
+  private String prefixRef(String ref) {
+    return ref.startsWith(R_TAGS) ? ref : R_TAGS + ref;
   }
 
   private ProjectApi project() throws Exception {
@@ -141,7 +149,9 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   private void assertTags(List<String> expected) throws Exception {
     List<TagInfo> actualTags = project().tags().get();
     Iterable<String> actualNames = Iterables.transform(actualTags, b -> b.ref);
-    assertThat(actualNames).containsExactlyElementsIn(expected).inOrder();
+    assertThat(actualNames)
+        .containsExactlyElementsIn(expected.stream().map(t -> prefixRef(t)).collect(toList()))
+        .inOrder();
   }
 
   private void assertTagsDeleted() throws Exception {

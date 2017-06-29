@@ -118,8 +118,9 @@ public abstract class StandaloneSiteTest {
     return startServer(null);
   }
 
-  protected ServerContext startServer(@Nullable Module testSysModule) throws Exception {
-    return new ServerContext(startImpl(testSysModule));
+  protected ServerContext startServer(@Nullable Module testSysModule, String... additionalArgs)
+      throws Exception {
+    return new ServerContext(startImpl(testSysModule, additionalArgs));
   }
 
   protected void assertServerStartupFails() throws Exception {
@@ -130,8 +131,10 @@ public abstract class StandaloneSiteTest {
     }
   }
 
-  private GerritServer startImpl(@Nullable Module testSysModule) throws Exception {
-    return GerritServer.start(serverDesc, baseConfig, sitePaths.site_path, testSysModule);
+  private GerritServer startImpl(@Nullable Module testSysModule, String... additionalArgs)
+      throws Exception {
+    return GerritServer.start(
+        serverDesc, baseConfig, sitePaths.site_path, testSysModule, additionalArgs);
   }
 
   protected static void runGerrit(String... args) throws Exception {

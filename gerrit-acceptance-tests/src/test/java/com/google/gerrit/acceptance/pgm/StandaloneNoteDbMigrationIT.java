@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
@@ -49,14 +50,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for offline {@code migrate-to-note-db} program.
+ * Tests for NoteDb migrations where the entry point is through a program, {@code
+ * migrate-to-note-db} or {@code daemon}.
  *
  * <p><strong>Note:</strong> These tests are very slow due to the repeated daemon startup. Prefer
  * adding tests to {@link com.google.gerrit.acceptance.server.notedb.OnlineNoteDbMigrationIT} if
  * possible.
  */
 @NoHttpd
-public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
+public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
   private StoredConfig gerritConfig;
 
   private Project.NameKey project;
@@ -145,6 +147,36 @@ public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
     assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
   }
 
+  @Test
+  public void onlineMigrationViaDaemon() throws Exception {
+    assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
+    int prevVersion = ChangeSchemaDefinitions.INSTANCE.getPrevious().getVersion();
+    int currVersion = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
+
+    // Before storing any changes, switch back to the previous version.
+    GerritIndexStatus status = new GerritIndexStatus(sitePaths);
+    status.setReady(ChangeSchemaDefinitions.NAME, currVersion, false);
+    status.setReady(ChangeSchemaDefinitions.NAME, prevVersion, true);
+    status.save();
+
+    setOnlineUpgradeConfig(false);
+    setUpOneChange();
+    setOnlineUpgradeConfig(true);
+
+    IndexUpgradeController u = new IndexUpgradeController(1);
+    try (ServerContext ctx = startServer(u.module(), "--migrate-to-note-db", "true")) {
+      ChangeIndexCollection indexes = ctx.getInjector().getInstance(ChangeIndexCollection.class);
+      assertThat(indexes.getSearchIndex().getSchema().getVersion()).isEqualTo(prevVersion);
+
+      // Index schema upgrades happen after NoteDb migration, so waiting for those to complete
+      // should be sufficient.
+      u.runUpgrades();
+
+      assertThat(indexes.getSearchIndex().getSchema().getVersion()).isEqualTo(currVersion);
+      assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+    }
+  }
+
   private void setUpOneChange() throws Exception {
     project = new Project.NameKey("project");
     try (ServerContext ctx = startServer()) {
@@ -174,5 +206,11 @@ public class OfflineNoteDbMigrationIT extends StandaloneSiteTest {
     return ctx.getInjector()
         .getInstance(Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}, ReviewDbFactory.class))
         .open();
+  }
+
+  private void setOnlineUpgradeConfig(boolean enable) throws Exception {
+    gerritConfig.load();
+    gerritConfig.setBoolean("index", null, "onlineUpgrade", enable);
+    gerritConfig.save();
   }
 }

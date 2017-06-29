@@ -22,6 +22,30 @@
       "revId": "eb85f4380758634f383fbd81f1a79d32ad289b35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00659f19_bc098147",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project/gr-admin-project.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T20:40:04Z",
+      "side": 1,
+      "message": "Was thinking that but not sure. I guess we could have it as just \"\u003cname\u003e\".\n\nThanks, done.",
+      "parentUuid": "3c3751bb_34cd4be8",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 32
+      },
+      "revId": "eb85f4380758634f383fbd81f1a79d32ad289b35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

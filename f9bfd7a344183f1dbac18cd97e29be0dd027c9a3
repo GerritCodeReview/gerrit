@@ -1,0 +1,694 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aad7e317_d900bad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Please mention the modification of the reviewers\u0027 state also here. It\u0027s a major change in behavior and should clearly stick out. The alternative would be to separate this change into two: one for the batch deletion and one for the state change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4005a9e9_b5311a5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "The batch part seems to be the important thing about this change. However, all the tests only test deletion of a single reviewer. Shouldn\u0027t we have a test which deletes multiple reviewers in a batch operation, preferable of different states?\n\nDo we also have a test which tries to delete a reviewer which isn\u0027t a reviewer or which has already be deleted?\n\nAnd what about deleting groups?",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff051cf_02f404a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "I didn\u0027t see any code changes related to that. Did switching from CC to REVIEWER already work before this change?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9a61609_10398e02",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6617,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "That isn\u0027t completely accurate anymore. Please adjust it and also make sure to correct similar usages below.",
+      "range": {
+        "startLine": 6616,
+        "startChar": 0,
+        "endLine": 6617,
+        "endChar": 12
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6acca899_bd71fbc4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6627,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this mention that an email address can be specified too?",
+      "range": {
+        "startLine": 6622,
+        "startChar": 0,
+        "endLine": 6627,
+        "endChar": 32
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd192021_3a539cab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6631,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Do we have tests which ensure that \u0027REMOVED\u0027 can\u0027t be used for the other REST endpoints which use ReviewerInput?",
+      "range": {
+        "startLine": 6631,
+        "startChar": 34,
+        "endLine": 6631,
+        "endChar": 57
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e358272_dc4bd6d4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6631,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "optional: Cross-references should be preferred when linking to other parts of the same documentation.",
+      "range": {
+        "startLine": 6631,
+        "startChar": 0,
+        "endLine": 6631,
+        "endChar": 28
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "625d4cd9_ff495b8f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6640,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we mention that this setting is ignored for batch additions/updates/deletions?",
+      "range": {
+        "startLine": 6639,
+        "startChar": 0,
+        "endLine": 6640,
+        "endChar": 28
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e779b8d_47a91ac2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6645,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 6644,
+        "startChar": 0,
+        "endLine": 6645,
+        "endChar": 58
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fd5f800_099d6a17",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Why does this test require only notesMigration.enabled() whereas the next test requires notesMigration.readChanges()?",
+      "range": {
+        "startLine": 353,
+        "startChar": 18,
+        "endLine": 353,
+        "endChar": 42
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05ccad77_44ff5678",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Do we intend to add another ReviewerState soon? If not, I would prefer to have two separate tests. If you follow my suggestions below, there shouldn\u0027t be too much code duplication.",
+      "range": {
+        "startLine": 355,
+        "startChar": 4,
+        "endLine": 355,
+        "endChar": 92
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7585cd9_f91ef7da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "If this part was extracted to an own method, we could reduce code duplication. The method could also be used for ReviewerState.REMOVED.",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 47
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f541d387_7ebd1c31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be sufficient to check:\n\n List\u003cString\u003e reviewersOrCCs \u003d\n     reviewers.values().stream().flatMap(Collection::stream).map(a -\u003e a.email).collect(toList());\n assertThat(reviewersOrCCs).contains(\"foo@bar.com\");\n\nas we don\u0027t care whether the addition was done absolutely correctly in this test? Another test should take care of that.\n\nAnother possibility would be to add the following method:\n\n private List\u003cString\u003e getEmailAddresses(String changeId, ReviewerState state) throws Exception {\n   ChangeInfo changeInfo \u003d gApi.changes().id(changeId).get();\n   Collection\u003cAccountInfo\u003e accountInfos \u003d\n       changeInfo.reviewers.getOrDefault(state, ImmutableList.of());\n   return accountInfos.stream().map(a -\u003e a.email).collect(toList());\n }\n\nand simply check the contents of the returned list.",
+      "range": {
+        "startLine": 367,
+        "startChar": 6,
+        "endLine": 369,
+        "endChar": 35
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "658402b7_fa9a5534",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Same as above but with \u0027doesNotContain\u0027. Another benefit is that we wouldn\u0027t need a special case here.",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 384,
+        "endChar": 7
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b78e00b_2ee5a14d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Please see my remarks on the test above.",
+      "range": {
+        "startLine": 389,
+        "startChar": 14,
+        "endLine": 389,
+        "endChar": 55
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a85f1bc5_5b4edb35",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Please see my remarks on ChangeReviewerByEmailIT.",
+      "range": {
+        "startLine": 725,
+        "startChar": 14,
+        "endLine": 725,
+        "endChar": 42
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e861832_dc4d33c1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Except for this part, how is this test different from the one in ChangeReviewerByEmailIT? Both of them use RevisionApi#review and specify the reviewer via their email address.",
+      "range": {
+        "startLine": 739,
+        "startChar": 6,
+        "endLine": 739,
+        "endChar": 41
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a635609_a296d5ab",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "That isn\u0027t completely accurate anymore. Please adjust this Javadoc.",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 52
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f73dbb5_faed77e7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Is this renaming as well as the renaming of the result object neutral for both the GWT UI and PolyGerrit?",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e75251b_bd7c79df",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "I think that \u0027modify\u0027 might be better here and below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 59,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c512c1b_8f852968",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Omit.",
+      "range": {
+        "startLine": 23,
+        "startChar": 53,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f56cb38_268938dc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "This preposition doesn\u0027t seem to fit.",
+      "range": {
+        "startLine": 36,
+        "startChar": 42,
+        "endLine": 36,
+        "endChar": 44
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd78c3da_d0af9093",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Please try to extract parts of this loop into separate methods.",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 9
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c461c69_f19196a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Is it possible to include several entries for one person here (e.g. add them as CC and then delete them)? If so, what is the expected outcome?",
+      "range": {
+        "startLine": 252,
+        "startChar": 41,
+        "endLine": 252,
+        "endChar": 56
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b0dbde_1be2d1e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Couldn\u0027t this case be somehow integrated with the code which exists to add/modify reviewers?",
+      "range": {
+        "startLine": 256,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 59
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1b45fb_5cd0d01e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Which line of code ensures that deleted reviewers are mentioned in a notification after the batch deletion?",
+      "range": {
+        "startLine": 258,
+        "startChar": 10,
+        "endLine": 258,
+        "endChar": 59
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0260f506_6434c8c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Using exceptions for flow control is discouraged. Isn\u0027t there another way to find out whether an ID or an email address was specified?",
+      "range": {
+        "startLine": 262,
+        "startChar": 10,
+        "endLine": 262,
+        "endChar": 52
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebae2d61_a1f9e273",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "When will this condition branch ever be executed? Address#parse never returns null but can throw an exception.",
+      "range": {
+        "startLine": 267,
+        "startChar": 12,
+        "endLine": 267,
+        "endChar": 20
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d3adb78_cefc49f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "For new code, we try to avoid \u0027final\u0027 on local variables.",
+      "range": {
+        "startLine": 312,
+        "startChar": 6,
+        "endLine": 312,
+        "endChar": 11
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd989d8e_7fbd8664",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T15:47:01Z",
+      "side": 1,
+      "message": "Why \u0027false\u0027?",
+      "range": {
+        "startLine": 337,
+        "startChar": 90,
+        "endLine": 337,
+        "endChar": 95
+      },
+      "revId": "f9bfd7a344183f1dbac18cd97e29be0dd027c9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

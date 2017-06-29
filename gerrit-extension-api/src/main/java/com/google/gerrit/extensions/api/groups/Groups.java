@@ -271,17 +271,17 @@ public interface Groups {
    */
   class NotImplemented implements Groups {
     @Override
-    public GroupApi id(String id) {
+    public GroupApi id(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GroupApi create(String name) {
+    public GroupApi create(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GroupApi create(GroupInput input) {
+    public GroupApi create(GroupInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

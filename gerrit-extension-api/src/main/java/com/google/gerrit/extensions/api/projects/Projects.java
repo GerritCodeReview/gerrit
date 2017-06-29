@@ -177,17 +177,17 @@ public interface Projects {
    */
   class NotImplemented implements Projects {
     @Override
-    public ProjectApi name(String name) {
+    public ProjectApi name(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectApi create(ProjectInput in) {
+    public ProjectApi create(ProjectInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectApi create(String name) {
+    public ProjectApi create(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 

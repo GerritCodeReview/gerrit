@@ -29,12 +29,12 @@ public interface GpgKeyApi {
    */
   class NotImplemented implements GpgKeyApi {
     @Override
-    public GpgKeyInfo get() {
+    public GpgKeyInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() {
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

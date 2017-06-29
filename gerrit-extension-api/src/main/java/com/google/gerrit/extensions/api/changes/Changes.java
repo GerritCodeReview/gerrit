@@ -138,22 +138,22 @@ public interface Changes {
    */
   class NotImplemented implements Changes {
     @Override
-    public ChangeApi id(int id) {
+    public ChangeApi id(int id) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi id(String triplet) {
+    public ChangeApi id(String triplet) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi id(String project, String branch, String id) {
+    public ChangeApi id(String project, String branch, String id) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi create(ChangeInput in) {
+    public ChangeApi create(ChangeInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

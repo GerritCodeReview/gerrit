@@ -111,6 +111,10 @@ reviewer suggestion.
 * `reviewer_suggestion/query_groups`: Latency for querying groups for reviewer
 suggestion.
 
+=== Repo Sequences
+
+* `sequence/next_id_latency`: Latency of requesting IDs from repo sequences.
+
 === Replication Plugin
 
 * `plugins/replication/replication_latency`: Time spent pushing to remote

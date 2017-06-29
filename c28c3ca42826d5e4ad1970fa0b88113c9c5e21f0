@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0929a68c_b6ef5738",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-29T04:26:01Z",
+      "side": 1,
+      "message": "nit: create an issue in the gerrit tracker and refer to the upstream issue from there.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 46
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ba4f81d_58102f92",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2432,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-29T04:26:01Z",
+      "side": 1,
+      "message": "nit: should be aligned with previous entries",
+      "range": {
+        "startLine": 2432,
+        "startChar": 31,
+        "endLine": 2432,
+        "endChar": 34
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30de14f5_620adbf2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-29T04:26:01Z",
+      "side": 1,
+      "message": "whether\n\nfixed this one in https://gerrit-review.googlesource.com/111790",
+      "range": {
+        "startLine": 1133,
+        "startChar": 9,
+        "endLine": 1133,
+        "endChar": 16
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5888780_6ddf6209",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-29T04:26:01Z",
+      "side": 1,
+      "message": "whether",
+      "range": {
+        "startLine": 1142,
+        "startChar": 9,
+        "endLine": 1142,
+        "endChar": 16
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

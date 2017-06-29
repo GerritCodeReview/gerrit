@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0fb8ffc4_2aaa2581",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T12:56:23Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nbut also using hidden$\u003d is easier then doing display: none.",
+      "parentUuid": "b4c15264_f2d92336",
+      "revId": "0a66ff63126a124eb152f569c4aa87fc2b59eaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a264d35b_b16c54fe",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
         "patchSetId": 19

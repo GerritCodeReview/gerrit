@@ -100,6 +100,31 @@
       "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8cd3687_eada41d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-06-29T12:54:32Z",
+      "side": 1,
+      "message": "Seems like there\u0027s probably an ECJ bug that was fixed. If more people are using Neon and continue complaining (e.g. if it blocks running tests), I don\u0027t mind using a non-lambda Callable as a temporary workaround. But if people aren\u0027t complaining, we don\u0027t need to.",
+      "parentUuid": "95d5aede_f4fb8b5e",
+      "range": {
+        "startLine": 474,
+        "startChar": 4,
+        "endLine": 490,
+        "endChar": 31
+      },
+      "tag": "mailMessageId\u003d\u003cCAD0k6qSbta8YucHgXZnxbesAshpHxhfeE7\u003d4vGHP2KR+\u003dqB-9w@mail.gmail.com\u003e",
+      "revId": "b52205ffb0f873fb5dffba9f4c7a2c2c97cb99cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -51,6 +51,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -296,6 +297,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               indexer.index(cd);
               done.update(1);
               verboseWriter.println("Reindexed change " + cd.getId());
+            } catch (RejectedExecutionException e) {
+              // Server shutdown, don't spam the logs.
+              failSilently();
             } catch (Exception e) {
               fail("Failed to index change " + cd.getId(), true, e);
             }
@@ -321,6 +325,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       }
 
       verboseWriter.println(error);
+    }
+
+    private void failSilently() {
+      this.failed.update(1);
     }
   }
 }

@@ -22,6 +22,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -104,6 +105,9 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
     public void run() {
       try {
         future.get();
+      } catch (RejectedExecutionException e) {
+        // Server shutdown, don't spam the logs.
+        failSilently();
       } catch (ExecutionException | InterruptedException e) {
         fail(e);
       } catch (RuntimeException e) {
@@ -117,6 +121,10 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
           progress.update(1);
         }
       }
+    }
+
+    private void failSilently() {
+      ok.set(false);
     }
 
     private void fail(Throwable t) {

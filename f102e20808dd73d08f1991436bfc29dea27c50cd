@@ -46,6 +46,30 @@
       "revId": "f102e20808dd73d08f1991436bfc29dea27c50cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba33fb87_c725fa71",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T17:18:23Z",
+      "side": 1,
+      "message": "Doing that seems to not work. Tested locally and does not redirect when using a seperate function.",
+      "parentUuid": "6a4701ca_c67aef94",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 11
+      },
+      "revId": "f102e20808dd73d08f1991436bfc29dea27c50cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

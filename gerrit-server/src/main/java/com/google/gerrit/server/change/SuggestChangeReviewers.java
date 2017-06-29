@@ -34,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -66,7 +67,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, OrmException, IOException {
+      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

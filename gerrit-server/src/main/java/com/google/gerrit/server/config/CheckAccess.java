@@ -39,6 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckInput> {
@@ -67,7 +68,8 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
 
   @Override
   public AccessCheckInfo apply(ConfigResource unused, AccessCheckInput input)
-      throws OrmException, PermissionBackendException, RestApiException, IOException {
+      throws OrmException, PermissionBackendException, RestApiException, IOException,
+          ConfigInvalidException {
     permissionBackend.user(currentUser.get()).check(GlobalPermission.ADMINISTRATE_SERVER);
 
     if (input == null) {

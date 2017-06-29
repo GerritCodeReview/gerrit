@@ -88,6 +88,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -430,7 +431,7 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws OrmException, RestApiException, UpdateException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
     this.submitInput = submitInput;
     this.accountsToNotify = notifyUtil.resolveAccounts(submitInput.notifyDetails);
     this.dryrun = dryrun;

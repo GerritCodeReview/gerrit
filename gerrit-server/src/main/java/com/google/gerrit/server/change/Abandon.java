@@ -41,7 +41,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
@@ -68,7 +70,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource req, AbandonInput input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException,
+          IOException, ConfigInvalidException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
     NotifyHandling notify = input.notify == null ? defaultNotify(req.getControl()) : input.notify;

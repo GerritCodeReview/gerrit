@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -39,10 +38,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -150,7 +152,7 @@ public class AccountManager {
   private void update(ReviewDb db, AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    Account toUpdate = null;
+    List<Consumer<Account>> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -159,8 +161,7 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
-        toUpdate = load(toUpdate, user.getAccountId(), db);
-        toUpdate.setPreferredEmail(newEmail);
+        accountUpdates.add(a -> a.setPreferredEmail(newEmail));
       }
 
       externalIdsUpdateFactory
@@ -172,8 +173,7 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      toUpdate = load(toUpdate, user.getAccountId(), db);
-      toUpdate.setFullName(who.getDisplayName());
+      accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
@@ -184,24 +184,18 @@ public class AccountManager {
               "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
     }
 
-    if (toUpdate != null) {
-      accountsUpdateFactory.create().update(db, toUpdate);
+    if (!accountUpdates.isEmpty()) {
+      Account account =
+          accountsUpdateFactory.create().update(db, user.getAccountId(), accountUpdates);
+      if (account == null) {
+        throw new OrmException("Account " + user.getAccountId() + " has been deleted");
+      }
     }
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       byEmailCache.evict(oldEmail);
       byEmailCache.evict(newEmail);
     }
-  }
-
-  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
-    if (toUpdate == null) {
-      toUpdate = accounts.get(db, accountId);
-      if (toUpdate == null) {
-        throw new OrmException("Account " + accountId + " has been deleted");
-      }
-    }
-    return toUpdate;
   }
 
   private static boolean eq(String a, String b) {
@@ -211,18 +205,23 @@ public class AccountManager {
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(db.nextAccountId());
-    Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    account.setFullName(who.getDisplayName());
-    account.setPreferredEmail(extId.email());
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
+    Account account;
     try {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
-      accountsUpdate.upsert(db, account);
+      account =
+          accountsUpdate.insert(
+              db,
+              newId,
+              a -> {
+                a.setFullName(who.getDisplayName());
+                a.setPreferredEmail(extId.email());
+              });
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
@@ -364,11 +363,16 @@ public class AccountManager {
             .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
         if (who.getEmailAddress() != null) {
-          Account a = accounts.get(db, to);
-          if (a.getPreferredEmail() == null) {
-            a.setPreferredEmail(who.getEmailAddress());
-            accountsUpdateFactory.create().update(db, a);
-          }
+          accountsUpdateFactory
+              .create()
+              .update(
+                  db,
+                  to,
+                  a -> {
+                    if (a.getPreferredEmail() == null) {
+                      a.setPreferredEmail(who.getEmailAddress());
+                    }
+                  });
           byEmailCache.evict(who.getEmailAddress());
         }
       }
@@ -428,12 +432,17 @@ public class AccountManager {
         externalIdsUpdateFactory.create().delete(extId);
 
         if (who.getEmailAddress() != null) {
-          Account a = accounts.get(db, from);
-          if (a.getPreferredEmail() != null
-              && a.getPreferredEmail().equals(who.getEmailAddress())) {
-            a.setPreferredEmail(null);
-            accountsUpdateFactory.create().update(db, a);
-          }
+          accountsUpdateFactory
+              .create()
+              .update(
+                  db,
+                  from,
+                  a -> {
+                    if (a.getPreferredEmail() != null
+                        && a.getPreferredEmail().equals(who.getEmailAddress())) {
+                      a.setPreferredEmail(null);
+                    }
+                  });
           byEmailCache.evict(who.getEmailAddress());
         }
 

@@ -32,6 +32,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class MembersCollection
@@ -63,7 +65,8 @@ public class MembersCollection
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException,
+          IOException, ConfigInvalidException {
     if (parent.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     }

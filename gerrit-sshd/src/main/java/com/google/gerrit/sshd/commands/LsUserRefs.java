@@ -35,6 +35,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -79,7 +80,7 @@ public class LsUserRefs extends SshCommand {
     Account userAccount;
     try {
       userAccount = accountResolver.find(db, userName);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       throw die(e);
     }
     if (userAccount == null) {

@@ -42,6 +42,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +112,7 @@ class RunAsFilter implements Filter {
       Account target;
       try {
         target = accountResolver.find(db.get(), runas);
-      } catch (OrmException e) {
+      } catch (OrmException | IOException | ConfigInvalidException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;

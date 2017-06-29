@@ -126,6 +126,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.OptionalInt;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -190,14 +191,14 @@ public class PostReview
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -367,7 +368,7 @@ public class PostReview
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, IOException, ConfigInvalidException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));

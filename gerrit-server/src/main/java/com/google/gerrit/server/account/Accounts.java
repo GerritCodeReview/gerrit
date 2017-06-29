@@ -22,35 +22,70 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Class to access accounts. */
 @Singleton
 public class Accounts {
+  private static final Logger log = LoggerFactory.getLogger(Accounts.class);
+
+  private final boolean readFromGit;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final OutgoingEmailValidator emailValidator;
 
   @Inject
-  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+  Accounts(
+      @GerritServerConfig Config cfg,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      OutgoingEmailValidator emailValidator) {
+    this.readFromGit = cfg.getBoolean("user", null, "readAccountsFromGit", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.emailValidator = emailValidator;
   }
 
-  public Account get(ReviewDb db, Account.Id accountId) throws OrmException {
+  public Account get(ReviewDb db, Account.Id accountId)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromGit) {
+      try (Repository repo = repoManager.openRepository(allUsersName)) {
+        return read(repo, accountId);
+      }
+    }
+
     return db.accounts().get(accountId);
   }
 
-  public List<Account> get(ReviewDb db, Collection<Account.Id> accountIds) throws OrmException {
+  public List<Account> get(ReviewDb db, Collection<Account.Id> accountIds)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromGit) {
+      List<Account> accounts = new ArrayList<>(accountIds.size());
+      try (Repository repo = repoManager.openRepository(allUsersName)) {
+        for (Account.Id accountId : accountIds) {
+          accounts.add(read(repo, accountId));
+        }
+      }
+      return accounts;
+    }
+
     return db.accounts().get(accountIds).toList();
   }
 
@@ -59,7 +94,22 @@ public class Accounts {
    *
    * @return all accounts
    */
-  public List<Account> all(ReviewDb db) throws OrmException {
+  public List<Account> all(ReviewDb db) throws OrmException, IOException {
+    if (readFromGit) {
+      Set<Account.Id> accountIds = allIds();
+      List<Account> accounts = new ArrayList<>(accountIds.size());
+      try (Repository repo = repoManager.openRepository(allUsersName)) {
+        for (Account.Id accountId : accountIds) {
+          try {
+            accounts.add(read(repo, accountId));
+          } catch (Exception e) {
+            log.error(String.format("Ignoring invalid account %s", accountId.get()), e);
+          }
+        }
+      }
+      return accounts;
+    }
+
     return db.accounts().all().toList();
   }
 
@@ -101,6 +151,13 @@ public class Accounts {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readUserRefs(repo);
     }
+  }
+
+  private Account read(Repository allUsersRepository, Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
+    accountConfig.load(allUsersRepository);
+    return accountConfig.getAccount();
   }
 
   private static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

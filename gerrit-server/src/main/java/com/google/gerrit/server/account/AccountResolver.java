@@ -23,12 +23,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountResolver {
@@ -61,7 +63,8 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account find(ReviewDb db, String nameOrEmail) throws OrmException {
+  public Account find(ReviewDb db, String nameOrEmail)
+      throws OrmException, IOException, ConfigInvalidException {
     Set<Account.Id> r = findAll(db, nameOrEmail);
     if (r.size() == 1) {
       return byId.get(r.iterator().next()).getAccount();
@@ -90,7 +93,8 @@ public class AccountResolver {
    *     name ("username").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail) throws OrmException {
+  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail)
+      throws OrmException, IOException, ConfigInvalidException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
@@ -118,7 +122,8 @@ public class AccountResolver {
     return findAllByNameOrEmail(db, nameOrEmail);
   }
 
-  private boolean exists(ReviewDb db, Account.Id id) throws OrmException {
+  private boolean exists(ReviewDb db, Account.Id id)
+      throws OrmException, IOException, ConfigInvalidException {
     return accounts.get(db, id) != null;
   }
 

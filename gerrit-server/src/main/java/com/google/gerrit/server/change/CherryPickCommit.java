@@ -39,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
@@ -67,7 +68,7 @@ public class CherryPickCommit
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException {
+          PermissionBackendException, ConfigInvalidException {
     RevCommit commit = rsrc.getCommit();
     String message = Strings.nullToEmpty(input.message).trim();
     input.message = message.isEmpty() ? commit.getFullMessage() : message;

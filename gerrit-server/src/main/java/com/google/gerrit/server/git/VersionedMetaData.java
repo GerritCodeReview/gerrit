@@ -75,6 +75,7 @@ public abstract class VersionedMetaData {
   }
 
   protected RevCommit revision;
+  protected RevWalk rw;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
   protected DirCache newTree;
@@ -153,11 +154,13 @@ public abstract class VersionedMetaData {
    * @throws ConfigInvalidException
    */
   public void load(RevWalk walk, ObjectId id) throws IOException, ConfigInvalidException {
+    this.rw = walk;
     this.reader = walk.getObjectReader();
     try {
       revision = id != null ? walk.parseCommit(id) : null;
       onLoad();
     } finally {
+      walk = null;
       reader = null;
     }
   }

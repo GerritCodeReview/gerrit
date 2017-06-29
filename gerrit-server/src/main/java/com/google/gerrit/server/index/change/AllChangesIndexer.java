@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
@@ -43,7 +44,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -136,17 +136,12 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return indexAll(index, projects);
   }
 
-  public SiteIndexer.Result indexAll(ChangeIndex index, Iterable<ProjectHolder> projects) {
+  private SiteIndexer.Result indexAll(ChangeIndex index, SortedSet<ProjectHolder> projects) {
     Stopwatch sw = Stopwatch.createStarted();
     MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
-    Task projTask =
-        mpm.beginSubTask(
-            "projects",
-            (projects instanceof Collection)
-                ? ((Collection<?>) projects).size()
-                : MultiProgressMonitor.UNKNOWN);
-    Task doneTask =
-        mpm.beginSubTask(null, totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
+    Task projTask = mpm.beginSubTask("projects", projects.size());
+    checkState(totalWork >= 0);
+    Task doneTask = mpm.beginSubTask(null, totalWork);
     Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
     List<ListenableFuture<?>> futures = new ArrayList<>();

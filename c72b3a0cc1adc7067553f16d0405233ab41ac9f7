@@ -22,6 +22,30 @@
       "revId": "c72b3a0cc1adc7067553f16d0405233ab41ac9f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c6b0cae_424d4397",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-06-29T13:28:43Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "34339f4f_1225bfe5",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "c72b3a0cc1adc7067553f16d0405233ab41ac9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

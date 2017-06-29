@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0805f9a_dc7cb811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T10:55:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0929a68c_b6ef5738",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 46
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ba4f81d_58102f92",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-29T04:26:01Z",
       "side": 1,
       "message": "nit: should be aligned with previous entries",
+      "range": {
+        "startLine": 2432,
+        "startChar": 31,
+        "endLine": 2432,
+        "endChar": 34
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "602a23ea_03c3f18d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2432,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T10:55:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6ba4f81d_58102f92",
       "range": {
         "startLine": 2432,
         "startChar": 31,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7b37e351_033a25a2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T10:55:37Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "30de14f5_620adbf2",
+      "range": {
+        "startLine": 1133,
+        "startChar": 9,
+        "endLine": 1133,
+        "endChar": 16
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5888780_6ddf6209",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-29T04:26:01Z",
       "side": 1,
       "message": "whether",
+      "range": {
+        "startLine": 1142,
+        "startChar": 9,
+        "endLine": 1142,
+        "endChar": 16
+      },
+      "revId": "c28c3ca42826d5e4ad1970fa0b88113c9c5e21f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eeb2b2ca_6df30c88",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T10:55:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b5888780_6ddf6209",
       "range": {
         "startLine": 1142,
         "startChar": 9,

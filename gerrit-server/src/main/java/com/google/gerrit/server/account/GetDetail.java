@@ -42,6 +42,7 @@ public class GetDetail implements RestReadView<AccountResource> {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
+    info.inactive = !a.isActive() ? true : null;
     try {
       directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     } catch (DirectoryException e) {
@@ -53,6 +54,7 @@ public class GetDetail implements RestReadView<AccountResource> {
 
   public static class AccountDetailInfo extends AccountInfo {
     public Timestamp registeredOn;
+    public Boolean inactive;
 
     public AccountDetailInfo(Integer id) {
       super(id);

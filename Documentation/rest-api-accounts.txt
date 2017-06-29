@@ -2127,6 +2127,8 @@ AccountInfo]. In addition `AccountDetailInfo` has the following fields:
 |`registered_on`     ||
 The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
+|`inactive`          |not set if `false`|
+Whether the account is inactive.
 |=================================
 
 [[account-external-id-info]]

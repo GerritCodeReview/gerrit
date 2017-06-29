@@ -33,7 +33,9 @@ import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 
 /** Migrate accounts to NoteDb. */
 public class Schema_154 extends SchemaVersion {
@@ -57,16 +59,23 @@ public class Schema_154 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try {
       try (Repository repo = repoManager.openRepository(allUsersName)) {
-        for (Account account : scanAccounts(db)) {
+        ProgressMonitor pm = new TextProgressMonitor();
+        pm.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
+        Set<Account> accounts = scanAccounts(db, pm);
+        pm.endTask();
+        pm.beginTask("Migrating accounts to NoteDb", accounts.size());
+        for (Account account : accounts) {
           updateAccountInNoteDb(repo, account);
+          pm.update(1);
         }
+        pm.endTask();
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Migrating accounts to NoteDb failed", e);
     }
   }
 
-  private Set<Account> scanAccounts(ReviewDb db) throws SQLException {
+  private Set<Account> scanAccounts(ReviewDb db, ProgressMonitor pm) throws SQLException {
     try (Statement stmt = newStatement(db);
         ResultSet rs =
             stmt.executeQuery(
@@ -85,6 +94,7 @@ public class Schema_154 extends SchemaVersion {
         a.setStatus(rs.getString(5));
         a.setActive(rs.getString(6).equals("N"));
         s.add(a);
+        pm.update(1);
       }
       return s;
     }

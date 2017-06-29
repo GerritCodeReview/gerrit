@@ -51,7 +51,11 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
-    deleteRefFactory.create(rsrc).ref(rsrc.getRef()).delete();
+    if (!rsrc.getRef().startsWith("refs/heads/")) {
+      deleteRefFactory.create(rsrc).ref(rsrc.getRef()).prefix("refs/heads/").delete();
+    } else {
+      deleteRefFactory.create(rsrc).ref(rsrc.getRef()).delete();
+    }
     return Response.none();
   }
 }

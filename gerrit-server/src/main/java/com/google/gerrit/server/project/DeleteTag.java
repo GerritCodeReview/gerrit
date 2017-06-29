@@ -44,7 +44,11 @@ public class DeleteTag implements RestModifyView<TagResource, DeleteTag.Input> {
       throw new AuthException("Cannot delete tag");
     }
 
-    deleteRefFactory.create(resource).ref(tag).delete();
+    if (!tag.startsWith("refs/tags/")) {
+      deleteRefFactory.create(resource).ref(tag).prefix("refs/tags/").delete();
+    } else {
+      deleteRefFactory.create(resource).ref(tag).delete();
+    }
     return Response.none();
   }
 }

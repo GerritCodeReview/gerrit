@@ -43,7 +43,11 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
       throw new BadRequestException("tags must be specified");
     }
 
-    deleteRefFactory.create(project).refs(input.tags).prefix(R_TAGS).delete();
+    if (!input.tags.get(0).startsWith("refs/tags/")) {
+      deleteRefFactory.create(project).refs(input.tags).prefix("refs/tags/").delete();
+    } else {
+      deleteRefFactory.create(project).refs(input.tags).delete();
+    }
     return Response.none();
   }
 }

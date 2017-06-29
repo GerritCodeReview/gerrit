@@ -41,7 +41,11 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
       throw new BadRequestException("branches must be specified");
     }
 
-    deleteRefFactory.create(project).refs(input.branches).delete();
+    if (!input.branches.get(0).startsWith("refs/heads/")) {
+      deleteRefFactory.create(project).refs(input.branches).prefix("refs/heads/").delete();
+    } else {
+      deleteRefFactory.create(project).refs(input.branches).delete();
+    }
     return Response.none();
   }
 }

@@ -57,11 +57,16 @@ public class PluginConfig {
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
         if (!allNames.contains(name)) {
-          cfg.setStringList(
-              PLUGIN,
-              pluginName,
-              name,
-              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name)));
+          List<String> values =
+              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name));
+          for (String value : values) {
+            GroupReference groupRef =
+                parentPluginConfig.projectConfig.getGroup(GroupReference.extractGroupName(value));
+            if (groupRef != null) {
+              projectConfig.resolve(groupRef);
+            }
+          }
+          cfg.setStringList(PLUGIN, pluginName, name, values);
         }
       }
     }

@@ -45,6 +45,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -60,7 +62,7 @@ import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -107,7 +109,8 @@ public class NoteDbMigrator implements AutoCloseable {
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final GitRepositoryManager repoManager;
     private final AllProjectsName allProjects;
-    private final OneOffRequestContext requestContext;
+    private final InternalUser.Factory userFactory;
+    private final ThreadLocalRequestContext requestContext;
     private final ChangeRebuilder rebuilder;
     private final WorkQueue workQueue;
     private final NotesMigration globalNotesMigration;
@@ -130,7 +133,8 @@ public class NoteDbMigrator implements AutoCloseable {
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
         AllProjectsName allProjects,
-        OneOffRequestContext requestContext,
+        ThreadLocalRequestContext requestContext,
+        InternalUser.Factory userFactory,
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
         NotesMigration globalNotesMigration,
@@ -141,6 +145,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.requestContext = requestContext;
+      this.userFactory = userFactory;
       this.rebuilder = rebuilder;
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
@@ -296,6 +301,7 @@ public class NoteDbMigrator implements AutoCloseable {
           repoManager,
           allProjects,
           requestContext,
+          userFactory,
           rebuilder,
           globalNotesMigration,
           primaryStorageMigrator,
@@ -317,7 +323,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjects;
-  private final OneOffRequestContext requestContext;
+  private final ThreadLocalRequestContext requestContext;
+  private final InternalUser.Factory userFactory;
   private final ChangeRebuilder rebuilder;
   private final NotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
@@ -337,7 +344,8 @@ public class NoteDbMigrator implements AutoCloseable {
       SchemaFactory<ReviewDb> schemaFactory,
       GitRepositoryManager repoManager,
       AllProjectsName allProjects,
-      OneOffRequestContext requestContext,
+      ThreadLocalRequestContext requestContext,
+      InternalUser.Factory userFactory,
       ChangeRebuilder rebuilder,
       NotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
@@ -363,6 +371,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.repoManager = repoManager;
     this.allProjects = allProjects;
     this.requestContext = requestContext;
+    this.userFactory = userFactory;
     this.globalNotesMigration = globalNotesMigration;
     this.primaryStorageMigrator = primaryStorageMigrator;
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
@@ -519,32 +528,33 @@ public class NoteDbMigrator implements AutoCloseable {
       allChanges = Streams.stream(db.changes().all()).map(Change::getId).collect(toList());
     }
 
-    List<ListenableFuture<Boolean>> futures =
-        allChanges
-            .stream()
-            .map(
-                id ->
-                    executor.submit(
-                        () -> {
-                          // TODO(dborowitz): Avoid reopening db if using a single thread.
-                          try (ManualRequestContext ctx = requestContext.open()) {
-                            primaryStorageMigrator.migrateToNoteDbPrimary(id);
-                            return true;
-                          } catch (Exception e) {
-                            log.error("Error migrating primary storage for " + id, e);
-                            return false;
-                          }
-                        }))
-            .collect(toList());
+    try (ContextHelper contextHelper = new ContextHelper()) {
+      List<ListenableFuture<Boolean>> futures =
+          allChanges
+              .stream()
+              .map(
+                  id ->
+                      executor.submit(
+                          () -> {
+                            try (ManualRequestContext ctx = contextHelper.open()) {
+                              primaryStorageMigrator.migrateToNoteDbPrimary(id);
+                              return true;
+                            } catch (Exception e) {
+                              log.error("Error migrating primary storage for " + id, e);
+                              return false;
+                            }
+                          }))
+              .collect(toList());
 
-    boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
-    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    log.info(
-        String.format(
-            "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
-            allChanges.size(), t, allChanges.size() / t));
-    if (!ok) {
-      throw new MigrationException("Migrating primary storage for some changes failed, see log");
+      boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
+      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+      log.info(
+          String.format(
+              "Migrated primary storage of %d changes in %.01fs (%.01f/s)\n",
+              allChanges.size(), t, allChanges.size() / t));
+      if (!ok) {
+        throw new MigrationException("Migrating primary storage for some changes failed, see log");
+      }
     }
 
     return disableReviewDb(prev);
@@ -619,51 +629,52 @@ public class NoteDbMigrator implements AutoCloseable {
     log.info("Rebuilding changes in NoteDb");
 
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
-    ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
-    List<Project.NameKey> projectNames =
-        Ordering.usingToString().sortedCopy(changesByProject.keySet());
-    for (Project.NameKey project : projectNames) {
-      ListenableFuture<Boolean> future =
-          executor.submit(
-              () -> {
-                try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-                  return rebuildProject(db, changesByProject, project);
-                } catch (Exception e) {
-                  log.error("Error rebuilding project " + project, e);
-                  return false;
-                }
-              });
-      futures.add(future);
-    }
+    try (ContextHelper contextHelper = new ContextHelper()) {
+      ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject =
+          getChangesByProject(contextHelper.getReviewDb());
+      List<Project.NameKey> projectNames =
+          Ordering.usingToString().sortedCopy(changesByProject.keySet());
+      for (Project.NameKey project : projectNames) {
+        ListenableFuture<Boolean> future =
+            executor.submit(
+                () -> {
+                  try {
+                    return rebuildProject(contextHelper.getReviewDb(), changesByProject, project);
+                  } catch (Exception e) {
+                    log.error("Error rebuilding project " + project, e);
+                    return false;
+                  }
+                });
+        futures.add(future);
+      }
 
-    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
-    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    log.info(
-        String.format(
-            "Rebuilt %d changes in %.01fs (%.01f/s)\n",
-            changesByProject.size(), t, changesByProject.size() / t));
-    if (!ok) {
-      throw new MigrationException("Rebuilding some changes failed, see log");
+      boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
+      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+      log.info(
+          String.format(
+              "Rebuilt %d changes in %.01fs (%.01f/s)\n",
+              changesByProject.size(), t, changesByProject.size() / t));
+      if (!ok) {
+        throw new MigrationException("Rebuilding some changes failed, see log");
+      }
     }
   }
 
-  private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
+  private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject(ReviewDb db)
       throws OrmException {
     // Memoize all changes so we can close the db connection and allow other threads to use the full
     // connection pool.
-    try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-      SetMultimap<Project.NameKey, Change.Id> out =
-          MultimapBuilder.treeKeys(comparing(Project.NameKey::get))
-              .treeSetValues(comparing(Change.Id::get))
-              .build();
-      if (!projects.isEmpty()) {
-        return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
-      }
-      if (!changes.isEmpty()) {
-        return byProject(db.changes().get(changes), c -> true, out);
-      }
-      return byProject(db.changes().all(), c -> true, out);
+    SetMultimap<Project.NameKey, Change.Id> out =
+        MultimapBuilder.treeKeys(comparing(Project.NameKey::get))
+            .treeSetValues(comparing(Change.Id::get))
+            .build();
+    if (!projects.isEmpty()) {
+      return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
     }
+    if (!changes.isEmpty()) {
+      return byProject(db.changes().get(changes), c -> true, out);
+    }
+    return byProject(db.changes().all(), c -> true, out);
   }
 
   private static ImmutableListMultimap<Project.NameKey, Change.Id> byProject(
@@ -723,6 +734,44 @@ public class NoteDbMigrator implements AutoCloseable {
     } catch (InterruptedException | ExecutionException e) {
       log.error(errMsg, e);
       return false;
+    }
+  }
+
+  private class ContextHelper implements AutoCloseable {
+    private final Thread callingThread;
+    private ReviewDb db;
+
+    ContextHelper() {
+      callingThread = Thread.currentThread();
+    }
+
+    ManualRequestContext open() throws OrmException {
+      return new ManualRequestContext(
+          userFactory.create(),
+          // Reuse the same lazily-opened ReviewDb on the original calling thread, otherwise open
+          // SchemaFactory in the normal way.
+          Thread.currentThread().equals(callingThread) ? this::getReviewDb : schemaFactory,
+          requestContext);
+    }
+
+    synchronized ReviewDb getReviewDb() throws OrmException {
+      if (db == null) {
+        db =
+            new ReviewDbWrapper(unwrapDb(schemaFactory.open())) {
+              @Override
+              public void close() {
+                // Closed by ContextHelper#close.
+              }
+            };
+      }
+      return db;
+    }
+
+    @Override
+    public synchronized void close() {
+      if (db != null) {
+        db.close();
+      }
     }
   }
 }

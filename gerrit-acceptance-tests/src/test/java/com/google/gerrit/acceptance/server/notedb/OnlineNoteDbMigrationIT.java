@@ -298,44 +298,63 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fullMigration() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
+  public void fullMigrationSameThread() throws Exception {
+    testFullMigration(1);
+  }
 
-    migrate(b -> b);
+  @Test
+  public void fullMigrationMultipleThreads() throws Exception {
+    testFullMigration(2);
+  }
+
+  private void testFullMigration(int threads) throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    Change.Id id1 = r1.getChange().getId();
+    Change.Id id2 = r2.getChange().getId();
+
+    migrate(b -> b.setThreads(threads));
     assertNotesMigrationState(NOTE_DB_UNFUSED);
 
-    assertThat(sequences.nextChangeId()).isEqualTo(502);
+    assertThat(sequences.nextChangeId()).isEqualTo(503);
 
-    ObjectId oldMetaId;
-    int rowVersion;
+    ObjectId oldMetaId = null;
+    int rowVersion = 0;
     try (ReviewDb db = schemaFactory.open();
         Repository repo = repoManager.openRepository(project)) {
-      Ref ref = repo.exactRef(RefNames.changeMetaRef(id));
-      assertThat(ref).isNotNull();
-      oldMetaId = ref.getObjectId();
+      for (Change.Id id : ImmutableList.of(id1, id2)) {
+        String refName = RefNames.changeMetaRef(id);
+        Ref ref = repo.exactRef(refName);
+        assertThat(ref).named(refName).isNotNull();
 
-      Change c = db.changes().get(id);
-      assertThat(c.getTopic()).isNull();
-      rowVersion = c.getRowVersion();
-      NoteDbChangeState s = NoteDbChangeState.parse(c);
-      assertThat(s.getPrimaryStorage()).isEqualTo(PrimaryStorage.NOTE_DB);
-      assertThat(s.getRefState()).isEmpty();
+        Change c = db.changes().get(id);
+        assertThat(c.getTopic()).named("topic of change %s", id).isNull();
+        NoteDbChangeState s = NoteDbChangeState.parse(c);
+        assertThat(s.getPrimaryStorage())
+            .named("primary storage of change %s", id)
+            .isEqualTo(PrimaryStorage.NOTE_DB);
+        assertThat(s.getRefState()).named("ref state of change %s").isEmpty();
+
+        if (id.equals(id1)) {
+          oldMetaId = ref.getObjectId();
+          rowVersion = c.getRowVersion();
+        }
+      }
     }
 
     // Do not open a new context, to simulate races with other threads that opened a context earlier
     // in the migration process; this needs to work.
-    gApi.changes().id(id.get()).topic(name("a-topic"));
+    gApi.changes().id(id1.get()).topic(name("a-topic"));
 
     // Of course, it should also work with a new context.
     resetCurrentApiUser();
-    gApi.changes().id(id.get()).topic(name("another-topic"));
+    gApi.changes().id(id1.get()).topic(name("another-topic"));
 
     try (ReviewDb db = schemaFactory.open();
         Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef(RefNames.changeMetaRef(id)).getObjectId()).isNotEqualTo(oldMetaId);
+      assertThat(repo.exactRef(RefNames.changeMetaRef(id1)).getObjectId()).isNotEqualTo(oldMetaId);
 
-      Change c = db.changes().get(id);
+      Change c = db.changes().get(id1);
       assertThat(c.getTopic()).isNull();
       assertThat(c.getRowVersion()).isEqualTo(rowVersion);
     }

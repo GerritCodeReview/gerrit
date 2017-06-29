@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -41,7 +43,7 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
       throw new BadRequestException("branches must be specified");
     }
 
-    deleteRefFactory.create(project).refs(input.branches).delete();
+    deleteRefFactory.create(project).refs(input.branches).prefix(R_HEADS).delete();
     return Response.none();
   }
 }

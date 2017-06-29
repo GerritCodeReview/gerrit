@@ -14,11 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -28,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class DeleteBranchIT extends AbstractDaemonTest {
 
   private Branch.NameKey branch;
@@ -84,6 +85,15 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     grantDelete();
     setApiUser(user);
     assertDeleteSucceeds();
+  }
+
+  @Test
+  public void deleteBranchByRestWithoutRefsHeadsPrefix() throws Exception {
+    grantDelete();
+    String ref = branch.getShortName();
+    assertThat(ref).doesNotMatch(R_HEADS);
+    RestResponse r = userRestSession.delete("/projects/" + project.get() + "/branches/" + ref);
+    r.assertNoContent();
   }
 
   private void blockForcePush() throws Exception {

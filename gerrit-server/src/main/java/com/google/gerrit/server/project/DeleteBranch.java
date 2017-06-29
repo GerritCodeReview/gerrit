@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -51,7 +53,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
-    deleteRefFactory.create(rsrc).ref(rsrc.getRef()).delete();
+    deleteRefFactory.create(rsrc).ref(rsrc.getRef()).prefix(R_HEADS).delete();
     return Response.none();
   }
 }

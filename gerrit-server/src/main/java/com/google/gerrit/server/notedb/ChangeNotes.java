@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -67,10 +68,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -314,7 +314,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
         throws OrmException, IOException {
-      Set<Change.Id> ids = scan(repo);
+      List<Change.Id> ids = scan(repo);
       List<ChangeNotes> notes = new ArrayList<>(ids.size());
       // A batch size of N may overload get(Iterable), so use something smaller,
       // but still >1.
@@ -328,7 +328,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanNoteDb(Repository repo, ReviewDb db, Project.NameKey project)
         throws OrmException, IOException {
-      Set<Change.Id> ids = scan(repo);
+      List<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
       for (Change.Id id : ids) {
@@ -354,16 +354,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changeNotes;
     }
 
-    public static Set<Change.Id> scan(Repository repo) throws IOException {
-      Map<String, Ref> refs = repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-      Set<Change.Id> ids = new HashSet<>(refs.size());
-      for (Ref r : refs.values()) {
-        Change.Id id = Change.Id.fromRef(r.getName());
-        if (id != null) {
-          ids.add(id);
-        }
-      }
-      return ids;
+    public static List<Change.Id> scan(Repository repo) throws IOException {
+      return repo.getRefDatabase()
+          .getRefs(RefNames.REFS_CHANGES)
+          .values()
+          .stream()
+          .map(Ref::getName)
+          .filter(r -> r.endsWith(RefNames.META_SUFFIX))
+          .map(Change.Id::fromRef)
+          .filter(Objects::nonNull)
+          .distinct()
+          .collect(toList());
     }
   }
 

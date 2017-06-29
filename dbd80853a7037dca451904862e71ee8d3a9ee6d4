@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ebe0cef_5461d12a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-29T16:47:02Z",
+      "side": 1,
+      "message": "This should be \u0027class\u0027 in quotes, since class is a reserved word in JS.",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 15
+      },
+      "revId": "dbd80853a7037dca451904862e71ee8d3a9ee6d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

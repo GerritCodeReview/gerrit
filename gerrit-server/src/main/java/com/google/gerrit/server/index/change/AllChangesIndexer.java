@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -96,15 +98,16 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   private static class ProjectHolder implements Comparable<ProjectHolder> {
     final Project.NameKey name;
-    private final int size;
+    private final long size;
 
-    ProjectHolder(Project.NameKey name, int size) {
+    ProjectHolder(Project.NameKey name, long size) {
       this.name = name;
       this.size = size;
     }
 
     @Override
     public int compareTo(ProjectHolder other) {
+      // Sort projects based on size first to maximize utilization of threads early on.
       return ComparisonChain.start()
           .compare(other.size, size)
           .compare(other.name.get(), name.get())
@@ -121,7 +124,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     Stopwatch sw = Stopwatch.createStarted();
     for (Project.NameKey name : projectCache.all()) {
       try (Repository repo = repoManager.openRepository(name)) {
-        int size = ChangeNotes.Factory.scan(repo).size();
+        long size = estimateSize(repo);
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
@@ -134,6 +137,20 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     setTotalWork(changeCount);
 
     return indexAll(index, projects);
+  }
+
+  private long estimateSize(Repository repo) throws IOException {
+    // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
+    // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
+    // the estimate is just used as a heuristic for sorting projects.
+    return repo.getRefDatabase()
+        .getRefs(RefNames.REFS_CHANGES)
+        .values()
+        .stream()
+        .map(r -> Change.Id.fromRef(r.getName()))
+        .filter(Objects::nonNull)
+        .distinct()
+        .count();
   }
 
   private SiteIndexer.Result indexAll(ChangeIndex index, SortedSet<ProjectHolder> projects) {

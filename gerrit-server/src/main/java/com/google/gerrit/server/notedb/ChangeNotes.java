@@ -354,7 +354,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changeNotes;
     }
 
-    public static Set<Change.Id> scan(Repository repo) throws IOException {
+    private static Set<Change.Id> scan(Repository repo) throws IOException {
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
       Set<Change.Id> ids = new HashSet<>(refs.size());
       for (Ref r : refs.values()) {

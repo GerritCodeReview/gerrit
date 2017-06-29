@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -60,6 +61,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -376,20 +379,31 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
-  public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl, PatchSet.Id psId)
+  public Iterable<PatchSetApproval> byPatchSet(
+      ReviewDb db,
+      ChangeControl ctl,
+      PatchSet.Id psId,
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig)
       throws OrmException {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return copier.getForPatchSet(db, ctl, psId);
+    return copier.getForPatchSet(db, ctl, psId, rw, repoConfig);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
-      ReviewDb db, ChangeControl ctl, PatchSet.Id psId, Account.Id accountId) throws OrmException {
+      ReviewDb db,
+      ChangeControl ctl,
+      PatchSet.Id psId,
+      Account.Id accountId,
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig)
+      throws OrmException {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }
-    return filterApprovals(byPatchSet(db, ctl, psId), accountId);
+    return filterApprovals(byPatchSet(db, ctl, psId, rw, repoConfig), accountId);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {

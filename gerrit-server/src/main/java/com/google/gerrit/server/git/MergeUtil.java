@@ -450,7 +450,7 @@ public class MergeUtil {
 
   private Iterable<PatchSetApproval> safeGetApprovals(ChangeControl ctl, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), ctl, psId);
+      return approvalsUtil.byPatchSet(db.get(), ctl, psId, null, null);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + psId, e);
       return Collections.emptyList();

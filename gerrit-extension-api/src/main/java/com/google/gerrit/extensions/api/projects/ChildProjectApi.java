@@ -28,12 +28,12 @@ public interface ChildProjectApi {
    **/
   class NotImplemented implements ChildProjectApi {
     @Override
-    public ProjectInfo get() {
+    public ProjectInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectInfo get(boolean recursive) {
+    public ProjectInfo get(boolean recursive) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -65,6 +65,7 @@
     },
 
     created() {
+      window.USE_GAPI_AUTH = true;
       auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
 

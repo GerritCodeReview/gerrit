@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "639169ad_01064296",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/HANA.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-06-29T08:27:59Z",
+      "side": 0,
+      "message": "Actually, for backwards compatibility of existing installations we should still accept the instance number or convert it to the new config format in the init code.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "dee145b8cf98d8340dc52b94b99736de220f765a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

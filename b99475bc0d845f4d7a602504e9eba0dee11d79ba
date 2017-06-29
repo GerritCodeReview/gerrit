@@ -22,6 +22,30 @@
       "revId": "b99475bc0d845f4d7a602504e9eba0dee11d79ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e9516a7_c2ff936a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-06-29T18:52:54Z",
+      "side": 1,
+      "message": "Typo fixed.\n\nz-index in this case should be \u003e0, and there\u0027s no particular reason for a value at the moment, since there\u0027s nothing else that is involved.",
+      "parentUuid": "3c81bfea_be78c5c1",
+      "range": {
+        "startLine": 37,
+        "startChar": 40,
+        "endLine": 37,
+        "endChar": 46
+      },
+      "revId": "b99475bc0d845f4d7a602504e9eba0dee11d79ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

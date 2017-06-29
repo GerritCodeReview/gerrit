@@ -43,6 +43,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import org.junit.Before;
@@ -1473,10 +1475,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master", other);
-    // TODO(logan): This should include owner but currently doesn't because
-    // it's sent *from* the owner.
     assertThat(sender)
         .sent("newpatchset", sc)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer, other)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
@@ -1494,7 +1495,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .notTo(sc.owner) // TODO(logan): This email shouldn't come from the owner.
         .to(sc.reviewer, sc.ccer, other)
-        .notTo(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1507,7 +1507,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master", other, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer, other)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
+        .to(sc.reviewer, other)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
@@ -1522,7 +1523,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master", other, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer, sc.ccer, other)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
+        .to(sc.reviewer, sc.ccer, other)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1533,10 +1535,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other);
-    // TODO(logan): This should include owner but currently doesn't because
-    // it's sent *from* the owner.
     assertThat(sender)
         .sent("newpatchset", sc)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
@@ -1549,9 +1550,11 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other);
-    // TODO(logan): This should include owner but currently doesn't because
-    // it's sent *from* the owner.
-    assertThat(sender).sent("newpatchset", sc).to(sc.reviewer, sc.ccer).noOneElse();
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
+        .to(sc.reviewer, sc.ccer)
+        .noOneElse();
   }
 
   @Test
@@ -1562,7 +1565,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other, EmailStrategy.CC_ON_OWN_COMMENTS);
     assertThat(sender)
         .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
+        .to(sc.reviewer)
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .noOneElse();
@@ -1574,7 +1578,11 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageReviewableChange();
     pushTo(sc, "refs/for/master%notify=OWNER_REVIEWERS", other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    assertThat(sender).sent("newpatchset", sc).to(sc.owner, sc.reviewer, sc.ccer).noOneElse();
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer, sc.ccer)
+        .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
+        .noOneElse();
   }
 
   @Test
@@ -1797,8 +1805,244 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void pushTo(StagedChange sc, String ref, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
-    setEmailStrategy(sc.owner, emailStrategy);
+    setEmailStrategy(by, emailStrategy);
     pushFactory.create(db, by.getIdent(), sc.repo, sc.changeId).to(ref).assertOkStatus();
+  }
+
+  @Test
+  public void editCommitMessageEditByOwnerOnReviewableChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageEditByOwnerOnReviewableChangeInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, sc.owner);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer, sc.ccer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageEditByOtherOnReviewableChangeInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer)
+        .cc(sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageEditByOtherOnReviewableChangeInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer, sc.ccer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, CC_ON_OWN_COMMENTS);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer, other)
+        .cc(sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, CC_ON_OWN_COMMENTS);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer, sc.ccer, other)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewersInNoteDb()
+      throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER_REVIEWERS);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer)
+        .cc(sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewersInReviewDb()
+      throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER_REVIEWERS);
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner, sc.reviewer, sc.ccer).noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInNoteDb()
+      throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER_REVIEWERS, CC_ON_OWN_COMMENTS);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer)
+        .cc(sc.ccer, other)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwnerReviewersInReviewDb()
+      throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER_REVIEWERS, CC_ON_OWN_COMMENTS);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.owner, sc.reviewer, sc.ccer)
+        .cc(other)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeNotifyOwner() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER);
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner).noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyOwner() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, OWNER, CC_ON_OWN_COMMENTS);
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner).cc(other).noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeNotifyNone() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, NONE);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnReviewableChangeOwnerSelfCcNotifyNone() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    editCommitMessage(sc, other, NONE, CC_ON_OWN_COMMENTS);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void editCommitMessageOnWipChange() throws Exception {
+    StagedChange sc = stageWipChange();
+    editCommitMessage(sc, sc.owner);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnWipChange() throws Exception {
+    StagedChange sc = stageWipChange();
+    editCommitMessage(sc, other);
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner).noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageByOtherOnWipChangeSelfCc() throws Exception {
+    StagedChange sc = stageWipChange();
+    editCommitMessage(sc, other, CC_ON_OWN_COMMENTS);
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner).cc(other).noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageOnWipChangeNotifyAllInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    StagedChange sc = stageWipChange();
+    editCommitMessage(sc, sc.owner, ALL);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  @Test
+  public void editCommitMessageOnWipChangeNotifyAllInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageWipChange();
+    editCommitMessage(sc, sc.owner, ALL);
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer, sc.ccer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+  }
+
+  private void editCommitMessage(StagedChange sc, TestAccount by) throws Exception {
+    editCommitMessage(sc, by, null, ENABLED);
+  }
+
+  private void editCommitMessage(StagedChange sc, TestAccount by, @Nullable NotifyHandling notify)
+      throws Exception {
+    editCommitMessage(sc, by, notify, ENABLED);
+  }
+
+  private void editCommitMessage(StagedChange sc, TestAccount by, EmailStrategy emailStrategy)
+      throws Exception {
+    editCommitMessage(sc, by, null, emailStrategy);
+  }
+
+  private void editCommitMessage(
+      StagedChange sc, TestAccount by, @Nullable NotifyHandling notify, EmailStrategy emailStrategy)
+      throws Exception {
+    setEmailStrategy(by, emailStrategy);
+    CommitInfo commit = gApi.changes().id(sc.changeId).revision("current").commit(false);
+    CommitMessageInput in = new CommitMessageInput();
+    in.message = "update\n" + commit.message;
+    in.notify = notify;
+    gApi.changes().id(sc.changeId).setMessage(in);
   }
 
   /*
@@ -1914,7 +2158,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
     assertThat(sender)
         .sent("revert", sc)
-        .notTo(sc.owner)
         .cc(sc.reviewer, sc.ccer, admin)
         .bcc(ALL_COMMENTS)
         .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?

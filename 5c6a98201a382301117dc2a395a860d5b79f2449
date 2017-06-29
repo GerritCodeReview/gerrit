@@ -22,6 +22,23 @@
       "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5a389d3_cc0b3a07",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-29T20:45:17Z",
+      "side": 1,
+      "message": "It feels like this could be more generic than it is already.\n\nWhy not have getItems be a public function prop passed in by the parent? (Maybe call it \u0027query\u0027 or something) That would be more scalable and generic. Your private _getItems would then be:\n\n    _getItems() {\n      this.loading \u003d true;\n      Polymer.dom.flush();\n      this.query().then(items \u003d\u003e {\n        this._loading \u003d false;\n        this._items \u003d items || [];\n      });\n    },\n\nSee gr-autocomplete for more that follows this pattern.",
+      "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

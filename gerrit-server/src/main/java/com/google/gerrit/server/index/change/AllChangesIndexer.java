@@ -95,8 +95,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   private static class ProjectHolder implements Comparable<ProjectHolder> {
-    private Project.NameKey name;
-    private int size;
+    final Project.NameKey name;
+    private final int size;
 
     ProjectHolder(Project.NameKey name, int size) {
       this.name = name;

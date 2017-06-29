@@ -1068,7 +1068,7 @@ public class ChangeJson {
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
-            db.get(), ctl, cd.change().currentPatchSetId(), user.getAccountId())) {
+            db.get(), ctl, cd.change().currentPatchSetId(), user.getAccountId(), null, null)) {
       result.put(psa.getLabel(), psa.getValue());
     }
     return result;

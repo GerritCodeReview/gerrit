@@ -329,7 +329,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         null);
   }
 
-  private void setApproval(ChangeContext ctx, IdentifiedUser user) throws OrmException {
+  private void setApproval(ChangeContext ctx, IdentifiedUser user)
+      throws OrmException, IOException {
     Change.Id id = ctx.getChange().getId();
     List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
@@ -351,11 +352,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
-      throws OrmException {
+      throws OrmException, IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
-        args.approvalsUtil.byPatchSet(ctx.getDb(), ctx.getControl(), psId)) {
+        args.approvalsUtil.byPatchSet(
+            ctx.getDb(), ctx.getControl(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
       byKey.put(psa.getKey(), psa);
     }
 

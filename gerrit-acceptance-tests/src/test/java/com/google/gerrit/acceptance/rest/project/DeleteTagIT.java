@@ -16,9 +16,10 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInput;
@@ -27,7 +28,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class DeleteTagIT extends AbstractDaemonTest {
   private final String TAG = "refs/tags/test";
 
@@ -80,6 +80,14 @@ public class DeleteTagIT extends AbstractDaemonTest {
     grantDelete();
     setApiUser(user);
     assertDeleteSucceeds();
+  }
+
+  @Test
+  public void deleteTagByRestWithoutRefsTagsPrefix() throws Exception {
+    grantDelete();
+    String ref = TAG.substring(R_TAGS.length());
+    RestResponse r = userRestSession.delete("/projects/" + project.get() + "/tags/" + ref);
+    r.assertNoContent();
   }
 
   private void blockForcePush() throws Exception {

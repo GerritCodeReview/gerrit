@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
+import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -37,7 +39,7 @@ import org.junit.Test;
 @NoHttpd
 public class DeleteBranchesIT extends AbstractDaemonTest {
   private static final ImmutableList<String> BRANCHES =
-      ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "refs/heads/test-3");
+      ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "test-3");
 
   @Before
   public void setUp() throws Exception {
@@ -138,7 +140,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     for (String branch : branches) {
       message
           .append("Cannot delete ")
-          .append(branch)
+          .append(prefixRef(branch))
           .append(": it doesn't exist or you do not have permission ")
           .append("to delete it\n");
     }
@@ -156,8 +158,13 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions) throws Exception {
     for (String branch : revisions.keySet()) {
       RevCommit revision = revisions.get(branch);
-      eventRecorder.assertRefUpdatedEvents(project.get(), branch, null, revision, revision, null);
+      eventRecorder.assertRefUpdatedEvents(
+          project.get(), prefixRef(branch), null, revision, revision, null);
     }
+  }
+
+  private String prefixRef(String ref) {
+    return ref.startsWith(R_HEADS) ? ref : R_HEADS + ref;
   }
 
   private ProjectApi project() throws Exception {
@@ -166,7 +173,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
   private void assertBranches(List<String> branches) throws Exception {
     List<String> expected = Lists.newArrayList("HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
-    expected.addAll(branches);
+    expected.addAll(branches.stream().map(b -> prefixRef(b)).collect(toList()));
     assertRefNames(expected, project().branches().get());
   }
 

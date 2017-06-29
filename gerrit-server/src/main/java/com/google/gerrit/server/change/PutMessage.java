@@ -14,14 +14,15 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
+import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
+
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.NotifyInfo;
-import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.common.MessageInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -46,7 +47,6 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -62,16 +62,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class PutMessage
-    extends RetryingRestModifyView<ChangeResource, PutMessage.Input, Response<?>> {
-
-  public static class Input {
-    @DefaultInput public String message;
-
-    public NotifyHandling notify = NotifyHandling.ALL;
-
-    public Map<RecipientType, NotifyInfo> notifyDetails;
-  }
+public class PutMessage extends RetryingRestModifyView<ChangeResource, MessageInput, Response<?>> {
 
   private final GitRepositoryManager repositoryManager;
   private final Provider<CurrentUser> currentUserProvider;
@@ -106,7 +97,7 @@ public class PutMessage
 
   @Override
   protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource resource, Input input)
+      BatchUpdate.Factory updateFactory, ChangeResource resource, MessageInput input)
       throws IOException, UnchangedCommitMessageException, RestApiException, UpdateException,
           PermissionBackendException, OrmException, ConfigInvalidException {
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
@@ -126,6 +117,11 @@ public class PutMessage
         resource.getControl().getProjectControl().getProjectState().isRequireChangeID(),
         resource.getChange().getKey().get(),
         sanitizedCommitMessage);
+
+    NotifyHandling notify = input.notify;
+    if (notify == null) {
+      notify = resource.getChange().isWorkInProgress() ? OWNER : ALL;
+    }
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
@@ -152,7 +148,7 @@ public class PutMessage
         inserter.setMessage(
             String.format("Patch Set %s: Commit message was updated.", psId.getId()));
         inserter.setDescription("Edit commit message");
-        inserter.setNotify(input.notify);
+        inserter.setNotify(notify);
         inserter.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
         bu.addOp(resource.getChange().getId(), inserter);
         bu.execute();

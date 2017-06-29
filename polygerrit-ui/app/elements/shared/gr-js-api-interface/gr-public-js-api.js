@@ -106,18 +106,33 @@
     return this._url.origin + '/plugins/' + this._name + (opt_path || '/');
   };
 
-  Plugin.prototype._send = function(method, url, callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload)
-        .then(getRestAPI().getResponseObject)
-        .then(callback);
+  Plugin.prototype._send = function(method, url, opt_callback, opt_payload) {
+    return getRestAPI().send(method, url, opt_payload).then(response => {
+      if (response.status < 200 || response.status >= 300) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(text);
+          } else {
+            return Promise.reject(response.status);
+          }
+        });
+      } else {
+        return getRestAPI().getResponseObject(response);
+      }
+    }).then(response => {
+      if (opt_callback) {
+        opt_callback(response);
+      }
+      return response;
+    });
   };
 
-  Plugin.prototype.get = function(url, callback) {
-    return this._send('GET', url, callback);
+  Plugin.prototype.get = function(url, opt_callback) {
+    return this._send('GET', url, opt_callback);
   },
 
-  Plugin.prototype.post = function(url, payload, callback) {
-    return this._send('POST', url, callback, payload);
+  Plugin.prototype.post = function(url, payload, opt_callback) {
+    return this._send('POST', url, opt_callback, payload);
   },
 
   Plugin.prototype.changeActions = function() {

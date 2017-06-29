@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77167b6b_8465b51b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-29T15:37:18Z",
+      "side": 1,
+      "message": "this shouldn\u0027t need a hidden attribute at all. If the user is not an owner, they won\u0027t get a button to trigger this.",
+      "range": {
+        "startLine": 85,
+        "startChar": 45,
+        "endLine": 85,
+        "endChar": 75
+      },
+      "revId": "1974e8104c4db8d2aeb432cb74d8008a88821cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1cdbaf1_960843cb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-29T15:37:18Z",
+      "side": 1,
+      "message": "instead, let\u0027s negate this and call it _isOwner.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 15
+      },
+      "revId": "1974e8104c4db8d2aeb432cb74d8008a88821cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af9a3883_066d6d82",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-29T15:37:18Z",
+      "side": 1,
+      "message": "Why are there two identical functions?\n\nAlso instead please use more descriptive name like _computeHideClass. And then use a more descriptive selector like \u0027.hidden\u0027",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 0
+      },
+      "revId": "1974e8104c4db8d2aeb432cb74d8008a88821cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

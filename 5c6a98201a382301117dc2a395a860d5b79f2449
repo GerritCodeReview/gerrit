@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9fa6e79_d213c7b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-29T20:43:06Z",
+      "side": 1,
+      "message": "Optionally, these two can be combined:\n\nif (params.detailType \u0026\u0026 params.detailType !\u003d\u003d opt_detailType ||\n    itemView !\u003d\u003d params.adminView) {\n  return \u0027\u0027;\n}\nreturn \u0027selected\u0027;",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 176,
+        "endChar": 61
+      },
+      "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

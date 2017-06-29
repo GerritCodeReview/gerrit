@@ -108,12 +108,19 @@
             view: 'gr-admin-project',
             url: `/admin/projects/${this.encodeURL(this._project, true)}`,
             children: [{
-                name: 'Branches',
-                detailType: 'branches',
-                view: 'gr-project-detail-list',
-                url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+              name: 'Branches',
+              detailType: 'branches',
+              view: 'gr-project-detail-list',
+              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
                     ',branches',
-              },
+            },
+            {
+              name: 'Tags',
+              detailType: 'tags',
+              view: 'gr-project-detail-list',
+              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+                    ',tags',
+            },
             ],
           };
         }

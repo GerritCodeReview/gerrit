@@ -209,6 +209,41 @@
           };
         });
 
+    // Matches /admin/projects/<project>,tags[,<offset>].
+    page(/^\/admin\/projects\/(.+),tags(,(.+))?$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-view',
+        adminView: 'gr-project-detail-list',
+        detailType: 'tags',
+        project: data.params[0],
+        offset: data.params[2] || 0,
+        filter: null,
+      };
+    });
+
+    page('/admin/projects/:project,tags/q/filter::filter,:offset',
+        loadUser, data => {
+          app.params = {
+            view: 'gr-admin-view',
+            adminView: 'gr-project-detail-list',
+            detailType: 'tags',
+            project: data.params.project,
+            offset: data.params.offset,
+            filter: data.params.filter,
+          };
+        });
+
+    page('/admin/projects/:project,tags/q/filter::filter',
+        loadUser, data => {
+          app.params = {
+            view: 'gr-admin-view',
+            adminView: 'gr-project-detail-list',
+            detailType: 'tags',
+            project: data.params.project,
+            filter: data.params.filter || null,
+          };
+        });
+
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {

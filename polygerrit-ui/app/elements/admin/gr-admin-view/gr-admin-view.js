@@ -114,7 +114,13 @@
               url: `/admin/projects/${this.encodeURL(this._project, true)}` +
                     ',branches',
             },
-            ],
+            {
+              name: 'Tags',
+              detailType: 'tags',
+              view: 'gr-project-detail-list',
+              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+                    ',tags',
+            }],
           };
         }
         filteredLinks.push(linkCopy);

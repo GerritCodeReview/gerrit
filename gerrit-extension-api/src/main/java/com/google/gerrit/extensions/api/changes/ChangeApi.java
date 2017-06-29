@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.MessageInput;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -192,6 +193,9 @@ public interface ChangeApi {
 
   /** Create a new patch set with a new commit message. */
   void setMessage(String message) throws RestApiException;
+
+  /** Create a new patch set with a new commit message. */
+  void setMessage(MessageInput in) throws RestApiException;
 
   /** Set hashtags on a change */
   void setHashtags(HashtagsInput input) throws RestApiException;
@@ -435,6 +439,11 @@ public interface ChangeApi {
 
     @Override
     public void setMessage(String message) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setMessage(MessageInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.MessageInput;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -515,11 +516,16 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void setMessage(String in) throws RestApiException {
+  public void setMessage(String msg) throws RestApiException {
+    MessageInput in = new MessageInput();
+    in.message = msg;
+    setMessage(in);
+  }
+
+  @Override
+  public void setMessage(MessageInput in) throws RestApiException {
     try {
-      PutMessage.Input input = new PutMessage.Input();
-      input.message = in;
-      putMessage.apply(change, input);
+      putMessage.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot edit commit message", e);
     }

@@ -3154,6 +3154,17 @@ link:project-configuration.html#require-change-id[Require Change-Id] was specifi
   }
 ----
 
+.Notifications
+
+An email will be sent using the "newpatchset" template.
+
+[options="header",cols="1,1"]
+|=============================
+|WIP State       |Default
+|Ready for review|owner, reviewers, CCs, stars, NEW_PATCHSETS watchers
+|Work in progress|owner
+|=============================
+
 [[revision-endpoints]]
 == Revision Endpoints
 

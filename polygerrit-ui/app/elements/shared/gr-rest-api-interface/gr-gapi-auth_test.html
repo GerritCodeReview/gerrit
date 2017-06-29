@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 
 <script src="gr-gapi-auth.js"></script>
 
@@ -42,7 +43,7 @@ limitations under the License.
           authorize: sandbox.stub(),
         },
       };
-      sandbox.stub(window, 'fetch').returns(Promise.resolve());
+      sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
     });
 
     teardown(() => {
@@ -158,7 +159,6 @@ limitations under the License.
 
     test('_getOAuthConfig', () => {
       const config = {};
-      fetch.returns(Promise.resolve({ok: true}));
       sandbox.stub(auth, '_getResponseObject').returns(config);
       return auth._getOAuthConfig().then(c => {
         const [url, options] = fetch.lastCall.args;
@@ -166,6 +166,15 @@ limitations under the License.
         assert.equal(options.credentials, 'same-origin');
         assert.equal(options.headers.get('Accept'), 'application/json');
         assert.strictEqual(c, config);
+      });
+    });
+
+    test('BaseUrlBehavior', () => {
+      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('http://foo');
+      sandbox.stub(auth, '_getResponseObject').returns({});
+      return auth._getOAuthConfig().then(c => {
+        const [url] = fetch.lastCall.args;
+        assert.equal(url, 'http://foo/accounts/self/oauthconfig');
       });
     });
 

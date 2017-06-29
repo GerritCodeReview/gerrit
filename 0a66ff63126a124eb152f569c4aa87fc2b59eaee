@@ -39,6 +39,30 @@
       "revId": "0a66ff63126a124eb152f569c4aa87fc2b59eaee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf24f9b_b8013c6e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T00:12:30Z",
+      "side": 1,
+      "message": "I’m not sure how to do the simpler one. I only know how to do bulk.\n\nDoing it singular will cause it to fail if you have two or more branches selected.\n\nUnless you mean add a delete button here?",
+      "parentUuid": "a264d35b_b16c54fe",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "0a66ff63126a124eb152f569c4aa87fc2b59eaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

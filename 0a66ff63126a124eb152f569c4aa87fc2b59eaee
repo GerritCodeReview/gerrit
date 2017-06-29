@@ -81,6 +81,30 @@
       "revId": "0a66ff63126a124eb152f569c4aa87fc2b59eaee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c05ffb95_932d1c10",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-branches/gr-project-branches.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-06-29T13:23:11Z",
+      "side": 1,
+      "message": "I\u0027ve added simple delete buttons now.",
+      "parentUuid": "dcf24f9b_b8013c6e",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "0a66ff63126a124eb152f569c4aa87fc2b59eaee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

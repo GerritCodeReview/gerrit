@@ -159,7 +159,8 @@
   };
 
   GrGapiAuth.prototype._getOAuthConfig = function() {
-    const authConfigURL = '/accounts/self/oauthconfig';
+    const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const authConfigURL = baseUrl + '/accounts/self/oauthconfig';
     const opts = {
       headers: new Headers({Accept: 'application/json'}),
       credentials: 'same-origin',

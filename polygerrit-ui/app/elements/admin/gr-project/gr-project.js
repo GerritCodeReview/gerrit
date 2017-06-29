@@ -104,6 +104,8 @@
 
     attached() {
       this._loadProject();
+
+      this.fire('title-change', {title: this.project});
     },
 
     _loadProject() {

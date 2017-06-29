@@ -69,6 +69,7 @@
 
     attached() {
       this._getCreateProjectCapability();
+      this.fire('title-change', {title: 'Project List'});
     },
 
     _paramsChanged(params) {

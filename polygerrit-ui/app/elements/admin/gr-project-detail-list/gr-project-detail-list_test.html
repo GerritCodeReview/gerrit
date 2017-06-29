@@ -16,19 +16,19 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-project-branches</title>
+<title>gr-project-detail-list</title>
 
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-project-branches.html">
+<link rel="import" href="gr-project-detail-list.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-project-branches></gr-project-branches>
+    <gr-project-detail-list></gr-project-detail-list>
   </template>
 </test-fixture>
 
@@ -47,7 +47,7 @@ limitations under the License.
     };
   };
 
-  suite('gr-project-branches tests', () => {
+  suite('gr-project-detail-list tests', () => {
     let element;
     let branches;
     let sandbox;
@@ -55,6 +55,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      element.detailType = 'branches';
       counter = 0;
     });
 
@@ -81,14 +82,14 @@ limitations under the License.
 
       test('test for test branch in the list', done => {
         flush(() => {
-          assert.equal(element._branches[1].ref, 'refs/heads/test2');
+          assert.equal(element._items[1].ref, 'refs/heads/test2');
           done();
         });
       });
 
       test('test for test web links in the branches list', done => {
         flush(() => {
-          assert.equal(element._branches[1].web_links[0].url,
+          assert.equal(element._items[1].web_links[0].url,
               'https://git.example.org/branch/test;refs/heads/test2');
           done();
         });
@@ -96,14 +97,14 @@ limitations under the License.
 
       test('test for refs/heads/ being striped from ref', done => {
         flush(() => {
-          assert.equal(element._stripRefsHeads(element._branches[1].ref),
+          assert.equal(element._stripRefsHeads(element._items[1].ref),
               'test2');
           done();
         });
       });
 
-      test('_shownBranches', () => {
-        assert.equal(element._shownBranches.length, 25);
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
       });
     });
 
@@ -125,7 +126,7 @@ limitations under the License.
       });
 
       test('_shownProjectsBranches', () => {
-        assert.equal(element._shownBranches.length, 25);
+        assert.equal(element._shownItems.length, 25);
       });
     });
 

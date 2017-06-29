@@ -110,7 +110,7 @@
             children: [
               {
                 name: 'Branches',
-                view: 'gr-project-branches',
+                view: 'gr-project-detail-list',
                 url: `/admin/projects/${this.encodeURL(this._project, true)}` +
                     ',branches',
               },
@@ -139,7 +139,7 @@
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');
       this.set('_showProjectBranches',
-          params.adminView === 'gr-project-branches');
+          params.adminView === 'gr-project-detail-list');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
       if (params.project !== this._project) {

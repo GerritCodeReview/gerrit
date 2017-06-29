@@ -46,8 +46,14 @@ limitations under the License.
       ],
     };
   };
+  const tagGenerator = () => {
+    return {
+      ref: `refs/tags/test${++counter}`,
+      revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
+    };
+  };
 
-  suite('gr-project-detail-list tests', () => {
+  suite('Branches', () => {
     let element;
     let branches;
     let sandbox;
@@ -63,7 +69,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('list with project branches', () => {
+    suite('list of project branches', () => {
       setup(done => {
         branches = _.times(26, branchGenerator);
 
@@ -97,8 +103,8 @@ limitations under the License.
 
       test('test for refs/heads/ being striped from ref', done => {
         flush(() => {
-          assert.equal(element._stripRefsHeads(element._items[1].ref),
-              'test2');
+          assert.equal(element._stripRefs(element._items[1].ref,
+              element.detailType), 'test2');
           done();
         });
       });
@@ -142,6 +148,100 @@ limitations under the License.
         };
         element._paramsChanged(params).then(() => {
           assert.isTrue(element.$.restAPI.getProjectBranches.lastCall
+              .calledWithExactly('test', 'test', 25, 25));
+          done();
+        });
+      });
+    });
+  });
+
+  suite('Tags', () => {
+    let element;
+    let tags;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+      element.detailType = 'tags';
+      counter = 0;
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('list of project tags', () => {
+      setup(done => {
+        tags = _.times(26, tagGenerator);
+
+        stub('gr-rest-api-interface', {
+          getProjectTags(num, project, offset) {
+            return Promise.resolve(tags);
+          },
+        });
+
+        const params = {
+          project: 'test',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
+      });
+
+      test('test for test tag in the list', done => {
+        flush(() => {
+          assert.equal(element._items[1].ref, 'refs/tags/test2');
+          done();
+        });
+      });
+
+      test('test for refs/tags/ being striped from ref', done => {
+        flush(() => {
+          assert.equal(element._stripRefs(element._items[1].ref,
+              element.detailType), 'test2');
+          done();
+        });
+      });
+
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
+    });
+
+    suite('list with less then 25 tags', () => {
+      setup(done => {
+        tags = _.times(25, tagGenerator);
+
+        stub('gr-rest-api-interface', {
+          getProjectTags(num, project, offset) {
+            return Promise.resolve(tags);
+          },
+        });
+
+        const params = {
+          project: 'test',
+        };
+
+        element._paramsChanged(params).then(() => { flush(done); });
+      });
+
+      test('_shownItems', () => {
+        assert.equal(element._shownItems.length, 25);
+      });
+    });
+
+    suite('filter', () => {
+      test('_paramsChanged', done => {
+        sandbox.stub(element.$.restAPI, 'getProjectTags', () => {
+          return Promise.resolve(tags);
+        });
+        const params = {
+          project: 'test',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params).then(() => {
+          assert.isTrue(element.$.restAPI.getProjectTags.lastCall
               .calledWithExactly('test', 'test', 25, 25));
           done();
         });

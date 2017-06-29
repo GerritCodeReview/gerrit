@@ -37,7 +37,6 @@ public class RelativeDateFormatter {
    * @return age of given {@link Date} compared to now formatted in the same relative format as
    *     returned by {@code git log --relative-date}
    */
-  @SuppressWarnings("boxing")
   public static String format(Date when) {
     long ageMillis = (new Date()).getTime() - when.getTime();
 

@@ -32,9 +32,27 @@ public class HANATest {
   }
 
   @Test
-  public void getUrl() throws Exception {
+  public void getUrl_host() {
+    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host");
+  }
+
+  @Test
+  public void getUrl_host_port() {
     config.setString("database", null, "port", "4242");
     assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:4242");
+  }
+
+  @Test
+  public void getUrl_host_database() {
+    config.setString("database", null, "database", "foo");
+    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host?databaseName=foo");
+  }
+
+  @Test
+  public void getUrl_host_port_database() {
+    config.setString("database", null, "port", "4242");
+    config.setString("database", null, "database", "foo");
+    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:4242?databaseName=foo");
   }
 
   @Test

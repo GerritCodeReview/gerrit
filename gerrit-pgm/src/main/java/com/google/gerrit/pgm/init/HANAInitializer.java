@@ -16,15 +16,22 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.Section;
 
 public class HANAInitializer implements DatabaseConfigInitializer {
 
   @Override
   public void initConfig(Section databaseSection) {
-    final String defPort = "(hana default)";
     databaseSection.string("Server hostname", "hostname", "localhost");
-    databaseSection.string("Server port", "port", defPort, true);
+    String instance = databaseSection.get("instance");
+    if (!Strings.isNullOrEmpty(instance)) {
+      String port = String.format("3%02d15", Integer.parseInt(instance));
+      databaseSection.string("Server port", "port", port, false);
+      databaseSection.unset("instance");
+    } else {
+      databaseSection.string("Server port", "port", "(hana default)", true);
+    }
     databaseSection.string("Database name", "database", null);
     databaseSection.string("Database username", "username", username());
     databaseSection.password("username", "password");

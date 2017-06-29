@@ -62,6 +62,10 @@
       Gerrit.ListViewBehavior,
     ],
 
+    attached() {
+      this.fire('title-change', {title: 'Project List'});
+    },
+
     _paramsChanged(params) {
       this._loading = true;
       this._filter = this.getFilterValue(params);

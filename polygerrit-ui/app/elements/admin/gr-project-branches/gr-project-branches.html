@@ -58,13 +58,14 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownBranches]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
-            <td class$="[[hideClass(_notOwner)]] delete">
-              <gr-button
-                  class$="[[hideClass2(item.can_delete)]]"
-                  data-branch="[[_stripRefsHeads(item.ref)]]"
-                  on-tap="_handleDeleteBranches">
-                Delete
-              </gr-button>
+            <td class$="[[hideClass(_notOwner)]] delete" on-tap="_handleTargetTap">
+              <input
+                  class$="[[hideClass2(item.can_delete)]] deleteBranchesCheckBox"
+                  id="deleteBranchesCheckBox"
+                  type="checkbox"
+                  name="[[item.ref]]"
+                  hidden$="[[!item.can_delete]]"
+                  hidden$="[[_notOwner]]" hidden>
             </td>
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
             <td class="revision">[[item.revision]]</td>
@@ -82,6 +83,11 @@ limitations under the License.
           </tr>
         </template>
       </table>
+      <gr-button
+          on-tap="_handleDeleteBranches"
+          class$="[[hideClass(_notOwner)]]">
+        Delete
+      </gr-button>
       <gr-overlay id="overlay" with-backdrop hidden$="[[_notOwner]]" hidden>
         <gr-confirm-delete-branch-dialog id="confirmDeleteBranch"
             class="confirmDialog"

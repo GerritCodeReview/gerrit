@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8705a845_ca9afc50",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 3154,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-06-29T10:15:59Z",
+      "side": 1,
+      "message": "\u0027200 OK\u0027 seems to be the correct response for this case whereas the \u0027204 No content\u0027 for the REST endpoints relating to change edits was considered a bug according to [1]. That\u0027s why the \u0027Apply fix\u0027 REST endpoint also returns \u0027200 OK\u0027.\n\nHowever, this documentation should mention the type of response, which it currently doesn\u0027t do.\n\n[1] https://gerrit-review.googlesource.com/c/99632/2/Documentation%252Frest-api-changes.txt#4274",
+      "parentUuid": "d0b8a6da_aca232f7",
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ecb356d_42eaf225",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

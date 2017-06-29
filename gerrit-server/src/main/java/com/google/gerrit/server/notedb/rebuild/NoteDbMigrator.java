@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
+import static com.google.gerrit.server.notedb.ConfigNotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.NoteDbTable;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
@@ -73,6 +75,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -87,6 +90,16 @@ import org.slf4j.LoggerFactory;
 /** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
 public class NoteDbMigrator implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(NoteDbMigrator.class);
+
+  private static final String AUTO_MIGRATE = "autoMigrate";
+
+  public static boolean getAutoMigrate(Config cfg) {
+    return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
+  }
+
+  private static void setAutoMigrate(Config cfg, boolean autoMigrate) {
+    cfg.setBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, autoMigrate);
+  }
 
   public static class Builder {
     private final Config cfg;
@@ -108,6 +121,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean trial;
     private boolean forceRebuild;
     private int sequenceGap = -1;
+    private boolean autoMigrate;
 
     @Inject
     Builder(
@@ -260,6 +274,21 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Enable auto-migration on subsequent daemon launches.
+     *
+     * <p>If true, prior to running any migration steps, sets the necessary configuration in {@code
+     * gerrit.config} to make {@code gerrit.war daemon} retry the migration on next startup, if it
+     * fails.
+     *
+     * @param autoMigrate whether to set auto-migration config.
+     * @return this.
+     */
+    public Builder setAutoMigrate(boolean autoMigrate) {
+      this.autoMigrate = autoMigrate;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -279,7 +308,8 @@ public class NoteDbMigrator implements AutoCloseable {
           stopAtState,
           trial,
           forceRebuild,
-          sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg));
+          sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
+          autoMigrate);
     }
   }
 
@@ -300,6 +330,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean trial;
   private final boolean forceRebuild;
   private final int sequenceGap;
+  private final boolean autoMigrate;
 
   private NoteDbMigrator(
       SitePaths sitePaths,
@@ -317,7 +348,8 @@ public class NoteDbMigrator implements AutoCloseable {
       NotesMigrationState stopAtState,
       boolean trial,
       boolean forceRebuild,
-      int sequenceGap)
+      int sequenceGap,
+      boolean autoMigrate)
       throws MigrationException {
     if (!changes.isEmpty() && !projects.isEmpty()) {
       throw new MigrationException("Cannot set both changes and projects");
@@ -342,6 +374,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.trial = trial;
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
+    this.autoMigrate = autoMigrate;
   }
 
   @Override
@@ -352,7 +385,7 @@ public class NoteDbMigrator implements AutoCloseable {
   public void migrate() throws OrmException, IOException {
     if (!changes.isEmpty() || !projects.isEmpty()) {
       throw new MigrationException(
-          "Cannot set changes or projects during auto-migration; call rebuild() instead");
+          "Cannot set changes or projects during full migration; call rebuild() instead");
     }
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {
@@ -368,6 +401,12 @@ public class NoteDbMigrator implements AutoCloseable {
     if (forceRebuild && state.compareTo(READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY) > 0) {
       throw new MigrationException(
           "Cannot force rebuild changes; NoteDb is already the primary storage for some changes");
+    }
+    if (autoMigrate) {
+      if (trial) {
+        throw new MigrationException("Auto-migration cannot be used with trial mode");
+      }
+      enableAutoMigrate();
     }
 
     boolean rebuilt = false;
@@ -512,7 +551,7 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {
-    return saveState(prev, NOTE_DB_UNFUSED);
+    return saveState(prev, NOTE_DB_UNFUSED, c -> setAutoMigrate(c, false));
   }
 
   private Optional<NotesMigrationState> loadState() throws IOException {
@@ -527,6 +566,14 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private NotesMigrationState saveState(
       NotesMigrationState expectedOldState, NotesMigrationState newState) throws IOException {
+    return saveState(expectedOldState, newState, c -> {});
+  }
+
+  private NotesMigrationState saveState(
+      NotesMigrationState expectedOldState,
+      NotesMigrationState newState,
+      Consumer<Config> additionalUpdates)
+      throws IOException {
     synchronized (globalNotesMigration) {
       // This read-modify-write is racy. We're counting on the fact that no other Gerrit operation
       // modifies gerrit.config, and hoping that admins don't either.
@@ -544,12 +591,23 @@ public class NoteDbMigrator implements AutoCloseable {
                     : "But could not parse the current state"));
       }
       ConfigNotesMigration.setConfigValues(gerritConfig, newState.migration());
+      additionalUpdates.accept(gerritConfig);
       gerritConfig.save();
 
       // Only set in-memory state once it's been persisted to storage.
       globalNotesMigration.setFrom(newState.migration());
 
       return newState;
+    }
+  }
+
+  private void enableAutoMigrate() throws MigrationException {
+    try {
+      gerritConfig.load();
+      setAutoMigrate(gerritConfig, true);
+      gerritConfig.save();
+    } catch (ConfigInvalidException | IOException e) {
+      throw new MigrationException("Error saving auto-migration config", e);
     }
   }
 

@@ -104,11 +104,15 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     assertMigrationException(
         "Cannot set both changes and projects", b -> b.setChanges(cs).setProjects(ps), m -> {});
     assertMigrationException(
-        "Cannot set changes or projects during auto-migration",
+        "Auto-migration cannot be used with trial mode",
+        b -> b.setAutoMigrate(true).setTrialMode(true),
+        m -> {});
+    assertMigrationException(
+        "Cannot set changes or projects during full migration",
         b -> b.setChanges(cs),
         NoteDbMigrator::migrate);
     assertMigrationException(
-        "Cannot set changes or projects during auto-migration",
+        "Cannot set changes or projects during full migration",
         b -> b.setProjects(ps),
         NoteDbMigrator::migrate);
 
@@ -335,6 +339,23 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       assertThat(c.getTopic()).isNull();
       assertThat(c.getRowVersion()).isEqualTo(rowVersion);
     }
+  }
+
+  @Test
+  public void autoMigrationConfig() throws Exception {
+    createChange();
+
+    migrate(b -> b.setStopAtStateForTesting(WRITE));
+    assertNotesMigrationState(WRITE);
+    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isFalse();
+
+    migrate(b -> b.setAutoMigrate(true).setStopAtStateForTesting(READ_WRITE_NO_SEQUENCE));
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
+    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isTrue();
+
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB_UNFUSED);
+    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isFalse();
   }
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {

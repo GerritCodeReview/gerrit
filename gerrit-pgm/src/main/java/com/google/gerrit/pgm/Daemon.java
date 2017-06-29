@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -75,6 +76,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -459,13 +461,17 @@ public class Daemon extends SiteProgram {
       modules.add(new ChangeCleanupRunner.Module());
     }
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
-    if (migrateToNoteDb) {
+    if (migrateToNoteDb()) {
       modules.add(new OnlineNoteDbMigrator.Module());
     }
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
     return cfgInjector.createChildInjector(modules);
+  }
+
+  private boolean migrateToNoteDb() {
+    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(checkNotNull(config));
   }
 
   private Module createIndexModule() {
@@ -478,7 +484,7 @@ public class Daemon extends SiteProgram {
     boolean onlineUpgrade =
         VersionManager.getOnlineUpgrade(config)
             // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
-            && !migrateToNoteDb;
+            && !migrateToNoteDb();
     switch (indexType) {
       case LUCENE:
         return onlineUpgrade

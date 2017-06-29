@@ -68,7 +68,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     }
     Stopwatch sw = Stopwatch.createStarted();
     // TODO(dborowitz): Tune threads, maybe expose a progress monitor somewhere.
-    try (NoteDbMigrator migrator = migratorBuilderProvider.get().build()) {
+    try (NoteDbMigrator migrator = migratorBuilderProvider.get().setAutoMigrate(true).build()) {
       migrator.migrate();
     } catch (Exception e) {
       log.error("Error in online NoteDb migration", e);

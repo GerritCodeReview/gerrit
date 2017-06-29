@@ -23,4 +23,8 @@ public class MigrationException extends IOException {
   MigrationException(String message) {
     super(message);
   }
+
+  MigrationException(String message, Throwable why) {
+    super(message, why);
+  }
 }

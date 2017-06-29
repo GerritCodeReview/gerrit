@@ -471,17 +471,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> change(String query) throws QueryParseException {
-    if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(Change.Id.parse(query));
-    } else if (PAT_CHANGE_ID.matcher(query).matches()) {
-      return new ChangeIdPredicate(parseChangeId(query));
-    }
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(query);
     if (triplet.isPresent()) {
       return Predicate.and(
           project(triplet.get().project().get()),
           branch(triplet.get().branch().get()),
           new ChangeIdPredicate(parseChangeId(triplet.get().id().get())));
+    }
+    if (PAT_LEGACY_ID.matcher(query).matches()) {
+      return new LegacyChangeIdPredicate(Change.Id.parse(query));
+    } else if (PAT_CHANGE_ID.matcher(query).matches()) {
+      return new ChangeIdPredicate(parseChangeId(query));
     }
 
     throw new QueryParseException("Invalid change format");

@@ -94,6 +94,30 @@
       "revId": "dbd80853a7037dca451904862e71ee8d3a9ee6d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6324cd92_0facae2d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-29T18:39:14Z",
+      "side": 1,
+      "message": "No worries 😊",
+      "parentUuid": "38944cef_80fb7734",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 15
+      },
+      "revId": "dbd80853a7037dca451904862e71ee8d3a9ee6d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

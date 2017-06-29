@@ -156,7 +156,7 @@
       if (!project || !ref) {
         return '';
       }
-      return this.send('DELETE', `/projects/${project}/branches/${ref}`, '',
+      return this.send('POST', `/projects/${project}/branches:delete`, ref,
           opt_errFn, opt_ctx);
     },
 

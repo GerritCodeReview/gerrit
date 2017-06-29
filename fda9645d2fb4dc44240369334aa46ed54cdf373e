@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "23b5ae9c_2b905779",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 3154,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-06-29T16:17:51Z",
+      "side": 1,
+      "message": "When other closely-related methods return non-200 responses, assuming doesn\u0027t seem very safe.\n\nTo be clear, I don\u0027t particularly care if this method returns 200 or 204. I just think that it should be consistent with the other related methods, and if it can\u0027t be consistent, it should definitely be documented.",
+      "parentUuid": "5fb55dd5_35646fbf",
+      "revId": "fda9645d2fb4dc44240369334aa46ed54cdf373e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ecb356d_42eaf225",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 11

@@ -28,7 +28,7 @@ limitations under the License.
 <link rel="import" href="../gr-admin-plugin-list/gr-admin-plugin-list.html">
 <link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
 <link rel="import" href="../gr-admin-project/gr-admin-project.html">
-<link rel="import" href="../gr-project-branches/gr-project-branches.html">
+<link rel="import" href="../gr-project-detail-list/gr-project-detail-list.html">
 
 <dom-module id="gr-admin-view">
   <template>
@@ -96,9 +96,10 @@ limitations under the License.
     </template>
     <template is="dom-if" if="[[_showProjectBranches]]" restamp="true">
       <main class="table">
-        <gr-project-branches
+        <gr-project-detail-list
             params="[[params]]"
-            class="table"></gr-project-branches>
+            class="table"
+            detail-type='branches'></gr-project-detail-list>
       </main>
     </template>
     <template is="dom-if" if="[[params.placeholder]]" restamp="true">

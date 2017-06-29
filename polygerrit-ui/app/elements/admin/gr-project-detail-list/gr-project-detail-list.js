@@ -110,8 +110,19 @@
       return webLinks.length ? webLinks : null;
     },
 
-    _stripRefsHeads(item) {
-      return item.replace('refs/heads/', '');
+    computeBrowserClass(detailType) {
+      if (detailType === DETAIL_TYPES.BRANCHES) {
+        return 'show';
+      }
+      return '';
+    },
+
+    _stripRefs(item, detailType) {
+      if (detailType === DETAIL_TYPES.BRANCHES) {
+        return item.replace('refs/heads/', '');
+      } else if (detailType === DETAIL_TYPES.TAGS) {
+        return item.replace('refs/tags/', '');
+      }
     },
   });
 })();

@@ -256,25 +256,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byTriplet() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
+    TestRepository<Repo> repo = createProject("iabcde");
     Change change = insert(repo, newChangeForBranch(repo, "branch"));
     String k = change.getKey().get();
 
-    assertQuery("repo~branch~" + k, change);
-    assertQuery("change:repo~branch~" + k, change);
-    assertQuery("repo~refs/heads/branch~" + k, change);
-    assertQuery("change:repo~refs/heads/branch~" + k, change);
-    assertQuery("repo~branch~" + k.substring(0, 10), change);
-    assertQuery("change:repo~branch~" + k.substring(0, 10), change);
+    assertQuery("iabcde~branch~" + k, change);
+    assertQuery("change:iabcde~branch~" + k, change);
+    assertQuery("iabcde~refs/heads/branch~" + k, change);
+    assertQuery("change:iabcde~refs/heads/branch~" + k, change);
+    assertQuery("iabcde~branch~" + k.substring(0, 10), change);
+    assertQuery("change:iabcde~branch~" + k.substring(0, 10), change);
 
     assertQuery("foo~bar");
     assertThatQueryException("change:foo~bar").hasMessageThat().isEqualTo("Invalid change format");
     assertQuery("otherrepo~branch~" + k);
     assertQuery("change:otherrepo~branch~" + k);
-    assertQuery("repo~otherbranch~" + k);
-    assertQuery("change:repo~otherbranch~" + k);
-    assertQuery("repo~branch~I0000000000000000000000000000000000000000");
-    assertQuery("change:repo~branch~I0000000000000000000000000000000000000000");
+    assertQuery("iabcde~otherbranch~" + k);
+    assertQuery("change:iabcde~otherbranch~" + k);
+    assertQuery("iabcde~branch~I0000000000000000000000000000000000000000");
+    assertQuery("change:iabcde~branch~I0000000000000000000000000000000000000000");
   }
 
   @Test

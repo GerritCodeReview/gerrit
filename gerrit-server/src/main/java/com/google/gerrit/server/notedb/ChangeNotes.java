@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -32,6 +33,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
@@ -67,7 +70,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -314,10 +316,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
         throws OrmException, IOException {
-      Set<Change.Id> ids = scan(repo);
+      // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
+      // ref. Not all changes might exist: some patch set refs might have been written where the
+      // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
+      // call below, which is intended.
+      Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
       List<ChangeNotes> notes = new ArrayList<>(ids.size());
-      // A batch size of N may overload get(Iterable), so use something smaller,
-      // but still >1.
+
+      // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().get(batch)) {
           notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
@@ -328,14 +334,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private List<ChangeNotes> scanNoteDb(Repository repo, ReviewDb db, Project.NameKey project)
         throws OrmException, IOException {
-      Set<Change.Id> ids = scan(repo);
-      List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
+      ScanResult sr = scanChangeIds(repo);
+      List<ChangeNotes> changeNotes = new ArrayList<>(sr.fromPatchSetRefs().size());
+
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
-      for (Change.Id id : ids) {
+      for (Change.Id id : sr.all()) {
         Change change = readOneReviewDbChange(db, id);
         if (change == null) {
           if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-            log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
+            // If changes should exist in ReviewDb, it's worth warning about a meta ref with no
+            // corresponding ReviewDb data. But stray patch set refs can happen due to normal error
+            // conditions, e.g. failed push processing, so aren't worth even a warning.
+            if (sr.fromMetaRefs().contains(id)) {
+              log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
+            }
             continue;
           }
           // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
@@ -354,16 +366,27 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changeNotes;
     }
 
-    private static Set<Change.Id> scan(Repository repo) throws IOException {
-      Map<String, Ref> refs = repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-      Set<Change.Id> ids = new HashSet<>(refs.size());
-      for (Ref r : refs.values()) {
+    @AutoValue
+    abstract static class ScanResult {
+      abstract ImmutableSet<Change.Id> fromPatchSetRefs();
+
+      abstract ImmutableSet<Change.Id> fromMetaRefs();
+
+      SetView<Change.Id> all() {
+        return Sets.union(fromPatchSetRefs(), fromMetaRefs());
+      }
+    }
+
+    private static ScanResult scanChangeIds(Repository repo) throws IOException {
+      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
+      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
+      for (Ref r : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
-          ids.add(id);
+          (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
         }
       }
-      return ids;
+      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
     }
   }
 

@@ -73,6 +73,9 @@
 
     _paramsChanged(params) {
       this._loading = true;
+      this._refName = {
+        branches: [],
+      };
       if (!params || !params.project) { return; }
 
       this._project = params.project;
@@ -120,6 +123,18 @@
       return item.replace('refs/heads/', '');
     },
 
+    _handleTargetTap(e) {
+      let checkbox = Polymer.dom(e.target).querySelector('input');
+      if (checkbox) {
+        checkbox.click();
+      } else {
+        // The target is the checkbox itself.
+        checkbox = Polymer.dom(e).rootTarget;
+      }
+      console.log(checkbox.name);
+      this._refName.branches.push(checkbox.name);
+    },
+
     _handleDeleteBranchConfirm() {
       const el = this.$.confirmDeleteBranch;
       this.$.overlay.close();
@@ -152,9 +167,6 @@
     },
 
     _handleDeleteBranches(e) {
-      const index = e.target.dataBranch;
-      if (!index) { return; }
-      this._refName = index;
       this._showActionDialog(this.$.confirmDeleteBranch);
     },
 

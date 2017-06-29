@@ -24,13 +24,13 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 
 
-<dom-module id="gr-project-branches">
+<dom-module id="gr-project-detail-list">
   <template>
     <style include="shared-styles"></style>
     <gr-list-view
         filter="[[_filter]]"
-        items-per-page="[[_branchesPerPage]]"
-        items="[[_branches]]"
+        items-per-page="[[_itemsPerPage]]"
+        items="[[_items]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
         path="[[_getPath(_project)]]">
@@ -43,7 +43,7 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownBranches]]"
+        <template is="dom-repeat" items="[[_shownItems]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">[[_stripRefsHeads(item.ref)]]</td>
@@ -65,5 +65,5 @@ limitations under the License.
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-project-branches.js"></script>
+  <script src="gr-project-detail-list.js"></script>
 </dom-module>

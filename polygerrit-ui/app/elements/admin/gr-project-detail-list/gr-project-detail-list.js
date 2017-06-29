@@ -14,8 +14,13 @@
 (function() {
   'use strict';
 
+  const DETAIL_TYPES = {
+    BRANCHES: 'branches',
+    TAGS: 'tags',
+  };
+
   Polymer({
-    is: 'gr-project-branches',
+    is: 'gr-project-detail-list',
 
     properties: {
       /**
@@ -25,22 +30,27 @@
         type: Object,
         observer: '_paramsChanged',
       },
+      /**
+       * The kind of detail we are displaying, possibilities are determined by
+       * the const DETAIL_TYPES.
+       */
+      detailType: String,
 
       /**
        * Offset of currently visible query results.
        */
       _offset: Number,
       _project: Object,
-      _branches: Array,
+      _items: Array,
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
        * */
-      _shownBranches: {
+      _shownItems: {
         type: Array,
-        computed: 'computeShownItems(_branches)',
+        computed: 'computeShownItems(_items)',
       },
-      _branchesPerPage: {
+      _itemsPerPage: {
         type: Number,
         value: 25,
       },
@@ -65,22 +75,33 @@
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getBranches(this._filter, this._project,
-          this._branchesPerPage, this._offset);
+      return this._getItems(this._filter, this._project,
+          this._itemsPerPage, this._offset, this.detailType);
     },
 
-    _getBranches(filter, project, projectsPerPage, offset) {
-      this._projectsBranches = [];
-      return this.$.restAPI.getProjectBranches(
-          filter, project, projectsPerPage, offset) .then(branches => {
-            if (!branches) { return; }
-            this._branches = branches;
-            this._loading = false;
-          });
+    _getItems(filter, project, itemsPerPage, offset, detailType) {
+      this._items = [];
+      Polymer.dom.flush();
+      if (detailType === DETAIL_TYPES.BRANCHES) {
+        return this.$.restAPI.getProjectBranches(
+            filter, project, itemsPerPage, offset) .then(items => {
+              if (!items) { return; }
+              this._items = items;
+              this._loading = false;
+            });
+      } else if (detailType === DETAIL_TYPES.TAGS) {
+        return this.$.restAPI.getProjectTags(
+            filter, project, itemsPerPage, offset) .then(items => {
+              if (!items) { return; }
+              this._items = items;
+              this._loading = false;
+            });
+      }
     },
 
     _getPath(project) {
-      return '/admin/projects/' + this.encodeURL(project, true) + ',branches';
+      return `/admin/projects/${this.encodeURL(project, true)},` +
+          `${this.detailType}`;
     },
 
     _computeWeblink(project) {

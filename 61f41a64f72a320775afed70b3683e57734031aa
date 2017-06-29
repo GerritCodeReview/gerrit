@@ -81,6 +81,30 @@
       "revId": "61f41a64f72a320775afed70b3683e57734031aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64da18bc_f8e4ad52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-29T17:38:09Z",
+      "side": 1,
+      "message": "But it should be less than modals (or other potentially other things), right?\n\nCan we add a comment regarding what this z-index needs to be greater than (or potentially less than)? Is this z-index only needed to prevent the tooltip getting cut off at the top of the page, or does it fix something else?\n\nPersonally, I think of `z-index` as a lot like `!important`, since it doesn\u0027t scale very well when many elements have them. To me, it\u0027s preferable to encode layering in the DOM tree order, but sometimes `z-index` is unavoidable. So, when we need to use it, it\u0027s nice to document why specific z values are chosen, so that they can be updated confidently.",
+      "parentUuid": "e5bb46f2_9868d8c6",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "61f41a64f72a320775afed70b3683e57734031aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

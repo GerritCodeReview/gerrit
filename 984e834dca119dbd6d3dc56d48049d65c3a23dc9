@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96867caf_9ab2efa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-29T07:59:59Z",
+      "side": 1,
+      "message": "s/isActive/setActive",
+      "revId": "984e834dca119dbd6d3dc56d48049d65c3a23dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b23f165_e3d8ca30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-29T07:59:59Z",
+      "side": 1,
+      "message": "Should not we do the other way around? That is the authentication realm provides a method that says if the account is active or not and then the account manager mutating the account status?",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "984e834dca119dbd6d3dc56d48049d65c3a23dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

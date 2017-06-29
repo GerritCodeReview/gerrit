@@ -138,19 +138,19 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public SiteIndexer.Result indexAll(ChangeIndex index, Iterable<ProjectHolder> projects) {
     Stopwatch sw = Stopwatch.createStarted();
-    final MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
-    final Task projTask =
+    MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
+    Task projTask =
         mpm.beginSubTask(
             "projects",
             (projects instanceof Collection)
                 ? ((Collection<?>) projects).size()
                 : MultiProgressMonitor.UNKNOWN);
-    final Task doneTask =
+    Task doneTask =
         mpm.beginSubTask(null, totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
-    final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+    Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
-    final List<ListenableFuture<?>> futures = new ArrayList<>();
-    final AtomicBoolean ok = new AtomicBoolean(true);
+    List<ListenableFuture<?>> futures = new ArrayList<>();
+    AtomicBoolean ok = new AtomicBoolean(true);
 
     for (ProjectHolder project : projects) {
       ListenableFuture<?> future =
@@ -195,11 +195,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProject(
-      final ChangeIndexer indexer,
-      final Project.NameKey project,
-      final Task done,
-      final Task failed,
-      final PrintWriter verboseWriter) {
+      ChangeIndexer indexer,
+      Project.NameKey project,
+      Task done,
+      Task failed,
+      PrintWriter verboseWriter) {
     return new Callable<Void>() {
       @Override
       public Void call() throws Exception {

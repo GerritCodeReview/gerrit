@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fa5d53_d6bb48b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T17:36:54Z",
+      "side": 1,
+      "message": "Note: this will change to \u003cslot\u003e once we actually upgrade",
+      "revId": "e0b46c0dd2f749517b8378423a55bc733bf2bb48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

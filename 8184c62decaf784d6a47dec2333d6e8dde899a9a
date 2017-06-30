@@ -34,6 +34,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990de442_1da0d869",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T20:22:29Z",
+      "side": 1,
+      "message": "\u003e Are you sure you prefer it with indentation? Or are you just used to it?\n\nI\u0027m sure I prefer it insofar as I added the indent because I liked it better than when it didn\u0027t have one.\n\nI\u0027m totally open to the possibility that my aesthetic sense is wrong here, though. Obviously I have no objection to the code.",
+      "parentUuid": "6d23e1a4_6c793d5f",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

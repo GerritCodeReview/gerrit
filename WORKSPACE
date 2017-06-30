@@ -1,4 +1,4 @@
-workspace(name = "gerrit")
+sworkspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")

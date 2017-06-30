@@ -142,6 +142,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f85bef9_26b1cba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T21:57:22Z",
+      "side": 1,
+      "message": "The style is in the project settings as a stylistic choice. It happens to use the same CSS to avoid repeating code.\n\nIf you\u0027re looking for empirical evidence to point to which style is better I doubt you\u0027ll find it.\nIf you\u0027re looking for subjective agreement on the style, you may want to ask someone besides me.",
+      "parentUuid": "733ef48a_de8a9495",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

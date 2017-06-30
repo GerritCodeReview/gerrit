@@ -29,12 +29,12 @@ public interface DraftApi extends CommentApi {
    */
   class NotImplemented extends CommentApi.NotImplemented implements DraftApi {
     @Override
-    public CommentInfo update(DraftInput in) {
+    public CommentInfo update(DraftInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() {
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

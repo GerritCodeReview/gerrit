@@ -44,42 +44,44 @@ public interface Server {
    */
   class NotImplemented implements Server {
     @Override
-    public String getVersion() {
+    public String getVersion() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ServerInfo getInfo() {
+    public ServerInfo getInfo() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GeneralPreferencesInfo getDefaultPreferences() {
+    public GeneralPreferencesInfo getDefaultPreferences() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in) {
+    public GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo getDefaultDiffPreferences() {
+    public DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in) {
+    public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) {
+    public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccessCheckInfo checkAccess(AccessCheckInput in) {
+    public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
       throw new NotImplementedException();
     }
   }

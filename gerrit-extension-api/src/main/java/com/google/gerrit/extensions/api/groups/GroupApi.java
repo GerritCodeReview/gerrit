@@ -155,57 +155,57 @@ public interface GroupApi {
    */
   class NotImplemented implements GroupApi {
     @Override
-    public GroupInfo get() {
+    public GroupInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GroupInfo detail() {
+    public GroupInfo detail() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public String name() {
+    public String name() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void name(String name) {
+    public void name(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GroupInfo owner() {
+    public GroupInfo owner() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void owner(String owner) {
+    public void owner(String owner) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public String description() {
+    public String description() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void description(String description) {
+    public void description(String description) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public GroupOptionsInfo options() {
+    public GroupOptionsInfo options() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void options(GroupOptionsInfo options) {
+    public void options(GroupOptionsInfo options) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<AccountInfo> members() {
+    public List<AccountInfo> members() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -215,27 +215,27 @@ public interface GroupApi {
     }
 
     @Override
-    public void addMembers(String... members) {
+    public void addMembers(String... members) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void removeMembers(String... members) {
+    public void removeMembers(String... members) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<GroupInfo> includedGroups() {
+    public List<GroupInfo> includedGroups() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void addGroups(String... groups) {
+    public void addGroups(String... groups) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void removeGroups(String... groups) {
+    public void removeGroups(String... groups) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -245,7 +245,7 @@ public interface GroupApi {
     }
 
     @Override
-    public void index() {
+    public void index() throws RestApiException {
       throw new NotImplementedException();
     }
   }

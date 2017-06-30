@@ -30,17 +30,17 @@ public interface TagApi {
    */
   class NotImplemented implements TagApi {
     @Override
-    public TagApi create(TagInput input) {
+    public TagApi create(TagInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public TagInfo get() {
+    public TagInfo get() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() {
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -90,68 +90,74 @@ limitations under the License.
           <section>
             <span class="title">Changes per page</span>
             <span class="value">
-              <select
-                  is="gr-select"
+              <gr-select
                   bind-value="{{_localPrefs.changes_per_page}}">
-                <option value="10">10 rows per page</option>
-                <option value="25">25 rows per page</option>
-                <option value="50">50 rows per page</option>
-                <option value="100">100 rows per page</option>
-              </select>
+                <select>
+                  <option value="10">10 rows per page</option>
+                  <option value="25">25 rows per page</option>
+                  <option value="50">50 rows per page</option>
+                  <option value="100">100 rows per page</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section>
             <span class="title">Date/time format</span>
             <span class="value">
-              <select
-                  is="gr-select"
+              <gr-select
                   bind-value="{{_localPrefs.date_format}}">
-                <option value="STD">Jun 3 ; Jun 3, 2016</option>
-                <option value="US">06/03 ; 06/03/16</option>
-                <option value="ISO">06-03 ; 2016-06-03</option>
-                <option value="EURO">3. Jun ; 03.06.2016</option>
-                <option value="UK">03/06 ; 03/06/2016</option>
-              </select>
-              <select
-                  is="gr-select"
+                <select>
+                  <option value="STD">Jun 3 ; Jun 3, 2016</option>
+                  <option value="US">06/03 ; 06/03/16</option>
+                  <option value="ISO">06-03 ; 2016-06-03</option>
+                  <option value="EURO">3. Jun ; 03.06.2016</option>
+                  <option value="UK">03/06 ; 03/06/2016</option>
+                </select>
+              </gr-select>
+              <gr-select
                   bind-value="{{_localPrefs.time_format}}">
-                <option value="HHMM_12">4:10 PM</option>
-                <option value="HHMM_24">16:10</option>
-              </select>
+                <select>
+                  <option value="HHMM_12">4:10 PM</option>
+                  <option value="HHMM_24">16:10</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section>
             <span class="title">Email notifications</span>
             <span class="value">
-              <select
-                  is="gr-select"
+              <gr-select
                   bind-value="{{_localPrefs.email_strategy}}">
-                <option value="CC_ON_OWN_COMMENTS">Every comment</option>
-                <option value="ENABLED">Only comments left by others</option>
-                <option value="DISABLED">None</option>
-              </select>
+                <select>
+                  <option value="CC_ON_OWN_COMMENTS">Every comment</option>
+                  <option value="ENABLED">Only comments left by others</option>
+                  <option value="DISABLED">None</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section hidden$="[[!_localPrefs.email_format]]">
             <span class="title">Email format</span>
             <span class="value">
-              <select
-                  is="gr-select"
+              <gr-select
                   bind-value="{{_localPrefs.email_format}}">
-                <option value="HTML_PLAINTEXT">HTML and plaintext</option>
-                <option value="PLAINTEXT">Plaintext only</option>
-              </select>
+                <select>
+                  <option value="HTML_PLAINTEXT">HTML and plaintext</option>
+                  <option value="PLAINTEXT">Plaintext only</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section>
             <span class="title">Diff view</span>
             <span class="value">
-              <select
-                  is="gr-select"
+              <gr-select
                   bind-value="{{_localPrefs.diff_view}}">
-                <option value="SIDE_BY_SIDE">Side by side</option>
-                <option value="UNIFIED_DIFF">Unified diff</option>
-              </select>
+                <select>
+                  <option value="SIDE_BY_SIDE">Side by side</option>
+                  <option value="UNIFIED_DIFF">Unified diff</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section>
@@ -188,17 +194,17 @@ limitations under the License.
           <section>
             <span class="title">Context</span>
             <span class="value">
-              <select
-                  is="gr-select"
-                  bind-value="{{_diffPrefs.context}}">
-                <option value="3">3 lines</option>
-                <option value="10">10 lines</option>
-                <option value="25">25 lines</option>
-                <option value="50">50 lines</option>
-                <option value="75">75 lines</option>
-                <option value="100">100 lines</option>
-                <option value="-1">Whole file</option>
-              </select>
+              <gr-select bind-value="{{_diffPrefs.context}}">
+                <select>
+                  <option value="3">3 lines</option>
+                  <option value="10">10 lines</option>
+                  <option value="25">25 lines</option>
+                  <option value="50">50 lines</option>
+                  <option value="75">75 lines</option>
+                  <option value="100">100 lines</option>
+                  <option value="-1">Whole file</option>
+                </select>
+              </gr-select>
             </span>
           </section>
           <section>

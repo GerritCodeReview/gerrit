@@ -16,7 +16,6 @@
 
   Polymer({
     is: 'gr-select',
-    extends: 'select',
     properties: {
       bindValue: {
         type: String,
@@ -30,19 +29,23 @@
       'dom-change': '_updateValue',
     },
 
+    get nativeSelect() {
+      return this.$$('select');
+    },
+
     _updateValue() {
       if (this.bindValue) {
-        this.value = this.bindValue;
+        this.nativeSelect.value = this.bindValue;
       }
     },
 
     _valueChanged() {
-      this.bindValue = this.value;
+      this.bindValue = this.nativeSelect.value;
     },
 
     ready() {
       // If not set via the property, set bind-value to the element value.
-      if (!this.bindValue) { this.bindValue = this.value; }
+      if (!this.bindValue) { this.bindValue = this.nativeSelect.value; }
     },
   });
 })();

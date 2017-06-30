@@ -72,25 +72,27 @@ limitations under the License.
             <section>
               <span class="title">Create initial empty commit</span>
               <span class="value">
-                <select
+                <gr-select
                     id="initalCommit"
-                    is="gr-select"
                     bind-value="{{_projectConfig.create_empty_commit}}">
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
               </span>
             </section>
             <section>
               <span class="title">Only serve as parent for other projects</span>
               <span class="value">
-                <select
+                <gr-select
                     id="parentProject"
-                    is="gr-select"
                     bind-value="{{_projectConfig.permissions_only}}">
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
               </span>
             </section>
           </fieldset>

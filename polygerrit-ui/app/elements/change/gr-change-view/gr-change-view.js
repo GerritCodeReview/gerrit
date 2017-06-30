@@ -360,7 +360,7 @@
     },
 
     _handlePatchChange(e) {
-      this._changePatchNum(parseInt(e.target.value, 10), true);
+      this._changePatchNum(parseInt(e.target.bindValue, 10), true);
     },
 
     _handleReplyTap(e) {

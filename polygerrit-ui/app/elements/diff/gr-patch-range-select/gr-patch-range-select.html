@@ -42,17 +42,19 @@ limitations under the License.
     </style>
     Patch set:
     <span class="patchRange">
-      <select id="leftPatchSelect" bind-value="{{_leftSelected}}"
-          on-change="_handlePatchChange" is="gr-select">
-        <option value="PARENT">Base</option>
-        <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
-          <option value$="[[patchNum]]"
-              disabled$="[[_computeLeftDisabled(patchNum, patchRange)]]">
-            [[patchNum]]
-            [[_computePatchSetDescription(revisions, patchNum)]]
-          </option>
-        </template>
-      </select>
+      <gr-select id="leftPatchSelect" bind-value="{{_leftSelected}}"
+          on-change="_handlePatchChange">
+        <select>
+          <option value="PARENT">Base</option>
+          <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
+            <option value$="[[patchNum]]"
+                disabled$="[[_computeLeftDisabled(patchNum, patchRange)]]">
+              [[patchNum]]
+              [[_computePatchSetDescription(revisions, patchNum)]]
+            </option>
+          </template>
+        </select>
+      </gr-select>
     </span>
     <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
@@ -62,16 +64,18 @@ limitations under the License.
     </span>
     &rarr;
     <span class="patchRange">
-      <select id="rightPatchSelect" bind-value="{{_rightSelected}}"
-          on-change="_handlePatchChange" is="gr-select">
-        <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
-          <option value$="[[patchNum]]"
-              disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">
-            [[patchNum]]
-            [[_computePatchSetDescription(revisions, patchNum)]]
-          </option>
-        </template>
-      </select>
+      <gr-select id="rightPatchSelect" bind-value="{{_rightSelected}}"
+          on-change="_handlePatchChange">
+        <select>
+          <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
+            <option value$="[[patchNum]]"
+                disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">
+              [[patchNum]]
+              [[_computePatchSetDescription(revisions, patchNum)]]
+            </option>
+          </template>
+        </select>
+      </gr-select>
       <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
         <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
           <a target="_blank"

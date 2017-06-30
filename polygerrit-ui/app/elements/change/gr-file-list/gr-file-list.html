@@ -210,31 +210,34 @@ limitations under the License.
           </div>
         </template>
         <span class="separator">/</span>
-        <select
+        <gr-select
             id="modeSelect"
-            is="gr-select"
             bind-value="{{diffViewMode}}">
-          <option value="SIDE_BY_SIDE">Side By Side</option>
-          <option value="UNIFIED_DIFF">Unified</option>
-        </select>
+          <select>
+            <option value="SIDE_BY_SIDE">Side By Side</option>
+            <option value="UNIFIED_DIFF">Unified</option>
+          </select>
+        </gr-select>
         <span class="separator">/</span>
         <label>
           Diff against
-          <select id="patchChange" bind-value="{{_diffAgainst}}" is="gr-select"
+          <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
               class="patchSetSelect" on-change="_handlePatchChange">
-            <option value="PARENT">Base</option>
-            <template
-                is="dom-repeat"
-                items="[[computeAllPatchSets(change)]]"
-                as="patchNum">
-              <option
-                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]"
-                  value$="[[patchNum.num]]">
-                [[patchNum.num]]
-                [[patchNum.desc]]
-              </option>
-            </template>
-          </select>
+            <select>
+              <option value="PARENT">Base</option>
+              <template
+                  is="dom-repeat"
+                  items="[[computeAllPatchSets(change)]]"
+                  as="patchNum">
+                <option
+                    disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum)]]"
+                    value$="[[patchNum.num]]">
+                  [[patchNum.num]]
+                  [[patchNum.desc]]
+                </option>
+              </template>
+            </select>
+          </gr-select>
         </label>
       </div>
     </header>

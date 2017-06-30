@@ -512,7 +512,7 @@ limitations under the License.
       element.viewState.diffMode = 'UNIFIED';
       flushAsynchronousOperations();
 
-      const selectEl = element.$$('.patchInfo-header select');
+      const selectEl = element.$$('.patchInfo-header gr-select');
       assert.ok(selectEl);
       const optionEls = Polymer.dom(element.root).querySelectorAll(
           '.patchInfo-header option');
@@ -530,16 +530,16 @@ limitations under the License.
         if (numEvents == 1) {
           assert(showStub.lastCall.calledWithExactly('/c/42/1'),
               'Should navigate to /c/42/1');
-          selectEl.value = '3';
-          element.fire('change', {}, {node: selectEl});
+          selectEl.nativeSelect.value = '3';
+          element.fire('change', {}, {node: selectEl.nativeSelect});
         } else if (numEvents == 2) {
           assert(showStub.lastCall.calledWithExactly('/c/42/3'),
               'Should navigate to /c/42/3');
           done();
         }
       });
-      selectEl.value = '1';
-      element.fire('change', {}, {node: selectEl});
+      selectEl.nativeSelect.value = '1';
+      element.fire('change', {}, {node: selectEl.nativeSelect});
     });
 
     test('patch num change with missing current_revision', done => {
@@ -560,7 +560,7 @@ limitations under the License.
         labels: {},
       };
       flushAsynchronousOperations();
-      const selectEl = element.$$('.patchInfo-header select');
+      const selectEl = element.$$('.patchInfo-header gr-select');
       assert.ok(selectEl);
       const optionEls = Polymer.dom(element.root).querySelectorAll(
           '.patchInfo-header option');
@@ -579,16 +579,16 @@ limitations under the License.
         if (numEvents == 1) {
           assert(showStub.lastCall.calledWithExactly('/c/42/1'),
               'Should navigate to /c/42/1');
-          selectEl.value = '3';
-          element.fire('change', {}, {node: selectEl});
+          selectEl.nativeSelect.value = '3';
+          element.fire('change', {}, {node: selectEl.nativeSelect});
         } else if (numEvents == 2) {
           assert(showStub.lastCall.calledWithExactly('/c/42/3'),
               'Should navigate to /c/42/3');
           done();
         }
       });
-      selectEl.value = '1';
-      element.fire('change', {}, {node: selectEl});
+      selectEl.nativeSelect.value = '1';
+      element.fire('change', {}, {node: selectEl.nativeSelect});
     });
 
     test('don’t reload entire page when patchRange changes', () => {

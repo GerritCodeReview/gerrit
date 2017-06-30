@@ -648,17 +648,17 @@ limitations under the License.
       };
       flush(() => {
         const selectEl = element.$.patchChange;
-        assert.equal(selectEl.value, 'PARENT');
+        assert.equal(selectEl.nativeSelect.value, 'PARENT');
         assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
         selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.value, '2');
+          assert.equal(selectEl.nativeSelect.value, '2');
           assert(navStub.lastCall.calledWithExactly(element.change, '3', '2'),
               'Should navigate to /c/42/2..3');
           navStub.restore();
           done();
         });
-        selectEl.value = '2';
-        element.fire('change', {}, {node: selectEl});
+        selectEl.nativeSelect.value = '2';
+        element.fire('change', {}, {node: selectEl.nativeSelect});
       });
     });
 
@@ -729,12 +729,12 @@ limitations under the License.
       flushAsynchronousOperations();
 
       // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.value, 'SIDE_BY_SIDE');
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
 
       // Receive the overriding preference.
       resolvePrefs({default_diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
-      assert.equal(select.value, 'SIDE_BY_SIDE');
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
       document.getElementById('blank').restore();
     });
 

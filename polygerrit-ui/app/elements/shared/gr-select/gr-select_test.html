@@ -27,11 +27,13 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <select is="gr-select">
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <gr-select>
+      <select>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </gr-select>
   </template>
 </test-fixture>
 
@@ -48,7 +50,7 @@ limitations under the License.
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.
-      assert.equal(element.value, '1');
+      assert.equal(element.nativeSelect.value, '1');
       assert.equal(element.bindValue, '1');
       assert.isFalse(changeStub.called);
 
@@ -56,7 +58,7 @@ limitations under the License.
       element.bindValue = '2';
 
       // It should be updated.
-      assert.equal(element.value, '2');
+      assert.equal(element.nativeSelect.value, '2');
       assert.equal(element.bindValue, '2');
       assert.isTrue(changeStub.called);
     });
@@ -66,16 +68,16 @@ limitations under the License.
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.
-      assert.equal(element.value, '1');
+      assert.equal(element.nativeSelect.value, '1');
       assert.equal(element.bindValue, '1');
       assert.isFalse(changeStub.called);
 
       // Now change the value.
-      element.value = '3';
+      element.nativeSelect.value = '3';
       element.fire('change');
 
       // It should be updated.
-      assert.equal(element.value, '3');
+      assert.equal(element.nativeSelect.value, '3');
       assert.equal(element.bindValue, '3');
       assert.isTrue(changeStub.called);
     });

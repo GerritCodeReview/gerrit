@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc961914_41aea8ca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T18:13:56Z",
+      "side": 0,
+      "message": "this is not true, because the project doesn\u0027t get cleared. We just save and redirect to the project.",
+      "range": {
+        "startLine": 86,
+        "startChar": 7,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "ec41e63c8cbd2d7f27ed6624969c2b5031769606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb051894_35007d32",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-create-project/gr-admin-create-project_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T18:13:56Z",
+      "side": 0,
+      "message": "These did nothing, except the done() hid other test failures in the promise chain above.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 13
+      },
+      "revId": "ec41e63c8cbd2d7f27ed6624969c2b5031769606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

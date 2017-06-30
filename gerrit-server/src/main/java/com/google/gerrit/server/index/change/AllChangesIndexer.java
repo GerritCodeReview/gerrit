@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
@@ -29,6 +30,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
@@ -43,10 +45,10 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -96,16 +98,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   private static class ProjectHolder implements Comparable<ProjectHolder> {
-    private Project.NameKey name;
-    private int size;
+    final Project.NameKey name;
+    private final long size;
 
-    ProjectHolder(Project.NameKey name, int size) {
+    ProjectHolder(Project.NameKey name, long size) {
       this.name = name;
       this.size = size;
     }
 
     @Override
     public int compareTo(ProjectHolder other) {
+      // Sort projects based on size first to maximize utilization of threads early on.
       return ComparisonChain.start()
           .compare(other.size, size)
           .compare(other.name.get(), name.get())
@@ -122,7 +125,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     Stopwatch sw = Stopwatch.createStarted();
     for (Project.NameKey name : projectCache.all()) {
       try (Repository repo = repoManager.openRepository(name)) {
-        int size = ChangeNotes.Factory.scan(repo).size();
+        long size = estimateSize(repo);
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
@@ -137,21 +140,30 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return indexAll(index, projects);
   }
 
-  public SiteIndexer.Result indexAll(ChangeIndex index, Iterable<ProjectHolder> projects) {
-    Stopwatch sw = Stopwatch.createStarted();
-    final MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
-    final Task projTask =
-        mpm.beginSubTask(
-            "projects",
-            (projects instanceof Collection)
-                ? ((Collection<?>) projects).size()
-                : MultiProgressMonitor.UNKNOWN);
-    final Task doneTask =
-        mpm.beginSubTask(null, totalWork >= 0 ? totalWork : MultiProgressMonitor.UNKNOWN);
-    final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+  private long estimateSize(Repository repo) throws IOException {
+    // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
+    // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
+    // the estimate is just used as a heuristic for sorting projects.
+    return repo.getRefDatabase()
+        .getRefs(RefNames.REFS_CHANGES)
+        .values()
+        .stream()
+        .map(r -> Change.Id.fromRef(r.getName()))
+        .filter(Objects::nonNull)
+        .distinct()
+        .count();
+  }
 
-    final List<ListenableFuture<?>> futures = new ArrayList<>();
-    final AtomicBoolean ok = new AtomicBoolean(true);
+  private SiteIndexer.Result indexAll(ChangeIndex index, SortedSet<ProjectHolder> projects) {
+    Stopwatch sw = Stopwatch.createStarted();
+    MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
+    Task projTask = mpm.beginSubTask("projects", projects.size());
+    checkState(totalWork >= 0);
+    Task doneTask = mpm.beginSubTask(null, totalWork);
+    Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+
+    List<ListenableFuture<?>> futures = new ArrayList<>();
+    AtomicBoolean ok = new AtomicBoolean(true);
 
     for (ProjectHolder project : projects) {
       ListenableFuture<?> future =
@@ -196,11 +208,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProject(
-      final ChangeIndexer indexer,
-      final Project.NameKey project,
-      final Task done,
-      final Task failed,
-      final PrintWriter verboseWriter) {
+      ChangeIndexer indexer,
+      Project.NameKey project,
+      Task done,
+      Task failed,
+      PrintWriter verboseWriter) {
     return new Callable<Void>() {
       @Override
       public Void call() throws Exception {

@@ -39,7 +39,7 @@ permission by commenting on the same issue.
 * Generate and publish a PGP key
 +
 A PGP key is needed to be able to sign the release artifacts before
-the upload to Maven Central.
+the upload to Maven Central, and to sign the release announcement email.
 +
 Generate and publish a PGP key as described in
 link:http://central.sonatype.org/pages/working-with-pgp-signatures.html[

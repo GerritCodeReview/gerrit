@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "644d2f7e_11d43034",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-06-30T16:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96867caf_9ab2efa3",
+      "revId": "984e834dca119dbd6d3dc56d48049d65c3a23dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b23f165_e3d8ca30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-06-29T07:59:59Z",
       "side": 1,
       "message": "Should not we do the other way around? That is the authentication realm provides a method that says if the account is active or not and then the account manager mutating the account status?",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "984e834dca119dbd6d3dc56d48049d65c3a23dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05bbce9f_b9d74c1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-06-30T16:17:14Z",
+      "side": 1,
+      "message": "This method name was misleading and has been fixed. It should have been something more along the lines of updateRequestActiveStatus\n\nHow the implementation works is that the authentication realm performs the check on the account status, and attaches the appropriate flag onto the AuthRequest. In the account manager, this is where the actual work gets done to mutate the account status.",
+      "parentUuid": "0b23f165_e3d8ca30",
       "range": {
         "startLine": 192,
         "startChar": 6,

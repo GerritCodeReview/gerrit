@@ -16,6 +16,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d23e1a4_6c793d5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-30T20:12:13Z",
+      "side": 1,
+      "message": "I disagree about the indentation, but I definitely think that less indentation would be the worst of both worlds.\n\nAre you sure you prefer it with indentation? Or are you just used to it?",
+      "parentUuid": "88ced7e5_757d699c",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -454,24 +454,25 @@ limitations under the License.
             <label class="patchSelectLabel" for="patchSetSelect">
               Patch set
             </label>
-            <select
-                is="gr-select"
+            <gr-select
                 id="patchSetSelect"
                 bind-value="{{_selectedPatchSet}}"
                 class="patchSetSelect"
                 on-change="_handlePatchChange">
-              <template is="dom-repeat" items="[[_allPatchSets]]"
-                  as="patchNum">
-                <option value$="[[patchNum.num]]"
-                    disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
-                  [[patchNum.num]]
-                  /
-                  [[computeLatestPatchNum(_allPatchSets)]]
-                  [[_computePatchSetCommentsString(_comments, patchNum.num)]]
-                  [[_computePatchSetDescription(_change, patchNum.num)]]
-                </option>
-              </template>
-            </select>
+              <select>
+                <template is="dom-repeat" items="[[_allPatchSets]]"
+                    as="patchNum">
+                  <option value$="[[patchNum.num]]"
+                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
+                    [[patchNum.num]]
+                    /
+                    [[computeLatestPatchNum(_allPatchSets)]]
+                    [[_computePatchSetCommentsString(_comments, patchNum.num)]]
+                    [[_computePatchSetDescription(_change, patchNum.num)]]
+                  </option>
+                </template>
+              </select>
+            </gr-select>
             /
             <gr-commit-info
                 change="[[_change]]"

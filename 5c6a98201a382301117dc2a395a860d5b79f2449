@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "ae711da5_df03579c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-30T20:49:10Z",
+      "side": 1,
+      "message": "I don\u0027t think the logic would need duplication though, it would just be moved and this component would be more flexible -- perhaps for use in places that aren\u0027t the admin view. The only things I see that are admin specific here are the functions \u0027_getItems\u0027, which I addressed above, and \u0027_getPath\u0027, which is soon to be abstracted out by Wyatt\u0027s router changes.\n\nThen again, the change is already merged, so perhaps this isn\u0027t too important. Just figured I\u0027d follow up on this thread :)",
+      "parentUuid": "a3b17919_ae5bf0a6",
+      "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e99b580_d75e5e46",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 6

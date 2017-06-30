@@ -22,6 +22,30 @@
       "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdcc7f72_aee72211",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T21:28:30Z",
+      "side": 1,
+      "message": "It\u0027s different than the others because the line wrapping is before the function open.  Should it be like this:\n\n    page(\u0027/admin/projects/:project,tags/q/filter::filter,:offset\u0027,\n        loadUser, data \u003d\u003e {\n      app.params \u003d {\n        view: \u0027gr-admin-view\u0027,\n        adminView: \u0027gr-project-detail-list\u0027,\n        detailType: \u0027tags\u0027,\n        project: data.params.project,\n        offset: data.params.offset,\n        filter: data.params.filter,\n      };\n    });\n\n?",
+      "parentUuid": "fb100612_e5e5ee15",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -180,10 +180,10 @@ limitations under the License.
         return Promise.resolve({_id: 1});
       });
       sandbox.stub(element, 'reload');
-      element.params = {project: 'Test Project', adminView: 'gr-admin-project'};
+      element.params = {project: 'Test Project', adminView: 'gr-project'};
       assert.equal(element.reload.callCount, 1);
       element.params = {project: 'Test Project 2',
-        adminView: 'gr-admin-project'};
+        adminView: 'gr-project'};
       assert.equal(element.reload.callCount, 2);
     });
   });

@@ -88,6 +88,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43c01b62_cae394af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-30T21:33:24Z",
+      "side": 1,
+      "message": "... right, but that\u0027s the same line of CSS doing that styling, no?",
+      "parentUuid": "8154c437_b5825e1b",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

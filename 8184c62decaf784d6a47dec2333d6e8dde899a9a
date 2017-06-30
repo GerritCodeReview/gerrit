@@ -52,6 +52,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "301ef8c9_b264bf1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-30T21:25:21Z",
+      "side": 1,
+      "message": "It\u0027s a totally legit point of view, I just thought I\u0027d pose the question.\n\nI personally think this makes more sense, as we don\u0027t have anywhere else in the app where we utilize this kind of header-with-indented-body styling afaik. If you can find somewhere else in the app that we do this, then I think it makes sense to keep it.",
+      "parentUuid": "990de442_1da0d869",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

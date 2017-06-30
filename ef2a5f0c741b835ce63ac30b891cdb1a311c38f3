@@ -16,6 +16,24 @@
       "revId": "ef2a5f0c741b835ce63ac30b891cdb1a311c38f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a80fc79f_903a50e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-06-30T00:35:02Z",
+      "side": 1,
+      "message": "It\u0027s needed to prevent a NullPointerException (could look at newPatchSet \u003d\u003d null instead, or maybe there\u0027s an even better way to abort the entire operation?).",
+      "parentUuid": "81a23a3f_07149a00",
+      "revId": "ef2a5f0c741b835ce63ac30b891cdb1a311c38f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

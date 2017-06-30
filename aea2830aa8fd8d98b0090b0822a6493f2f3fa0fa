@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c473408_f27fe5cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T21:40:22Z",
+      "side": 1,
+      "message": "In the process of adding context for why this change is needed, I realized that it isn\u0027t.\n\nWill abandon. Thank you for the review, though!",
+      "parentUuid": "5e6a8f2c_fa3804ab",
+      "revId": "aea2830aa8fd8d98b0090b0822a6493f2f3fa0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af492e1_dcc9975b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 5

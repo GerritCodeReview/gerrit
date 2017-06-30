@@ -53,6 +53,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,7 +143,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, AuthException, ResourceNotFoundException {
+        throws OrmException, AuthException, ResourceNotFoundException, IOException {
       ChangeControl ctl = ctx.getControl();
       change = ctl.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
@@ -151,7 +152,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       boolean found = false;
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
 
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, accountId)) {
+      for (PatchSetApproval a :
+          approvalsUtil.byPatchSetUser(
+              ctx.getDb(), ctl, psId, accountId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
           continue; // Ignore undefined labels.
         } else if (!a.getLabel().equals(label)) {

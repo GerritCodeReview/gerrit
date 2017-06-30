@@ -789,7 +789,7 @@ public class PostReview
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, UnprocessableEntityException {
+        throws OrmException, ResourceConflictException, UnprocessableEntityException, IOException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -1062,7 +1062,8 @@ public class PostReview
       return false;
     }
 
-    private boolean updateLabels(ChangeContext ctx) throws OrmException, ResourceConflictException {
+    private boolean updateLabels(ChangeContext ctx)
+        throws OrmException, ResourceConflictException, IOException {
       Map<String, Short> inLabels =
           MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
 
@@ -1242,12 +1243,18 @@ public class PostReview
     }
 
     private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, List<PatchSetApproval> del)
-        throws OrmException {
+        throws OrmException, IOException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
+          approvalsUtil.byPatchSetUser(
+              ctx.getDb(),
+              ctx.getControl(),
+              psId,
+              user.getAccountId(),
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig())) {
         if (a.isLegacySubmit()) {
           continue;
         }

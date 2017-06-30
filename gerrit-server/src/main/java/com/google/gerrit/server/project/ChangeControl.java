@@ -342,7 +342,7 @@ public class ChangeControl {
     }
 
     for (PatchSetApproval ap :
-        approvalsUtil.byPatchSet(db, this, getChange().currentPatchSetId())) {
+        approvalsUtil.byPatchSet(db, this, getChange().currentPatchSetId(), null, null)) {
       LabelType type = getLabelTypes().byLabel(ap.getLabel());
       if (type != null
           && ap.getValue() == 1

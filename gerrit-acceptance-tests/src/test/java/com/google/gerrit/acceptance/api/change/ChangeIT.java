@@ -624,12 +624,18 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
+    // Add an approval whose score should be copied on trivial rebase
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+
     String changeId = r2.getChangeId();
     // Rebase the second change
     rebase.call(changeId);
 
-    // Second change should have 2 patch sets
-    ChangeInfo c2 = gApi.changes().id(changeId).get();
+    // Second change should have 2 patch sets and an approval
+    ChangeInfo c2 =
+        gApi.changes()
+            .id(changeId)
+            .get(EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.DETAILED_LABELS));
     assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
     // ...and the committer and description should be correct
@@ -642,6 +648,20 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(committer.email).isEqualTo(admin.email);
     String description = info.revisions.get(info.currentRevision).description;
     assertThat(description).isEqualTo("Rebase");
+
+    // ...and the approval was copied
+    LabelInfo cr = c2.labels.get("Code-Review");
+    assertThat(cr).isNotNull();
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).value).isEqualTo(1);
+
+    if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
+      // Ensure record was actually copied under ReviewDb
+      List<PatchSetApproval> psas =
+          db.patchSetApprovals().byPatchSet(new PatchSet.Id(new Change.Id(c2._number), 2)).toList();
+      assertThat(psas).hasSize(1);
+      assertThat(psas.get(0).getValue()).isEqualTo((short) 1);
+    }
 
     // Rebasing the second change again should fail
     exception.expect(ResourceConflictException.class);

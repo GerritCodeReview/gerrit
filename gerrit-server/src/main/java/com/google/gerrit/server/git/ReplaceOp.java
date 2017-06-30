@@ -303,7 +303,13 @@ public class ReplaceOp implements BatchUpdateOp {
             newPatchSet,
             ctx.getControl(),
             approvals);
-    approvalCopier.copy(ctx.getDb(), ctx.getControl(), newPatchSet, newApprovals);
+    approvalCopier.copyInReviewDb(
+        ctx.getDb(),
+        ctx.getControl(),
+        newPatchSet,
+        ctx.getRevWalk(),
+        ctx.getRepoView().getConfig(),
+        newApprovals);
     approvalsUtil.addReviewers(
         ctx.getDb(),
         update,
@@ -336,7 +342,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
-      throws OrmException {
+      throws OrmException, IOException {
     String approvalMessage =
         ApprovalsUtil.renderMessageWithApprovals(
             patchSetId.get(), approvals, scanLabels(ctx, approvals));
@@ -379,13 +385,18 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, Map<String, Short> approvals)
-      throws OrmException {
+      throws OrmException, IOException {
     Map<String, PatchSetApproval> current = new HashMap<>();
     // We optimize here and only retrieve current when approvals provided
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
-              ctx.getDb(), ctx.getControl(), priorPatchSetId, ctx.getAccountId())) {
+              ctx.getDb(),
+              ctx.getControl(),
+              priorPatchSetId,
+              ctx.getAccountId(),
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig())) {
         if (a.isLegacySubmit()) {
           continue;
         }

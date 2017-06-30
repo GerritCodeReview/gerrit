@@ -30,4 +30,9 @@ public class ReviewResult {
    * additions were requested.
    */
   @Nullable public Map<String, AddReviewerResult> reviewers;
+
+  /**
+   * Error message for non-200 responses.
+   */
+  @Nullable public String error;
 }

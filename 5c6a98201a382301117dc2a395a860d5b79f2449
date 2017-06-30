@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "a3b17919_ae5bf0a6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T17:47:49Z",
+      "side": 1,
+      "message": "I think this actually complicates it farther, as all instances of this list are implemented by the same element (gr-admin-view). It would be possible to pass in a function as gr-autocomplete does, but then the same logic needs to exist on the gr-admin-view side anyway. I\u0027m not sure if this really helps or not.",
+      "parentUuid": "b5a389d3_cc0b3a07",
+      "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e99b580_d75e5e46",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 6
@@ -53,6 +71,30 @@
       "writtenOn": "2017-06-29T21:52:17Z",
       "side": 1,
       "message": "Should this be updated topass in the ref to strip?\n\nie\n\n    _stripRefsHeads(item, ref) {\n      return item.replace(ref, \u0027\u0027);\n    },\n\nthis._stripRefsHeads(\u0027refs/tags/\u0027);\n\nthis._stripRefsHeads(\u0027refs/heads/\u0027)\n\nOr we could do it like\n\n    _stripRefsHeads(item) {\n      return item.replace(this.ref, \u0027\u0027);\n    },\n\nso that it is calling a property.",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "5c6a98201a382301117dc2a395a860d5b79f2449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61037302_c8dc5b64",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-06-30T17:47:49Z",
+      "side": 1,
+      "message": "this is updated in the following change",
+      "parentUuid": "2e99b580_d75e5e46",
       "range": {
         "startLine": 114,
         "startChar": 6,

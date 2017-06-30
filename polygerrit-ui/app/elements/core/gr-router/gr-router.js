@@ -174,11 +174,12 @@
       });
     });
 
-    // Matches /admin/projects/<project/branches[,<offset>].
+    // Matches /admin/projects/<project>,branches[,<offset>].
     page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
       app.params = {
         view: 'gr-admin-view',
-        adminView: 'gr-project-branches',
+        adminView: 'gr-project-detail-list',
+        detailType: 'branches',
         project: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
@@ -189,7 +190,8 @@
         loadUser, data => {
           app.params = {
             view: 'gr-admin-view',
-            adminView: 'gr-project-branches',
+            adminView: 'gr-project-detail-list',
+            detailType: 'branches',
             project: data.params.project,
             offset: data.params.offset,
             filter: data.params.filter,
@@ -200,7 +202,8 @@
         loadUser, data => {
           app.params = {
             view: 'gr-admin-view',
-            adminView: 'gr-project-branches',
+            adminView: 'gr-project-detail-list',
+            detailType: 'branches',
             project: data.params.project,
             filter: data.params.filter || null,
           };

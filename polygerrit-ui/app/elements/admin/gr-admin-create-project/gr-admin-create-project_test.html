@@ -35,7 +35,6 @@ limitations under the License.
   suite('gr-admin-create-project tests', () => {
     let element;
     let sandbox;
-    const PROJECT = 'test-project';
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -69,8 +68,6 @@ limitations under the License.
           });
 
       const button = element.$.submitBtn;
-
-      flushAsynchronousOperations();
       element.$.projectNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
       element.$.initalCommit.bindValue =
@@ -83,13 +80,9 @@ limitations under the License.
       assert.deepEqual(element._projectConfig, configInputObj);
 
       element._handleCreateProject().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isTrue(saveStub.lastCall.calledWithExactly(PROJECT,
-            configInputObj));
+        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
         done();
       });
-      MockInteractions.tap(button);
-      done();
     });
 
     test('test for button being called', done => {

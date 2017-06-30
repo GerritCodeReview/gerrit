@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Branch;
 import org.junit.Before;
 import org.junit.Test;
@@ -92,8 +93,22 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     grantDelete();
     String ref = branch.getShortName();
     assertThat(ref).doesNotMatch(R_HEADS);
-    RestResponse r = userRestSession.delete("/projects/" + project.get() + "/branches/" + ref);
-    r.assertNoContent();
+    assertDeleteByRestSucceeds(ref);
+  }
+
+  @Test
+  public void deleteBranchByRestWithEncodedFullName() throws Exception {
+    grantDelete();
+    assertDeleteByRestSucceeds(Url.encode(branch.get()));
+  }
+
+  @Test
+  public void deleteBranchByRestFailsWithUnencodedFullName() throws Exception {
+    grantDelete();
+    RestResponse r =
+        userRestSession.delete("/projects/" + project.get() + "/branches/" + branch.get());
+    r.assertNotFound();
+    branch().get();
   }
 
   private void blockForcePush() throws Exception {
@@ -114,6 +129,13 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   private BranchApi branch() throws Exception {
     return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
+  }
+
+  private void assertDeleteByRestSucceeds(String ref) throws Exception {
+    RestResponse r = userRestSession.delete("/projects/" + project.get() + "/branches/" + ref);
+    r.assertNoContent();
+    exception.expect(ResourceNotFoundException.class);
+    branch().get();
   }
 
   private void assertDeleteSucceeds() throws Exception {

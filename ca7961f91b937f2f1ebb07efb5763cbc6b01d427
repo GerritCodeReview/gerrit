@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb100612_e5e5ee15",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T21:23:55Z",
+      "side": 1,
+      "message": "Indentation is weird here.",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

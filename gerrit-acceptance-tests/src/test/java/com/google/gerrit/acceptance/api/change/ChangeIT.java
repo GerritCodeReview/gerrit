@@ -2947,6 +2947,23 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
       assertThat(rApi.description()).isEqualTo("Edit commit message");
     }
+
+    // Verify tags, which should differ according to whether the change was WIP
+    // at the time the commit message was edited. First, look at the last edit
+    // we created above, when the change was not WIP.
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+
+    // Move the change to WIP and edit the commit message again, to observe a
+    // different tag. Must switch to change owner to move into WIP.
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    String newMessage = "modified commit in WIP change\n\nChange-Id: " + r.getChangeId() + "\n";
+    gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+    info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
   }
 
   @Test

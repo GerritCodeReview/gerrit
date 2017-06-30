@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88ced7e5_757d699c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T20:03:11Z",
+      "side": 1,
+      "message": "Purely aesthetically, I think the indent looks better. What about less indentation?",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

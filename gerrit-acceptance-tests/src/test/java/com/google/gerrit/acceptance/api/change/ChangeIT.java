@@ -3018,6 +3018,28 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
   }
 
+  @Test
+  public void changeCommitMessageTagOnReviewableChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    String msg = "modified commit\n\nChange-Id: " + r.getChangeId() + "\n";
+    gApi.changes().id(r.getChangeId()).setMessage(msg);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+  }
+
+  @Test
+  public void changeCommitMessageTagOnWipChange() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    r.assertOkStatus();
+    String msg = "modified commit\n\nChange-Id: " + r.getChangeId() + "\n";
+    gApi.changes().id(r.getChangeId()).setMessage(msg);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+  }
+
   private String getCommitMessage(String changeId) throws RestApiException, IOException {
     return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }

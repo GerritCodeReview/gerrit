@@ -26,7 +26,14 @@ limitations under the License.
 
 <dom-module id="gr-project-detail-list">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      .repositoryBrowser {
+        display: none;
+      }
+      .repositoryBrowser.show{
+        display: table-cell;
+      }
+    </style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_itemsPerPage]]"
@@ -36,9 +43,10 @@ limitations under the License.
         path="[[_getPath(_project)]]">
       <table id="list">
         <tr class="headerRow">
-          <th class="name topHeader">Branch Name</th>
+          <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>
-          <th class="repositoryBrowser topHeader">Repository Browser</th>
+          <th class$="repositoryBrowser topHeader [[computeBrowserClass(detailType)]]">
+            Repository Browser</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
@@ -46,9 +54,9 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownItems]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
-            <td class="name">[[_stripRefsHeads(item.ref)]]</td>
+            <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
             <td class="description">[[item.revision]]</td>
-            <td class="repositoryBrowser">
+            <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">
                 <a href$="[[link.url]]"

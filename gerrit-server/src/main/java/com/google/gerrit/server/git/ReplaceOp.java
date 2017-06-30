@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
-import static com.google.gerrit.server.ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -269,7 +268,11 @@ public class ReplaceOp implements BatchUpdateOp {
         update.setWorkInProgress(true);
       }
       if (shouldPublishComments()) {
-        comments = publishComments(ctx);
+        boolean workInProgress = change.isWorkInProgress();
+        if (magicBranch != null && magicBranch.workInProgress) {
+          workInProgress = true;
+        }
+        comments = publishComments(ctx, workInProgress);
       }
     }
 
@@ -355,7 +358,10 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n\n").append(reviewMessage);
     }
-    boolean workInProgress = magicBranch != null && magicBranch.workInProgress;
+    boolean workInProgress = ctx.getChange().isWorkInProgress();
+    if (magicBranch != null && magicBranch.workInProgress) {
+      workInProgress = true;
+    }
     return ChangeMessagesUtil.newMessage(
         patchSetId,
         ctx.getUser(),
@@ -423,10 +429,12 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private List<Comment> publishComments(ChangeContext ctx) throws OrmException {
+  private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress)
+      throws OrmException {
     List<Comment> comments =
         commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), ctx.getUser().getAccountId());
-    commentsUtil.publish(ctx, patchSetId, comments, TAG_UPLOADED_PATCH_SET);
+    commentsUtil.publish(
+        ctx, patchSetId, comments, ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     return comments;
   }
 

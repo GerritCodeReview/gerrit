@@ -266,7 +266,7 @@ public class PatchSetInserter implements BatchUpdateOp {
               ctx.getUser(),
               ctx.getWhen(),
               message,
-              ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+              ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
       changeMessage.setMessage(message);
     }
 

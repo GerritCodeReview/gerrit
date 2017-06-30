@@ -74,6 +74,18 @@ public class ReviewInput {
   /** Reviewers that should be added to this change. */
   public List<AddReviewerInput> reviewers;
 
+  /**
+   * If true mark the change as work in progress. It is an error for both {@link #workInProgress}
+   * and {@link #ready} to be true.
+   */
+  public boolean workInProgress;
+
+  /**
+   * If true mark the change as ready for review. It is an error for both {@link #workInProgress}
+   * and {@link #ready} to be true.
+   */
+  public boolean ready;
+
   public enum DraftHandling {
     /** Delete pending drafts on this revision only. */
     DELETE,
@@ -138,6 +150,18 @@ public class ReviewInput {
       reviewers = new ArrayList<>();
     }
     reviewers.add(input);
+    return this;
+  }
+
+  public ReviewInput setWorkInProgress(boolean workInProgress) {
+    this.workInProgress = workInProgress;
+    ready = !workInProgress;
+    return this;
+  }
+
+  public ReviewInput setReady(boolean ready) {
+    this.ready = ready;
+    workInProgress = !ready;
     return this;
   }
 

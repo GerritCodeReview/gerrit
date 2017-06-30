@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d86c5d7_b9548de3",
+        "filename": "tools/release-announcement.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-30T12:43:01Z",
+      "side": 1,
+      "message": "release announcement",
+      "range": {
+        "startLine": 40,
+        "startChar": 29,
+        "endLine": 40,
+        "endChar": 42
+      },
+      "revId": "08cbbfab44d9f13ea6478d5fd40ca2b8f5622353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

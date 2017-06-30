@@ -603,7 +603,7 @@ caused by the H2 database using too much memory.
 See <<database.h2.cachesize,database.h2.cachesize>> for a detailed discussion.
 +
 Default is unset, using up to half of the available memory.
-
++
 H2 will persist this value in the database, so to unset explicitly specify 0.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
@@ -1685,7 +1685,7 @@ the H2 JDBC connection URL, as described
 link:http://www.h2database.com/html/features.html#cache_settings[here]
 +
 Default is unset, using up to half of the available memory.
-
++
 H2 will persist this value in the database, so to unset explicitly specify 0.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.

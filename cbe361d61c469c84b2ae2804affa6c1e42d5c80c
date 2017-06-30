@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1108b94c_5f5c07d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-30T16:05:12Z",
+      "side": 1,
+      "message": "nit: using the change-id I2a3d51ac6f7a1b423f4c801318d33234ca877c67 instead of a URL would make it possible for people to track down the reference offline with \"git log\" even if gerrit-review.googlesource.com is down.",
+      "revId": "cbe361d61c469c84b2ae2804affa6c1e42d5c80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

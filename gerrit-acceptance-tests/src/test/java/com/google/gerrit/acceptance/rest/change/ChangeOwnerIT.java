@@ -22,7 +22,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,21 +43,68 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLNotGranted() throws Exception {
-    assertApproveFails(user, createMyChange());
+    assertApproveFails(user, createMyChange(testRepo));
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_OwnerACLGranted() throws Exception {
-    grantApproveToChangeOwner();
-    approve(user, createMyChange());
+    grantApproveToChangeOwner(project);
+    approve(user, createMyChange(testRepo));
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_NotOwnerACLGranted() throws Exception {
-    grantApproveToChangeOwner();
-    assertApproveFails(user2, createMyChange());
+    grantApproveToChangeOwner(project);
+    assertApproveFails(user2, createMyChange(testRepo));
+  }
+
+  @Test
+  public void testChangeOwner_OwnerACLGrantedOnParentProject() throws Exception {
+    setApiUser(admin);
+    grantApproveToChangeOwner(project);
+    Project.NameKey child = createProject("child", project);
+
+    setApiUser(user);
+    TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
+    approve(user, createMyChange(childRepo));
+  }
+
+  @Test
+  public void testChangeOwner_BlockedOnParentProject() throws Exception {
+    setApiUser(admin);
+    blockApproveForChangeOwner(project);
+    Project.NameKey child = createProject("child", project);
+
+    setApiUser(user);
+    grantApproveToAll(child);
+    TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
+    String changeId = createMyChange(childRepo);
+
+    // change owner cannot approve because Change-Owner group is blocked on parent
+    assertApproveFails(user, changeId);
+
+    // other user can approve
+    approve(user2, changeId);
+  }
+
+  @Test
+  public void testChangeOwner_BlockedOnParentProjectAndExclusiveAllowOnChild() throws Exception {
+    setApiUser(admin);
+    blockApproveForChangeOwner(project);
+    Project.NameKey child = createProject("child", project);
+
+    setApiUser(user);
+    grantExclusiveApproveToAll(child);
+    TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
+    String changeId = createMyChange(childRepo);
+
+    // change owner cannot approve because Change-Owner group is blocked on parent
+    assertApproveFails(user, changeId);
+
+    // other user can approve
+    approve(user2, changeId);
   }
 
   private void approve(TestAccount a, String changeId) throws Exception {
@@ -70,7 +121,20 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     approve(a, changeId);
   }
 
-  private void grantApproveToChangeOwner() throws Exception {
+  private void grantApproveToChangeOwner(Project.NameKey project) throws Exception {
+    grantApprove(project, SystemGroupBackend.CHANGE_OWNER, false);
+  }
+
+  private void grantApproveToAll(Project.NameKey project) throws Exception {
+    grantApprove(project, SystemGroupBackend.REGISTERED_USERS, false);
+  }
+
+  private void grantExclusiveApproveToAll(Project.NameKey project) throws Exception {
+    grantApprove(project, SystemGroupBackend.REGISTERED_USERS, true);
+  }
+
+  private void grantApprove(Project.NameKey project, AccountGroup.UUID groupUUID, boolean exclusive)
+      throws Exception {
     grantLabel(
         Permission.LABEL + "Code-Review",
         -2,
@@ -78,10 +142,21 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
         project,
         "refs/heads/*",
         false,
-        SystemGroupBackend.CHANGE_OWNER);
+        groupUUID,
+        exclusive);
   }
 
-  private String createMyChange() throws Exception {
+  private void blockApproveForChangeOwner(Project.NameKey project) throws Exception {
+    blockLabel(
+        Permission.LABEL + "Code-Review",
+        -2,
+        2,
+        SystemGroupBackend.CHANGE_OWNER,
+        "refs/heads/*",
+        project);
+  }
+
+  private String createMyChange(TestRepository<InMemoryRepository> testRepo) throws Exception {
     PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
     return push.to("refs/for/master").getChangeId();
   }

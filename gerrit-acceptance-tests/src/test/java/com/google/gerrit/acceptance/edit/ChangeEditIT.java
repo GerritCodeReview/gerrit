@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
@@ -681,6 +683,27 @@ public class ChangeEditIT extends AbstractDaemonTest {
     // Try to create edit as admin
     exception.expect(AuthException.class);
     createEmptyEditFor(r1.getChangeId());
+  }
+
+  @Test
+  public void publishEditTagOnReviewableChange() throws Exception {
+    createArbitraryEditFor(changeId);
+    gApi.changes().id(changeId).edit().publish();
+    ChangeInfo info = get(changeId);
+    assertThat(info.messages).isNotEmpty();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+  }
+
+  @Test
+  public void publishEditTagOnWipChange() throws Exception {
+    createArbitraryEditFor(changeId);
+    gApi.changes().id(changeId).setWorkInProgress();
+    gApi.changes().id(changeId).edit().publish();
+    ChangeInfo info = get(changeId);
+    assertThat(info.messages).isNotEmpty();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
   }
 
   private void createArbitraryEditFor(String changeId) throws Exception {

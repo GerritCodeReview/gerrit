@@ -60,7 +60,9 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.Address;
@@ -1680,6 +1682,64 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = amendChange(r.getChangeId(), "refs/for/master%no-publish-comments");
 
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
+  }
+
+  @Test
+  public void tagForCreateReviewableChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+  }
+
+  @Test
+  public void tagForCreateWipChange() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+  }
+
+  @Test
+  public void tagForNewPatchSetInReviewableChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+  }
+
+  @Test
+  public void tagForNewPatchSetInWipChange() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+  }
+
+  @Test
+  public void tagForNewPatchSetWipToReady() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    r.assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master%ready");
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+  }
+
+  @Test
+  public void tagForNewPatchSetReadyToWip() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master%wip");
+    r.assertOkStatus();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+  }
+
+  private void assertUploadTag(ChangeData cd, String expectedTag) throws Exception {
+    List<ChangeMessage> msgs = cd.messages();
+    assertThat(msgs).isNotEmpty();
+    ChangeMessage msg = msgs.get(msgs.size() - 1);
+    assertThat(msg.getTag()).isEqualTo(expectedTag);
   }
 
   private DraftInput newDraft(String path, int line, String message) {

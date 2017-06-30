@@ -105,7 +105,7 @@
         if (linkCopy.name === 'Projects' && this._project) {
           linkCopy.subsection = {
             name: `${this._project}`,
-            view: 'gr-admin-project',
+            view: 'gr-project',
             url: `/admin/projects/${this.encodeURL(this._project, true)}`,
             children: [{
               name: 'Branches',
@@ -141,7 +141,7 @@
     _paramsChanged(params) {
       this.set('_showCreateProject',
           params.adminView === 'gr-admin-create-project');
-      this.set('_showProjectMain', params.adminView === 'gr-admin-project');
+      this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');
       this.set('_showProjectDetailList',

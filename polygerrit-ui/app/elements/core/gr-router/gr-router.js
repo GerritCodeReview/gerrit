@@ -276,7 +276,7 @@
       app.params = {
         view: 'gr-admin-view',
         project: data.params[0],
-        adminView: 'gr-admin-project',
+        adminView: 'gr-project',
       };
     });
 

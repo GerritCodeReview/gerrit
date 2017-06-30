@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81a23a3f_07149a00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-06-30T00:30:50Z",
+      "side": 1,
+      "message": "What does this part do?",
+      "revId": "ef2a5f0c741b835ce63ac30b891cdb1a311c38f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

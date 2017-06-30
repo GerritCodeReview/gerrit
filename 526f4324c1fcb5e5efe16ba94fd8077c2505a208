@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1498813059 +0200\nnonce AB2F6yCS5KywLxpZg3fExcYol0LCV9NMCbIyAvjKV1LFMTfaccTRI+f+T0lugRzi+8bqbs9V9vvc\n\n0000000000000000000000000000000000000000 526f4324c1fcb5e5efe16ba94fd8077c2505a208 refs/for/stable-2.14\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZVhKDAAoJEFG1/Zeg0O9R0NAH/A3auNE2qzkMrxFp99WoDWjK\nWfdnCgN9wb8tpPVbu35ekN/8I74z/3aw0ruK+ho7T3ndBPnkT1KHONPSg5TcmyCq\n0q4gUH6291EH1vA9EWfmyw8pYERhdkFjGg+nIzrGl9yOkCPgVUnnpPwh77OivOG6\n9G8KamL8svmfIgJFvAkMXsa5uoB/lrtgp0PLxIIK9QK8kUgHcBu1q0u03TNK43LD\nGEAcQanf5EEEFc47Ijhc5yfXcsEBZ4gTVM2q2V14lAlacr2d+kB7KrAQL2DW+l7c\nmoueis8hpz5UHa54irmLe9V+ML9IQzNi9FRW7I0klBPdA28CECDnj8WLFVKEm+c\u003d\n\u003dJ6j7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9531d489_a57bc68b",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-06-30T11:21:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have a \u0027label\u0027 parameter here.",
+      "range": {
+        "startLine": 852,
+        "startChar": 6,
+        "endLine": 857,
+        "endChar": 29
+      },
+      "revId": "526f4324c1fcb5e5efe16ba94fd8077c2505a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

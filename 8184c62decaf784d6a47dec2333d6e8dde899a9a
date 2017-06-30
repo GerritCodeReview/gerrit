@@ -124,6 +124,24 @@
       "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "733ef48a_de8a9495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-06-30T21:41:27Z",
+      "side": 1,
+      "message": "I suppose what I meant is \"elsewhere in the app where we use a similar layout without having identical code\", to prove that there\u0027s a specific reason to have this alignment being not, well, aligned.\n\nIn other words, is this indentation and break from a grid layout a deliberate stylistic choice that we make elsewhere in the app?",
+      "parentUuid": "b5a6c940_b162e707",
+      "revId": "8184c62decaf784d6a47dec2333d6e8dde899a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

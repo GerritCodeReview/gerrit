@@ -46,6 +46,47 @@
       "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0abc0f7a_26df9a1a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T21:31:21Z",
+      "side": 1,
+      "message": "\u003e It\u0027s different than the others because the line wrapping is before the function open.  \n\nAha. I see. At least the comment on l.212 is definitely off.\n\n\u003e Should it be like this:\n\u003e \n\u003e     page(\u0027/admin/projects/:project,tags/q/filter::filter,:offset\u0027,\n\u003e         loadUser, data \u003d\u003e {\n\nI like that if the linter accepts it.",
+      "parentUuid": "cdcc7f72_aee72211",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ae10f27_0ef05a3f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-06-30T21:31:21Z",
+      "side": 1,
+      "message": "Remove extra blank line.",
+      "revId": "ca7961f91b937f2f1ebb07efb5763cbc6b01d427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

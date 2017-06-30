@@ -610,7 +610,7 @@ caused by the H2 database using too much memory.
 See <<database.h2.cachesize,database.h2.cachesize>> for a detailed discussion.
 +
 Default is unset, using up to half of the available memory.
-
++
 H2 will persist this value in the database, so to unset explicitly specify 0.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
@@ -1732,7 +1732,7 @@ the H2 JDBC connection URL, as described
 link:http://www.h2database.com/html/features.html#cache_settings[here]
 +
 Default is unset, using up to half of the available memory.
-
++
 H2 will persist this value in the database, so to unset explicitly specify 0.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
@@ -2566,13 +2566,15 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 Maximum idle time for a connection, which roughly translates to the
 TCP socket `SO_TIMEOUT`.
 +
-The max idle time is applied:
-* When waiting for a new message to be received on a connection
-* When waiting for a new message to be sent on a connection
-+
 This value is interpreted as the maximum time between some progress
 being made on the connection. So if a single byte is read or written,
 then the timeout is reset.
++
+The max idle time is applied:
++
+* When waiting for a new message to be received on a connection
+* When waiting for a new message to be sent on a connection
+
 +
 By default, 30 seconds.
 

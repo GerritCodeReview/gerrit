@@ -235,7 +235,7 @@
 
     _handlePatchChange(e) {
       const patchRange = Object.assign({}, this.patchRange);
-      patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
+      patchRange.basePatchNum = Polymer.dom(e).rootTarget.bindValue;
 
       Gerrit.Nav.navigateToChange(this.change, patchRange.patchNum,
           this._getBasePatchNum(patchRange));

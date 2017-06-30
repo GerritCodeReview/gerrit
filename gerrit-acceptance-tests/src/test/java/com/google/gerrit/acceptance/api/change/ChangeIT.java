@@ -105,6 +105,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -499,6 +500,70 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set Ready For Review");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
+  }
+
+  @Test
+  public void reviewAndStartReview() throws Exception {
+    PushOneCommit.Result r = createWorkInProgressChange();
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(false);
+    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isNull();
+  }
+
+  @Test
+  public void reviewAndMoveToWorkInProgress() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isTrue();
+  }
+
+  @Test
+  public void reviewAndSetWorkInProgressAndAddReviewerAndVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    ReviewInput in =
+        ReviewInput.approve().reviewer(user.email).label("Code-Review", 1).setWorkInProgress(true);
+    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.workInProgress).isTrue();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id.get(), user.id.get());
+    assertThat(info.labels.get("Code-Review").recommended._accountId).isEqualTo(admin.id.get());
+  }
+
+  @Test
+  public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    ReviewInput in = ReviewInput.noScore();
+    in.ready = true;
+    in.workInProgress = true;
+    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    assertThat(result.error).isEqualTo(PostReview.ERROR_WIP_READY_MUTUALLY_EXCLUSIVE);
+  }
+
+  @Test
+  public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    setApiUser(user);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    assertThat(result.error).isEqualTo(PostReview.ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS);
   }
 
   @Test

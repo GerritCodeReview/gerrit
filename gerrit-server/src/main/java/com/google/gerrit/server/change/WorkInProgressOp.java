@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -35,7 +37,9 @@ import com.google.inject.assistedinject.Assisted;
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
   public static class Input {
-    String message;
+    @Nullable String message;
+
+    @Nullable NotifyHandling notify;
 
     public Input() {}
 
@@ -53,6 +57,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final boolean workInProgress;
   private final Input in;
+  private final NotifyHandling notify;
 
   private Change change;
   private ChangeNotes notes;
@@ -71,6 +76,9 @@ public class WorkInProgressOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.workInProgress = workInProgress;
     this.in = in;
+    notify =
+        MoreObjects.firstNonNull(
+            in.notify, workInProgress ? NotifyHandling.NONE : NotifyHandling.ALL);
   }
 
   @Override
@@ -113,12 +121,12 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    if (workInProgress) {
+    if (workInProgress || notify.ordinal() < NotifyHandling.OWNER_REVIEWERS.ordinal()) {
       return;
     }
     email
         .create(
-            NotifyHandling.ALL,
+            notify,
             ImmutableListMultimap.of(),
             notes,
             ps,

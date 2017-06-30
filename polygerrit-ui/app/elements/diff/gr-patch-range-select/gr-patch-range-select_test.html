@@ -82,7 +82,7 @@ limitations under the License.
           assert(showStub.lastCall.calledWithExactly(
               '/c/42/3/path/to/file.txt'),
               'Should navigate to /c/42/3/path/to/file.txt');
-          leftSelectEl.value = '1';
+          leftSelectEl.nativeSelect.value = '1';
           element.fire('change', {}, {node: leftSelectEl});
           assert(blurSpy.called, 'Dropdown should be blurred after selection');
         } else if (numEvents == 2) {
@@ -93,8 +93,8 @@ limitations under the License.
           done();
         }
       });
-      leftSelectEl.value = 'PARENT';
-      rightSelectEl.value = '3';
+      leftSelectEl.nativeSelect.value = 'PARENT';
+      rightSelectEl.nativeSelect.value = '3';
       element.fire('change', {}, {node: leftSelectEl});
     });
 

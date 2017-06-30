@@ -272,14 +272,15 @@ limitations under the License.
           </span>
         </div>
         <div>
-          <select
+          <gr-select
               id="modeSelect"
-              is="gr-select"
               bind-value="{{changeViewState.diffMode}}"
               hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">
-            <option value="SIDE_BY_SIDE">Side By Side</option>
-            <option value="UNIFIED_DIFF">Unified</option>
-          </select>
+            <select>
+              <option value="SIDE_BY_SIDE">Side By Side</option>
+              <option value="UNIFIED_DIFF">Unified</option>
+            </select>
+          </gr-select>
           <span id="diffPrefsContainer"
               hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
             <span class="preferences desktop">

@@ -79,44 +79,44 @@ limitations under the License.
                 <section>
                   <span class="title">State</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="stateSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.state}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat" items=[[_states]]>
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.state}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat" items=[[_states]]>
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
                   <span class="title">Submit type</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="submitTypeSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.submit_type}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat" items="[[_submitTypes]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.submit_type}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat" items="[[_submitTypes]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
                   <span class="title">Allow content merges</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="contentMergeSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.use_content_merge.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.use_content_merge.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
@@ -124,47 +124,47 @@ limitations under the License.
                     Create a new change for every commit not in the target branch
                   </span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="newChangeSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
                   <span class="title">Require Change-Id in commit message</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="requireChangeIdSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.require_change_id.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.require_change_id.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
                   <span class="title">
                     Reject implicit merges when changes are pushed for review</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="rejectImplicitMergesSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
+                        bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
@@ -181,16 +181,16 @@ limitations under the License.
                 <section>
                   <span class="title">Match authored date with committer date upon submit</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="matchAuthoredDateWithCommitterDateSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                        bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
                     </select>
+                    </gr-select>
                   </span>
                 </section>
               </fieldset>
@@ -200,31 +200,31 @@ limitations under the License.
                   <span class="title">
                     Require a valid contributor agreement to upload</span>
                   <span class="value">
-                    <select
+                    <gr-select
                         id="contributorAgreementSelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                    <template is="dom-repeat"
-                        items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
-                      <option value="[[item.value]]">[[item.label]]</option>
-                    </template>
-                    </select>
+                        bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
                 <section>
                   <span class="title">Require Signed-off-by in commit message</span>
                   <span class="value">
-                    <select
-                        id="useSignedOffBySelect"
-                        is="gr-select"
-                        bind-value="{{_projectConfig.use_signed_off_by.configured_value}}"
-                        disabled$="[[_readOnly]]">
-                    <template is="dom-repeat"
-                        items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
-                      <option value="[[item.value]]">[[item.label]]</option>
-                    </template>
-                    </select>
+                    <gr-select
+                          id="useSignedOffBySelect"
+                          bind-value="{{_projectConfig.use_signed_off_by.configured_value}}">
+                      <select disabled$="[[_readOnly]]">
+                        <template is="dom-repeat"
+                            items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
+                          <option value="[[item.value]]">[[item.label]]</option>
+                        </template>
+                      </select>
+                    </gr-select>
                   </span>
                 </section>
               </fieldset>

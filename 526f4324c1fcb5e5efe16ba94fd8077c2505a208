@@ -23,6 +23,30 @@
       "revId": "526f4324c1fcb5e5efe16ba94fd8077c2505a208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa74b648_004774df",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-06-30T11:33:26Z",
+      "side": 1,
+      "message": "Yes, that would be better.\n\nDone.",
+      "parentUuid": "9531d489_a57bc68b",
+      "range": {
+        "startLine": 852,
+        "startChar": 6,
+        "endLine": 857,
+        "endChar": 29
+      },
+      "revId": "526f4324c1fcb5e5efe16ba94fd8077c2505a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

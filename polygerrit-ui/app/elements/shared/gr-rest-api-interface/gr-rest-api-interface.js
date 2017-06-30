@@ -499,10 +499,9 @@
         opt_ctx) {
       const url =
           this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
-      return this.fetchJSON(url, opt_errFn, opt_ctx, {
-        n: 10,  // Return max 10 results
-        q: inputVal,
-      });
+      const req = {n: 10};
+      if (inputVal) { req.q = inputVal; }
+      return this.fetchJSON(url, opt_errFn, opt_ctx, req);
     },
 
     getGroups(filter, groupsPerPage, opt_offset) {

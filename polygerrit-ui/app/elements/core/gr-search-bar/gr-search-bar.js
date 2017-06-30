@@ -122,6 +122,10 @@
         },
       },
       _inputVal: String,
+      _threshold: {
+        type: Number,
+        value: 3,
+      },
     },
 
     _valueChanged(value) {

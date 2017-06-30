@@ -38,9 +38,10 @@
        */
       allowAnyUser: Boolean,
 
+      // suggestFrom = 0 to enable default suggestions.
       suggestFrom: {
         type: Number,
-        value: 3,
+        value: 0,
       },
 
       query: {
@@ -100,6 +101,7 @@
     },
 
     _getReviewerSuggestions(input) {
+      if (!this.change) { return Promise.resolve([]); }
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?
           api.getSuggestedAccounts(input) :

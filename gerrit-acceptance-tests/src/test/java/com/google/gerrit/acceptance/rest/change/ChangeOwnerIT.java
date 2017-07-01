@@ -14,20 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.common.data.Permission.LABEL;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,20 +71,14 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void grantApproveToChangeOwner() throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant approve to change owner"));
-      ProjectConfig config = ProjectConfig.read(md);
-      AccessSection s = config.getAccessSection("refs/heads/*", true);
-      Permission p = s.getPermission(LABEL + "Code-Review", true);
-      PermissionRule rule =
-          new PermissionRule(
-              config.resolve(systemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
-      rule.setMin(-2);
-      rule.setMax(+2);
-      p.add(rule);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    grantLabel(
+        Permission.LABEL + "Code-Review",
+        -2,
+        2,
+        project,
+        "refs/heads/*",
+        false,
+        SystemGroupBackend.CHANGE_OWNER);
   }
 
   private String createMyChange() throws Exception {

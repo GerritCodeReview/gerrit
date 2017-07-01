@@ -2193,6 +2193,8 @@ BranchWebLinks will appear in the branch list in the last column.
 
 FileHistoryWebLinks will appear on the access rights screen.
 
+TagWebLinks will appear in the tag list in the last column.
+
 [[lfs-extension]]
 == LFS Storage Plugins
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcf5c14a_91ce525b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-01T14:14:16Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nAlso sorry.",
+      "parentUuid": "841818bf_8ed6cd4a",
+      "revId": "581e01d78dd45491bbbfcfe5612ff68ce3a5d0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6878ca_b2f4df3b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-01T14:04:42Z",
       "side": 1,
       "message": "We usually reference this as a footer line, containing the follow information:\n\n  Reported-By: Full Name \u003cemail\u003e\n\nSee for example: [1], or use this query to see more examples:\n\n  git log --grep\u003d\"Reported-By\"\n\n* [1] https://gerrit-review.googlesource.com/98150",
+      "revId": "581e01d78dd45491bbbfcfe5612ff68ce3a5d0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7b9ca4_e9e019c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-01T14:14:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3a6878ca_b2f4df3b",
       "revId": "581e01d78dd45491bbbfcfe5612ff68ce3a5d0a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -223,6 +223,28 @@
       return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
     },
 
+    deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      const encodeName = encodeURIComponent(project);
+      const encodeRef = encodeURIComponent(ref);
+      return this.send('DELETE',
+          `/projects/${encodeName}/branches/${encodeRef}`, '',
+          opt_errFn, opt_ctx);
+    },
+
+    deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      const encodeName = encodeURIComponent(project);
+      const encodeRef = encodeURIComponent(ref);
+      return this.send('DELETE',
+          `/projects/${encodeName}/tags/${encodeRef}`, '',
+          opt_errFn, opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },
@@ -626,7 +648,7 @@
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
-      return this._fetchSharedCacheURL(
+      return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/branches` +
           `?n=${projectsBranchesPerPage + 1}&s=${offset}` +
           this._computeFilter(filter)
@@ -636,7 +658,7 @@
     getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
-      return this._fetchSharedCacheURL(
+      return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/tags` +
           `?n=${projectsTagsPerPage + 1}&s=${offset}` +
           this._computeFilter(filter)

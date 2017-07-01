@@ -19,12 +19,13 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-table-styles.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
 
 <dom-module id="gr-project-detail-list">
   <template>
@@ -52,6 +53,9 @@ limitations under the License.
         display: flex;
         line-height: 1em;
       }
+      .deleteButton:not(.show) {
+        display: none;
+      }
     </style>
     <style include="gr-table-styles"></style>
     <gr-list-view
@@ -67,6 +71,7 @@ limitations under the License.
           <th class="description topHeader">Revision</th>
           <th class$="repositoryBrowser topHeader [[computeBrowserClass(detailType)]]">
             Repository Browser</th>
+          <th class="delete topHeader"></th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
@@ -116,10 +121,25 @@ limitations under the License.
                   </a>
                 </template>
               </td>
+              <td class="delete">
+                <gr-button
+                    class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
+                    on-tap="_handleDeleteItem">
+                  Delete
+                </gr-button>
+              </td>
             </tr>
           </template>
         </tbody>
       </table>
+      <gr-overlay id="overlay" with-backdrop>
+        <gr-confirm-delete-item-dialog
+            class="confirmDialog"
+            on-confirm="_handleDeleteItemConfirm"
+            on-cancel="_handleConfirmDialogCancel"
+            item="[[_refName]]"
+            item-type="[[detailType]]"></gr-confirm-delete-item-dialog>
+      </gr-overlay>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

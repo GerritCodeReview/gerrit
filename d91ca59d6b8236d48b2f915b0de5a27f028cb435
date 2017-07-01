@@ -39,6 +39,24 @@
       "revId": "d91ca59d6b8236d48b2f915b0de5a27f028cb435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "911d6d60_5aa42618",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-01T18:10:55Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/112175",
+      "parentUuid": "5e5e279f_275c5d7c",
+      "revId": "d91ca59d6b8236d48b2f915b0de5a27f028cb435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

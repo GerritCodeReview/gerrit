@@ -14,8 +14,13 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.info.WebLinkInfo;
+import com.google.gwt.core.client.JsArray;
+
 public class TagInfo extends RefInfo {
   public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
+
+  public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
   // TODO(dpursehouse) add extra tag-related fields (message, tagger, etc)
   protected TagInfo() {}

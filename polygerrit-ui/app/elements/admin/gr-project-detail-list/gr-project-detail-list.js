@@ -67,6 +67,12 @@
         value: true,
       },
       _filter: String,
+      _isOwner: {
+        type: Boolean,
+        value: true,
+      },
+      _refName: Object,
+      _deleted: Boolean,
     },
 
     behaviors: [
@@ -93,6 +99,15 @@
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._isOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getItems(this._filter, this._project,
           this._itemsPerPage, this._offset, this.detailType);
@@ -177,6 +192,54 @@
           event.model.set('item.revision', ref);
         }
       });
+    },
+
+    _computeItemName(detailType) {
+      if (detailType === DETAIL_TYPES.BRANCHES) {
+        return 'Branch';
+      } else if (detailType === DETAIL_TYPES.TAGS) {
+        return 'Tag';
+      }
+    },
+
+    _handleDeleteItemConfirm() {
+      this.$.overlay.close();
+      if (this.detailType === DETAIL_TYPES.BRANCHES) {
+        return this.$.restAPI.deleteProjectBranches(this._project,
+            this._refName)
+            .then(itemDeleted => {
+              if (itemDeleted.status === 204) {
+                window.location.reload();
+              }
+            });
+      } else if (this.detailType === DETAIL_TYPES.TAGS) {
+        return this.$.restAPI.deleteProjectTags(this._project,
+            this._refName)
+            .then(itemDeleted => {
+              if (itemDeleted.status === 204) {
+                window.location.reload();
+              }
+            });
+      }
+    },
+
+    _handleConfirmDialogCancel() {
+      this.$.overlay.close();
+    },
+
+    _handleDeleteItem(e) {
+      const name = this._stripRefs(e.model.get('item.ref'), this.detailType);
+      if (!name) { return; }
+      this._refName = name;
+      this.$.overlay.open();
+    },
+
+    _computeHideDeleteClass(owner, deleteRef) {
+      if (!owner && deleteRef || deleteRef || !owner) {
+        return 'show';
+      }
+
+      return '';
     },
   });
 })();

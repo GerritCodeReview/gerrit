@@ -24,6 +24,7 @@ public class GitwebType {
   private String project;
   private String revision;
   private String rootTree;
+  private String tag;
 
   private char pathSeparator = '/';
   private boolean urlEncode = true;
@@ -54,6 +55,20 @@ public class GitwebType {
    */
   public void setBranch(String str) {
     branch = str;
+  }
+
+  /** @return parameterized string for the tag URL. */
+  public String getTag() {
+    return tag;
+  }
+
+  /**
+   * Set the parameterized string for the tag URL.
+   *
+   * @param str new string.
+   */
+  public void setTag(String str) {
+    tag = str;
   }
 
   /** @return parameterized string for the file URL. */

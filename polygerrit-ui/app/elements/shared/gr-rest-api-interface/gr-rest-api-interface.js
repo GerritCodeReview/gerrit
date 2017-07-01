@@ -178,6 +178,22 @@
           opt_ctx);
     },
 
+    deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      return this.send('DELETE', `/projects/${project}/branches/${ref}`, '',
+          opt_errFn, opt_ctx);
+    },
+
+    deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      return this.send('DELETE', `/projects/${project}/tags/${ref}`, '',
+          opt_errFn, opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

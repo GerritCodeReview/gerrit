@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "841818bf_8ed6cd4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-01T14:04:42Z",
+      "side": 1,
+      "message": "Please, as always, add the context here, so that the reviewrs must not do the investigation, that you have done already. For example, say something like:\n\n  In I8600778f106 lineWrapping options for edit and diff screens were added.\n  However, for edit screen, the default was missed to be set to the new option.\n  It was still set to false, so that the value of new option was ignored.",
+      "revId": "581e01d78dd45491bbbfcfe5612ff68ce3a5d0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a6878ca_b2f4df3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-01T14:04:42Z",
+      "side": 1,
+      "message": "We usually reference this as a footer line, containing the follow information:\n\n  Reported-By: Full Name \u003cemail\u003e\n\nSee for example: [1], or use this query to see more examples:\n\n  git log --grep\u003d\"Reported-By\"\n\n* [1] https://gerrit-review.googlesource.com/98150",
+      "revId": "581e01d78dd45491bbbfcfe5612ff68ce3a5d0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

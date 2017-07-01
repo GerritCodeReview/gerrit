@@ -67,6 +67,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.rules.PrologModule;
@@ -366,6 +367,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), DiffWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
     DynamicSet.setOf(binder(), BranchWebLink.class);
+    DynamicSet.setOf(binder(), TagWebLink.class);
     DynamicMap.mapOf(binder(), OAuthLoginProvider.class);
     DynamicItem.itemOf(binder(), OAuthTokenEncrypter.class);
     DynamicSet.setOf(binder(), AccountExternalIdCreator.class);

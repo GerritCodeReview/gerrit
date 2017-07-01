@@ -23,6 +23,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.TagInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -301,6 +302,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
 
       updateDeleteHandler =
           new ValueChangeHandler<Boolean>() {
@@ -431,12 +433,21 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
         table.setText(row, 3, "");
       }
 
+      FlowPanel actionsPanel = new FlowPanel();
+      if (k.webLinks() != null) {
+        for (WebLinkInfo webLink : Natives.asList(k.webLinks())) {
+          actionsPanel.add(webLink.toAnchor());
+        }
+      }
+      table.setWidget(row, 4, actionsPanel);
+
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
       fmt.addStyleName(row, 1, iconCellStyle);
       fmt.addStyleName(row, 2, dataCellStyle);
       fmt.addStyleName(row, 3, dataCellStyle);
+      fmt.addStyleName(row, 4, dataCellStyle);
 
       setRowItem(row, k);
     }

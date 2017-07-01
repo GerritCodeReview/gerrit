@@ -248,6 +248,11 @@ limitations under the License.
           done();
         });
       });
+
+      test('test _computeItemName', () => {
+        assert.deepEqual(element._computeItemName('branches'), 'Branch');
+        assert.deepEqual(element._computeItemName('tags'), 'Tag');
+      });
     });
 
     suite('list with less then 25 branches', () => {

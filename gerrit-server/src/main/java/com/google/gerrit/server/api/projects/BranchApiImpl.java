@@ -23,12 +23,14 @@ import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.BranchesCollection;
 import com.google.gerrit.server.project.CreateBranch;
 import com.google.gerrit.server.project.DeleteBranch;
 import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.FilesCollection;
+import com.google.gerrit.server.project.GetBranch;
 import com.google.gerrit.server.project.GetContent;
 import com.google.gerrit.server.project.GetReflog;
 import com.google.gerrit.server.project.ProjectResource;
@@ -46,6 +48,7 @@ public class BranchApiImpl implements BranchApi {
   private final CreateBranch.Factory createBranchFactory;
   private final DeleteBranch deleteBranch;
   private final FilesCollection filesCollection;
+  private final GetBranch getBranch;
   private final GetContent getContent;
   private final GetReflog getReflog;
   private final String ref;
@@ -57,6 +60,7 @@ public class BranchApiImpl implements BranchApi {
       CreateBranch.Factory createBranchFactory,
       DeleteBranch deleteBranch,
       FilesCollection filesCollection,
+      GetBranch getBranch,
       GetContent getContent,
       GetReflog getReflog,
       @Assisted ProjectResource project,
@@ -65,6 +69,7 @@ public class BranchApiImpl implements BranchApi {
     this.createBranchFactory = createBranchFactory;
     this.deleteBranch = deleteBranch;
     this.filesCollection = filesCollection;
+    this.getBranch = getBranch;
     this.getContent = getContent;
     this.getReflog = getReflog;
     this.project = project;
@@ -84,7 +89,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public BranchInfo get() throws RestApiException {
     try {
-      return resource().getBranchInfo();
+      return getBranch.apply(resource());
     } catch (Exception e) {
       throw asRestApiException("Cannot read branch", e);
     }
@@ -113,12 +118,13 @@ public class BranchApiImpl implements BranchApi {
   public List<ReflogEntryInfo> reflog() throws RestApiException {
     try {
       return getReflog.apply(resource());
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot retrieve reflog", e);
     }
   }
 
-  private BranchResource resource() throws RestApiException, IOException {
+  private BranchResource resource()
+      throws RestApiException, IOException, PermissionBackendException {
     return branches.parse(project, IdString.fromDecoded(ref));
   }
 }

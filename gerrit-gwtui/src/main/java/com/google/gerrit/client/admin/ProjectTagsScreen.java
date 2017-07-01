@@ -23,6 +23,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
+import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.TagInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -430,6 +431,14 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       } else {
         table.setText(row, 3, "");
       }
+
+      FlowPanel actionsPanel = new FlowPanel();
+      if (k.webLinks() != null) {
+        for (WebLinkInfo webLink : Natives.asList(k.webLinks())) {
+          actionsPanel.add(webLink.toAnchor());
+        }
+      }
+      table.setWidget(row, 4, actionsPanel);
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();

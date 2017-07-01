@@ -14,36 +14,52 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class BranchesCollection
     implements ChildCollection<ProjectResource, BranchResource>, AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
+  private final GitRepositoryManager repoManager;
   private final CreateBranch.Factory createBranchFactory;
 
   @Inject
   BranchesCollection(
       DynamicMap<RestView<BranchResource>> views,
       Provider<ListBranches> list,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
+      GitRepositoryManager repoManager,
       CreateBranch.Factory createBranchFactory) {
     this.views = views;
     this.list = list;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
+    this.repoManager = repoManager;
     this.createBranchFactory = createBranchFactory;
   }
 
@@ -54,18 +70,25 @@ public class BranchesCollection
 
   @Override
   public BranchResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, BadRequestException {
-    String branchName = id.get();
-    if (!branchName.equals(Constants.HEAD)) {
-      branchName = RefNames.fullName(branchName);
-    }
-    List<BranchInfo> branches = list.get().apply(parent);
-    for (BranchInfo b : branches) {
-      if (branchName.equals(b.ref)) {
-        return new BranchResource(parent.getControl(), b);
+      throws ResourceNotFoundException, IOException, BadRequestException, AuthException,
+          PermissionBackendException {
+    Project.NameKey project = parent.getNameKey();
+    String name = RefNames.fullName(id.get());
+    try (Repository repo = repoManager.openRepository(project)) {
+      Ref refName = repo.exactRef(name);
+      if (refName != null) {
+        // ListBranches checks the target of a symbolic reference to determine access
+        // rights on the symbolic reference itself. No this doesn't make any sense.
+        name = refName.isSymbolic() ? refName.getTarget().getName() : refName.getName();
       }
+      permissionBackend.user(user).project(project).ref(name).check(RefPermission.READ);
+      if (refName == null) {
+        throw new ResourceNotFoundException(id);
+      }
+      return new BranchResource(parent.getControl(), refName);
+    } catch (RepositoryNotFoundException noRepo) {
+      throw new ResourceNotFoundException();
     }
-    throw new ResourceNotFoundException();
   }
 
   @Override

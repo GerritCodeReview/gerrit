@@ -14,37 +14,35 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.inject.TypeLiteral;
+import org.eclipse.jgit.lib.Ref;
 
 public class BranchResource extends RefResource {
   public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND =
       new TypeLiteral<RestView<BranchResource>>() {};
 
-  private final BranchInfo branchInfo;
+  private final String refName;
+  private final String revision;
 
-  public BranchResource(ProjectControl control, BranchInfo branchInfo) {
+  public BranchResource(ProjectControl control, Ref ref) {
     super(control);
-    this.branchInfo = branchInfo;
-  }
-
-  public BranchInfo getBranchInfo() {
-    return branchInfo;
+    this.refName = ref.getName();
+    this.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
   }
 
   public Branch.NameKey getBranchKey() {
-    return new Branch.NameKey(getNameKey(), branchInfo.ref);
+    return new Branch.NameKey(getNameKey(), refName);
   }
 
   @Override
   public String getRef() {
-    return branchInfo.ref;
+    return refName;
   }
 
   @Override
   public String getRevision() {
-    return branchInfo.revision;
+    return revision;
   }
 }

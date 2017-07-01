@@ -32,6 +32,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
+import com.google.gerrit.server.WebLinks;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -61,6 +62,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private String ref;
+  private final WebLinks links;
 
   @Inject
   CreateTag(
@@ -68,12 +70,14 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
-      @Assisted String ref) {
+      @Assisted String ref,
+      WebLinks webLinks) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.ref = ref;
+    this.links = webLinks;
   }
 
   @Override
@@ -133,8 +137,9 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
             ObjectId.zeroId(),
             result.getObjectId(),
             identifiedUser.get().getAccount());
+        ProjectControl pctl = resource.getControl();
         try (RevWalk w = new RevWalk(repo)) {
-          return ListTags.createTagInfo(result, w, refControl);
+          return ListTags.createTagInfo(result, w, refControl, pctl, links);
         }
       }
     } catch (InvalidRevisionException e) {

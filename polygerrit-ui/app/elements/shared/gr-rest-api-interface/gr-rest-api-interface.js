@@ -223,6 +223,24 @@
       return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
     },
 
+    deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      const encodeName = encodeURIComponent(project);
+      return this.send('DELETE', `/projects/${encodeName}/branches/${ref}`, '',
+          opt_errFn, opt_ctx);
+    },
+
+    deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
+      if (!project || !ref) {
+        return '';
+      }
+      const encodeName = encodeURIComponent(project);
+      return this.send('DELETE', `/projects/${encodeName}/tags/${ref}`, '',
+          opt_errFn, opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

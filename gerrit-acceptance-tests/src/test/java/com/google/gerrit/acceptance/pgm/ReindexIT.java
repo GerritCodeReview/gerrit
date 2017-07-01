@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.MoreFiles;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.Set;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -59,8 +61,23 @@ public class ReindexIT extends StandaloneSiteTest {
 
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      // Query change index
       assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
+      // Query account index
+      assertThat(gApi.accounts().query("admin").get().stream().map(a -> a._accountId))
+          .containsExactly(adminId.get());
+      // Query group index
+      assertThat(
+              gApi.groups()
+                  .query("Group")
+                  .withOption(MEMBERS)
+                  .get()
+                  .stream()
+                  .map(g -> g.members)
+                  .flatMap(Collection::stream)
+                  .map(a -> a._accountId))
+          .containsExactly(adminId.get());
     }
   }
 

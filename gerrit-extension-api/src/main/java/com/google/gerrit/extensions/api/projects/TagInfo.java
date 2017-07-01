@@ -15,16 +15,20 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import java.util.List;
 
 public class TagInfo extends RefInfo {
   public String object;
   public String message;
   public GitPerson tagger;
+  public List<WebLinkInfo> webLinks;
 
-  public TagInfo(String ref, String revision, boolean canDelete) {
+  public TagInfo(String ref, String revision, boolean canDelete, List<WebLinkInfo> webLinks) {
     this.ref = ref;
     this.revision = revision;
     this.canDelete = canDelete;
+    this.webLinks = webLinks;
   }
 
   public TagInfo(
@@ -33,10 +37,12 @@ public class TagInfo extends RefInfo {
       String object,
       String message,
       GitPerson tagger,
-      boolean canDelete) {
-    this(ref, revision, canDelete);
+      boolean canDelete,
+      List<WebLinkInfo> webLinks) {
+    this(ref, revision, canDelete, webLinks);
     this.object = object;
     this.message = message;
     this.tagger = tagger;
+    this.webLinks = webLinks;
   }
 }

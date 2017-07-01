@@ -19,6 +19,9 @@ import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Streams;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -31,6 +34,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.util.Arrays;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.RuleChain;
@@ -54,6 +58,17 @@ public abstract class StandaloneSiteTest {
         adminId = i.getInstance(AccountCreator.class).admin().getId();
       }
       ctx = i.getInstance(OneOffRequestContext.class).openAs(adminId);
+      GerritApi gApi = i.getInstance(GerritApi.class);
+
+      try {
+        // ServerContext ctor is called multiple times but the group can be only created once
+        gApi.groups().id("Group");
+      } catch (ResourceNotFoundException e) {
+        GroupInput in = new GroupInput();
+        in.members = Collections.singletonList("admin");
+        in.name = "Group";
+        gApi.groups().create(in);
+      }
     }
 
     @Override
@@ -102,9 +117,9 @@ public abstract class StandaloneSiteTest {
   @Rule public RuleChain ruleChain = RuleChain.outerRule(tempSiteDir).around(testRunner);
 
   protected SitePaths sitePaths;
+  protected Account.Id adminId;
 
   private GerritServer.Description serverDesc;
-  private Account.Id adminId;
 
   private void beforeTest(Description description) throws Exception {
     serverDesc = GerritServer.Description.forTestMethod(description, configName);

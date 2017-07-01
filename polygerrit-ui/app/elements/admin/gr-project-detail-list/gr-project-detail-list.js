@@ -59,6 +59,12 @@
         value: true,
       },
       _filter: String,
+      _isOwner: {
+        type: Boolean,
+        value: true,
+      },
+      _refName: Object,
+      _deleted: Boolean,
     },
 
     behaviors: [
@@ -75,6 +81,15 @@
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
+
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getProjectAccess(this._project).then(access => {
+            // If the user is not an owner, is_owner is not a property.
+            this._isOwner = !access[this._project].is_owner;
+          });
+        }
+      });
 
       return this._getItems(this._filter, this._project,
           this._itemsPerPage, this._offset, this.detailType);
@@ -124,6 +139,59 @@
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return item.replace('refs/tags/', '');
       }
+    },
+
+    _itemName(detailType) {
+      if (detailType === DETAIL_TYPES.BRANCHES) {
+        return 'Branch';
+      } else if (detailType === DETAIL_TYPES.TAGS) {
+        return 'Tag';
+      }
+    },
+
+    _handleDeleteItemConfirm() {
+      this.$.overlay.close();
+      if (this.detailType === DETAIL_TYPES.BRANCHES) {
+        return this.$.restAPI.deleteProjectBranches(this._project,
+            this._refName)
+            .then(itemDeleted => {
+              if (itemDeleted.status === 204) {
+                location.reload();
+              }
+            });
+      } else if (this.detailType === DETAIL_TYPES.TAGS) {
+        return this.$.restAPI.deleteProjectTags(this._project,
+            this._refName)
+            .then(itemDeleted => {
+              if (itemDeleted.status === 204) {
+                location.reload();
+              }
+            });
+      }
+    },
+
+    _handleDeleteItem(e) {
+      const name = e.target.dataItem;
+      if (!name) { return; }
+      this._refName = name;
+      this.$.overlay.close();
+      this.$.overlay.open();
+    },
+
+    _computeHideClass(item, item2) {
+      if (!item && item2) {
+        return 'show';
+      }
+
+      if (item2) {
+        return 'show';
+      }
+
+      if (!item) {
+        return 'show';
+      }
+
+      return '';
     },
   });
 })();

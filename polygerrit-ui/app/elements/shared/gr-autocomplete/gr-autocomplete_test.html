@@ -297,19 +297,89 @@ limitations under the License.
       assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
     });
 
-    test('tap on suggestion commits and refocuses on input', () => {
-      const focusSpy = sandbox.spy(element, 'focus');
-      const commitSpy = sandbox.spy(element, '_commit');
-      element._focused = true;
-      element._suggestions = [{name: 'first suggestion'}];
-      Polymer.dom.flush();
-      assert.isFalse(element.$.suggestions.hidden);
-      MockInteractions.tap(element.$.suggestions.$$('li:first-child'));
-      flushAsynchronousOperations();
-      assert.isTrue(focusSpy.called);
-      assert.isTrue(commitSpy.called);
-      assert.isTrue(element.$.suggestions.hidden);
-      assert.isTrue(element._focused);
+    suite('focus', () => {
+      let commitSpy;
+      let focusSpy;
+
+      setup(() => {
+        commitSpy = sandbox.spy(element, '_commit');
+      });
+
+      test('enter does not call focus', () => {
+        element._suggestions = ['sugar bombs'];
+        focusSpy = sandbox.spy(element, 'focus');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
+        flushAsynchronousOperations();
+
+        assert.isTrue(commitSpy.called);
+        assert.isFalse(focusSpy.called);
+        assert.equal(element._suggestions.length, 0);
+      });
+
+      test('tab in input does not call focus', () => {
+        element._suggestions = ['sugar bombs'];
+        focusSpy = sandbox.spy(element, 'focus');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+        flushAsynchronousOperations();
+
+        assert.isTrue(commitSpy.called);
+        assert.isFalse(focusSpy.called);
+        assert.equal(element._suggestions.length, 0);
+
+        element.tabCompleteWithoutCommit = true;
+        element._suggestions = ['tunnel snakes drool'];
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+        assert.isFalse(focusSpy.called);
+      });
+
+      test('tab on suggestion, tabCompleteWithoutCommit = false', () => {
+        element._suggestions = [{name: 'sugar bombs'}];
+        element._focused = true;
+        // When tabCompleteWithoutCommit is false, do not focus.
+        element.tabCompleteWithoutCommit = false;
+        focusSpy = sandbox.spy(element, 'focus');
+        Polymer.dom.flush();
+        assert.isFalse(element.$.suggestions.hidden);
+
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.suggestions.$$('li:first-child'), 9, null, 'tab');
+        flushAsynchronousOperations();
+
+        assert.isTrue(commitSpy.called);
+        assert.isFalse(focusSpy.called);
+      });
+
+      test('tab on suggestion, tabCompleteWithoutCommit = true', () => {
+        element._suggestions = [{name: 'sugar bombs'}];
+        element._focused = true;
+        // When tabCompleteWithoutCommit is true, focus.
+        element.tabCompleteWithoutCommit = true;
+        focusSpy = sandbox.spy(element, 'focus');
+        Polymer.dom.flush();
+        assert.isFalse(element.$.suggestions.hidden);
+
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.suggestions.$$('li:first-child'), 9, null, 'tab');
+        flushAsynchronousOperations();
+
+        assert.isTrue(commitSpy.called);
+        assert.isTrue(focusSpy.called);
+      });
+
+      test('tap on suggestion commits, does not call focus', () => {
+        focusSpy = sandbox.spy(element, 'focus');
+        element._focused = true;
+        element._suggestions = [{name: 'first suggestion'}];
+        Polymer.dom.flush();
+        assert.isFalse(element.$.suggestions.hidden);
+        MockInteractions.tap(element.$.suggestions.$$('li:first-child'));
+        flushAsynchronousOperations();
+
+        assert.isFalse(focusSpy.called);
+        assert.isTrue(commitSpy.called);
+        assert.isTrue(element.$.suggestions.hidden);
+      });
     });
 
     test('input-keydown event fired', () => {

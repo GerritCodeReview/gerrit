@@ -167,7 +167,7 @@
       }
       this._selected = e.detail.selected;
       this._commit(silent);
-      this.focus();
+      if (silent) { this.focus(); }
     },
 
     /**
@@ -246,12 +246,12 @@
         case 9: // Tab
           if (this._suggestions.length > 0) {
             e.preventDefault();
-            this._handleEnter(this.tabCompleteWithoutCommit);
+            this._handleInputCommit(this.tabCompleteWithoutCommit);
           }
           break;
         case 13: // Enter
           e.preventDefault();
-          this._handleEnter();
+          this._handleInputCommit();
           break;
         default:
           // For any normal keypress, return focus to the input to allow for
@@ -269,10 +269,9 @@
       }
     },
 
-    _handleEnter(opt_tabCompleteWithoutCommit) {
+    _handleInputCommit(opt_tabCompleteWithoutCommit) {
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabCompleteWithoutCommit);
-      this.focus();
     },
 
     _updateValue(suggestion, suggestions) {
@@ -303,7 +302,6 @@
       e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
-      this.focus();
     },
 
     /**

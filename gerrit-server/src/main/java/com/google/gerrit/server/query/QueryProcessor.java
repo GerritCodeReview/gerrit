@@ -179,6 +179,9 @@ public abstract class QueryProcessor<T> {
         pred = enforceVisibility(pred);
       }
       predicates.add(pred);
+System.err.println("QUERY " + q);
+System.err.println(pred.toStringTree());
+System.err.println();
 
       @SuppressWarnings("unchecked")
       DataSource<T> s = (DataSource<T>) pred;

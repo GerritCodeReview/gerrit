@@ -19,7 +19,7 @@ import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_LIMIT
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -45,7 +45,7 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   @Inject
   protected GroupQueryProcessor(
       Provider<CurrentUser> userProvider,
-      CapabilityControl.Factory capabilityFactory,
+      AccountLimits.Factory limitsFactory,
       Metrics metrics,
       IndexConfig indexConfig,
       GroupIndexCollection indexes,
@@ -53,7 +53,7 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
       GroupControl.GenericFactory groupControlFactory) {
     super(
         userProvider,
-        capabilityFactory,
+        limitsFactory,
         metrics,
         GroupSchemaDefinitions.INSTANCE,
         indexConfig,

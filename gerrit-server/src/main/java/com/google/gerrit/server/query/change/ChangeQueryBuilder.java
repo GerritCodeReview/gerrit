@@ -80,6 +80,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -648,7 +649,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws OrmException, QueryParseException {
-    return new ConflictsPredicate(args, value, parseChange(value));
+    List<Change> changes = parseChange(value);
+    if (changes.size() == 1) {
+      return ConflictsPredicate.create(args, value, changes.get(0));
+    }
+
+    List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
+    for (Change c : changes) {
+      or.add(ConflictsPredicate.create(args, value, c));
+    }
+    return Predicate.or(or);
   }
 
   @Operator

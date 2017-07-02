@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -25,7 +24,6 @@ import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
@@ -45,130 +43,48 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
-public class ConflictsPredicate extends OrPredicate<ChangeData> {
+public class ConflictsPredicate {
   // UI code may depend on this string, so use caution when changing.
   protected static final String TOO_MANY_FILES = "too many files to find conflicts";
 
-  protected final String value;
+  private ConflictsPredicate() {}
 
-  public ConflictsPredicate(Arguments args, String value, List<Change> changes)
+  public static Predicate<ChangeData> create(Arguments args, String value, Change c)
       throws QueryParseException, OrmException {
-    super(predicates(args, value, changes));
-    this.value = value;
-  }
-
-  public static List<Predicate<ChangeData>> predicates(
-      final Arguments args, String value, List<Change> changes)
-      throws QueryParseException, OrmException {
-    int indexTerms = 0;
-
-    List<Predicate<ChangeData>> changePredicates = Lists.newArrayListWithCapacity(changes.size());
-    final Provider<ReviewDb> db = args.db;
-    for (Change c : changes) {
-      final ChangeDataCache changeDataCache =
-          new ChangeDataCache(c, db, args.changeDataFactory, args.projectCache);
-      List<String> files = listFiles(c, args, changeDataCache);
-      indexTerms += 3 + files.size();
-      if (indexTerms > args.indexConfig.maxTerms()) {
-        // Short-circuit with a nice error message if we exceed the index
-        // backend's term limit. This assumes that "conflicts:foo" is the entire
-        // query; if there are more terms in the input, we might not
-        // short-circuit here, which will result in a more generic error message
-        // later on in the query parsing.
-        throw new QueryParseException(TOO_MANY_FILES);
-      }
-
-      List<Predicate<ChangeData>> filePredicates = Lists.newArrayListWithCapacity(files.size());
-      for (String file : files) {
-        filePredicates.add(new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
-      }
-
-      List<Predicate<ChangeData>> predicatesForOneChange = Lists.newArrayListWithCapacity(5);
-      predicatesForOneChange.add(not(new LegacyChangeIdPredicate(c.getId())));
-      predicatesForOneChange.add(new ProjectPredicate(c.getProject().get()));
-      predicatesForOneChange.add(new RefPredicate(c.getDest().get()));
-
-      predicatesForOneChange.add(or(or(filePredicates), new IsMergePredicate(args, value)));
-
-      predicatesForOneChange.add(
-          new ChangeOperatorPredicate(ChangeQueryBuilder.FIELD_CONFLICTS, value) {
-
-            @Override
-            public boolean match(ChangeData object) throws OrmException {
-              Change otherChange = object.change();
-              if (otherChange == null) {
-                return false;
-              }
-              if (!otherChange.getDest().equals(c.getDest())) {
-                return false;
-              }
-              SubmitTypeRecord str = object.submitTypeRecord();
-              if (!str.isOk()) {
-                return false;
-              }
-              ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
-              ConflictKey conflictsKey =
-                  new ConflictKey(
-                      changeDataCache.getTestAgainst(),
-                      other,
-                      str.type,
-                      changeDataCache.getProjectState().isUseContentMerge());
-              Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
-              if (conflicts != null) {
-                return conflicts;
-              }
-              try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
-                  CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-                conflicts =
-                    !args.submitDryRun.run(
-                        str.type,
-                        repo,
-                        rw,
-                        otherChange.getDest(),
-                        changeDataCache.getTestAgainst(),
-                        other,
-                        getAlreadyAccepted(repo, rw));
-                args.conflictsCache.put(conflictsKey, conflicts);
-                return conflicts;
-              } catch (IntegrationException | NoSuchProjectException | IOException e) {
-                throw new OrmException(e);
-              }
-            }
-
-            @Override
-            public int getCost() {
-              return 5;
-            }
-
-            private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)
-                throws IntegrationException {
-              try {
-                Set<RevCommit> accepted = new HashSet<>();
-                SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
-                ObjectId tip = changeDataCache.getTestAgainst();
-                if (tip != null) {
-                  accepted.add(rw.parseCommit(tip));
-                }
-                return accepted;
-              } catch (OrmException | IOException e) {
-                throw new IntegrationException("Failed to determine already accepted commits.", e);
-              }
-            }
-          });
-      changePredicates.add(and(predicatesForOneChange));
+    ChangeDataCache changeDataCache =
+        new ChangeDataCache(c, args.db, args.changeDataFactory, args.projectCache);
+    List<String> files = listFiles(c, args, changeDataCache);
+    if (3 + files.size() > args.indexConfig.maxTerms()) {
+      // Short-circuit with a nice error message if we exceed the index
+      // backend's term limit. This assumes that "conflicts:foo" is the entire
+      // query; if there are more terms in the input, we might not
+      // short-circuit here, which will result in a more generic error message
+      // later on in the query parsing.
+      throw new QueryParseException(TOO_MANY_FILES);
     }
-    return changePredicates;
+
+    List<Predicate<ChangeData>> filePredicates = new ArrayList<>(files.size());
+    for (String file : files) {
+      filePredicates.add(new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
+    }
+
+    List<Predicate<ChangeData>> and = new ArrayList<>(5);
+    and.add(new ProjectPredicate(c.getProject().get()));
+    and.add(new RefPredicate(c.getDest().get()));
+    and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
+    and.add(Predicate.or(filePredicates));
+    and.add(new CheckConflict(ChangeQueryBuilder.FIELD_CONFLICTS, value, args, c, changeDataCache));
+    return Predicate.and(and);
   }
 
-  public static List<String> listFiles(Change c, Arguments args, ChangeDataCache changeDataCache)
+  private static List<String> listFiles(Change c, Arguments args, ChangeDataCache changeDataCache)
       throws OrmException {
     try (Repository repo = args.repoManager.openRepository(c.getProject());
         RevWalk rw = new RevWalk(repo)) {
       RevCommit ps = rw.parseCommit(changeDataCache.getTestAgainst());
       if (ps.getParentCount() > 1) {
         String dest = c.getDest().get();
-        Ref destBranch = repo.getRefDatabase().getRef(dest);
-        destBranch.getObjectId();
+        Ref destBranch = repo.getRefDatabase().exactRef(dest);
         rw.setRevFilter(RevFilter.MERGE_BASE);
         rw.markStart(rw.parseCommit(destBranch.getObjectId()));
         rw.markStart(ps);
@@ -195,9 +111,80 @@ public class ConflictsPredicate extends OrPredicate<ChangeData> {
     }
   }
 
-  @Override
-  public String toString() {
-    return ChangeQueryBuilder.FIELD_CONFLICTS + ":" + value;
+  private static final class CheckConflict extends ChangeOperatorPredicate {
+    private final Arguments args;
+    private final Change c;
+    private final ChangeDataCache changeDataCache;
+
+    CheckConflict(
+        String field, String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
+      super(field, value);
+      this.args = args;
+      this.c = c;
+      this.changeDataCache = changeDataCache;
+    }
+
+    @Override
+    public boolean match(ChangeData object) throws OrmException {
+      Change otherChange = object.change();
+      if (otherChange == null || !otherChange.getDest().equals(c.getDest())) {
+        return false;
+      }
+
+      SubmitTypeRecord str = object.submitTypeRecord();
+      if (!str.isOk()) {
+        return false;
+      }
+
+      ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
+      ConflictKey conflictsKey =
+          new ConflictKey(
+              changeDataCache.getTestAgainst(),
+              other,
+              str.type,
+              changeDataCache.getProjectState().isUseContentMerge());
+      Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
+      if (conflicts != null) {
+        return conflicts;
+      }
+
+      try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
+          CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+        conflicts =
+            !args.submitDryRun.run(
+                str.type,
+                repo,
+                rw,
+                otherChange.getDest(),
+                changeDataCache.getTestAgainst(),
+                other,
+                getAlreadyAccepted(repo, rw));
+        args.conflictsCache.put(conflictsKey, conflicts);
+        return conflicts;
+      } catch (IntegrationException | NoSuchProjectException | IOException e) {
+        throw new OrmException(e);
+      }
+    }
+
+    @Override
+    public int getCost() {
+      return 5;
+    }
+
+    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)
+        throws IntegrationException {
+      try {
+        Set<RevCommit> accepted = new HashSet<>();
+        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
+        ObjectId tip = changeDataCache.getTestAgainst();
+        if (tip != null) {
+          accepted.add(rw.parseCommit(tip));
+        }
+        return accepted;
+      } catch (OrmException | IOException e) {
+        throw new IntegrationException("Failed to determine already accepted commits.", e);
+      }
+    }
   }
 
   public static class ChangeDataCache {

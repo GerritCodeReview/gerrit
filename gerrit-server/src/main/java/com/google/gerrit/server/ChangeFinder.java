@@ -40,7 +40,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class ChangeFinder {
-
   private final IndexConfig indexConfig;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
@@ -72,67 +71,65 @@ public class ChangeFinder {
       return Collections.emptyList();
     }
 
-    // Use the index to search for changes, but don't return any stored fields,
-    // to force rereading in case the index is stale.
-    InternalChangeQuery query = queryProvider.get().noFields();
-
-    int numTwiddles = 0;
-    for (char c : id.toCharArray()) {
-      if (c == '~') {
-        numTwiddles++;
+    int z = id.lastIndexOf('~');
+    int y = id.lastIndexOf('~', z - 1);
+    if (y < 0 && z > 0) {
+      // Try project~numericChangeId
+      Integer n = Ints.tryParse(id.substring(z + 1));
+      if (n != null) {
+        return fromProjectNumber(user, id.substring(0, z), n.intValue());
       }
     }
 
-    if (numTwiddles == 1) {
-      // Try project~numericChangeId
-      String project = id.substring(0, id.indexOf('~'));
-      Integer n = Ints.tryParse(id.substring(project.length() + 1));
-      if (n != null) {
-        Change.Id changeId = new Change.Id(n);
-        try {
-          return ImmutableList.of(
-              changeControlFactory.controlFor(
-                  reviewDb.get(), Project.NameKey.parse(project), changeId, user));
-        } catch (NoSuchChangeException e) {
-          return Collections.emptyList();
-        } catch (IllegalArgumentException e) {
-          String changeNotFound = String.format("change %s not found in ReviewDb", changeId);
-          String projectNotFound =
-              String.format(
-                  "passed project %s when creating ChangeNotes for %s, but actual project is",
-                  project, changeId);
-          if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
-            return Collections.emptyList();
-          }
-          throw e;
-        } catch (OrmException e) {
-          // Distinguish between a RepositoryNotFoundException (project argument invalid) and
-          // other OrmExceptions (failure in the persistence layer).
-          if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
-            return Collections.emptyList();
-          }
-          throw e;
-        }
-      }
-    } else if (numTwiddles == 2) {
-      // Try change triplet
-      Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
+    // Use the index to search for changes, but don't return any stored fields,
+    // to force rereading in case the index is stale.
+    InternalChangeQuery query = queryProvider.get().noFields();
+    if (y > 0 && z > 0) {
+      // Try change triplet (project~branch~Ihash...)
+      Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
-        return asChangeControls(
-            query.byBranchKey(triplet.get().branch(), triplet.get().id()), user);
+        ChangeTriplet t = triplet.get();
+        return asChangeControls(query.byBranchKey(t.branch(), t.id()), user);
       }
     }
 
     // Try numeric changeId
-    if (id.charAt(0) != '0') {
-      Integer n = Ints.tryParse(id);
-      if (n != null) {
-        return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
-      }
+    Integer n = Ints.tryParse(id, 10);
+    if (n != null) {
+      return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
     }
 
-    // Try isolated changeId
+    // Try isolated Ihash... format ("Change-Id: Ihash").
     return asChangeControls(query.byKeyPrefix(id), user);
+  }
+
+  private List<ChangeControl> fromProjectNumber(CurrentUser user, String project, int changeNumber)
+      throws OrmException {
+    Change.Id cId = new Change.Id(changeNumber);
+    try {
+      return ImmutableList.of(
+          changeControlFactory.controlFor(
+              reviewDb.get(), Project.NameKey.parse(project), cId, user));
+    } catch (NoSuchChangeException e) {
+      return Collections.emptyList();
+    } catch (IllegalArgumentException e) {
+      String changeNotFound = String.format("change %s not found in ReviewDb", cId);
+      String projectNotFound =
+          String.format(
+              "passed project %s when creating ChangeNotes for %s, but actual project is",
+              project, cId);
+      if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
+        return Collections.emptyList();
+      }
+      throw e;
+    } catch (OrmException e) {
+      // Distinguish between a RepositoryNotFoundException (project argument invalid) and
+      // other OrmExceptions (failure in the persistence layer).
+      if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
+        return Collections.emptyList();
+      }
+      throw e;
+    }
   }
 
   public ChangeControl findOne(Change.Id id, CurrentUser user) throws OrmException {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bbcef4a_043a6d25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T18:26:26Z",
+      "side": 1,
+      "message": "Probayl want to bump to 55 to do the drafts schema upgrade?",
+      "range": {
+        "startLine": 38,
+        "startChar": 37,
+        "endLine": 38,
+        "endChar": 38
+      },
+      "revId": "efb4068391ef375b77cfb195ca54392db2950eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a80b682d_8aa0cc75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_151.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T18:26:26Z",
+      "side": 1,
+      "message": "Will want to add Schema_155.java for the drafts upgrade on the left side.",
+      "revId": "efb4068391ef375b77cfb195ca54392db2950eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

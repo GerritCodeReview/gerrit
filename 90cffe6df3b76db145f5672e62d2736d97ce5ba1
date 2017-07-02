@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9e642c1_7222e04a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T21:56:18Z",
+      "side": 1,
+      "message": "Would be nice to have a test for that, but I think there is currently no (easy) way to switch the user for git operations (for both HTTP and SSH protocols), but the admin user is hard coded in AbstractPushForReview.selectProtocol() method, so that this naive attempt doesn\u0027t actually work:\n\n  @Test\n  public void onlyOwnerAllowedToModifyWipState() throws Exception {\n    // Push a work-in-progress change as admin user\n    PushOneCommit.Result r \u003d pushTo(\"refs/for/master%wip\");\n    r.assertOkStatus();\n    assertThat(r.getChange().change().isWorkInProgress()).isTrue();\n    setApiUser(user);\n    r \u003d amendChange(r.getChangeId(), user, \"refs/for/master%ready\");\n    r.assertErrorStatus();\n    // still WIP\n    assertThat(r.getChange().change().isWorkInProgress()).isTrue();\n  }",
+      "revId": "90cffe6df3b76db145f5672e62d2736d97ce5ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f819bc2_c838b86f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T21:56:18Z",
+      "side": 1,
+      "message": "I believe this is a wrong place to do the check. Even though, you are returning false, from updateChange() method, there is currently no means to interrupt the execution sequence of updateRepo()/updateChange()/postUpdate() invocations.\n\nThis problem doesn\u0027t exist in REST endpoints, as the checks take place before the actual operations are get called. To apply the same semantic, the correct place for that check (and the below one) is in ReceiveCommits,  ReplaceRequest.validate() method. How about to put something like the following around the line 2430 there:\n\n  if (!user.getAccountId().equals(change.getOwner())\n      \u0026\u0026 (magicBranch.workInProgress || magicBranch.ready)) {\n      reject(inputCommand, \"only change owner can modify Work-in-Progress)\");\n      return false;\n  }",
+      "revId": "90cffe6df3b76db145f5672e62d2736d97ce5ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3e10f95_ecb7cbf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T21:56:18Z",
+      "side": 1,
+      "message": "That\u0027s why this is the wrong place, and this looks like a hack. Consider to move the check higher in the call stack.",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 448,
+        "endChar": 5
+      },
+      "revId": "90cffe6df3b76db145f5672e62d2736d97ce5ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

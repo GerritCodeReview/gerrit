@@ -73,6 +73,7 @@ import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
@@ -217,6 +218,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
+    install(ChangeFinder.module());
     install(ConflictsCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());

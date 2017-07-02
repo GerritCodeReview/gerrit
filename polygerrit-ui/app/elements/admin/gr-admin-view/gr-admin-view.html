@@ -34,6 +34,11 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
+    <style>
+      .loading {
+        display: none;
+      }
+    </style>
     <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">

@@ -181,5 +181,9 @@
       }
       return itemView === params.adminView ? 'selected' : '';
     },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
+    },
   });
 })();

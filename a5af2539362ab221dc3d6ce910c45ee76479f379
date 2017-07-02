@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "224d0b63_9532937e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6705,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "work_in_progress",
+      "range": {
+        "startLine": 6705,
+        "startChar": 37,
+        "endLine": 6705,
+        "endChar": 51
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24f261c_cd34f121",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6706,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 6706,
+        "startChar": 2,
+        "endLine": 6706,
+        "endChar": 16
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fb0621c_b3b59d08",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6708,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 6708,
+        "startChar": 13,
+        "endLine": 6708,
+        "endChar": 27
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27b4401a_59e55886",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "This is a no-op as setWorkInProgress(false) on the previous line assigned true to ready already. Remove this line.",
+      "range": {
+        "startLine": 513,
+        "startChar": 4,
+        "endLine": 513,
+        "endChar": 20
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac2de44f_8b413075",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "Only makes sense to check that is not allowed, but you are already checking this in CangeiIT.reviewWithWorkInProgressByNonOwnerReturnsError().",
+      "range": {
+        "startLine": 850,
+        "startChar": 14,
+        "endLine": 850,
+        "endChar": 46
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2248126e_3a7689df",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "This test is failing in the CI. This can\u0027t work, as only the change owner is allowed to set WIP state, and you even added this check in this commit in PostReview.apply:\n\n  if (!revision.getChange().getOwner().equals(revision.getUser().getAccountId())) {\n          output.error \u003d ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS;\n          return Response.withStatusCode(SC_BAD_REQUEST, output);\n        }",
+      "range": {
+        "startLine": 855,
+        "startChar": 4,
+        "endLine": 856,
+        "endChar": 66
+      },
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cd0e34_1c62af00",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "Any reason not to add similar method for setReady(boolean ready)?",
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "631b97d6_14357d07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30ae52a8_264caa51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T08:47:03Z",
+      "side": 1,
+      "message": "Just to check my understanding, why it is needed: In case of setting to WIP, it wouldn\u0027t notify anyone, even before this change, but when setting to ready, it would notify, but we actually don\u0027t want these additional notification firehouse, as post reviewers already does the required notification?",
+      "revId": "a5af2539362ab221dc3d6ce910c45ee76479f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

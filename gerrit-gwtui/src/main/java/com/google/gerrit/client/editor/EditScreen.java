@@ -580,7 +580,7 @@ public class EditScreen extends Screen {
             .set("indentUnit", prefs.indentUnit())
             .set("keyMap", prefs.keyMapType().name().toLowerCase())
             .set("lineNumbers", prefs.hideLineNumbers())
-            .set("lineWrapping", false)
+            .set("lineWrapping", prefs.lineWrapping())
             .set("matchBrackets", prefs.matchBrackets())
             .set("mode", mode != null ? mode.mime() : null)
             .set("origLeft", editContent)

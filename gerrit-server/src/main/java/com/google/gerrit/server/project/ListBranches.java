@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -128,6 +129,18 @@ public class ListBranches implements RestReadView<ProjectResource> {
         .filter(allBranches(rsrc));
   }
 
+  BranchInfo toBranchInfo(BranchResource rsrc) throws IOException, ResourceNotFoundException {
+    try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
+      Ref r = db.exactRef(rsrc.getRef());
+      if (r == null) {
+        throw new ResourceNotFoundException();
+      }
+      return toBranchInfo(rsrc, ImmutableList.of(r)).get(0);
+    } catch (RepositoryNotFoundException noRepo) {
+      throw new ResourceNotFoundException();
+    }
+  }
+
   private List<BranchInfo> allBranches(ProjectResource rsrc)
       throws IOException, ResourceNotFoundException {
     List<Ref> refs;
@@ -142,7 +155,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
+    return toBranchInfo(rsrc, refs);
+  }
 
+  private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs) {
     Set<String> targets = Sets.newHashSetWithExpectedSize(1);
     for (Ref ref : refs) {
       if (ref.isSymbolic()) {
@@ -213,7 +229,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     info.canDelete =
         !targets.contains(ref.getName()) && perm.testOrFalse(RefPermission.DELETE) ? true : null;
 
-    BranchResource rsrc = new BranchResource(pctl, info);
+    BranchResource rsrc = new BranchResource(pctl, ref);
     for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();

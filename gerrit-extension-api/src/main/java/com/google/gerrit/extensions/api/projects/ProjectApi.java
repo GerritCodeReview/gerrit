@@ -185,7 +185,7 @@ public interface ProjectApi {
     }
 
     @Override
-    public List<ProjectInfo> children() {
+    public List<ProjectInfo> children() throws RestApiException {
       throw new NotImplementedException();
     }
 

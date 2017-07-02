@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.MoreFiles;
@@ -59,8 +60,22 @@ public class ReindexIT extends StandaloneSiteTest {
 
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      // Query change index
       assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
+      // Query account index
+      assertThat(gApi.accounts().query("admin").get().stream().map(a -> a._accountId))
+          .containsExactly(adminId.get());
+      // Query group index
+      assertThat(
+              gApi.groups()
+                  .query("Group")
+                  .withOption(MEMBERS)
+                  .get()
+                  .stream()
+                  .flatMap(g -> g.members.stream())
+                  .map(a -> a._accountId))
+          .containsExactly(adminId.get());
     }
   }
 

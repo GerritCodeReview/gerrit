@@ -116,6 +116,20 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   @Override
+  public String toStringTree() {
+    StringBuilder r = new StringBuilder();
+    r.append("OR\n");
+    for (int i = 0; i < getChildCount(); i++) {
+      if (i > 0) {
+        r.append("\n");
+      }
+      r.append("- ");
+      r.append(getChild(i).toStringTree().replace("\n", "\n  "));
+    }
+    return r.toString();
+  }
+
+  @Override
   public String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("(");

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a7bb4a9_cd83df81",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T14:31:48Z",
+      "side": 1,
+      "message": "Isn\u0027t this is a wrong section? This belongs to diff preferences. Yet you are adding new seeting to edit preferences. That is not the same. I guess you confused it with line-wrapping, but there you\u0027ve added it to both diff screen and edit screen, while the new one makes only sense for edit screen.",
+      "range": {
+        "startLine": 1140,
+        "startChar": 0,
+        "endLine": 1148,
+        "endChar": 0
+      },
+      "revId": "be173bc70d21a1243da0353a1c2a1df860078d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

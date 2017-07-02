@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3165228c_8991c5f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T23:45:06Z",
+      "side": 1,
+      "message": "Woops, thanks, done.",
+      "parentUuid": "1e7a9d30_12d73a8f",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 18
+      },
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "301c69a3_6fca936f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-02T23:41:04Z",
       "side": 1,
       "message": "Should we ensure that this has a \"refs/tags/\" prefix?\n\nIf not, what happens if there is a tag with the same name as a branch?",
+      "range": {
+        "startLine": 289,
+        "startChar": 37,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d698db2_d00d67b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T23:45:06Z",
+      "side": 1,
+      "message": "I presume that external providers for the webviewer will provide a seperate url for tags.\n\nI know one example is that google\u0027s gitiles has the url the same as branches.\n\nAlso how would we \"refs/tags/\" ensure that it has that prefix please?",
+      "parentUuid": "301c69a3_6fca936f",
       "range": {
         "startLine": 289,
         "startChar": 37,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "76a30815_1f818eb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T23:45:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6192ea7d_1df38206",
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8a8fd46_3a34663b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 7
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "a7835349_a98c363d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T23:45:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f8a8fd46_3a34663b",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9f6975d_8d9cf567",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 7
@@ -99,6 +189,30 @@
       "writtenOn": "2017-07-02T23:41:04Z",
       "side": 1,
       "message": "Inline this at L142 since that\u0027s the only place it\u0027s used?",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "281f8f07_b30f19db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-02T23:45:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c9f6975d_8d9cf567",
       "range": {
         "startLine": 140,
         "startChar": 8,

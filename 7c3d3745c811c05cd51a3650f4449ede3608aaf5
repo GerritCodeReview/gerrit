@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b706c3b5_77b398fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T06:04:02Z",
+      "side": 1,
+      "message": "Not thrown any more. Only the ListBranches.apply was throwing BadRequestException (ctor of RegexPredicate). Now, that it doesn\u0027t get called any more, it should be removed.",
+      "range": {
+        "startLine": 73,
+        "startChar": 53,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "7c3d3745c811c05cd51a3650f4449ede3608aaf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fa40f5c_b32b053b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T06:04:02Z",
+      "side": 1,
+      "message": "TODO is missing? Or, why this strange comment and not the fix instead or are you going to fix it later?",
+      "revId": "7c3d3745c811c05cd51a3650f4449ede3608aaf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c279e2_99b16c67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-02T06:04:02Z",
+      "side": 1,
+      "message": "The order is here not consistent with ListBranches.toBranchInfo(), that is get called from the API. There RNFE is thrown before the permission check.\n\nShould this check and possible throw of RNFE happen before permission check on the previous line?",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 7
+      },
+      "revId": "7c3d3745c811c05cd51a3650f4449ede3608aaf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

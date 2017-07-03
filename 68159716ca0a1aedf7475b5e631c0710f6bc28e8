@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de675904_89014ae2",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-03T14:31:28Z",
+      "side": 1,
+      "message": "This the SHA-1 of 5.26.0? I think we should revert to 5.25.0?\n\nhttps://gerrit-review.googlesource.com/#/c/108693/4/WORKSPACE",
+      "range": {
+        "startLine": 886,
+        "startChar": 12,
+        "endLine": 886,
+        "endChar": 52
+      },
+      "revId": "68159716ca0a1aedf7475b5e631c0710f6bc28e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

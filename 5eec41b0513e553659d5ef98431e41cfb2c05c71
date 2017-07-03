@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "773ad3a5_5471b155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-03T09:22:52Z",
+      "side": 1,
+      "message": "occurred?",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "5eec41b0513e553659d5ef98431e41cfb2c05c71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5069b75f_71ab162b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AndPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-03T09:22:52Z",
+      "side": 1,
+      "message": "shouldn\u0027 this put parens somewhere ?\n\n (AND a b)\n\nor  AND[ a b ]\n\n?",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "5eec41b0513e553659d5ef98431e41cfb2c05c71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

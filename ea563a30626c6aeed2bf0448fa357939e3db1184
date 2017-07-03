@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "192ae52e_c4081a73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-03T03:47:02Z",
+      "side": 1,
+      "message": "Let\u0027s leave it like this for now.",
+      "parentUuid": "3d698db2_d00d67b7",
+      "range": {
+        "startLine": 289,
+        "startChar": 37,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "ea563a30626c6aeed2bf0448fa357939e3db1184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6192ea7d_1df38206",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 7

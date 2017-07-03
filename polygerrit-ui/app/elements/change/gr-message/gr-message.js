@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  const ANONYMOUS_NAME = 'Anonymous';
   const CI_LABELS = ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'];
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
   const LABEL_TITLE_SCORE_PATTERN = /([A-Za-z0-9-]+)([+-]\d+)/;
@@ -97,6 +98,18 @@
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
+    },
+
+    _authorOrAnon(author) {
+      if (author) {
+        return author;
+      } else if (this.config && this.config.user &&
+          this.config.user.anonymous_coward_name &&
+          this.config.user.anonymous_coward_name !== 'Anonymous Coward') {
+        return this.config.user.anonymous_coward_name;
+      }
+
+      return ANONYMOUS_NAME;
     },
 
     _updateExpandedClass(expanded) {

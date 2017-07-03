@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b38e2d15_34032cb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T13:10:40Z",
+      "side": 1,
+      "message": "The identation should be 4 spaces here, please use google-java-format.",
+      "revId": "ecb53aa4f74f65a979751246d3d335b9f92103c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "807dc9fc_2df4ebce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T13:10:40Z",
+      "side": 1,
+      "message": "Bad formatting, according to google-java-format the throws clause should be in a new line too.",
+      "range": {
+        "startLine": 185,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 66
+      },
+      "revId": "ecb53aa4f74f65a979751246d3d335b9f92103c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

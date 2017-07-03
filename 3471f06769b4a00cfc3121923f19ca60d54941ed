@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c589dc5_e0cb0b0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "Is there a reason that this data is only available for the \u0027Get Project\u0027 REST endpoint and e.g not for the \u0027Create Project\u0027 REST endpoint?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8efd6179_b520b99b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "Isn\u0027t the default_value missing here?",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 5
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53293e2b_3a7b16e6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "Could you please remove the tabs in these two lines? As the formatting is important for the readability of the documentation, I wouldn\u0027t want to rely on tabs being extended to the correct number of spaces.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 18
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347b482a_8fffc925",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "This should be default_value. (Our REST API uses _ to separate words.)",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 356,
+        "endChar": 14
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ca85bba_d03aef84",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2804,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "The new field is missing here. Please also add a section for LabelTypeInfo and link to it.",
+      "range": {
+        "startLine": 2804,
+        "startChar": 0,
+        "endLine": 2804,
+        "endChar": 15
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28877349_388abc7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GetProjectIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "That isn\u0027t sufficient as a test. We should have a test which ensures that:\n1) all labels are mentioned properly (including their value and text) and that\n2) the default value is specified.\n\nMapSubject#containsExactly might be helpful to check the former aspect.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 82
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6a39667_efaa988a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "Is there a reason to use a TreeMap instead of a HashMap?",
+      "range": {
+        "startLine": 47,
+        "startChar": 22,
+        "endLine": 47,
+        "endChar": 29
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "284e8080_35084116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "optional: If the code which creates the LabelTypeInfo was extracted to a separate method, the loop could be replaced by a stream which is combined into a map via a Collectors#toMap collector. This is similar to my suggestion below for the other map inside of the loop.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 61
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e1e85d_78e200e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "Use of Short#toString would be better. Alternatively, if we also want to keep the \u0027+\u0027 sign as we typically do, we should probably use LabelValue#formatValue here.",
+      "range": {
+        "startLine": 52,
+        "startChar": 29,
+        "endLine": 52,
+        "endChar": 50
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c6c95e2_40edfa8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-03T16:14:42Z",
+      "side": 1,
+      "message": "optional: Could be replaced by\n\n labelInfo.values \u003d\n     t.getValues()\n         .stream()\n         .collect(Collectors.toMap(LabelValue::formatValue, LabelValue::getText));",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

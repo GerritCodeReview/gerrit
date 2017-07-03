@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2f4bc6ec_b0b76382",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-03T13:05:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4e4f08fd_c58a20af",
+      "revId": "a827f0e7e2dcfa0005e5602f7a0f96f1ca052c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "683b3e92_1d4693de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-03T13:02:32Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "a827f0e7e2dcfa0005e5602f7a0f96f1ca052c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e35ce43_ae423e5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-03T13:05:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "683b3e92_1d4693de",
       "revId": "a827f0e7e2dcfa0005e5602f7a0f96f1ca052c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

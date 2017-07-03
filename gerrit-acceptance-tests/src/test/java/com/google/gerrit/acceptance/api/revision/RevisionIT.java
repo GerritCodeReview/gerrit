@@ -79,7 +79,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.GetRevisionActions;
@@ -635,9 +634,9 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickNotify() throws Exception {
-    createBranch(new NameKey(project, "branch-1"));
-    createBranch(new NameKey(project, "branch-2"));
-    createBranch(new NameKey(project, "branch-3"));
+    createBranch(new Branch.NameKey(project, "branch-1"));
+    createBranch(new Branch.NameKey(project, "branch-2"));
+    createBranch(new Branch.NameKey(project, "branch-3"));
 
     // Creates a change for 'admin'.
     PushOneCommit.Result result = createChange();
@@ -676,7 +675,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToMergedChangeRevision() throws Exception {
-    createBranch(new NameKey(project, "foo"));
+    createBranch(new Branch.NameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -700,7 +699,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToOpenChangeRevision() throws Exception {
-    createBranch(new NameKey(project, "foo"));
+    createBranch(new Branch.NameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();
@@ -718,7 +717,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToNonVisibleChangeFails() throws Exception {
-    createBranch(new NameKey(project, "foo"));
+    createBranch(new Branch.NameKey(project, "foo"));
 
     PushOneCommit.Result dstChange = createChange(testRepo, "foo", SUBJECT, "b.txt", "b", "t");
     dstChange.assertOkStatus();

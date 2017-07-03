@@ -117,6 +117,30 @@
       "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fe06c64_f82c2487",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T11:33:13Z",
+      "side": 1,
+      "message": "Yes, as I said it only needs the Project.NameKey, not ProjectControl.",
+      "parentUuid": "8e37403a_9a3f01ea",
+      "range": {
+        "startLine": 181,
+        "startChar": 58,
+        "endLine": 181,
+        "endChar": 77
+      },
+      "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

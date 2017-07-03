@@ -116,7 +116,8 @@ public class PutDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
-      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
+      Optional<Comment> maybeComment =
+          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.

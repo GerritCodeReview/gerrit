@@ -64,7 +64,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -167,7 +166,7 @@ public class CommentsUtil {
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
-        Optional<Comment> parent = get(ctx.getDb(), ctx.getNotes(), key);
+        Optional<Comment> parent = getPublished(ctx.getDb(), ctx.getNotes(), key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
@@ -210,19 +209,37 @@ public class CommentsUtil {
     return c;
   }
 
-  public Optional<Comment> get(ReviewDb db, ChangeNotes notes, Comment.Key key)
+  public Optional<Comment> getPublished(ReviewDb db, ChangeNotes notes, Comment.Key key)
       throws OrmException {
     if (!migration.readChanges()) {
-      return Optional.ofNullable(
-              db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
-          .map(plc -> plc.asComment(serverId));
+      return getReviewDb(db, notes, key);
     }
-    Predicate<Comment> p = c -> key.equals(c.key);
-    Optional<Comment> c = publishedByChange(db, notes).stream().filter(p).findFirst();
-    if (c.isPresent()) {
+    return publishedByChange(db, notes).stream().filter(c -> key.equals(c.key)).findFirst();
+  }
+
+  public Optional<Comment> getDraft(
+      ReviewDb db, ChangeNotes notes, IdentifiedUser user, Comment.Key key) throws OrmException {
+    if (!migration.readChanges()) {
+      Optional<Comment> c = getReviewDb(db, notes, key);
+      if (c.isPresent() && !c.get().author.getId().equals(user.getAccountId())) {
+        throw new OrmException(
+            String.format(
+                "Expected draft %s to belong to account %s, but it belongs to %s",
+                key, user.getAccountId(), c.get().author.getId()));
+      }
       return c;
     }
-    return draftByChange(db, notes).stream().filter(p).findFirst();
+    return draftByChangeAuthor(db, notes, user.getAccountId())
+        .stream()
+        .filter(c -> key.equals(c.key))
+        .findFirst();
+  }
+
+  private Optional<Comment> getReviewDb(ReviewDb db, ChangeNotes notes, Comment.Key key)
+      throws OrmException {
+    return Optional.ofNullable(
+            db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
+        .map(plc -> plc.asComment(serverId));
   }
 
   public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes) throws OrmException {

@@ -46,6 +46,30 @@
       "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6100d92a_6846cc74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T10:03:09Z",
+      "side": 1,
+      "message": "[1] was not merged, but cherry-picked to stable-2.14. On stable-2.14 we needed ProjectControl to determine canDelete. but in master we use PermissionBackend.ForRef to determine if the tag can be deleted, hence in master ProjectControl should not be added as arg since it\u0027s not needed. If you think it\u0027s easier to do as follow-up cleanup, I\u0027m also fine with this too.",
+      "parentUuid": "68a19dd3_074ce796",
+      "range": {
+        "startLine": 181,
+        "startChar": 58,
+        "endLine": 181,
+        "endChar": 77
+      },
+      "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

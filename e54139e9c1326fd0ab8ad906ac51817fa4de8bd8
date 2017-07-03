@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edb3b94f_28cf7562",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-03T01:46:48Z",
+      "side": 1,
+      "message": "Seems it\u0027s not needed here.",
+      "parentUuid": "34302974_72db75cc",
+      "revId": "e54139e9c1326fd0ab8ad906ac51817fa4de8bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4288704f_d738f4f7",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-02T23:12:24Z",
       "side": 1,
       "message": "Missing declaration here?",
+      "revId": "e54139e9c1326fd0ab8ad906ac51817fa4de8bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e992007_32e27439",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-03T01:46:48Z",
+      "side": 1,
+      "message": "Or here.",
+      "parentUuid": "4288704f_d738f4f7",
       "revId": "e54139e9c1326fd0ab8ad906ac51817fa4de8bd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

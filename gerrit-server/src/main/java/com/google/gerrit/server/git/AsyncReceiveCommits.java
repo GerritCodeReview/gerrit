@@ -29,7 +29,7 @@ import com.google.inject.name.Named;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -125,7 +125,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private final ReceiveCommits rc;
-  private final ScheduledExecutorService executor;
+  private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final MultiProgressMonitor progress;
   private final long timeoutMillis;
@@ -133,7 +133,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   @Inject
   AsyncReceiveCommits(
       ReceiveCommits.Factory factory,
-      @ReceiveCommitsExecutor ScheduledExecutorService executor,
+      @ReceiveCommitsExecutor ExecutorService executor,
       RequestScopePropagator scopePropagator,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,

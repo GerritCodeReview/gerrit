@@ -160,9 +160,19 @@ public class Util {
 
   public static PermissionRule blockLabel(
       ProjectConfig project, String labelName, AccountGroup.UUID group, String ref) {
+    return blockLabel(project, labelName, -1, 1, group, ref);
+  }
+
+  public static PermissionRule blockLabel(
+      ProjectConfig project,
+      String labelName,
+      int min,
+      int max,
+      AccountGroup.UUID group,
+      String ref) {
     PermissionRule r = grant(project, Permission.LABEL + labelName, newRule(project, group), ref);
     r.setBlock();
-    r.setRange(-1, 1);
+    r.setRange(min, max);
     return r;
   }
 

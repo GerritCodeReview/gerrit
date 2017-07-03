@@ -225,7 +225,6 @@ public class EditPreferencesBox extends Composite {
     }
   }
 
-
   @UiHandler("autoCloseBrackets")
   void onCloseBrackets(ValueChangeEvent<Boolean> e) {
     prefs.autoCloseBrackets(e.getValue());

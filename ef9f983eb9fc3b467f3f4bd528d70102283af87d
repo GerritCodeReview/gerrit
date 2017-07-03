@@ -70,6 +70,30 @@
       "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e37403a_9a3f01ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-03T11:19:26Z",
+      "side": 1,
+      "message": "I only added this as weblinks below needs it.\n\n List\u003cWebLinkInfo\u003e webLinks \u003d links.getTagLinks(pctl.getProject().getName(), ref.getName());",
+      "parentUuid": "6100d92a_6846cc74",
+      "range": {
+        "startLine": 181,
+        "startChar": 58,
+        "endLine": 181,
+        "endChar": 77
+      },
+      "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

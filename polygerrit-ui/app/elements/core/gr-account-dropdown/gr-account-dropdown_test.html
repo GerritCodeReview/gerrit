@@ -55,14 +55,22 @@ limitations under the License.
     });
 
     test('test for account without a name but using config', () => {
-      element._anonymousName = 'WikiGerrit';
+      element.config = {
+        user: {
+          anonymous_coward_name: 'WikiGerrit',
+        },
+      };
       element.account = {id: '0001'};
       assert.deepEqual(element.topContent,
           [{text: 'WikiGerrit', bold: true}, {text: ''}]);
     });
 
     test('test for account name as an email', () => {
-      element._anonymousName = 'WikiGerrit';
+      element.config = {
+        user: {
+          anonymous_coward_name: 'WikiGerrit',
+        },
+      };
       element.account = {email: 'john@doe.com'};
       assert.deepEqual(element.topContent,
           [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);

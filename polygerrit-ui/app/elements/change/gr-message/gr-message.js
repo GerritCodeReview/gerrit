@@ -86,6 +86,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
     observers: [
       '_updateExpandedClass(message.expanded)',
     ],
@@ -97,6 +101,16 @@
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
+    },
+
+    _authorOrAnon(author) {
+      if (author && author.name) {
+        return author.name;
+      } else if (author && author.email) {
+        return author.email;
+      }
+
+      return this.getAnonymousName(this.config.user.anonymous_coward_name);
     },
 
     _updateExpandedClass(expanded) {

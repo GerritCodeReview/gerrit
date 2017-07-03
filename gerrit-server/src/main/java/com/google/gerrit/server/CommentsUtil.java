@@ -64,7 +64,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -167,7 +166,7 @@ public class CommentsUtil {
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
-        Optional<Comment> parent = get(ctx.getDb(), ctx.getNotes(), key);
+        Optional<Comment> parent = getPublished(ctx.getDb(), ctx.getNotes(), key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
@@ -210,19 +209,27 @@ public class CommentsUtil {
     return c;
   }
 
-  public Optional<Comment> get(ReviewDb db, ChangeNotes notes, Comment.Key key)
+  public Optional<Comment> getPublished(ReviewDb db, ChangeNotes notes, Comment.Key key)
       throws OrmException {
     if (!migration.readChanges()) {
       return Optional.ofNullable(
               db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
           .map(plc -> plc.asComment(serverId));
     }
-    Predicate<Comment> p = c -> key.equals(c.key);
-    Optional<Comment> c = publishedByChange(db, notes).stream().filter(p).findFirst();
-    if (c.isPresent()) {
-      return c;
+    return publishedByChange(db, notes).stream().filter(c -> key.equals(c.key)).findFirst();
+  }
+
+  public Optional<Comment> getDraft(
+      ReviewDb db, ChangeNotes notes, IdentifiedUser user, Comment.Key key) throws OrmException {
+    if (!migration.readChanges()) {
+      return Optional.ofNullable(
+              db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
+          .map(plc -> plc.asComment(serverId));
     }
-    return draftByChange(db, notes).stream().filter(p).findFirst();
+    return draftByChangeAuthor(db, notes, user.getAccountId())
+        .stream()
+        .filter(c -> key.equals(c.key))
+        .findFirst();
   }
 
   public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes) throws OrmException {

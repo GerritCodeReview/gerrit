@@ -116,7 +116,8 @@ public class PutDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
-      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
+      Optional<Comment> maybeComment =
+          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
@@ -124,10 +125,6 @@ public class PutDraftComment
       }
       Comment origComment = maybeComment.get();
       comment = new Comment(origComment);
-      // Copy constructor preserved old real author; replace with current real
-      // user.
-      ctx.getUser().updateRealAccountId(comment::setRealAuthor);
-
       PatchSet.Id psId = new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
       ChangeUpdate update = ctx.getUpdate(psId);
 

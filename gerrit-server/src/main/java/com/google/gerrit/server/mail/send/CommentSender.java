@@ -404,7 +404,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.get(args.db.get(), changeData.notes(), key);
+      return commentsUtil.getPublished(args.db.get(), changeData.notes(), key);
     } catch (OrmException e) {
       log.warn("Could not find the parent of this comment: " + child.toString());
       return Optional.empty();

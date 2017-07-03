@@ -91,7 +91,8 @@ public class DeleteDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
-      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
+      Optional<Comment> maybeComment =
+          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }

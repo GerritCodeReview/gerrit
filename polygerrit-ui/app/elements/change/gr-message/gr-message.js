@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  const ANONYMOUS_NAME = 'Anonymous';
   const CI_LABELS = ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'];
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
   const LABEL_TITLE_SCORE_PATTERN = /([A-Za-z0-9-]+)([+-]\d+)/;
@@ -86,6 +87,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
     observers: [
       '_updateExpandedClass(message.expanded)',
     ],
@@ -97,6 +102,16 @@
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
+    },
+
+    _authorOrAnon(author) {
+      if (author.name) {
+        return author.name;
+      } else if (author.email) {
+        return author.email;
+      }
+
+      return this.getAnonymousName(this.config.user.anonymous_coward_name);
     },
 
     _updateExpandedClass(expanded) {

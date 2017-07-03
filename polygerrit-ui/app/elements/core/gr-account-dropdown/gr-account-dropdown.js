@@ -16,24 +16,19 @@
 
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
-  const ANONYMOUS_NAME = 'Anonymous';
-
   Polymer({
     is: 'gr-account-dropdown',
 
     properties: {
       account: Object,
-      _anonymousName: {
-        type: String,
-        value: ANONYMOUS_NAME,
-      },
+      config: Object,
       links: {
         type: Array,
         computed: '_getLinks(_switchAccountUrl, _path)',
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account, _anonymousName)',
+        computed: '_getTopContent(account)',
       },
       _path: {
         type: String,
@@ -47,20 +42,20 @@
       this._handleLocationChange();
       this.listen(window, 'location-change', '_handleLocationChange');
       this.$.restAPI.getConfig().then(cfg => {
+        this.config = cfg;
+
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {
           this._switchAccountUrl = cfg.auth.switch_account_url;
         } else {
           this._switchAccountUrl = null;
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-
-        if (cfg && cfg.user &&
-            cfg.user.anonymous_coward_name &&
-            cfg.user.anonymous_coward_name !== 'Anonymous Coward') {
-          this._anonymousName = cfg.user.anonymous_coward_name;
-        }
       });
     },
+
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
 
     detached() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
@@ -77,9 +72,9 @@
       return links;
     },
 
-    _getTopContent(account, _anonymousName) {
+    _getTopContent(account) {
       return [
-        {text: this._accountName(account, _anonymousName), bold: true},
+        {text: this._accountName(account), bold: true},
         {text: account.email ? account.email : ''},
       ];
     },
@@ -97,13 +92,14 @@
       });
     },
 
-    _accountName(account, _anonymousName) {
+    _accountName(account) {
       if (account && account.name) {
         return account.name;
       } else if (account && account.email) {
         return account.email;
       }
-      return _anonymousName;
+
+      return this.getAnonymousName(this.config);
     },
   });
 })();

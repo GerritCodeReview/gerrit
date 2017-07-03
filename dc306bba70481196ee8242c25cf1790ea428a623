@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32bae280_51566c99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T12:31:45Z",
+      "side": 1,
+      "message": "You don\u0027t need to pass in projectName here.",
+      "revId": "dc306bba70481196ee8242c25cf1790ea428a623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2211f56_63d32b4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T12:31:45Z",
+      "side": 1,
+      "message": "Use\n\n  resource.getNameKey()\n\ninstead",
+      "range": {
+        "startLine": 154,
+        "startChar": 57,
+        "endLine": 154,
+        "endChar": 68
+      },
+      "revId": "dc306bba70481196ee8242c25cf1790ea428a623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd293717_7b05b1b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T12:31:45Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "dc306bba70481196ee8242c25cf1790ea428a623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58196d51_1763ff80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-03T12:31:45Z",
+      "side": 1,
+      "message": "Use\n\n  pctl.getProject().getNameKey()\n\ninstead.",
+      "range": {
+        "startLine": 137,
+        "startChar": 65,
+        "endLine": 137,
+        "endChar": 76
+      },
+      "revId": "dc306bba70481196ee8242c25cf1790ea428a623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -28,7 +28,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -2245,7 +2244,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval.value).isEqualTo(0);
 
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
+    Util.blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
     saveProjectConfig(project, cfg);
     c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
     codeReview = c.labels.get("Code-Review");
@@ -2868,7 +2867,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void maxPermittedValueBlocked() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
+    Util.blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
     saveProjectConfig(project, cfg);
 
     PushOneCommit.Result r = createChange();

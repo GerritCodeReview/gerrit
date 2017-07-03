@@ -838,6 +838,14 @@ public abstract class AbstractDaemonTest {
     return rule;
   }
 
+  protected void blockLabel(
+      String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.block(cfg, Permission.LABEL + label, min, max, id, ref);
+    saveProjectConfig(project, cfg);
+  }
+
   protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(p)) {
       md.setAuthor(identifiedUserFactory.create(admin.getId()));
@@ -882,19 +890,22 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void grantLabel(
-      String permission,
+      String label,
       int min,
       int max,
       Project.NameKey project,
       String ref,
       boolean force,
-      AccountGroup.UUID groupUUID)
+      AccountGroup.UUID groupUUID,
+      boolean exclusive)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    String permission = Permission.LABEL + label;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
+      p.setExclusiveGroup(exclusive);
       PermissionRule rule = Util.newRule(config, groupUUID);
       rule.setForce(force);
       rule.setMin(min);

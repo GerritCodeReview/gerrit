@@ -189,6 +189,30 @@
       "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83970ce7_5aaecfe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-03T13:35:08Z",
+      "side": 1,
+      "message": "It wasn\u0027t merged on master but I used that change content to resolve the merge conflict when merging from stable.",
+      "parentUuid": "14e10b93_61b8e026",
+      "range": {
+        "startLine": 181,
+        "startChar": 58,
+        "endLine": 181,
+        "endChar": 77
+      },
+      "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

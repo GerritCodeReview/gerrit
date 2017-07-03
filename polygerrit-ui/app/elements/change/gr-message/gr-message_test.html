@@ -211,5 +211,15 @@ limitations under the License.
       };
       assert.isOk(Polymer.dom(element.root).querySelector('.positiveVote'));
     });
+
+    test('test for Anonymous Coward user and replace with Anonymous', () => {
+      element.config: {
+        user: {
+          anonymous_coward_name: 'Anonymous Coward',
+        },
+      },
+      assert.deepEqual(element._authorOrAnon, 'Anonymous');
+      // assert.equal('Anonymous', element._authorOrAnon();
+    });
   });
 </script>

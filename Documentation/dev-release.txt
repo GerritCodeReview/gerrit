@@ -104,16 +104,16 @@ version as parameter, e.g.:
   ./tools/version.py 2.5
 ----
 
-Commit the changes and create the release tag on the new commit:
+Commit the changes and create a signed release tag on the new commit:
 
 ----
-  git tag -a v2.5
+  git tag -s -m "v2.5" v2.5
 ----
 
 Tag the plugins:
 
 ----
-  git submodule foreach git tag -a v2.5
+  git submodule foreach git tag -s -m "v2.5" v2.5
 ----
 
 [[build-gerrit]]

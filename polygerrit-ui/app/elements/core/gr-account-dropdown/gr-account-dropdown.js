@@ -16,8 +16,6 @@
 
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
-  const ANONYMOUS_NAME = 'Anonymous';
-
   Polymer({
     is: 'gr-account-dropdown',
 
@@ -62,6 +60,10 @@
       });
     },
 
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
     detached() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
@@ -98,12 +100,8 @@
     },
 
     _accountName(account, _anonymousName) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.email) {
-        return account.email;
-      }
-      return _anonymousName;
+      return this.getAnonymousName(
+        account.name, account.email, _anonymousName);
     },
   });
 })();

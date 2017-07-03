@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,6 +63,10 @@ public class GitwebConfig {
 
         if (!isNullOrEmpty(type.getBranch())) {
           DynamicSet.bind(binder(), BranchWebLink.class).to(GitwebLinks.class);
+        }
+
+        if (!isNullOrEmpty(type.getTag())) {
+          DynamicSet.bind(binder(), TagWebLink.class).to(GitwebLinks.class);
         }
 
         if (!isNullOrEmpty(type.getFile()) || !isNullOrEmpty(type.getRootTree())) {
@@ -101,6 +106,7 @@ public class GitwebConfig {
     type.setLinkName(
         firstNonNull(cfg.getString("gitweb", null, "linkname"), defaultType.getLinkName()));
     type.setBranch(firstNonNull(cfg.getString("gitweb", null, "branch"), defaultType.getBranch()));
+    type.setTag(firstNonNull(cfg.getString("gitweb", null, "tag"), defaultType.getTag()));
     type.setProject(
         firstNonNull(cfg.getString("gitweb", null, "project"), defaultType.getProject()));
     type.setRevision(
@@ -135,6 +141,7 @@ public class GitwebConfig {
         type.setProject("?p=${project}.git;a=summary");
         type.setRevision("?p=${project}.git;a=commit;h=${commit}");
         type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
+        type.setTag("?p=${project}.git;a=tag;h=${tag}");
         type.setRootTree("?p=${project}.git;a=tree;hb=${commit}");
         type.setFile("?p=${project}.git;hb=${commit};f=${file}");
         type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
@@ -144,6 +151,7 @@ public class GitwebConfig {
         type.setProject("${project}.git/summary");
         type.setRevision("${project}.git/commit/?id=${commit}");
         type.setBranch("${project}.git/log/?h=${branch}");
+        type.setTag("${project}.git/tag/?h=${tag}");
         type.setRootTree("${project}.git/tree/?h=${commit}");
         type.setFile("${project}.git/tree/${file}?h=${commit}");
         type.setFileHistory("${project}.git/log/${file}?h=${branch}");
@@ -154,6 +162,7 @@ public class GitwebConfig {
         type.setProject("");
         type.setRevision("");
         type.setBranch("");
+        type.setTag("");
         type.setRootTree("");
         type.setFile("");
         type.setFileHistory("");
@@ -236,7 +245,8 @@ public class GitwebConfig {
           FileWebLink,
           PatchSetWebLink,
           ParentWebLink,
-          ProjectWebLink {
+          ProjectWebLink,
+          TagWebLink {
     private final String url;
     private final GitwebType type;
     private final ParameterizedString branch;
@@ -244,6 +254,7 @@ public class GitwebConfig {
     private final ParameterizedString fileHistory;
     private final ParameterizedString project;
     private final ParameterizedString revision;
+    private final ParameterizedString tag;
 
     @Inject
     GitwebLinks(GitwebConfig config, GitwebType type) {
@@ -254,6 +265,7 @@ public class GitwebConfig {
       this.fileHistory = parse(type.getFileHistory());
       this.project = parse(type.getProject());
       this.revision = parse(type.getRevision());
+      this.tag = parse(type.getTag());
     }
 
     @Override
@@ -264,6 +276,15 @@ public class GitwebConfig {
                 .replace("project", encode(projectName))
                 .replace("branch", encode(branchName))
                 .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getTagWebLink(String projectName, String tagName) {
+      if (tag != null) {
+        return link(
+            tag.replace("project", encode(projectName)).replace("tag", encode(tagName)).toString());
       }
       return null;
     }

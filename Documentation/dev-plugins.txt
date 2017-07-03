@@ -2311,6 +2311,8 @@ If a `get*WebLink` implementation returns `null`, the link will be omitted. This
 allows the plugin to selectively "enable" itself on a per-project/branch/file
 basis.
 
+TagWebLinks will appear in the tag list in the last column.
+
 [[lfs-extension]]
 == LFS Storage Plugins
 

@@ -141,6 +141,30 @@
       "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1861c1c3_62585b36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-03T12:16:44Z",
+      "side": 1,
+      "message": "i get this error\n\ngerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java:188: error: incompatible types: NameKey cannot be converted to String\n    List\u003cWebLinkInfo\u003e webLinks \u003d links.getTagLinks(projectName, ref.getName());\n\nwhen doing Project.NameKey,",
+      "parentUuid": "5fe06c64_f82c2487",
+      "range": {
+        "startLine": 181,
+        "startChar": 58,
+        "endLine": 181,
+        "endChar": 77
+      },
+      "revId": "ef9f983eb9fc3b467f3f4bd528d70102283af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

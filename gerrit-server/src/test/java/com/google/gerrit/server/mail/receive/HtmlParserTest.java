@@ -21,6 +21,9 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * Abstract parser test for HTML messages. Payload will be added through concrete implementations.
+ */
 @Ignore
 public abstract class HtmlParserTest extends AbstractParserTest {
   @Test

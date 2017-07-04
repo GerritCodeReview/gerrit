@@ -22,17 +22,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/** TextParser provides parsing functionality for plaintext email. */
+/** Provides parsing functionality for plaintext email. */
 public class TextParser {
   /**
    * Parses comments from plaintext email.
    *
-   * @param email MailMessage as received from the email service.
-   * @param comments Comments previously persisted on the change that caused the original
-   *     notification email to be sent out. Ordering must be the same as in the outbound email
-   * @param changeUrl Canonical change url that points to the change on this Gerrit instance.
+   * @param email @param email the message as received from the email service
+   * @param comments list of {@link Comment}s previously persisted on the change that caused the
+   *     original notification email to be sent out. Ordering must be the same as in the outbound
+   *     email
+   * @param changeUrl canonical change url that points to the change on this Gerrit instance.
    *     Example: https://go-review.googlesource.com/#/c/91570
-   * @return List of MailComments parsed from the plaintext part of the email.
+   * @return list of MailComments parsed from the plaintext part of the email
    */
   public static List<MailComment> parse(
       MailMessage email, Collection<Comment> comments, String changeUrl) {

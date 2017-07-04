@@ -181,5 +181,9 @@
       }
       return itemView === params.adminView ? 'selected' : '';
     },
+
+    toggleDrawer() {
+      this.$.drawer.toggle();
+    },
   });
 })();

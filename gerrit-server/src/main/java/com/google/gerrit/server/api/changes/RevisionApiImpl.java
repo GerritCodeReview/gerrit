@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.common.collect.ImmutableSet;
@@ -382,6 +383,17 @@ class RevisionApiImpl implements RevisionApi {
   public Map<String, FileInfo> files(int parentNum) throws RestApiException {
     try {
       return (Map<String, FileInfo>) listFiles.setParent(parentNum).apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve files", e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<String> queryFiles(String query) throws RestApiException {
+    try {
+      checkArgument(query != null, "no query provided");
+      return (List<String>) listFiles.setQuery(query).apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve files", e);
     }

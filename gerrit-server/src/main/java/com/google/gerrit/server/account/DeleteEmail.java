@@ -92,11 +92,8 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     }
 
     try {
-      for (ExternalId extId : extIds) {
-        AuthRequest authRequest = new AuthRequest(extId.key());
-        authRequest.setEmailAddress(email);
-        accountManager.unlink(user.getAccountId(), authRequest);
-      }
+      accountManager.unlink(
+          user.getAccountId(), extIds.stream().map(e -> e.key()).collect(toSet()));
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

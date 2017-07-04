@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0b7bf86_9ccac5b7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the \u0027labels\u0027 field be included in this example?",
+      "range": {
+        "startLine": 397,
+        "startChar": 2,
+        "endLine": 402,
+        "endChar": 3
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175828aa_982cc1ce",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2746,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a \u003d\u003d\u003d heading?",
+      "range": {
+        "startLine": 2746,
+        "startChar": 0,
+        "endLine": 2746,
+        "endChar": 16
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d437373_4682782d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2751,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "Add another \u0027\u003d\u0027 here or remove one from the next line of \u0027\u003d\u0027. If the number of \u0027\u003d\u0027 doesn\u0027t match, the layout will break when I create the docs locally.",
+      "range": {
+        "startLine": 2751,
+        "startChar": 31,
+        "endLine": 2751,
+        "endChar": 32
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dda309b_084ede5c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2752,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "optional: We typically align the first | with the next lines, not the second one.",
+      "range": {
+        "startLine": 2752,
+        "startChar": 19,
+        "endLine": 2752,
+        "endChar": 21
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20958379_ccb29cd0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2753,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "What about:\nA map of the available values for this label paired with their description.",
+      "range": {
+        "startLine": 2753,
+        "startChar": 30,
+        "endLine": 2753,
+        "endChar": 65
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca3173f4_912413e2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "Isn\u0027t there always a default value?",
+      "range": {
+        "startLine": 2754,
+        "startChar": 21,
+        "endLine": 2754,
+        "endChar": 29
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0c7db0_065bb26c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "label",
+      "range": {
+        "startLine": 2754,
+        "startChar": 56,
+        "endLine": 2754,
+        "endChar": 60
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5022889c_6aeaa986",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2834,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "This link doesn\u0027t work (probably because it refers to rest-api-changes). In general, using cross references is preferable. So, this would be:\n\n \u003c\u003clabel-type-info,LabelTypeInfo\u003e\u003e",
+      "range": {
+        "startLine": 2834,
+        "startChar": 48,
+        "endLine": 2834,
+        "endChar": 105
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd025109_dc7e5fb0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2834,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "This doc should somewhere mention which REST calls fill this field.",
+      "range": {
+        "startLine": 2834,
+        "startChar": 0,
+        "endLine": 2834,
+        "endChar": 25
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d56c655e_fa17e754",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "optional: I don\u0027t think that\u0027s picked up by any tool. For human readers, it might be easier to read this comment without the {@link}.",
+      "range": {
+        "startLine": 61,
+        "startChar": 67,
+        "endLine": 61,
+        "endChar": 73
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28fc307f_dc2fd00d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "optional: Strange line break.",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 63,
+        "endChar": 11
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdec9601_22411ae4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GetProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "optional: containsKey(\"Code-Review\") would be better.",
+      "range": {
+        "startLine": 36,
+        "startChar": 25,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e6c9b6_0f3964fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "We shouldn\u0027t retrieve the ProjectControl here and in line 210. Could we combine those calls?",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41b457f8_d8812313",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-04T16:24:54Z",
+      "side": 1,
+      "message": "I think this method only accepts a ProjectResource as a short-cut. It shouldn\u0027t be an additional obstacle as in this case. Couldn\u0027t we pass the ProjectControl without the ProjectResource?",
+      "range": {
+        "startLine": 227,
+        "startChar": 28,
+        "endLine": 227,
+        "endChar": 39
+      },
+      "revId": "54ceb09735bf64a323a1b9defea5886f7d0e921c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499169019 +0200\nnonce AB2F6yCdZ/MditbERH2ldhnM0hfQ55NyUKbprBAtg3DxsrALW6zJeXftNpehmgFiFiObPe7GMu4g\n\n0000000000000000000000000000000000000000 e467dc5a55409394e93ae67a70d7d2f5f21b3a32 refs/for/stable-2.14\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZW4D7AAoJEFG1/Zeg0O9RtnkH/2r0HvRTCKlreQnDGipDq5UU\nJBxSj9a9pgXQNIq3XAj+cQQr5/qTRRGZjbnrVgkmhbAc6go4fWFe5AZCGjBhXN0o\nXQIXiawzetY/6oZEeWLV7vUIXvqDlw3SjzNB1TzNBrCgBLEt16MXtDwfhfngawVG\n9d/ajvMjhua+eOKxTe+qQfsaRG/h60Zl5Mkbo0qsMJz9XnlfFlGan4fuO98P3COM\nr9UNcXlKJOizKymu00ak20iwopQI2VRpa9GHeAi/rn7PoIXqGG1LIMhE2iTCIMeF\no2bgmRNBN4i9t5MTLiX4V66+UIv6iHowTDXeZX+ha7ShAuxtUx9gxUCkoiHLCIo\u003d\n\u003d46VO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f82ff776_6d85dcf9",
+        "filename": "Documentation/pgm-LocalUsernamesToLowerCase.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T12:15:40Z",
+      "side": 1,
+      "message": "mention that this is done by invoking the reindex program?",
+      "range": {
+        "startLine": 31,
+        "startChar": 56,
+        "endLine": 31,
+        "endChar": 65
+      },
+      "revId": "e467dc5a55409394e93ae67a70d7d2f5f21b3a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01516030_92fe4e3c",
+        "filename": "Documentation/pgm-LocalUsernamesToLowerCase.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T12:15:40Z",
+      "side": 1,
+      "message": "\"; it\"",
+      "range": {
+        "startLine": 33,
+        "startChar": 65,
+        "endLine": 33,
+        "endChar": 69
+      },
+      "revId": "e467dc5a55409394e93ae67a70d7d2f5f21b3a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5bf72ef_5095060b",
+        "filename": "Documentation/pgm-LocalUsernamesToLowerCase.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T12:15:40Z",
+      "side": 1,
+      "message": "\"be run\"?",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "e467dc5a55409394e93ae67a70d7d2f5f21b3a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbc6f52_ced19bf7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T12:15:40Z",
+      "side": 1,
+      "message": "Make this an array?  Then it\u0027s not necessary to stream it at L95 and L97",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 95
+      },
+      "revId": "e467dc5a55409394e93ae67a70d7d2f5f21b3a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

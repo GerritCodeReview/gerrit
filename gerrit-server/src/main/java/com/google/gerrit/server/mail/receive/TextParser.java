@@ -24,6 +24,8 @@ import java.util.List;
 
 /** TextParser provides parsing functionality for plaintext email. */
 public class TextParser {
+  private TextParser() {}
+
   /**
    * Parses comments from plaintext email.
    *

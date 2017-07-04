@@ -24,6 +24,8 @@ public class ParserUtil {
           "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+"
               + "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
 
+  private ParserUtil() {}
+
   /**
    * Trims the quotation that email clients add Example: On Sun, Nov 20, 2016 at 10:33 PM,
    * <gerrit@gerritcodereview.com> wrote:

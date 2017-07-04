@@ -22,6 +22,30 @@
       "revId": "3ea9612c02227c83b4a54e395bcaec652e9bf64e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf7a236a_56f99104",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-04T09:52:23Z",
+      "side": 0,
+      "message": "Yes, it can be thrown in Change.Id.parse() (inside the call to GWT ORM parse). Since we have our own parser now that code path isn\u0027t executed anymore.\n\nThat said, our new parser can also throw an IllegalStateException. I am on the fence with what should be done there but leaning more towards that scrolling is best-effort and we can just return.",
+      "parentUuid": "0fed1618_86f87fc3",
+      "range": {
+        "startLine": 827,
+        "startChar": 6,
+        "endLine": 829,
+        "endChar": 5
+      },
+      "revId": "3ea9612c02227c83b4a54e395bcaec652e9bf64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

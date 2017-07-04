@@ -8,6 +8,10 @@ load("//tools/bzl:js.bzl", "bower_component")
 
 def define_bower_components():
   bower_component(
+    name = "app-layout",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
     name = "accessibility-developer-tools",
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )

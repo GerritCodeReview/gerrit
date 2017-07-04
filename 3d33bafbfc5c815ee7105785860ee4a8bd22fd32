@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "400d3103_b4c04130",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6be6f0b_68efd3a3",
+      "range": {
+        "startLine": 768,
+        "startChar": 64,
+        "endLine": 768,
+        "endChar": 71
+      },
+      "revId": "3d33bafbfc5c815ee7105785860ee4a8bd22fd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42af1302_bcabbd4d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2017-07-04T13:35:36Z",
       "side": 1,
       "message": "I would put this as close to the definition of the RES_XXXX as you can. People are more likely to read it there if they add something.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 0
+      },
+      "revId": "3d33bafbfc5c815ee7105785860ee4a8bd22fd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0866cc9_94f45e1b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T14:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42af1302_bcabbd4d",
       "range": {
         "startLine": 28,
         "startChar": 8,

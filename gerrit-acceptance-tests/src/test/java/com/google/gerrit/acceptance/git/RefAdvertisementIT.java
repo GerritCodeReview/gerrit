@@ -24,15 +24,19 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommitsAdvertiseRefsHook;
@@ -63,6 +67,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private ChangeNoteUtil noteUtil;
   @Inject @AnonymousCowardName private String anonymousCowardName;
+  @Inject private AllUsersName allUsersName;
 
   private AccountGroup.UUID admins;
 
@@ -526,6 +531,53 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
       List<String> refNames = lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
       assertThat(refNames).contains(change3RefName);
+    }
+  }
+
+  @Test
+  public void advertisedReferencesOmitDraftCommentRefsOfOtherUsers() throws Exception {
+    assume().that(notesMigration.commitChangeWrites()).isTrue();
+
+    allow(Permission.READ, REGISTERED_USERS, project, "refs/*");
+    allow(Permission.READ, REGISTERED_USERS, allUsersName, "refs/*");
+
+    setApiUser(user);
+    DraftInput draftInput = new DraftInput();
+    draftInput.line = 1;
+    draftInput.message = "nit: trailing whitespace";
+    draftInput.path = Patch.COMMIT_MSG;
+    gApi.changes().id(c3.getId().get()).current().createDraft(draftInput);
+    String draftCommentRef = RefNames.refsDraftComments(c3.getId(), user.id);
+
+    // user can see the draft comment ref of the own draft comment
+    assertThat(lsRemote(allUsersName, user)).contains(draftCommentRef);
+
+    // user2 can't see the draft comment ref of user's draft comment
+    assertThat(lsRemote(allUsersName, accountCreator.user2())).doesNotContain(draftCommentRef);
+  }
+
+  @Test
+  public void advertisedReferencesOmitStarredChangesRefsOfOtherUsers() throws Exception {
+    assume().that(notesMigration.commitChangeWrites()).isTrue();
+
+    allow(Permission.READ, REGISTERED_USERS, project, "refs/*");
+    allow(Permission.READ, REGISTERED_USERS, allUsersName, "refs/*");
+
+    setApiUser(user);
+    gApi.accounts().self().starChange(c3.getId().toString());
+    String starredChangesRef = RefNames.refsStarredChanges(c3.getId(), user.id);
+
+    // user can see the starred changes ref of the own star
+    assertThat(lsRemote(allUsersName, user)).contains(starredChangesRef);
+
+    // user2 can't see the starred changes ref of admin's star
+    assertThat(lsRemote(allUsersName, accountCreator.user2())).doesNotContain(starredChangesRef);
+  }
+
+  private List<String> lsRemote(Project.NameKey p, TestAccount a) throws Exception {
+    TestRepository<?> testRepository = cloneProject(p, a);
+    try (Git git = testRepository.git()) {
+      return git.lsRemote().call().stream().map(Ref::getName).collect(toList());
     }
   }
 

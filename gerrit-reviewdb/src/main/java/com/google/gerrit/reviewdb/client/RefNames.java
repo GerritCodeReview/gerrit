@@ -14,7 +14,19 @@
 
 package com.google.gerrit.reviewdb.client;
 
-/** Constants and utilities for Gerrit-specific ref names. */
+/**
+ * Constants and utilities for Gerrit-specific ref names.
+ *
+ * <p>For refs that contain an account ID and that should be visible only to that account parsing
+ * the account ID from the ref must be implemented in {@link Account.Id#fromRef(String)}. This
+ * ensures that {@code VisibleRefFilter} hides those refs from other users. E.g. this applies to:
+ *
+ * <ul>
+ *   <li>User branches (e.g. 'refs/users/23/1011123')
+ *   <li>Draft comment refs (e.g. 'refs/draft-comments/73/67473/1011123')
+ *   <li>Starred changes refs (e.g. 'refs/starred-changes/73/67473/1011123')
+ * </ul>
+ */
 public class RefNames {
   public static final String HEAD = "HEAD";
 
@@ -247,6 +259,88 @@ public class RefNames {
       return null;
     }
     return id;
+  }
+
+  /**
+   * Skips a sharded ref part at the beginning of the name.
+   *
+   * <p>E.g.: "01/1" -> "", "01/1/" -> "/", "01/1/2" -> "/2", "01/1-edit" -> "-edit"
+   *
+   * @param name ref part name
+   * @return the rest of the name, {@code null} if the ref name part doesn't start with a valid
+   *     sharded ID
+   */
+  static String skipShardedRefPart(String name) {
+    if (name == null) {
+      return null;
+    }
+
+    String[] parts = name.split("/");
+    int n = parts.length;
+    if (n < 2) {
+      return null;
+    }
+
+    // Last 2 digits.
+    int le;
+    for (le = 0; le < parts[0].length(); le++) {
+      if (!Character.isDigit(parts[0].charAt(le))) {
+        return null;
+      }
+    }
+    if (le != 2) {
+      return null;
+    }
+
+    // Full ID.
+    int ie;
+    for (ie = 0; ie < parts[1].length(); ie++) {
+      if (!Character.isDigit(parts[1].charAt(ie))) {
+        if (ie == 0) {
+          return null;
+        }
+        break;
+      }
+    }
+
+    int shard = Integer.parseInt(parts[0]);
+    int id = Integer.parseInt(parts[1].substring(0, ie));
+
+    if (id % 100 != shard) {
+      return null;
+    }
+
+    return name.substring(2 + 1 + ie); // 2 for the length of the shard, 1 for the '/'
+  }
+
+  /**
+   * Parses an ID that follows a sharded ref part at the beginning of the name.
+   *
+   * <p>E.g.: "01/1/2" -> 2, "01/1/2/4" -> 2, ""01/1/2-edit" -> 2
+   *
+   * @param name ref part name
+   * @return ID that follows the sharded ref part at the beginning of the name, {@code null} if the
+   *     ref name part doesn't start with a valid sharded ID or if no valid ID follows the sharded
+   *     ref part
+   */
+  static Integer parseAfterShardedRefPart(String name) {
+    String rest = skipShardedRefPart(name);
+    if (rest == null || !rest.startsWith("/")) {
+      return null;
+    }
+
+    rest = rest.substring(1);
+
+    int ie;
+    for (ie = 0; ie < rest.length(); ie++) {
+      if (!Character.isDigit(rest.charAt(ie))) {
+        break;
+      }
+    }
+    if (ie == 0) {
+      return null;
+    }
+    return Integer.parseInt(rest.substring(0, ie));
   }
 
   static Integer parseRefSuffix(String name) {

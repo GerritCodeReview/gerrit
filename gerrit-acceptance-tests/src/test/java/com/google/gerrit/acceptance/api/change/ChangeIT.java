@@ -287,7 +287,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
 
-    allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
     setApiUser(user);
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
   }
@@ -795,7 +795,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
-    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.DELETE_OWN_CHANGES, REGISTERED_USERS);
 
     try {
       PushOneCommit.Result changeResult =
@@ -832,7 +832,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNewChangeOfAnotherUserWithDeleteOwnChangesPermission() throws Exception {
-    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.DELETE_OWN_CHANGES, REGISTERED_USERS);
 
     try {
       PushOneCommit.Result changeResult = createChange();
@@ -902,7 +902,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void deleteMergedChangeWithDeleteOwnChangesPermission() throws Exception {
-    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.DELETE_OWN_CHANGES, REGISTERED_USERS);
 
     try {
       PushOneCommit.Result changeResult =

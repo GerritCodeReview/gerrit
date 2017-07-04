@@ -145,7 +145,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     setApiUser(user3);
     block("refs/*", "read", ANONYMOUS_USERS);
-    allow("read", group1.getGroupUUID(), "refs/*");
+    allow("refs/*", "read", group1.getGroupUUID());
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).isEmpty();
   }

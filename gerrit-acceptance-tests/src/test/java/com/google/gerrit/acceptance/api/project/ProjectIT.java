@@ -104,7 +104,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createBranch() throws Exception {
-    allow(Permission.READ, ANONYMOUS_USERS, "refs/*");
+    allow("refs/*", Permission.READ, ANONYMOUS_USERS);
     gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
   }
 

@@ -120,11 +120,11 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void grantDelete() throws Exception {
-    allow(Permission.DELETE, ANONYMOUS_USERS, "refs/*");
+    allow("refs/*", Permission.DELETE, ANONYMOUS_USERS);
   }
 
   private void grantOwner() throws Exception {
-    allow(Permission.OWNER, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.OWNER, REGISTERED_USERS);
   }
 
   private BranchApi branch() throws Exception {

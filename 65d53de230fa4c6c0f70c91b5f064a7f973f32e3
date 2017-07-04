@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499158499 +0200\nnonce AB2F6yA3Z7RoxHy3K+oDCPQWEYOQtdxzstrNxHI9Su3roBoWnsbUizmdgajteZwSzDbf1ESertY6\n\n0000000000000000000000000000000000000000 65d53de230fa4c6c0f70c91b5f064a7f973f32e3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZW1fjAAoJEFG1/Zeg0O9RO5QIAJRLPB6pRjVJy3f8rSaVXOAq\nkMrk3wHC/I6PKADEVVuJQcYpCymsWMR/qmZgcwUlEOwWiZ2LYIU30Iw1G4judmLL\nHkZ4IJdPsjo3jH+VYBinDRfATyD1pGn/QAhcE9CAL3IjepVT8qLNkQEQKV7fOr93\n97QpWKTqKUcCpV44u6z/k7px4IaJMYReSB9314FuJpHapwMAqifk5yUVik8rf0ET\nNEd+930Gco4YPfmWH7EEwmhJ9Mn84VdnGVz32f0LEFJmWMRDU+0lEVqfptE0XDju\n1sQOnfYV/JUVWpzCzGLf2D78zJLxGtbfWyWJd7CAH35s3qSLrf3oRlWXTXhojrw\u003d\n\u003dgGoh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5f5351b_67e23471",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-04T11:10:12Z",
+      "side": 1,
+      "message": "do you think we\u0027ll get another one of these? if yes, maybe it makes sense to have a list  of these somewhere.",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a57ca3e7_49c71f79",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-04T11:10:12Z",
+      "side": 1,
+      "message": "if you move this to after the loop, you can drop the isEmpty() check.",
+      "range": {
+        "startLine": 329,
+        "startChar": 10,
+        "endLine": 329,
+        "endChar": 16
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

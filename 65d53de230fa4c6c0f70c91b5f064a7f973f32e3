@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c4322b41_01fd48a3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:05:56Z",
+      "side": 1,
+      "message": "Good point. New refs should always be added to RefNames. I\u0027ve added a comment there saying that refs that contain an account ID should be handled here.\n\nDone",
+      "parentUuid": "d5f5351b_67e23471",
+      "range": {
+        "startLine": 114,
+        "startChar": 7,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b791ba7_6ad3eb06",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
         "patchSetId": 2
@@ -175,6 +199,30 @@
       "writtenOn": "2017-07-04T11:10:12Z",
       "side": 1,
       "message": "if you move this to after the loop, you can drop the isEmpty() check.",
+      "range": {
+        "startLine": 329,
+        "startChar": 10,
+        "endLine": 329,
+        "endChar": 16
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd7f6e4_83c9b7ac",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a57ca3e7_49c71f79",
       "range": {
         "startLine": 329,
         "startChar": 10,

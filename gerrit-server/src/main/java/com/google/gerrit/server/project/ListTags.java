@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -55,7 +53,6 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final VisibleRefFilter.Factory refFilterFactory;
-  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final WebLinks links;
 
   @Option(
@@ -109,13 +106,11 @@ public class ListTags implements RestReadView<ProjectResource> {
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       VisibleRefFilter.Factory refFilterFactory,
-      @Nullable SearchingChangeCacheImpl changeCache,
       WebLinks webLinks) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.refFilterFactory = refFilterFactory;
-    this.changeCache = changeCache;
     this.links = webLinks;
   }
 

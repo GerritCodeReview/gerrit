@@ -38,9 +38,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
 
   static final Schema<AccountState> V4 = schema(V3);
 
+  public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 
   private AccountSchemaDefinitions() {
-    super("accounts", AccountState.class);
+    super(NAME, AccountState.class);
   }
 }

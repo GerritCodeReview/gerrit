@@ -28,8 +28,9 @@ The program will produce errors if there are accounts that have the
 same local username, but with different case. In this case the local
 username for these accounts is not converted to lower case.
 
-This task can run in the background concurrently to the server if the
-database is MySQL or PostgreSQL. If the database is H2, this task
+After all usernames have been migrated all accounts are reindexed.
+
+This task cannot run in the background concurrently to the server but
 must be run by itself.
 
 == OPTIONS

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbd2f256_921abeaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "asynchronously",
+      "range": {
+        "startLine": 44,
+        "startChar": 66,
+        "endLine": 44,
+        "endChar": 78
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27990bf4_d40f142e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "Add descriptions?",
+      "range": {
+        "startLine": 127,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 28
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "249b8936_77f18f1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "reads",
+      "range": {
+        "startLine": 44,
+        "startChar": 86,
+        "endLine": 44,
+        "endChar": 90
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8a1b4b_4641e56d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "closes",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e93116_269d8e5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "asynchronously",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 78
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f87bb5a5_4a5e6ccc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-04T23:10:55Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 143,
+        "endChar": 35
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

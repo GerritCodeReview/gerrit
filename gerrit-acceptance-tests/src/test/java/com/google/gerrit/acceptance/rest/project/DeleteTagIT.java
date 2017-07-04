@@ -99,11 +99,11 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   private void grantDelete() throws Exception {
-    allow(Permission.DELETE, ANONYMOUS_USERS, "refs/tags/*");
+    allow("refs/tags/*", Permission.DELETE, ANONYMOUS_USERS);
   }
 
   private void grantOwner() throws Exception {
-    allow(Permission.OWNER, REGISTERED_USERS, "refs/tags/*");
+    allow("refs/tags/*", Permission.OWNER, REGISTERED_USERS);
   }
 
   private TagApi tag() throws Exception {

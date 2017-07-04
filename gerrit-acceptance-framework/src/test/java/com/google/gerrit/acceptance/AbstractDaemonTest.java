@@ -761,7 +761,7 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().id(r.getChangeId()).current();
   }
 
-  protected void allow(String permission, AccountGroup.UUID id, String ref) throws Exception {
+  protected void allow(String ref, String permission, AccountGroup.UUID id) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, permission, id, ref);
     saveProjectConfig(project, cfg);

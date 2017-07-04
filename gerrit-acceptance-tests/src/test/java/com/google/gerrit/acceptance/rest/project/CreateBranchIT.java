@@ -84,7 +84,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void grantOwner() throws Exception {
-    allow(Permission.OWNER, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.OWNER, REGISTERED_USERS);
   }
 
   private BranchApi branch() throws Exception {

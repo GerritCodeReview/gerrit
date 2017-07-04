@@ -103,7 +103,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
-    allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
+    allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
     PushOneCommit.Result mr =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
@@ -167,8 +167,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackAllRefsVisibleWithRefsMetaConfig() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/*");
-    allow(Permission.READ, REGISTERED_USERS, RefNames.REFS_CONFIG);
+    allow("refs/*", Permission.READ, REGISTERED_USERS);
+    allow(RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
 
     assertUploadPackRefs(
         "HEAD",
@@ -189,7 +189,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);
@@ -206,7 +206,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSubsetOfBranchesVisibleNotIncludingHead() throws Exception {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+    allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);
     assertUploadPackRefs(
@@ -223,7 +223,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
     Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
     String changeId = c.getKey().get();
@@ -249,8 +249,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesAndEditsVisibleWithViewPrivateChanges() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
-    allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
+    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
+    allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
     Change change1 = notesFactory.createChecked(db, project, c1.getId()).getChange();
     String changeId1 = change1.getKey().get();
@@ -285,7 +285,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
       deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
-      allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+      allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
       String changeId = c1.change().getKey().get();
       setApiUser(admin);
@@ -316,7 +316,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackDraftRefs() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
     PushOneCommit.Result br =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
@@ -364,7 +364,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackNoSearchingChangeCacheImpl() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
     setApiUser(user);
     try (Repository repo = repoManager.openRepository(project)) {
@@ -423,7 +423,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
     setApiUser(user);
 
@@ -491,7 +491,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
@@ -511,7 +511,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludePrivateChangesWhenAllRefsMayBeRead() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/*");
+    allow("refs/*", Permission.READ, REGISTERED_USERS);
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {

@@ -94,7 +94,7 @@ public class MetaDataUpdate implements AutoCloseable {
      * <pre>
      * <code>
      *   try (Repository repo = repoMgr.openRepository(allUsersName);
-     *       RevWalk rw = new RevWalk(repo) {
+     *       RevWalk rw = new RevWalk(repo)) {
      *     BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
      *     // WRONG: create the MetaDataUpdate instance here and reuse it for
      *     //        all updates in the loop

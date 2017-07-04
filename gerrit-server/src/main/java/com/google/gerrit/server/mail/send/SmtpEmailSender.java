@@ -169,33 +169,6 @@ public class SmtpEmailSender implements EmailSender {
       throw new EmailException("Sending email is disabled");
     }
 
-    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
-    setMissingHeader(hdrs, "MIME-Version", "1.0");
-    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
-    setMissingHeader(hdrs, "Content-Disposition", "inline");
-    setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
-    if (importance != null) {
-      setMissingHeader(hdrs, "Importance", importance);
-    }
-    if (expiryDays > 0) {
-      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
-      setMissingHeader(
-          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
-    }
-
-    String encodedBody;
-    if (htmlBody == null) {
-      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
-      encodedBody = textBody;
-    } else {
-      String boundary = generateMultipartBoundary(textBody, htmlBody);
-      setMissingHeader(
-          hdrs,
-          "Content-Type",
-          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
-      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
-    }
-
     StringBuffer rejected = new StringBuffer();
     try {
       final SMTPClient client = open();
@@ -238,20 +211,8 @@ public class SmtpEmailSender implements EmailSender {
                   + " rejected DATA command: "
                   + client.getReplyString());
         }
-        try (Writer w = new BufferedWriter(messageDataWriter)) {
-          for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
-            if (!h.getValue().isEmpty()) {
-              w.write(h.getKey());
-              w.write(": ");
-              h.getValue().write(w);
-              w.write("\r\n");
-            }
-          }
 
-          w.write("\r\n");
-          w.write(encodedBody);
-          w.flush();
-        }
+        render(messageDataWriter, callerHeaders, textBody, htmlBody);
 
         if (!client.completePendingCommand()) {
           throw new EmailException(
@@ -267,6 +228,55 @@ public class SmtpEmailSender implements EmailSender {
       }
     } catch (IOException e) {
       throw new EmailException("Cannot send outgoing email", e);
+    }
+  }
+
+  private void render(
+      Writer out,
+      Map<String, EmailHeader> callerHeaders,
+      String textBody,
+      @Nullable String htmlBody)
+      throws IOException, EmailException {
+    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
+    setMissingHeader(hdrs, "MIME-Version", "1.0");
+    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
+    setMissingHeader(hdrs, "Content-Disposition", "inline");
+    setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+    if (importance != null) {
+      setMissingHeader(hdrs, "Importance", importance);
+    }
+    if (expiryDays > 0) {
+      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
+      setMissingHeader(
+          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+    }
+
+    String encodedBody;
+    if (htmlBody == null) {
+      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
+      encodedBody = textBody;
+    } else {
+      String boundary = generateMultipartBoundary(textBody, htmlBody);
+      setMissingHeader(
+          hdrs,
+          "Content-Type",
+          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
+      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
+    }
+
+    try (Writer w = new BufferedWriter(out)) {
+      for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
+        if (!h.getValue().isEmpty()) {
+          w.write(h.getKey());
+          w.write(": ");
+          h.getValue().write(w);
+          w.write("\r\n");
+        }
+      }
+
+      w.write("\r\n");
+      w.write(encodedBody);
+      w.flush();
     }
   }
 
@@ -320,7 +330,7 @@ public class SmtpEmailSender implements EmailSender {
         + "--\r\n";
   }
 
-  private void setMissingHeader(final Map<String, EmailHeader> hdrs, String name, String value) {
+  private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
       hdrs.put(name, new EmailHeader.String(value));
     }

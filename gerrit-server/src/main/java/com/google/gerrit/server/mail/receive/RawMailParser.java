@@ -43,6 +43,8 @@ public class RawMailParser {
   private static final ImmutableSet<String> MAIN_HEADERS =
       ImmutableSet.of("to", "from", "cc", "date", "message-id", "subject", "content-type");
 
+  private RawMailParser() {}
+
   /**
    * Parses a MailMessage from a string.
    *

@@ -28,6 +28,9 @@ import org.jsoup.nodes.Element;
 
 /** HTMLParser provides parsing functionality for html email. */
 public class HtmlParser {
+
+  private HtmlParser() {}
+
   /**
    * Parses comments from html email.
    *

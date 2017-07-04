@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7758e9a2_3ae1820b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "Should we use \u0027user\u0027 rather than \u0027admin\u0027 for such kind of permission check? \n\u0027admin\u0027 gives me a impression that sometimes he can bypass some permission checks.\n\n1- user can see his own draft ref.\n2- user can\u0027t see admin\u0027s draft ref.",
+      "range": {
+        "startLine": 550,
+        "startChar": 4,
+        "endLine": 551,
+        "endChar": 72
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d60edaa3_55acc63e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "nit: this may not be cloned by \u0027admin\u0027, so rename it?",
+      "range": {
+        "startLine": 574,
+        "startChar": 22,
+        "endLine": 574,
+        "endChar": 41
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5f5351b_67e23471",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
         "patchSetId": 2
@@ -19,6 +65,98 @@
         "startChar": 7,
         "endLine": 114,
         "endChar": 0
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b791ba7_6ad3eb06",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "nit: check the parts[0].length() before \u0027for\u0027 loop.",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "425a2077_cc0dce95",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "optional: Since we need to find \u0027firstNonDigit\u0027 multiple times, we may consider to move it to a method.",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 5
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d584e494_ff2204a9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "Should this be 2 directly?",
+      "range": {
+        "startLine": 301,
+        "startChar": 26,
+        "endLine": 301,
+        "endChar": 43
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d815e014_cc8c8116",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-04T12:02:46Z",
+      "side": 1,
+      "message": "optional: this check can be merged to the above check.\n\nif (rest \u003d\u003d null || rest.length() \u003c 2 || !rest.startsWith(\"/\")) {\n      return null;\n}",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 5
       },
       "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

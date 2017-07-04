@@ -249,6 +249,91 @@ public class RefNames {
     return id;
   }
 
+  /**
+   * Skips a sharded ref part at the beginning of the name.
+   *
+   * <p>E.g.: "01/1" -> "", "01/1/" -> "/", "01/1/2" -> "/2", "01/1-edit" -> "-edit"
+   *
+   * @param name ref part name
+   * @return the rest of the name, {@code null} if the ref name part doesn't start with a valid
+   *     sharded ID
+   */
+  static String skipShardedRefPart(String name) {
+    if (name == null) {
+      return null;
+    }
+
+    String[] parts = name.split("/");
+    int n = parts.length;
+    if (n < 2) {
+      return null;
+    }
+
+    // Last 2 digits.
+    int le;
+    for (le = 0; le < parts[0].length(); le++) {
+      if (!Character.isDigit(parts[0].charAt(le))) {
+        return null;
+      }
+    }
+    if (le != 2) {
+      return null;
+    }
+
+    // Full ID.
+    int ie;
+    for (ie = 0; ie < parts[1].length(); ie++) {
+      if (!Character.isDigit(parts[1].charAt(ie))) {
+        if (ie == 0) {
+          return null;
+        }
+        break;
+      }
+    }
+
+    int shard = Integer.parseInt(parts[0]);
+    int id = Integer.parseInt(parts[1].substring(0, ie));
+
+    if (id % 100 != shard) {
+      return null;
+    }
+
+    return name.substring(parts[0].length() + 1 + ie);
+  }
+
+  /**
+   * Parses an ID that follows a sharded ref part at the beginning of the name.
+   *
+   * <p>E.g.: "01/1/2" -> 2, "01/1/2/4" -> 2, ""01/1/2-edit" -> 2
+   *
+   * @param name ref part name
+   * @return ID that follows the sharded ref part at the beginning of the name, {@code null} if the
+   *     ref name part doesn't start with a valid sharded ID or if no valid ID follows the sharded
+   *     ref part
+   */
+  static Integer parseAfterShardedRefPart(String name) {
+    String rest = skipShardedRefPart(name);
+    if (rest == null || !rest.startsWith("/")) {
+      return null;
+    }
+
+    rest = rest.substring(1);
+    if (rest.isEmpty()) {
+      return null;
+    }
+
+    int ie;
+    for (ie = 0; ie < rest.length(); ie++) {
+      if (!Character.isDigit(rest.charAt(ie))) {
+        if (ie == 0) {
+          return null;
+        }
+        break;
+      }
+    }
+    return Integer.parseInt(rest.substring(0, ie));
+  }
+
   static Integer parseRefSuffix(String name) {
     if (name == null) {
       return null;

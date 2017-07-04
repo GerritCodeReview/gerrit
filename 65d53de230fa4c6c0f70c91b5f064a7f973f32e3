@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "95cdf780_555a5a34",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7758e9a2_3ae1820b",
+      "range": {
+        "startLine": 550,
+        "startChar": 4,
+        "endLine": 551,
+        "endChar": 72
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d60edaa3_55acc63e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-07-04T12:02:46Z",
       "side": 1,
       "message": "nit: this may not be cloned by \u0027admin\u0027, so rename it?",
+      "range": {
+        "startLine": 574,
+        "startChar": 22,
+        "endLine": 574,
+        "endChar": 41
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4b1166e_a7f51894",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d60edaa3_55acc63e",
       "range": {
         "startLine": 574,
         "startChar": 22,
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "efd92d44_8edf4380",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Leaving this as it is to be consistent with parseShardedRefPart.",
+      "parentUuid": "5b791ba7_6ad3eb06",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "425a2077_cc0dce95",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
         "patchSetId": 2
@@ -130,6 +202,30 @@
       "writtenOn": "2017-07-04T12:02:46Z",
       "side": 1,
       "message": "optional: Since we need to find \u0027firstNonDigit\u0027 multiple times, we may consider to move it to a method.",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 5
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c8d7f9_177f85a3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Can be cleaned up later. I\u0027m not sure if this actually saves much since we have to special case the null case.",
+      "parentUuid": "425a2077_cc0dce95",
       "range": {
         "startLine": 284,
         "startChar": 4,
@@ -165,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "d34f7ecc_26d525b7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d584e494_ff2204a9",
+      "range": {
+        "startLine": 301,
+        "startChar": 26,
+        "endLine": 301,
+        "endChar": 43
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d815e014_cc8c8116",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
         "patchSetId": 2
@@ -176,6 +296,30 @@
       "writtenOn": "2017-07-04T12:02:46Z",
       "side": 1,
       "message": "optional: this check can be merged to the above check.\n\nif (rest \u003d\u003d null || rest.length() \u003c 2 || !rest.startsWith(\"/\")) {\n      return null;\n}",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 5
+      },
+      "revId": "65d53de230fa4c6c0f70c91b5f064a7f973f32e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaad2873_0e8252c4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-04T12:41:36Z",
+      "side": 1,
+      "message": "Already removed after applying Hanwen\u0027s comment below.",
+      "parentUuid": "d815e014_cc8c8116",
       "range": {
         "startLine": 321,
         "startChar": 4,

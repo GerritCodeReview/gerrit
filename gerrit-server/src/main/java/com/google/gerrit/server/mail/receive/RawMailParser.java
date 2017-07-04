@@ -35,10 +35,7 @@ import org.apache.james.mime4j.dom.address.Mailbox;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.joda.time.DateTime;
 
-/**
- * RawMailParser parses raw email content received through POP3 or IMAP into an internal {@link
- * MailMessage}.
- */
+/** Parses raw email content received through POP3 or IMAP into an internal {@link MailMessage}. */
 public class RawMailParser {
   private static final ImmutableSet<String> MAIN_HEADERS =
       ImmutableSet.of("to", "from", "cc", "date", "message-id", "subject", "content-type");
@@ -46,9 +43,9 @@ public class RawMailParser {
   /**
    * Parses a MailMessage from a string.
    *
-   * @param raw String as received over the wire
-   * @return Parsed MailMessage
-   * @throws MailParsingException
+   * @param raw {@link String} payload as received over the wire
+   * @return parsed {@link MailMessage}
+   * @throws MailParsingException in case parsing fails
    */
   public static MailMessage parse(String raw) throws MailParsingException {
     MailMessage.Builder messageBuilder = MailMessage.builder();
@@ -123,8 +120,8 @@ public class RawMailParser {
    * quoted-printable encoding.
    *
    * @param chars Array as received over the wire
-   * @return Parsed MailMessage
-   * @throws MailParsingException
+   * @return Parsed {@link MailMessage}
+   * @throws MailParsingException in case parsing fails
    */
   public static MailMessage parse(int[] chars) throws MailParsingException {
     StringBuilder b = new StringBuilder(chars.length);
@@ -140,10 +137,10 @@ public class RawMailParser {
   /**
    * Traverses a mime tree and parses out text and html parts. All other parts will be dropped.
    *
-   * @param part MimePart to parse
-   * @param textBuilder StringBuilder to append all plaintext parts
-   * @param htmlBuilder StringBuilder to append all html parts
-   * @throws IOException
+   * @param part {@code MimePart} to parse
+   * @param textBuilder {@link StringBuilder) to append all plaintext parts
+   * @param htmlBuilder {@link StringBuilder) to append all html parts
+   * @throws IOException in case of a failure while transforming the input to a {@link String}
    */
   private static void handleMimePart(
       Entity part, StringBuilder textBuilder, StringBuilder htmlBuilder) throws IOException {

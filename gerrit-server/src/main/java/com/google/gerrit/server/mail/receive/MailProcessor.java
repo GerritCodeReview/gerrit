@@ -68,6 +68,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** A service that can attach the comments from a {@link MailMessage} to a change. */
 @Singleton
 public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
@@ -120,9 +121,9 @@ public class MailProcessor {
   }
 
   /**
-   * Parse comments from MailMessage and persist them on the change.
+   * Parses comments from a {@link MailMessage} and persists them on the change.
    *
-   * @param message MailMessage to process.
+   * @param message {@link MailMessage} to process
    */
   public void process(MailMessage message) throws RestApiException, UpdateException {
     retryHelper.execute(

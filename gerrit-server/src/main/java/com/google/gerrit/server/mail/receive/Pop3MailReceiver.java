@@ -30,6 +30,7 @@ import org.apache.commons.net.pop3.POP3SClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** An implementation of {@link MailReceiver} for POP3. */
 @Singleton
 public class Pop3MailReceiver extends MailReceiver {
   private static final Logger log = LoggerFactory.getLogger(Pop3MailReceiver.class);
@@ -40,10 +41,12 @@ public class Pop3MailReceiver extends MailReceiver {
   }
 
   /**
-   * handleEmails will open a connection to the mail server, remove emails where deletion is
-   * pending, read new email and close the connection.
+   * Opens a connection to the mail server, removes emails where deletion is pending, reads new
+   * email and closes the connection.
    *
-   * @param async Determines if processing messages should happen asynchronous.
+   * @param async determines if processing messages should happen asynchronously
+   * @throws IOException in case of a low-level transport failure
+   * @throws MailParsingException in case of a message that could not be parsed
    */
   @Override
   public synchronized void handleEmails(boolean async) {

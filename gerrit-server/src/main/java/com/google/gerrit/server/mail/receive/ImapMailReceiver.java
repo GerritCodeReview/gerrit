@@ -38,10 +38,10 @@ public class ImapMailReceiver extends MailReceiver {
   }
 
   /**
-   * handleEmails will open a connection to the mail server, remove emails where deletion is
-   * pending, read new email and close the connection.
+   * Opens a connection to the mail server, removes emails where deletion is pending, reads new
+   * email and closes the connection.
    *
-   * @param async Determines if processing messages should happen asynchronous.
+   * @param async determines if processing messages should happen asynchronously
    */
   @Override
   public synchronized void handleEmails(boolean async) {

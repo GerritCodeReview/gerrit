@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "bf339a97_63012f36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-04T11:37:24Z",
+      "side": 1,
+      "message": "I added this, see https://gerrit-review.googlesource.com/c/111530/8..10 , but there are still places where we don\u0027t populate this (callers of the bottom ProjectJson#format method), GetChild, ListChildren, GetAccess.  Maybe it\u0027s best to leave it as it was? Not sure.",
+      "parentUuid": "33cb06bc_4f97041d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "3471f06769b4a00cfc3121923f19ca60d54941ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8efd6179_b520b99b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

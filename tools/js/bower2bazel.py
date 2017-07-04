@@ -33,6 +33,7 @@ import bowerutil
 
 # list of licenses for packages that don't specify one in their bower.json file.
 package_licenses = {
+  "app-layout": "app-layout",
   "es6-promise": "es6-promise",
   "fetch": "fetch",
   "iron-a11y-announcer": "polymer",

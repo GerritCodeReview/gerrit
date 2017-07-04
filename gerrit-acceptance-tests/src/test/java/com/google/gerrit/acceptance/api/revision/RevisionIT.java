@@ -888,6 +888,54 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listFilesOnDifferentBases() throws Exception {
+    PushOneCommit.Result result1 = createChange();
+    String changeId = result1.getChangeId();
+    PushOneCommit.Result result2 = amendChange(changeId, SUBJECT, "b.txt", "b");
+    PushOneCommit.Result result3 = amendChange(changeId, SUBJECT, "c.txt", "c");
+
+    String revId1 = result1.getCommit().name();
+    String revId2 = result2.getCommit().name();
+    String revId3 = result3.getCommit().name();
+
+    assertThat(gApi.changes().id(changeId).revision(revId1).files(null).keySet())
+        .containsExactly(COMMIT_MSG, "a.txt");
+    assertThat(gApi.changes().id(changeId).revision(revId2).files(null).keySet())
+        .containsExactly(COMMIT_MSG, "a.txt", "b.txt");
+    assertThat(gApi.changes().id(changeId).revision(revId3).files(null).keySet())
+        .containsExactly(COMMIT_MSG, "a.txt", "b.txt", "c.txt");
+
+    assertThat(gApi.changes().id(changeId).revision(revId2).files(revId1).keySet())
+        .containsExactly(COMMIT_MSG, "b.txt");
+    assertThat(gApi.changes().id(changeId).revision(revId3).files(revId1).keySet())
+        .containsExactly(COMMIT_MSG, "b.txt", "c.txt");
+    assertThat(gApi.changes().id(changeId).revision(revId3).files(revId2).keySet())
+        .containsExactly(COMMIT_MSG, "c.txt");
+  }
+
+  @Test
+  public void queryRevisionFiles() throws Exception {
+    Map<String, String> files = ImmutableMap.of("file1.txt", "content 1", "file2.txt", "content 2");
+    PushOneCommit.Result result =
+        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, files).to("refs/for/master");
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
+    assertThat(gApi.changes().id(changeId).current().queryFiles("file1.txt"))
+        .containsExactly("file1.txt");
+    assertThat(gApi.changes().id(changeId).current().queryFiles("file2.txt"))
+        .containsExactly("file2.txt");
+    assertThat(gApi.changes().id(changeId).current().queryFiles("file1"))
+        .containsExactly("file1.txt");
+    assertThat(gApi.changes().id(changeId).current().queryFiles("file2"))
+        .containsExactly("file2.txt");
+    assertThat(gApi.changes().id(changeId).current().queryFiles("file"))
+        .containsExactly("file1.txt", "file2.txt");
+    assertThat(gApi.changes().id(changeId).current().queryFiles(""))
+        .containsExactly("file1.txt", "file2.txt");
+  }
+
+  @Test
   public void description() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");

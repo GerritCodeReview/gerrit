@@ -316,6 +316,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
     }
 
+    public ListFiles setQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
     public ListFiles setBase(String base) {
       this.base = base;
       return this;

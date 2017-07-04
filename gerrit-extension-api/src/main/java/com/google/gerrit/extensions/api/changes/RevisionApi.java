@@ -69,6 +69,8 @@ public interface RevisionApi {
 
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
 
+  List<String> queryFiles(String query) throws RestApiException;
+
   FileApi file(String path);
 
   CommitInfo commit(boolean addLinks) throws RestApiException;
@@ -235,6 +237,11 @@ public interface RevisionApi {
 
     @Override
     public Map<String, FileInfo> files() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<String> queryFiles(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

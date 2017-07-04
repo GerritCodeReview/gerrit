@@ -8,6 +8,21 @@ load("//tools/bzl:js.bzl", "bower_component")
 
 def define_bower_components():
   bower_component(
+    name = "app-layout",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":polymer",
+      ":iron-icon",
+      ":iron-icons",
+      ":iron-iconset-svg",
+      ":iron-media-query",
+      ":paper-behaviors",
+      ":paper-icon-button",
+      ":paper-ripple",
+      ":paper-styles",
+    ],
+  )
+  bower_component(
     name = "accessibility-developer-tools",
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
@@ -88,6 +103,21 @@ def define_bower_components():
     deps = [ ":polymer" ],
   )
   bower_component(
+    name = "iron-icon",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
+    name = "iron-icons",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
+    name = "iron-iconset-svg",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
     name = "iron-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -96,6 +126,11 @@ def define_bower_components():
       ":polymer",
     ],
     seed = True,
+  )
+  bower_component(
+    name = "iron-media-query",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
   )
   bower_component(
     name = "iron-meta",
@@ -166,6 +201,22 @@ def define_bower_components():
     name = "page",
     license = "//lib:LICENSE-page.js",
     seed = True,
+  )
+  bower_component(
+    name = "paper-behaviors",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "paper-icon-button",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "paper-ripple",
+    license = "//lib:LICENSE-polymer",
+  )
+  bower_component(
+    name = "paper-styles",
+    license = "//lib:LICENSE-polymer",
   )
   bower_component(
     name = "polymer",

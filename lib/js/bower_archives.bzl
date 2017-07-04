@@ -8,6 +8,11 @@ load("//tools/bzl:js.bzl", "bower_archive")
 
 def load_bower_archives():
   bower_archive(
+    name = "app-layout",
+    package = "app-layout",
+    version = "1.0.1",
+    sha1 = "d170b5dcaf37505645f6bf31976cf8b0142acfa4")
+  bower_archive(
     name = "accessibility-developer-tools",
     package = "accessibility-developer-tools",
     version = "2.12.0",
@@ -53,6 +58,26 @@ def load_bower_archives():
     version = "1.0.6",
     sha1 = "8d9e6530edc1b99bec1a5c34853911fba3701220")
   bower_archive(
+    name = "iron-icon",
+    package = "iron-icon",
+    version = "1.0.13",
+    sha1 = "037151f093dfadbbf635d1d6520d5317ea110aa1")
+  bower_archive(
+    name = "iron-icons",
+    package = "iron-icons",
+    version = "1.2.1",
+    sha1 = "232e8508cec5135c9b64462e9f3f8bbee1d56f94")
+  bower_archive(
+    name = "iron-iconset-svg",
+    package = "iron-iconset-svg",
+    version = "1.1.1",
+    sha1 = "49de9292f6670128a56ded1805761ff2fd008af6")
+  bower_archive(
+    name = "iron-media-query",
+    package = "iron-media-query",
+    version = "1.0.8",
+    sha1 = "077e76efaa71f9875d42e3a0b267e8f9c2482d2b")
+  bower_archive(
     name = "iron-meta",
     package = "iron-meta",
     version = "1.1.2",
@@ -82,6 +107,26 @@ def load_bower_archives():
     package = "neon-animation",
     version = "1.2.4",
     sha1 = "e8ccbb930c4b7ff470b1450baa901618888a7fd3")
+  bower_archive(
+    name = "paper-behaviors",
+    package = "paper-behaviors",
+    version = "1.0.13",
+    sha1 = "a81eab28a952e124c208430e17508d9a1aae4ee7")
+  bower_archive(
+    name = "paper-icon-button",
+    package = "paper-icon-button",
+    version = "1.1.6",
+    sha1 = "7d34aef8da7a7f01ace9962d87bfa5dc5908a985")
+  bower_archive(
+    name = "paper-ripple",
+    package = "paper-ripples",
+    version = "1.0.11",
+    sha1 = "f42ebc781258e8e526902c076cdfa997439a8586")
+  bower_archive(
+    name = "paper-styles",
+    package = "paper-styles",
+    version = "1.3.1",
+    sha1 = "4ee9c692366949a754e0e39f8031aa60ce66f24d")
   bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",

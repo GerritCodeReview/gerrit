@@ -14,6 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-styles/shadow.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
@@ -34,37 +45,86 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
-    <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
-      <ul class="sectionContent">
-        <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
-          <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
-            <a class="title" href="[[_computeLinkURL(item)]]"
-                  rel="noopener">[[item.name]]</a>
-          </li>
-          <template is="dom-repeat" items="[[item.children]]" as="child">
-            <li class$="[[_computeSelectedClass(child.view, params)]]">
-              <a href$="[[_computeLinkURL(child)]]"
-                  rel="noopener">[[child.name]]</a>
-            </li>
-          </template>
-          <template is="dom-if" if="[[item.subsection]]">
-            <!--If a section has a subsection, render that.-->
-            <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
-              <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
-                  rel="noopener">
-                [[item.subsection.name]]</a>
-            </li>
-            <!--Loop through the links in the sub-section.-->
-            <template is="dom-repeat"
-                items="[[item.subsection.children]]" as="child">
-              <li class$="subsectionItem [[_computeSelectedClass(child.view, params, child.detailType)]]">
-                <a href$="[[_computeLinkURL(child)]]">[[child.name]]</a>
-              </li>
-            </template>
-          </template>
-        </template>
-      </ul>
-    </gr-page-nav>
+    <style>
+      :host {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+      app-drawer {
+        --app-drawer-content-container: {
+          background-color: none;
+          overflow-x: hidden;
+        }
+      }
+      .nav-menu {
+        color: #fff;
+      }
+      .nav-menu > a {
+        display: block;
+        padding: 12px 16px;
+        font-size: 20px;
+        font-weight: 500;
+      }
+      .nav-menu > a.iron-selected {
+        background-color: #888;
+      }
+      .main-header {
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+        color: #444;
+      }
+      .app-drawer-0 #contentContainer.app-drawer {
+        padding: 255px;
+      }
+    </style>
+    <app-drawer-layout drawer-width="200px" responsive-width="50em">
+      <app-drawer id="drawer">
+        <app-header-layout has-scrolling-region>
+          <gr-page-nav class$="[[_computeLoadingClass(_loading)]]">
+            <iron-selector class="nav-menu">
+              <ul class="sectionContent">
+                <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
+                  <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
+                    <a class="title" href="[[_computeLinkURL(item)]]"
+                          rel="noopener">[[item.name]]</a>
+                  </li>
+                  <template is="dom-repeat" items="[[item.children]]" as="child">
+                    <li class$="[[_computeSelectedClass(child.view, params)]]">
+                      <a href$="[[_computeLinkURL(child)]]"
+                          rel="noopener">[[child.name]]</a>
+                    </li>
+                  </template>
+                  <template is="dom-if" if="[[item.subsection]]">
+                    <!--If a section has a subsection, render that.-->
+                    <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
+                      <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
+                          rel="noopener">
+                        [[item.subsection.name]]</a>
+                    </li>
+                    <!--Loop through the links in the sub-section.-->
+                    <template is="dom-repeat"
+                        items="[[item.subsection.children]]" as="child">
+                      <li class$="subsectionItem [[_computeSelectedClass(child.view, params, child.detailType)]]">
+                        <a href$="[[_computeLinkURL(child)]]">[[child.name]]</a>
+                      </li>
+                    </template>
+                  </template>
+                </template>
+              </ul>
+            </iron-selector>
+          </gr-page-nav>
+        </app-header-layout>
+      </app-drawer>
+    </app-drawer-layout>
+    <app-header-layout>
+
+      <app-header fixed effects="waterfall" class="main-header">
+
+        <!-- top toolbar -->
+        <app-toolbar>
+          <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+        </app-toolbar>
+      </app-header>
+    </app-header-layout>
     <template is="dom-if" if="[[_showProjectList]]" restamp="true">
       <main class="table">
         <gr-admin-project-list class="table" params="[[params]]">

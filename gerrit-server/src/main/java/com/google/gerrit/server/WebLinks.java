@@ -200,7 +200,7 @@ public class WebLinks {
 
   /**
    * @param project Project name
-   * @param branch Tag name
+   * @param tag Tag name
    * @return Links for tags.
    */
   public List<WebLinkInfo> getTagLinks(String project, String tag) {

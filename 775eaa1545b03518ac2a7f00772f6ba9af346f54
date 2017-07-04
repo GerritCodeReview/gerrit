@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "250effa8_2657c895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-07-04T12:48:51Z",
+      "side": 1,
+      "message": "Will this follow soon? We have some large projects/teams who do a lot of development on\nserver-side topic branches and then merge them to master. For these projects, properly\ncomputed \"conflicts-with\" is very important.",
+      "revId": "775eaa1545b03518ac2a7f00772f6ba9af346f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

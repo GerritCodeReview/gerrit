@@ -7,6 +7,12 @@
 load("//tools/bzl:js.bzl", "bower_archive")
 
 def load_bower_archives():
+  app-layout
+  bower_archive(
+    name = "app-layout",
+    package = "app-layout",
+    version = "1.0.1",
+    sha1 = "88ae82dcdeb6c658f76eff509d0ee425cae14d49")
   bower_archive(
     name = "accessibility-developer-tools",
     package = "accessibility-developer-tools",

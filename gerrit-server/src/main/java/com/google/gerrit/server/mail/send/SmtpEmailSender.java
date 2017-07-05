@@ -30,6 +30,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -45,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.net.smtp.AuthSMTPClient;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
+import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
 import org.eclipse.jgit.lib.Config;
 
 /** Sends email via a nearby SMTP server. */
@@ -302,16 +304,24 @@ public class SmtpEmailSender implements EmailSender {
     throw new EmailException("Gave up generating unique MIME boundary");
   }
 
-  protected String buildMultipartBody(String boundary, String textPart, String htmlPart) {
+  protected String buildMultipartBody(String boundary, String textPart, String htmlPart)
+      throws IOException {
+    String encodedTextPart = quotedPrintableEncode(textPart);
+    String encodedHtmlPart = quotedPrintableEncode(htmlPart);
+
+    // Only declare quoted-printable encoding if there are characters that need to be encoded.
+    String textTransferEncoding = textPart.equals(encodedTextPart) ? "7bit" : "quoted-printable";
+    String htmlTransferEncoding = htmlPart.equals(encodedHtmlPart) ? "7bit" : "quoted-printable";
+
     return
     // Output the text part:
     "--"
         + boundary
         + "\r\n"
         + "Content-Type: text/plain; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "Content-Transfer-Encoding: " + textTransferEncoding + "\r\n"
         + "\r\n"
-        + textPart
+        + encodedTextPart
         + "\r\n"
 
         // Output the HTML part:
@@ -319,15 +329,23 @@ public class SmtpEmailSender implements EmailSender {
         + boundary
         + "\r\n"
         + "Content-Type: text/html; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "Content-Transfer-Encoding: " + htmlTransferEncoding + "\r\n"
         + "\r\n"
-        + htmlPart
+        + encodedHtmlPart
         + "\r\n"
 
         // Output the closing boundary.
         + "--"
         + boundary
         + "--\r\n";
+  }
+
+  protected String quotedPrintableEncode(String input) throws IOException {
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
+    try (QuotedPrintableOutputStream qp = new QuotedPrintableOutputStream(s, false)) {
+      qp.write(input.getBytes(UTF_8));
+    }
+    return s.toString();
   }
 
   private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {

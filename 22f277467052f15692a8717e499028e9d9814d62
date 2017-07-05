@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62c2246_99062648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-05T15:57:22Z",
+      "side": 1,
+      "message": "Are these guaranteed to be in order?",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

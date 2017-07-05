@@ -14,17 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-admin-create-project">
   <template>
@@ -47,8 +48,6 @@ limitations under the License.
         <h1 id="Title">
           Create Project
         </h1>
-        <a id="redirect" href$="[[_redirect(_projectConfig.name)]]"
-           hidden$="[[!_projectCreated]]" hidden></a>
         <br>
         <div id="form">
           <fieldset>
@@ -97,7 +96,10 @@ limitations under the License.
           <gr-button
               id="submitBtn"
               on-tap="_handleCreateProject"
-              disabled$="[[!_projectConfig.name]]">Save changes</gr-button>
+              disabled$="[[!_projectConfig.name]]">Create</gr-button>
+          <gr-button
+              id="cancelBtn"
+              on-tap="_handleCancel">Cancel</gr-button>
         </div>
       </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

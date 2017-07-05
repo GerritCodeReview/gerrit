@@ -542,6 +542,6 @@ public class Daemon extends SiteProgram {
   private Injector createHttpdInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new JettyModule(new JettyEnv(webInjector)));
-    return webInjector.createChildInjector(modules);
+     return webInjector.createChildInjector(modules);
   }
 }

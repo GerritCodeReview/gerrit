@@ -22,6 +22,30 @@
       "revId": "453603754ca4270ff7d6e5eeb7b28da1ee87c96d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac555e65_96a3b4d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd323b74_c383ddbc",
+      "range": {
+        "startLine": 68,
+        "startChar": 41,
+        "endLine": 68,
+        "endChar": 91
+      },
+      "revId": "453603754ca4270ff7d6e5eeb7b28da1ee87c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

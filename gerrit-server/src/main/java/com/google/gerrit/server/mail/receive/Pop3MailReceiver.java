@@ -45,11 +45,11 @@ public class Pop3MailReceiver extends MailReceiver {
    * email and closes the connection.
    *
    * @param async determines if processing messages should happen asynchronously
+   * @throws MailTransferException in case of a known transport failure
    * @throws IOException in case of a low-level transport failure
-   * @throws MailParsingException in case of a message that could not be parsed
    */
   @Override
-  public synchronized void handleEmails(boolean async) {
+  public synchronized void handleEmails(boolean async) throws MailTransferException, IOException {
     POP3Client pop3;
     if (mailSettings.encryption != Encryption.NONE) {
       pop3 = new POP3SClient(mailSettings.encryption.name(), true);
@@ -59,67 +59,56 @@ public class Pop3MailReceiver extends MailReceiver {
     if (mailSettings.port > 0) {
       pop3.setDefaultPort(mailSettings.port);
     }
+    pop3.connect(mailSettings.host);
     try {
-      pop3.connect(mailSettings.host);
-    } catch (IOException e) {
-      log.error("Could not connect to POP3 email server", e);
-      return;
-    }
-    try {
-      try {
-        if (!pop3.login(mailSettings.username, mailSettings.password)) {
-          log.error("Could not login to POP3 email server. Check username and password");
-          return;
-        }
-        try {
-          POP3MessageInfo[] messages = pop3.listMessages();
-          if (messages == null) {
-            log.error("Could not retrieve message list via POP3");
-            return;
-          }
-          log.info("Received " + messages.length + " messages via POP3");
-          // Fetch messages
-          List<MailMessage> mailMessages = new ArrayList<>();
-          for (POP3MessageInfo msginfo : messages) {
-            if (msginfo == null) {
-              // Message was deleted
-              continue;
-            }
-            try (BufferedReader reader = (BufferedReader) pop3.retrieveMessage(msginfo.number)) {
-              if (reader == null) {
-                log.error(
-                    "Could not retrieve POP3 message header for message {}", msginfo.identifier);
-                return;
-              }
-              int[] message = fetchMessage(reader);
-              MailMessage mailMessage = RawMailParser.parse(message);
-              // Delete messages where deletion is pending. This requires
-              // knowing the integer message ID of the email. We therefore parse
-              // the message first and extract the Message-ID specified in RFC
-              // 822 and delete the message if deletion is pending.
-              if (pendingDeletion.contains(mailMessage.id())) {
-                if (pop3.deleteMessage(msginfo.number)) {
-                  pendingDeletion.remove(mailMessage.id());
-                } else {
-                  log.error("Could not delete message " + msginfo.number);
-                }
-              } else {
-                // Process message further
-                mailMessages.add(mailMessage);
-              }
-            } catch (MailParsingException e) {
-              log.error("Could not parse message " + msginfo.number);
-            }
-          }
-          dispatchMailProcessor(mailMessages, async);
-        } finally {
-          pop3.logout();
-        }
-      } finally {
-        pop3.disconnect();
+      if (!pop3.login(mailSettings.username, mailSettings.password)) {
+        throw new MailTransferException(
+            "Could not login to POP3 email server. Check username and password");
       }
-    } catch (IOException e) {
-      log.error("Error while issuing POP3 command", e);
+      try {
+        POP3MessageInfo[] messages = pop3.listMessages();
+        if (messages == null) {
+          throw new MailTransferException("Could not retrieve message list via POP3");
+        }
+        log.info("Received " + messages.length + " messages via POP3");
+        // Fetch messages
+        List<MailMessage> mailMessages = new ArrayList<>();
+        for (POP3MessageInfo msginfo : messages) {
+          if (msginfo == null) {
+            // Message was deleted
+            continue;
+          }
+          try (BufferedReader reader = (BufferedReader) pop3.retrieveMessage(msginfo.number)) {
+            if (reader == null) {
+              throw new MailTransferException(
+                  "Could not retrieve POP3 message header for message " + msginfo.identifier);
+            }
+            int[] message = fetchMessage(reader);
+            MailMessage mailMessage = RawMailParser.parse(message);
+            // Delete messages where deletion is pending. This requires
+            // knowing the integer message ID of the email. We therefore parse
+            // the message first and extract the Message-ID specified in RFC
+            // 822 and delete the message if deletion is pending.
+            if (pendingDeletion.contains(mailMessage.id())) {
+              if (pop3.deleteMessage(msginfo.number)) {
+                pendingDeletion.remove(mailMessage.id());
+              } else {
+                log.error("Could not delete message " + msginfo.number);
+              }
+            } else {
+              // Process message further
+              mailMessages.add(mailMessage);
+            }
+          } catch (MailParsingException e) {
+            log.error("Could not parse message " + msginfo.number);
+          }
+        }
+        dispatchMailProcessor(mailMessages, async);
+      } finally {
+        pop3.logout();
+      }
+    } finally {
+      pop3.disconnect();
     }
   }
 

@@ -612,6 +612,7 @@ maven_jar(
     sha1 = "cd9886f498ee2ab2d994f0c779e5553b2c450416",
 )
 
+# When updading Bouncy Castle, also update it in bazlets.
 BC_VERS = "1.57"
 
 maven_jar(

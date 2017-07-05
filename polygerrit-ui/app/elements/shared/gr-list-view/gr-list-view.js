@@ -55,6 +55,10 @@
       }, REQUEST_DEBOUNCE_INTERVAL_MS);
     },
 
+    _createNewItem() {
+      this.fire('create-clicked');
+    },
+
     _computeNavLink(offset, direction, itemsPerPage, filter) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);

@@ -22,6 +22,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -87,7 +88,11 @@ public abstract class MailReceiver implements LifecycleListener {
         new TimerTask() {
           @Override
           public void run() {
-            MailReceiver.this.handleEmails(true);
+            try {
+              MailReceiver.this.handleEmails(true);
+            } catch (MailTransferException | IOException e) {
+              log.error("Error while fetching emails", e);
+            }
           }
         },
         0L,
@@ -117,9 +122,11 @@ public abstract class MailReceiver implements LifecycleListener {
    * pending, read new email and close the connection.
    *
    * @param async Determines if processing messages should happen asynchronous.
+   * @throws MailTransferException in case of a known transport failure
+   * @throws IOException in case of a low-level transport failure
    */
   @VisibleForTesting
-  public abstract void handleEmails(boolean async);
+  public abstract void handleEmails(boolean async) throws MailTransferException, IOException;
 
   protected void dispatchMailProcessor(List<MailMessage> messages, boolean async) {
     for (MailMessage m : messages) {

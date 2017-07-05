@@ -21,14 +21,28 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../admin/gr-admin-create-project/gr-admin-create-project.html">
+
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-list-view.html">
+
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
     <gr-list-view></gr-list-view>
+  </template>
+</test-fixture>
+
+<test-fixture id="createNewFixture">
+  <template>
+    <gr-list-view>
+      <gr-overlay id="createOverlay" with-backdrop>
+        <gr-admin-create-project id="createNewModal"></gr-admin-create-project>
+      </gr-overlay>
+    </gr-list-view>
   </template>
 </test-fixture>
 
@@ -106,6 +120,44 @@ limitations under the License.
         offset = 5;
         assert.isFalse(element._hidePrevArrow(offset));
       });
+    });
+  });
+
+  suite('gr-list-view overlay integration tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('createNewFixture');
+      sandbox.stub(page, 'show');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('createNew link appears correctly', () => {
+      sandbox.stub(element, '_addEventListeners');
+      assert.isNotOk(element.$$('#createNew'));
+      element.createNew = true;
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('#createNew'));
+      assert.isTrue(element._addEventListeners.called);
+    });
+
+    test('listens to modal events', () => {
+      const openStub = sandbox.stub(Polymer.dom(element)
+          .querySelector('#createOverlay'), 'open');
+      const closeStub = sandbox.stub(Polymer.dom(element)
+          .querySelector('#createOverlay'), 'close');
+      element.createNew = true;
+      flushAsynchronousOperations();
+      MockInteractions.tap(element.$$('#createNew'));
+      flushAsynchronousOperations();
+      assert.isTrue(openStub.called);
+      Polymer.dom(element).querySelector('#createNewModal').fire('create');
+      assert.isTrue(closeStub.called);
     });
   });
 </script>

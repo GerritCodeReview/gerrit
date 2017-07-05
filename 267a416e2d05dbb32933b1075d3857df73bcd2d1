@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8375a262_f3ad3b50",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-05T18:08:19Z",
+      "side": 1,
+      "message": "Great that the test was added and it works ;-)",
+      "range": {
+        "startLine": 468,
+        "startChar": 14,
+        "endLine": 468,
+        "endChar": 50
+      },
+      "revId": "267a416e2d05dbb32933b1075d3857df73bcd2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabea216_18bcc289",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-05T18:08:19Z",
+      "side": 1,
+      "message": "But it was not modified, as the change state was already wip before this push attempt. It looks that we only check in the test whether or not wip or ready were passed, but ignore the current change state.\n\nI don\u0027t have an opinion right now, on whether or not we should only prohibit the real state flip, or already providing %wip or %ready should already for non-owner. But I would vote for adapting the message in the latter case, and say something like: \"providing %wip or %ready\" from non owner is not allowed or similar.",
+      "range": {
+        "startLine": 478,
+        "startChar": 38,
+        "endLine": 478,
+        "endChar": 57
+      },
+      "revId": "267a416e2d05dbb32933b1075d3857df73bcd2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c12056e_371e1da1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-05T18:08:19Z",
+      "side": 1,
+      "message": "Same as above, it is already ready, so there is no modify wip state involved, yet the error message would be:\n\n  only change owner can modify Work-in-Progress\n\nthat is not quite correct.",
+      "range": {
+        "startLine": 487,
+        "startChar": 38,
+        "endLine": 487,
+        "endChar": 59
+      },
+      "revId": "267a416e2d05dbb32933b1075d3857df73bcd2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

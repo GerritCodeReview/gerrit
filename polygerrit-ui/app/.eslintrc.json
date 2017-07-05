@@ -23,7 +23,8 @@
     "camelcase": "off",
     "comma-dangle": ["error", "always-multiline"],
     "eol-last": "off",
-    "indent": ["error", 2, {
+    "indent": "off",
+    "indent-legacy": ["error", 2, {
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},
       "FunctionExpression": {"body": 1, "parameters": 2},
@@ -42,6 +43,7 @@
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-console": "off",
     "no-undef": "off",
+    "no-useless-escape": "off",
     "no-var": "error",
     "object-shorthand": ["error", "always"],
     "prefer-arrow-callback": "error",

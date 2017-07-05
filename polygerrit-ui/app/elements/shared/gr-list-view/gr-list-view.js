@@ -20,6 +20,11 @@
     is: 'gr-list-view',
 
     properties: {
+      createNew: {
+        type: Boolean,
+        observer: '_addEventListeners',
+        value: false,
+      },
       items: Array,
       itemsPerPage: Number,
       _filter: {
@@ -43,6 +48,25 @@
 
     detached() {
       this.cancelDebouncer('reload');
+      this._removeEventListeners(this.createNew);
+    },
+
+    _addEventListeners(createNew) {
+      if (createNew) {
+        Polymer.dom(this).querySelector('#createNewModal')
+            .addEventListener('create', this._handleCreated.bind(this));
+        Polymer.dom(this).querySelector('#createNewModal')
+            .addEventListener('cancel', this._closeCreateModal.bind(this));
+      }
+    },
+
+    _removeEventListeners(createNew) {
+      if (createNew) {
+        Polymer.dom(this).querySelector('#createNewModal')
+            .removeEventListener('create', this._handleCreated);
+        Polymer.dom(this).querySelector('#createNewModal')
+            .removeEventListener('cancel', this._closeCreateModal);
+      }
     },
 
     _filterChanged(filter) {
@@ -53,6 +77,19 @@
         }
         page.show(this.path);
       }, REQUEST_DEBOUNCE_INTERVAL_MS);
+    },
+
+    _createNewItem() {
+      Polymer.dom(this).querySelector('#createOverlay').open();
+    },
+
+    _closeCreateModal() {
+      Polymer.dom(this).querySelector('#createOverlay').close();
+    },
+
+    _handleCreated(e) {
+      this._closeCreateModal();
+      page.show(e.detail.url);
     },
 
     _computeNavLink(offset, direction, itemsPerPage, filter) {

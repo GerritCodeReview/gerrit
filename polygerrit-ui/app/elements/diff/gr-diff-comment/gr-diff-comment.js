@@ -95,7 +95,7 @@
         value: false,
       },
 
-      _xhrPromise: Object,  // Used for testing.
+      _xhrPromise: Object, // Used for testing.
       _messageText: {
         type: String,
         value: '',
@@ -487,9 +487,9 @@
       this.$.restAPI.deleteComment(
           this.changeNum, this.patchNum, this.comment.id,
           this.$.confirmDeleteComment.message).then(newComment => {
-            this._handleCancelDeleteComment();
-            this.comment = newComment;
-          });
+        this._handleCancelDeleteComment();
+        this.comment = newComment;
+      });
     },
   });
 })();

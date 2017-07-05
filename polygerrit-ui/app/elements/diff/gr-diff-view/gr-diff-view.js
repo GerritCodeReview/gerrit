@@ -170,8 +170,8 @@
       const patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
-            this._fileList = files;
-          });
+        this._fileList = files;
+      });
     },
 
     _getDiffPreferences() {
@@ -401,8 +401,8 @@
       let idx = fileList.indexOf(path);
       if (idx === -1) {
         const file = direction > 0 ?
-            fileList[0] :
-            fileList[fileList.length - 1];
+          fileList[0] :
+          fileList[fileList.length - 1];
         return this._getDiffURL(this._changeNum, this._patchRange, file);
       }
 

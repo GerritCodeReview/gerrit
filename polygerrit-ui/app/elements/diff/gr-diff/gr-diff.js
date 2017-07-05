@@ -298,7 +298,7 @@
     _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
         isOnParent, range) {
       const rangeToCheck = range ?
-          'range-' +
+        'range-' +
           range.startLine + '-' +
           range.startChar + '-' +
           range.endLine + '-' +
@@ -508,12 +508,12 @@
           this.patchRange.patchNum,
           this.path,
           this._handleGetDiffError.bind(this)).then(diff => {
-            this.filesWeblinks = {
-              meta_a: diff && diff.meta_a && diff.meta_a.web_links,
-              meta_b: diff && diff.meta_b && diff.meta_b.web_links,
-            };
-            return diff;
-          });
+        this.filesWeblinks = {
+          meta_a: diff && diff.meta_a && diff.meta_a.web_links,
+          meta_b: diff && diff.meta_b && diff.meta_b.web_links,
+        };
+        return diff;
+      });
     },
 
     _getDiffComments() {

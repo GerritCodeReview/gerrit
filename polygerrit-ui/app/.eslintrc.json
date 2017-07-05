@@ -42,6 +42,7 @@
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-console": "off",
     "no-undef": "off",
+    "no-useless-escape": "off",
     "no-var": "error",
     "object-shorthand": ["error", "always"],
     "prefer-arrow-callback": "error",
@@ -60,3 +61,4 @@
     "html/report-bad-indent": "error"
   }
 }
+

@@ -269,11 +269,16 @@ public class RefControl {
       return "project state does not permit write";
     }
 
+    String userId =
+        getUser().isIdentifiedUser()
+            ? "account " + getUser().getAccountId()
+            : "anonymous user";
+
     if (object instanceof RevCommit) {
       if (!canPerform(Permission.CREATE)) {
-        return "lacks permission: " + Permission.CREATE;
+        return userId + " lacks permission: " + Permission.CREATE;
       }
-      return canCreateCommit(repo, (RevCommit) object);
+      return canCreateCommit(repo, (RevCommit) object, userId);
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -300,13 +305,13 @@ public class RefControl {
           valid = false;
         }
         if (!valid && !canForgeCommitter()) {
-          return "lacks permission: " + Permission.FORGE_COMMITTER;
+          return userId + " lacks permission: " + Permission.FORGE_COMMITTER;
         }
       }
 
       RevObject tagObject = tag.getObject();
       if (tagObject instanceof RevCommit) {
-        String rejectReason = canCreateCommit(repo, (RevCommit) tagObject);
+        String rejectReason = canCreateCommit(repo, (RevCommit) tagObject, userId);
         if (rejectReason != null) {
           return rejectReason;
         }
@@ -323,9 +328,11 @@ public class RefControl {
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
         return canPerform(Permission.CREATE_SIGNED_TAG)
             ? null
-            : "lacks permission: " + Permission.CREATE_SIGNED_TAG;
+            : userId + " lacks permission: " + Permission.CREATE_SIGNED_TAG;
       }
-      return canPerform(Permission.CREATE_TAG) ? null : "lacks permission " + Permission.CREATE_TAG;
+      return canPerform(Permission.CREATE_TAG)
+          ? null
+          : userId + " lacks permission " + Permission.CREATE_TAG;
     }
 
     return null;
@@ -333,10 +340,11 @@ public class RefControl {
 
   /**
    * Check if the user is allowed to create a new commit object if this introduces a new commit to
-   * the project. If not allowed, returns a string describing why it's not allowed.
+   * the project. If not allowed, returns a string describing why it's not allowed. The userId
+   * argument is only used for the error message.
    */
   @Nullable
-  private String canCreateCommit(Repository repo, RevCommit commit) {
+  private String canCreateCommit(Repository repo, RevCommit commit, String userId) {
     if (canUpdate()) {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
@@ -348,7 +356,7 @@ public class RefControl {
       // even if they don't have push permission.
       return null;
     }
-    return "lacks permission " + Permission.PUSH + " for creating new commit object";
+    return userId + " lacks permission " + Permission.PUSH + " for creating new commit object";
   }
 
   private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {

@@ -309,7 +309,7 @@ public class MailProcessor {
           ctx.getWhen());
     }
 
-    private ChangeMessage generateChangeMessage(ChangeContext ctx) throws OrmException {
+    private ChangeMessage generateChangeMessage(ChangeContext ctx) {
       String changeMsg = "Patch Set " + psId.get() + ":";
       if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
         // Add a blank line after Patch Set to follow the default format

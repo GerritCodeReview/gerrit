@@ -185,8 +185,8 @@ limitations under the License.
         getLineNumberByChild(node) {
           const lineEl = this.getLineElByChild(node);
           return lineEl ?
-              parseInt(lineEl.getAttribute('data-value'), 10) :
-              null;
+            parseInt(lineEl.getAttribute('data-value'), 10) :
+            null;
         },
 
         getContentByLine(lineNumber, opt_side, opt_root) {
@@ -215,7 +215,7 @@ limitations under the License.
 
         getSideByLineEl(lineEl) {
           return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-          GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+            GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
         createCommentThreadGroup(changeNum, patchNum, path,
@@ -252,13 +252,13 @@ limitations under the License.
         _getDiffBuilder(diff, comments, prefs) {
           if (this.isImageDiff) {
             return new GrDiffBuilderImage(diff, comments, prefs,
-            this.diffElement, this.baseImage, this.revisionImage);
+                this.diffElement, this.baseImage, this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
             return new GrDiffBuilderSideBySide(
-            diff, comments, prefs, this.diffElement, this._layers);
+                diff, comments, prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
             return new GrDiffBuilderUnified(
-            diff, comments, prefs, this.diffElement, this._layers);
+                diff, comments, prefs, this.diffElement, this._layers);
           }
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },
@@ -311,8 +311,8 @@ limitations under the License.
 
                 // If endIndex isn't present, continue to the end of the line.
                 const endIndex = highlight.endIndex === undefined ?
-                    line.text.length :
-                    highlight.endIndex;
+                  line.text.length :
+                  highlight.endIndex;
 
                 GrAnnotation.annotateElement(
                     el,

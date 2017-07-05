@@ -126,7 +126,7 @@
           this.showNumber = !!(preferences &&
               preferences.legacycid_in_change_table);
           this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
-              preferences.change_table : this.columnNames;
+            preferences.change_table : this.columnNames;
         });
       });
     },

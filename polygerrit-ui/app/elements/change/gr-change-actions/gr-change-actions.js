@@ -854,9 +854,9 @@
                 revisionAction ? this.patchNum : null, actionEndpoint);
             return this.$.restAPI.send(method, url, payload,
                 this._handleResponseError, this).then(response => {
-                  cleanupFn.call(this);
-                  return response;
-                });
+              cleanupFn.call(this);
+              return response;
+            });
           });
     },
 

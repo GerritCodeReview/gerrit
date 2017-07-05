@@ -94,8 +94,6 @@ public class CherryPickCommit
               updateFactory,
               null,
               null,
-              null,
-              null,
               projectName,
               commit,
               input,

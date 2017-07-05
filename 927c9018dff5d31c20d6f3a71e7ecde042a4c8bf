@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37902d16_ceb4c2c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T08:16:43Z",
+      "side": 1,
+      "message": "There is already documentation for CommitMessageInput (the old in-class Input definition). Please also rename that to MessageInput then to be consistent with Java. (Alternatively rename MessageInput to CommitMessageInput)",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af290525_f1ddfeab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T08:16:43Z",
+      "side": 1,
+      "message": "nit: This seems like unrelated refactoring? If so please mention that in the commit message. Maybe something like:\n\nRefactor ChangeNotificationsIT to test that the email is not sent to the change owner.",
+      "range": {
+        "startLine": 1480,
+        "startChar": 9,
+        "endLine": 1480,
+        "endChar": 24
+      },
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068f37a8_e4f5005b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T08:16:43Z",
+      "side": 1,
+      "message": "(optional) In the endpoint we just use the ChangeInserter\u0027s logic for notifications. This is already tested in newPatchSet[...] right above these tests.\nCan we make it so that we only test the differences in behavior compared to newPachSet and maybe one or two tests for the custom WiP vs non-WiP?",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "393d5b2c_c9273519",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T08:16:43Z",
+      "side": 1,
+      "message": "nit: Try to avoid importing those and use NotifyHandling.OWNER instead where needed.\n\nThe only exceptions would be where the code becomes unreadable otherwise (like in ChangeNotificationsIT)",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

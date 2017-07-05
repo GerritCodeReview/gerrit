@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "23618675_01485153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-05T19:34:21Z",
+      "side": 1,
+      "message": "D\u0027oh. Done.",
+      "parentUuid": "059daa21_00e2f871",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "68da44a3a1e1a676fed9a5554c46c339f1117e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1652a9b_992e8f20",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "68da44a3a1e1a676fed9a5554c46c339f1117e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f07fdc2_f9b39b58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-05T19:34:21Z",
+      "side": 1,
+      "message": "Not quite, unfortunately. There were some changes to the parsing logic that make the indent rule behave quite differently than indent-legacy, and the path for upgrading isn\u0027t completely clear. I need to poke and prod to see what needs to change, how we can fit our style guide, etc.\n\nAlso, that work is of an undefined scope and could be hard, so I\u0027d rather handle this now this way and avoid any CI breakages.",
+      "parentUuid": "c1652a9b_992e8f20",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "68da44a3a1e1a676fed9a5554c46c339f1117e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

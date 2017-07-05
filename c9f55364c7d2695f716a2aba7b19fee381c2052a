@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9d2a0b3b_4826b021",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd2f256_921abeaf",
+      "range": {
+        "startLine": 44,
+        "startChar": 66,
+        "endLine": 44,
+        "endChar": 78
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27990bf4_d40f142e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-04T23:10:55Z",
       "side": 1,
       "message": "Add descriptions?",
+      "range": {
+        "startLine": 127,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 28
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0128b239_9484e25b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "I\u0027d rather remove them since those are the generic exceptions that every code path that use the BatchUpdate.Factory has and the other usages seem to not document the exceptions.",
+      "parentUuid": "27990bf4_d40f142e",
       "range": {
         "startLine": 127,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "82a1b41a_b6e4951d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249b8936_77f18f1c",
+      "range": {
+        "startLine": 44,
+        "startChar": 86,
+        "endLine": 44,
+        "endChar": 90
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e8a1b4b_4641e56d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-07-04T23:10:55Z",
       "side": 1,
       "message": "closes",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e593275a_727edf74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8e8a1b4b_4641e56d",
       "range": {
         "startLine": 45,
         "startChar": 9,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "fb800eeb_925a043d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44e93116_269d8e5f",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 78
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f87bb5a5_4a5e6ccc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2017-07-04T23:10:55Z",
       "side": 1,
       "message": "of",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 143,
+        "endChar": 35
+      },
+      "revId": "c9f55364c7d2695f716a2aba7b19fee381c2052a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bd409e_3ad226c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T07:03:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f87bb5a5_4a5e6ccc",
       "range": {
         "startLine": 143,
         "startChar": 33,

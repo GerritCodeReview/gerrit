@@ -182,8 +182,8 @@
           .map(([, , score]) => score)
           .map(s => parseInt(s, 10))
           .reduce(({min, max}, s) =>
-              ({min: (s < min ? s : min), max: (s > max ? s : max)}),
-              {min: 0, max: 0});
+            ({min: (s < min ? s : min), max: (s > max ? s : max)}),
+          {min: 0, max: 0});
       if (max - min === 0) {
         return 0;
       } else {

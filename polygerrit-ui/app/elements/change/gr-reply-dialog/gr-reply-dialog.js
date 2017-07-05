@@ -182,7 +182,7 @@
       this.fetchIsLatestKnown(this.change, this.$.restAPI)
           .then(isUpToDate => {
             this.knownLatestState = isUpToDate ?
-                LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
+              LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
           });
 
       this._focusOn(opt_focusTarget);
@@ -302,16 +302,16 @@
 
       return this.$.restAPI.removeChangeReviewer(this.change._number,
           account._account_id).then(response => {
-            if (!response.ok) { return response; }
+        if (!response.ok) { return response; }
 
-            const reviewers = this.change.reviewers[type] || [];
-            for (let i = 0; i < reviewers.length; i++) {
-              if (reviewers[i]._account_id == account._account_id) {
-                this.splice(['change', 'reviewers', type], i, 1);
-                break;
-              }
-            }
-          });
+        const reviewers = this.change.reviewers[type] || [];
+        for (let i = 0; i < reviewers.length; i++) {
+          if (reviewers[i]._account_id == account._account_id) {
+            this.splice(['change', 'reviewers', type], i, 1);
+            break;
+          }
+        }
+      });
     },
 
     _mapReviewer(reviewer) {

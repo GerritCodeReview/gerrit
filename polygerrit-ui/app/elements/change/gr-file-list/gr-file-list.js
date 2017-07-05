@@ -396,11 +396,11 @@
     _getFiles() {
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
           this.changeNum, this.patchRange).then(files => {
-            // Append UI-specific properties.
-            return files.map(file => {
-              return file;
-            });
-          });
+        // Append UI-specific properties.
+        return files.map(file => {
+          return file;
+        });
+      });
     },
 
     /**
@@ -642,7 +642,7 @@
 
     _getBasePatchNum(patchRange) {
       return patchRange.basePatchNum === 'PARENT' ?
-          undefined : patchRange.basePatchNum;
+        undefined : patchRange.basePatchNum;
     },
 
     _computeFileDisplayName(path) {
@@ -698,7 +698,7 @@
 
     _computePathClass(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
-          'path';
+        'path';
     },
 
     _computeShowHideText(path, expandedFilesRecord) {
@@ -803,13 +803,13 @@
     _computePatchSetDescription(revisions, patchNum) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     _computeFileStatusLabel(status) {
       const statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?
-          FileStatus[statusCode] : 'Status Unknown';
+        FileStatus[statusCode] : 'Status Unknown';
     },
 
     _isFileExpanded(path, expandedFilesRecord) {

@@ -510,21 +510,21 @@ limitations under the License.
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
-      assert.equal(element._getDiffViewMode(), select.value);
+      assert.equal(element._getDiffViewMode(), select.nativeSelect.value);
 
       // The mode selected in the view state reflects the view rednered in the
       // diff.
-      assert.equal(select.value, diffDisplay.viewMode);
+      assert.equal(select.nativeSelect.value, diffDisplay.viewMode);
 
       // We will simulate a user change of the selected mode.
       const newMode = 'UNIFIED_DIFF';
       // Set the actual value of the select, and simulate the change event.
-      select.value = newMode;
-      element.fire('change', {}, {node: select});
+      select.nativeSelect.value = newMode;
+      element.fire('change', {}, {node: select.nativeSelect});
 
       // Make sure the handler was called and the state is still coherent.
       assert.equal(element._getDiffViewMode(), newMode);
-      assert.equal(element._getDiffViewMode(), select.value);
+      assert.equal(element._getDiffViewMode(), select.nativeSelect.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
     });
 
@@ -542,12 +542,12 @@ limitations under the License.
       flushAsynchronousOperations();
 
       // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.value, 'SIDE_BY_SIDE');
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
 
       // Receive the overriding preference.
       resolvePrefs({default_diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
-      assert.equal(select.value, 'SIDE_BY_SIDE');
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
     });
 
     test('_loadHash', () => {

@@ -22,6 +22,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f758a7c_175518a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-05T16:29:43Z",
+      "side": 1,
+      "message": "JSON dictionaries don\u0027t have order, do they?\n\nI changed it to hashmap, so the order will be arbitrary.",
+      "parentUuid": "f62c2246_99062648",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

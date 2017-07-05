@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fa02232_a7d6266c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57a7a206_bc4725d5",
+      "range": {
+        "startLine": 137,
+        "startChar": 37,
+        "endLine": 137,
+        "endChar": 51
+      },
+      "revId": "8585226b5f9a97d7e04682f44910732a0b64c4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b990a0dd_f2ad3be7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5c7a3b24_7105fbf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b990a0dd_f2ad3be7",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "8585226b5f9a97d7e04682f44910732a0b64c4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd545235_9272d010",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-05T18:54:52Z",
       "side": 1,
       "message": "Optional: \"in this endpoint\".",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 29
+      },
+      "revId": "8585226b5f9a97d7e04682f44910732a0b64c4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06af8a6e_b3517147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd545235_9272d010",
       "range": {
         "startLine": 334,
         "startChar": 16,

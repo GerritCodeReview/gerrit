@@ -22,6 +22,30 @@
       "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1cb1624_628ab551",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-05T16:51:08Z",
+      "side": 1,
+      "message": "Though the removing part should be left for a seperate change.",
+      "parentUuid": "9400312e_a55e4fd1",
+      "range": {
+        "startLine": 641,
+        "startChar": 4,
+        "endLine": 641,
+        "endChar": 73
+      },
+      "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

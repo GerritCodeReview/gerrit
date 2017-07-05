@@ -52,15 +52,15 @@
     properties: {
       _cache: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
       _pendingRequests: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
     },
 

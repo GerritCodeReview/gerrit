@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "059daa21_00e2f871",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-05T19:23:33Z",
+      "side": 1,
+      "message": "Is there supposed to be a link reference?",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "68da44a3a1e1a676fed9a5554c46c339f1117e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1652a9b_992e8f20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-05T19:23:33Z",
+      "side": 1,
+      "message": "If we wanted to get off of this now, could we just run a one-time fix? Would that be better than growing the codebase with additional changes?",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "68da44a3a1e1a676fed9a5554c46c339f1117e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

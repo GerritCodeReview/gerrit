@@ -77,7 +77,7 @@
     _computePatchSetDescription(revisions, patchNum) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
   });
 })();

@@ -62,7 +62,7 @@
 
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       this._newContent = this.removeZeroWidthSpace ?
-          this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
+        this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
     },
 
     _computeSaveDisabled(disabled, content, newContent) {

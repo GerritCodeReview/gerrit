@@ -142,9 +142,9 @@ limitations under the License.
         2: ['upload'],
         3: ['upload', clearWip],
         4: ['upload', setWip],
-      }).assertWip(1, false)  // Change was created with PS1 ready for review
-          .assertWip(2, true)   // PS2 was uploaded during WIP
-          .assertWip(3, false)  // PS3 was marked ready for review after upload
+      }).assertWip(1, false) // Change was created with PS1 ready for review
+          .assertWip(2, true) // PS2 was uploaded during WIP
+          .assertWip(3, false) // PS3 was marked ready for review after upload
           .assertWip(4, false); // PS4 was uploaded ready for review
 
       compute(false, {
@@ -154,10 +154,10 @@ limitations under the License.
         4: ['upload'],
         5: ['upload', clearWip],
         6: [uploadInWip],
-      }).assertWip(1, true)  // Change was created in WIP
-          .assertWip(2, true)  // PS2 was uploaded during WIP
+      }).assertWip(1, true) // Change was created in WIP
+          .assertWip(2, true) // PS2 was uploaded during WIP
           .assertWip(3, false) // PS3 was marked ready for review
-          .assertWip(4, true)  // PS4 was uploaded during WIP
+          .assertWip(4, true) // PS4 was uploaded during WIP
           .assertWip(5, false) // PS5 was marked ready for review
           .assertWip(6, true); // PS6 was uploaded with WIP option
     });

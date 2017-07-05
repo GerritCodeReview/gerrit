@@ -159,7 +159,7 @@ limitations under the License.
       fixture('move').open();
       // The element was moved to the body, so look for it there.
       element = Polymer.dom(document.root)
-        .querySelector('gr-autocomplete-dropdown');
+          .querySelector('gr-autocomplete-dropdown');
       element.suggestions = [
         {dataValue: 'test value 1', name: 'test name 1', text: 1},
         {dataValue: 'test value 2', name: 'test name 2', text: 2}];
@@ -174,7 +174,7 @@ limitations under the License.
       assert.equal(Polymer.dom(document.root)
           .querySelectorAll('gr-autocomplete-dropdown').length, 1);
       const dropdown = Polymer.dom(document.root)
-        .querySelector('gr-autocomplete-dropdown');
+          .querySelector('gr-autocomplete-dropdown');
       assert.isOk(dropdown);
       assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
           .querySelector('body'));

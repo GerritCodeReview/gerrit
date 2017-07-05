@@ -309,19 +309,19 @@ limitations under the License.
         element.$.confirmRebase.base = '1234';
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: '1234'}]);
+            ['/rebase', rebaseAction, true, {base: '1234'}]);
 
         // rebase on parent
         element.$.confirmRebase.base = null;
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: null}]);
+            ['/rebase', rebaseAction, true, {base: null}]);
 
         // rebase on tip
         element.$.confirmRebase.base = '';
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: ''}]);
+            ['/rebase', rebaseAction, true, {base: ''}]);
 
         done();
       });
@@ -369,7 +369,7 @@ limitations under the License.
 
         element.$.confirmCherrypick.branch = 'master';
         element._handleCherrypickConfirm();
-        assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
+        assert.equal(fireActionStub.callCount, 0); // Still needs a message.
 
         // Add attributes that are used to determine the message.
         element.$.confirmCherrypick.commitMessage = 'foo message';

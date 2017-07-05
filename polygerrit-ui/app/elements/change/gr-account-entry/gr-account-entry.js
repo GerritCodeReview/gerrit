@@ -104,8 +104,8 @@
       if (!this.change) { return Promise.resolve([]); }
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?
-          api.getSuggestedAccounts(input) :
-          api.getChangeSuggestedReviewers(this.change._number, input);
+        api.getSuggestedAccounts(input) :
+        api.getChangeSuggestedReviewers(this.change._number, input);
 
       return xhr.then(reviewers => {
         if (!reviewers) { return []; }

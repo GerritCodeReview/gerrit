@@ -154,10 +154,10 @@ limitations under the License.
     test('allowAnyUser', done => {
       const suggestReviewerStub =
           sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
-          .returns(Promise.resolve([]));
+              .returns(Promise.resolve([]));
       const suggestAccountStub =
           sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
-          .returns(Promise.resolve([]));
+              .returns(Promise.resolve([]));
 
       element._getReviewerSuggestions('').then(() => {
         assert.isTrue(suggestReviewerStub.calledOnce);

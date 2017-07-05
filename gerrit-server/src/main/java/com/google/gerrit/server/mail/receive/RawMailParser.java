@@ -140,8 +140,8 @@ public class RawMailParser {
    * Traverses a mime tree and parses out text and html parts. All other parts will be dropped.
    *
    * @param part {@code MimePart} to parse
-   * @param textBuilder {@link StringBuilder) to append all plaintext parts
-   * @param htmlBuilder {@link StringBuilder) to append all html parts
+   * @param textBuilder {@link StringBuilder} to append all plaintext parts
+   * @param htmlBuilder {@link StringBuilder} to append all html parts
    * @throws IOException in case of a failure while transforming the input to a {@link String}
    */
   private static void handleMimePart(
@@ -166,7 +166,6 @@ public class RawMailParser {
   private static boolean isPlainOrHtml(String mimeType) {
     return (mimeType.equals("text/plain") || mimeType.equals("text/html"));
   }
-
   private static boolean isMixedOrAlternative(String mimeType) {
     return mimeType.equals("multipart/alternative") || mimeType.equals("multipart/mixed");
   }

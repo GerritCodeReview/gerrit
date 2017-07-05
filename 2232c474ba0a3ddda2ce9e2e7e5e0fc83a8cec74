@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a508ed62_2d974899",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-05T12:43:08Z",
+      "side": 1,
+      "message": "This also needs updating since 1.6.0 also updated it.",
+      "range": {
+        "startLine": 645,
+        "startChar": 0,
+        "endLine": 649,
+        "endChar": 1
+      },
+      "revId": "2232c474ba0a3ddda2ce9e2e7e5e0fc83a8cec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

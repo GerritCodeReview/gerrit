@@ -88,12 +88,12 @@
               return;
             }
             this._groups = Object.keys(groups)
-             .map(key => {
-               const group = groups[key];
-               group.name = key;
-               return group;
-             });
-            this._loading = false;
+                .map(key => {
+                  const group = groups[key];
+                  group.name = key;
+                  return group;
+                });
+               this._loading = false;
           });
     },
 

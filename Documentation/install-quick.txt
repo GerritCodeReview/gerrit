@@ -43,8 +43,8 @@ We will run the service as a non-privileged user on your system.
 First create the user and then become the user:
 
 ----
-  $ sudo adduser gerrit2
-  $ sudo su gerrit2
+  $ sudo adduser gerrit
+  $ sudo su gerrit
 ----
 
 If you don't have root privileges you could skip this step and run Gerrit
@@ -71,12 +71,12 @@ This tutorial is based on version 2.2.2, and you can download that from this lin
 It's time to run the initialization, and with the batch switch enabled, we don't have to answer any questions at all:
 
 ----
-  gerrit2@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
+  gerrit@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
   Generating SSH host key ... rsa(simple)... done
-  Initialized /home/gerrit2/gerrit_testsite
-  Executing /home/gerrit2/gerrit_testsite/bin/gerrit.sh start
+  Initialized /home/gerrit/gerrit_testsite
+  Executing /home/gerrit/gerrit_testsite/bin/gerrit.sh start
   Starting Gerrit Code Review: OK
-  gerrit2@host:~$
+  gerrit@host:~$
 ----
 
 When the init is complete, you can review your settings in the
@@ -86,22 +86,22 @@ Note that initialization also starts the server.  If any settings changes are
 made, the server must be restarted before they will take effect.
 
 ----
-  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh restart
+  gerrit@host:~$ ~/gerrit_testsite/bin/gerrit.sh restart
   Stopping Gerrit Code Review: OK
   Starting Gerrit Code Review: OK
-  gerrit2@host:~$
+  gerrit@host:~$
 ----
 
 The server can be also stopped and started by passing the `stop` and `start`
 commands to gerrit.sh.
 
 ----
-  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh stop
+  gerrit@host:~$ ~/gerrit_testsite/bin/gerrit.sh stop
   Stopping Gerrit Code Review: OK
-  gerrit2@host:~$
-  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh start
+  gerrit@host:~$
+  gerrit@host:~$ ~/gerrit_testsite/bin/gerrit.sh start
   Starting Gerrit Code Review: OK
-  gerrit2@host:~$
+  gerrit@host:~$
 ----
 
 include::config-login-register.txt[]

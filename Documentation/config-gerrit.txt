@@ -16,7 +16,7 @@ Sample `etc/gerrit.config`:
   packedGitLimit = 200 m
 
 [cache]
-  directory = /var/cache/gerrit2
+  directory = /var/cache/gerrit
 ----
 
 [[accountPatchReviewDb]]
@@ -1553,7 +1553,7 @@ records about user accounts and change reviews.
   type = POSTGRESQL
   hostname = localhost
   database = reviewdb
-  username = gerrit2
+  username = gerrit
   password = s3kr3t
 ----
 

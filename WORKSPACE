@@ -636,15 +636,15 @@ maven_jar(
 # https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:1.4.0",
+    artifact = "org.apache.sshd:sshd-core:1.6.0",
     exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
-    sha1 = "c8f3d7457fc9979d1b9ec319f0229b89793c8e56",
+    sha1 = "548e2da643e88cda9d313efb2564a74f9943e491",
 )
 
 maven_jar(
     name = "eddsa",
-    artifact = "net.i2p.crypto:eddsa:0.1.0",
-    sha1 = "8f5a3b165164e222da048d8136b21428ee0b9122",
+    artifact = "net.i2p.crypto:eddsa:0.2.0",
+    sha1 = "0856a92559c4daf744cb27c93cd8b7eb1f8c4780",
 )
 
 maven_jar(

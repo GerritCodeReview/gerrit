@@ -101,6 +101,7 @@ class FileApiImpl implements FileApi {
     if (r.getWhitespace() != null) {
       getDiff.setWhitespace(r.getWhitespace());
     }
+    r.getParent().ifPresent(getDiff::setParent);
     try {
       return getDiff.apply(file).value();
     } catch (Exception e) {

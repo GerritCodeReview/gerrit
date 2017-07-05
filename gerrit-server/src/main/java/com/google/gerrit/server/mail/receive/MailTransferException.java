@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.receive;
 
 /** An exception indicating a known transport-level exception. */
 public class MailTransferException extends Exception {
+  private static final long serialVersionUID = 1L;
 
   public MailTransferException(String message) {
     super(message);

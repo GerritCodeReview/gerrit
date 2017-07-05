@@ -1761,9 +1761,9 @@ Only external ids belonging to the caller may be deleted.
   POST /a/accounts/self/external.ids:delete HTTP/1.0
   Content-Type: application/json;charset=UTF-8
 
-  {
+  [
     "mailto:john.doe@example.com"
-  }
+  ]
 ----
 
 .Response

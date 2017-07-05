@@ -369,7 +369,7 @@ limitations under the License.
 
         element.$.confirmCherrypick.branch = 'master';
         element._handleCherrypickConfirm();
-        assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
+        assert.equal(fireActionStub.callCount, 0); // Still needs a message.
 
         // Add attributes that are used to determine the message.
         element.$.confirmCherrypick.commitMessage = 'foo message';

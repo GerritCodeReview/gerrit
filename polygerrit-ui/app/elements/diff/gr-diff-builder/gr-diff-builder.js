@@ -131,7 +131,7 @@
       if (groupStartLine === 0) { // Line was removed or added.
         groupStartLine = groupEndLine;
       }
-      if (groupEndLine === 0) {  // Line was removed or added.
+      if (groupEndLine === 0) { // Line was removed or added.
         groupEndLine = groupStartLine;
       }
       if (startLine <= groupEndLine && endLine >= groupStartLine) {
@@ -474,7 +474,7 @@
              html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
         index++;
       }
-      index++;  // skip the ">" itself
+      index++; // skip the ">" itself
     }
     // An HTML entity (e.g., &lt;) counts as one character.
     if (index < html.length &&

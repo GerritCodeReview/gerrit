@@ -95,7 +95,7 @@
         value: false,
       },
 
-      _xhrPromise: Object,  // Used for testing.
+      _xhrPromise: Object, // Used for testing.
       _messageText: {
         type: String,
         value: '',

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b412fc9_fba6daba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T06:48:48Z",
+      "side": 1,
+      "message": "This will always claim that the transfer encoding is quoted-printable which is not 100% accurate since quoted-printable is an if-need-be encoding and standard 7-bit ASCII won\u0027t be encoded. Form what I observe from other email services like Gmail, they would only set the encoding to quoted printable if the message needs decoding.\n\nYou can easily figure the transfer encoding out on the fly if you save the result of the encoding in a local variable before:\n\n  String textQuotedPrintable \u003d quotedPrintableEncode(textPart);\n\nAnd then just do:\n\n  String transferEncoding \u003d textQuotedPrintable.euqals(textPart) ? \"7bit\" : \"quoted-printable\"; // This can be 7bit then",
+      "revId": "1cb2747cb9847ce841de124d3ac92ba3333789cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78901913_068c4db5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-05T06:48:48Z",
+      "side": 1,
+      "message": "(optional) FilterOutputStream inherits from FilterOutputStream which implements AutoCloseable, so you could do:\n\n  ByteArrayOutputStream s \u003d new ByteArrayOutputStream()\n  try (QuotedPrintableOutputStream qp \u003d new QuotedPrintableOutputStream(s, false);) {\n    qp.write(input.getBytes(UTF_8));\n  }\n  return s.toString();",
+      "range": {
+        "startLine": 334,
+        "startChar": 4,
+        "endLine": 334,
+        "endChar": 31
+      },
+      "revId": "1cb2747cb9847ce841de124d3ac92ba3333789cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d3e812b_d0b57dae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-05T19:17:06Z",
+      "side": 1,
+      "message": "Strictly speaking this could be an InternalUser, but probably not much harm in returning \"anonymous\" in this case since such a message would not be shown to an end user.",
+      "revId": "1f5795b02610ebd7ee7b54962b5363dc6ddc3b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

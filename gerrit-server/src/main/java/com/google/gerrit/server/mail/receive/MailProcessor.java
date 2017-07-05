@@ -168,7 +168,13 @@ public class MailProcessor {
       return;
     }
 
-    try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
+    persistComments(buf, message, metadata, account);
+  }
+
+  private void persistComments(
+      BatchUpdate.Factory buf, MailMessage message, MailMetadata metadata, Account.Id sender)
+      throws OrmException, UpdateException, RestApiException {
+    try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
@@ -180,7 +186,8 @@ public class MailProcessor {
       }
       ChangeData cd = changeDataList.get(0);
       if (existingMessageIds(cd).contains(message.id())) {
-        log.info("Message " + message.id() + " was already processed. Will delete message.");
+        log.info(
+            String.format("Message %s was already processed. Will delete message.", message.id()));
         return;
       }
       // Get all comments; filter and sort them to get the original list of
@@ -203,7 +210,9 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        log.warn("Could not parse any comments from " + message.id() + ". Will delete message.");
+        log.warn(
+            String.format(
+                "Could not parse any comments from %s. Will delete message.", message.id()));
         return;
       }
 
@@ -238,62 +247,16 @@ public class MailProcessor {
         throw new OrmException("patch set not found: " + psId);
       }
 
-      String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
-        // Add a blank line after Patch Set to follow the default format
-        if (parsedComments.size() > 1) {
-          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
-        }
-        changeMsg += "\n\n" + parsedComments.get(0).message;
-      } else {
-        changeMsg += "\n\n" + numComments(parsedComments.size());
-      }
-
-      changeMessage = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+      changeMessage = generateChangeMessage(ctx);
       changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
         if (c.type == MailComment.CommentType.CHANGE_MESSAGE) {
           continue;
         }
-
-        String fileName;
-        // The patch set that this comment is based on is different if this
-        // comment was sent in reply to a comment on a previous patch set.
-        PatchSet psForComment;
-        Side side;
-        if (c.inReplyTo != null) {
-          fileName = c.inReplyTo.key.filename;
-          psForComment =
-              psUtil.get(
-                  ctx.getDb(),
-                  ctx.getNotes(),
-                  new PatchSet.Id(ctx.getChange().getId(), c.inReplyTo.key.patchSetId));
-          side = Side.fromShort(c.inReplyTo.side);
-        } else {
-          fileName = c.fileName;
-          psForComment = patchSet;
-          side = Side.REVISION;
-        }
-
-        Comment comment =
-            commentsUtil.newComment(
-                ctx,
-                fileName,
-                psForComment.getId(),
-                (short) side.ordinal(),
-                c.message,
-                false,
-                null);
-        comment.tag = tag;
-        if (c.inReplyTo != null) {
-          comment.parentUuid = c.inReplyTo.key.uuid;
-          comment.lineNbr = c.inReplyTo.lineNbr;
-          comment.range = c.inReplyTo.range;
-          comment.unresolved = c.inReplyTo.unresolved;
-        }
-        CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), psForComment);
-        comments.add(comment);
+        comments.add(
+            persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
       commentsUtil.putComments(
           ctx.getDb(),
@@ -344,6 +307,67 @@ public class MailProcessor {
           approvals,
           approvals,
           ctx.getWhen());
+    }
+
+    private ChangeMessage generateChangeMessage(ChangeContext ctx) throws OrmException {
+      String changeMsg = "Patch Set " + psId.get() + ":";
+      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
+        // Add a blank line after Patch Set to follow the default format
+        if (parsedComments.size() > 1) {
+          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
+        }
+        changeMsg += "\n\n" + parsedComments.get(0).message;
+      } else {
+        changeMsg += "\n\n" + numComments(parsedComments.size());
+      }
+      return ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+    }
+
+    private PatchSet targetPatchSetForComment(
+        ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
+      if (mailComment.inReplyTo != null) {
+        return psUtil.get(
+            ctx.getDb(),
+            ctx.getNotes(),
+            new PatchSet.Id(ctx.getChange().getId(), mailComment.inReplyTo.key.patchSetId));
+      }
+      return current;
+    }
+
+    private Comment persistentCommentFromMailComment(
+        ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
+        throws OrmException, UnprocessableEntityException {
+      String fileName;
+      // The patch set that this comment is based on is different if this
+      // comment was sent in reply to a comment on a previous patch set.
+      Side side;
+      if (mailComment.inReplyTo != null) {
+        fileName = mailComment.inReplyTo.key.filename;
+        side = Side.fromShort(mailComment.inReplyTo.side);
+      } else {
+        fileName = mailComment.fileName;
+        side = Side.REVISION;
+      }
+
+      Comment comment =
+          commentsUtil.newComment(
+              ctx,
+              fileName,
+              patchSetForComment.getId(),
+              (short) side.ordinal(),
+              mailComment.message,
+              false,
+              null);
+
+      comment.tag = tag;
+      if (mailComment.inReplyTo != null) {
+        comment.parentUuid = mailComment.inReplyTo.key.uuid;
+        comment.lineNbr = mailComment.inReplyTo.lineNbr;
+        comment.range = mailComment.inReplyTo.range;
+        comment.unresolved = mailComment.inReplyTo.unresolved;
+      }
+      CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), patchSetForComment);
+      return comment;
     }
   }
 

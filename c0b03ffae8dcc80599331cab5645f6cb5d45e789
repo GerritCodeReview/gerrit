@@ -70,6 +70,30 @@
       "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df24c0e5_4958e7bc",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-05T23:36:37Z",
+      "side": 1,
+      "message": "Yep. I did not mean try it in this change.",
+      "parentUuid": "06296b6a_81b0e033",
+      "range": {
+        "startLine": 641,
+        "startChar": 4,
+        "endLine": 641,
+        "endChar": 73
+      },
+      "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,11 +36,11 @@
     properties: {
       _elements: {
         type: Object,
-        value: {},  // Shared across all instances.
+        value: {}, // Shared across all instances.
       },
       _eventCallbacks: {
         type: Object,
-        value: {},  // Shared across all instances.
+        value: {}, // Shared across all instances.
       },
     },
 

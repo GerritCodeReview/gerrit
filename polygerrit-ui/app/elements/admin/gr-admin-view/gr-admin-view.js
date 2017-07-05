@@ -101,7 +101,7 @@
       for (const link of links) {
         const linkCopy = Object.assign({}, link);
         linkCopy.children = linkCopy.children ?
-            linkCopy.children.filter(filterFn) : [];
+          linkCopy.children.filter(filterFn) : [];
         if (linkCopy.name === 'Projects' && this._project) {
           linkCopy.subsection = {
             name: `${this._project}`,

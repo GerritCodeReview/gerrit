@@ -83,11 +83,11 @@
               return;
             }
             this._projects = Object.keys(projects)
-             .map(key => {
-               const project = projects[key];
-               project.name = key;
-               return project;
-             });
+                .map(key => {
+                  const project = projects[key];
+                  project.name = key;
+                  return project;
+                });
             this._loading = false;
           });
     },

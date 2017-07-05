@@ -98,14 +98,14 @@
 
     _maybeSetName() {
       return this._hasNameChange && this.mutable ?
-                this.$.restAPI.setAccountName(this._account.name) :
-                Promise.resolve();
+        this.$.restAPI.setAccountName(this._account.name) :
+        Promise.resolve();
     },
 
     _maybeSetStatus() {
       return this._hasStatusChange ?
-          this.$.restAPI.setAccountStatus(this._account.status) :
-          Promise.resolve();
+        this.$.restAPI.setAccountStatus(this._account.status) :
+        Promise.resolve();
     },
 
     _computeHasUnsavedChanges(name, status) {

@@ -109,7 +109,7 @@
         console.error(eventValue.error || eventName);
       } else {
         console.log(eventName + (eventValue !== undefined ?
-            (': ' + eventValue) : ''));
+          (': ' + eventValue) : ''));
       }
     },
 

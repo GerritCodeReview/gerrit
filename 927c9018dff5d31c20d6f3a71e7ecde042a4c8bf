@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a096ff2_06bb064a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3157,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:45:49Z",
+      "side": 1,
+      "message": "Updated docstring for CommitMessageInput#notify and will rename the Java class.",
+      "parentUuid": "37902d16_ceb4c2c5",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af290525_f1ddfeab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f65f5eab_d3d0ba71",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:45:49Z",
+      "side": 1,
+      "message": "While working on this I found a bug (see line 1808 in this patch set), which impacted two existing tests involving owner self-CC. I updated other tests in this area as well, to share the same consistent style of documenting this strange existing behavior.",
+      "parentUuid": "af290525_f1ddfeab",
+      "range": {
+        "startLine": 1480,
+        "startChar": 9,
+        "endLine": 1480,
+        "endChar": 24
+      },
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "068f37a8_e4f5005b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
         "patchSetId": 3
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "e0f02eb2_a39de9df",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:45:49Z",
+      "side": 1,
+      "message": "I prefer to over-test here. The fact that there is a shared aspect of implementation between scenarios is irrelevant to what the tests are guaranteeing. If something changes in the implementation to cause one scenario to diverge from the other, I want to detect that.",
+      "parentUuid": "068f37a8_e4f5005b",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "393d5b2c_c9273519",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61519761_ccbd67a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-05T19:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "393d5b2c_c9273519",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

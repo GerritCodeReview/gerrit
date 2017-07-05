@@ -139,7 +139,7 @@ limitations under the License.
     test('pressing enter saves name', done => {
       element.$.name.value = 'entered name';
       save(() => {
-        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13);  // 'enter'
+        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13); // 'enter'
       }).then(() => {
         assert.equal(account.name, 'entered name');
       }).then(done);

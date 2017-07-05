@@ -211,25 +211,25 @@
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
-          .then(response => {
-            if (!response.ok) { return response; }
-            const label = this.change.labels[labelName];
-            const labels = label.all || [];
-            for (let i = 0; i < labels.length; i++) {
-              if (labels[i]._account_id === accountID) {
-                for (const key in label) {
-                  if (label.hasOwnProperty(key) &&
+              .then(response => {
+                if (!response.ok) { return response; }
+                const label = this.change.labels[labelName];
+                const labels = label.all || [];
+                for (let i = 0; i < labels.length; i++) {
+                  if (labels[i]._account_id === accountID) {
+                    for (const key in label) {
+                      if (label.hasOwnProperty(key) &&
                       label[key]._account_id === accountID) {
-                    // Remove special label field, keeping change label values
-                    // in sync with the backend.
-                    this.set(['change.labels', labelName, key], null);
+                        // Remove special label field, keeping change label values
+                        // in sync with the backend.
+                        this.set(['change.labels', labelName, key], null);
+                      }
+                    }
+                    this.splice(['change.labels', labelName, 'all'], i, 1);
+                    break;
                   }
                 }
-                this.splice(['change.labels', labelName, 'all'], i, 1);
-                break;
-              }
-            }
-          });
+              });
     },
 
     _computeShowLabelStatus(change) {
@@ -270,7 +270,7 @@
     _computeBranchURL(project, branch) {
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
-              this.change.status.toLowerCase());
+            this.change.status.toLowerCase());
     },
 
     _computeTopicURL(topic) {

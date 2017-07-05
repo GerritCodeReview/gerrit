@@ -61,11 +61,11 @@ limitations under the License.
     test('url is properly encoded', () => {
       assert.equal(element._computeNavLink(
           'status:open project:platform/frameworks/base', 0, -1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase'
+      '/q/status:open+project:platform%252Fframeworks%252Fbase'
       );
       assert.equal(element._computeNavLink(
           'status:open project:platform/frameworks/base', 0, 1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase,25'
+      '/q/status:open+project:platform%252Fframeworks%252Fbase,25'
       );
     });
 
@@ -127,7 +127,7 @@ limitations under the License.
       assert.isTrue(element._hideNextArrow(loading));
       element._changes =
           Array(...Array(25)).map(Object.prototype.valueOf,
-          {_more_changes: true});
+              {_more_changes: true});
       assert.isFalse(element._hideNextArrow(loading));
       element._changes =
           Array(...Array(25)).map(Object.prototype.valueOf, {});

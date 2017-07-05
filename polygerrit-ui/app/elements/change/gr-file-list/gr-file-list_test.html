@@ -344,7 +344,7 @@ limitations under the License.
 
         assert(navStub.lastCall.calledWith(element.change,
             'file_added_in_rev2.txt', '2'),
-            'Should navigate to /c/42/2/file_added_in_rev2.txt');
+        'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -573,7 +573,7 @@ limitations under the License.
       assert.equal(element._computeExpandInlineClass(
           {expand_inline_diffs: true}), 'expandInline');
       assert.equal(element._computeExpandInlineClass(
-        {expand_inline_diffs: false}), '');
+          {expand_inline_diffs: false}), '');
     });
 
     test('file review status', () => {
@@ -1184,7 +1184,7 @@ limitations under the License.
 
       element.set('_files', _files);
       flushAsynchronousOperations();
-       // Navigates when a file is selected.
+      // Navigates when a file is selected.
       element._openSelectedFile();
       assert.isTrue(navStub.called);
     });

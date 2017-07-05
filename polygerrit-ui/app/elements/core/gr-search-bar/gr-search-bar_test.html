@@ -49,8 +49,8 @@ limitations under the License.
 
     getActiveElement = () => {
       return document.activeElement.shadowRoot ?
-          document.activeElement.shadowRoot.activeElement :
-          document.activeElement;
+        document.activeElement.shadowRoot.activeElement :
+        document.activeElement;
     };
 
     test('tap on search button triggers nav', done => {

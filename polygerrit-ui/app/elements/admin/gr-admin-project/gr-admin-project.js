@@ -200,8 +200,8 @@
     _handleSaveProjectConfig() {
       return this.$.restAPI.saveProjectConfig(this.project,
           this._formatProjectConfigForSave(this._projectConfig)).then(() => {
-            this._configChanged = false;
-          });
+        this._configChanged = false;
+      });
     },
 
     _handleConfigChanged() {
@@ -241,7 +241,7 @@
           command: commandObj[title]
               .replace('${project}', project)
               .replace('${project-base-name}',
-              project.substring(project.lastIndexOf('/') + 1)),
+                  project.substring(project.lastIndexOf('/') + 1)),
         });
       }
       return commands;

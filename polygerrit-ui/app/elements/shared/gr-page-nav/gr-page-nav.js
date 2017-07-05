@@ -35,8 +35,8 @@
         // Don't want to include the element that wraps around the nav, start
         // with its parent.
         for (let offsetParent = this._getOffsetParent(this.offsetParent);
-           offsetParent;
-           offsetParent = this._getOffsetParent(offsetParent)) {
+          offsetParent;
+          offsetParent = this._getOffsetParent(offsetParent)) {
           top += this._getOffsetTop(offsetParent);
         }
         this._headerHeight = top;

@@ -21,14 +21,32 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../admin/gr-create-project-dialog/gr-create-project-dialog.html">
+
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-list-view.html">
+
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
     <gr-list-view></gr-list-view>
+  </template>
+</test-fixture>
+
+<test-fixture id="createNewFixture">
+  <template>
+    <gr-list-view>
+      <gr-confirm-dialog id="createDialog">
+        <gr-overlay id="createOverlay" with-backdrop>
+          <gr-create-project-dialog
+              id="createNewModal"></gr-create-project-dialog>
+        </gr-overlay>
+      </gr-confirm-dialog>
+    </gr-list-view>
   </template>
 </test-fixture>
 
@@ -106,6 +124,37 @@ limitations under the License.
         offset = 5;
         assert.isFalse(element._hidePrevArrow(offset));
       });
+    });
+  });
+
+  suite('gr-list-view overlay integration tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('createNewFixture');
+      sandbox.stub(page, 'show');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('createNew link appears correctly', () => {
+      assert.isNotOk(element.$$('#createNew'));
+      element.createNew = true;
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('#createNew'));
+    });
+
+    test('fires create clicked event when button tapped', () => {
+      const clickHandler = sandbox.stub();
+      element.addEventListener('create-clicked', clickHandler);
+      element.createNew = true;
+      flushAsynchronousOperations();
+      MockInteractions.tap(element.$$('#createNew'));
+      assert.isTrue(clickHandler.called);
     });
   });
 </script>

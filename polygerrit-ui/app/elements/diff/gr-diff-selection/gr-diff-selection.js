@@ -73,8 +73,8 @@
       const side = this.diffBuilder.getSideByLineEl(lineEl);
       const targetClasses = [];
       targetClasses.push(side === 'left' ?
-          SelectionClass.LEFT :
-          SelectionClass.RIGHT);
+        SelectionClass.LEFT :
+        SelectionClass.RIGHT);
 
       if (commentSelected) {
         targetClasses.push(SelectionClass.COMMENT);

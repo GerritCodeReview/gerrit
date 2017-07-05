@@ -52,15 +52,15 @@
     properties: {
       _cache: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
       _pendingRequests: {
         type: Object,
-        value: {},  // Intentional to share the object across instances.
+        value: {}, // Intentional to share the object across instances.
       },
     },
 
@@ -227,55 +227,55 @@
     setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
-          opt_errFn, opt_ctx).then(() => {
-            // If result of getAccountEmails is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedEmails = this._cache['/accounts/self/emails'];
-            if (cachedEmails) {
-              const emails = cachedEmails.map(entry => {
-                if (entry.email === email) {
-                  return {email, preferred: true};
-                } else {
-                  return {email};
-                }
-              });
-              this._cache['/accounts/self/emails'] = emails;
+      opt_errFn, opt_ctx).then(() => {
+        // If result of getAccountEmails is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        const cachedEmails = this._cache['/accounts/self/emails'];
+        if (cachedEmails) {
+          const emails = cachedEmails.map(entry => {
+            if (entry.email === email) {
+              return {email, preferred: true};
+            } else {
+              return {email};
             }
           });
+          this._cache['/accounts/self/emails'] = emails;
+        }
+      });
     },
 
     setAccountName(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
           opt_ctx).then(response => {
-            // If result of getAccount is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
-            if (cachedAccount) {
-              return this.getResponseObject(response).then(newName => {
-                // Replace object in cache with new object to force UI updates.
-                // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {name: newName});
-              });
-            }
+        // If result of getAccount is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        const cachedAccount = this._cache['/accounts/self/detail'];
+        if (cachedAccount) {
+          return this.getResponseObject(response).then(newName => {
+            // Replace object in cache with new object to force UI updates.
+            // TODO(logan): Polyfill for Object.assign in IE
+            this._cache['/accounts/self/detail'] = Object.assign(
+                {}, cachedAccount, {name: newName});
           });
+        }
+      });
     },
 
     setAccountStatus(status, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/status', {status},
           opt_errFn, opt_ctx).then(response => {
-            // If result of getAccount is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
-            if (cachedAccount) {
-              return this.getResponseObject(response).then(newStatus => {
-                // Replace object in cache with new object to force UI updates.
-                // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {status: newStatus});
-              });
-            }
+        // If result of getAccount is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        const cachedAccount = this._cache['/accounts/self/detail'];
+        if (cachedAccount) {
+          return this.getResponseObject(response).then(newStatus => {
+            // Replace object in cache with new object to force UI updates.
+            // TODO(logan): Polyfill for Object.assign in IE
+            this._cache['/accounts/self/detail'] = Object.assign(
+                {}, cachedAccount, {status: newStatus});
           });
+        }
+      });
     },
 
     getAccountGroups() {
@@ -337,7 +337,7 @@
         return Promise.resolve({
           changes_per_page: 25,
           default_diff_view: this._isNarrowScreen() ?
-              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+            DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
         });
       });
@@ -376,9 +376,9 @@
             this._sharedFetchPromises[url] = undefined;
             return response;
           }).catch(err => {
-            this._sharedFetchPromises[url] = undefined;
-            throw err;
-          });
+        this._sharedFetchPromises[url] = undefined;
+        throw err;
+      });
       return this._sharedFetchPromises[url];
     },
 
@@ -485,7 +485,7 @@
       return this.fetchJSON(
           this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
           revisionActions => {
-                // The rebase button on change screen is always enabled.
+            // The rebase button on change screen is always enabled.
             if (revisionActions.rebase) {
               revisionActions.rebase.rebaseOnCurrent =
                       !!revisionActions.rebase.enabled;
@@ -940,7 +940,7 @@
 
     getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
-          '?parent=' + opt_parentIndex : '';
+        '?parent=' + opt_parentIndex : '';
       return this._fetchB64File(
           '/changes/' + encodeURIComponent(changeId) +
           '/revisions/' + encodeURIComponent(patchNum) +

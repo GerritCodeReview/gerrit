@@ -260,16 +260,16 @@
       this.$.commitMessageEditor.disabled = true;
       this.$.restAPI.putChangeCommitMessage(
           this._changeNum, message).then(resp => {
-            this.$.commitMessageEditor.disabled = false;
-            if (!resp.ok) { return; }
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) { return; }
 
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                message);
-            this._editingCommitMessage = false;
-            this._reloadWindow();
-          }).catch(err => {
-            this.$.commitMessageEditor.disabled = false;
-          });
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      }).catch(err => {
+        this.$.commitMessageEditor.disabled = false;
+      });
     },
 
     _reloadWindow() {
@@ -513,7 +513,7 @@
 
     _viewStateChanged(viewState) {
       this._numFilesShown = viewState.numFilesShown ?
-          viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
+        viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
     },
 
     _numFilesShownChanged(numFilesShown) {
@@ -624,7 +624,7 @@
         }
       }
       const patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
-          this._patchRange.basePatchNum + '..' + patchNum;
+        this._patchRange.basePatchNum + '..' + patchNum;
       page.show(this.changePath(this._changeNum) + '/' + patchExpr);
     },
 
@@ -956,14 +956,14 @@
             this._change = change;
             if (!this._patchRange || !this._patchRange.patchNum ||
                     this._patchRange.patchNum === currentRevision._number) {
-                  // CommitInfo.commit is optional, and may need patching.
+              // CommitInfo.commit is optional, and may need patching.
               if (!currentRevision.commit.commit) {
                 currentRevision.commit.commit = latestRevisionSha;
               }
               this._commitInfo = currentRevision.commit;
               this._currentRevisionActions =
                       this._updateRebaseAction(currentRevision.actions);
-                  // TODO: Fetch and process files.
+              // TODO: Fetch and process files.
             }
           });
     },
@@ -1072,7 +1072,7 @@
     _computePatchSetDescription(change, patchNum) {
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     _computePatchSetCommentsString(allComments, patchNum) {
@@ -1210,11 +1210,11 @@
           !this._computeCommitToggleHidden(this._latestCommitMessage);
 
       if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`)
-          .matches) {
+        .matches) {
         // In a small (mobile) view, give the relation chain some space.
         newHeight = SMALL_RELATED_HEIGHT;
       } else if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_MED})`)
-          .matches) {
+        .matches) {
         // Since related changes are below the commit message, but still next to
         // metadata, the height should be the height of the metadata minus the
         // height of the commit message to reduce jank. However, if that doesn't

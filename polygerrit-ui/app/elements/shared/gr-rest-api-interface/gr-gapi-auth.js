@@ -32,8 +32,8 @@
     options = Object.assign({}, options);
     return this._getAccessToken().then(
         token => window.FASTER_GERRIT_CORS ?
-            this._fasterGerritCors(url, options, token) :
-            this._defaultFetch(url, options, token)
+          this._fasterGerritCors(url, options, token) :
+          this._defaultFetch(url, options, token)
     );
   };
 
@@ -74,15 +74,15 @@
     }
     if (!GrGapiAuth._refreshTokenPromise) {
       GrGapiAuth._refreshTokenPromise = this._loadGapi()
-        .then(() => this._configureOAuthLibrary())
-        .then(() => this._refreshToken())
-        .then(token => {
-          GrGapiAuth._sharedAuthToken = token;
-          GrGapiAuth._refreshTokenPromise = null;
-          return this._getAccessToken();
-        }).catch(err => {
-          console.error(err);
-        });
+          .then(() => this._configureOAuthLibrary())
+          .then(() => this._refreshToken())
+          .then(token => {
+            GrGapiAuth._sharedAuthToken = token;
+            GrGapiAuth._refreshTokenPromise = null;
+            return this._getAccessToken();
+          }).catch(err => {
+            console.error(err);
+          });
     }
     return GrGapiAuth._refreshTokenPromise;
   };
@@ -115,25 +115,25 @@
   GrGapiAuth.prototype._configureOAuthLibrary = function() {
     if (!GrGapiAuth._setupPromise) {
       GrGapiAuth._setupPromise = new Promise(
-        resolve => gapi.load('config_min', resolve)
+          resolve => gapi.load('config_min', resolve)
       )
-        .then(() => this._getOAuthConfig())
-        .then(config => {
-          if (config.hasOwnProperty('auth_url') && config.auth_url) {
-            gapi.config.update('oauth-flow/authUrl', config.auth_url);
-          }
-          if (config.hasOwnProperty('proxy_url') && config.proxy_url) {
-            gapi.config.update('oauth-flow/proxyUrl', config.proxy_url);
-          }
-          GrGapiAuth._oauthClientId = config.client_id;
-          GrGapiAuth._oauthEmail = config.email;
+          .then(() => this._getOAuthConfig())
+          .then(config => {
+            if (config.hasOwnProperty('auth_url') && config.auth_url) {
+              gapi.config.update('oauth-flow/authUrl', config.auth_url);
+            }
+            if (config.hasOwnProperty('proxy_url') && config.proxy_url) {
+              gapi.config.update('oauth-flow/proxyUrl', config.proxy_url);
+            }
+            GrGapiAuth._oauthClientId = config.client_id;
+            GrGapiAuth._oauthEmail = config.email;
 
-          // Loading auth has a side-effect. The URLs should be set before
-          // loading it.
-          return new Promise(
-            resolve => gapi.load('auth', () => gapi.auth.init(resolve))
-          );
-        });
+            // Loading auth has a side-effect. The URLs should be set before
+            // loading it.
+            return new Promise(
+                resolve => gapi.load('auth', () => gapi.auth.init(resolve))
+            );
+          });
     }
     return GrGapiAuth._setupPromise;
   };

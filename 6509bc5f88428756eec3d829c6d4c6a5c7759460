@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f5c42c7_08742ed6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3028,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:21:45Z",
+      "side": 1,
+      "message": "No need for a separate test method just to check the tag; add this assert to the existing changeCommitMessage method.",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84984c85_b23e1661",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3031,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:21:45Z",
+      "side": 1,
+      "message": "Similarly, I would expand this to a more general changeCommitMessageOnWipChange test.",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "299da5c4_5ab6f085",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:21:45Z",
+      "side": 1,
+      "message": "Same comment, put this assert in an existing method.",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "083c7de3_a3aafb56",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:21:45Z",
+      "side": 1,
+      "message": "Same comment, expand this to a general WIP test.",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c593f345_0078b314",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:21:45Z",
+      "side": 1,
+      "message": "Prefer asserts in existing test methods.",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -87,9 +87,10 @@
 
       /**
        * When true, tab key autocompletes but does not fire the commit event.
-       * See Issue 4556.
+       * When false, tab key not caught, and focus is removed from the element.
+       * See Issue 4556, Issue 6645.
        */
-      tabCompleteWithoutCommit: {
+      tabComplete: {
         type: Boolean,
         value: false,
       },
@@ -162,7 +163,7 @@
 
     _handleItemSelect(e) {
       let silent = false;
-      if (e.detail.trigger === 'tab' && this.tabCompleteWithoutCommit) {
+      if (e.detail.trigger === 'tab' && this.tabComplete) {
         silent = true;
       }
       this._selected = e.detail.selected;
@@ -244,9 +245,11 @@
           this._cancel();
           break;
         case 9: // Tab
-          if (this._suggestions.length > 0) {
+          if (this._suggestions.length > 0 && this.tabComplete) {
             e.preventDefault();
-            this._handleInputCommit(this.tabCompleteWithoutCommit);
+            this._handleInputCommit(true);
+          } else {
+            this._focused = false;
           }
           break;
         case 13: // Enter
@@ -269,9 +272,9 @@
       }
     },
 
-    _handleInputCommit(opt_tabCompleteWithoutCommit) {
+    _handleInputCommit(opt_tabComplete) {
       this._selected = this.$.suggestions.getCursorTarget();
-      this._commit(opt_tabCompleteWithoutCommit);
+      this._commit(opt_tabComplete);
     },
 
     _updateValue(suggestion, suggestions) {

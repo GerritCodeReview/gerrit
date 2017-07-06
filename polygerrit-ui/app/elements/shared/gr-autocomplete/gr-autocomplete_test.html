@@ -257,28 +257,27 @@ limitations under the License.
       });
     });
 
-    test('tab key completes only when suggestions exist', () => {
-      const commitStub = sandbox.stub(element, '_commit');
-      element._suggestions = [];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-      assert.isFalse(commitStub.called);
-      element._suggestions = ['tunnel snakes rule!'];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-      assert.isTrue(commitStub.called);
-      assert.isTrue(element._focused);
-    });
-
-    test('tabCompleteWithoutCommit flag functions', () => {
+    test('tabComplete flag functions', () => {
+      // commitHandler checks for the commit event, whereas commitSpy checks for
+      // the _commit function of the element.
       const commitHandler = sandbox.spy();
       element.addEventListener('commit', commitHandler);
+      const commitSpy = sandbox.spy(element, '_commit');
+      element._focused = true;
+
       element._suggestions = ['tunnel snakes rule!'];
-      element.tabCompleteWithoutCommit = true;
+      element.tabComplete = false;
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitHandler.called);
-      element.tabCompleteWithoutCommit = false;
-      element._suggestions = ['tunnel snakes rule!'];
+      assert.isFalse(commitSpy.called);
+      assert.isFalse(element._focused);
+
+      element.tabComplete = true;
+      element._focused = true;
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-      assert.isTrue(commitHandler.called);
+      assert.isFalse(commitHandler.called);
+      assert.isTrue(commitSpy.called);
+      assert.isTrue(element._focused);
     });
 
     test('_focused flag properly triggered', done => {
@@ -320,24 +319,29 @@ limitations under the License.
       test('tab in input does not call focus', () => {
         element._suggestions = ['sugar bombs'];
         focusSpy = sandbox.spy(element, 'focus');
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+        flushAsynchronousOperations();
+
+        assert.isFalse(commitSpy.called);
+        assert.isFalse(focusSpy.called);
+        assert.equal(element._suggestions.length, 1);
+
+        element.tabComplete = true;
+        element._suggestions = ['tunnel snakes drool'];
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
         flushAsynchronousOperations();
 
         assert.isTrue(commitSpy.called);
         assert.isFalse(focusSpy.called);
         assert.equal(element._suggestions.length, 0);
-
-        element.tabCompleteWithoutCommit = true;
-        element._suggestions = ['tunnel snakes drool'];
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-        assert.isFalse(focusSpy.called);
       });
 
-      test('tab on suggestion, tabCompleteWithoutCommit = false', () => {
+      test('tab on suggestion, tabComplete = false', () => {
         element._suggestions = [{name: 'sugar bombs'}];
         element._focused = true;
-        // When tabCompleteWithoutCommit is false, do not focus.
-        element.tabCompleteWithoutCommit = false;
+        // When tabComplete is false, do not focus.
+        element.tabComplete = false;
         focusSpy = sandbox.spy(element, 'focus');
         Polymer.dom.flush();
         assert.isFalse(element.$.suggestions.hidden);
@@ -350,11 +354,11 @@ limitations under the License.
         assert.isFalse(focusSpy.called);
       });
 
-      test('tab on suggestion, tabCompleteWithoutCommit = true', () => {
+      test('tab on suggestion, tabComplete = true', () => {
         element._suggestions = [{name: 'sugar bombs'}];
         element._focused = true;
-        // When tabCompleteWithoutCommit is true, focus.
-        element.tabCompleteWithoutCommit = true;
+        // When tabComplete is true, focus.
+        element.tabComplete = true;
         focusSpy = sandbox.spy(element, 'focus');
         Polymer.dom.flush();
         assert.isFalse(element.$.suggestions.hidden);

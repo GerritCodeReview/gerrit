@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "381cf977_8b9b3645",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-06T06:22:32Z",
+      "side": 1,
+      "message": "Well, I guess this rebase was rather trivial, but ok.",
+      "parentUuid": "9a7c62ee_b46c882c",
+      "range": {
+        "startLine": 680,
+        "startChar": 21,
+        "endLine": 680,
+        "endChar": 28
+      },
+      "revId": "815a20ac077e35977ad49f028e5154cbcdcec046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79f5f7ea_6e4eaccc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 5
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "Twice as many *Input classes define booleans (MergePatchSetInput, ProjectInput, EmailInput, SubmitInput, ReviewInput, FixInput) than Booleans (ChangeInput, GroupInput, AddReviewerInput). In addition, because this input is optional, it is advantageous to work with the nullable builtin boolean rather than with Boolean, which doesn\u0027t even offer a method to inspect whether the wrapped value has been initialized or not.",
       "parentUuid": "0f807c09_7a163f47",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "815a20ac077e35977ad49f028e5154cbcdcec046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e309658_892b0a6f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-06T06:22:32Z",
+      "side": 1,
+      "message": "OK, makes sense.",
+      "parentUuid": "a886d44c_b0cc9aba",
       "range": {
         "startLine": 30,
         "startChar": 9,

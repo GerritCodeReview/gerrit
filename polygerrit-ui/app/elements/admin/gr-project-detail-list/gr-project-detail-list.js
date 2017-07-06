@@ -80,18 +80,19 @@
     },
 
     _getItems(filter, project, itemsPerPage, offset, detailType) {
+      const encode = this.encodeURL(project, false);
       this._items = [];
       Polymer.dom.flush();
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.getProjectBranches(
-            filter, project, itemsPerPage, offset) .then(items => {
+            filter, encode, itemsPerPage, offset).then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getProjectTags(
-            filter, project, itemsPerPage, offset) .then(items => {
+            filter, encode, itemsPerPage, offset).then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;

@@ -49,7 +49,7 @@
       this.debounce('reload', () => {
         if (filter) {
           return page.show(`${this.path}/q/filter:` +
-              this.encodeURL(filter, false));
+              this.encodeURL(filter, true));
         }
         page.show(this.path);
       }, REQUEST_DEBOUNCE_INTERVAL_MS);

@@ -66,12 +66,12 @@ limitations under the License.
         overflow: hidden;
       }
       .authorName,
-      .draftLabel {
-        display: block;
-        float: left;
+      .draftLabel,
+      .draftTooltip {
         font-weight: bold;
       }
-      .draftLabel {
+      .draftLabel,
+      .draftTooltip {
         color: #999;
         display: none;
       }
@@ -107,7 +107,8 @@ limitations under the License.
       .draft .done {
         display: none;
       }
-      .draft .draftLabel {
+      .draft .draftLabel,
+      .draft .draftTooltip {
         display: inline;
       }
       .draft:not(.editing) .save,
@@ -205,13 +206,12 @@ limitations under the License.
       <div class="header" id="header" on-click="_handleToggleCollapsed">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>
-          <gr-tooltip-content class="draftLabel"
+          <span class="draftLabel">DRAFT</span>
+          <gr-tooltip-content class="draftTooltip"
               has-tooltip
               title="This draft is only visible to you. To publish drafts, click the red 'Reply' button at the top of the change or press the 'A' key."
               max-width="20em"
-              show-icon>
-            DRAFT
-          </gr-tooltip-content>
+              show-icon></gr-tooltip-content>
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>

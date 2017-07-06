@@ -45,6 +45,54 @@
       "revId": "b913d3243fa91aba32209bbf1dd902dc9117210d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8251be2_1f612060",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T22:09:19Z",
+      "side": 1,
+      "message": "I think I can go back to hiding it at this point. I think I had a reason before, but it\u0027s gone now.",
+      "parentUuid": "2ba5b2a9_aa6b5dc5",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 27
+      },
+      "revId": "b913d3243fa91aba32209bbf1dd902dc9117210d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81732686_93e487fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T22:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "649b2750_3bbb2f5d",
+      "range": {
+        "startLine": 62,
+        "startChar": 34,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "b913d3243fa91aba32209bbf1dd902dc9117210d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

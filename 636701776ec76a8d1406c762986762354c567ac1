@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499342181 +0200\nnonce AB2F6yD2yVv9bSbN9S/f3cQDmB7X27lFL2cKqfP/UNTUftQqULWLsmgPeWWppePy+ICd/L3QtAi4\n\n0000000000000000000000000000000000000000 636701776ec76a8d1406c762986762354c567ac1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZXiVlAAoJEFG1/Zeg0O9Ry3gIALZ5VE6rmTlJ6LBMax3Kbo8r\nMgADe3IyMdNKXoHuETk+891KDcADQeh1dNMEuaY0bb0B0gRalryCzwYRqXHP/xF4\nDhMzTcmqV+vlLdFkNUQ0PC7ehAhq7bR7pfQHENmHqMrSYJIOgdghWxZE/C1kRlW8\nwoIOOUdw/KNktYXqxDnrKjrkxJYFEfmGgXtMw0pfE/t+D8iGtJ+EhmsOBNc4hjlC\nHF17FoIYdyKvck0JaqY37COuLGS8a02Gsdh+oQspoA+QKz40Z44NmsOuSBHDhkSv\nw5LJgjzGIDB5FugNSgfaSSYAaT7b/R8d93WFnbhxOtH6bkxr2b7q2yX+cYpXpgI\u003d\n\u003dWhMG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f04d1dab_c782b670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-06T11:59:44Z",
+      "side": 1,
+      "message": "thrashing?",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "636701776ec76a8d1406c762986762354c567ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

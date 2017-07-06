@@ -540,7 +540,7 @@
 
     getProjects(filter, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + filter : '';
+      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
 
       return this._fetchSharedCacheURL(
           `/projects/?d&n=${projectsPerPage + 1}&S=${offset}${filter}`

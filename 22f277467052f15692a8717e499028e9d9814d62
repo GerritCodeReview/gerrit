@@ -70,6 +70,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "228b6f85_71c5f334",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-06T09:47:36Z",
+      "side": 1,
+      "message": "I got confused. The ordering is determined by whatever the streams call\n\n labelInfo.values \u003d\n          t.getValues()\n              .stream()\n              .collect(Collectors.toMap(LabelValue::formatValue, LabelValue::getText));\n\ndoes.",
+      "parentUuid": "52c537b3_ee091622",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

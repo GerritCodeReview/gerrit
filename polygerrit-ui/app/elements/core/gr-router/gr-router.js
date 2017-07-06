@@ -157,23 +157,6 @@
       });
     });
 
-    // Matches /admin/create-project.
-    page('/admin/create-project', loadUser, data => {
-      restAPI.getLoggedIn().then(loggedIn => {
-        restAPI.getAccountCapabilities(false).then(permission => {
-          if (loggedIn &&
-              (permission.administrateServer || permission.createProject)) {
-            app.params = {
-              view: 'gr-admin-view',
-              adminView: 'gr-admin-create-project',
-            };
-          } else {
-            page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
-          }
-        });
-      });
-    });
-
     // Matches /admin/projects/<project>,branches[,<offset>].
     page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
       app.params = {

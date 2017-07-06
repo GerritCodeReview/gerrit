@@ -15,12 +15,26 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-create-project',
+    is: 'gr-create-project-dialog',
+
+    /**
+     * Fired when a a project is created.
+     *
+     * @event create
+     */
 
     properties: {
       params: Object,
+      hasNewProjectName: {
+        type: Boolean,
+        notify: true,
+        value: false,
+      },
 
-      _projectConfig: Object,
+      _projectConfig: {
+        type: Object,
+        value: () => { return {}; },
+      },
       _projectCreated: {
         type: Object,
         value: false,
@@ -34,45 +48,30 @@
       },
     },
 
+    observers: [
+      '_updateProjectName(_projectConfig.name)',
+    ],
+
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 
-    attached() {
-      this._createProject();
-    },
-
-    _createProject() {
-      this._projectConfig = [];
-    },
-
-    _formatProjectConfigForSave(p) {
-      const configInputObj = {};
-      for (const key in p) {
-        if (p.hasOwnProperty(key)) {
-          if (typeof p[key] === 'object') {
-            configInputObj[key] = p[key].configured_value;
-          } else {
-            configInputObj[key] = p[key];
-          }
-        }
-      }
-      return configInputObj;
-    },
-
-    _redirect(projectName) {
+    _computeProjectUrl(projectName) {
       return this.getBaseUrl() + '/admin/projects/' +
           this.encodeURL(projectName, true);
     },
 
-    _handleCreateProject() {
-      const config = this._formatProjectConfigForSave(this._projectConfig);
-      return this.$.restAPI.createProject(config)
+    _updateProjectName(name) {
+      this.hasNewProjectName = !!name;
+    },
+
+    handleCreateProject() {
+      return this.$.restAPI.createProject(this._projectConfig)
           .then(projectRegistered => {
             if (projectRegistered.status === 201) {
               this._projectCreated = true;
-              this.$.redirect.click();
+              page.show(this._computeProjectUrl(this._projectConfig.name));
             }
           });
     },

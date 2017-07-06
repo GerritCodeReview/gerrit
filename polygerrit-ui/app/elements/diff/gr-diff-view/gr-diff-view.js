@@ -112,10 +112,8 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -256,15 +254,15 @@
 
     _moveToPreviousFileWithComment() {
       if (this._commentSkips && this._commentSkips.previous) {
-        page.show(this._getDiffURL(this._changeNum, this._patchRange,
-            this._commentSkips.previous));
+        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
+            this._patchRange.patchNum, this._patchRange.basePatchNum);
       }
     },
 
     _moveToNextFileWithComment() {
       if (this._commentSkips && this._commentSkips.next) {
-        page.show(this._getDiffURL(this._changeNum, this._patchRange,
-            this._commentSkips.next));
+        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
+            this._patchRange.patchNum, this._patchRange.basePatchNum);
       }
     },
 
@@ -363,25 +361,26 @@
 
     _navToChangeView() {
       if (!this._changeNum || !this._patchRange.patchNum) { return; }
-
-      page.show(this._getChangePath(
-          this._changeNum,
+      this._navigateToChange(
+          this._change,
           this._patchRange,
-          this._change && this._change.revisions));
-    },
-
-    _computeUpURL(changeNum, patchRange, change, changeRevisions) {
-      return this._getChangePath(
-          changeNum,
-          patchRange,
-          change && changeRevisions);
+          this._change && this._change.revisions);
     },
 
     _navToFile(path, fileList, direction) {
-      const url = this._computeNavLinkURL(path, fileList, direction);
-      if (!url) { return; }
+      const newPath = this._getNavLinkPath(path, fileList, direction);
+      if (!newPath) { return; }
 
-      page.show(this._computeNavLinkURL(path, fileList, direction));
+      if (newPath.up) {
+        this._navigateToChange(
+            this._change,
+            this._patchRange,
+            this._change && this._change.revisions);
+        return;
+      }
+
+      Gerrit.Nav.navigateToDiff(this._change, newPath.path,
+          this._patchRange.patchNum, this._patchRange.basePatchNum);
     },
 
     /**
@@ -395,7 +394,38 @@
      * @return {?string} The next URL when proceeding in the specified
      *     direction.
      */
-    _computeNavLinkURL(path, fileList, direction, opt_noUp) {
+    _computeNavLinkURL(change, path, fileList, direction, opt_noUp) {
+      const newPath = this._getNavLinkPath(path, fileList, direction, opt_noUp);
+      if (!newPath) { return null; }
+
+      if (newPath.up) {
+        return this._getChangePath(
+            this._change,
+            this._patchRange,
+            this._change && this._change.revisions);
+      }
+      return this._getDiffUrl(this._change, this._patchRange, newPath.path);
+    },
+
+    /**
+     * Gives an object representing the target of navigating either left or
+     * right through the change. The resulting object will have one of the
+     * following forms:
+     *   * {path: "<target file path>"} - When another file path should be the
+     *     result of the navigation.
+     *   * {up: true} - When the result of navigating should go back to the
+     *     change view.
+     *   * null - When no navigation is possible for the given direction.
+     *
+     * @param {?string} path The path of the current file being shown.
+     * @param {Array.<string>} fileList The list of files in this change and
+     *     patch range.
+     * @param {number} direction Either 1 (next file) or -1 (prev file).
+     * @param {(number|boolean)} opt_noUp Whether to return to the change view
+     *     when advancing the file goes outside the bounds of fileList.
+     * @return {Object}
+     */
+    _getNavLinkPath(path, fileList, direction, opt_noUp) {
       if (!path || fileList.length === 0) { return null; }
 
       let idx = fileList.indexOf(path);
@@ -403,7 +433,7 @@
         const file = direction > 0 ?
             fileList[0] :
             fileList[fileList.length - 1];
-        return this._getDiffURL(this._changeNum, this._patchRange, file);
+        return {path: file};
       }
 
       idx += direction;
@@ -411,12 +441,10 @@
       // outside the bounds of [0, fileList.length).
       if (idx < 0 || idx > fileList.length - 1) {
         if (opt_noUp) { return null; }
-        return this._getChangePath(
-            this._changeNum,
-            this._patchRange,
-            this._change && this._change.revisions);
+        return {up: true};
       }
-      return this._getDiffURL(this._changeNum, this._patchRange, fileList[idx]);
+
+      return {path: fileList[idx]};
     },
 
     _paramsChanged(value) {
@@ -506,13 +534,13 @@
           this._fileList.indexOf(path));
     },
 
-    _getDiffURL(changeNum, patchRange, path) {
-      return this.getBaseUrl() + '/c/' + changeNum + '/' +
-          this._patchRangeStr(patchRange) + '/' + this.encodeURL(path, true);
+    _getDiffUrl(change, patchRange, path) {
+      return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
+          patchRange.basePatchNum);
     },
 
-    _computeDiffURL(changeNum, patchRangeRecord, path) {
-      return this._getDiffURL(changeNum, patchRangeRecord.base, path);
+    _computeDiffURL(change, patchRangeRecord, path) {
+      return this._getDiffUrl(change, patchRangeRecord.base, path);
     },
 
     _patchRangeStr(patchRange) {
@@ -533,28 +561,39 @@
       return patchNums.sort((a, b) => { return a - b; });
     },
 
-    _getChangePath(changeNum, patchRange, revisions) {
-      const base = this.getBaseUrl() + '/c/' + changeNum + '/';
-
-      // The change may not have loaded yet, making revisions unavailable.
-      if (!revisions) {
-        return base + this._patchRangeStr(patchRange);
-      }
-
+    /**
+     * When the latest patch of the change is selected (and there is no base
+     * patch) then the patch range need not appear in the URL. Return a patch
+     * range object with undefined values when a range is not needed.
+     */
+    _getChangeUrlRange(patchRange, revisions) {
+      let patchNum = undefined;
+      let basePatchNum = undefined;
       let latestPatchNum = -1;
-      for (const rev of Object.values(revisions)) {
+      for (const rev of Object.values(revisions || {})) {
         latestPatchNum = Math.max(latestPatchNum, rev._number);
       }
       if (patchRange.basePatchNum !== 'PARENT' ||
           parseInt(patchRange.patchNum, 10) !== latestPatchNum) {
-        return base + this._patchRangeStr(patchRange);
+        patchNum = patchRange.patchNum;
+        basePatchNum = patchRange.basePatchNum;
       }
-
-      return base;
+      return {patchNum, basePatchNum};
     },
 
-    _computeChangePath(changeNum, patchRangeRecord, revisions) {
-      return this._getChangePath(changeNum, patchRangeRecord.base, revisions);
+    _getChangePath(change, patchRange, revisions) {
+      const range = this._getChangeUrlRange(patchRange, revisions);
+      return Gerrit.Nav.getUrlForChange(change, range.patchNum,
+          range.basePatchNum);
+    },
+
+    _navigateToChange(change, patchRange, revisions) {
+      const range = this._getChangeUrlRange(patchRange, revisions);
+      Gerrit.Nav.navigateToChange(change, range.patchNum, range.basePatchNum);
+    },
+
+    _computeChangePath(change, patchRangeRecord, revisions) {
+      return this._getChangePath(change, patchRangeRecord.base, revisions);
     },
 
     _computeFileDisplayName(path) {
@@ -599,7 +638,8 @@
 
     _handleMobileSelectChange(e) {
       const path = Polymer.dom(e).rootTarget.value;
-      page.show(this._getDiffURL(this._changeNum, this._patchRange, path));
+      Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
+          this._patchRange.basePatchNum);
     },
 
     _showDropdownTapHandler(e) {

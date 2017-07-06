@@ -94,6 +94,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ed8954_a8311e14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T20:35:46Z",
+      "side": 1,
+      "message": "Since we care about the highest and the lowest value, it means we\u0027ll have to get the keys of this object, (if we don\u0027t know about order, sort) and then take the first and last. It\u0027s not a problem, but if it\u0027s guaranteed then that means we don\u0027t have to sort :)",
+      "parentUuid": "228b6f85_71c5f334",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

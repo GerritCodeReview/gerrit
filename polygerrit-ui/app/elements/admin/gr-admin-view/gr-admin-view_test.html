@@ -103,7 +103,7 @@ limitations under the License.
         assert.equal(element._filteredLinks.length, 3);
 
         // Projects
-        assert.equal(element._filteredLinks[0].children.length, 1);
+        assert.equal(element._filteredLinks[0].children.length, 0);
         assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Groups
@@ -156,7 +156,7 @@ limitations under the License.
         assert.equal(element._filteredLinks.length, 3);
 
         // Projects
-        assert.equal(element._filteredLinks[0].children.length, 1);
+        assert.equal(element._filteredLinks[0].children.length, 0);
         assert.equal(element._filteredLinks[0].subsection.name, 'Test Project');
 
         // Groups

@@ -762,9 +762,14 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void allow(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    allow(project, ref, permission, id);
+  }
+
+  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
     Util.allow(cfg, permission, id, ref);
-    saveProjectConfig(project, cfg);
+    saveProjectConfig(p, cfg);
   }
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -105,6 +107,10 @@ public final class Account {
       }
       if (name.startsWith(REFS_USERS)) {
         return fromRefPart(name.substring(REFS_USERS.length()));
+      } else if (name.startsWith(REFS_DRAFT_COMMENTS)) {
+        return parseAfterShardedRefPart(name.substring(REFS_DRAFT_COMMENTS.length()));
+      } else if (name.startsWith(REFS_STARRED_CHANGES)) {
+        return parseAfterShardedRefPart(name.substring(REFS_STARRED_CHANGES.length()));
       }
       return null;
     }
@@ -117,6 +123,11 @@ public final class Account {
      */
     public static Id fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
+      return id != null ? new Account.Id(id) : null;
+    }
+
+    public static Id parseAfterShardedRefPart(String name) {
+      Integer id = RefNames.parseAfterShardedRefPart(name);
       return id != null ? new Account.Id(id) : null;
     }
 

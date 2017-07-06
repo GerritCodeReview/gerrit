@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8b42a1c_a2f7bd9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-06T05:14:27Z",
+      "side": 1,
+      "message": "Nit: the ./ is not needed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 25,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "e3b4b6abbd364a99ce9c31be8258a23faadd15c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e807dcc6_9352b2f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-06T05:14:27Z",
+      "side": 1,
+      "message": "Is this needed for something? Since this component only sets up listeners to its own children, this may not be necessary.",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "e3b4b6abbd364a99ce9c31be8258a23faadd15c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6e9c07_bacfaffd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-06T05:14:27Z",
+      "side": 1,
+      "message": "Optional: this could be simpler if we always bind the handlers in the HTML and just put a ...\n\n if (!createNew) { return; }\n\n... into `_handleCreated`. That way we can avoid the DOM query and the manual event setup.",
+      "range": {
+        "startLine": 57,
+        "startChar": 45,
+        "endLine": 57,
+        "endChar": 59
+      },
+      "revId": "e3b4b6abbd364a99ce9c31be8258a23faadd15c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6688bb90_5dcfed3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-06T05:14:27Z",
+      "side": 1,
+      "message": "Since the overlay DOM and logic themselves are setup by the hosting component, it seems brittle to query for an element that isn\u0027t declared in the local DOM (as well as expecting the .open() method to be defined on it).\n\nWhat if -- instead of dealing with the overlay here -- the gr-list-view emitted a custom event when the create button is clicked such as ...\n\n  on-create-clicked\n\n... ? That way, all the overlay-specific glue can live in the component that declares both the overlay and the list view.",
+      "range": {
+        "startLine": 82,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 6
+      },
+      "revId": "e3b4b6abbd364a99ce9c31be8258a23faadd15c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

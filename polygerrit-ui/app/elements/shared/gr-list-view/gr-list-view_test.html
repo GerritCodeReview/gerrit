@@ -21,8 +21,9 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../admin/gr-admin-create-project/gr-admin-create-project.html">
+<link rel="import" href="../../admin/gr-create-project-dialog/gr-create-project-dialog.html">
 
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-list-view.html">
@@ -39,9 +40,12 @@ limitations under the License.
 <test-fixture id="createNewFixture">
   <template>
     <gr-list-view>
-      <gr-overlay id="createOverlay" with-backdrop>
-        <gr-admin-create-project id="createNewModal"></gr-admin-create-project>
-      </gr-overlay>
+      <gr-confirm-dialog id="createDialog">
+        <gr-overlay id="createOverlay" with-backdrop>
+          <gr-create-project-dialog
+              id="createNewModal"></gr-create-project-dialog>
+        </gr-overlay>
+      </gr-confirm-dialog>
     </gr-list-view>
   </template>
 </test-fixture>

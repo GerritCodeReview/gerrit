@@ -510,7 +510,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     u.setNewObjectId(rev);
     Result result = u.forceUpdate();
     assert_()
-        .withFailureMessage("Cannot update ref for test: " + result)
+        .withMessage("Cannot update ref for test: " + result)
         .that(result)
         .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
   }

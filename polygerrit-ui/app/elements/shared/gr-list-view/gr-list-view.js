@@ -55,7 +55,8 @@
       if (createNew) {
         Polymer.dom(this).querySelector('#createNewModal')
             .addEventListener('create', this._handleCreated.bind(this));
-        Polymer.dom(this).querySelector('#createNewModal')
+
+        Polymer.dom(this).querySelector('#createDialog')
             .addEventListener('cancel', this._closeCreateModal.bind(this));
       }
     },
@@ -64,7 +65,8 @@
       if (createNew) {
         Polymer.dom(this).querySelector('#createNewModal')
             .removeEventListener('create', this._handleCreated);
-        Polymer.dom(this).querySelector('#createNewModal')
+
+        Polymer.dom(this).querySelector('#createDialog')
             .removeEventListener('cancel', this._closeCreateModal);
       }
     },

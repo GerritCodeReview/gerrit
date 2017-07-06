@@ -56,10 +56,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   public void testGc() throws Exception {
     String response =
         adminSshSession.exec("gerrit gc \"" + project.get() + "\" \"" + project2.get() + "\"");
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
+    assert_().withMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(project, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -69,10 +66,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAll() throws Exception {
     String response = adminSshSession.exec("gerrit gc --all");
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
+    assert_().withMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project, project2, project3);
   }

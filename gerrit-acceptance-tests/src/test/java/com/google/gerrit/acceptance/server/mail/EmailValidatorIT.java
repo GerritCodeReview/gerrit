@@ -84,13 +84,13 @@ public class EmailValidatorIT extends AbstractDaemonTest {
         if (tld.startsWith(UNSUPPORTED_PREFIX)) {
           String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
-              .withFailureMessage("expected invalid TLD \"" + test + "\"")
+              .withMessage("expected invalid TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
-              .withFailureMessage("failed to validate TLD \"" + test + "\"")
+              .withMessage("failed to validate TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isTrue();
         }

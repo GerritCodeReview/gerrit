@@ -13,25 +13,29 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
 
 
 <dom-module id="gr-admin-project-list">
   <template>
     <style include="shared-styles"></style>
     <gr-list-view
+        create-new=[[_createNewCapability]]
         filter="[[_filter]]"
         items-per-page="[[_projectsPerPage]]"
         items="[[_projects]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
+        on-create-clicked="_handleCreateClicked"
         path="[[_path]]">
       <table id="list">
         <tr class="headerRow">
@@ -66,6 +70,25 @@ limitations under the License.
         </template>
       </table>
     </gr-list-view>
+    <gr-overlay id="createOverlay" with-backdrop>
+        <gr-confirm-dialog
+            id="createDialog"
+            class="confirmDialog"
+            disabled="[[!_hasNewProjectName]]"
+            confirm-label="Create"
+            on-confirm="_handleCreateProject"
+            on-cancel="_handleCloseCreate">
+          <div class="header">
+            Create Project
+          </div>
+          <div class="main">
+            <gr-create-project-dialog
+                has-new-project-name="{{_hasNewProjectName}}"
+                params="[[params]]"
+                id="createNewModal"></gr-create-project-dialog>
+          </div>
+        </gr-confirm-dialog>
+      </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-admin-project-list.js"></script>

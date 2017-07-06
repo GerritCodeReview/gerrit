@@ -94,6 +94,30 @@
       "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649199fa_fa7db50f",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-06T04:43:20Z",
+      "side": 1,
+      "message": "Correct, 1.6 release hasn\u0027t fixed it either. I add a comment to: [1].\n\n* [1] https://issues.apache.org/jira/browse/SSHD-736",
+      "parentUuid": "06296b6a_81b0e033",
+      "range": {
+        "startLine": 641,
+        "startChar": 4,
+        "endLine": 641,
+        "endChar": 73
+      },
+      "revId": "c0b03ffae8dcc80599331cab5645f6cb5d45e789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

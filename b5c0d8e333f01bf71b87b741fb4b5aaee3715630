@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51bde7f3_12f73b45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:14:02Z",
+      "side": 1,
+      "message": "sure",
+      "parentUuid": "a261d0b4_a2d4ed7a",
+      "range": {
+        "startLine": 64,
+        "startChar": 10,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "b5c0d8e333f01bf71b87b741fb4b5aaee3715630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "584b7595_97d8b892",
         "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view_test.html",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "b5c0d8e333f01bf71b87b741fb4b5aaee3715630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d949a0fa_72cc8fe8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:14:02Z",
+      "side": 1,
+      "message": "These are actually no longer needed. removed.",
+      "parentUuid": "584b7595_97d8b892",
+      "revId": "b5c0d8e333f01bf71b87b741fb4b5aaee3715630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

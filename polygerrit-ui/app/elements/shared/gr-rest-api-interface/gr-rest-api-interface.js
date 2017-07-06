@@ -527,7 +527,7 @@
       filter = filter ? '&m=' + filter : '';
 
       return this._fetchSharedCacheURL(
-          `/projects/${project}/branches?n=${projectsBranchesPerPage + 1}&s=` +
+          `/projects/${encodeURIComponent(project)}/branches?n=${projectsBranchesPerPage + 1}&s=` +
           `${offset}${filter}`
       );
     },
@@ -537,7 +537,7 @@
       filter = filter ? '&m=' + filter : '';
 
       return this._fetchSharedCacheURL(
-          `/projects/${project}/tags?n=${projectsTagsPerPage + 1}&s=` +
+          `/projects/${encodeURIComponent(project)}/tags?n=${projectsTagsPerPage + 1}&s=` +
           `${offset}${filter}`
       );
     },

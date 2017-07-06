@@ -39,7 +39,6 @@ limitations under the License.
       .editing .editBtn,
       .canEdit .revisionNoEditing,
       .editing .revisionWithEditing,
-      .repositoryBrowser:not(.show),
       .revisionEdit {
         display: none;
       }
@@ -72,7 +71,7 @@ limitations under the License.
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>
-          <th class$="repositoryBrowser topHeader [[computeBrowserClass(detailType)]]">
+          <th class="repositoryBrowser topHeader">
             Repository Browser</th>
           <th class="delete topHeader"></th>
         </tr>
@@ -113,7 +112,7 @@ limitations under the License.
                   </gr-button>
                 </span>
               </td>
-              <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
+              <td class="repositoryBrowser">
                 <template is="dom-repeat"
                     items="[[_computeWeblink(item)]]" as="link">
                   <a href$="[[link.url]]"

@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "dd28eb9d_00ad7688",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-06T07:00:38Z",
+      "side": 1,
+      "message": "Ok, that makes sense. At first sight it just seemed like this can be reduced.",
+      "parentUuid": "e0f02eb2_a39de9df",
+      "revId": "927c9018dff5d31c20d6f3a71e7ecde042a4c8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "393d5b2c_c9273519",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutMessage.java",
         "patchSetId": 3

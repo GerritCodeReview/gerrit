@@ -139,13 +139,6 @@
       return webLinks.length ? webLinks : null;
     },
 
-    computeBrowserClass(detailType) {
-      if (detailType === DETAIL_TYPES.BRANCHES) {
-        return 'show';
-      }
-      return '';
-    },
-
     _stripRefs(item, detailType) {
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return item.replace('refs/heads/', '');

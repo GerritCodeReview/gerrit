@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d94793f0_9f87d3ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3028,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-06T17:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f5c42c7_08742ed6",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84984c85_b23e1661",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38ccbba1_1b367320",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3031,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-06T17:24:58Z",
+      "side": 1,
+      "message": "I just rolled it into changeCommitMessage() at the end.",
+      "parentUuid": "84984c85_b23e1661",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "59524da3_fbb5dbd5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-06T17:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "299da5c4_5ab6f085",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083c7de3_a3aafb56",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "050803ad_5b2db395",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-06T17:24:58Z",
+      "side": 1,
+      "message": "Rolled both of these into publishEdit()",
+      "parentUuid": "083c7de3_a3aafb56",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c593f345_0078b314",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3
@@ -84,6 +156,24 @@
       "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c1ec6d_3629c7d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-06T17:24:58Z",
+      "side": 1,
+      "message": "Rolled into pushWorkInProgressChange(), which tests all the transitions I was trying to cover.",
+      "parentUuid": "c593f345_0078b314",
+      "revId": "6509bc5f88428756eec3d829c6d4c6a5c7759460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

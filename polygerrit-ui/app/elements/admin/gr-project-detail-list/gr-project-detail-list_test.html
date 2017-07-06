@@ -50,6 +50,12 @@ limitations under the License.
     return {
       ref: `refs/tags/test${++counter}`,
       revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
+      web_links: [
+        {
+          name: 'diffusion',
+          url: `https://git.example.org/tag/test;refs/tags/test${counter}`,
+        },
+      ],
     };
   };
 
@@ -90,14 +96,14 @@ limitations under the License.
         element._paramsChanged(params).then(() => { flush(done); });
       });
 
-      test('test for test branch in the list', done => {
+      test('test for branch in the list', done => {
         flush(() => {
           assert.equal(element._items[2].ref, 'refs/heads/test2');
           done();
         });
       });
 
-      test('test for test web links in the branches list', done => {
+      test('test for web links in the branches list', done => {
         flush(() => {
           assert.equal(element._items[2].web_links[0].url,
               'https://git.example.org/branch/test;refs/heads/test2');
@@ -332,9 +338,17 @@ limitations under the License.
         element._paramsChanged(params).then(() => { flush(done); });
       });
 
-      test('test for test tag in the list', done => {
+      test('test for tag in the list', done => {
         flush(() => {
           assert.equal(element._items[1].ref, 'refs/tags/test2');
+          done();
+        });
+      });
+
+      test('test for web links in the tags list', done => {
+        flush(() => {
+          assert.equal(element._items[1].web_links[0].url,
+              'https://git.example.org/tag/test;refs/tags/test2');
           done();
         });
       });

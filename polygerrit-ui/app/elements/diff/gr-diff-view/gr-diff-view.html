@@ -15,8 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
@@ -197,7 +195,7 @@ limitations under the License.
         ready-for-measure="[[!_loading]]">
       <header>
         <h3>
-          <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
+          <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
             [[_changeNum]]</a><span>:</span>
           <span>[[_change.subject]]</span>
           <span class="dash">—</span>
@@ -222,7 +220,7 @@ limitations under the License.
                     items="[[_fileList]]"
                     as="path"
                     initial-count="75">
-                  <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
+                  <a href$="[[_computeDiffURL(_change, _patchRange.*, path)]]"
                      selected$="[[_computeFileSelected(path, _path)]]"
                      data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
                      on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
@@ -244,13 +242,16 @@ limitations under the License.
         </h3>
         <div class="navLinks desktop">
           <a class="navLink"
-             href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
+              href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+            Prev</a>
           /
           <a class="navLink"
-             href$="[[_computeUpURL(_changeNum, _patchRange, _change, _change.revisions)]]">Up</a>
+              href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
+            Up</a>
           /
           <a class="navLink"
-             href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
+              href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+            Next</a>
         </div>
       </header>
       <div class="subHeader">
@@ -295,11 +296,13 @@ limitations under the License.
       </div>
       <div class="fileNav mobile">
         <a class="mobileNavLink"
-           href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">&lt;</a>
+           href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+          &lt;</a>
         <div class="fullFileName mobile">[[_computeFileDisplayName(_path)]]
         </div>
         <a class="mobileNavLink"
-            href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">&gt;</a>
+            href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+          &gt;</a>
       </div>
     </gr-fixed-panel>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>

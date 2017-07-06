@@ -100,7 +100,7 @@
     },
 
     _getPath(project) {
-      return `/admin/projects/${this.encodeURL(project, true)},` +
+      return `/admin/projects/${this.encodeURL(project, false)},` +
           `${this.detailType}`;
     },
 

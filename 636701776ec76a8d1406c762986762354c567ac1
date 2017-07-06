@@ -64,6 +64,24 @@
       "revId": "636701776ec76a8d1406c762986762354c567ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faae8622_fa2497dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-06T12:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cedc4044_0123bb86",
+      "revId": "636701776ec76a8d1406c762986762354c567ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

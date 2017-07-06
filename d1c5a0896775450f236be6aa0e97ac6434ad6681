@@ -1,0 +1,533 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "359c88c2_692ce757",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Comma not required here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ffae5b_a429706d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "The first three sentences here all begin with the word \"Gerrit,\" which makes for a bit of odd reading. I\u0027d smooth things out by starting the paragraph with:\n\n\"Gerrit makes review code changes easy by providing a lightweight framework for reviewing commits before they are accepted into the codebase.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3a3c09_4341dbf1",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "The second part of this paragraph is a bit of a muddle. I think you can restructure these sentences so that you don\u0027t repeat the \"equally\" part in two places:\n\n\"Gerrit works equally well for projects where approving changes is restricted to selected users, as is typicaly for Open Source software development, as well as those projects where all contributors are trusted.\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cc874ed_6390be19",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Seems like this needs a new heading here, as you change themes from \"What is Gerrit\" to how Gerrit fits into the developer workflow.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 2
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a444bcb8_e7224186",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027d sort of simplify this and say:\n\n\"With Gerrit, when a developer makes a change, it does not immediately enter the central repository. Instead, the change is sent to the store of pending changes, where other developers can review, discuss and approve the change. After enough reviewers grant their approval, the change moves from the pending changes store to the central repository.\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b78753_ab4ebdd0",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Instead of \"supports capturing,\" I would just say \"captures.\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 53,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705a18cf_7f9c3dcb",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027d be cautious about this construction and stick with \"... given change, which provides a history of when a change was made and why.\"",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49ffc5ec_9cdb76aa",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I know that this is carry-over from a previous version, but I prefer \"Life of a Change\" as the heading here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75cce189_e5ff415c",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "\"To understand how ...\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac91264_6dc49ef4",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure about the word \"fictional\" here and below. Maybe just \"example\" is a better usage?",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc342df6_8100925f",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Again, not sure about \"fictional.\" Just strikes me as an unusual usage of the term.",
+      "range": {
+        "startLine": 69,
+        "startChar": 23,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d789ad_a7f72e56",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027d avoid this sort of inversion to introduce a conditional clause ... it seems clearer just to say, \"If Max had ...\"",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e53651e_4cf94828",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure that \"Also\" is needed as a transition here.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 4
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8315507_d793b2dc",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Yikes. Its \u003d it\u0027s? Anyway, I would say something like. \"This is the Gerrit code review screen, where other contributors can review the change.\"",
+      "range": {
+        "startLine": 133,
+        "startChar": 39,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48ce0479_dc02dec0",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Hannah.",
+      "range": {
+        "startLine": 150,
+        "startChar": 51,
+        "endLine": 150,
+        "endChar": 56
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c789e1_bc77a727",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I think that gramatically, these need to be gerunds as in your similar example above.\n\nFor example:\n\n* Using the search feature ...\n* Setting up e-mail notifications ...",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0976e7cf_35623839",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Does Hannah get some of notification here?",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 6
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa265d12_2c6e8e7c",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Instead of \"and so on\" I like to say something like \"and other criteria.\"",
+      "range": {
+        "startLine": 172,
+        "startChar": 48,
+        "endLine": 172,
+        "endChar": 50
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6856402_505e0f6a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Do these need to be surrounded by an asterisk as above?",
+      "range": {
+        "startLine": 182,
+        "startChar": 15,
+        "endLine": 182,
+        "endChar": 19
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c2a3e7_bd087b64",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Is this by default? Configurable? Immutable?",
+      "range": {
+        "startLine": 213,
+        "startChar": 2,
+        "endLine": 213,
+        "endChar": 8
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5815fb_cdc8b9a6",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027d find some alternate text for \"and so on ...\"",
+      "range": {
+        "startLine": 280,
+        "startChar": 18,
+        "endLine": 280,
+        "endChar": 19
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccdec815_130279ea",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "Does \"Verify\" need to be capitalized here? Verify or Verified?",
+      "range": {
+        "startLine": 306,
+        "startChar": 34,
+        "endLine": 306,
+        "endChar": 40
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "413cad3d_88f6b7bb",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1042944
+      },
+      "writtenOn": "2017-07-06T18:27:48Z",
+      "side": 1,
+      "message": "I\u0027d just say:\n\n\"This walkthrough provided a quick overview ...\"",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -602,7 +602,7 @@
       } else if (path === MERGE_LIST_PATH) {
         return 'Merge list';
       }
-      return path;
+      return path.split('/').pop();
     },
 
     _computeTruncatedFileDisplayName(path) {

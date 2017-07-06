@@ -117,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "3f18ed21_374d2b3a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "A bit of technical hair-splitting: a pending change is \"in\" the central repository in the sense that the data is stored on the server.\n\nA repository generally has some \"real\" history, that includes its branches (sometimes only one, \"master\", but often more) and tags. In Gerrit the repo also has this \"pending\" data. Code review is about preparing the stuff in the \"pending\" storage until it\u0027s ready to be copied over into the \"real\" history. But in all cases, once you run \"git push\" to push your stuff to the server, the data, whether pending or real, is still there.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32b78753_ab4ebdd0",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -186,6 +209,30 @@
     },
     {
       "key": {
+        "uuid": "3ab89ab5_b64c38fe",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "Ack. Don\u0027t feel like this kind of thing needs to always be preserved verbatim :)",
+      "parentUuid": "49ffc5ec_9cdb76aa",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75cce189_e5ff415c",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -232,6 +279,53 @@
     },
     {
       "key": {
+        "uuid": "4c3b2d92_332719be",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "Or \"hypothetical\"?",
+      "parentUuid": "0ac91264_6dc49ef4",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7d4a5b0_964244b1",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "Maybe this is explained later, but I\u0027m not sure at first glance what the distinction is between \"trying out\" and \"verifying\".",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc342df6_8100925f",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -249,6 +343,46 @@
         "endLine": 69,
         "endChar": 32
       },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee832c47_34b71028",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "This wording makes it sound like Max has to run this hook manually, which he doesn\u0027t, it\u0027s just a one-time setup kind of thing. I don\u0027t know if you want to go into that level of detail at this point though.",
+      "range": {
+        "startLine": 91,
+        "startChar": 44,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be50256f_3edc30dd",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "It\u0027s a little odd that the very first `clone` command happens inline at the point in the prose where Max is cloning the repository, but then the `commit` command doesn\u0027t happen inline in the prose.\n\nI understand if you don\u0027t want it to feel too choppy due to constantly interleaving prose and shell output.",
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -294,6 +428,29 @@
         "startChar": 0,
         "endLine": 126,
         "endChar": 4
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d233137c_ca23e7bb",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "\"The HTTP interface of the Gerrit server\" is a somewhat stilted technical way to say \"a webpage\"",
+      "range": {
+        "startLine": 126,
+        "startChar": 54,
+        "endLine": 127,
+        "endChar": 13
       },
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -363,6 +520,29 @@
         "startChar": 2,
         "endLine": 153,
         "endChar": 5
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b95e7c99_275cadca",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "This is slightly confusing, because as Aaron points out below, Hannah should have received an email notification. The user-notify.html documentation is about configuring your account to receive notifications _even when_ you wouldn\u0027t have gotten notified for another reason.",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 50
       },
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -462,6 +642,30 @@
     },
     {
       "key": {
+        "uuid": "3f42a506_c8e1946f",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "By default.",
+      "parentUuid": "15c2a3e7_bd087b64",
+      "range": {
+        "startLine": 213,
+        "startChar": 2,
+        "endLine": 213,
+        "endChar": 8
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc5815fb_cdc8b9a6",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -478,6 +682,98 @@
         "startChar": 18,
         "endLine": 280,
         "endChar": 19
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74dfcd5b_26f61e64",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "manual",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 8
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ffaad8_ca59665d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "cirucmstances",
+      "range": {
+        "startLine": 290,
+        "startChar": 39,
+        "endLine": 290,
+        "endChar": 51
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7cbc2b_24aa4ed8",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "This sentence about ACLs is sandwiched between two others about the process for fetching a pending change. I would maybe move it towards the end.",
+      "range": {
+        "startLine": 291,
+        "startChar": 17,
+        "endLine": 292,
+        "endChar": 60
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff5f9f6_de6fbaf4",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T18:49:24Z",
+      "side": 1,
+      "message": "Maybe a comma after \"reviewer\".",
+      "range": {
+        "startLine": 300,
+        "startChar": 54,
+        "endLine": 300,
+        "endChar": 62
       },
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

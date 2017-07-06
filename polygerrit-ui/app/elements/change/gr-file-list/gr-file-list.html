@@ -250,8 +250,12 @@ limitations under the License.
           target-framerate="1">
         <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
           <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
-            <input type="checkbox" checked="[[file.isReviewed]]"
-                class="reviewed" aria-label="Reviewed checkbox">
+            <input
+                type="checkbox"
+                checked="[[file.isReviewed]]"
+                class="reviewed"
+                aria-label="Reviewed checkbox"
+                title="Mark as reviewed (shortcut: r)">
           </div>
           <div class$="[[_computeClass('status', file.__path)]]"
               tabindex="0"

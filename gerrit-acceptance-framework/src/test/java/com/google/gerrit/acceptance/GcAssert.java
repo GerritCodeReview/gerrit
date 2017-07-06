@@ -38,7 +38,7 @@ public class GcAssert {
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
       assert_()
-          .withFailureMessage("Project " + p.get() + " has no pack files.")
+          .withMessage("Project " + p.get() + " has no pack files.")
           .that(getPackFiles(p))
           .isNotEmpty();
     }
@@ -48,7 +48,7 @@ public class GcAssert {
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
       assert_()
-          .withFailureMessage("Project " + p.get() + " has pack files.")
+          .withMessage("Project " + p.get() + " has pack files.")
           .that(getPackFiles(p))
           .isEmpty();
     }

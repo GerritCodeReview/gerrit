@@ -659,7 +659,7 @@ public class CommitMsgHookTest extends HookTestCase {
       ref.setNewObjectId(commitId);
       Result result = ref.forceUpdate();
       assert_()
-          .withFailureMessage(Constants.HEAD + " did not change: " + ref.getResult())
+          .withMessage(Constants.HEAD + " did not change: " + ref.getResult())
           .that(result)
           .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
     }

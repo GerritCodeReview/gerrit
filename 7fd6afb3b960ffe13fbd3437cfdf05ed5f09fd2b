@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82d5e05a_fa60ec2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:38:33Z",
+      "side": 1,
+      "message": "These could probably be formatted a little nicer (wrap Prev, Up, Next on a new line).",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 251,
+        "endChar": 85
+      },
+      "revId": "7fd6afb3b960ffe13fbd3437cfdf05ed5f09fd2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b04c61_16b77b4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:38:33Z",
+      "side": 1,
+      "message": "Maybe wrap this on a new line",
+      "range": {
+        "startLine": 296,
+        "startChar": 76,
+        "endLine": 296,
+        "endChar": 80
+      },
+      "revId": "7fd6afb3b960ffe13fbd3437cfdf05ed5f09fd2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db8c2641_e8500598",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:38:33Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 300,
+        "startChar": 76,
+        "endLine": 300,
+        "endChar": 80
+      },
+      "revId": "7fd6afb3b960ffe13fbd3437cfdf05ed5f09fd2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ac2f30b_0f57ea1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-06T21:38:33Z",
+      "side": 1,
+      "message": "What about the case where PARENT is compared against a patch that is not the last?  ex c/123/2. Is this taken into account?",
+      "revId": "7fd6afb3b960ffe13fbd3437cfdf05ed5f09fd2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

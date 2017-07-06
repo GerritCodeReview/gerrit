@@ -313,7 +313,7 @@ public class QueryIT extends AbstractDaemonTest {
   private List<ChangeAttribute> executeSuccessfulQuery(String params, SshSession session)
       throws Exception {
     String rawResponse = session.exec("gerrit query --format=JSON " + params);
-    assert_().withFailureMessage(session.getError()).that(session.hasError()).isFalse();
+    assert_().withMessage(session.getError()).that(session.hasError()).isFalse();
     return getChanges(rawResponse);
   }
 

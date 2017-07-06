@@ -518,7 +518,7 @@
       filter = filter ? '&m=' + filter : '';
 
       return this._fetchSharedCacheURL(
-          `/projects/?d&n=${projectsPerPage + 1}&S=${offset}${filter}`
+          `/projects/?d&n=${projectsPerPage + 1}&S=${offset}${encodeURIComponent(filter)}`
       );
     },
 

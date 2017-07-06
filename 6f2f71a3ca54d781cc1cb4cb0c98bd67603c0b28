@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6187a647_a9b7e526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:06:18Z",
+      "side": 1,
+      "message": "This should throw if the comment author doesn\u0027t match the specified user. Also, this common code should probably be in a helper method.",
+      "revId": "6f2f71a3ca54d781cc1cb4cb0c98bd67603c0b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

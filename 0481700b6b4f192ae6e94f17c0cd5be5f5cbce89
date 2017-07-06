@@ -22,6 +22,30 @@
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b99e572d_0d3636bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-06T13:06:18Z",
+      "side": 0,
+      "message": "Agreed, I don\u0027t see the issue here.",
+      "parentUuid": "435be862_19c14e09",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 64
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -26,14 +26,7 @@ limitations under the License.
 
 <dom-module id="gr-project-detail-list">
   <template>
-    <style include="shared-styles">
-      .repositoryBrowser {
-        display: none;
-      }
-      .repositoryBrowser.show{
-        display: table-cell;
-      }
-    </style>
+    <style include="shared-styles"></style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_itemsPerPage]]"
@@ -45,7 +38,7 @@ limitations under the License.
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>
-          <th class$="repositoryBrowser topHeader [[computeBrowserClass(detailType)]]">
+          <th class="repositoryBrowser topHeader">
             Repository Browser</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">

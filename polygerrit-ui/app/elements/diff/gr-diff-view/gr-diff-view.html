@@ -145,6 +145,12 @@ limitations under the License.
         display: block;
         overflow: auto;
       }
+      #trigger {
+        -moz-user-select: text;
+        -ms-user-select: text;
+        -webkit-user-select: text;
+        user-select: text;
+      }
       @media screen and (max-width: 50em) {
         header {
           padding: .5em var(--default-horizontal-margin);

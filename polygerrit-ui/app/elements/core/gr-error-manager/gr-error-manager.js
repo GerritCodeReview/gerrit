@@ -55,6 +55,7 @@
     attached() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
+      this.listen(document, 'auth-error', '_handleAuthError');
       this.listen(document, 'show-alert', '_handleShowAlert');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
       this.listen(document, 'show-auth-required', '_handleAuthRequired');
@@ -64,6 +65,7 @@
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
+      this.unlisten(document, 'auth-error', '_handleAuthError');
       this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     },
@@ -77,6 +79,10 @@
           'Log in is required to perform that action.', 'Log in.');
     },
 
+    _handleAuthError() {
+      this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
+    },
+
     _handleServerError(e) {
       Promise.all([
         e.detail.response.text(), this._getLoggedIn(),
@@ -88,7 +94,7 @@
             text === AUTHENTICATION_REQUIRED) {
           // The app was logged at one point and is now getting auth errors.
           // This indicates the auth token is no longer valid.
-          this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
+          this._handleAuthError();
         } else if (!this._shouldSuppressError(text)) {
           this._showAlert('Server error: ' + text);
         }

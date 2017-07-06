@@ -41,6 +41,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      element._cache = {};
       const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
         ok: true,
@@ -415,17 +416,36 @@ limitations under the License.
       const getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
       window.fetch.returns(Promise.resolve({ok: false}));
       const serverErrorEventPromise = new Promise(resolve => {
-        element.addEventListener('server-error', () => { resolve(); });
+        element.addEventListener('server-error', resolve);
       });
 
-      element.fetchJSON().then(
-          response => {
-            assert.isUndefined(response);
-            assert.isTrue(getResponseObjectStub.notCalled);
-            serverErrorEventPromise.then(() => {
-              done();
-            });
-          });
+      element.fetchJSON().then(response => {
+        assert.isUndefined(response);
+        assert.isTrue(getResponseObjectStub.notCalled);
+        serverErrorEventPromise.then(() => done());
+      });
+    });
+
+    test('auth failure with redirect', done => {
+      const fakeRedirect = {
+        ok: false,
+        type: 'opaqueredirect',
+        headers: new Headers({'x-login': 'foo'}),
+      };
+      window.fetch.onFirstCall().returns(Promise.reject('Failed to fetch'));
+      window.fetch.onSecondCall().returns(Promise.resolve(fakeRedirect));
+      // Emulate logged in.
+      element._cache['/accounts/self/detail'] = {};
+      const serverErrorStub = sandbox.stub();
+      element.addEventListener('server-error', serverErrorStub);
+      const authErrorStub = sandbox.stub();
+      element.addEventListener('auth-error', authErrorStub);
+      element.fetchJSON('/bar').then(r => {
+        assert.isTrue(authErrorStub.called);
+        assert.isFalse(serverErrorStub.called);
+        assert.isNull(element._cache['/accounts/self/detail']);
+        done();
+      });
     });
 
     test('checkCredentials', done => {

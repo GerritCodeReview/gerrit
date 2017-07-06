@@ -45,6 +45,8 @@ limitations under the License.
     let element;
     let sandbox;
 
+    const PARENT = 'PARENT';
+
     setup(() => {
       sandbox = sinon.sandbox.create();
 
@@ -73,10 +75,11 @@ limitations under the License.
     test('keyboard shortcuts', () => {
       element._changeNum = '42';
       element._patchRange = {
-        basePatchNum: 'PARENT',
+        basePatchNum: PARENT,
         patchNum: '10',
       };
       element._change = {
+        _number: 42,
         revisions: {
           a: {_number: 10},
         },
@@ -85,31 +88,33 @@ limitations under the License.
       element._path = 'glados.txt';
       element.changeViewState.selectedFileIndex = 1;
 
-      const showStub = sandbox.stub(page, 'show');
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+      assert(changeNavStub.lastCall.calledWith(element._change),
           'Should navigate to /c/42/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-      assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
-          'Should navigate to /c/42/10/wheatley.md');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'wheatley.md',
+          '10', PARENT), 'Should navigate to /c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       assert.equal(element.changeViewState.selectedFileIndex, 2);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
-          'Should navigate to /c/42/10/glados.txt');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'glados.txt',
+          '10', PARENT), 'Should navigate to /c/42/10/glados.txt');
       element._path = 'glados.txt';
       assert.equal(element.changeViewState.selectedFileIndex, 1);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
-          'Should navigate to /c/42/10/chell.go');
+      assert(diffNavStub.lastCall.calledWith(element._change, 'chell.go', '10',
+          PARENT), 'Should navigate to /c/42/10/chell.go');
       element._path = 'chell.go';
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/'),
+      assert(changeNavStub.lastCall.calledWith(element._change),
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
@@ -155,6 +160,7 @@ limitations under the License.
         patchNum: '10',
       };
       element._change = {
+        _number: 42,
         revisions: {
           a: {_number: 10},
         },
@@ -162,11 +168,12 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      const showStub = sandbox.stub(page, 'show');
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
-          'only work when the user is logged in.');
+      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+          'should only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
@@ -174,40 +181,45 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(element.changeViewState.showReplyDialog);
 
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
-          'Should navigate to /c/42/5..10');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
-          'Should navigate to /c/42/5..10');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'wheatley.md', '10', '5'),
           'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/glados.txt'),
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'glados.txt', '10', '5'),
           'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/chell.go'),
+      assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
+          '10', '5'),
           'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/5..10'),
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
+          '5'),
           'Should navigate to /c/42/5..10');
     });
 
     test('keyboard shortcuts with old patch number', () => {
       element._changeNum = '42';
       element._patchRange = {
-        basePatchNum: 'PARENT',
+        basePatchNum: PARENT,
         patchNum: '1',
       };
       element._change = {
+        _number: 42,
         revisions: {
           a: {_number: 1},
           b: {_number: 2},
@@ -216,11 +228,12 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
-      const showStub = sandbox.stub(page, 'show');
+      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
-          'only work when the user is logged in.');
+      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+          'should only work when the user is logged in.');
       assert.isNull(window.sessionStorage.getItem(
           'changeView.showReplyDialog'));
 
@@ -228,31 +241,33 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(element.changeViewState.showReplyDialog);
 
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'wheatley.md', '1', PARENT),
           'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
+      assert(diffNavStub.lastCall.calledWithExactly(element._change,
+          'glados.txt', '1', PARENT),
           'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
-          'Should navigate to /c/42/1/chell.go');
+      assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
+          '1', PARENT), 'Should navigate to /c/42/1/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, '1',
+          PARENT), 'Should navigate to /c/42/1');
     });
 
     test('Diff preferences hidden when no prefs or logged out', () => {
@@ -287,148 +302,152 @@ limitations under the License.
       assert.isTrue(overlayOpenStub.called);
     });
 
-    test('go up to change via kb without change loaded', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '1',
-      };
+    suite('url params', () => {
+      setup(() => {
+        sandbox.stub(Gerrit.Nav, 'getUrlForDiff', (c, p, pn, bpn) => {
+          return `${c._number}-${p}-${pn}-${bpn}`;
+        });
+        sandbox.stub(Gerrit.Nav, 'getUrlForChange', (c, pn, bpn) => {
+          return `${c._number}-${pn}-${bpn}`;
+        });
+      });
 
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
+      test('jump to file dropdown', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '10',
+        };
+        element._change = {_number: 42};
+        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._path = 'glados.txt';
+        flushAsynchronousOperations();
+        const linkEls =
+            Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+        assert.equal(linkEls.length, 3);
+        assert.isFalse(linkEls[0].hasAttribute('selected'));
+        assert.isTrue(linkEls[1].hasAttribute('selected'));
+        assert.isFalse(linkEls[2].hasAttribute('selected'));
+        assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+        assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+        assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'),
+            '42-glados.txt-10-PARENT');
+        assert.equal(linkEls[2].getAttribute('href'),
+            '42-wheatley.md-10-PARENT');
 
-      const showStub = sandbox.stub(page, 'show');
+        assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+            '/foo/bar/baz');
+        assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+            'Commit message');
+        assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
+            'Merge list');
+      });
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(showStub.notCalled, 'The `a` keyboard shortcut should ' +
-          'only work when the user is logged in.');
-      assert.isNull(window.sessionStorage.getItem(
-          'changeView.showReplyDialog'));
+      test('jump to file dropdown with patch range', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '5',
+          patchNum: '10',
+        };
+        element._change = {_number: 42};
+        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._path = 'glados.txt';
+        flushAsynchronousOperations();
+        const linkEls =
+            Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+        assert.equal(linkEls.length, 3);
+        assert.isFalse(linkEls[0].hasAttribute('selected'));
+        assert.isTrue(linkEls[1].hasAttribute('selected'));
+        assert.isFalse(linkEls[2].hasAttribute('selected'));
+        assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+        assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+        assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
+        assert.equal(linkEls[1].getAttribute('href'), '42-glados.txt-10-5');
+        assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
+      });
 
-      element._loggedIn = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      assert.isTrue(element.changeViewState.showReplyDialog);
+      test('prev/up/next links', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '10',
+        };
+        element._change = {
+          _number: 42,
+          revisions: {
+            a: {_number: 10},
+          },
+        };
+        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._path = 'glados.txt';
+        flushAsynchronousOperations();
+        const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+        assert.equal(linkEls.length, 3);
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'),
+            '42-wheatley.md-10-PARENT');
+        element._path = 'wheatley.md';
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'),
+            '42-glados.txt-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.isFalse(linkEls[2].hasAttribute('href'));
+        element._path = 'chell.go';
+        flushAsynchronousOperations();
+        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'),
+            '42-glados.txt-10-PARENT');
+        element._path = 'not_a_real_file';
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'),
+            '42-wheatley.md-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
+      });
 
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/wheatley.md'),
-          'Should navigate to /c/42/1/wheatley.md');
-      element._path = 'wheatley.md';
-
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/glados.txt'),
-          'Should navigate to /c/42/1/glados.txt');
-      element._path = 'glados.txt';
-
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1/chell.go'),
-          'Should navigate to /c/42/1/chell.go');
-      element._path = 'chell.go';
-
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(showStub.lastCall.calledWithExactly('/c/42/1'),
-          'Should navigate to /c/42/1');
-    });
-
-    test('jump to file dropdown', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '10',
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const linkEls =
-          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
-      assert.equal(linkEls.length, 3);
-      assert.isFalse(linkEls[0].hasAttribute('selected'));
-      assert.isTrue(linkEls[1].hasAttribute('selected'));
-      assert.isFalse(linkEls[2].hasAttribute('selected'));
-      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
-      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
-      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
-
-      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-          '/foo/bar/baz');
-      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
-          'Commit message');
-      assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
-          'Merge list');
-    });
-
-    test('jump to file dropdown with patch range', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: '5',
-        patchNum: '10',
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const linkEls =
-          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
-      assert.equal(linkEls.length, 3);
-      assert.isFalse(linkEls[0].hasAttribute('selected'));
-      assert.isTrue(linkEls[1].hasAttribute('selected'));
-      assert.isFalse(linkEls[2].hasAttribute('selected'));
-      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
-      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
-      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
-    });
-
-    test('prev/up/next links', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '10',
-      };
-      element._change = {
-        revisions: {
-          a: {_number: 10},
-        },
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 3);
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
-      element._path = 'wheatley.md';
-      flushAsynchronousOperations();
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/glados.txt');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
-      assert.isFalse(linkEls[2].hasAttribute('href'));
-      element._path = 'chell.go';
-      flushAsynchronousOperations();
-      assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/glados.txt');
-      element._path = 'not_a_real_file';
-      flushAsynchronousOperations();
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/wheatley.md');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/chell.go');
+      test('prev/up/next links with patch range', () => {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '5',
+          patchNum: '10',
+        };
+        element._change = {
+          _number: 42,
+          revisions: {
+            a: {_number: 5},
+            b: {_number: 10},
+          },
+        };
+        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._path = 'glados.txt';
+        flushAsynchronousOperations();
+        const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
+        assert.equal(linkEls.length, 3);
+        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
+        element._path = 'wheatley.md';
+        flushAsynchronousOperations();
+        assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.isFalse(linkEls[2].hasAttribute('href'));
+        element._path = 'chell.go';
+        flushAsynchronousOperations();
+        assert.isFalse(linkEls[0].hasAttribute('href'));
+        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
+      });
     });
 
     test('download link', () => {
       element._changeNum = '42';
       element._patchRange = {
-        basePatchNum: 'PARENT',
+        basePatchNum: PARENT,
         patchNum: '10',
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -436,38 +455,6 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(element.$$('.downloadLink').getAttribute('href'),
           '/changes/42/revisions/10/patch?zip&path=glados.txt');
-    });
-
-    test('prev/up/next links with patch range', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: '5',
-        patchNum: '10',
-      };
-      element._change = {
-        revisions: {
-          a: {_number: 5},
-          b: {_number: 10},
-        },
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const linkEls = Polymer.dom(element.root).querySelectorAll('.navLink');
-      assert.equal(linkEls.length, 3);
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
-      element._path = 'wheatley.md';
-      flushAsynchronousOperations();
-      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/glados.txt');
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
-      assert.isFalse(linkEls[2].hasAttribute('href'));
-      element._path = 'chell.go';
-      flushAsynchronousOperations();
-      assert.isFalse(linkEls[0].hasAttribute('href'));
-      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10');
-      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/glados.txt');
     });
 
     test('file review status', done => {
@@ -608,14 +595,6 @@ limitations under the License.
       assert.isTrue(replaceStateStub.called);
     });
 
-    test('_getDiffURL encodes special characters', () => {
-      const changeNum = 123;
-      const patchRange = {basePatchNum: 123, patchNum: 456};
-      const path = 'c++/cpp.cpp';
-      assert.equal(element._getDiffURL(changeNum, patchRange, path),
-          '/c/123/123..456/c%252B%252B/cpp.cpp');
-    });
-
     test('_getDiffViewMode', () => {
       // No user prefs or change view state set.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
@@ -665,7 +644,7 @@ limitations under the License.
         stub('gr-rest-api-interface', {
           getDiffComments() {
             return Promise.resolve({
-              'path/to/file/one.cpp': [{patch_set: 'PARENT', message: 'lorem'}],
+              'path/to/file/one.cpp': [{patch_set: PARENT, message: 'lorem'}],
               'path-to/file/two.py': [{patch_set: 2, message: 'ipsum'}],
             });
           },

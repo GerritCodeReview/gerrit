@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DeleteTagIT extends AbstractDaemonTest {
-  private final String TAG = "refs/tags/test";
+  private static final String TAG = "refs/tags/test";
 
   @Before
   public void setUp() throws Exception {

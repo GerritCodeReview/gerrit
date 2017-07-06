@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "09bb89cb_1f892975",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-06T06:23:49Z",
+      "side": 1,
+      "message": "Actually I just didn\u0027t want to make it look, like I\u0027m blaming you for something that was already wrong in this file.",
+      "parentUuid": "381cf977_8b9b3645",
+      "range": {
+        "startLine": 680,
+        "startChar": 21,
+        "endLine": 680,
+        "endChar": 28
+      },
+      "revId": "815a20ac077e35977ad49f028e5154cbcdcec046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79f5f7ea_6e4eaccc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 5

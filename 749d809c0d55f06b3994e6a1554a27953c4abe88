@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3634a784_4856362d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-06T22:59:21Z",
+      "side": 1,
+      "message": "Two options for removing the other #createNewContainer rule:\n\n#createNewContainer:not(.show) {\n  display: none;\n}\n\nEven better:\n\n#createNewContainer.hide {\n  display: none;\n}",
+      "revId": "749d809c0d55f06b3994e6a1554a27953c4abe88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c25da39_2e8ef5be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-06T22:59:21Z",
+      "side": 1,
+      "message": "Alternatively: http://chaijs.com/api/assert/#method_include\nSame for the next text.",
+      "range": {
+        "startLine": 112,
+        "startChar": 13,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "749d809c0d55f06b3994e6a1554a27953c4abe88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "697fd3ba_d05e3dd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-06T22:59:21Z",
+      "side": 1,
+      "message": "Please remove.",
+      "revId": "749d809c0d55f06b3994e6a1554a27953c4abe88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

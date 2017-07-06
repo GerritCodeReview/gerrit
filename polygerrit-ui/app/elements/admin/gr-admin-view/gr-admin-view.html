@@ -23,7 +23,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-admin-create-project/gr-admin-create-project.html">
+<link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-admin-plugin-list/gr-admin-plugin-list.html">
 <link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
@@ -89,9 +89,9 @@ limitations under the License.
     </template>
     <template is="dom-if" if="[[_showCreateProject]]" restamp="true">
       <main class="table">
-        <gr-admin-create-project
+        <gr-create-project-dialog
             params="[[params]]"
-            id="createProject"></gr-admin-create-project>
+            id="createProject"></gr-create-project-dialog>
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectDetailList]]" restamp="true">

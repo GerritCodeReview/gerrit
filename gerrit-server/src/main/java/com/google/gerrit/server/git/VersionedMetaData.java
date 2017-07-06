@@ -160,8 +160,8 @@ public abstract class VersionedMetaData {
       revision = id != null ? walk.parseCommit(id) : null;
       onLoad();
     } finally {
-      walk = null;
-      reader = null;
+      this.rw = null;
+      this.reader = null;
     }
   }
 

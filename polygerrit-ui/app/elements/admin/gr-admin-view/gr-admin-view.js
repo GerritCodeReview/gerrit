@@ -19,13 +19,7 @@
     url: '/admin/projects',
     view: 'gr-admin-project-list',
     viewableToAll: true,
-    children: [{
-      name: 'Create Project',
-      capability: 'createProject',
-      section: 'Projects',
-      url: '/admin/create-project',
-      view: 'gr-admin-create-project',
-    }],
+    children: [],
   }, {
     name: 'Groups',
     section: 'Groups',
@@ -61,7 +55,6 @@
         type: Boolean,
         value: false,
       },
-      _showCreateProject: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectBranches: Boolean,
@@ -139,8 +132,6 @@
     },
 
     _paramsChanged(params) {
-      this.set('_showCreateProject',
-          params.adminView === 'gr-admin-create-project');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');

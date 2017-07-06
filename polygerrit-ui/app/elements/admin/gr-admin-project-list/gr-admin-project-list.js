@@ -35,6 +35,11 @@
         readOnly: true,
         value: '/admin/projects',
       },
+      _hasNewProjectName: Boolean,
+      _createNewCapability: {
+        type: Boolean,
+        value: false,
+      },
       _projects: Array,
 
       /**
@@ -62,6 +67,10 @@
       Gerrit.ListViewBehavior,
     ],
 
+    attached() {
+      this._getCreateProjectCapability();
+    },
+
     _paramsChanged(params) {
       this._loading = true;
       this._filter = this.getFilterValue(params);
@@ -73,6 +82,18 @@
 
     _computeProjectUrl(name) {
       return this.getUrl(this._path + '/', name);
+    },
+
+    _getCreateProjectCapability() {
+      return this.$.restAPI.getAccount().then(account => {
+        if (!account) { return; }
+        return this.$.restAPI.getAccountCapabilities(['createProject'])
+            .then(capabilities => {
+              if (capabilities.createProject) {
+                this._createNewCapability = true;
+              }
+            });
+      });
     },
 
     _getProjects(filter, projectsPerPage, offset) {
@@ -90,6 +111,18 @@
              });
             this._loading = false;
           });
+    },
+
+    _handleCreateProject() {
+      this.$.createNewModal.handleCreateProject();
+    },
+
+    _handleCloseCreate() {
+      this.$.createOverlay.close();
+    },
+
+    _handleCreateClicked() {
+      this.$.createOverlay.open();
     },
 
     _readOnly(item) {

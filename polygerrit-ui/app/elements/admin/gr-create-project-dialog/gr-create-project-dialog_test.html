@@ -16,23 +16,23 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-admin-create-project</title>
+<title>gr-create-project-dialog</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-admin-create-project.html">
+<link rel="import" href="gr-create-project-dialog.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-admin-create-project></gr-admin-create-project>
+    <gr-create-project-dialog></gr-create-project-dialog>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-admin-create-project tests', () => {
+  suite('gr-create-project-dialog tests', () => {
     let element;
     let sandbox;
 
@@ -42,12 +42,6 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(true); },
       });
       element = fixture('basic');
-      element._projectConfig = {
-        name: 'test-project',
-        create_empty_commit: true,
-        parent: 'All-Project',
-        permissions_only: false,
-      };
     });
 
     teardown(() => {
@@ -67,7 +61,15 @@ limitations under the License.
             return Promise.resolve({});
           });
 
-      const button = element.$.submitBtn;
+      assert.isFalse(element.hasNewProjectName);
+
+      element._projectConfig = {
+        name: 'test-project',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
       element.$.projectNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
       element.$.initalCommit.bindValue =
@@ -75,33 +77,14 @@ limitations under the License.
       element.$.parentProject.bindValue =
           configInputObj.permissions_only;
 
-      assert.isFalse(button.hasAttribute('disabled'));
+      assert.isTrue(element.hasNewProjectName);
 
       assert.deepEqual(element._projectConfig, configInputObj);
 
-      element._handleCreateProject().then(() => {
+      element.handleCreateProject().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
         done();
       });
-    });
-
-    test('test for button being called', done => {
-      const button = element.$.submitBtn;
-
-      flushAsynchronousOperations();
-      sandbox.stub(element, '_handleCreateProject');
-      element._handleCreateProject();
-      MockInteractions.tap(button);
-      assert.isTrue(element._handleCreateProject.called);
-      done();
-    });
-
-    test('test for _handleCreateProject being called', done => {
-      const button = element.$.submitBtn;
-
-      flushAsynchronousOperations();
-      MockInteractions.tap(button);
-      done();
     });
   });
 </script>

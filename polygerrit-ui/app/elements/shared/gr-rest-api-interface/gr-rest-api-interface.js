@@ -524,21 +524,21 @@
 
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + filter : '';
+      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
 
       return this._fetchSharedCacheURL(
-          `/projects/${project}/branches?n=${projectsBranchesPerPage + 1}&s=` +
-          `${offset}${filter}`
+          `/projects/${encodeURIComponent(project)}/branches` +
+          `?n=${projectsBranchesPerPage + 1}&s=${offset}${filter}`
       );
     },
 
     getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + filter : '';
+      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
 
       return this._fetchSharedCacheURL(
-          `/projects/${project}/tags?n=${projectsTagsPerPage + 1}&s=` +
-          `${offset}${filter}`
+          `/projects/${encodeURIComponent(project)}/tags` +
+          `?n=${projectsTagsPerPage + 1}&s=${offset}${filter}`
       );
     },
 

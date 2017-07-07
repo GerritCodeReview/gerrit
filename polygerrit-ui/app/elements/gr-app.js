@@ -54,6 +54,7 @@
       _lastError: Object,
       _lastSearchPage: String,
       _path: String,
+      _isShadowDom: Boolean,
     },
 
     listeners: {
@@ -75,16 +76,8 @@
       '?': '_showKeyboardShortcuts',
     },
 
-    created() {
-      // If shadow dom cookie is set, reload the page using shadow dom.
-      if (util.getCookie('USE_SHADOW_DOM') === 'true') {
-        if (!window.location.href.includes('?dom=shadow')) {
-          window.location.href = window.location.href + '?dom=shadow';
-        }
-      }
-    },
-
     ready() {
+      this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();
 
       this.$.restAPI.getAccount().then(account => {
@@ -233,6 +226,10 @@
     _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
       this.$.registration.close();
+    },
+
+    _computeShadowClass(isShadowDom) {
+      return isShadowDom ? 'shadow' : '';
     },
   });
 })();

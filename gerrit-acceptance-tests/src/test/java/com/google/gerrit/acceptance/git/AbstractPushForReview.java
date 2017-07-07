@@ -60,7 +60,9 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.Address;
@@ -438,30 +440,41 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master%wip");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Pushing a new patch set without --wip doesn't remove the wip flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Remove the wip flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master%ready");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
 
     // Normal push: wip flag is not added back.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
 
     // Make the change work-in-progress again.
     r = amendChange(r.getChangeId(), "refs/for/master%wip");
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+    assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Can't use --wip and --ready together.
     r = amendChange(r.getChangeId(), "refs/for/master%wip,ready");
     r.assertErrorStatus();
+  }
+
+  private void assertUploadTag(ChangeData cd, String expectedTag) throws Exception {
+    List<ChangeMessage> msgs = cd.messages();
+    assertThat(msgs).isNotEmpty();
+    assertThat(Iterables.getLast(msgs).getTag()).isEqualTo(expectedTag);
   }
 
   @Test

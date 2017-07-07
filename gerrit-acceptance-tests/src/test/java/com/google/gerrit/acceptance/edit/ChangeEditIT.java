@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
@@ -161,6 +163,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
             "Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Published edit on patch set 2."));
+
+    // The tag for the publish edit change message should vary according
+    // to whether the change was WIP at the time of publishing.
+    ChangeInfo info = get(changeId);
+    assertThat(info.messages).isNotEmpty();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
+
+    // Move the change to WIP, repeat, and verify.
+    gApi.changes().id(changeId).setWorkInProgress();
+    createEmptyEditFor(changeId);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));
+    gApi.changes().id(changeId).edit().publish();
+    info = get(changeId);
+    assertThat(info.messages).isNotEmpty();
+    assertThat(Iterables.getLast(info.messages).tag)
+        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
   }
 
   @Test

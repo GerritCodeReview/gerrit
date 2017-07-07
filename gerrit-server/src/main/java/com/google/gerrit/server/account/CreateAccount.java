@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -63,6 +64,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   }
 
   private final ReviewDb db;
+  private final Sequences seq;
   private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -81,6 +83,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   @Inject
   CreateAccount(
       ReviewDb db,
+      Sequences seq,
       Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
@@ -96,6 +99,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
+    this.seq = seq;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
@@ -133,7 +137,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);
 
-    Account.Id id = new Account.Id(db.nextAccountId());
+    Account.Id id = new Account.Id(seq.nextAccountId());
 
     ExternalId extUser = ExternalId.createUsername(username, id, input.httpPassword);
     if (externalIds.get(extUser.key()) != null) {

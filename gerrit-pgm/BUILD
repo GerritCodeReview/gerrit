@@ -29,6 +29,7 @@ BASE_JETTY_DEPS = [
 
 DEPS = BASE_JETTY_DEPS + [
     "//gerrit-reviewdb:server",
+    "//lib:gwtorm",
     "//lib/log:jsonevent-layout",
 ]
 
@@ -53,7 +54,6 @@ java_library(
         "//lib:args4j",
         "//lib:derby",
         "//lib:gwtjsonrpc",
-        "//lib:gwtorm",
         "//lib:h2",
         "//lib/commons:validator",
         "//lib/mina:sshd",
@@ -64,7 +64,6 @@ REST_UTIL_DEPS = [
     "//gerrit-cache-h2:cache-h2",
     "//gerrit-util-cli:cli",
     "//lib:args4j",
-    "//lib:gwtorm",
     "//lib/commons:dbcp",
 ]
 
@@ -119,7 +118,6 @@ REST_PGM_DEPS = [
     "//gerrit-oauth:oauth",
     "//gerrit-openid:openid",
     "//lib:args4j",
-    "//lib:gwtorm",
     "//lib:protobuf",
     "//lib:servlet-api-3_1-without-neverlink",
     "//lib/prolog:cafeteria",

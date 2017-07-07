@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf75f8f8_1e78998a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T18:14:04Z",
+      "side": 1,
+      "message": "Why? it\u0027s closing the input on l.56",
+      "parentUuid": "50b664ce_4df6e7a9",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f82a1123_6e954a28",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2017-07-07T18:12:19Z",
       "side": 1,
       "message": "Ignore this comment, it\u0027s the \u003c/input\u003e above causing this to show syntax error.",
+      "parentUuid": "f82a1123_6e954a28",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 10
+      },
+      "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82760832_3108c00c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T18:14:04Z",
+      "side": 1,
+      "message": "Why? there are two divs",
       "parentUuid": "f82a1123_6e954a28",
       "range": {
         "startLine": 99,

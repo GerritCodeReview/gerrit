@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "612f542c_581515d9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-07T18:14:38Z",
+      "side": 1,
+      "message": "no it dosen\u0027t need to close. See https://github.com/GerritCodeReview/gerrit/blob/6c726870115df1d1208e0e92a387585664fa9e94/polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html#L49",
+      "parentUuid": "bf75f8f8_1e78998a",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f82a1123_6e954a28",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
         "patchSetId": 1

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;

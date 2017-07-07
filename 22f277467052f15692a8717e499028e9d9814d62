@@ -118,6 +118,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe981dbc_6fd24e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-07T08:39:30Z",
+      "side": 1,
+      "message": "I think that we could guarantee the order. The JSON serialization seems to insert elements into the resulting JSON object in the iteration order of the map. So, if we manage to get the iteration order correct, we should end up with ordered label values in the JSON response.\n\nHan-Wen, what\u0027s your opinion on it? Do you want to adjust the implementation?\nIf so, please cover this aspect by a test and mention it in the documentation.\n\nSome hints for the implementation:\nCollectors#toMap uses a HashMap and hence the order is neither deterministic nor sorted. Even if we used a TreeMap or an ImmutableSortedMap instead, we wouldn\u0027t get the desired ordering as \" 0\", \"+1\", \"+2\", \"-1\", \"-2\" is the natural order. I assume that the label values should rather be ordered as \"-2\", \"-1\", \" 0\", \"+1\", \"+2\" to easily retrieve the highest/lowest value.\nTo achieve that, we could simply use the ImmutableMap#toImmutableMap collector. LabelType already sorts its values from low to high. So, we only have to keep the same order, which ImmutableMap does.",
+      "parentUuid": "25ed8954_a8311e14",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

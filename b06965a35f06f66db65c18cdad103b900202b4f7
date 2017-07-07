@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "20d092ea_24b69ea3",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-07T17:35:01Z",
+      "side": 1,
+      "message": "Feels sort of weird to depend on util this early.\n\nStrictly non-blockingly optionally: we could configure USE_SHADOW_DOM under localStorage instead of a cookie, just because they\u0027d be easier to access without need for a util library ...\n\n localStorage.getItem(\u0027USE_SHADOW_DOM\u0027);\n\n... that would break the setting for anyone already using the cookie though.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0132540c_7c7bccb9",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2

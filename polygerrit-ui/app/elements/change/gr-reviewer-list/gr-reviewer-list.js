@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  const MAX_REVIEWERS_DISPLAYED = 5;
-
   Polymer({
     is: 'gr-reviewer-list',
 
@@ -44,6 +42,7 @@
         type: Boolean,
         value: false,
       },
+      maxReviewersDisplayed: Number,
 
       _displayedReviewers: {
         type: Array,
@@ -93,13 +92,15 @@
       this._reviewers = result.filter(reviewer => {
         return reviewer._account_id != owner._account_id;
       });
-      // If there is one more than the max reviewers, don't show the 'show more'
-      // button, because it takes up just as much space.
-      if (this._reviewers.length <= MAX_REVIEWERS_DISPLAYED + 1) {
-        this._displayedReviewers = this._reviewers;
-      } else {
+
+      // If there is one more than the max reviewers, don't show the 'show
+      // more' button, because it takes up just as much space.
+      if (this.maxReviewersDisplayed &&
+          this._reviewers.length > this.maxReviewersDisplayed + 1) {
         this._displayedReviewers =
-          this._reviewers.slice(0, MAX_REVIEWERS_DISPLAYED);
+          this._reviewers.slice(0, this.maxReviewersDisplayed);
+      } else {
+        this._displayedReviewers = this._reviewers;
       }
     },
 

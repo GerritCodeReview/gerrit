@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2172577_bab69277",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T19:10:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3dde46_9abd8b06",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 50
+      },
+      "revId": "6fcad41360165c9deb956ca5b578dbdd86529894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaa3b706_2eee4838",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-07T17:36:36Z",
       "side": 1,
       "message": "Nice! s/solid/dashed/ or s/solid/dotted/ might be fun too.",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "6fcad41360165c9deb956ca5b578dbdd86529894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5244a933_1c2e0738",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T19:10:48Z",
+      "side": 1,
+      "message": "I tried dotted/slashed and didn\u0027t love it, but made this a 1px border instead as it was still apparent.",
+      "parentUuid": "eaa3b706_2eee4838",
       "range": {
         "startLine": 79,
         "startChar": 23,

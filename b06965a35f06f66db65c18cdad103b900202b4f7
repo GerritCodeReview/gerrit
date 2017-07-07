@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4211ace_bc895922",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T19:10:48Z",
+      "side": 1,
+      "message": "I\u0027m fine with local storage, the breakage isn\u0027t a huge concern, as I think a few of us are the only ones using this.",
+      "parentUuid": "20d092ea_24b69ea3",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0132540c_7c7bccb9",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2

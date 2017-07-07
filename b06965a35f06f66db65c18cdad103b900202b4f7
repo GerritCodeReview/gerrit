@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9eb4fee6_b7b48819",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T17:33:46Z",
+      "side": 1,
+      "message": "Yes we should. done.",
+      "parentUuid": "0132540c_7c7bccb9",
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e893841b_5153de3b",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f1e1b3f9_e34e9a4e",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T17:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e893841b_5153de3b",
+      "range": {
+        "startLine": 130,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 59
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38260839_f135d983",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748b44b7_0f4fc2e0",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T17:33:46Z",
+      "side": 1,
+      "message": "It would be possible for a user to have the cookie set, but be on a browser that doesn\u0027t actually support shadow DOM, in which case them saying \u0027use shadow dom\u0027 doesn\u0027t actually mean it\u0027s being used. I think \u0027is\u0027 is fine. though, will change to that.",
+      "parentUuid": "38260839_f135d983",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

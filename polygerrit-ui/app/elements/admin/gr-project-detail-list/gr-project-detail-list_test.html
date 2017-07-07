@@ -81,6 +81,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -126,6 +127,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -142,6 +144,7 @@ limitations under the License.
           return Promise.resolve(branches);
         });
         const params = {
+          detailType: 'branches',
           project: 'test',
           filter: 'test',
           offset: 25,
@@ -183,6 +186,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'tags',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -220,6 +224,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'tags',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -237,6 +242,7 @@ limitations under the License.
         });
         const params = {
           project: 'test',
+          detailType: 'tags',
           filter: 'test',
           offset: 25,
         };

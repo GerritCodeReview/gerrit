@@ -99,8 +99,15 @@ public interface ReviewDb extends Schema {
   @Relation(id = 30)
   AccountGroupByIdAudAccess accountGroupByIdAud();
 
-  /** Create the next unique id for an {@link Account}. */
-  @Sequence(startWith = 1000000)
+  int FIRST_ACCOUNT_ID = 1000000;
+
+  /**
+   * Next unique id for a {@link Account}.
+   *
+   * @deprecated use {@link com.google.gerrit.server.Sequences#nextAccountId()}.
+   */
+  @Sequence(startWith = FIRST_ACCOUNT_ID)
+  @Deprecated
   int nextAccountId() throws OrmException;
 
   /** Next unique id for a {@link AccountGroup}. */

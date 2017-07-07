@@ -75,6 +75,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -147,6 +148,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
+
+  @Inject private Sequences seq;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -894,7 +897,7 @@ public class AccountIT extends AbstractDaemonTest {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
 
-    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef);
     r.assertErrorStatus();
@@ -912,7 +915,7 @@ public class AccountIT extends AbstractDaemonTest {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
 
-    String userRef = RefNames.refsUsers(new Account.Id(db.nextAccountId()));
+    String userRef = RefNames.refsUsers(new Account.Id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     pushFactory.create(db, admin.getIdent(), allUsersRepo).to(userRef).assertOkStatus();
 

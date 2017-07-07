@@ -201,7 +201,7 @@ public class AccountIT extends AbstractDaemonTest {
         RefUpdate ru = repo.updateRef(ref);
         ru.setForceUpdate(true);
         assert_()
-            .withFailureMessage("Failed to delete " + ref)
+            .withMessage("Failed to delete " + ref)
             .that(ru.delete())
             .isEqualTo(RefUpdate.Result.FORCED);
       }

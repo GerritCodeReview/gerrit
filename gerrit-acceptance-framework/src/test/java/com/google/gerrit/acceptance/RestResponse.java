@@ -40,7 +40,7 @@ public class RestResponse extends HttpResponse {
 
   public void assertStatus(int status) throws Exception {
     assert_()
-        .withFailureMessage(String.format("Expected status code %d", status))
+        .withMessage(String.format("Expected status code %d", status))
         .that(getStatusCode())
         .isEqualTo(status);
   }

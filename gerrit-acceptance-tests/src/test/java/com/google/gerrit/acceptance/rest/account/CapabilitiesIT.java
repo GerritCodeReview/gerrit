@@ -62,7 +62,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
           assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
         } else {
           assert_()
-              .withFailureMessage(String.format("capability %s was not granted", c))
+              .withMessage(String.format("capability %s was not granted", c))
               .that((Boolean) CapabilityInfo.class.getField(c).get(info))
               .isTrue();
         }
@@ -86,7 +86,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (PRIORITY.equals(c)) {
         assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assert_().withFailureMessage("missing queryLimit").that(info.queryLimit).isNotNull();
+        assert_().withMessage("missing queryLimit").that(info.queryLimit).isNotNull();
         assertThat(info.queryLimit.min).isEqualTo((short) 0);
         assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
@@ -95,7 +95,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         assertThat(info.runAs).isFalse();
       } else {
         assert_()
-            .withFailureMessage(String.format("capability %s was not granted", c))
+            .withMessage(String.format("capability %s was not granted", c))
             .that((Boolean) CapabilityInfo.class.getField(c).get(info))
             .isTrue();
       }

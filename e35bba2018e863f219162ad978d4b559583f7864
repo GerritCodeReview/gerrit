@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abc188a0_2c249174",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T00:22:00Z",
+      "side": 1,
+      "message": "Is the async call still needed?",
+      "revId": "e35bba2018e863f219162ad978d4b559583f7864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

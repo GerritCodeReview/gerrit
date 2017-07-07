@@ -49,6 +49,12 @@
      * @event network-error
      */
 
+    /**
+     * Fired when credentials were rejected by server (e.g. expired).
+     *
+     * @event auth-error
+     */
+
     properties: {
       _cache: {
         type: Object,
@@ -68,9 +74,9 @@
       auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
 
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params) {
+    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
       const urlWithParams = this._urlWithParams(url, opt_params);
-      return auth.fetch(urlWithParams).then(response => {
+      return auth.fetch(urlWithParams, opt_options).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
@@ -89,12 +95,31 @@
       }).catch(err => {
         if (opt_errFn) {
           opt_errFn.call(null, null, err);
-        } else {
-          this.fire('network-error', {error: err});
           throw err;
+        } else {
+          this._checkAuthRedirect();
         }
-        throw err;
       });
+    },
+
+    _checkAuthRedirect() {
+      const loggedIn = !!this._cache['/accounts/self/detail'];
+      if (!loggedIn) {
+        return Promise.resolve(false);
+      }
+      return this.fetchJSON('/accounts/self/detail', (response, error) => {
+        if (error) {
+          return;
+        }
+        if (response.type === 'opaqueredirect' &&
+            response.headers.has('x-login') &&
+            loggedIn) {
+          this._cache['/accounts/self/detail'] = null;
+          this.fire('auth-error');
+        } else {
+          this.fire('server-error', {response});
+        }
+      }, null, null, {redirect: 'manual'});
     },
 
     _urlWithParams(url, opt_params) {

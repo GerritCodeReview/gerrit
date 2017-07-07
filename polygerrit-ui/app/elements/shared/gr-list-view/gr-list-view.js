@@ -23,7 +23,7 @@
       createNew: Boolean,
       items: Array,
       itemsPerPage: Number,
-      _filter: {
+      filter: {
         type: String,
         observer: '_filterChanged',
       },

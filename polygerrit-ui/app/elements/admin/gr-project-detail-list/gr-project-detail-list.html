@@ -40,7 +40,7 @@ limitations under the License.
         items="[[_items]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
-        path="[[_getPath(_project)]]">
+        path="[[_getPath(params.project, params.detailType)]]">
       <table id="list">
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
@@ -54,7 +54,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[_shownItems]]"
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
-            <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
+            <td class="name">[[_stripRefs(item.ref, params.detailType)]]</td>
             <td class="description">[[item.revision]]</td>
             <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
               <template is="dom-repeat"

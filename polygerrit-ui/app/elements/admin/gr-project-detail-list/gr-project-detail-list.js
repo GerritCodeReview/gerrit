@@ -34,13 +34,13 @@
        * The kind of detail we are displaying, possibilities are determined by
        * the const DETAIL_TYPES.
        */
-      detailType: String,
+      // detailType: String,
 
       /**
        * Offset of currently visible query results.
        */
       _offset: Number,
-      _project: Object,
+      // _project: Object,
       _items: Array,
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
@@ -70,13 +70,11 @@
       this._loading = true;
       if (!params || !params.project) { return; }
 
-      this._project = params.project;
-
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getItems(this._filter, this._project,
-          this._itemsPerPage, this._offset, this.detailType);
+      return this._getItems(this._filter, params.project,
+          this._itemsPerPage, this._offset, params.detailType);
     },
 
     _getItems(filter, project, itemsPerPage, offset, detailType) {
@@ -101,7 +99,7 @@
 
     _getPath(project) {
       return `/admin/projects/${this.encodeURL(project, true)},` +
-          `${this.detailType}`;
+          `${this.params.detailType}`;
     },
 
     _computeWeblink(project) {

@@ -61,7 +61,6 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      element.detailType = 'branches';
       counter = 0;
     });
 
@@ -70,6 +69,11 @@ limitations under the License.
     });
 
     suite('list of project branches', () => {
+      let params = {
+        project: 'test',
+        detailType: 'branches',
+      };
+
       setup(done => {
         branches = _.times(26, branchGenerator);
 
@@ -78,10 +82,6 @@ limitations under the License.
             return Promise.resolve(branches);
           },
         });
-
-        const params = {
-          project: 'test',
-        };
 
         element._paramsChanged(params).then(() => { flush(done); });
       });
@@ -104,7 +104,7 @@ limitations under the License.
       test('test for refs/heads/ being striped from ref', done => {
         flush(() => {
           assert.equal(element._stripRefs(element._items[1].ref,
-              element.detailType), 'test2');
+              params.detailType), 'test2');
           done();
         });
       });
@@ -126,6 +126,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -142,6 +143,7 @@ limitations under the License.
           return Promise.resolve(branches);
         });
         const params = {
+          detailType: 'branches',
           project: 'test',
           filter: 'test',
           offset: 25,
@@ -163,7 +165,6 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      element.detailType = 'tags';
       counter = 0;
     });
 
@@ -172,6 +173,11 @@ limitations under the License.
     });
 
     suite('list of project tags', () => {
+      let params = {
+        project: 'test',
+        detailType: 'tags',
+      };
+
       setup(done => {
         tags = _.times(26, tagGenerator);
 
@@ -180,11 +186,7 @@ limitations under the License.
             return Promise.resolve(tags);
           },
         });
-
-        const params = {
-          project: 'test',
-        };
-
+        
         element._paramsChanged(params).then(() => { flush(done); });
       });
 
@@ -198,7 +200,7 @@ limitations under the License.
       test('test for refs/tags/ being striped from ref', done => {
         flush(() => {
           assert.equal(element._stripRefs(element._items[1].ref,
-              element.detailType), 'test2');
+              params.detailType), 'test2');
           done();
         });
       });
@@ -220,6 +222,7 @@ limitations under the License.
 
         const params = {
           project: 'test',
+          detailType: 'tags',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -237,6 +240,7 @@ limitations under the License.
         });
         const params = {
           project: 'test',
+          detailType: 'tags',
           filter: 'test',
           offset: 25,
         };

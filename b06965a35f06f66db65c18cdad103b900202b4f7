@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0132540c_7c7bccb9",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T17:27:33Z",
+      "side": 1,
+      "message": "Should we just remove this line?",
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e893841b_5153de3b",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T17:27:33Z",
+      "side": 1,
+      "message": "Nit: I think this should be split into a multiline tag.\n\n      \u003cgr-main-header\n          id\u003d\"mainHeader\"\n          search-query\u003d\"{{params.query}}\"\n          class$\u003d\"[[_computeShadowClass(_usesShadowDom)]]\"\u003e",
+      "range": {
+        "startLine": 130,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 59
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38260839_f135d983",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T17:27:33Z",
+      "side": 1,
+      "message": "Nit: \u0027uses\u0027 feels weird here. Maybe _isShadowDOM? _useShadowDOM?",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "b06965a35f06f66db65c18cdad103b900202b4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

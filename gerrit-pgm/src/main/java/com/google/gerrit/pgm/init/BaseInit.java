@@ -26,6 +26,7 @@ import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.GitRepositoryManagerOnInit;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
@@ -297,6 +298,8 @@ public class BaseInit extends SiteProgram {
             bind(Boolean.class).annotatedWith(LibraryDownload.class).toInstance(skipAllDownloads());
 
             bind(MetricMaker.class).to(DisabledMetricMaker.class);
+
+            bind(GitRepositoryManager.class).to(GitRepositoryManagerOnInit.class);
           }
         });
 

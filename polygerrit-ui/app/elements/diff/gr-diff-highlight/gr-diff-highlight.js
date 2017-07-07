@@ -115,7 +115,11 @@
      * }}
      */
     _getNormalizedRange() {
-      const selection = window.getSelection();
+      // For some reason these can't be chained together.
+      const builder = this.diffBuilder;
+      const diffElement = builder.diffElement;
+
+      const selection = util.getSelection(diffElement);
       const rangeCount = selection.rangeCount;
       if (rangeCount === 0) {
         return null;

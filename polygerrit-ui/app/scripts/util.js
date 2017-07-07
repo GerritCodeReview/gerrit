@@ -16,7 +16,7 @@
 
   const util = window.util || {};
 
-  util.parseDate = function(dateStr) {
+  util.parseDate = dateStr => {
     // Timestamps are given in UTC and have the format
     // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
     // nanoseconds.
@@ -24,7 +24,7 @@
     return new Date(dateStr.replace(' ', 'T') + 'Z');
   };
 
-  util.getCookie = function(name) {
+  util.getCookie = name => {
     const key = name + '=';
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -49,7 +49,7 @@
    * util.truncatePath.('text.html');
    * @return {String} Returns the truncated value of a URL.
    */
-  util.truncatePath = function(path) {
+  util.truncatePath = path => {
     const pathPieces = path.split('/');
 
     if (pathPieces.length < 2) {
@@ -57,6 +57,33 @@
     }
     // Character is an ellipsis.
     return '\u2026/' + pathPieces[pathPieces.length - 1];
+  };
+
+  /**
+   * If a node's parent is shadow root, it does not have a parent element.
+   * Instead, traverse up to get its parent.
+   * @return {Node} Returns the parent node.
+   */
+  util.getParentNode = function(node) {
+    return node.parentElement || Polymer.dom(node).parentNode.host;
+  };
+
+  /**
+   * TODO(beckysiegel) after Polymer2 upgrade can just use
+   * node.getRootNode().getSelection()
+   *
+   * If in shadow dom, get selection based on the node.
+   * @return {Object} Returns the selection object.
+   */
+  util.getSelection = node => {
+    if (!Polymer.Settings.useShadow) {
+      return window.getSelection();
+    }
+    let e = node;
+    while (e.nodeType != 11) { // 11 = DOCUMENT_FRAGMENT_NODE
+      e = e.parentNode;
+    }
+    return e.getSelection();
   };
 
   window.util = util;

@@ -59,7 +59,8 @@
       Polymer.dom.flush();
       const rect = this._getTargetBoundingRect(el);
       const boxRect = this.getBoundingClientRect();
-      const parentRect = this.parentElement.getBoundingClientRect();
+
+      const parentRect = util.getParentNode(this).getBoundingClientRect();
       this.style.top =
           rect.top - parentRect.top - boxRect.height - 6 + 'px';
       this.style.left =

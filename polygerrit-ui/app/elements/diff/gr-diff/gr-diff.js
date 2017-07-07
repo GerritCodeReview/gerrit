@@ -356,7 +356,7 @@
 
     _handleThreadDiscard(e) {
       const el = Polymer.dom(e).rootTarget;
-      el.parentNode.removeThread(el.locationRange);
+      util.getParentNode(el).removeThread(el.locationRange);
     },
 
     _handleCommentDiscard(e) {

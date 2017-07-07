@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1065acd3_5d75326b",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "359c88c2_692ce757",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7ffae5b_a429706d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fb06e2_72f0b3ae",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7ffae5b_a429706d",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "66665403_5b0c58e8",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3a3c09_4341dbf1",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cc874ed_6390be19",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dc13ec4_bf14074b",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cc874ed_6390be19",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 2
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "dd77e151_956ccf88",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done. See my reply to Dave\u0027s comment for more info.",
+      "parentUuid": "a444bcb8_e7224186",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f18ed21_374d2b3a",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -137,6 +257,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5eac59_5ea05814",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Thanks for this. I incorporated Aaron\u0027s edits, but modified it slightly. Let me know what you think.",
+      "parentUuid": "3f18ed21_374d2b3a",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "f6e80397_61d4d439",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32b78753_ab4ebdd0",
+      "range": {
+        "startLine": 38,
+        "startChar": 53,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "705a18cf_7f9c3dcb",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -183,6 +351,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d6c1d9_3547ae34",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done. Modified slightly to \"...given change, which can provide a history...\"",
+      "parentUuid": "705a18cf_7f9c3dcb",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -233,6 +425,30 @@
     },
     {
       "key": {
+        "uuid": "79dceb16_235fdf8e",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I\u0027m going with a simpler title: \"Working with Gerrit: An example\"",
+      "parentUuid": "3ab89ab5_b64c38fe",
+      "range": {
+        "startLine": 48,
+        "startChar": 16,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75cce189_e5ff415c",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -253,6 +469,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f038c36_f1effbbb",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75cce189_e5ff415c",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -303,6 +543,30 @@
     },
     {
       "key": {
+        "uuid": "e4b570b9_0f0a9999",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I just took out fictional. I think example makes it clear that this is not a real Gerrit server.",
+      "parentUuid": "4c3b2d92_332719be",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7d4a5b0_964244b1",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -323,6 +587,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb71159d_2cd13c6c",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I think this was leftover from the earlier draft--there isn\u0027t a heading now titled \"trying out the change\". I\u0027ve removed this item.",
+      "parentUuid": "a7d4a5b0_964244b1",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -349,6 +637,30 @@
     },
     {
       "key": {
+        "uuid": "e573fc15_503581d2",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Shortened to: \"The project and commands in this section are for demonstration purposes only.\"",
+      "parentUuid": "dc342df6_8100925f",
+      "range": {
+        "startLine": 69,
+        "startChar": 23,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee832c47_34b71028",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -372,6 +684,30 @@
     },
     {
       "key": {
+        "uuid": "966c7da9_cb59f2ae",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I see your point. I don\u0027t want this section to get too caught up in details. But I did shorten this paragraph down. Folks can go to the link (which I also moved) to learn more about the Change-Id message hook and how to set it up.",
+      "parentUuid": "ee832c47_34b71028",
+      "range": {
+        "startLine": 91,
+        "startChar": 44,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be50256f_3edc30dd",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -386,6 +722,24 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c32420a0_295b4843",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I think I pulled most of this straight from the existing content (unless I took something out and forgot). I think we\u0027re okay with how things are here--though I think we could improve this topic more in the future.",
+      "parentUuid": "be50256f_3edc30dd",
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -412,6 +766,30 @@
     },
     {
       "key": {
+        "uuid": "89302788_4e324d81",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57d789ad_a7f72e56",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e53651e_4cf94828",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -432,6 +810,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7203e40a_9699731f",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e53651e_4cf94828",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 4
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -458,6 +860,30 @@
     },
     {
       "key": {
+        "uuid": "736015d9_074bf467",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Ha. How did I miss this? I have shortened this up to read: \"...a link to a web page Max can use to review...\"",
+      "parentUuid": "d233137c_ca23e7bb",
+      "range": {
+        "startLine": 126,
+        "startChar": 54,
+        "endLine": 127,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8315507_d793b2dc",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -478,6 +904,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e7d2815_1e3377c2",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8315507_d793b2dc",
+      "range": {
+        "startLine": 133,
+        "startChar": 39,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -504,6 +954,30 @@
     },
     {
       "key": {
+        "uuid": "ea917dcf_2b51111a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48ce0479_dc02dec0",
+      "range": {
+        "startLine": 150,
+        "startChar": 51,
+        "endLine": 150,
+        "endChar": 56
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70c789e1_bc77a727",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -524,6 +998,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e175095c_7cf3c0ce",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70c789e1_bc77a727",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -550,6 +1048,30 @@
     },
     {
       "key": {
+        "uuid": "bb2912aa_4ee72c8f",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I updated this to say that this option allows developers to stay informed of changes even if they are not added as a reviewer. Is that more accurate?",
+      "parentUuid": "b95e7c99_275cadca",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 50
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0976e7cf_35623839",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -570,6 +1092,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fe1a13b_123ace8b",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Yes. Updated to reflect that fact.",
+      "parentUuid": "0976e7cf_35623839",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 6
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -596,6 +1142,30 @@
     },
     {
       "key": {
+        "uuid": "96e74c30_347d46e1",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa265d12_2c6e8e7c",
+      "range": {
+        "startLine": 172,
+        "startChar": 48,
+        "endLine": 172,
+        "endChar": 50
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6856402_505e0f6a",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -616,6 +1186,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c7b687c_80e1c6c6",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I only bolded the bullet list to highlight them in the list. I don\u0027t think we need to have the bolded in every instance.",
+      "parentUuid": "a6856402_505e0f6a",
+      "range": {
+        "startLine": 182,
+        "startChar": 15,
+        "endLine": 182,
+        "endChar": 19
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -666,6 +1260,30 @@
     },
     {
       "key": {
+        "uuid": "6917315b_d6dc4c7c",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f42a506_c8e1946f",
+      "range": {
+        "startLine": 213,
+        "startChar": 2,
+        "endLine": 213,
+        "endChar": 8
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc5815fb_cdc8b9a6",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -686,6 +1304,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce1ee56_3cacb2f9",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc5815fb_cdc8b9a6",
+      "range": {
+        "startLine": 280,
+        "startChar": 18,
+        "endLine": 280,
+        "endChar": 19
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -712,6 +1354,30 @@
     },
     {
       "key": {
+        "uuid": "bcb6b6df_1933161f",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74dfcd5b_26f61e64",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 8
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99ffaad8_ca59665d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -732,6 +1398,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be90baca_7f477f50",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99ffaad8_ca59665d",
+      "range": {
+        "startLine": 290,
+        "startChar": 39,
+        "endLine": 290,
+        "endChar": 51
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -758,6 +1448,30 @@
     },
     {
       "key": {
+        "uuid": "7c05d2c4_3606052b",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done. I think this could still be worded better, but it\u0027s probably sufficient for now.",
+      "parentUuid": "aa7cbc2b_24aa4ed8",
+      "range": {
+        "startLine": 291,
+        "startChar": 17,
+        "endLine": 292,
+        "endChar": 60
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ff5f9f6_de6fbaf4",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -778,6 +1492,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5f61473_4f5d1b98",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "It\u0027s actually not necessary here, according to our Google Developer Style guide. (I mean, it doesn\u0027t necessarily HURT, but I don\u0027t want to get in the habit of adding a comma unless we need to.)",
+      "parentUuid": "8ff5f9f6_de6fbaf4",
+      "range": {
+        "startLine": 300,
+        "startChar": 54,
+        "endLine": 300,
+        "endChar": 62
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -804,6 +1542,30 @@
     },
     {
       "key": {
+        "uuid": "28262f95_fdf16cb8",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "I have a work item to start defining a dictionary. I don\u0027t think it is critical here, but you\u0027re right--we need to address terminology before we start editing/creating more content.",
+      "parentUuid": "ccdec815_130279ea",
+      "range": {
+        "startLine": 306,
+        "startChar": 34,
+        "endLine": 306,
+        "endChar": 40
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413cad3d_88f6b7bb",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -824,6 +1586,30 @@
       "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b87bfa_890f61b6",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-07T22:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413cad3d_88f6b7bb",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 13
+      },
+      "revId": "d1c5a0896775450f236be6aa0e97ac6434ad6681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

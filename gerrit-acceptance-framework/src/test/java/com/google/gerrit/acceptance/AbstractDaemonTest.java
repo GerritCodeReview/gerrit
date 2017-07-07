@@ -316,6 +316,11 @@ public abstract class AbstractDaemonTest {
         GerritServer.Description.forTestMethod(description, configName);
 
     baseConfig.setString("gerrit", null, "tempSiteDir", tempSiteDir.getRoot().getPath());
+    baseConfig.setString(
+        "gerrit",
+        null,
+        "basePath",
+        tempSiteDir.getRoot().toPath().resolve("git").toFile().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {

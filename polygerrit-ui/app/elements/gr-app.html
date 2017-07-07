@@ -13,6 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<script>
+  // This must be set prior to loading Polymer for the first time.
+  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
+    window.Polymer = {
+      dom: 'shadow',
+    };
+  }
+</script>
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
@@ -67,6 +75,10 @@ limitations under the License.
       footer {
         color: var(--primary-text-color);
       }
+      gr-main-header.shadow {
+        /* Make it obvious for shadow dom testing */
+        border-bottom: 1px dotted pink;
+      }
       gr-main-header {
         background-color: var(--header-background-color);
         padding: 0 var(--default-horizontal-margin);
@@ -114,7 +126,10 @@ limitations under the License.
       }
     </style>
     <gr-fixed-panel id="header">
-      <gr-main-header id="mainHeader" search-query="{{params.query}}">
+      <gr-main-header
+          id="mainHeader"
+          search-query="{{params.query}}"
+          class$="[[_computeShadowClass(_isShadowDom)]]">
       </gr-main-header>
     </gr-fixed-panel>
     <main>
@@ -160,7 +175,7 @@ limitations under the License.
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <footer r="contentinfo">
+    <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>

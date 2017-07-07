@@ -16,6 +16,24 @@
       "revId": "6dd0fb1058deda7e1f1a9a5077e61e5873dea819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7603e562_c910717b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T00:21:00Z",
+      "side": 1,
+      "message": "Wyatt and I had some discussions about this, and I feel it is better as an overlay than as a separate page,",
+      "parentUuid": "ae7b52b0_4c5c4086",
+      "revId": "6dd0fb1058deda7e1f1a9a5077e61e5873dea819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

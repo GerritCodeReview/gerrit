@@ -60,6 +60,8 @@
       _showProjectBranches: Boolean,
       _showGroupList: Boolean,
       _showPluginList: Boolean,
+      _showCreateProject: Boolean,
+      _showProjectDetailList: Boolean,
     },
 
     behaviors: [

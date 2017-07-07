@@ -16,6 +16,24 @@
       "revId": "e35bba2018e863f219162ad978d4b559583f7864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "009e7404_df580270",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-07T00:24:38Z",
+      "side": 1,
+      "message": "I kept that because it was in the base of I623d21ade65b (and the base of this change).",
+      "parentUuid": "abc188a0_2c249174",
+      "revId": "e35bba2018e863f219162ad978d4b559583f7864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

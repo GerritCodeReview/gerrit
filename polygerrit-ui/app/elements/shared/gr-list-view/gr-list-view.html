@@ -13,22 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="./gr-styled-table.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="gr-styled-table.html">
 
 <dom-module id="gr-list-view">
   <template>
     <style include="shared-styles">
-      #filterContainer {
-        margin: 1em;
-      }
       #filter {
         font-size: 1em;
         max-width: 25em;
+      }
+      #topContainer {
+        display: flex;
+        justify-content: space-between;
+        margin: 1em;
+      }
+      #createNewContainer:not(.show) {
+        display: none;
       }
       a {
         color: var(--default-text-color);
@@ -48,12 +54,20 @@ limitations under the License.
         margin-right: .5em;
       }
     </style>
-    <div id="filterContainer">
-      <label>Filter:</label>
-      <input is="iron-input"
-          type="text"
-          id="filter"
-          bind-value="{{_filter}}">
+    <div id="topContainer">
+      <div>
+        <label>Filter:</label>
+        <input is="iron-input"
+            type="text"
+            id="filter"
+            bind-value="{{_filter}}">
+      </div>
+      <div id="createNewContainer"
+          class$="[[_computeCreateClass(createNew)]]">
+        <gr-button id="createNew" on-tap="_createNewItem">
+          Create New
+        </gr-button>
+      </div>
     </div>
     <gr-styled-table>
       <content></content>

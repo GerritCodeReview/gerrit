@@ -85,11 +85,12 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        let newUrl = data.hash;
-        if (newUrl.startsWith('/VE/')) {
-          newUrl = '/settings' + data.hash;
+        const hash = data.hash;
+        let newUrl = base + hash;
+        if (hash.startsWith('/VE/')) {
+          newUrl = base + '/settings' + data.hash;
         }
-        page.redirect(newUrl);
+        page(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(loggedIn => {
@@ -410,7 +411,7 @@
       app.params = {justRegistered: true};
       const path = ctx.params[0] || '/';
       if (path[0] !== '/') { return; }
-      page.show(path);
+      page.show(base + path);
     });
 
     page.start();

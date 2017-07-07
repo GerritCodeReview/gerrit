@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "75b34969_18ad0bff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T22:53:43Z",
+      "side": 1,
+      "message": "Nope: \nhttps://www.polymer-project.org/1.0/docs/devguide/events#annotated-listeners",
+      "parentUuid": "fc5b37f2_ff4f74c0",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 47
+      },
+      "revId": "cb37d118f62433916bc3d0a0c0b2058b45665b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10ac4039_785e9c7e",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
         "patchSetId": 15

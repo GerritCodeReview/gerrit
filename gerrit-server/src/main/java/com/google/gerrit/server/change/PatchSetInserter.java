@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -180,7 +181,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   public PatchSetInserter setNotify(NotifyHandling notify) {
-    this.notify = notify;
+    this.notify = Preconditions.checkNotNull(notify);
     return this;
   }
 

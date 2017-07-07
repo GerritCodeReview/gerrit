@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a8ce33f_663c80b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T19:06:54Z",
+      "side": 1,
+      "message": "Actually, this one can be removed too, as it was replaced by _showProjectDetailList.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 36
+      },
+      "revId": "220b63411d9c7f8daa42c6cc1079d3054b3d6c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ccfd41ee_d9c7480e",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 1

@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.pgm.init.api;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

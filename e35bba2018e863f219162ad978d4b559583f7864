@@ -52,6 +52,24 @@
       "revId": "e35bba2018e863f219162ad978d4b559583f7864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0fd7a37_a492bc5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-07T15:03:36Z",
+      "side": 1,
+      "message": "Right, it wasn\u0027t added in that commit message, that\u0027s what I meant by the base of that change.\n\nTo see where it was added initially, you have to go way way back to  I4931dc9708.",
+      "parentUuid": "0470fd27_f31c306f",
+      "revId": "e35bba2018e863f219162ad978d4b559583f7864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

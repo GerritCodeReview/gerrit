@@ -190,6 +190,7 @@ limitations under the License.
 
     test('no show all reviewers button with 6 reviewers', () => {
       const reviewers = [];
+      element.maxReviewersDisplayed = 5;
       for (let i = 0; i < 6; i++) {
         reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
@@ -211,8 +212,9 @@ limitations under the License.
       assert.isTrue(element.$$('.hiddenReviewers').hidden);
     });
 
-    test('how all reviewers button with 7 reviewers', () => {
+    test('show all reviewers button with 7 reviewers', () => {
       const reviewers = [];
+      element.maxReviewersDisplayed = 5;
       for (let i = 0; i < 7; i++) {
         reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
@@ -234,8 +236,33 @@ limitations under the License.
       assert.isFalse(element.$$('.hiddenReviewers').hidden);
     });
 
+
+    test('no maxReviewersDisplayed', () => {
+      const reviewers = [];
+      for (let i = 0; i < 7; i++) {
+        reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
+      }
+      element.ccsOnly = true;
+
+      element.change = {
+        owner: {
+          _account_id: 1,
+        },
+        reviewers: {
+          CC: reviewers,
+        },
+      };
+      flushAsynchronousOperations();
+      assert.equal(element._hiddenReviewerCount, 0);
+      assert.equal(element._displayedReviewers.length, 7);
+      assert.equal(element._reviewers.length, 7);
+      assert.isTrue(element.$$('.hiddenReviewers').hidden);
+    });
+
     test('show all reviewers button', () => {
       const reviewers = [];
+      element.maxReviewersDisplayed = 5;
       for (let i = 0; i < 100; i++) {
         reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});

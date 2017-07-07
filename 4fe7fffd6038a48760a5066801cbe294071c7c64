@@ -45,6 +45,30 @@
       "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccd9d150_0ffe758e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-07T18:12:19Z",
+      "side": 1,
+      "message": "Ignore this comment, it\u0027s the \u003c/input\u003e above causing this to show syntax error.",
+      "parentUuid": "f82a1123_6e954a28",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 10
+      },
+      "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

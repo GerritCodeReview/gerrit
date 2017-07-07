@@ -71,6 +71,7 @@
       if (!params || !params.project) { return; }
 
       this._project = params.project;
+      this.detailType = params.detailType;
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);

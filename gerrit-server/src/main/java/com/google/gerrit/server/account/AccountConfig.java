@@ -177,12 +177,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     Config cfg = readConfig(ACCOUNT_CONFIG);
+    writeToConfig(account, cfg);
+    saveConfig(ACCOUNT_CONFIG, cfg);
+    return true;
+  }
+
+  public static void writeToConfig(Account account, Config cfg) {
     setActive(cfg, account.isActive());
     set(cfg, KEY_FULL_NAME, account.getFullName());
     set(cfg, KEY_PREFERRED_EMAIL, account.getPreferredEmail());
     set(cfg, KEY_STATUS, account.getStatus());
-    saveConfig(ACCOUNT_CONFIG, cfg);
-    return true;
   }
 
   /**

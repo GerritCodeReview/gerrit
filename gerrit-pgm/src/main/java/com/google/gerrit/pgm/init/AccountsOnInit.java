@@ -15,25 +15,36 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
@@ -57,17 +68,48 @@ public class AccountsOnInit {
     if (path != null) {
       try (Repository repo = new FileRepository(path);
           ObjectInserter oi = repo.newObjectInserter()) {
-        PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
-        AccountsUpdate.createUserBranch(
-            repo,
-            new Project.NameKey(allUsers),
-            GitReferenceUpdated.DISABLED,
-            null,
-            oi,
-            serverIdent,
-            serverIdent,
-            account.getId(),
-            account.getRegisteredOn());
+        PersonIdent ident =
+            new PersonIdent(
+                new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
+
+        Config accountConfig = new Config();
+        AccountConfig.writeToConfig(account, accountConfig);
+
+        DirCache newTree = DirCache.newInCore();
+        DirCacheEditor editor = newTree.editor();
+        final ObjectId blobId =
+            oi.insert(Constants.OBJ_BLOB, accountConfig.toText().getBytes(UTF_8));
+        editor.add(
+            new PathEdit(AccountConfig.ACCOUNT_CONFIG) {
+              @Override
+              public void apply(DirCacheEntry ent) {
+                ent.setFileMode(FileMode.REGULAR_FILE);
+                ent.setObjectId(blobId);
+              }
+            });
+        editor.finish();
+
+        ObjectId treeId = newTree.writeTree(oi);
+
+        CommitBuilder cb = new CommitBuilder();
+        cb.setTreeId(treeId);
+        cb.setCommitter(ident);
+        cb.setAuthor(ident);
+        cb.setMessage("Create Account");
+        ObjectId id = oi.insert(cb);
+        oi.flush();
+
+        String refName = RefNames.refsUsers(account.getId());
+        RefUpdate ru = repo.updateRef(refName);
+        ru.setExpectedOldObjectId(ObjectId.zeroId());
+        ru.setNewObjectId(id);
+        ru.setRefLogIdent(ident);
+        ru.setRefLogMessage("Create Account", false);
+        Result result = ru.update();
+        if (result != Result.NEW) {
+          throw new IOException(
+              String.format("Failed to update ref %s: %s", refName, result.name()));
+        }
       }
     }
   }

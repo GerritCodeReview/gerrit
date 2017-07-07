@@ -18,9 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -88,16 +86,7 @@ public class Schema_146 extends SchemaVersion {
         if (ref != null) {
           rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue());
         } else {
-          AccountsUpdate.createUserBranch(
-              repo,
-              allUsersName,
-              GitReferenceUpdated.DISABLED,
-              null,
-              oi,
-              serverIdent,
-              serverIdent,
-              e.getKey(),
-              e.getValue());
+          createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
         }
       }
     } catch (IOException e) {
@@ -148,6 +137,27 @@ public class Schema_146 extends SchemaVersion {
     if (result != Result.FORCED) {
       throw new IOException(
           String.format("Failed to update ref %s: %s", ref.getName(), result.name()));
+    }
+  }
+
+  public void createUserBranch(
+      Repository repo,
+      ObjectInserter oi,
+      ObjectId emptyTree,
+      Account.Id accountId,
+      Timestamp registeredOn)
+      throws IOException {
+    ObjectId id = createInitialEmptyCommit(oi, emptyTree, registeredOn);
+
+    String refName = RefNames.refsUsers(accountId);
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(id);
+    ru.setRefLogIdent(serverIdent);
+    ru.setRefLogMessage(CREATE_ACCOUNT_MSG, false);
+    Result result = ru.update();
+    if (result != Result.NEW) {
+      throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));
     }
   }
 

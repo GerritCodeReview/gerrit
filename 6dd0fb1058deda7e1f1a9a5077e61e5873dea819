@@ -34,6 +34,24 @@
       "revId": "6dd0fb1058deda7e1f1a9a5077e61e5873dea819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "042b65d0_287e55ac",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-07T00:26:22Z",
+      "side": 1,
+      "message": "\u003e it feels that overlay isn\u0027t really required here.\n\nDo you mean the overlay itself or the (slightly-redundant) word \"overlay\" in the ID?",
+      "parentUuid": "7603e562_c910717b",
+      "revId": "6dd0fb1058deda7e1f1a9a5077e61e5873dea819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

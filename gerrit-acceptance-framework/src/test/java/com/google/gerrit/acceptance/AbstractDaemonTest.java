@@ -113,6 +113,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -315,7 +316,10 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
 
-    baseConfig.setString("gerrit", null, "tempSiteDir", tempSiteDir.getRoot().getPath());
+    File tempSiteDirFile = tempSiteDir.getRoot();
+    baseConfig.setString("gerrit", null, "tempSiteDir", tempSiteDirFile.getPath());
+    baseConfig.setString(
+        "gerrit", null, "basePath", tempSiteDirFile.toPath().resolve("git").toString());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {

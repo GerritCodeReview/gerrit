@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
@@ -50,6 +51,7 @@ public class InitAdminUser implements InitStep {
   private final AccountsOnInit accounts;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private final ExternalIdsOnInit externalIds;
+  private final SequencesOnInit sequencesOnInit;
   private SchemaFactory<ReviewDb> dbFactory;
   private AccountIndexCollection indexCollection;
 
@@ -59,12 +61,14 @@ public class InitAdminUser implements InitStep {
       ConsoleUI ui,
       AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
-      ExternalIdsOnInit externalIds) {
+      ExternalIdsOnInit externalIds,
+      SequencesOnInit sequencesOnInit) {
     this.flags = flags;
     this.ui = ui;
     this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
     this.externalIds = externalIds;
+    this.sequencesOnInit = sequencesOnInit;
   }
 
   @Override
@@ -91,7 +95,7 @@ public class InitAdminUser implements InitStep {
       if (!accounts.hasAnyAccount()) {
         ui.header("Gerrit Administrator");
         if (ui.yesno(true, "Create administrator user")) {
-          Account.Id id = new Account.Id(db.nextAccountId());
+          Account.Id id = new Account.Id(sequencesOnInit.nextAccountId(db));
           String username = ui.readString("admin", "username");
           String name = ui.readString("Administrator", "name");
           String httpPassword = ui.readString("secret", "HTTP password");

@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class Sequences {
+  public static final String NAME_ACCOUNTS = "accounts";
   public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {
@@ -46,11 +48,14 @@ public class Sequences {
   }
 
   private enum SequenceType {
+    ACCOUNTS,
     CHANGES;
   }
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
+  private final boolean readAccountSeqFromNoteDb;
+  private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
@@ -61,15 +66,30 @@ public class Sequences {
       NotesMigration migration,
       GitRepositoryManager repoManager,
       AllProjectsName allProjects,
+      AllUsersName allUsers,
       MetricMaker metrics) {
     this.db = db;
     this.migration = migration;
 
+    readAccountSeqFromNoteDb =
+        cfg.getBoolean("noteDb", "accounts", "readSequenceFromNoteDb", false);
+
+    // It's intentional to not use any configured gap for the account sequence unlike we do for the
+    // change sequence. For the account sequence we have a different migration strategy that
+    // doesn't require any gap.
+    @SuppressWarnings("deprecation")
+    RepoSequence.Seed accountSeed = () -> db.get().nextAccountId();
+
+    int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
+    accountSeq =
+        new RepoSequence(repoManager, allUsers, NAME_ACCOUNTS, accountSeed, accountBatchSize);
+
     int gap = getChangeSequenceGap(cfg);
     @SuppressWarnings("deprecation")
-    RepoSequence.Seed seed = () -> db.get().nextChangeId() + gap;
-    int batchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
-    changeSeq = new RepoSequence(repoManager, allProjects, NAME_CHANGES, seed, batchSize);
+    RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
+    int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
+    changeSeq =
+        new RepoSequence(repoManager, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
 
     nextIdLatency =
         metrics.newTimer(
@@ -79,6 +99,23 @@ public class Sequences {
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence"),
             Field.ofBoolean("multiple"));
+  }
+
+  public int nextAccountId() throws OrmException {
+    return nextAccountId(db.get());
+  }
+
+  public int nextAccountId(ReviewDb db) throws OrmException {
+    if (readAccountSeqFromNoteDb) {
+      try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
+        return accountSeq.next();
+      }
+    }
+
+    @SuppressWarnings("deprecation")
+    int accountId = db.nextAccountId();
+    accountSeq.increaseTo(accountId + 1); // NoteDb stores next available account ID.
+    return accountId;
   }
 
   public int nextChangeId() throws OrmException {

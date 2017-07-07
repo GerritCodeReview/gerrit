@@ -472,24 +472,8 @@
     },
 
     _performPostLoadTasks() {
-      // Allow the message list and related changes to render before scrolling.
-      // Related changes are loaded here (after everything else) because they
-      // take the longest and are secondary information. Because the element may
-      // alter the total height of the page, the call to potentially scroll to
-      // a linked message is performed after related changes is fully loaded.
-      this.$.relatedChanges.reload().then(() => {
-        this.async(() => {
-          if (this.viewState.scrollTop) {
-            document.documentElement.scrollTop =
-                document.body.scrollTop = this.viewState.scrollTop;
-          } else {
-            this._maybeScrollToMessage(window.location.hash);
-          }
-        }, 1);
-      });
-
+      this.$.relatedChanges.reload();
       this._maybeShowReplyDialog();
-
       this._maybeShowRevertDialog();
 
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
@@ -497,7 +481,15 @@
         patchNum: this._patchRange.patchNum,
       });
 
-      this._initialLoadComplete = true;
+      this.async(() => {
+        if (this.viewState.scrollTop) {
+          document.documentElement.scrollTop =
+              document.body.scrollTop = this.viewState.scrollTop;
+        } else {
+          this._maybeScrollToMessage(window.location.hash);
+        }
+        this._initialLoadComplete = true;
+      });
     },
 
     _paramsAndChangeChanged(value) {

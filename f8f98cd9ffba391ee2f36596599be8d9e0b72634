@@ -22,6 +22,30 @@
       "revId": "f8f98cd9ffba391ee2f36596599be8d9e0b72634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27ead08_1f6d8fdc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T00:12:22Z",
+      "side": 1,
+      "message": "Yeah, you\u0027re right. removed the explicitly passed one.",
+      "parentUuid": "ea1c3ac0_8ec26519",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "f8f98cd9ffba391ee2f36596599be8d9e0b72634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

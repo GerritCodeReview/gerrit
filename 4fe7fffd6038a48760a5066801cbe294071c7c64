@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bf1b033a_f5d01425",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-07T18:17:05Z",
+      "side": 1,
+      "message": "Yeah, sorry you\u0027re right.",
+      "parentUuid": "612f542c_581515d9",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "4fe7fffd6038a48760a5066801cbe294071c7c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f82a1123_6e954a28",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
         "patchSetId": 1

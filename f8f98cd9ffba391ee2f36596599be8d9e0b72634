@@ -46,6 +46,30 @@
       "revId": "f8f98cd9ffba391ee2f36596599be8d9e0b72634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e3c423f_5f3be04c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T17:21:47Z",
+      "side": 1,
+      "message": "Does it still need to be a property on the project list? \n\nI notice that this referencing exists with _project too. It seems to me like we should either explicitly pass these two properties to gr-project-detail-list, or just refer to them always as params.project and params.detailType -- the fact that we do both is confusing.\n\n(I know that this isn\u0027t part of the initial bugfix/purpose for this change, so feel free to treat this as non-blocking)",
+      "parentUuid": "b27ead08_1f6d8fdc",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "f8f98cd9ffba391ee2f36596599be8d9e0b72634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

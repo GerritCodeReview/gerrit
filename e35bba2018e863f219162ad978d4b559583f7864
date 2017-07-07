@@ -34,6 +34,24 @@
       "revId": "e35bba2018e863f219162ad978d4b559583f7864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0470fd27_f31c306f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-07T01:46:14Z",
+      "side": 1,
+      "message": "I see that that\u0027s true, but according to that commit message, it had to do with loading the related changes, not scrolling to the message.\n\nIn any case, no big deal. I\u0027m sure it can\u0027t hurt, I just prefer simple to complicated.",
+      "parentUuid": "009e7404_df580270",
+      "revId": "e35bba2018e863f219162ad978d4b559583f7864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

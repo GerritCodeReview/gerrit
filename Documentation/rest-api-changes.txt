@@ -3603,7 +3603,7 @@ describing the related changes.
 --
 
 Sets a review on a revision, optionally also publishing draft comments, setting
-labels, and adding reviewers or CCs.
+labels, adding reviewers or CCs, and modifying the work in progress property.
 
 The review must be provided in the request body as a
 link:#review-input[ReviewInput] entity.
@@ -6713,6 +6713,12 @@ have been granted `labelAs-NAME` permission for all keys of labels.
 |`reviewers`              |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
 representing reviewers that should be added to the change.
+|`ready`                  |optional|
+If true, and if the change is work in progress, then start review.
+It is an error for both `ready` and `work_in_progress` to be true.
+|`work_in_progress`         |optional|
+If true, mark the change as work in progress. It is an error for both
+`ready` and `work_in_progress` to be true.
 |============================
 
 [[review-result]]

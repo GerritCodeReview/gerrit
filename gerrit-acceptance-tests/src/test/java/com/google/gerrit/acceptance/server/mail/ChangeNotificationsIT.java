@@ -825,6 +825,44 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .noOneElse();
   }
 
+  @Test
+  public void noCommentAndSetWorkInProgress() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void commentAndSetWorkInProgress() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    ReviewInput in = ReviewInput.noScore().message("ok").setWorkInProgress(true);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void commentOnWipChangeAndStartReview() throws Exception {
+    StagedChange sc = stageWipChange();
+    ReviewInput in = ReviewInput.noScore().message("ok").setWorkInProgress(false);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).notSent();
+  }
+
   private void review(TestAccount account, String changeId, EmailStrategy strategy)
       throws Exception {
     review(account, changeId, strategy, null);

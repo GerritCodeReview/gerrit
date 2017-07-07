@@ -350,9 +350,8 @@ public class AccountsUpdate {
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(ObjectId.zeroId());
     ru.setNewObjectId(id);
-    ru.setForceUpdate(true);
     ru.setRefLogIdent(committerIdent);
-    ru.setRefLogMessage("Create Account", true);
+    ru.setRefLogMessage("Create Account", false);
     Result result = ru.update();
     if (result != Result.NEW) {
       throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));

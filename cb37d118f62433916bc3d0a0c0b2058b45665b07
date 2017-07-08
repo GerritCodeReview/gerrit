@@ -73,6 +73,52 @@
     },
     {
       "key": {
+        "uuid": "28993439_702f51db",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-08T14:15:36Z",
+      "side": 1,
+      "message": "This looks unused. I carn\u0027t find anywhere in the js code where this is set.",
+      "range": {
+        "startLine": 77,
+        "startChar": 12,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "cb37d118f62433916bc3d0a0c0b2058b45665b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a396399_f07bff17",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-08T14:15:36Z",
+      "side": 1,
+      "message": "Same here.\n\nI mean _hasNewProjectName",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "cb37d118f62433916bc3d0a0c0b2058b45665b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d881422b_1103cadd",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
         "patchSetId": 15

@@ -94,6 +94,30 @@
       "revId": "f102e20808dd73d08f1991436bfc29dea27c50cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1bb1a71_ad570f57",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-08T22:06:20Z",
+      "side": 1,
+      "message": "Nope dosen\u0027t work still. Found the syntax error. needed function and also needed an extra ).",
+      "parentUuid": "b1533b28_2328bea3",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 11
+      },
+      "revId": "f102e20808dd73d08f1991436bfc29dea27c50cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

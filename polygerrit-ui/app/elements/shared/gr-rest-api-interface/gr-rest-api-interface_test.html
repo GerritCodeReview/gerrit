@@ -711,5 +711,24 @@ limitations under the License.
       assert(GrGapiAuth.prototype.fetch.called);
       delete window.USE_GAPI_AUTH;
     });
+
+    test('getSuggestedAccounts does not return fetchJSON', done => {
+      sandbox.spy(element, 'fetchJSON');
+      element.getSuggestedAccounts(false);
+      assert.isFalse(sandbox.spy(element, 'fetchJSON'));
+    });
+
+    test('fetchJSON gets called by getSuggestedAccounts', done => {
+      sandbox.stub(element, 'fetchJSON', () => {
+        return Promise.resolve({
+          'own',
+        });
+      });
+      element.getSuggestedAccounts('own').then(
+          obj => {
+            assert.equal(obj.length, 3);
+            done();
+          });
+    });
   });
 </script>

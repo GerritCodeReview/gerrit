@@ -693,12 +693,7 @@ public class RevisionIT extends AbstractDaemonTest {
     cin.destination = "stable";
     cin.keepReviewers = true;
     Map<ReviewerState, Collection<AccountInfo>> result =
-        gApi.changes()
-            .id(r.getChangeId())
-            .current()
-            .cherryPick(cin)
-            .get()
-            .reviewers;
+        gApi.changes().id(r.getChangeId()).current().cherryPick(cin).get().reviewers;
 
     // 'admin' should be a reviewer as the old owner.
     // 'admin2' should be a reviewer as the old reviewer.

@@ -270,9 +270,7 @@ public class RefControl {
     }
 
     String userId =
-        getUser().isIdentifiedUser()
-            ? "account " + getUser().getAccountId()
-            : "anonymous user";
+        getUser().isIdentifiedUser() ? "account " + getUser().getAccountId() : "anonymous user";
 
     if (object instanceof RevCommit) {
       if (!canPerform(Permission.CREATE)) {

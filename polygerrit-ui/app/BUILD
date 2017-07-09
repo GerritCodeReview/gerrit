@@ -27,8 +27,8 @@ polygerrit_bundle(
             "**/*_test.html",
         ],
     ),
-    app = "elements/gr-app.html",
     outs = ["polygerrit_ui.zip"],
+    app = "elements/gr-app.html",
 )
 
 bower_component_bundle(
@@ -140,8 +140,8 @@ polygerrit_bundle(
             "**/*_test.html",
         ],
     ),
-    app = "embed/change-diff-views.html",
     outs = ["polygerrit_embed_ui.zip"],
+    app = "embed/change-diff-views.html",
 )
 
 filegroup(
@@ -158,8 +158,8 @@ sh_test(
     size = "large",
     srcs = ["embed_test.sh"],
     data = [
-        "test/common-test-setup.html",
         "embed/test.html",
+        "test/common-test-setup.html",
         ":embed_test_files",
         ":polygerrit_embed_ui.zip",
         ":test_components.zip",

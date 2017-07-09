@@ -61,3 +61,8 @@
 	path = polymer-bridges
 	url = https://gerrit.googlesource.com/polymer-bridges
 	branch = .
+
+[submodule "plugins/avatars-external"]
+	path = plugins/avatars-external
+	url = https://gerrit.googlesource.com/plugins/avatars-external
+	branch = master

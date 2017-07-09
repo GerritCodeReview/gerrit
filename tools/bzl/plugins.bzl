@@ -13,7 +13,7 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
-    # Add custom core plugins here
+    "avatars-external",
 ]
 
 CUSTOM_PLUGINS_TEST_DEPS = [

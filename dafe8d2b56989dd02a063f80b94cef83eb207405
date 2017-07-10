@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "2e91026d_c91a1253",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T14:47:11Z",
+      "side": 1,
+      "message": "No, since init steps are created before the site is initialized. That\u0027s also why InitAdminUser gets SchemaFactory\u003cReviewDb\u003e optionally injected via a method. On creation of InitAdminUser SchemaFactory\u003cReviewDb\u003e is not available, it only gets available after the site has been initialized, and is injected only right before the postRun() method is invoked.",
+      "parentUuid": "685b12b0_9095b5b0",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "546e5095_1610c739",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
         "patchSetId": 3

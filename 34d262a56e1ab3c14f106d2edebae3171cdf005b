@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3256192_4c5dd88e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-10T18:53:55Z",
+      "side": 1,
+      "message": "Actually, I don\u0027t think these tests are comprehensive enough.\n\nDue to the added codepath, I think you need to stub and check the last call to _fetchSharedCacheUrl in gr-rest-api-interface_test too. As of right now, this test does not verify any of the new functionality you added.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "34d262a56e1ab3c14f106d2edebae3171cdf005b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

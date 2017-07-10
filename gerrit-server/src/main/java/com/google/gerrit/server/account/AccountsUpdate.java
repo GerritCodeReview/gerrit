@@ -37,14 +37,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -331,53 +327,6 @@ public class AccountsUpdate {
 
     // Delete in NoteDb
     deleteUserBranch(accountId);
-  }
-
-  public static void createUserBranch(
-      Repository repo,
-      Project.NameKey project,
-      GitReferenceUpdated gitRefUpdated,
-      @Nullable IdentifiedUser user,
-      ObjectInserter oi,
-      PersonIdent committerIdent,
-      PersonIdent authorIdent,
-      Account.Id accountId,
-      Timestamp registeredOn)
-      throws IOException {
-    ObjectId id = createInitialEmptyCommit(oi, committerIdent, authorIdent, registeredOn);
-
-    String refName = RefNames.refsUsers(accountId);
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(id);
-    ru.setForceUpdate(true);
-    ru.setRefLogIdent(committerIdent);
-    ru.setRefLogMessage("Create Account", true);
-    Result result = ru.update();
-    if (result != Result.NEW) {
-      throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));
-    }
-    gitRefUpdated.fire(project, ru, user != null ? user.getAccount() : null);
-  }
-
-  private static ObjectId createInitialEmptyCommit(
-      ObjectInserter oi,
-      PersonIdent committerIdent,
-      PersonIdent authorIdent,
-      Timestamp registrationDate)
-      throws IOException {
-    CommitBuilder cb = new CommitBuilder();
-    cb.setTreeId(emptyTree(oi));
-    cb.setCommitter(new PersonIdent(committerIdent, registrationDate));
-    cb.setAuthor(new PersonIdent(authorIdent, registrationDate));
-    cb.setMessage("Create Account");
-    ObjectId id = oi.insert(cb);
-    oi.flush();
-    return id;
-  }
-
-  private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
-    return oi.insert(Constants.OBJ_TREE, new byte[] {});
   }
 
   private void deleteUserBranch(Account.Id accountId) throws IOException {

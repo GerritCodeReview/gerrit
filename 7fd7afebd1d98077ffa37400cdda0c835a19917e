@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4851031c_4697cdd3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-07-10T18:37:36Z",
+      "side": 1,
+      "message": "Nit: That\u0027s a bit of a weird regex, even for a test. Maybe better use \"^test.*\" (note the added dot)?",
+      "revId": "7fd7afebd1d98077ffa37400cdda0c835a19917e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

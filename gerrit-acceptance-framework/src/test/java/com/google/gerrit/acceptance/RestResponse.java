@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -39,8 +39,7 @@ public class RestResponse extends HttpResponse {
   }
 
   public void assertStatus(int status) throws Exception {
-    assert_()
-        .withMessage(String.format("Expected status code %d", status))
+    assertWithMessage(String.format("Expected status code %d", status))
         .that(getStatusCode())
         .isEqualTo(status);
   }

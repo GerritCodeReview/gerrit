@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.tools.hooks;
 
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -658,8 +658,7 @@ public class CommitMsgHookTest extends HookTestCase {
       final RefUpdate ref = repository.updateRef(Constants.HEAD);
       ref.setNewObjectId(commitId);
       Result result = ref.forceUpdate();
-      assert_()
-          .withMessage(Constants.HEAD + " did not change: " + ref.getResult())
+      assertWithMessage(Constants.HEAD + " did not change: " + ref.getResult())
           .that(result)
           .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
     }

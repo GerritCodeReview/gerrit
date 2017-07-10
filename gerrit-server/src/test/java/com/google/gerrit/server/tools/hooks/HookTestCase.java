@@ -50,7 +50,7 @@
 
 package com.google.gerrit.server.tools.hooks;
 
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.io.ByteStreams;
 import java.io.File;
@@ -104,14 +104,14 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
     String path = scproot + "/hooks/" + name;
     String errorMessage = "Cannot locate " + path + " in CLASSPATH";
     URL url = cl().getResource(path);
-    assert_().withMessage(errorMessage).that(url).isNotNull();
+    assertWithMessage(errorMessage).that(url).isNotNull();
 
     String protocol = url.getProtocol();
-    assert_().withMessage("Cannot invoke " + url).that(protocol).isAnyOf("file", "jar");
+    assertWithMessage("Cannot invoke " + url).that(protocol).isAnyOf("file", "jar");
 
     if ("file".equals(protocol)) {
       hook = new File(url.getPath());
-      assert_().withMessage(errorMessage).that(hook.isFile()).isTrue();
+      assertWithMessage(errorMessage).that(hook.isFile()).isTrue();
       long time = hook.lastModified();
       hook.setExecutable(true);
       hook.setLastModified(time);

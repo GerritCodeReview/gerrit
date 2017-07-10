@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -37,8 +37,7 @@ public class GcAssert {
   public void assertHasPackFile(Project.NameKey... projects)
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
-      assert_()
-          .withMessage("Project " + p.get() + " has no pack files.")
+      assertWithMessage("Project " + p.get() + " has no pack files.")
           .that(getPackFiles(p))
           .isNotEmpty();
     }
@@ -47,10 +46,7 @@ public class GcAssert {
   public void assertHasNoPackFile(Project.NameKey... projects)
       throws RepositoryNotFoundException, IOException {
     for (Project.NameKey p : projects) {
-      assert_()
-          .withMessage("Project " + p.get() + " has pack files.")
-          .that(getPackFiles(p))
-          .isEmpty();
+      assertWithMessage("Project " + p.get() + " has pack files.").that(getPackFiles(p)).isEmpty();
     }
   }
 

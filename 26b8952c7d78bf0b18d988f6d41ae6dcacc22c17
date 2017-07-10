@@ -1036,6 +1036,30 @@
     },
     {
       "key": {
+        "uuid": "526929ff_6769e2b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "The comments in the previous version of ChangeIdParser let me believe that a path might directly follow the identifier part. If the patch set ID is always part of the URL, this code should work. Please add a comment to help other developers.\n\nJust one question: How are edits represented? Will they be referred to by https://gerrit-review.googlesource.com/#/c/project/+/123/edit/directory/test.txt? If so, why is there special code for \"project/+/1233,edit/\" in ProjectChangeId?",
+      "parentUuid": "bff6e122_7e390922",
+      "range": {
+        "startLine": 845,
+        "startChar": 31,
+        "endLine": 845,
+        "endChar": 60
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0905bd3_067cc4d3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 4

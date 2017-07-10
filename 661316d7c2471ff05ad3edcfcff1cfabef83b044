@@ -1,0 +1,372 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dbf1998_665b3d6d",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritGwtDebugLauncher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Was this modification deliberately done for this change?",
+      "range": {
+        "startLine": 57,
+        "startChar": 27,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3bc5e9e_e72812dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Why \u0027create\u0027?",
+      "range": {
+        "startLine": 171,
+        "startChar": 30,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff63f71_c7e5454f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/EditConfigAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "\u0027final\u0027 was removed from method calls. Please don\u0027t reinsert it.",
+      "range": {
+        "startLine": 29,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe88831_4d317364",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Was omitting \"FileTable.\" and importing FileTable.Mode intentional?",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 10
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00088086_4f73b061",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Why not use getProject().get() here? The code would work but seems a little bit inconsistent.",
+      "range": {
+        "startLine": 693,
+        "startChar": 8,
+        "endLine": 693,
+        "endChar": 35
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9abfef18_87861f58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an IllegalArgumentException?",
+      "range": {
+        "startLine": 852,
+        "startChar": 13,
+        "endLine": 852,
+        "endChar": 34
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3da9718_423b1f3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Can \"project\" be null here? If so, please mark the usages of it within FileTable appropriately. If not, please use getProject() instead.",
+      "range": {
+        "startLine": 1162,
+        "startChar": 20,
+        "endLine": 1162,
+        "endChar": 27
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e70a949_06ecb772",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Can\u0027t we use screen.getProject() to retrieve the project?",
+      "range": {
+        "startLine": 77,
+        "startChar": 25,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f154b57_fc284b89",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 84,
+        "startChar": 54,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b2b87e2_58a6e1b1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "We don\u0027t need the if-condition. PageLinks#toChangeId checks for null.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4913a9e0_1e24e8e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Why not call PageLinks#toChangeId instead?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 16
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d4170f_886de317",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ProjectChangeId.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "mutable?",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1dd2f7c_960cf9cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Can we be sure that project is non-null when this method is called?",
+      "range": {
+        "startLine": 824,
+        "startChar": 19,
+        "endLine": 824,
+        "endChar": 32
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7840131_67c6104a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedCommentManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange that @Nullable was removed compared to the previous patch set as SideBySideCommentManager still has it (as well as the super class CommentManager). Are you sure that project is non-null here?",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dafdced1_7c85764a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this @Nullable be on the \u0027project\u0027 field instead of the \u0027revision\u0027 field?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ed1577_083f3fea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-10T12:41:04Z",
+      "side": 1,
+      "message": "Line too long.",
+      "range": {
+        "startLine": 125,
+        "startChar": 100,
+        "endLine": 125,
+        "endChar": 104
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

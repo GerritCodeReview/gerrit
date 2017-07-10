@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f6a8aef_85f96d7f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-10T16:39:50Z",
+      "side": 1,
+      "message": "Optional: in the version of the function that I suggested in my earlier comment, the function only needs one branch which is easier to read IMO.",
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffeb2369_8aa5041c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-10T16:39:50Z",
+      "side": 1,
+      "message": "These `return`s look unnecessary, since the return value is not used.",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 14
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "305caa84_c59d5987",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-10T16:39:50Z",
+      "side": 1,
+      "message": "Is there a reason that one branch of this function calls `page` but the other calls `page.redirect`.",
+      "range": {
+        "startLine": 108,
+        "startChar": 15,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7f85e5_fefdc7e8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-10T16:39:50Z",
+      "side": 1,
+      "message": "Nit: this line does not need to be wrapped.",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

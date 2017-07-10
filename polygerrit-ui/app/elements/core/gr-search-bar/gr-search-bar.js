@@ -124,7 +124,7 @@
       _inputVal: String,
       _threshold: {
         type: Number,
-        value: 3,
+        value: 1,
       },
     },
 

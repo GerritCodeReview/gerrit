@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb4bfac4_90a04026",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T22:35:26Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "5fd388dd_918295c0",
+      "range": {
+        "startLine": 716,
+        "startChar": 12,
+        "endLine": 716,
+        "endChar": 16
+      },
+      "revId": "a2e9c82ec01b90474ee2a4c0811abb26b41da08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b0856c3_c05115b5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 9
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "6a5c7696_35217ee8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T22:35:26Z",
+      "side": 1,
+      "message": "How i test that it returns an exampty array, something like\nelement.getSuggestedAccounts.then(obj \u003d\u003e {\nassert.equal(obj.length, 0);\n});?",
+      "parentUuid": "3d6298fa_3fb1568e",
+      "range": {
+        "startLine": 717,
+        "startChar": 6,
+        "endLine": 717,
+        "endChar": 42
+      },
+      "revId": "a2e9c82ec01b90474ee2a4c0811abb26b41da08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c33cf59_6be0adb5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 9
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "f636aa0d_3e81837e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T22:35:26Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "2c33cf59_6be0adb5",
+      "range": {
+        "startLine": 718,
+        "startChar": 21,
+        "endLine": 718,
+        "endChar": 25
+      },
+      "revId": "a2e9c82ec01b90474ee2a4c0811abb26b41da08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abbc740d_4a04b0d9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 9
@@ -105,6 +177,30 @@
       "writtenOn": "2017-07-10T22:23:02Z",
       "side": 1,
       "message": "Why would the \"fetchJSON\" function return a string?",
+      "range": {
+        "startLine": 723,
+        "startChar": 31,
+        "endLine": 723,
+        "endChar": 36
+      },
+      "revId": "a2e9c82ec01b90474ee2a4c0811abb26b41da08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd4e42e5_4d9009cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T22:35:26Z",
+      "side": 1,
+      "message": "hmm right. thanks, done.",
+      "parentUuid": "abbc740d_4a04b0d9",
       "range": {
         "startLine": 723,
         "startChar": 31,

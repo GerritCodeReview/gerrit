@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -74,7 +75,7 @@ public class EmailValidatorIT extends AbstractDaemonTest {
       if (in == null) {
         throw new Exception("TLD list not found");
       }
-      BufferedReader r = new BufferedReader(new InputStreamReader(in));
+      BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8));
       String tld;
       while ((tld = r.readLine()) != null) {
         if (tld.startsWith("# ") || tld.startsWith("XN--")) {

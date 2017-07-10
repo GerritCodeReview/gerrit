@@ -55,6 +55,16 @@ limitations under the License.
       assert.isOk(auth);
     });
 
+    test('base url support', () => {
+      const baseUrl = 'http://foo';
+      sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+      sandbox.stub(auth, '_getAccessToken').returns(Promise.resolve('baz'));
+      return auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
+        const [url] = fetch.lastCall.args;
+        assert.equal(url, 'http://foo/a/url');
+      });
+    });
+
     test('fetch signed in', () => {
       sandbox.stub(auth, '_getAccessToken').returns(Promise.resolve('foo'));
       return auth.fetch('/url', {bar: 'bar'}).then(() => {

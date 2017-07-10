@@ -41,8 +41,11 @@
     if (token) {
       options.headers = options.headers || new Headers();
       options.headers.append('Authorization', `Bearer ${token}`);
-      if (!url.startsWith('/a/')) {
-        url = '/a' + url;
+      const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+      const pathname = baseUrl ?
+            url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
+      if (!pathname.startsWith('/a/')) {
+        url = url.replace(pathname, '/a' + pathname);
       }
     }
     return fetch(url, options);

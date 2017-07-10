@@ -22,6 +22,30 @@
       "revId": "234a2a6cf81a3559554dff5873541163906d3d45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ff5407_a316d767",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-10T17:05:27Z",
+      "side": 1,
+      "message": "Done. Thanks for letting me know.",
+      "parentUuid": "af38cd59_bc6fc48e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "234a2a6cf81a3559554dff5873541163906d3d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

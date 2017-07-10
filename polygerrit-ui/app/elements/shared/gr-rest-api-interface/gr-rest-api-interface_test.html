@@ -703,6 +703,20 @@ limitations under the License.
           .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
     });
 
+    test('getProjects filter', () => {
+      sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getProjects('test/test/test', 25);
+      assert.isTrue(element._fetchSharedCacheURL.lastCall
+          .calledWithExactly('/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest'));
+    });
+
+    test('getProjects filter regex', () => {
+      sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getProjects('^test.*', 25);
+      assert.isTrue(element._fetchSharedCacheURL.lastCall
+          .calledWithExactly('/projects/?d&n=26&S=0&r=%5Etest.*'));
+    });
+
     test('gerrit auth is used by default', () => {
       sandbox.stub(GrGerritAuth.prototype, 'fetch').returns(Promise.resolve());
       element.fetchJSON('foo');

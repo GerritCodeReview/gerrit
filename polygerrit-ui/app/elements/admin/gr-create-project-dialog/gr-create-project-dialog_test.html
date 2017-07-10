@@ -86,5 +86,44 @@ limitations under the License.
         done();
       });
     });
+
+    test('test project being created with a slash', done => {
+      const configInputObj = {
+        name: 'test/project/test',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createProject', () => {
+            return Promise.resolve({});
+          });
+
+      assert.isFalse(element.hasNewProjectName);
+
+      element._projectConfig = {
+        name: 'test/project/test',
+        create_empty_commit: true,
+        parent: 'All-Project',
+        permissions_only: false,
+      };
+
+      element.$.projectNameInput.bindValue = configInputObj.name;
+      element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+      element.$.initalCommit.bindValue =
+          configInputObj.create_empty_commit;
+      element.$.parentProject.bindValue =
+          configInputObj.permissions_only;
+
+      assert.isTrue(element.hasNewProjectName);
+
+      assert.deepEqual(element._projectConfig, configInputObj);
+
+      element.handleCreateProject().then(() => {
+        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+        done();
+      });
+    });
   });
 </script>

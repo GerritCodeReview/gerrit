@@ -63,6 +63,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -233,6 +234,7 @@ public class MergeOp implements AutoCloseable {
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyUtil notifyUtil;
   private final RetryHelper retryHelper;
+  private final NotesMigration notesMigration;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -260,7 +262,8 @@ public class MergeOp implements AutoCloseable {
       Provider<MergeOpRepoManager> ormProvider,
       NotifyUtil notifyUtil,
       TopicMetrics topicMetrics,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      NotesMigration notesMigration) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -273,6 +276,7 @@ public class MergeOp implements AutoCloseable {
     this.notifyUtil = notifyUtil;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
+    this.notesMigration = notesMigration;
   }
 
   @Override
@@ -592,7 +596,7 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();
       } else {
-        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
+        msg = genericMergeError(cs);
       }
       throw new IntegrationException(msg, e);
     }
@@ -890,6 +894,38 @@ public class MergeOp implements AutoCloseable {
     } catch (OrmException e) {
       logWarn("Cannot abandon changes for deleted project " + destProject, e);
     }
+  }
+
+  private String genericMergeError(ChangeSet cs) {
+    int c = cs.size();
+    if (c == 1) {
+      return "Error submitting change";
+    }
+    int p;
+    try {
+      p = cs.projects().size();
+    } catch (OrmException e) {
+      log.debug("Error looking up projects for " + cs, e);
+      return "Error submitting changes";
+    }
+    if (p == 1) {
+      if (!notesMigration.fuseUpdates()) {
+        // No fused updates: any subset of changes might or might not have been submitted, so don't
+        // make any strong claims.
+        return "Error submitting changes";
+      }
+      // Fused updates: it's correct to say that none of the n changes were submitted.
+      return "Error submitting " + c + " changes";
+    }
+    // Multiple projects involved, but we don't know at this point what failed. At least give the
+    // user a heads up that some changes may be unsubmitted, even if the change screen they land on
+    // after the error message says that this particular change was submitted.
+    return "Error submitting some of the "
+        + c
+        + " changes to one or more of the "
+        + p
+        + " projects involved; some projects may have submitted successfully, but others may have"
+        + " failed";
   }
 
   private void logDebug(String msg, Object... args) {

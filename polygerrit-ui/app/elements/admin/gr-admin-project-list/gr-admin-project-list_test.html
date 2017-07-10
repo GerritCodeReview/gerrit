@@ -121,6 +121,21 @@ limitations under the License.
           done();
         });
       });
+
+      test('regex', done => {
+        sandbox.stub(element.$.restAPI, 'getProjects', () => {
+          return Promise.resolve(projects);
+        });
+        const value = {
+          filter: '^test/',
+          offset: 25,
+        };
+        element._paramsChanged(value).then(() => {
+          assert.isTrue(element.$.restAPI.getProjects.lastCall
+              .calledWithExactly('^test/', 25, 25));
+          done();
+        });
+      });
     });
 
     suite('loading', () => {

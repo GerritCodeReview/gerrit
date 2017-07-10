@@ -52,6 +52,24 @@
       "revId": "a55c4716769d39e2ea94f56ea1fa66c21548a2d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b1e958_82861a5a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T19:12:41Z",
+      "side": 1,
+      "message": "Ah, thanks, done.",
+      "parentUuid": "be5669f2_8cb4680c",
+      "revId": "a55c4716769d39e2ea94f56ea1fa66c21548a2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

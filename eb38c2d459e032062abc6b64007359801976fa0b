@@ -34,6 +34,24 @@
       "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a5951c_1236ec74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-10T14:58:02Z",
+      "side": 1,
+      "message": "I mean, don\u0027t send the API request unless there\u0027s input.",
+      "parentUuid": "f143d69d_a886ca15",
+      "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

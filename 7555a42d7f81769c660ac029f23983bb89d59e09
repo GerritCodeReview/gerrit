@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a6373ac_6e43a224",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-10T20:11:28Z",
+      "side": 1,
+      "message": "I think we should generally avoid this as much as we can, since it\u0027s essentially goes out of web component boundaries.\nMaybe refactor the usage in gr-diff out and inline it into gr-selection-action-box?",
+      "revId": "7555a42d7f81769c660ac029f23983bb89d59e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ad274f_e2314141",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-10T20:11:28Z",
+      "side": 1,
+      "message": "This one probably could be inlined into GrSelectionNormalizer",
+      "revId": "7555a42d7f81769c660ac029f23983bb89d59e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

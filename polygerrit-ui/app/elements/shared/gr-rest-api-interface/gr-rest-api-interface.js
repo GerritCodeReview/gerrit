@@ -540,7 +540,13 @@
 
     getProjects(filter, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
+      if (filter && filter.startsWith('^')) {
+        filter = '&r=' + encodeURIComponent(filter);
+      } else if (filter) {
+        filter = '&m=' + encodeURIComponent(filter);
+      } else {
+        filter = '';
+      }
 
       return this._fetchSharedCacheURL(
           `/projects/?d&n=${projectsPerPage + 1}&S=${offset}${filter}`
@@ -549,7 +555,13 @@
 
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
+      if (filter && filter.startsWith('^')) {
+        filter = '&r=' + encodeURIComponent(filter);
+      } else if (filter) {
+        filter = '&m=' + encodeURIComponent(filter);
+      } else {
+        filter = '';
+      }
 
       return this._fetchSharedCacheURL(
           `/projects/${encodeURIComponent(project)}/branches` +
@@ -559,7 +571,13 @@
 
     getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
       const offset = opt_offset || 0;
-      filter = filter ? '&m=' + encodeURIComponent(filter) : '';
+      if (filter && filter.startsWith('^')) {
+        filter = '&r=' + encodeURIComponent(filter);
+      } else if (filter) {
+        filter = '&m=' + encodeURIComponent(filter);
+      } else {
+        filter = '';
+      }
 
       return this._fetchSharedCacheURL(
           `/projects/${encodeURIComponent(project)}/tags` +

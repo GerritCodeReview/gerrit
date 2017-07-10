@@ -34,6 +34,24 @@
       "revId": "a55c4716769d39e2ea94f56ea1fa66c21548a2d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5669f2_8cb4680c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-10T19:10:04Z",
+      "side": 1,
+      "message": "Hmm, we don\u0027t currently have any test for exactly this problem, but [1] is similar.\n\nMoreover, it could be as simple as ...\n\ntest(\u0027createProject encodes name\u0027, () \u003d\u003e {\n  const sendStub \u003d sandbox.stub(element, \u0027send\u0027);\n  element.createProject({name: \u0027x/y\u0027});\n  assert.equal(sendStub.lastCall.args[1], \u0027/projects/x%2Fy\u0027)\n});\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html#93",
+      "parentUuid": "f5dd4425_3bd301dd",
+      "revId": "a55c4716769d39e2ea94f56ea1fa66c21548a2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

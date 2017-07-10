@@ -52,6 +52,24 @@
       "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b271082_769cd88a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T15:00:55Z",
+      "side": 1,
+      "message": "Yep, though im trying it now, and that seems more complicated as the code in gr-account-entry will fail causing an undefined because it does then(",
+      "parentUuid": "83a5951c_1236ec74",
+      "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

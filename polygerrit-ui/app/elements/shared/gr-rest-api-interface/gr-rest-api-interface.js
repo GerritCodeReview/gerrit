@@ -173,7 +173,8 @@
       if (!config.name) {
         return '';
       }
-      return this.send('PUT', `/projects/${config.name}`, config, opt_errFn,
+      const encodeName = encodeURIComponent(config.name);
+      return this.send('PUT', `/projects/${encodeName}`, config, opt_errFn,
           opt_ctx);
     },
 

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "6a94db09_44796d18",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-10T14:02:10Z",
+      "side": 1,
+      "message": "It is set in gr-create-project-dialog on l.66.",
+      "parentUuid": "28993439_702f51db",
+      "range": {
+        "startLine": 77,
+        "startChar": 12,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "cb37d118f62433916bc3d0a0c0b2058b45665b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a396399_f07bff17",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list.html",
         "patchSetId": 15

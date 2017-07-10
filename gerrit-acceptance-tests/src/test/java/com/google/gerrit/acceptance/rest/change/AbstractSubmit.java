@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
@@ -1208,10 +1207,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
-    assert_()
-        .withMessage(String.format("%s not equal %s", localHead.name(), remoteHead.name()))
-        .that(localHead.getId())
-        .isNotEqualTo(remoteHead.getId());
+    assertThat(localHead.getId()).isNotEqualTo(remoteHead.getId());
     assertThat(remoteHead.getParentCount()).isEqualTo(1);
     if (!contentMerge) {
       assertThat(getLatestRemoteDiff()).isEqualTo(getLatestDiff(repo));

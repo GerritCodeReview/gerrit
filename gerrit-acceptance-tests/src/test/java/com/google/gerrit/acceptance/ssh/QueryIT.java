@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.common.collect.Lists;
@@ -313,7 +313,7 @@ public class QueryIT extends AbstractDaemonTest {
   private List<ChangeAttribute> executeSuccessfulQuery(String params, SshSession session)
       throws Exception {
     String rawResponse = session.exec("gerrit query --format=JSON " + params);
-    assert_().withMessage(session.getError()).that(session.hasError()).isFalse();
+    assertWithMessage(session.getError()).that(session.hasError()).isFalse();
     return getChanges(rawResponse);
   }
 

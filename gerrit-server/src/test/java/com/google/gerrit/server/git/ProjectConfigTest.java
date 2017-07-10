@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -509,8 +509,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     u.disableRefLog();
     u.setNewObjectId(rev);
     Result result = u.forceUpdate();
-    assert_()
-        .withMessage("Cannot update ref for test: " + result)
+    assertWithMessage("Cannot update ref for test: " + result)
         .that(result)
         .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
   }

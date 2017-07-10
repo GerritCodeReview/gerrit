@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
@@ -200,8 +200,7 @@ public class AccountIT extends AbstractDaemonTest {
       if (repo.getRefDatabase().exactRef(ref) != null) {
         RefUpdate ru = repo.updateRef(ref);
         ru.setForceUpdate(true);
-        assert_()
-            .withMessage("Failed to delete " + ref)
+        assertWithMessage("Failed to delete " + ref)
             .that(ru.delete())
             .isEqualTo(RefUpdate.Result.FORCED);
       }

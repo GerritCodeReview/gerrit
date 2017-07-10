@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a267d76_f655bbee",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T16:44:33Z",
+      "side": 1,
+      "message": "Im not sure what you mean by branch?\n\nAlso would page(\u0027/login/\u0027 + encodeURIComponent(\n            data.substring(basePath.length))); that work for users that doint use a prefix in there url? If so i could cut the else part out :).",
+      "parentUuid": "3f6a8aef_85f96d7f",
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ffeb2369_8aa5041c",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 26
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "50d2b4cc_f28cc635",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T16:44:33Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "ffeb2369_8aa5041c",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 14
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35456699_248e0270",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T16:44:33Z",
+      "side": 1,
+      "message": "I found differences between the two. Even though the page.js says they are similar, they doint act similar so i used page() here for the prefix url. But per my question above. If it works like this for non prefixed users then i can cut the else part out.",
+      "parentUuid": "305caa84_c59d5987",
+      "range": {
+        "startLine": 108,
+        "startChar": 15,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc7f85e5_fefdc7e8",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 26
@@ -76,6 +142,30 @@
       "writtenOn": "2017-07-10T16:39:50Z",
       "side": 1,
       "message": "Nit: this line does not need to be wrapped.",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "18d678b02e7576057c1c7277a5dddf636794617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c854ef_66f0b6c3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T16:44:33Z",
+      "side": 1,
+      "message": "I\u0027ve decided to remove this.",
+      "parentUuid": "fc7f85e5_fefdc7e8",
       "range": {
         "startLine": 111,
         "startChar": 8,

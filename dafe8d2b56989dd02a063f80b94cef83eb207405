@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ef16e93a_0d576f2f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/GitRepositoryManagerOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T13:55:31Z",
+      "side": 1,
+      "message": "Yes, binding GitRepositoryManagerModule works after making sure that all tests set gerrit.basePath.\n\nHowever independent of this change there are other init steps that read gerrit.basePath directly and those won\u0027t work with MultiBaseLocalDiskRepositoryManager either.\n\nDone.",
+      "parentUuid": "3a399f21_9d7d1bb4",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c04b810_0615319a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2017-07-10T12:01:40Z",
       "side": 1,
       "message": "Optional: is there a reason this needs to be lazily initialized? I don\u0027t think the RepoSequence constructor is particularly expensive.",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d27ef02_3c888d69",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T13:55:31Z",
+      "side": 1,
+      "message": "Good that you are asking.\n\nI actually wanted to pass ReviewDb into this method to use the sequence number from ReviewDb to seed the NoteDb sequence, and ReviewDb is only available in the post-init phase (not when the constructor is invoked). But then I figured out that post init steps are only executed after the schema migrations, and a schema migration takes care to initialize the sequence in NoteDb. So I don\u0027t need ReviewDb for seeding here.\n\nStill moving this code to the constructor seems to be wrong, because then this code will be executed before the schema migrations and on upgrade of an existing site the sequence in NoteDb would be wrongly seeded with 1. The schema migration that is supposed to initialize it would then do nothing...\n\nNot even sure how to document this. I think to avoid any accidental initialization of the account sequence with the wrong value, I will go back to pass in ReviewDb here and then use the sequence number from ReviewDb to initialize the sequence in NoteDb. But I would like to hear better ideas if you have any.",
+      "parentUuid": "8c04b810_0615319a",
       "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "d4481e69_7b6354c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T13:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "546e5095_1610c739",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6386a4e_8bfe0037",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 3
@@ -71,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "7a5e2bdb_a79e8520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T13:55:31Z",
+      "side": 1,
+      "message": "*sigh* so that\u0027s the reason why everywhere else during init we compute the path based on the configured gerrit.basePath. Thanks for catching this. To make this work I must ensure that all test set gerrit.basePath.\n\nDone.",
+      "parentUuid": "c6386a4e_8bfe0037",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3619eae_cd8ff75c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2017-07-10T12:01:40Z",
       "side": 1,
       "message": "Would NO_CHANGE be better, to indicate that this thread did no work? I guess it probably doesn\u0027t matter.",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a175eb50_664b3133",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T13:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3619eae_cd8ff75c",
       "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

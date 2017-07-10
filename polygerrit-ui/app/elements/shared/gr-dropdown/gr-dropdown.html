@@ -121,7 +121,7 @@ limitations under the License.
         allow-outside-scroll="true"
         horizontal-align="[[horizontalAlign]]"
         on-tap="_handleDropdownTap">
-      <div class="dropdown-content">
+      <div class="dropdown-content" slot="dropdown-content">
         <ul>
           <template is="dom-if" if="[[topContent]]">
             <div class="topContent">

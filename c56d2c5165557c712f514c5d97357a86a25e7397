@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499678727 +0200\nnonce AB2F6yBlzp/8Bt8GOZ+avEJZp0DlmSumPS2+SyRRwy/8JgC4RwLsRst3QuP8aq+mmaQFIR0sgYfQ\n\n0000000000000000000000000000000000000000 c56d2c5165557c712f514c5d97357a86a25e7397 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZY0gHAAoJEFG1/Zeg0O9RwSUIAIby6ZGNTMOuwrLn1FTqUWA+\ngKXQnxhiagVSuEs/lASSlqp+acmRAc9QEHfkaWSlzwiSGS7SEEXKKj0xNI42RkZm\nx9gNix06Vaf15ZtcvoaFECA1hnAZsUYKlEJvXTgrv/aFJVciGXtNd3GFf7VxsIRt\nhpGXN3f2YsgbMNePWnrPo/opiDZZ1PsXRHjmKGI0hy1P/1DssctiMoFANwWMLiei\nIQxFuI8z8gESz2UbQnT30iwz72rhdRQ4n4EQ3dbZqN5AEiFlE4BAXoOjFCgUfYGj\ncqr1CGMg5pbiikjyb+VKtVtffnaAToF316nJsKMzspcHTdCMrEKc5M4at6BnJrE\u003d\n\u003d26cU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f76161f0_c138be1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-10T09:42:44Z",
+      "side": 1,
+      "message": "Is the message even needed here?  IIUC correctly truth will already produce a quite readable message for failure in equality assertions, something like:\n\n  Not true that X is equal to Y",
+      "range": {
+        "startLine": 1211,
+        "startChar": 4,
+        "endLine": 1211,
+        "endChar": 21
+      },
+      "revId": "c56d2c5165557c712f514c5d97357a86a25e7397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

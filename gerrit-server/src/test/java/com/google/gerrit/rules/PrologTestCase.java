@@ -15,7 +15,7 @@
 package com.google.gerrit.rules;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
@@ -172,8 +172,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
 
   private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
-    assert_()
-        .withMessage("Cannot invoke " + pkg + ":" + name)
+    assertWithMessage("Cannot invoke " + pkg + ":" + name)
         .that(env.execute(Prolog.BUILTIN, "call", head))
         .isTrue();
   }

@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -26,9 +26,9 @@ public class GroupAssert {
 
   public static void assertGroups(Iterable<String> expected, Set<String> actual) {
     for (String g : expected) {
-      assert_().withMessage("missing group " + g).that(actual.remove(g)).isTrue();
+      assertWithMessage("missing group " + g).that(actual.remove(g)).isTrue();
     }
-    assert_().withMessage("unexpected groups: " + actual).that(actual).isEmpty();
+    assertWithMessage("unexpected groups: " + actual).that(actual).isEmpty();
   }
 
   public static void assertGroupInfo(AccountGroup group, GroupInfo info) {

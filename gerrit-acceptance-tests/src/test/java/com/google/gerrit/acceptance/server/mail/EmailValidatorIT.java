@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -83,14 +83,12 @@ public class EmailValidatorIT extends AbstractDaemonTest {
         }
         if (tld.startsWith(UNSUPPORTED_PREFIX)) {
           String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
-          assert_()
-              .withMessage("expected invalid TLD \"" + test + "\"")
+          assertWithMessage("expected invalid TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
-          assert_()
-              .withMessage("failed to validate TLD \"" + test + "\"")
+          assertWithMessage("failed to validate TLD \"" + test + "\"")
               .that(validator.isValid(test))
               .isTrue();
         }

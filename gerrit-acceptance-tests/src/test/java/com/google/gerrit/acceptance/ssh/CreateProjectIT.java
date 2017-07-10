@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
@@ -33,7 +33,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = "newProject";
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + newGroupName + " " + newProjectName);
-    assert_().withMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
+    assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
   }
@@ -46,7 +46,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = "newProject";
     adminSshSession.exec(
         "gerrit create-project --branch master --owner " + wrongGroupName + " " + newProjectName);
-    assert_().withMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isTrue();
+    assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isTrue();
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNull();
   }

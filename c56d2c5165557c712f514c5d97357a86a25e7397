@@ -23,6 +23,30 @@
       "revId": "c56d2c5165557c712f514c5d97357a86a25e7397",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e33c30_bd5454f3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-10T09:54:35Z",
+      "side": 1,
+      "message": "Seems to be unneeded, but since this change is a pure refactoring, we better fix this in a separate change:\n\n  https://gerrit-review.googlesource.com/112819",
+      "parentUuid": "f76161f0_c138be1e",
+      "range": {
+        "startLine": 1211,
+        "startChar": 4,
+        "endLine": 1211,
+        "endChar": 21
+      },
+      "revId": "c56d2c5165557c712f514c5d97357a86a25e7397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

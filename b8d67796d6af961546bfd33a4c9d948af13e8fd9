@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f532513_fd9e517d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-10T19:13:17Z",
+      "side": 1,
+      "message": "It looks like this logic is duplicated identically in three different places. Maybe we could make it a private function inside this element instead?",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 7
+      },
+      "revId": "b8d67796d6af961546bfd33a4c9d948af13e8fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c88fcc_c8bf3ce5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-10T19:13:17Z",
+      "side": 1,
+      "message": "Excellent. Now let\u0027s have another of these that tests for the regex case.",
+      "range": {
+        "startLine": 700,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 7
+      },
+      "revId": "b8d67796d6af961546bfd33a4c9d948af13e8fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

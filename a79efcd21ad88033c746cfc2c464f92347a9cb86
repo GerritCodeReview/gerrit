@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05b1c9ac_190ba03f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-10T19:20:58Z",
+      "side": 1,
+      "message": "Mark this as private by prepending with an underscore.\n\n  _projectFilter",
+      "range": {
+        "startLine": 541,
+        "startChar": 4,
+        "endLine": 541,
+        "endChar": 18
+      },
+      "revId": "a79efcd21ad88033c746cfc2c464f92347a9cb86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

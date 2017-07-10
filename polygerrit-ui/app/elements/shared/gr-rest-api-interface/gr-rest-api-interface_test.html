@@ -682,6 +682,12 @@ limitations under the License.
           {reason: 'removal reason'}));
     });
 
+    test('createProject encodes name', () => {
+      const sendStub = sandbox.stub(element, 'send');
+      element.createProject({name: 'x/y'});
+      assert.equal(sendStub.lastCall.args[1], '/projects/x%2Fy');
+    });
+
     test('getProjects', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getProjects('test', 25);

@@ -54,7 +54,6 @@ public class Sequences {
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
-  private final boolean readAccountSeqFromNoteDb;
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
@@ -71,18 +70,14 @@ public class Sequences {
     this.db = db;
     this.migration = migration;
 
-    readAccountSeqFromNoteDb =
-        cfg.getBoolean("noteDb", "accounts", "readSequenceFromNoteDb", false);
-
-    // It's intentional to not use any configured gap for the account sequence unlike we do for the
-    // change sequence. For the account sequence we have a different migration strategy that
-    // doesn't require any gap.
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed accountSeed = () -> db.get().nextAccountId();
-
     int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
     accountSeq =
-        new RepoSequence(repoManager, allUsers, NAME_ACCOUNTS, accountSeed, accountBatchSize);
+        new RepoSequence(
+            repoManager,
+            allUsers,
+            NAME_ACCOUNTS,
+            () -> ReviewDb.FIRST_ACCOUNT_ID,
+            accountBatchSize);
 
     int gap = getChangeSequenceGap(cfg);
     @SuppressWarnings("deprecation")
@@ -102,15 +97,9 @@ public class Sequences {
   }
 
   public int nextAccountId() throws OrmException {
-    if (readAccountSeqFromNoteDb) {
-      try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
-        return accountSeq.next();
-      }
+    try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
+      return accountSeq.next();
     }
-
-    int accountId = nextAccountId(db.get());
-    accountSeq.increaseTo(accountId + 1); // NoteDb stores next available account ID.
-    return accountId;
   }
 
   public int nextChangeId() throws OrmException {

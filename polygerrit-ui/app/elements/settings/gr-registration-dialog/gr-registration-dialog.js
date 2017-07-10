@@ -39,8 +39,14 @@
     },
 
     attached() {
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+        } else {
+          this._account = false;
+        }
       });
     },
 

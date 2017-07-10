@@ -76,15 +76,19 @@
     },
 
     reload() {
-      return this.$.restAPI.getAccount().then(account => {
-        this._account = account;
-        if (!account) {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+            this._loadAccountCapabilities();
+          });
+        } else {
+          this._account = false;
           // Return so that  account capabilities don't load with no account.
-          return this._filteredLinks = this._filterLinks(link => {
+          this._filteredLinks = this._filterLinks(link => {
             return link.viewableToAll;
           });
         }
-        this._loadAccountCapabilities();
       });
     },
 

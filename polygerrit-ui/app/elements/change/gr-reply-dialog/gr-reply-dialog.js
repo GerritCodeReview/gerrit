@@ -168,8 +168,14 @@
     ],
 
     attached() {
-      this._getAccount().then(account => {
-        this._account = account || {};
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this._getAccount().then(account => {
+            this._account = account || {};
+          });
+        } else {
+          this._account = {};
+        }
       });
     },
 

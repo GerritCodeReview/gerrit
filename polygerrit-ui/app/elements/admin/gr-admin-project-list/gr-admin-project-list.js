@@ -86,14 +86,20 @@
     },
 
     _getCreateProjectCapability() {
-      return this.$.restAPI.getAccount().then(account => {
-        if (!account) { return; }
-        return this.$.restAPI.getAccountCapabilities(['createProject'])
-            .then(capabilities => {
-              if (capabilities.createProject) {
-                this._createNewCapability = true;
-              }
-            });
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return this.$.restAPI.getAccount().then(account => {
+            if (!account) { return; }
+            return this.$.restAPI.getAccountCapabilities(['createProject'])
+                .then(capabilities => {
+                  if (capabilities.createProject) {
+                    this._createNewCapability = true;
+                  }
+                });
+          });
+        } else {
+          return;
+        }
       });
     },
 

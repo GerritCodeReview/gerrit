@@ -69,8 +69,14 @@
         this._serverConfig = config;
       }));
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      promises.push(this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+        } else {
+          this._account = false;
+        }
       }));
 
       return Promise.all(promises).then(() => {

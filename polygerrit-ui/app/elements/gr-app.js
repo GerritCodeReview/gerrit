@@ -80,8 +80,14 @@
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(account => {
-        this._account = account;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+          });
+        } else {
+          this._account = false;
+        }
       });
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;

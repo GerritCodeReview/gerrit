@@ -26,8 +26,14 @@
     loadData() {
       const promises = [];
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
-        this._username = account.username;
+      promises.push(this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._username = account.username;
+          });
+        } else {
+          this._username = {};
+        }
       }));
 
       promises.push(this.$.restAPI.getConfig().then(info => {

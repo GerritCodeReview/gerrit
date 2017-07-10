@@ -180,10 +180,18 @@
     },
 
     _loadAccount() {
-      return this.$.restAPI.getAccount().then(account => {
-        this._account = account;
-        this.$.accountContainer.classList.toggle('loggedIn', account != null);
-        this.$.accountContainer.classList.toggle('loggedOut', account == null);
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getAccount().then(account => {
+            this._account = account;
+            this.$.accountContainer.classList.toggle('loggedIn', account != null);
+            this.$.accountContainer.classList.toggle('loggedOut', account == null);
+          });
+        } else {
+            this._account = null;
+            this.$.accountContainer.classList.toggle('loggedIn', this._account != null);
+            this.$.accountContainer.classList.toggle('loggedOut');
+        }
       });
     },
 

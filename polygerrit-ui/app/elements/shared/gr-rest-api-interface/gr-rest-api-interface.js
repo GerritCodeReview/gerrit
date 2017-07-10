@@ -103,23 +103,25 @@
     },
 
     _checkAuthRedirect() {
-      const loggedIn = !!this._cache['/accounts/self/detail'];
-      if (!loggedIn) {
-        return Promise.resolve(false);
-      }
-      return this.fetchJSON('/accounts/self/detail', (response, error) => {
-        if (error) {
-          return;
-        }
-        if (response.type === 'opaqueredirect' &&
-            response.headers.has('x-login') &&
-            loggedIn) {
-          this._cache['/accounts/self/detail'] = null;
-          this.fire('auth-error');
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return this.fetchJSON('/accounts/self/detail', (response, error) => {
+            if (error) {
+              return;
+            }
+            if (response.type === 'opaqueredirect' &&
+                response.headers.has('x-login') &&
+                loggedIn) {
+              this._cache['/accounts/self/detail'] = null;
+              this.fire('auth-error');
+            } else {
+              this.fire('server-error', {response});
+            }
+          }, null, null, {redirect: 'manual'});
         } else {
-          this.fire('server-error', {response});
+          return Promise.resolve(false);
         }
-      }, null, null, {redirect: 'manual'});
+      });
     },
 
     _urlWithParams(url, opt_params) {

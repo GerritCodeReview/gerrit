@@ -184,7 +184,11 @@
           this.knownAccountId !== undefined &&
           timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
         this._lastCredentialCheck = Date.now();
-        this.$.restAPI.checkCredentials();
+        this.$.restAPI.getLoggedIn().then(loggedIn => {
+          if (loggedIn) {
+            this.$.restAPI.checkCredentials();
+          }
+        });
       }
     },
 
@@ -194,20 +198,28 @@
     },
 
     _checkSignedIn() {
-      this.$.restAPI.checkCredentials().then(account => {
-        const isLoggedIn = !!account;
-        this._lastCredentialCheck = Date.now();
-        if (this._refreshingCredentials) {
-          if (isLoggedIn) {
-            // If the credentials were refreshed but the account is different
-            // then reload the page completely.
-            if (account._account_id !== this.knownAccountId) {
-              this._reloadPage();
-              return;
-            }
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.checkCredentials().then(account => {
+            const isLoggedIn = !!account;
+            this._lastCredentialCheck = Date.now();
+            if (this._refreshingCredentials) {
+              if (isLoggedIn) {
+                // If the credentials were refreshed but the account is different
+                // then reload the page completely.
+                if (account._account_id !== this.knownAccountId) {
+                  this._reloadPage();
+                  return;
+                }
 
-            this._handleCredentialRefreshed();
-          } else {
+                this._handleCredentialRefreshed();
+              } else {
+                this._requestCheckLoggedIn();
+              }
+            }
+          });
+        } else {
+          if (this._refreshingCredentials) {
             this._requestCheckLoggedIn();
           }
         }

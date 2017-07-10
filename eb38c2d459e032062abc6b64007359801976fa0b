@@ -16,6 +16,24 @@
       "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f143d69d_a886ca15",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-10T14:31:17Z",
+      "side": 1,
+      "message": "Already tryed that. But there has to be a query per the example.\n\nTested locally without a query and still fails.",
+      "parentUuid": "051e3d16_0c346628",
+      "revId": "eb38c2d459e032062abc6b64007359801976fa0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "685b12b0_9095b5b0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T14:14:28Z",
+      "side": 1,
+      "message": "Can you inject a SchemaFactory? Then you can call new RepoSequence from the constructor, and open/close the ReviewDb in the implementation of your Seed.",
+      "parentUuid": "3d27ef02_3c888d69",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "546e5095_1610c739",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
         "patchSetId": 3

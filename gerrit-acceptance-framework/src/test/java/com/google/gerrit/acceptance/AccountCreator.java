@@ -32,11 +32,8 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -54,8 +51,7 @@ public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
   private final SchemaFactory<ReviewDb> reviewDbProvider;
-  private final OneOffRequestContext oneOffRequestContext;
-  private final Provider<Sequences> sequencesProvider;
+  private final Sequences sequences;
   private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
@@ -68,8 +64,7 @@ public class AccountCreator {
   @Inject
   AccountCreator(
       SchemaFactory<ReviewDb> schema,
-      OneOffRequestContext oneOffRequestContext,
-      Provider<Sequences> sequencesProvider,
+      Sequences sequences,
       AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
@@ -80,8 +75,7 @@ public class AccountCreator {
       @SshEnabled boolean sshEnabled) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
-    this.oneOffRequestContext = oneOffRequestContext;
-    this.sequencesProvider = sequencesProvider;
+    this.sequences = sequences;
     this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
@@ -103,9 +97,8 @@ public class AccountCreator {
     if (account != null) {
       return account;
     }
-    try (ReviewDb db = reviewDbProvider.open();
-        ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id = new Account.Id(sequencesProvider.get().nextAccountId());
+    try (ReviewDb db = reviewDbProvider.open()) {
+      Account.Id id = new Account.Id(sequences.nextAccountId());
 
       List<ExternalId> extIds = new ArrayList<>(2);
       String httpPass = null;

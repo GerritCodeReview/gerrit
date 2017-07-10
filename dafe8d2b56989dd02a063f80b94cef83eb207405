@@ -1,4 +1,90 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499678964 +0200\nnonce AB2F6yC/B9csrXzEprr803GdDb2ncNVp3KI9zxqoj34l2ulTbaGSAvwjWi2FYv3QJiQ5QX0CKmwi\n\n0000000000000000000000000000000000000000 f65b7515023911f2d67b59027e23d75c49a1ec26 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZY0j0AAoJEFG1/Zeg0O9RcxwH/1sF5PFtK4/wQ+kF+jrsbrax\ne9Qh5VRWWUAnCgHFs5CTsFtnWh5ivLAxU5v3HMwClRqAXm+v5WibgvcZqsO4pItl\n7Dynt/DOT19pPc61vDz7kON0Kc2RRaW4ovaW4fO1zp8b+ijNw2yW3OSn35rNBuYi\nRpOqKTqyeNnDNWQWn8HswCvpl5uWSaJavddSvv04XTwxVGruhpsv6+s74UQKwX60\n0WjZQmNqSDsS8SGKU/W4BFExm7p1xalxlHMKRL38mKVeS+dE8AiKqyS+5LNKXMQG\nouzNkw/KJFockF6s8d2cJuvmMy/4y1BGpoe11YmZP6cVh0s8C5aIUuihOc7ivSQ\u003d\n\u003dQerP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a399f21_9d7d1bb4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/GitRepositoryManagerOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T12:01:40Z",
+      "side": 1,
+      "message": "See my comment in SitePaths, I don\u0027t think this gives the correct result. Also, it doesn\u0027t respect MultiBaseLocalDiskRepositoryManager.\n\nIs it not possible to just install the GitRepositoryManagerModule in init? That shouldn\u0027t have too many dependencies.",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c04b810_0615319a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/SequencesOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T12:01:40Z",
+      "side": 1,
+      "message": "Optional: is there a reason this needs to be lazily initialized? I don\u0027t think the RepoSequence constructor is particularly expensive.",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "546e5095_1610c739",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T12:01:40Z",
+      "side": 1,
+      "message": "Maybe leave a short comment here saying that it\u0027s intentional to not use a gap for the account sequence like we do for the change sequence (basically it\u0027s a completely different migration strategy).",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6386a4e_8bfe0037",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T12:01:40Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right; it needs to respect gerrit.basePath like LocalDiskRepositoryManager does. But I\u0027m not sure you can get a @GerritServerConfig in the injector where SitePath is bound.\n\nMaybe instead of going through SitePaths, extract a static method in LocalDiskRepositoryManager that you can use in GitRepositoryManagerOnInit?",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3619eae_cd8ff75c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-10T12:01:40Z",
+      "side": 1,
+      "message": "Would NO_CHANGE be better, to indicate that this thread did no work? I guess it probably doesn\u0027t matter.",
+      "revId": "dafe8d2b56989dd02a063f80b94cef83eb207405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

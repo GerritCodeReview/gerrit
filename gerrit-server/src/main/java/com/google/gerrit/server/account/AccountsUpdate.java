@@ -250,21 +250,28 @@ public class AccountsUpdate {
     }
 
     // Update in ReviewDb
-    db.accounts()
-        .atomicUpdate(
-            accountId,
-            a -> {
-              consumers.stream().forEach(c -> c.accept(a));
-              return a;
-            });
+    Account reviewDbAccount =
+        db.accounts()
+            .atomicUpdate(
+                accountId,
+                a -> {
+                  consumers.stream().forEach(c -> c.accept(a));
+                  return a;
+                });
 
     // Update in NoteDb
     AccountConfig accountConfig = read(accountId);
     Account account = accountConfig.getAccount();
-    consumers.stream().forEach(c -> c.accept(account));
-    commit(accountConfig);
+    if (account != null) {
+      consumers.stream().forEach(c -> c.accept(account));
+      commit(accountConfig);
+    } else if (reviewDbAccount != null) {
+      // user branch doesn't exist yet
+      accountConfig.setAccount(reviewDbAccount);
+      commitNew(accountConfig);
+    }
 
-    return account;
+    return reviewDbAccount;
   }
 
   /**

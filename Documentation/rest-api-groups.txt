@@ -224,6 +224,36 @@ error out.)
   }
 ----
 
+Substring(m)::
+Limit the results to those groups that match the specified substring.
++
+List all groups that match substring `test/`:
++
+.Request
+----
+  GET /groups/?m=test%2F HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "test/test": {
+      "url": "#/admin/groups/uuid-786a95e85f9a2223a96545f10003f396aba871f2",
+      "options": {},
+      "group_id": 15,
+      "owner": "test/test",
+      "owner_id": "786a95e85f9a2223a96545f10003f396aba871f2",
+      "created_on": "2017-07-11 13:56:24.000000000",
+      "id": "786a95e85f9a2223a96545f10003f396aba871f2"
+    }
+  }
+----
+
 [[query-groups]]
 === Query Groups
 --

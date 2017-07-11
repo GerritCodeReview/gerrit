@@ -48,9 +48,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
@@ -381,7 +383,7 @@ public class CmdLineParser {
     }
 
     private static String getPrefixedName(String prefix, String name) {
-      return "--" + prefix + name;
+      return prefix + name;
     }
   }
 
@@ -393,11 +395,19 @@ public class CmdLineParser {
 
     MyParser(Object bean) {
       super(bean);
+      parseAdditionalOptions("", bean, new HashSet<>());
       ensureOptionsInitialized();
     }
 
     // NOTE: Argument annotations on bean are ignored.
     public void parseWithPrefix(String prefix, Object bean) {
+      parseWithPrefix(prefix, bean, new HashSet<>());
+    }
+
+    private void parseWithPrefix(String prefix, Object bean, Set<Object> parsedBeans) {
+      if (!parsedBeans.add(bean)) {
+        return;
+      }
       // recursively process all the methods/fields.
       for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
         for (Method m : c.getDeclaredMethods()) {
@@ -410,6 +420,31 @@ public class CmdLineParser {
           Option o = f.getAnnotation(Option.class);
           if (o != null) {
             addOption(Setters.create(f, bean), new PrefixedOption(prefix, o));
+          }
+          if (f.isAnnotationPresent(Options.class)) {
+            try {
+              parseWithPrefix(
+                  prefix + f.getAnnotation(Options.class).prefix(), f.get(bean), parsedBeans);
+            } catch (IllegalAccessException e) {
+              throw new IllegalAnnotationError(e);
+            }
+          }
+        }
+      }
+    }
+
+    private void parseAdditionalOptions(String prefix, Object bean, Set<Object> parsedBeans) {
+      for (Class c = bean.getClass(); c != null; c = c.getSuperclass()) {
+        for (Field f : c.getDeclaredFields()) {
+          if (f.isAnnotationPresent(Options.class)) {
+            Object additionalBean = null;
+            try {
+              additionalBean = f.get(bean);
+            } catch (IllegalAccessException e) {
+              throw new IllegalAnnotationError(e);
+            }
+            parseWithPrefix(
+                prefix + f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
           }
         }
       }

@@ -47,6 +47,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
@@ -76,12 +77,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
@@ -100,6 +103,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -133,6 +137,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
 
   @Inject private AllUsersName allUsers;
+
+  @Inject private AccountsUpdate.Server accountsUpdate;
 
   @Inject private AccountByEmailCache byEmailCache;
 
@@ -225,56 +231,93 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.username).isEqualTo(name);
     assertThat(info.name).isEqualTo(name);
     accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
-
-    // check user branch
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo);
-        ObjectReader or = repo.newObjectReader()) {
-      Ref ref = repo.exactRef(RefNames.refsUsers(foo.getId()));
-      assertThat(ref).isNotNull();
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-      long timestampDiffMs =
-          Math.abs(
-              c.getCommitTime() * 1000L
-                  - accountCache.get(foo.getId()).getAccount().getRegisteredOn().getTime());
-      assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
-
-      // Check the 'account.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, AccountConfig.ACCOUNT_CONFIG, c.getTree())) {
-        assertThat(tw).isNotNull();
-        Config cfg = new Config();
-        cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-        assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_FULL_NAME))
-            .isEqualTo(name);
-      }
-    }
+    assertUserBranch(foo.getId(), name, null);
   }
 
   @Test
   public void createAnonymousCoward() throws Exception {
     TestAccount anonymousCoward = accountCreator.create();
     accountIndexedCounter.assertReindexOf(anonymousCoward);
+    assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
+  }
 
-    // check user branch
+  @Test
+  public void updateNonExistingAccount() throws Exception {
+    Account.Id nonExistingAccountId = new Account.Id(999999);
+    AtomicBoolean consumerCalled = new AtomicBoolean();
+    Account account =
+        accountsUpdate.create().update(db, nonExistingAccountId, a -> consumerCalled.set(true));
+    assertThat(account).isNull();
+    assertThat(consumerCalled.get()).isFalse();
+  }
+
+  @Test
+  public void updateAccountThatIsMissingInNoteDb() throws Exception {
+    String name = "bar";
+    TestAccount bar = accountCreator.create(name);
+    assertUserBranch(bar.getId(), name, null);
+
+    // delete user branch
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      AccountsUpdate.deleteUserBranch(
+          repo, allUsers, GitReferenceUpdated.DISABLED, null, serverIdent.get(), bar.getId());
+      assertThat(repo.exactRef(RefNames.refsUsers(bar.getId()))).isNull();
+    }
+
+    String status = "OOO";
+    Account account = accountsUpdate.create().update(db, bar.getId(), a -> a.setStatus(status));
+    assertThat(account).isNotNull();
+    assertThat(account.getFullName()).isEqualTo(name);
+    assertThat(account.getStatus()).isEqualTo(status);
+    assertUserBranch(bar.getId(), name, status);
+  }
+
+  @Test
+  public void updateAccountWithoutAccountConfigNoteDb() throws Exception {
+    TestAccount anonymousCoward = accountCreator.create();
+    assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
+
+    String status = "OOO";
+    Account account =
+        accountsUpdate.create().update(db, anonymousCoward.getId(), a -> a.setStatus(status));
+    assertThat(account).isNotNull();
+    assertThat(account.getFullName()).isNull();
+    assertThat(account.getStatus()).isEqualTo(status);
+    assertUserBranch(anonymousCoward.getId(), null, status);
+  }
+
+  private void assertUserBranchWithoutAccountConfig(Account.Id accountId) throws Exception {
+    assertUserBranch(accountId, null, null);
+  }
+
+  private void assertUserBranch(
+      Account.Id accountId, @Nullable String name, @Nullable String status) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo);
         ObjectReader or = repo.newObjectReader()) {
-      Ref ref = repo.exactRef(RefNames.refsUsers(anonymousCoward.getId()));
+      Ref ref = repo.exactRef(RefNames.refsUsers(accountId));
       assertThat(ref).isNotNull();
       RevCommit c = rw.parseCommit(ref.getObjectId());
       long timestampDiffMs =
           Math.abs(
               c.getCommitTime() * 1000L
-                  - accountCache
-                      .get(anonymousCoward.getId())
-                      .getAccount()
-                      .getRegisteredOn()
-                      .getTime());
+                  - accountCache.get(accountId).getAccount().getRegisteredOn().getTime());
       assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
 
-      // No account properties were set, hence an 'account.config' file was not created.
+      // Check the 'account.config' file.
       try (TreeWalk tw = TreeWalk.forPath(or, AccountConfig.ACCOUNT_CONFIG, c.getTree())) {
-        assertThat(tw).isNull();
+        if (name != null || status != null) {
+          assertThat(tw).isNotNull();
+          Config cfg = new Config();
+          cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
+          assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_FULL_NAME))
+              .isEqualTo(name);
+          assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS))
+              .isEqualTo(status);
+        } else {
+          // No account properties were set, hence an 'account.config' file was not created.
+          assertThat(tw).isNull();
+        }
       }
     }
   }

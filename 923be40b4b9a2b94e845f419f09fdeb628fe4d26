@@ -93,6 +93,54 @@
       "revId": "923be40b4b9a2b94e845f419f09fdeb628fe4d26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b20dd3_d7133c20",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-11T16:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541b8a92_e87af474",
+      "range": {
+        "startLine": 89,
+        "startChar": 52,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "923be40b4b9a2b94e845f419f09fdeb628fe4d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ef1b9c_769bd081",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-11T16:45:51Z",
+      "side": 1,
+      "message": "I\u0027ve added creating and applying a style guide for issues like this. I don\u0027t think is a deal breaking for this change.",
+      "parentUuid": "59383584_644b7a93",
+      "range": {
+        "startLine": 89,
+        "startChar": 52,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "923be40b4b9a2b94e845f419f09fdeb628fe4d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

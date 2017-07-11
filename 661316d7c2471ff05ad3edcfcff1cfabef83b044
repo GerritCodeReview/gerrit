@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2c5594c0_70cb1b6c",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritGwtDebugLauncher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dbf1998_665b3d6d",
+      "range": {
+        "startLine": 57,
+        "startChar": 27,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3bc5e9e_e72812dc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7c595a3_f30e71c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3bc5e9e_e72812dc",
+      "range": {
+        "startLine": 171,
+        "startChar": 30,
+        "endLine": 171,
+        "endChar": 36
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "84dbe5ae_6d4679a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/EditConfigAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff63f71_c7e5454f",
+      "range": {
+        "startLine": 29,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fe88831_4d317364",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e7cf98_24fbc159",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe88831_4d317364",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 10
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f94d6749_39918d96",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done. (here and below)",
+      "parentUuid": "00088086_4f73b061",
+      "range": {
+        "startLine": 693,
+        "startChar": 8,
+        "endLine": 693,
+        "endChar": 35
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9abfef18_87861f58",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 5
@@ -137,6 +257,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d6cc36_d9bba036",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Good catch! Done.",
+      "parentUuid": "9abfef18_87861f58",
+      "range": {
+        "startLine": 852,
+        "startChar": 13,
+        "endLine": 852,
+        "endChar": 34
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "6d0cb8f2_5211e637",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done. It can\u0027t because in onLoad project is set with what we retrieved in the changeInfo in the same async callback that calls this code path. All other code paths that lead here are triggered on demand after onLoad finished.",
+      "parentUuid": "e3da9718_423b1f3f",
+      "range": {
+        "startLine": 1162,
+        "startChar": 20,
+        "endLine": 1162,
+        "endChar": 27
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e70a949_06ecb772",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 5
@@ -183,6 +351,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa9a303_fd247dfc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done. Nice.",
+      "parentUuid": "8e70a949_06ecb772",
+      "range": {
+        "startLine": 77,
+        "startChar": 25,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "12ea55c6_82d43b88",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f154b57_fc284b89",
+      "range": {
+        "startLine": 84,
+        "startChar": 54,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b2b87e2_58a6e1b1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 5
@@ -229,6 +445,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd852652_6204b4da",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b2b87e2_58a6e1b1",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 26
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "98611191_50127129",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4913a9e0_1e24e8e3",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 16
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06d4170f_886de317",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ProjectChangeId.java",
         "patchSetId": 5
@@ -266,6 +530,30 @@
       "writtenOn": "2017-07-10T12:41:04Z",
       "side": 1,
       "message": "mutable?",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b5aa6c_007ccc4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ProjectChangeId.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "mutableToken is updated a couple of times in this method. Though I see why \u0027mutable\u0027 on a string can be confusing since strings are immutable. However, I meant that the reference to it is updated a couple of times. Do you have a better suggestion?",
+      "parentUuid": "06d4170f_886de317",
       "range": {
         "startLine": 29,
         "startChar": 11,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "4018f6b5_a5985de9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "I am leaning towards no, since this is called in Gerrit.java. I\u0027ve added null checks.",
+      "parentUuid": "a1dd2f7c_960cf9cb",
+      "range": {
+        "startLine": 824,
+        "startChar": 19,
+        "endLine": 824,
+        "endChar": 32
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7840131_67c6104a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedCommentManager.java",
         "patchSetId": 5
@@ -321,6 +633,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e7a9a1_2102b982",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedCommentManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done. Indeed, that was an oversight.",
+      "parentUuid": "b7840131_67c6104a",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "c1f7e5f5_20c6598a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UpToChangeCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dafdced1_7c85764a",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53ed1577_083f3fea",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
         "patchSetId": 5
@@ -367,6 +727,30 @@
       "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63acf67c_0490c6ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ed1577_083f3fea",
+      "range": {
+        "startLine": 125,
+        "startChar": 100,
+        "endLine": 125,
+        "endChar": 104
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

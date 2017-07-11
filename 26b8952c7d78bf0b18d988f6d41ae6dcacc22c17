@@ -1060,6 +1060,30 @@
     },
     {
       "key": {
+        "uuid": "4e69c27a_41aef75d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T09:57:07Z",
+      "side": 1,
+      "message": "Comment added. Edits always have \",edit\" so in terms of slashes, there should be no affect.",
+      "parentUuid": "526929ff_6769e2b0",
+      "range": {
+        "startLine": 845,
+        "startChar": 31,
+        "endLine": 845,
+        "endChar": 60
+      },
+      "revId": "26b8952c7d78bf0b18d988f6d41ae6dcacc22c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0905bd3_067cc4d3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 4

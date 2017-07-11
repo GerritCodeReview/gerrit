@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1499764458 +0200\nnonce AB2F6yBHziFMehyI0S+ixrH+FZpiBD0eH+U13Gb/WaCcbRm3kPPjjixnK/Y9opMY0PPNhl4btXH6\n\n0000000000000000000000000000000000000000 2cb934f57e0d1124f6b787ca788de01a8dc20aee refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZZJbqAAoJEFG1/Zeg0O9RyrsIAKLwDoojlHLXr6xJdQx0lYTp\nuvkhJhz3hYGtWjv+jnVSuLEHxKLxvHqoNOmmeP991mb6be2cMOVQvRccPNfSi9Nn\ndUirz0LyQDT6nxDu0Ha8/8da2MCB2eV78rx9JxdFf14qq0QoJCpxqZNv/tv9dE0Q\nJ6S64axK4oEZ2hN7NG3t6db0tPwUMttpJLCL4NoXo/TDkAayMS48lVtdxY0SDP7z\nuH58uWBU1A3gJJp7mRfXNGTRojTZXcvxAknAPogKxnP4YAeD6Kt5wauJ1U6x4K3i\neTUte0RP82dzx8D5k/lKEwetLD1K1IGcI4CrYT2y2C4fx/sZ8VAeza9XyPzNPD4\u003d\n\u003dHgZF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a060caf8_5699fe23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-11T13:00:12Z",
+      "side": 1,
+      "message": "Doesn\u0027t this also mean that we no longer have to call nextAccountId from within a request context? Then we could remove a couple of OneOffRequestContext invocations here (and internally), yes?",
+      "revId": "2cb934f57e0d1124f6b787ca788de01a8dc20aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

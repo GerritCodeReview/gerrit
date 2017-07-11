@@ -14,6 +14,10 @@
 (function() {
   'use strict';
 
+  const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
+  const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
+  const ERR_CONTACT_TEAM = 'Couldn’t load revision actions. Check' +
+      ' the console and contact the PolyGerrit team for assistance.';
   /**
    * @enum {number}
    */
@@ -293,8 +297,7 @@
         this.revisionActions = revisionActions;
         this._loading = false;
       }).catch(err => {
-        alert('Couldn’t load revision actions. Check the console ' +
-            'and contact the PolyGerrit team for assistance.');
+        this.fire('show-alert', {message: ERR_CONTACT_TEAM});
         this._loading = false;
         throw err;
       });
@@ -696,11 +699,11 @@
       const el = this.$.confirmCherrypick;
       if (!el.branch) {
         // TODO(davido): Fix error handling
-        alert('The destination branch can’t be empty.');
+        this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
         return;
       }
       if (!el.message) {
-        alert('The commit message can’t be empty.');
+        this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
         return;
       }
       this.$.overlay.close();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60463002_67bac9a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-11T22:59:43Z",
+      "side": 1,
+      "message": "I have added a section to the documentation and have added a note here to look there for the complete set of footers.",
+      "parentUuid": "36c54b2b_c281d9c2",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 39
+      },
+      "revId": "a75ddb1d3b6308c1d8e309d588b2cb88cad71a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db8511c1_7a725cd0",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "a75ddb1d3b6308c1d8e309d588b2cb88cad71a3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21eac40_df9443aa",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-11T22:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db8511c1_7a725cd0",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "a75ddb1d3b6308c1d8e309d588b2cb88cad71a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

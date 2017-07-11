@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38a5613d_ecf15d16",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-11T23:12:30Z",
+      "side": 1,
+      "message": "Optional: Maybe the wording can change too. Could this become...\n\n const FAILED_TO_LOAD_ACTIONS_MSG \u003d \"Couldn’t load revision actions.\u0027;\n\n...? It seems weird to me to explicitly ask for contacting the team for only this (and that one other) error.",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "586701dd92a68e6f85072f563df001595a0535a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a21ea0c_74fd24d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-11T23:12:30Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "586701dd92a68e6f85072f563df001595a0535a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

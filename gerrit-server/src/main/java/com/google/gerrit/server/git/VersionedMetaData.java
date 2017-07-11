@@ -359,6 +359,8 @@ public abstract class VersionedMetaData {
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
           default:
             throw new IOException(
                 "Cannot delete "
@@ -444,6 +446,8 @@ public abstract class VersionedMetaData {
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
           default:
             throw new IOException(
                 "Cannot update "

@@ -285,6 +285,8 @@ public class ChangeEditUtil {
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:
       case RENAMED:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
       default:
         throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
     }

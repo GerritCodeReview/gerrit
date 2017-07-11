@@ -236,6 +236,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:
         case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
         default:
           // TODO(dborowitz): Backoff and retry on LOCK_FAILURE.
           throw new ResourceConflictException("Failed to save public keys: " + saveResult);

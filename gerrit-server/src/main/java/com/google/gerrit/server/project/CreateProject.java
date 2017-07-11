@@ -353,6 +353,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
+          case REJECTED_MISSING_OBJECT:
+          case REJECTED_OTHER_REASON:
           default:
             {
               throw new IOException(

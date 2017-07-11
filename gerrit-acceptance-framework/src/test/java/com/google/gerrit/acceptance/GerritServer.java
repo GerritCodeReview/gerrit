@@ -37,6 +37,7 @@ import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.SshMode;
+import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -46,7 +47,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -227,11 +227,13 @@ public class GerritServer implements AutoCloseable {
   /**
    * Initializes new Gerrit site and returns started server.
    *
+   * <p>A new temporary directory for the site will be created with {@link TempFileUtil}, even in
+   * the server is otherwise configured in-memory. Closing the server stops the daemon but does not
+   * delete the temporary directory. Callers may either get the directory with {@link
+   * #getSitePath()} and delete it manually, or call {@link TempFileUtil#cleanup()}.
+   *
    * @param desc server description.
-   * @param baseConfig default config values; merged with config from {@code desc}. Must contain a
-   *     value for {@code gerrit.tempSiteDir} pointing to a temporary directory. This directory is
-   *     only actually used for on-disk sites ({@link Description#memory()} returns false), but it
-   *     must nonetheless exist for in-memory sites.
+   * @param baseConfig default config values; merged with config from {@code desc}.
    * @return started server.
    * @throws Exception
    */
@@ -242,11 +244,18 @@ public class GerritServer implements AutoCloseable {
           .that(NoteDbMode.get())
           .isNotEqualTo(NoteDbMode.FUSED);
     }
-    Path site = Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir"));
-    if (!desc.memory()) {
-      init(desc, baseConfig, site);
+    Path site = TempFileUtil.createTempDirectory().toPath();
+    baseConfig = new Config(baseConfig);
+    baseConfig.setString("gerrit", null, "tempSiteDir", site.toString());
+    try {
+      if (!desc.memory()) {
+        init(desc, baseConfig, site);
+      }
+      return start(desc, baseConfig, site, null);
+    } catch (Exception e) {
+      TempFileUtil.recursivelyDelete(site.toFile());
+      throw e;
     }
-    return start(desc, baseConfig, site, null);
   }
 
   /**
@@ -256,7 +265,8 @@ public class GerritServer implements AutoCloseable {
    * @param baseConfig default config values; merged with config from {@code desc}.
    * @param site existing temporary directory for site. Required, but may be empty, for in-memory
    *     servers. For on-disk servers, assumes that {@link #init} was previously called to
-   *     initialize this directory.
+   *     initialize this directory. Can be retrieved from the returned instance via {@link
+   *     #getSitePath()}.
    * @param testSysModule optional additional module to add to the system injector.
    * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
    *     the test is not in-memory.
@@ -290,13 +300,13 @@ public class GerritServer implements AutoCloseable {
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
-      return startInMemory(desc, baseConfig, daemon);
+      return startInMemory(desc, site, baseConfig, daemon);
     }
     return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
 
-  private static GerritServer startInMemory(Description desc, Config baseConfig, Daemon daemon)
-      throws Exception {
+  private static GerritServer startInMemory(
+      Description desc, Path site, Config baseConfig, Daemon daemon) throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
@@ -308,9 +318,10 @@ public class GerritServer implements AutoCloseable {
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
-    daemon.setDatabaseForTesting(ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg)));
+    daemon.setDatabaseForTesting(
+        ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg, site)));
     daemon.start();
-    return new GerritServer(desc, createTestInjector(daemon), daemon, null);
+    return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }
 
   private static GerritServer startOnDisk(
@@ -347,7 +358,7 @@ public class GerritServer implements AutoCloseable {
     }
     System.out.println("Gerrit Server Started");
 
-    return new GerritServer(desc, createTestInjector(daemon), daemon, daemonService);
+    return new GerritServer(desc, site, createTestInjector(daemon), daemon, daemonService);
   }
 
   private static void mergeTestConfig(Config cfg) {
@@ -402,6 +413,7 @@ public class GerritServer implements AutoCloseable {
   }
 
   private final Description desc;
+  private final Path sitePath;
 
   private Daemon daemon;
   private ExecutorService daemonService;
@@ -411,8 +423,13 @@ public class GerritServer implements AutoCloseable {
   private InetSocketAddress httpAddress;
 
   private GerritServer(
-      Description desc, Injector testInjector, Daemon daemon, ExecutorService daemonService) {
+      Description desc,
+      Path sitePath,
+      Injector testInjector,
+      Daemon daemon,
+      ExecutorService daemonService) {
     this.desc = desc;
+    this.sitePath = sitePath;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
@@ -458,6 +475,10 @@ public class GerritServer implements AutoCloseable {
       }
       RepositoryCache.clear();
     }
+  }
+
+  public Path getSitePath() {
+    return sitePath;
   }
 
   private void checkNoteDbState() throws Exception {

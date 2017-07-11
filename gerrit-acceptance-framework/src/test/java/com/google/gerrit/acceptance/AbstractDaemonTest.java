@@ -156,8 +156,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -172,9 +170,8 @@ public abstract class AbstractDaemonTest {
 
   @Rule public ExpectedException exception = ExpectedException.none();
 
-  protected final TemporaryFolder tempSiteDir = new TemporaryFolder();
-
-  private final TestRule testRunner =
+  @Rule
+  public TestRule testRunner =
       new TestRule() {
         @Override
         public Statement apply(Statement base, Description description) {
@@ -191,8 +188,6 @@ public abstract class AbstractDaemonTest {
           };
         }
       };
-
-  @Rule public RuleChain ruleChain = RuleChain.outerRule(tempSiteDir).around(testRunner);
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
@@ -315,7 +310,6 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
 
-    baseConfig.setString("gerrit", null, "tempSiteDir", tempSiteDir.getRoot().getPath());
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {

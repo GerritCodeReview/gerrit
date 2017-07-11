@@ -17,6 +17,8 @@
   const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
   const MERGE_LIST_PATH = '/MERGE_LIST';
 
+  const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
+
   const COMMENT_SAVE = 'Try again when all comments have saved.';
 
   const DiffSides = {
@@ -191,8 +193,7 @@
     _setReviewed(reviewed) {
       this.$.reviewed.checked = reviewed;
       this._saveReviewedState(reviewed).catch(err => {
-        alert('Couldn’t change file review status. Check the console ' +
-            'and contact the PolyGerrit team for assistance.');
+        this.fire('show-alert', {message: ERR_REVIEW_STATUS});
         throw err;
       });
     },

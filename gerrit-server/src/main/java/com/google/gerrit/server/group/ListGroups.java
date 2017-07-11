@@ -77,6 +77,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int limit;
   private int start;
   private String matchSubstring;
+  private String matchRegex;
   private String suggest;
 
   @Option(
@@ -168,6 +169,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   )
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
+  }
+
+  @Option(
+    name = "--regex",
+    aliases = {"-r"},
+    metaVar = "REGEX",
+    usage = "match group regex"
+  )
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
   }
 
   @Option(
@@ -327,6 +338,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       return true;
+    } else if (!Strings.isNullOrEmpty(matchSubstring)) {
+      return true;
     }
     return false;
   }
@@ -363,6 +376,18 @@ public class ListGroups implements RestReadView<TopLevelResource> {
             .toLowerCase(Locale.US)
             .contains(matchSubstring.toLowerCase(Locale.US))) {
           continue;
+        }
+      } else if (!Strings.isNullOrEmpty(matchRegex)) {
+        if (matchRegex.startsWith("^")) {
+          matchRegex = matchRegex.substring(1);
+          if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
+            if (matchRegex.substring(0, matchRegex.length() - 1)) {
+              matchRegex = matchRegex;
+            }
+          }
+          if (new RegExp(matchRegex)) {
+            continue;
+          }
         }
       }
       if (visibleToAll && !group.isVisibleToAll()) {

@@ -27,12 +27,15 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.Test;
 
 @NoHttpd
 public class ServerInfoIT extends AbstractDaemonTest {
+  @Inject private SitePaths sitePaths;
 
   @Test
   // auth
@@ -131,7 +134,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @UseSsh
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void serverConfigWithPlugin() throws Exception {
-    Path plugins = tempSiteDir.newFolder("plugins").toPath();
+    Path plugins = sitePaths.plugins_dir;
+    Files.createDirectory(plugins);
     Path jsplugin = plugins.resolve("js-plugin-1.js");
     Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
     adminSshSession.exec("gerrit plugin reload");

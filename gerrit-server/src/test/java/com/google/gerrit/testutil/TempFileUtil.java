@@ -38,7 +38,7 @@ public class TempFileUtil {
     allDirsCreated.clear();
   }
 
-  private static void recursivelyDelete(File dir) throws IOException {
+  public static void recursivelyDelete(File dir) throws IOException {
     if (!dir.getPath().equals(dir.getCanonicalPath())) {
       // Directory symlink reaching outside of temporary space.
       return;

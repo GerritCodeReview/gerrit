@@ -51,16 +51,18 @@ import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
+  private final Path sitePath;
 
-  InMemoryTestingDatabaseModule(Config cfg) {
+  InMemoryTestingDatabaseModule(Config cfg, Path sitePath) {
     this.cfg = cfg;
+    this.sitePath = sitePath;
+    makeSiteDirs(sitePath);
   }
 
   @Override
@@ -68,9 +70,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
 
     // TODO(dborowitz): Use jimfs.
-    Path p = Paths.get(cfg.getString("gerrit", null, "tempSiteDir"));
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(p);
-    makeSiteDirs(p);
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);

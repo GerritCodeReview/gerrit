@@ -547,6 +547,10 @@
       );
     },
 
+    setProjectHead(project, ref) {
+      return this.send('PUT', `/projects/${project}/HEAD`, {ref});
+    },
+
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
       filter = filter ? '&m=' + encodeURIComponent(filter) : '';

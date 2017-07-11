@@ -35,6 +35,13 @@
       commitMessage: String,
       commitNum: String,
       message: String,
+      project: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getProjectBranchesSuggestions.bind(this);
+        },
+      },
     },
 
     observers: [
@@ -58,6 +65,25 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
+    },
+
+    _getProjectBranchesSuggestions(input) {
+      return this.$.restAPI.getProjectBranches(input, this.project, 15)
+          .then(response => {
+            console.log(response);
+            const branches = [];
+            for (const key in response) {
+              if (!response.hasOwnProperty(key)) { continue; }
+              branches.push({
+                name: key.ref,
+                value: response[key.ref],
+              });
+            }
+            console.log(branches.name);
+            console.log(branches.value);
+            console.log(branches);
+            return branches;
+          });
     },
   });
 })();

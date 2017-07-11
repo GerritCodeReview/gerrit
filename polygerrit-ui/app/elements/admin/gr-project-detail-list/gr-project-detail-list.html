@@ -18,20 +18,42 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
+<link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 
 <dom-module id="gr-project-detail-list">
   <template>
+    <style include="gr-form-styles"></style>
     <style include="shared-styles">
-      .repositoryBrowser {
+      .editItem:not(.editing) {
         display: none;
       }
-      .repositoryBrowser.show{
-        display: table-cell;
+      .editBtn.editing,
+      .revisionNoEditing.canEdit,
+      .revisionWithEditing.editing {
+        display: none;
+      }
+      gr-button {
+        margin-left: .3em;
+      }
+      .editBtn {
+        margin-left: 1em;
+      }
+      .repositoryBrowser:not(.show) {
+        display: none;
+      }
+      .revisionEdit.canEdit{
+        align-items: baseline;
+        display: flex;
+        line-height: 1em;
+      }
+      .revisionEdit {
+        display: none;
       }
     </style>
     <gr-list-view
@@ -55,7 +77,29 @@ limitations under the License.
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
-            <td class="description">[[item.revision]]</td>
+            <td class="description gr-form-styles">
+              <span class$="revisionNoEditing [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+                [[item.revision]]
+              </span>
+              <span class$="revisionEdit [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+                <span class$="revisionWithEditing [[_computeEditingClass(_isEditing)]]">
+                  [[item.revision]]
+                </span>
+                <gr-button
+                    on-tap="_handleEditRevision"
+                    class$="editBtn [[_computeEditingClass(_isEditing)]]">edit</gr-button>
+                <input
+                    is=iron-input
+                    bind-value="{{_revisedRef}}"
+                    class$="editItem [[_computeEditingClass(_isEditing)]]">
+                <gr-button
+                    on-tap="_handleSaveRevision"
+                    class$="saveBtn editItem [[_computeEditingClass(_isEditing)]]">Save</gr-button>
+                <gr-button
+                    on-tap="_handleCancelRevision"
+                    class$="cancelBtn editItem [[_computeEditingClass(_isEditing)]]">Cancel</gr-button>
+              </span>
+            </td>
             <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">

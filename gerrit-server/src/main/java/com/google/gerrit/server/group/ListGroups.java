@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupDescription;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -77,6 +79,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int limit;
   private int start;
   private String matchSubstring;
+  private String matchRegex;
   private String suggest;
 
   @Option(
@@ -171,6 +174,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Option(
+    name = "--regex",
+    aliases = {"-r"},
+    metaVar = "REGEX",
+    usage = "match group regex"
+  )
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
+  @Option(
     name = "--suggest",
     aliases = {"-s"},
     usage = "to get a suggestion of groups"
@@ -248,7 +261,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return getAllGroups();
   }
 
-  private List<GroupInfo> getAllGroups() throws OrmException {
+  private List<GroupInfo> getAllGroups() throws BadRequestException, OrmException {
     List<GroupInfo> groupInfos;
     List<AccountGroup> groupList;
     if (!projects.isEmpty()) {
@@ -327,11 +340,13 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       return true;
+    } else if (!Strings.isNullOrEmpty(matchSubstring)) {
+      return true;
     }
     return false;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws BadRequestException, OrmException {
     List<GroupInfo> groups = new ArrayList<>();
     int found = 0;
     int foundIndex = 0;
@@ -354,7 +369,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groups;
   }
 
-  private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
+  private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) throws BadRequestException {
     List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
     for (AccountGroup group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
@@ -364,6 +379,21 @@ public class ListGroups implements RestReadView<TopLevelResource> {
             .contains(matchSubstring.toLowerCase(Locale.US))) {
           continue;
         }
+      } else if (!Strings.isNullOrEmpty(matchRegex)) {
+        checkMatchOptions(matchSubstring == null);
+        RegexListSearcher<AccountGroup> searcher;
+        try {
+          searcher =
+              new RegexListSearcher<AccountGroup>(matchRegex) {
+                @Override
+                public String apply(AccountGroup in) {
+                  return group.getName();
+                }
+              };
+        } catch (IllegalArgumentException e) {
+          throw new BadRequestException(e.getMessage());
+        }
+        return (List<AccountGroup>) searcher.search(Lists.newArrayList(groupCache.all()));
       }
       if (visibleToAll && !group.isVisibleToAll()) {
         continue;
@@ -379,5 +409,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     Collections.sort(filteredGroups, new GroupComparator());
     return filteredGroups;
+  }
+
+  private static void checkMatchOptions(boolean cond) throws BadRequestException {
+    if (!cond) {
+      throw new BadRequestException("specify exactly one of p/m/r");
+    }
   }
 }

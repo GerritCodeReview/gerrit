@@ -69,5 +69,15 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(element.message, myNewMessage);
     });
+
+    test('test branch input', done => {
+      element.changeStatus = 'OPEN';
+      element.commitMessage = 'message\n';
+      element.commitNum = '123';
+      element.branch = 'test-branch'
+      element._query = {};
+      flushAsynchronousOperations();
+      assert.equal(element.branch, 'test-branch');
+    });
   });
 </script>

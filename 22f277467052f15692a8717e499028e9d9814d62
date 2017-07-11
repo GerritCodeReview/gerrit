@@ -166,6 +166,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbab59c_b4adf48e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-11T15:30:10Z",
+      "side": 1,
+      "message": "Okay, let\u0027s leave this change as it is. If desired, we can add the max/min integers in a follow-up change.",
+      "parentUuid": "90c3667c_e2c7bc21",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

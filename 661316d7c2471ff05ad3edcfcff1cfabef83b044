@@ -566,6 +566,30 @@
     },
     {
       "key": {
+        "uuid": "cc6e8af3_127e13e8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ProjectChangeId.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-11T15:18:30Z",
+      "side": 1,
+      "message": "s/mutatable/mutable :)",
+      "parentUuid": "b1b5aa6c_007ccc4c",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "661316d7c2471ff05ad3edcfcff1cfabef83b044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1dd2f7c_960cf9cb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
         "patchSetId": 5

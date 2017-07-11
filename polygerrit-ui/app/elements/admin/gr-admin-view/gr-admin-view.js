@@ -57,7 +57,7 @@
       },
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
-      _showProjectBranches: Boolean,
+      _showProjectDetailList: Boolean,
       _showGroupList: Boolean,
       _showPluginList: Boolean,
     },

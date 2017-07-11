@@ -87,13 +87,6 @@ limitations under the License.
         <gr-admin-plugin-list class="table"></gr-admin-plugin-list>
       </main>
     </template>
-    <template is="dom-if" if="[[_showCreateProject]]" restamp="true">
-      <main class="table">
-        <gr-create-project-dialog
-            params="[[params]]"
-            id="createProject"></gr-create-project-dialog>
-      </main>
-    </template>
     <template is="dom-if" if="[[_showProjectDetailList]]" restamp="true">
       <main class="table">
         <gr-project-detail-list

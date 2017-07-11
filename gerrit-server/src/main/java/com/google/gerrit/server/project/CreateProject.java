@@ -205,19 +205,20 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     Project p = createProject(args);
 
-    if (input.pluginConfigValues != null) {
-      try {
-        ProjectControl projectControl =
-            projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
-        ConfigInput in = new ConfigInput();
-        in.pluginConfigValues = input.pluginConfigValues;
-        putConfig.get().apply(projectControl, in);
-      } catch (NoSuchProjectException e) {
-        throw new ResourceNotFoundException(p.getName());
-      }
+    ProjectControl projectControl;
+    try {
+      projectControl= projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
+    } catch (NoSuchProjectException e) {
+      throw new ResourceNotFoundException(p.getName());
     }
 
-    return Response.created(json.format(p));
+    if (input.pluginConfigValues != null) {
+      ConfigInput in = new ConfigInput();
+      in.pluginConfigValues = input.pluginConfigValues;
+      putConfig.get().apply(projectControl, in);
+    }
+
+    return Response.created(json.format(projectControl));
   }
 
   private Project createProject(CreateProjectArgs args)

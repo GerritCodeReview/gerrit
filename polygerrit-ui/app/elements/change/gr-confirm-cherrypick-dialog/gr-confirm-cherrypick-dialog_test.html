@@ -36,7 +36,23 @@ limitations under the License.
     let element;
 
     setup(() => {
+      stub('gr-rest-api-interface', {
+        getProjectBranches(input) {
+          if (input.startsWith('test')) {
+            return Promise.resolve([
+              {
+                ref: 'refs/heads/test-branch',
+                revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+                can_delete: true,
+              },
+            ]);
+          } else {
+            return Promise.resolve({});
+          }
+        },
+      });
       element = fixture('basic');
+      element.project = 'test-project';
     });
 
     test('with merged change', () => {
@@ -68,6 +84,21 @@ limitations under the License.
       element.message = myNewMessage;
       flushAsynchronousOperations();
       assert.equal(element.message, myNewMessage);
+    });
+
+    test('_getProjectBranchesSuggestions empty', done => {
+      element._getProjectBranchesSuggestions('nonexistent').then(branches => {
+        assert.equal(branches.length, 0);
+        done();
+      });
+    });
+
+    test('_getProjectBranchesSuggestions non-empty', done => {
+      element._getProjectBranchesSuggestions('test-branch').then(branches => {
+        assert.equal(branches.length, 1);
+        assert.equal(branches[0].name, 'test-branch');
+        done();
+      });
     });
   });
 </script>

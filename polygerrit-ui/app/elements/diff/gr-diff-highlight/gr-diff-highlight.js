@@ -173,13 +173,14 @@
           end.column === 0 &&
           end.line === start.line &&
           end.side != start.side;
-      if (endsOnOtherSideStart || endsAtOtherSideLineNum) {
+      var content = domRange.cloneContents().querySelector('.contentText');
+      var lineLength = content && this._getLength(content) || 0;
+      if (lineLength && endsOnOtherSideStart || endsAtOtherSideLineNum) {
         // Selection ends at the beginning of the next line.
         // Move the selection to the end of the previous line.
         range.end = {
           node: start.node,
-          column: this._getLength(
-              domRange.cloneContents().querySelector('.contentText')),
+          column: lineLength,
           side: start.side,
           line: start.line,
         };

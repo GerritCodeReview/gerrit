@@ -184,7 +184,7 @@ public class Daemon extends SiteProgram {
   private Injector webInjector;
   private Injector httpdInjector;
   private Path runFile;
-  private boolean test;
+  private boolean inMemoryTest;
   private AbstractModule luceneModule;
   private Module emailModule;
   private Module testSysModule;
@@ -295,7 +295,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setDatabaseForTesting(List<Module> modules) {
     dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
-    test = true;
+    inMemoryTest = true;
     headless = true;
   }
 
@@ -307,7 +307,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
-    test = true;
+    inMemoryTest = true;
   }
 
   @VisibleForTesting
@@ -398,7 +398,7 @@ public class Daemon extends SiteProgram {
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());
     modules.add(
-        test
+        inMemoryTest
             ? new H2AccountPatchReviewStore.InMemoryModule()
             : new JdbcAccountPatchReviewStore.Module(config));
     modules.add(new ReceiveCommitsExecutorModule());
@@ -448,7 +448,7 @@ public class Daemon extends SiteProgram {
           protected void configure() {
             bind(GerritOptions.class)
                 .toInstance(new GerritOptions(config, headless, slave, polyGerritDev));
-            if (test) {
+            if (inMemoryTest) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)
                   .toInstance(DefaultSecureStore.class.getName());
@@ -519,7 +519,7 @@ public class Daemon extends SiteProgram {
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
-    if (!test) {
+    if (!inMemoryTest) {
       modules.add(new SshHostKeyModule());
     }
     modules.add(

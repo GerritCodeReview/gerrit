@@ -142,6 +142,30 @@
       "revId": "22f277467052f15692a8717e499028e9d9814d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c3667c_e2c7bc21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-07-11T00:08:06Z",
+      "side": 1,
+      "message": "It is safer to say that the order is not guaranteed. Since the data is small, sorting should not be a problem, and we can always change our minds later if we want.\n\nalternatively, we could provide max and min as integers, \n\n  \"min\": -2, \"max\": 2,\n\nthat would also avoid the type casting.",
+      "parentUuid": "fe981dbc_6fd24e55",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "22f277467052f15692a8717e499028e9d9814d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -600,7 +600,10 @@
     },
 
     getSuggestedAccounts(inputVal, opt_n, opt_errFn, opt_ctx) {
-      const params = {q: inputVal, suggest: null};
+      if (!inputVal) {
+        return Promise.resolve([]);
+      }
+      const params = {suggest: null, q: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },

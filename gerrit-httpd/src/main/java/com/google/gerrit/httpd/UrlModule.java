@@ -87,7 +87,8 @@ class UrlModule extends ServletModule {
     serve("/watched").with(query("is:watched status:open"));
     serve("/starred").with(query("is:starred"));
 
-    serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
+    serveRegex("^/settings$").with(settingScreen(false));
+    serveRegex("^/settings/(.+)$").with(settingScreen(true));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
     serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
@@ -254,6 +255,19 @@ class UrlModule extends ServletModule {
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
             String path = String.format("/register%s", slash ? req.getPathInfo() : "");
+            toGerrit(path, req, rsp);
+          }
+        });
+  }
+
+  private Key<HttpServlet> settingScreen(final Boolean slash) {
+    return key(
+        new HttpServlet() {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+            String path = String.format("/setting%s", slash ? req.getPathInfo() : "");
             toGerrit(path, req, rsp);
           }
         });

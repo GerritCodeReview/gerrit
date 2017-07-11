@@ -105,10 +105,9 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector(
-      final boolean enableMetrics, DataSourceProvider.Context context) {
-    final Path sitePath = getSitePath();
-    final List<Module> modules = new ArrayList<>();
+  protected Injector createDbInjector(boolean enableMetrics, DataSourceProvider.Context context) {
+    Path sitePath = getSitePath();
+    List<Module> modules = new ArrayList<>();
 
     Module sitePathModule =
         new AbstractModule() {
@@ -169,7 +168,7 @@ public abstract class SiteProgram extends AbstractProgram {
       throw new ProvisionException("database.type must be defined");
     }
 
-    final DataSourceType dst =
+    DataSourceType dst =
         Guice.createInjector(new DataSourceModule(), configModule, sitePathModule)
             .getInstance(Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
 
@@ -188,7 +187,7 @@ public abstract class SiteProgram extends AbstractProgram {
     try {
       return Guice.createInjector(PRODUCTION, modules);
     } catch (CreationException ce) {
-      final Message first = ce.getErrorMessages().iterator().next();
+      Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();
 
       if (why instanceof SQLException) {
@@ -204,7 +203,7 @@ public abstract class SiteProgram extends AbstractProgram {
         throw die("Cannot connect to SQL database", why);
       }
 
-      final StringBuilder buf = new StringBuilder();
+      StringBuilder buf = new StringBuilder();
       if (why != null) {
         buf.append(why.getMessage());
         why = why.getCause();

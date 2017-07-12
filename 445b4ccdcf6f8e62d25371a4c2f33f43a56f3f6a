@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1daf439a_d78b6f6b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-12T12:03:44Z",
+      "side": 1,
+      "message": "Ah ok. Thanks for helping to do this :)",
+      "parentUuid": "7dfe07f0_50abd2a0",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 7
+      },
+      "revId": "445b4ccdcf6f8e62d25371a4c2f33f43a56f3f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6287fab_66731f19",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 10

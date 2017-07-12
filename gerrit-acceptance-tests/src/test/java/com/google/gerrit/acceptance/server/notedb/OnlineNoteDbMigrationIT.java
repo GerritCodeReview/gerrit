@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
@@ -380,15 +379,14 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
     assertThat(NotesMigrationState.forNotesMigration(notesMigration)).hasValue(expected);
     gerritConfig.load();
-    assertThat(NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig)))
-        .hasValue(expected);
+    assertThat(NotesMigrationState.forConfig(gerritConfig)).hasValue(expected);
   }
 
   private void setNotesMigrationState(NotesMigrationState state) throws Exception {
     gerritConfig.load();
-    ConfigNotesMigration.setConfigValues(gerritConfig, state.migration());
+    state.setConfigValues(gerritConfig);
     gerritConfig.save();
-    notesMigration.setFrom(state.migration());
+    notesMigration.setFrom(state);
   }
 
   @FunctionalInterface

@@ -374,6 +374,8 @@ public class GerritServer implements AutoCloseable {
     cfg.setInt("receive", null, "threadPoolSize", 1);
     cfg.setInt("index", null, "threads", 1);
     cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
+
+    NoteDbMode.newNotesMigrationFromEnv().setConfigValues(cfg);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

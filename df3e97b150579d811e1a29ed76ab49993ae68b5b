@@ -70,6 +70,30 @@
       "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4646255a_6e7ac659",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-12T18:04:05Z",
+      "side": 1,
+      "message": "THanks, done.",
+      "parentUuid": "034cd7cb_4e13459c",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

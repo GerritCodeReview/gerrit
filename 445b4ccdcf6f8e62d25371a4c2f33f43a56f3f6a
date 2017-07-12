@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6287fab_66731f19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T11:14:04Z",
+      "side": 1,
+      "message": "This is not necessary.  We\u0027re already in a loop over the group names, so we only need to do a regex match on the given group.",
+      "range": {
+        "startLine": 385,
+        "startChar": 8,
+        "endLine": 398,
+        "endChar": 7
+      },
+      "revId": "445b4ccdcf6f8e62d25371a4c2f33f43a56f3f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

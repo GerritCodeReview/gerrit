@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
@@ -77,6 +78,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int limit;
   private int start;
   private String matchSubstring;
+  private String matchRegex;
   private String suggest;
 
   @Option(
@@ -168,6 +170,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   )
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
+  }
+
+  @Option(
+    name = "--regex",
+    aliases = {"-r"},
+    metaVar = "REGEX",
+    usage = "match group regex"
+  )
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
   }
 
   @Option(
@@ -328,6 +340,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       return true;
     }
+    if (!Strings.isNullOrEmpty(matchRegex)) {
+      return true;
+    }
     return false;
   }
 
@@ -356,12 +371,20 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
     List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
+    Pattern pattern =
+        Strings.isNullOrEmpty(matchRegex)
+            ? null
+            : Pattern.compile(matchRegex.toLowerCase(Locale.US));
     for (AccountGroup group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
         if (!group
             .getName()
             .toLowerCase(Locale.US)
             .contains(matchSubstring.toLowerCase(Locale.US))) {
+          continue;
+        }
+      } else if (pattern != null) {
+        if (!pattern.matcher(group.getName().toLowerCase(Locale.US)).matches()) {
           continue;
         }
       }

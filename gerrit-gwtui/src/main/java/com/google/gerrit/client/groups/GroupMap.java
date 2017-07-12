@@ -28,7 +28,11 @@ public class GroupMap extends NativeMap<GroupInfo> {
   public static void match(String match, int limit, int start, AsyncCallback<GroupMap> cb) {
     RestApi call = groups();
     if (match != null) {
-      call.addParameter("m", match);
+      if (match.startsWith("^")) {
+        call.addParameter("r", match);
+      } else {
+        call.addParameter("m", match);
+      }
     }
     if (limit > 0) {
       call.addParameter("n", limit);

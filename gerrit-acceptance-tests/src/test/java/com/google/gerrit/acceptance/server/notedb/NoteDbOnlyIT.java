@@ -155,7 +155,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     String master = "refs/heads/master";
     ObjectId initial;
     try (Repository repo = repoManager.openRepository(project)) {
-      ((InMemoryRepository) repo).setPerformsAtomicTransactions(true);
+      ensureAtomicTransactions(repo);
       initial = repo.exactRef(master).getObjectId();
     }
 
@@ -342,6 +342,16 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
       rw.sort(RevSort.REVERSE);
       rw.setRetainBody(true);
       return Streams.stream(rw).map(c -> c.getShortMessage()).collect(toList());
+    }
+  }
+
+  private void ensureAtomicTransactions(Repository repo) throws Exception {
+    if (repo instanceof InMemoryRepository) {
+      ((InMemoryRepository) repo).setPerformsAtomicTransactions(true);
+    } else {
+      assertThat(repo.getRefDatabase().performsAtomicTransactions())
+          .named("performsAtomicTransactions on %s", repo)
+          .isTrue();
     }
   }
 }

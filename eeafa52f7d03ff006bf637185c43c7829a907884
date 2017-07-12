@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f70a431_f9dd1dec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T19:24:53Z",
+      "side": 1,
+      "message": "These do not return promises. Also, you have no assertions.\n\nPlease look over everything that is being done in your element and try to make sure there is coverage of each function.",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "eeafa52f7d03ff006bf637185c43c7829a907884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

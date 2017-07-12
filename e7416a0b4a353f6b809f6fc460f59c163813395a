@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7b3d07d_61121b6f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "Needs quotes (also noticed gr-admin-project-list needs it too... if you wouldn\u0027t mind adding it there as well).",
+      "range": {
+        "startLine": 32,
+        "startChar": 19,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db554697_b35e9e4b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "This is unnecessary because we are using a modal instead of a page. the project dom-if was actually removed earlier today as well.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 15
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bfeb11b_d3e275dd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "thanks!",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 30
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37789be_a5b7c10e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "this is unused",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 64
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67fa3850_2d256db7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "this is unused",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 64
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9fc13a7_346cb706",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "This should be Boolean.",
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6cddce_94cbe833",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "I would remove this, as l.63 is setting the value of the input, which is bound to _name. the test on l.67 tests that this is set up correctly.",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 33
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "026502c5_82dfa59d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "this does not need deepEqual, as it is not an object comparison.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 50
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e273a4_4469ab8c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "This test needs to be rethought.  I don\u0027t think handleCreateCroup returns something like group_id: 551. Also, done() is called before async work is done.",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e32debb_21890801",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T00:05:45Z",
+      "side": 1,
+      "message": "this can probably fit on previous line.",
+      "range": {
+        "startLine": 188,
+        "startChar": 10,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

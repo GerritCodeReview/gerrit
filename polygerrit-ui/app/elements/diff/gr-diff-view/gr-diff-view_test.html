@@ -338,9 +338,9 @@ limitations under the License.
             '42-wheatley.md-10-PARENT');
 
         assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-            'baz');
+            '/foo/bar/baz');
         assert.equal(element._computeFileDisplayName('/foobarbaz'),
-            'foobarbaz');
+            '/foobarbaz');
         assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
             'Commit message');
         assert.equal(element._computeFileDisplayName('/MERGE_LIST'),

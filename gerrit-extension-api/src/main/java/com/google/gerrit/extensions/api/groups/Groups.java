@@ -79,6 +79,7 @@ public interface Groups {
     private int start;
     private String substring;
     private String suggest;
+    private String regex;
 
     public List<GroupInfo> get() throws RestApiException {
       Map<String, GroupInfo> map = getAsMap();
@@ -149,6 +150,11 @@ public interface Groups {
       return this;
     }
 
+    public ListRequest withRegex(String regex) {
+      this.regex = regex;
+      return this;
+    }
+
     public ListRequest withSuggest(String suggest) {
       this.suggest = suggest;
       return this;
@@ -188,6 +194,10 @@ public interface Groups {
 
     public String getSubstring() {
       return substring;
+    }
+
+    public String getRegex() {
+      return regex;
     }
 
     public String getSuggest() {

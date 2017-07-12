@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.server.query.project;
 
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.project.ProjectPredicates;
 
-public interface ProjectIndex extends Index<Project.NameKey, ProjectState> {
-
-  public interface Factory
-      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectState, ProjectIndex> {}
-
-  @Override
-  default Predicate<ProjectState> keyPredicate(Project.NameKey nameKey) {
-    return ProjectPredicates.name(nameKey);
+public class ProjectPredicates {
+  public static Predicate<ProjectState> name(Project.NameKey nameKey) {
+    return new ProjectPredicate(ProjectField.NAME, nameKey.get());
   }
+
+  static class ProjectPredicate extends IndexPredicate<ProjectState> {
+    ProjectPredicate(FieldDef<ProjectState, ?> def, String value) {
+      super(def, value);
+    }
+  }
+
+  private ProjectPredicates() {}
 }

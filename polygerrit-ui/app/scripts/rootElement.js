@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-(function(window) {
+( function ( window) {
   window.Gerrit = window.Gerrit || {};
   if (window.Gerrit.hasOwnProperty('getRootElement')) { return; }
 

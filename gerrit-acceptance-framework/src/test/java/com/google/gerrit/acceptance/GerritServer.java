@@ -20,6 +20,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -49,6 +50,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -79,7 +81,7 @@ public class GerritServer implements AutoCloseable {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          !has(UseLocalDisk.class, testDesc.getTestClass()),
+          !has(UseLocalDisk.class, testDesc.getTestClass()) && !forceLocalDisk(),
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
@@ -94,8 +96,9 @@ public class GerritServer implements AutoCloseable {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          testDesc.getAnnotation(UseLocalDisk.class) == null
-              && !has(UseLocalDisk.class, testDesc.getTestClass()),
+          (testDesc.getAnnotation(UseLocalDisk.class) == null
+                  && !has(UseLocalDisk.class, testDesc.getTestClass()))
+              && !forceLocalDisk(),
           testDesc.getAnnotation(NoHttpd.class) == null
               && !has(NoHttpd.class, testDesc.getTestClass()),
           testDesc.getAnnotation(Sandboxed.class) != null
@@ -176,6 +179,21 @@ public class GerritServer implements AutoCloseable {
         return ConfigAnnotationParser.parse(pluginConfig());
       }
       return new HashMap<>();
+    }
+  }
+
+  private static boolean forceLocalDisk() {
+    String value = Strings.nullToEmpty(System.getenv("GERRIT_FORCE_LOCAL_DISK"));
+    if (value.isEmpty()) {
+      value = Strings.nullToEmpty(System.getProperty("gerrit.forceLocalDisk"));
+    }
+    switch (value.trim().toLowerCase(Locale.US)) {
+      case "1":
+      case "yes":
+      case "true":
+        return true;
+      default:
+        return false;
     }
   }
 

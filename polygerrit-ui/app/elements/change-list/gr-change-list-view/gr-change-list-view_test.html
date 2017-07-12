@@ -69,6 +69,15 @@ limitations under the License.
       );
     });
 
+    test('_limitFor', () => {
+      const defaultLimit = 25;
+      const _limitFor = q => element._limitFor(q, defaultLimit);
+      assert.equal(_limitFor(''), defaultLimit);
+      assert.equal(_limitFor('limit:10'), 10);
+      assert.equal(_limitFor('xlimit:10'), defaultLimit);
+      assert.equal(_limitFor('x(limit:10'), 10);
+    });
+
     test('_computeNavLink', () => {
       const query = 'status:open';
       let offset = 0;
@@ -86,6 +95,10 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/q/status:open,10');
+      assert.equal(
+          element._computeNavLink(
+              query + ' limit:10', offset, direction, changesPerPage),
+          '/q/status:open+limit:10,15');
     });
 
     test('_computeNavLink with path', () => {

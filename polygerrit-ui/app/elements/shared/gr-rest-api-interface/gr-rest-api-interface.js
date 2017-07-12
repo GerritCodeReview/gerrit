@@ -530,16 +530,7 @@
       return this.fetchJSON(url, opt_errFn, opt_ctx, req);
     },
 
-    getGroups(filter, groupsPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-      filter = filter ? '&m=' + filter : '';
-
-      return this._fetchSharedCacheURL(
-          `/groups/?n=${groupsPerPage + 1}&S=${offset}${filter}`
-      );
-    },
-
-    _projectFilter(filter) {
+    _computeFilter(filter) {
       if (filter && filter.startsWith('^')) {
         filter = '&r=' + encodeURIComponent(filter);
       } else if (filter) {
@@ -550,12 +541,22 @@
       return filter;
     },
 
+    getGroups(filter, groupsPerPage, opt_offset) {
+      const offset = opt_offset || 0;
+      filter = filter ? '&m=' + filter : '';
+
+      return this._fetchSharedCacheURL(
+          `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+          this._computeFilter(filter)
+      );
+    },
+
     getProjects(filter, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
       return this._fetchSharedCacheURL(
           `/projects/?d&n=${projectsPerPage + 1}&S=${offset}` +
-          this._projectFilter(filter)
+          this._computeFilter(filter)
       );
     },
 
@@ -565,7 +566,7 @@
       return this._fetchSharedCacheURL(
           `/projects/${encodeURIComponent(project)}/branches` +
           `?n=${projectsBranchesPerPage + 1}&s=${offset}` +
-          this._projectFilter(filter)
+          this._computeFilter(filter)
       );
     },
 
@@ -575,7 +576,7 @@
       return this._fetchSharedCacheURL(
           `/projects/${encodeURIComponent(project)}/tags` +
           `?n=${projectsTagsPerPage + 1}&s=${offset}` +
-          this._projectFilter(filter)
+          this._computeFilter(filter)
       );
     },
 

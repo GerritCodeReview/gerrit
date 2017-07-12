@@ -59,7 +59,7 @@
         type: Object,
         notify: true,
         value() { return {}; },
-        observer: '_changeViewStatehanged',
+        observer: '_changeViewStateChanged',
       },
 
       _patchRange: Object,
@@ -493,7 +493,7 @@
       });
     },
 
-    _changeViewStatehanged(changeViewState) {
+    _changeViewStateChanged(changeViewState) {
       if (changeViewState.diffMode === null) {
         // If screen size is small, always default to unified view.
         this.$.restAPI.getPreferences().then(prefs => {

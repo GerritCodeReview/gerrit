@@ -480,6 +480,23 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void withSubstring() throws Exception {
+    Map<String, GroupInfo> groups = gApi.groups().list().withSubstring("dmin").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+
+    String other = name("Administrators");
+    gApi.groups().create(other);
+    groups = gApi.groups().list().withSubstring("dmin").getAsMap();
+    assertThat(groups).hasSize(2);
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).containsKey(other);
+
+    groups = gApi.groups().list().withSubstring("foo").getAsMap();
+    assertThat(groups).isEmpty();
+  }
+
+  @Test
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();

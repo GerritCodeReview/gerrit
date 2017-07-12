@@ -224,6 +224,54 @@ error out.)
   }
 ----
 
+Regex(r)::
+Limit the results to those groups that match the specified regex.
++
+Boundary matchers '^' and '$' are implicit. For example: the regex 'test.*' will
+match any groups that start with 'test' and regex '.*test' will match any
+group that end with 'test'.
++
+The match is case sensitive.
++
+List all groups that match regex `test.*group`:
++
+.Request
+----
+  GET /groups/?r=test.*group HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "test/some-group": {
+      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "options": {},
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner": "Administrators",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "created_on": "2013-02-01 09:59:32.126000000",
+      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
+    }
+    "test/some-other-group": {
+      "url": "#/admin/groups/uuid-99b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "options": {},
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner": "Administrators",
+      "owner_id": "99b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "created_on": "2014-02-01 09:59:32.126000000",
+      "id": "99b92f35489e62c80d1ab1bf0c2d17843038df8b"
+    }
+  }
+
+----
+
 Substring(m)::
 Limit the results to those groups that match the specified substring.
 +

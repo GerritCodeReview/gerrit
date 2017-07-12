@@ -25,6 +25,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -722,7 +723,10 @@ public class ChangeIT extends AbstractDaemonTest {
     if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
       // Ensure record was actually copied under ReviewDb
       List<PatchSetApproval> psas =
-          db.patchSetApprovals().byPatchSet(new PatchSet.Id(new Change.Id(c2._number), 2)).toList();
+          unwrapDb(db)
+              .patchSetApprovals()
+              .byPatchSet(new PatchSet.Id(new Change.Id(c2._number), 2))
+              .toList();
       assertThat(psas).hasSize(1);
       assertThat(psas.get(0).getValue()).isEqualTo((short) 1);
     }

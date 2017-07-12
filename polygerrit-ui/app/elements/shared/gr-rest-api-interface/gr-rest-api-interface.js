@@ -541,9 +541,9 @@
 
     _projectFilter(filter) {
       if (filter && filter.startsWith('^')) {
-        filter = '&r=' + encodeURIComponent(filter);
+        filter = '&r=' + encodeURIComponent(filter.toLowerCase());
       } else if (filter) {
-        filter = '&m=' + encodeURIComponent(filter);
+        filter = '&m=' + encodeURIComponent(filter.toLowerCase());
       } else {
         filter = '';
       }

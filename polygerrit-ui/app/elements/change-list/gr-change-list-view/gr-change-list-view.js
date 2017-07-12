@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
     CHANGE_ID: /^\s*i?[0-9a-f]{8,40}\s*$/i,
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
+
+  const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
   Polymer({
     is: 'gr-change-list-view',
@@ -139,10 +141,19 @@
       return this.$.restAPI.getPreferences();
     },
 
+    _limitFor(query, defaultLimit) {
+      const match = query.match(LIMIT_OPERATOR_PATTERN);
+      if (!match) {
+        return defaultLimit;
+      }
+      return parseInt(match[1], 10);
+    },
+
     _computeNavLink(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      const newOffset = Math.max(0, offset + (changesPerPage * direction));
+      const limit = this._limitFor(query, changesPerPage);
+      const newOffset = Math.max(0, offset + (limit * direction));
       // Double encode URI component.
       let href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {

@@ -22,38 +22,7 @@ languages included. Build it with the following:
     $>  # start in some temp directory
     $>  git clone https://github.com/isagalaev/highlight.js.git
     $>  cd highlight.js
-    $>  node tools/build.js -n \
-          bash \
-          cpp \
-          cs \
-          clojure \
-          css \
-          d \
-          dart \
-          go \
-          haskell \
-          java \
-          javascript \
-          json \
-          kotlin \
-          lisp \
-          lua \
-          markdown \
-          objectivec \
-          ocaml \
-          perl \
-          php \
-          protobuf \
-          python \
-          ruby \
-          rust \
-          scala \
-          shell \
-          sql \
-          swift \
-          typescript \
-          xml \
-          yaml
+    $>  node tools/build.js
 
 The resulting JS file will appear in the "build" directory of the Highlight.js
 repo under the name "highlight.pack.js".

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83a4de4a_52d80a11",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T13:56:30Z",
+      "side": 1,
+      "message": "Just add this one in the existing test.",
+      "revId": "fbf673f6a70fdd689c5b6ea40f87aaddedc4ec91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

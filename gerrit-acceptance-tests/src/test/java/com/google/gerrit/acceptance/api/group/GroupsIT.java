@@ -502,6 +502,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
     assertBadRequest(gApi.groups().list().withSuggest("adm").withSubstring("foo"));
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withRegex("foo.*"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withUser("u"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withOwned(true));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withVisibleToAll(true));
@@ -527,6 +528,22 @@ public class GroupsIT extends AbstractDaemonTest {
 
     groups = gApi.groups().list().withSubstring("foo").getAsMap();
     assertThat(groups).isEmpty();
+  }
+
+  @Test
+  public void withRegex() throws Exception {
+    Map<String, GroupInfo> groups = gApi.groups().list().withRegex("Admin.*").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+
+    groups = gApi.groups().list().withRegex("admin.*").getAsMap();
+    assertThat(groups).isEmpty();
+
+    groups = gApi.groups().list().withRegex(".*istrators").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+
+    assertBadRequest(gApi.groups().list().withRegex(".*istrators").withSubstring("s"));
   }
 
   @Test

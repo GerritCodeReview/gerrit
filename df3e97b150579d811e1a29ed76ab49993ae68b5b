@@ -190,6 +190,30 @@
       "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11477ed_95fe8e18",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-12T22:31:25Z",
+      "side": 1,
+      "message": "When you call element.handleCreateGroup, you haven\u0027t created a stub for page.show yet, so that might be why.\n\nSince handleCreateGroup returns a promise, you can attach your assertions and your call to done() to that promise. The way you\u0027re doing it now, if page.show never gets called, you never assert anything, which defeats the stated purpose of your test -- it would never detect a failure (unless it timed out due to done not getting called).\n\nTry something like this:\n\nconst showSpy \u003d sandbox.spy(page, \u0027show\u0027);\nelement.handleCreateGroup()\n  .then(() \u003d\u003e {\n    assert.isTrue(showSpy.called);\n  }).then(done);\n\nhttp://sinonjs.org/releases/v2.0.0/spies/",
+      "parentUuid": "8043f4a8_4bfbbf82",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

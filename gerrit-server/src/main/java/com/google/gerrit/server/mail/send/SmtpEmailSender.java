@@ -30,6 +30,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -45,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.net.smtp.AuthSMTPClient;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
+import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
 import org.eclipse.jgit.lib.Config;
 
 /** Sends email via a nearby SMTP server. */
@@ -169,33 +171,6 @@ public class SmtpEmailSender implements EmailSender {
       throw new EmailException("Sending email is disabled");
     }
 
-    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
-    setMissingHeader(hdrs, "MIME-Version", "1.0");
-    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
-    setMissingHeader(hdrs, "Content-Disposition", "inline");
-    setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
-    if (importance != null) {
-      setMissingHeader(hdrs, "Importance", importance);
-    }
-    if (expiryDays > 0) {
-      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
-      setMissingHeader(
-          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
-    }
-
-    String encodedBody;
-    if (htmlBody == null) {
-      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
-      encodedBody = textBody;
-    } else {
-      String boundary = generateMultipartBoundary(textBody, htmlBody);
-      setMissingHeader(
-          hdrs,
-          "Content-Type",
-          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
-      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
-    }
-
     StringBuffer rejected = new StringBuffer();
     try {
       final SMTPClient client = open();
@@ -238,20 +213,8 @@ public class SmtpEmailSender implements EmailSender {
                   + " rejected DATA command: "
                   + client.getReplyString());
         }
-        try (Writer w = new BufferedWriter(messageDataWriter)) {
-          for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
-            if (!h.getValue().isEmpty()) {
-              w.write(h.getKey());
-              w.write(": ");
-              h.getValue().write(w);
-              w.write("\r\n");
-            }
-          }
 
-          w.write("\r\n");
-          w.write(encodedBody);
-          w.flush();
-        }
+        render(messageDataWriter, callerHeaders, textBody, htmlBody);
 
         if (!client.completePendingCommand()) {
           throw new EmailException(
@@ -267,6 +230,55 @@ public class SmtpEmailSender implements EmailSender {
       }
     } catch (IOException e) {
       throw new EmailException("Cannot send outgoing email", e);
+    }
+  }
+
+  private void render(
+      Writer out,
+      Map<String, EmailHeader> callerHeaders,
+      String textBody,
+      @Nullable String htmlBody)
+      throws IOException, EmailException {
+    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
+    setMissingHeader(hdrs, "MIME-Version", "1.0");
+    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
+    setMissingHeader(hdrs, "Content-Disposition", "inline");
+    setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+    if (importance != null) {
+      setMissingHeader(hdrs, "Importance", importance);
+    }
+    if (expiryDays > 0) {
+      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
+      setMissingHeader(
+          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+    }
+
+    String encodedBody;
+    if (htmlBody == null) {
+      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
+      encodedBody = textBody;
+    } else {
+      String boundary = generateMultipartBoundary(textBody, htmlBody);
+      setMissingHeader(
+          hdrs,
+          "Content-Type",
+          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
+      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
+    }
+
+    try (Writer w = new BufferedWriter(out)) {
+      for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
+        if (!h.getValue().isEmpty()) {
+          w.write(h.getKey());
+          w.write(": ");
+          h.getValue().write(w);
+          w.write("\r\n");
+        }
+      }
+
+      w.write("\r\n");
+      w.write(encodedBody);
+      w.flush();
     }
   }
 
@@ -292,16 +304,26 @@ public class SmtpEmailSender implements EmailSender {
     throw new EmailException("Gave up generating unique MIME boundary");
   }
 
-  protected String buildMultipartBody(String boundary, String textPart, String htmlPart) {
+  protected String buildMultipartBody(String boundary, String textPart, String htmlPart)
+      throws IOException {
+    String encodedTextPart = quotedPrintableEncode(textPart);
+    String encodedHtmlPart = quotedPrintableEncode(htmlPart);
+
+    // Only declare quoted-printable encoding if there are characters that need to be encoded.
+    String textTransferEncoding = textPart.equals(encodedTextPart) ? "7bit" : "quoted-printable";
+    String htmlTransferEncoding = htmlPart.equals(encodedHtmlPart) ? "7bit" : "quoted-printable";
+
     return
     // Output the text part:
     "--"
         + boundary
         + "\r\n"
         + "Content-Type: text/plain; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "Content-Transfer-Encoding: "
+        + textTransferEncoding
         + "\r\n"
-        + textPart
+        + "\r\n"
+        + encodedTextPart
         + "\r\n"
 
         // Output the HTML part:
@@ -309,9 +331,11 @@ public class SmtpEmailSender implements EmailSender {
         + boundary
         + "\r\n"
         + "Content-Type: text/html; charset=UTF-8\r\n"
-        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "Content-Transfer-Encoding: "
+        + htmlTransferEncoding
         + "\r\n"
-        + htmlPart
+        + "\r\n"
+        + encodedHtmlPart
         + "\r\n"
 
         // Output the closing boundary.
@@ -320,8 +344,15 @@ public class SmtpEmailSender implements EmailSender {
         + "--\r\n";
   }
 
-  private void setMissingHeader(
-      final Map<String, EmailHeader> hdrs, final String name, final String value) {
+  protected String quotedPrintableEncode(String input) throws IOException {
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
+    try (QuotedPrintableOutputStream qp = new QuotedPrintableOutputStream(s, false)) {
+      qp.write(input.getBytes(UTF_8));
+    }
+    return s.toString();
+  }
+
+  private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
       hdrs.put(name, new EmailHeader.String(value));
     }

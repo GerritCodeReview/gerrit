@@ -30,8 +30,6 @@
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
-  let auth = null;
-
   Polymer({
     is: 'gr-rest-api-interface',
 
@@ -82,13 +80,13 @@
         type: Object,
         value: {}, // Intentional to share the object across instances.
       },
+      _auth: {
+        type: Object,
+        value: Gerrit.Auth, // Share across instances.
+      },
     },
 
     JSON_PREFIX,
-
-    created() {
-      auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
-    },
 
     /**
      * Fetch JSON from url provided.
@@ -104,7 +102,7 @@
     _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_options) {
       const urlWithParams = this._urlWithParams(url, opt_params);
-      return auth.fetch(urlWithParams, opt_options).then(response => {
+      return this._auth.fetch(urlWithParams, opt_options).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
@@ -984,23 +982,24 @@
         }
         options.body = opt_body;
       }
-      return auth.fetch(this.getBaseUrl() + url, options).then(response => {
-        if (!response.ok) {
-          if (opt_errFn) {
-            return opt_errFn.call(opt_ctx || null, response);
-          }
-          this.fire('server-error', {response});
-        }
+      return this._auth.fetch(this.getBaseUrl() + url, options)
+          .then(response => {
+            if (!response.ok) {
+              if (opt_errFn) {
+                return opt_errFn.call(opt_ctx || null, response);
+              }
+              this.fire('server-error', {response});
+            }
 
-        return response;
-      }).catch(err => {
-        this.fire('network-error', {error: err});
-        if (opt_errFn) {
-          return opt_errFn.call(opt_ctx, null, err);
-        } else {
-          throw err;
-        }
-      });
+            return response;
+          }).catch(err => {
+            this.fire('network-error', {error: err});
+            if (opt_errFn) {
+              return opt_errFn.call(opt_ctx, null, err);
+            } else {
+              throw err;
+            }
+          });
     },
 
     getDiff(changeNum, basePatchNum, patchNum, path,
@@ -1187,7 +1186,7 @@
     },
 
     _fetchB64File(url) {
-      return auth.fetch(this.getBaseUrl() + url)
+      return this._auth.fetch(this.getBaseUrl() + url)
           .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
             const type = response.headers.get('X-FYI-Content-Type');

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
-import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 
 public enum NoteDbMode {
@@ -72,9 +72,19 @@ public enum NoteDbMode {
     return mode;
   }
 
-  final NotesMigration migration;
+  public static MutableNotesMigration newNotesMigrationFromEnv() {
+    MutableNotesMigration m = MutableNotesMigration.newDisabled();
+    resetFromEnv(m);
+    return m;
+  }
+
+  public static void resetFromEnv(MutableNotesMigration migration) {
+    migration.setFrom(get().state);
+  }
+
+  private final NotesMigrationState state;
 
   private NoteDbMode(NotesMigrationState state) {
-    migration = state.migration();
+    this.state = state;
   }
 }

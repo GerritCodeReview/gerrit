@@ -32,7 +32,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static InMemoryRepository newRepository(Project.NameKey name) {
-    return new Repo(new TestNotesMigration(), name);
+    return new Repo(NoteDbMode.newNotesMigrationFromEnv(), name);
   }
 
   public static class Description extends DfsRepositoryDescription {
@@ -82,7 +82,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private final Map<String, Repo> repos;
 
   public InMemoryRepositoryManager() {
-    this(new TestNotesMigration());
+    this(NoteDbMode.newNotesMigrationFromEnv());
   }
 
   @Inject

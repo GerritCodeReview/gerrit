@@ -31,10 +31,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -144,7 +144,7 @@ public class PushOneCommit {
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final TestNotesMigration notesMigration;
+  private final NotesMigration notesMigration;
   private final ReviewDb db;
   private final TestRepository<?> testRepo;
 
@@ -162,7 +162,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo)
@@ -185,7 +185,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -210,7 +210,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -237,7 +237,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -262,7 +262,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -288,7 +288,7 @@ public class PushOneCommit {
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      TestNotesMigration notesMigration,
+      NotesMigration notesMigration,
       ReviewDb db,
       PersonIdent i,
       TestRepository<?> testRepo,

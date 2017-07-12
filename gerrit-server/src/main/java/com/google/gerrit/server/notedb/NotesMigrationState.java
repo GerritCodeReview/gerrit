@@ -15,8 +15,10 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.notedb.NotesMigration.Snapshot;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Possible high-level states of the NoteDb migration for changes.
@@ -47,11 +49,22 @@ public enum NotesMigrationState {
 
   NOTE_DB(true, true, true, PrimaryStorage.NOTE_DB, true, true);
 
-  public static Optional<NotesMigrationState> forNotesMigration(NotesMigration migration) {
-    return Stream.of(values()).filter(s -> s.migration().equals(migration)).findFirst();
+  // TODO(dborowitz): Replace with NOTE_DB when FileRepository fuses BatchRefUpdates.
+  public static final NotesMigrationState FINAL = NOTE_DB_UNFUSED;
+
+  public static Optional<NotesMigrationState> forConfig(Config cfg) {
+    return forSnapshot(Snapshot.create(cfg));
   }
 
-  private final NotesMigration migration;
+  public static Optional<NotesMigrationState> forNotesMigration(NotesMigration migration) {
+    return forSnapshot(migration.snapshot());
+  }
+
+  private static Optional<NotesMigrationState> forSnapshot(Snapshot s) {
+    return Stream.of(values()).filter(v -> v.snapshot.equals(s)).findFirst();
+  }
+
+  private final Snapshot snapshot;
 
   NotesMigrationState(
       // Arguments match abstract methods in NotesMigration.
@@ -61,45 +74,28 @@ public enum NotesMigrationState {
       PrimaryStorage changePrimaryStorage,
       boolean disableChangeReviewDb,
       boolean fuseUpdates) {
-    this.migration =
-        new NotesMigration() {
-          @Override
-          public boolean readChanges() {
-            return readChanges;
-          }
-
-          @Override
-          public boolean rawWriteChangesSetting() {
-            return rawWriteChangesSetting;
-          }
-
-          @Override
-          public boolean readChangeSequence() {
-            return readChangeSequence;
-          }
-
-          @Override
-          public PrimaryStorage changePrimaryStorage() {
-            return changePrimaryStorage;
-          }
-
-          @Override
-          public boolean disableChangeReviewDb() {
-            return disableChangeReviewDb;
-          }
-
-          @Override
-          public boolean fuseUpdates() {
-            return fuseUpdates;
-          }
-        };
+    this.snapshot =
+        Snapshot.builder()
+            .setReadChanges(readChanges)
+            .setWriteChanges(rawWriteChangesSetting)
+            .setReadChangeSequence(readChangeSequence)
+            .setChangePrimaryStorage(changePrimaryStorage)
+            .setDisableChangeReviewDb(disableChangeReviewDb)
+            .setFuseUpdates(fuseUpdates)
+            .build();
   }
 
-  public NotesMigration migration() {
-    return migration;
+  public void setConfigValues(Config cfg) {
+    snapshot.setConfigValues(cfg);
   }
 
   public String toText() {
-    return ConfigNotesMigration.toText(migration);
+    Config cfg = new Config();
+    setConfigValues(cfg);
+    return cfg.toText();
+  }
+
+  Snapshot snapshot() {
+    return snapshot;
   }
 }

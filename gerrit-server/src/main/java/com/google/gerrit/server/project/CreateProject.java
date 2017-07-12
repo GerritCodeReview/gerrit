@@ -207,7 +207,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     ProjectControl projectControl;
     try {
-      projectControl= projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
+      projectControl = projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(p.getName());
     }

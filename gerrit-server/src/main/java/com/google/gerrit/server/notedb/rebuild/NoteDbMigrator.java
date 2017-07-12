@@ -744,6 +744,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private class ContextHelper implements AutoCloseable {
     private final Thread callingThread;
     private ReviewDb db;
+    private Runnable closeDb;
 
     ContextHelper() {
       callingThread = Thread.currentThread();
@@ -760,8 +761,10 @@ public class NoteDbMigrator implements AutoCloseable {
 
     synchronized ReviewDb getReviewDb() throws OrmException {
       if (db == null) {
+        ReviewDb actual = schemaFactory.open();
+        closeDb = actual::close;
         db =
-            new ReviewDbWrapper(unwrapDb(schemaFactory.open())) {
+            new ReviewDbWrapper(unwrapDb(actual)) {
               @Override
               public void close() {
                 // Closed by ContextHelper#close.
@@ -774,7 +777,9 @@ public class NoteDbMigrator implements AutoCloseable {
     @Override
     public synchronized void close() {
       if (db != null) {
-        db.close();
+        closeDb.run();
+        db = null;
+        closeDb = null;
       }
     }
   }

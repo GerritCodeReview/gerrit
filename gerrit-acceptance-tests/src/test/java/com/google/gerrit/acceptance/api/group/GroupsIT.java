@@ -518,6 +518,26 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void withRegexUpperCase() throws Exception {
+    Map<String, GroupInfo> groups = gApi.groups().list().withRegex("Admin.*").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+    groups = gApi.groups().list().withRegex(".*istrators").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+  }
+
+  @Test
+  public void withRegexLowerCase() throws Exception {
+    Map<String, GroupInfo> groups = gApi.groups().list().withRegex("admin.*").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+    groups = gApi.groups().list().withRegex(".*istrators").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+  }
+
+  @Test
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();

@@ -42,11 +42,13 @@ languages included. Build it with the following:
           objectivec \
           ocaml \
           perl \
+          php \
           protobuf \
           python \
           ruby \
           rust \
           scala \
+          shell \
           sql \
           swift \
           typescript \

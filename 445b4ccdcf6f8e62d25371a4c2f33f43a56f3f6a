@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "40bdf987_8a2a840f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T12:02:46Z",
+      "side": 1,
+      "message": "This is for the UI, so should be done in a separate change.",
+      "revId": "445b4ccdcf6f8e62d25371a4c2f33f43a56f3f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8970d65_995cc99e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupMap.java",
         "patchSetId": 10
@@ -13,6 +30,30 @@
       "writtenOn": "2017-07-12T11:58:05Z",
       "side": 1,
       "message": "I thought we have to do this?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 7
+      },
+      "revId": "445b4ccdcf6f8e62d25371a4c2f33f43a56f3f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dfe07f0_50abd2a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T12:02:46Z",
+      "side": 1,
+      "message": "Yes, but not in this change.\n\nThis change only adds the REST API functionality.  The UI changes should be in a follow-up commit.\n\nSorry, I had written a comment about this (above) but it seems I didn\u0027t publish it.",
+      "parentUuid": "c8970d65_995cc99e",
       "range": {
         "startLine": 31,
         "startChar": 0,

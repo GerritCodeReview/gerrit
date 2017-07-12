@@ -100,7 +100,7 @@ public class RefFilter<T extends RefInfo> {
         }
       }
       try {
-        a = new RunAutomaton(new RegExp(regex).toAutomaton());
+        a = new RunAutomaton(new RegExp(regex.toLowerCase(Locale.US)).toAutomaton());
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
@@ -112,7 +112,7 @@ public class RefFilter<T extends RefInfo> {
       if (ref.startsWith(prefix)) {
         ref = ref.substring(prefix.length());
       }
-      return a.run(ref);
+      return a.run(ref.toLowerCase(Locale.US));
     }
   }
 }

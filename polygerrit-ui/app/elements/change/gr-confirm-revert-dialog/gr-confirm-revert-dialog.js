@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const ERR_COMMIT_NOT_FOUND =
+      'Unable to find the commit hash of this change.';
+
   Polymer({
     is: 'gr-confirm-revert-dialog',
 
@@ -38,7 +41,7 @@
       const originalTitle = message.split('\n')[0];
       const revertTitle = `Revert "${originalTitle}"`;
       if (!commitHash) {
-        alert('Unable to find the commit hash of this change.');
+        this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
         return;
       }
       const revertCommitText = `This reverts commit ${commitHash}.`;

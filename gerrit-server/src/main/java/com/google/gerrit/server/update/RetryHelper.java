@@ -24,7 +24,6 @@ import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
-import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -95,11 +94,16 @@ public class RetryHelper {
       }
       return builder.build().call(() -> action.call(updateFactory));
     } catch (ExecutionException | RetryException e) {
-      if (e.getCause() != null) {
-        Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);
-        Throwables.throwIfInstanceOf(e.getCause(), RestApiException.class);
+      // Always wrap the exception thrown by call as an indication in the stack trace that retrying
+      // occurred, but preserve the message of the RestApiException, which is human-readable.
+      if (e.getCause() instanceof RestApiException) {
+        throw new RestApiException(e.getCause().getMessage(), e);
       }
-      throw new UpdateException(e);
+      throw new UpdateException(
+          (e instanceof RetryException)
+              ? "Gave up operation after retrying"
+              : "Non-retryable error in operation",
+          e);
     }
   }
 

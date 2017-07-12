@@ -85,13 +85,7 @@ public class ConfigNotesMigration extends NotesMigration {
     static Snapshot create(Config cfg) {
       boolean writeChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false);
       boolean readChanges = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false);
-
-      // Reading change sequence numbers from NoteDb is not the default even if
-      // reading changes themselves is. Once this is enabled, it's not easy to
-      // undo: ReviewDb might hand out numbers that have already been assigned by
-      // NoteDb. This decision for the default may be reevaluated later.
       boolean readChangeSequence = cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, false);
-
       PrimaryStorage changePrimaryStorage =
           cfg.getEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
       boolean disableChangeReviewDb =

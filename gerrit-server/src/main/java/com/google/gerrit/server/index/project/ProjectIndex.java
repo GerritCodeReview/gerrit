@@ -23,4 +23,9 @@ public interface ProjectIndex extends Index<Project.NameKey, ProjectState> {
 
   public interface Factory
       extends IndexDefinition.IndexFactory<Project.NameKey, ProjectState, ProjectIndex> {}
+
+  @Override
+  default Predicate<ProjectState> keyPredicate(Project.NameKey nameKey) {
+    return ProjectPredicates.name(nameKey);
+  }
 }

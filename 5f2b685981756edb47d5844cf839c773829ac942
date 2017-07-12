@@ -68,6 +68,30 @@
       "revId": "5f2b685981756edb47d5844cf839c773829ac942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7860e1a_5b834fe5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T17:14:26Z",
+      "side": 1,
+      "message": "It comes from Polymer:\n\nhttps://www.polymer-project.org/1.0/docs/api/elements/dom-repeat\n\nEvents caught by event handlers within the dom-repeat template will be decorated with a model property, which represents the binding scope for each template instance. The model is an instance of Polymer.Base, and should be used to manipulate data on the instance, for example event.model.set(\u0027item.checked\u0027, true);.",
+      "parentUuid": "5ad19fe9_079687ad",
+      "range": {
+        "startLine": 163,
+        "startChar": 25,
+        "endLine": 163,
+        "endChar": 30
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

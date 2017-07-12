@@ -72,11 +72,6 @@ public enum NoteDbMode {
     return mode;
   }
 
-  public static boolean readWrite() {
-    NotesMigration migration = get().migration;
-    return migration.rawWriteChangesSetting() && migration.readChanges();
-  }
-
   final NotesMigration migration;
 
   private NoteDbMode(NotesMigrationState state) {

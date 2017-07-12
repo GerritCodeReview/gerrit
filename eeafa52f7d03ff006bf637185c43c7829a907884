@@ -22,6 +22,30 @@
       "revId": "eeafa52f7d03ff006bf637185c43c7829a907884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c4306cc_ea421674",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-12T19:31:09Z",
+      "side": 1,
+      "message": "I think Paladox is misunderstanding what sandbox.stub is for. Stubs aren\u0027t assertions, they are a way of substituting fake code in place of real code for things that you *aren\u0027t* testing that will get called by the code you\u0027re actually testing.\n\nRead more about Sinon stubs here: http://sinonjs.org/releases/v2.3.7/stubs/",
+      "parentUuid": "2f70a431_f9dd1dec",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "eeafa52f7d03ff006bf637185c43c7829a907884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

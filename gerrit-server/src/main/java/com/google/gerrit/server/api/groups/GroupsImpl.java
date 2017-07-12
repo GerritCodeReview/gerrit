@@ -143,6 +143,7 @@ class GroupsImpl implements Groups {
     list.setLimit(req.getLimit());
     list.setStart(req.getStart());
     list.setMatchSubstring(req.getSubstring());
+    list.setMatchRegex(req.getRegex());
     list.setSuggest(req.getSuggest());
     try {
       return list.apply(tlr);

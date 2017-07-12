@@ -46,6 +46,30 @@
       "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034cd7cb_4e13459c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T18:00:57Z",
+      "side": 1,
+      "message": "These are Async calls. show() doesn\u0027t get called until after done(). So, it has to be inside of the show stub..  I would try running this test with some breakpoints so that you understand how it works.",
+      "parentUuid": "0c7501a7_19485d12",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

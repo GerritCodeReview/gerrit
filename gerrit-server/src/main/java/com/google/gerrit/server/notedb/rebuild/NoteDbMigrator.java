@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
-import static com.google.gerrit.server.notedb.ConfigNotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
@@ -54,9 +54,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbTable;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
@@ -114,7 +113,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final ThreadLocalRequestContext requestContext;
     private final ChangeRebuilder rebuilder;
     private final WorkQueue workQueue;
-    private final NotesMigration globalNotesMigration;
+    private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
 
     private int threads;
@@ -138,7 +137,7 @@ public class NoteDbMigrator implements AutoCloseable {
         InternalUser.Factory userFactory,
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
-        NotesMigration globalNotesMigration,
+        MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator) {
       this.cfg = cfg;
       this.sitePaths = sitePaths;
@@ -327,7 +326,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ThreadLocalRequestContext requestContext;
   private final InternalUser.Factory userFactory;
   private final ChangeRebuilder rebuilder;
-  private final NotesMigration globalNotesMigration;
+  private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
 
   private final ListeningExecutorService executor;
@@ -348,7 +347,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ThreadLocalRequestContext requestContext,
       InternalUser.Factory userFactory,
       ChangeRebuilder rebuilder,
-      NotesMigration globalNotesMigration,
+      MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
@@ -568,7 +567,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private Optional<NotesMigrationState> loadState() throws IOException {
     try {
       gerritConfig.load();
-      return NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig));
+      return NotesMigrationState.forConfig(gerritConfig);
     } catch (ConfigInvalidException | IllegalArgumentException e) {
       log.warn("error reading NoteDb migration options from " + gerritConfig.getFile(), e);
       return Optional.empty();
@@ -601,12 +600,12 @@ public class NoteDbMigrator implements AutoCloseable {
                     ? "But found this state:\n" + actualOldState.get().toText()
                     : "But could not parse the current state"));
       }
-      ConfigNotesMigration.setConfigValues(gerritConfig, newState.migration());
+      newState.setConfigValues(gerritConfig);
       additionalUpdates.accept(gerritConfig);
       gerritConfig.save();
 
       // Only set in-memory state once it's been persisted to storage.
-      globalNotesMigration.setFrom(newState.migration());
+      globalNotesMigration.setFrom(newState);
 
       return newState;
     }

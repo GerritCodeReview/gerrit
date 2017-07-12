@@ -95,6 +95,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
@@ -104,9 +105,9 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.SshMode;
 import com.google.gerrit.testutil.TempFileUtil;
-import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -215,7 +216,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
-  @Inject protected TestNotesMigration notesMigration;
+  @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected Abandon changeAbandoner;
 
@@ -498,7 +499,7 @@ public abstract class AbstractDaemonTest {
       server.close();
       server = null;
     }
-    notesMigration.resetFromEnv();
+    NoteDbMode.resetFromEnv(notesMigration);
   }
 
   protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {
@@ -722,12 +723,12 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context disableDb() {
-    notesMigration.setFailOnLoad(true);
+    notesMigration.setFailOnLoadForTest(true);
     return atrScope.disableDb();
   }
 
   protected void enableDb(Context preDisableContext) {
-    notesMigration.setFailOnLoad(false);
+    notesMigration.setFailOnLoadForTest(false);
     atrScope.set(preDisableContext);
   }
 

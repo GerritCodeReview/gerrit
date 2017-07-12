@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
@@ -201,8 +200,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
     gerritConfig.load();
-    assertThat(NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig)))
-        .hasValue(expected);
+    assertThat(NotesMigrationState.forConfig(gerritConfig)).hasValue(expected);
   }
 
   private ReviewDb openUnderlyingReviewDb(ServerContext ctx) throws Exception {

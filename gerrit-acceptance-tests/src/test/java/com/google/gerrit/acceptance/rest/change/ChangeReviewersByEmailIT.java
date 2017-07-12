@@ -325,7 +325,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      notesMigration.setFailOnLoad(true);
+      notesMigration.setFailOnLoadForTest(true);
       try {
         ChangeInfo info =
             Iterables.getOnlyElement(
@@ -335,7 +335,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
                     .get());
         assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
       } finally {
-        notesMigration.setFailOnLoad(false);
+        notesMigration.setFailOnLoadForTest(false);
       }
     }
   }

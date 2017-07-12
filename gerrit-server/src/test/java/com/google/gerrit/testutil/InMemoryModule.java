@@ -59,6 +59,7 @@ import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
@@ -118,13 +119,13 @@ public class InMemoryModule extends FactoryModule {
   }
 
   private final Config cfg;
-  private final TestNotesMigration notesMigration;
+  private final MutableNotesMigration notesMigration;
 
   public InMemoryModule() {
-    this(newDefaultConfig(), new TestNotesMigration());
+    this(newDefaultConfig(), NoteDbMode.newNotesMigrationFromEnv());
   }
 
-  public InMemoryModule(Config cfg, TestNotesMigration notesMigration) {
+  public InMemoryModule(Config cfg, MutableNotesMigration notesMigration) {
     this.cfg = cfg;
     this.notesMigration = notesMigration;
   }
@@ -176,7 +177,8 @@ public class InMemoryModule extends FactoryModule {
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
-    bind(NotesMigration.class).toInstance(notesMigration);
+    bind(MutableNotesMigration.class).toInstance(notesMigration);
+    bind(NotesMigration.class).to(MutableNotesMigration.class);
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());

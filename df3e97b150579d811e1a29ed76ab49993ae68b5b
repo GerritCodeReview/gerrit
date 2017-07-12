@@ -142,6 +142,30 @@
       "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8123bdc1_769c0d49",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-12T19:38:02Z",
+      "side": 1,
+      "message": "Paladox, please read this: https://www.polymer-project.org/1.0/docs/tools/tests#creating-tests\n\nRead through every single code example until you understand how it works and why it\u0027s written the way it is. Otherwise you\u0027re going to keep spinning in circles.",
+      "parentUuid": "1139112d_bb112ee1",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

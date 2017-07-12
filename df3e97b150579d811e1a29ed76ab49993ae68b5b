@@ -118,6 +118,30 @@
       "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1139112d_bb112ee1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 77
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-12T19:20:56Z",
+      "side": 1,
+      "message": "That doesn\u0027t mean you should move it back... you realize when you move it back you\u0027re not testing anything at all?",
+      "parentUuid": "45a2319a_1598f474",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "df3e97b150579d811e1a29ed76ab49993ae68b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

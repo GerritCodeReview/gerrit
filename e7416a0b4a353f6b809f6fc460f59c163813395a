@@ -605,6 +605,30 @@
     },
     {
       "key": {
+        "uuid": "6fb73165_83cb2d29",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-12T17:19:13Z",
+      "side": 1,
+      "message": "i see thanks. I guess i doint need to test for page.show then?\n\nAlso stubbing createGroup, will that work as it fails for me as it is not in the js file. It\u0027s in the rest api.\n\nSo would \n\n      sandbox.stub(element.$., \u0027createGroup\u0027)\n          .returns(Promise.resolve({}));\n\n      sandbox.stub(element.$., \u0027getGroupConfig\u0027)\n          .returns(Promise.resolve({group_id: 551}));\n\nwould that work?",
+      "parentUuid": "05b6f8d9_a64bb175",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e32debb_21890801",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 69

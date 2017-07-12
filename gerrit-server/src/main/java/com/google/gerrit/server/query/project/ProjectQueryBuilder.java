@@ -12,22 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.server.query.project;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.project.ProjectPredicates;
+import com.google.gerrit.server.query.QueryBuilder;
+import com.google.inject.Inject;
 
-public interface ProjectIndex extends Index<Project.NameKey, ProjectState> {
+/** Parses a query string meant to be applied to project objects. */
+public class ProjectQueryBuilder extends QueryBuilder<ProjectState> {
+  public static final String FIELD_NAME = "name";
 
-  public interface Factory
-      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectState, ProjectIndex> {}
+  private static final QueryBuilder.Definition<ProjectState, ProjectQueryBuilder> mydef =
+      new QueryBuilder.Definition<>(ProjectQueryBuilder.class);
 
-  @Override
-  default Predicate<ProjectState> keyPredicate(Project.NameKey nameKey) {
-    return ProjectPredicates.name(nameKey);
+  @Inject
+  ProjectQueryBuilder() {
+    super(mydef);
+  }
+
+  @Operator
+  public Predicate<ProjectState> name(String name) {
+    return ProjectPredicates.name(new Project.NameKey(name));
   }
 }

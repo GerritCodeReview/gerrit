@@ -559,6 +559,30 @@
     },
     {
       "key": {
+        "uuid": "00f149ea_f72046ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 40
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-12T17:52:34Z",
+      "side": 1,
+      "message": "Oh sorry i got mixed up. Yep i can replace that.\n\nThanks, done.",
+      "parentUuid": "2233b515_ecbf59c9",
+      "range": {
+        "startLine": 174,
+        "startChar": 19,
+        "endLine": 174,
+        "endChar": 36
+      },
+      "revId": "17926822f025c85819dacde8e04d2c55cd651997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edeb775c_05995f2e",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 40

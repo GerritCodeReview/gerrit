@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "360af77d_01ffb869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T00:55:23Z",
+      "side": 1,
+      "message": "This condition is the same as the previous one on L341.\n\nShould it be matchRegex?",
+      "range": {
+        "startLine": 343,
+        "startChar": 11,
+        "endLine": 343,
+        "endChar": 55
+      },
+      "revId": "42c92de983c40a070096810c38b1d20efbdd0ba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bea512c_4e2b1c3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T00:55:23Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "42c92de983c40a070096810c38b1d20efbdd0ba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96e1980a_d08191b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T00:55:23Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "42c92de983c40a070096810c38b1d20efbdd0ba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdc546eb_7c9c4527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-12T00:55:23Z",
+      "side": 1,
+      "message": "This message doesn\u0027t really make sense, since this method is only called from the place where the regex match is checked.",
+      "range": {
+        "startLine": 416,
+        "startChar": 36,
+        "endLine": 416,
+        "endChar": 66
+      },
+      "revId": "42c92de983c40a070096810c38b1d20efbdd0ba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

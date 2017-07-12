@@ -557,6 +557,30 @@
     },
     {
       "key": {
+        "uuid": "525e9301_2e1ee271",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-12T16:24:19Z",
+      "side": 1,
+      "message": "Actually create group does not return anything that\u0027s why i had to add getGroupConfig.\n\nSo i guess createGroup should be {}?",
+      "parentUuid": "6cf906e7_b470b8b7",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "e7416a0b4a353f6b809f6fc460f59c163813395a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e32debb_21890801",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 69

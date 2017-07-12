@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33280c79_6d9504ed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-12T17:07:49Z",
+      "side": 1,
+      "message": "Would it be a bit cleaner if this class was assigned to a common ancestor?\nThis way CSS rules would look like \".editing .editBtn\" instead of \".editBtn.editing\", and only one computed class name is needed.",
+      "range": {
+        "startLine": 84,
+        "startChar": 52,
+        "endLine": 84,
+        "endChar": 72
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0911d41_32c0d93d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-12T17:07:49Z",
+      "side": 1,
+      "message": "Consider chaining instead of nesting:\n\nthis._getLoggedIn()\n  .then(loggedIn \u003d\u003e\n        loggedIn ? this.$.restAPI.getProjectAccess(project) : null)\n  .then(access \u003d\u003e\n        this._isOwner \u003d access \u0026\u0026 access[project].is_owner);",
+      "range": {
+        "startLine": 78,
+        "startChar": 33,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ad19fe9_079687ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-12T17:07:49Z",
+      "side": 1,
+      "message": "Where does event come from?",
+      "range": {
+        "startLine": 163,
+        "startChar": 25,
+        "endLine": 163,
+        "endChar": 30
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

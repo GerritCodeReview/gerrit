@@ -140,6 +140,30 @@
       "revId": "5f2b685981756edb47d5844cf839c773829ac942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "743a46b4_28b95520",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-13T18:12:39Z",
+      "side": 1,
+      "message": "The doc you\u0027re referring to talks about model, not event.\nShould event be one of the function arguments?",
+      "parentUuid": "c7860e1a_5b834fe5",
+      "range": {
+        "startLine": 163,
+        "startChar": 25,
+        "endLine": 163,
+        "endChar": 30
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

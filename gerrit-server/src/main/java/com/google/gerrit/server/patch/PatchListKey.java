@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchListKey implements Serializable {
-  public static final long serialVersionUID = 27L;
+  public static final long serialVersionUID = 28L;
 
   public enum Algorithm {
     PURE_TREE_DIFF,

@@ -250,6 +250,61 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenModifiedDuringRebase()
+      throws Exception {
+    String renamedFilePath = "renamed_some_file.txt";
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, renamedFilePath);
+
+    rebaseChangeOn(changeId, commit3);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
+  public void fileRenamedDuringRebaseSameAsInPatchSetIsIgnored() throws Exception {
+    String renamedFileName = "renamed_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(renamedFileName, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 = addCommitRenamingFile(commit1, FILE_NAME, renamedFileName);
+    rebaseChangeOn(changeId, commit2);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
+  public void fileWithRebaseHunksRenamedDuringRebaseSameAsInPatchSetIsIgnored() throws Exception {
+    String renamedFileName = "renamed_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(renamedFileName, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 10\n", "Line ten\n"));
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, renamedFileName);
+    rebaseChangeOn(changeId, commit3);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
   public void filesNotTouchedByPatchSetsAndContainingOnlyRebaseHunksAreIgnored() throws Exception {
     String newFileContent = FILE_CONTENT.replace("Line 10\n", "Line ten\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
@@ -910,6 +965,78 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(renamedFilePath)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(renamedFilePath)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedBetweenPatchSets()
+      throws Exception {
+    String newFilePath1 = "renamed_some_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(newFilePath1, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+
+    rebaseChangeOn(changeId, commit2);
+    String newFilePath2 = "renamed_some_file_to_something_else.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath2);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath2);
+    assertThat(changedFiles.get(newFilePath2)).linesInserted().isNull();
+    assertThat(changedFiles.get(newFilePath2)).linesDeleted().isNull();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, newFilePath2).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+  }
+
+  @Test
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedForRebaseAndForPatchSets()
+      throws Exception {
+    String newFilePath1 = "renamed_some_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(newFilePath1, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+    String newFilePath2 = "renamed_some_file_during_rebase.txt";
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, newFilePath2);
+
+    rebaseChangeOn(changeId, commit3);
+    String newFilePath3 = "renamed_some_file_to_something_else.txt";
+    gApi.changes().id(changeId).edit().renameFile(newFilePath2, newFilePath3);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath3);
+    assertThat(changedFiles.get(newFilePath3)).linesInserted().isNull();
+    assertThat(changedFiles.get(newFilePath3)).linesDeleted().isNull();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, newFilePath3).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
   }
 
   /*

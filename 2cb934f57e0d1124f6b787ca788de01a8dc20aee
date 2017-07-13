@@ -35,6 +35,24 @@
       "revId": "2cb934f57e0d1124f6b787ca788de01a8dc20aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4f3f94_ef8f4357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-13T12:25:22Z",
+      "side": 1,
+      "message": "I found that we can remove the OneOffRequestContext invocations. This works since we actually don\u0027t use the db in the constructor, but in the constructor we only construct a RepoSequence.Seed for the change sequence that is using the db when it is invoked. And it\u0027s invoked only when a change sequence number is requested, which only happens in request scope.\n\nDone",
+      "parentUuid": "384d764c_9aa78339",
+      "revId": "2cb934f57e0d1124f6b787ca788de01a8dc20aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

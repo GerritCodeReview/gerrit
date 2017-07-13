@@ -16,5 +16,6 @@ if [[ -z "$polylint_bin" ]]; then
 fi
 
 unzip polygerrit-ui/polygerrit_components.bower_components.zip -d polygerrit-ui/app
+pwd
 
-${polylint_bin} --root polygerrit-ui/app --input elements/gr-app.html
+${polylint_bin} --root polygerrit-ui/app --input elements/gr-app.html --b 'bower_components'

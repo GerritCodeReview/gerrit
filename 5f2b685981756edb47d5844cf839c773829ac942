@@ -181,6 +181,30 @@
       "revId": "5f2b685981756edb47d5844cf839c773829ac942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49c3f814_8a2b7545",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "No, if there were an argument, the first would be the native event, which is different than the Polymer event. \n\nhttps://www.polymer-project.org/1.0/docs/devguide/events#retargeting\n\nIn the following example, event is not passed as an argument either.\nel.addEventListener(\u0027click\u0027, function(){\n    var normalizedEvent \u003d Polymer.dom(event);\n    // logs #myButton\n    console.info(\u0027rootTarget is:\u0027, normalizedEvent.rootTarget);\n    // logs the instance of event-targeting that hosts #myButton\n    console.info(\u0027localTarget is:\u0027, normalizedEvent.localTarget);\n    // logs [#myButton, document-fragment, event-retargeting,\n    //       body, html, document, Window]\n    console.info(\u0027path is:\u0027, normalizedEvent.path);\n  });",
+      "parentUuid": "743a46b4_28b95520",
+      "range": {
+        "startLine": 163,
+        "startChar": 25,
+        "endLine": 163,
+        "endChar": 30
+      },
+      "revId": "5f2b685981756edb47d5844cf839c773829ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

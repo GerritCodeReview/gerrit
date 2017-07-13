@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ac5c09b_af803670",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "I just figured since nothing else needed it, it would make sense to have it here, but it doesn\u0027t really matter to me.",
+      "parentUuid": "42b232e2_e8f7ac1c",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebf1d4f8_4ffa89c0",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "adb0dacf_9790df59",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "Don\u0027t see how it was off, but switched it to the way you\u0027d like it.",
+      "parentUuid": "ebf1d4f8_4ffa89c0",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 15
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef5061e1_ea452069",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ee85df_2dabd7b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef5061e1_ea452069",
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "af0af9af_fd075323",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a44e21e_0724adfe",
+      "range": {
+        "startLine": 77,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 27
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70ad1c0d_386dbe11",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5
@@ -108,6 +198,30 @@
       "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06fa3ebc_e877ab94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-13T21:11:33Z",
+      "side": 1,
+      "message": "It seems that it results in a client side error. I was attempting to prevent a request that we know will fail, but I think that the useful server errors are preferable. thanks! I\u0027ll also disable the save button when input is blank as an extra guard.",
+      "parentUuid": "70ad1c0d_386dbe11",
+      "range": {
+        "startLine": 551,
+        "startChar": 6,
+        "endLine": 551,
+        "endChar": 39
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

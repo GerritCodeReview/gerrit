@@ -759,5 +759,27 @@ limitations under the License.
       });
       element._handle400Error(response);
     });
+
+    suite('start/save review', () => {
+      let sendSpy;
+      setup(() => {
+        sendSpy = sandbox.spy(element, 'send');
+        element.canBeStarted = true;
+        // Flush to make both Start/Save buttons appear in DOM.
+        flushAsynchronousOperations();
+      });
+
+      test('start review sets ready', () => {
+        MockInteractions.tap(element.$$('.send'));
+        flushAsynchronousOperations();
+        assert.isTrue(sendSpy.calledWith(true, true));
+      });
+
+      test('save review doesn\'t set ready', () => {
+        MockInteractions.tap(element.$$('.save'));
+        flushAsynchronousOperations();
+        assert.isTrue(sendSpy.calledWith(true, false));
+      });
+    });
   });
 </script>

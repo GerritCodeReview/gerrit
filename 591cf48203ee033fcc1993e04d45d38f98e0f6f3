@@ -24,6 +24,30 @@
       "revId": "591cf48203ee033fcc1993e04d45d38f98e0f6f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4bd4e4a_36e4ec49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/MutableNotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-13T14:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89765894_de0e4c68",
+      "range": {
+        "startLine": 87,
+        "startChar": 42,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "591cf48203ee033fcc1993e04d45d38f98e0f6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e1538bf_5002ea3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-13T23:18:25Z",
+      "side": 1,
+      "message": "How do i get this so i test the actual branch input please?\n\ndoing branchInput.bindValue resulted in undefined error.",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "756323c089d6d3df40d80ae6395d81d40d3f89ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

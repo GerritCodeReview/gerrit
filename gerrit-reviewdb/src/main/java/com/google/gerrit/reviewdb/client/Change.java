@@ -524,6 +524,10 @@ public final class Change {
   @Column(id = 22)
   protected boolean reviewStarted;
 
+  /** References a change that this change reverts. */
+  @Column(id = 23, notNull = false)
+  protected Id revertOf;
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -564,6 +568,7 @@ public final class Change {
     workInProgress = other.workInProgress;
     reviewStarted = other.reviewStarted;
     noteDbState = other.noteDbState;
+    revertOf = other.revertOf;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -731,6 +736,14 @@ public final class Change {
 
   public void setReviewStarted(boolean reviewStarted) {
     this.reviewStarted = reviewStarted;
+  }
+
+  public void setRevertOf(Id revertOf) {
+    this.revertOf = revertOf;
+  }
+
+  public Id getRevertOf() {
+    return this.revertOf;
   }
 
   public String getNoteDbState() {

@@ -203,7 +203,9 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!args.migration.enabled()) {
+    // TODO(dborowitz): Should this be readChanges? IOW do we depend on being able to read the old
+    // notes in order to write new notes?
+    } else if (!args.migration.commitChangeWrites()) {
       return null;
     }
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {

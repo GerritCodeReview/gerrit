@@ -1714,7 +1714,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmail() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
@@ -1762,7 +1762,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewerAndCcByEmailWithQueryForDifferentUser() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());

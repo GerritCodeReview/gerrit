@@ -308,6 +308,40 @@
       }
     }
 
+    // Matches
+    // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
+    // TODO(kaspern): Migrate completely to project based URLs, with backwards
+    //    compatibility for change-only.
+    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+        ctx => {
+          // Parameter order is based on the regex group number matched.
+          const params = {
+            project: ctx.params[0],
+            changeNum: ctx.params[1],
+            basePatchNum: ctx.params[4],
+            patchNum: ctx.params[6],
+            path: ctx.params[8],
+            view: 'gr-change-view',
+          };
+          let url = `/c/${encodeURIComponent(params.changeNum)}/`;
+          if (params.basePatchNum) {
+            url += `${encodeURIComponent(params.basePatchNum)}`;
+            if (params.patchNum) {
+              url += `..${encodeURIComponent(params.patchNum)}`;
+            }
+            if (params.path) {
+              let path = encodeURIComponent(encodeURIComponent(params.path));
+              // @see Issue 4577 regarding more readable URLs.
+              path = path.replace(/%252F/g, '/');
+              path = path.replace(/%2520/g, '+');
+              url += `/${path}`;
+            }
+          }
+          history.replaceState(null, null, url);
+          normalizePatchRangeParams(params);
+          app.params = params;
+        });
+
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
     page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, ctx => {
       // Parameter order is based on the regex group number matched.

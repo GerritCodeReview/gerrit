@@ -61,11 +61,10 @@ limitations under the License.
         <label for="branchInput">
           Cherry Pick to branch
         </label>
-        <input is="iron-input"
-            type="text"
-            id="branchInput"
-            bind-value="{{branch}}"
-            placeholder="Destination branch">
+        <iron-input id="branchInput"
+            bind-value="{{branch}}">
+          <input type="text" placeholder="Destination branch">
+        </iron-input>
         <label for="messageInput">
           Cherry Pick Commit Message
         </label>

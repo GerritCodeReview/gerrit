@@ -76,8 +76,9 @@
       this.editing = true;
 
       this.async(() => {
-        this.$.input.focus();
-        this.$.input.setSelectionRange(0, this.$.input.value.length);
+        this.$.input.inputElement.focus();
+        this.$.input.inputElement
+            .setSelectionRange(0, this.$.input.inputElement.value.length);
       });
     },
 
@@ -99,7 +100,7 @@
     _handleEnter(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
-      if (target === this.$.input) {
+      if (target === this.$.input.inputElement) {
         e.preventDefault();
         this._save();
       }

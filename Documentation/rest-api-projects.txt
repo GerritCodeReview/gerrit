@@ -149,6 +149,8 @@ Prefix(p)::
 Limit the results to those projects that start with the specified
 prefix.
 +
+The match is case sensitive. May not be used together with `m` or `r`.
++
 List all projects that start with `platform/`:
 +
 .Request
@@ -181,6 +183,8 @@ Limit the results to those projects that match the specified regex.
 Boundary matchers '^' and '$' are implicit. For example: the regex 'test.*' will
 match any projects that start with 'test' and regex '.*test' will match any
 project that end with 'test'.
++
+The match is case sensitive. May not be used together with `m` or `p`.
 +
 List all projects that match regex `test.*project`:
 +
@@ -233,6 +237,8 @@ Query the second project in the project list:
 
 Substring(m)::
 Limit the results to those projects that match the specified substring.
++
+The match is case insensitive. May not be used together with `r` or `p`.
 +
 List all projects that match substring `test/`:
 +

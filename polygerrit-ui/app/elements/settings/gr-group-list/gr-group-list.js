@@ -30,7 +30,7 @@
     },
 
     _computeVisibleToAll(group) {
-      return group.options.visible_to_all ? 'Yes' : 'No';
+      return group && group.options.visible_to_all ? 'Yes' : 'No';
     },
   });
 })();

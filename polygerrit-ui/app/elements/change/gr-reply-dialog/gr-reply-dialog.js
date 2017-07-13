@@ -453,10 +453,12 @@
     },
 
     _computeHideDraftList(drafts) {
+      if (!drafts) { return; }
       return Object.keys(drafts || {}).length == 0;
     },
 
     _computeDraftsTitle(drafts) {
+      if (!drafts) { return; }
       let total = 0;
       for (const file in drafts) {
         if (drafts.hasOwnProperty(file)) {
@@ -677,6 +679,7 @@
     },
 
     _isState(knownLatestState, value) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return knownLatestState === value;
     },
 

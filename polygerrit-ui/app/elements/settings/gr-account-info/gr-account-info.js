@@ -113,6 +113,7 @@
     },
 
     _computeMutable(config) {
+      if (!config) { return; }
       return config.auth.editable_account_fields.includes('FULL_NAME');
     },
 

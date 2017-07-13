@@ -624,6 +624,7 @@
     },
 
     _computeDiffHeaderItems(diffInfoRecord) {
+      if (!diffInfoRecord) { return; }
       const diffInfo = diffInfoRecord.base;
       if (!diffInfo || !diffInfo.diff_header || diffInfo.binary) { return []; }
       return diffInfo.diff_header.filter(item => {
@@ -645,6 +646,7 @@
      * @return {Number}
      */
     _diffLength(diff) {
+      if (!diff) { return; }
       return diff.content.reduce((sum, sec) => {
         if (sec.hasOwnProperty('ab')) {
           return sum + sec.ab.length;

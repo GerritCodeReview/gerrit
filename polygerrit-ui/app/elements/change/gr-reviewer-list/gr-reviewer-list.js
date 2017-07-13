@@ -105,10 +105,12 @@
     },
 
     _computeHiddenCount(reviewers, displayedReviewers) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return reviewers.length - displayedReviewers.length;
     },
 
     _computeCanRemoveReviewer(reviewer, mutable) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (!mutable) { return false; }
 
       let current;

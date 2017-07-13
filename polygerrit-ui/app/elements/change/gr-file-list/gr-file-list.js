@@ -182,6 +182,7 @@
     },
 
     _calculatePatchChange(files) {
+      if (!files) { return; }
       const filesNoCommitMsg = files.filter(files => {
         return files.__path !== '/COMMIT_MSG';
       });
@@ -215,6 +216,7 @@
     },
 
     _computePatchSetDisabled(patchNum, currentPatchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
     },
 
@@ -303,14 +305,13 @@
     },
 
     getCommentsForPath(comments, patchNum, path) {
+      if (!comments || !patchNum || !path) { []; }
       return (comments[path] || []).filter(c => {
         return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
       });
     },
 
     _computeCountString(comments, patchNum, path, opt_noun) {
-      if (!comments) { return ''; }
-
       const patchComments = this.getCommentsForPath(comments, patchNum, path);
       const num = patchComments.length;
       if (num === 0) { return ''; }
@@ -363,8 +364,9 @@
       return unresolvedLeaves.length;
     },
 
-    _computeReviewed(file, _reviewed) {
-      return _reviewed.includes(file.__path);
+    _computeReviewed(file, reviewed) {
+      if (!reviewed || !file) { return; }
+      return reviewed.includes(file.__path);
     },
 
     _reviewFile(path) {
@@ -622,13 +624,15 @@
       }
     },
 
-    _shouldHideChangeTotals(_patchChange) {
-      return _patchChange.inserted === 0 && _patchChange.deleted === 0;
+    _shouldHideChangeTotals(patchChange) {
+      if (!patchNum) { return true; }
+      return patchChange.inserted === 0 && patchChange.deleted === 0;
     },
 
-    _shouldHideBinaryChangeTotals(_patchChange) {
-      return _patchChange.size_delta_inserted === 0 &&
-          _patchChange.size_delta_deleted === 0;
+    _shouldHideBinaryChangeTotals(patchChange) {
+      if (!patchNum) { return true; }
+      return patchChange.size_delta_inserted === 0 &&
+          patchChange.size_delta_deleted === 0;
     },
 
     _computeFileStatus(status) {
@@ -636,6 +640,7 @@
     },
 
     _computeDiffURL(change, patchRange, path) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     },
@@ -650,10 +655,12 @@
     },
 
     _computeTruncatedFileDisplayName(path) {
+      if (!path) { return; }
       return util.truncatePath(this._computeFileDisplayName(path));
     },
 
     _formatBytes(bytes) {
+      if (!bytes) { return }
       if (bytes == 0) return '+/-0 B';
       const bits = 1024;
       const decimals = 1;
@@ -666,6 +673,7 @@
     },
 
     _formatPercentage(size, delta) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const oldSize = size - delta;
 
       if (oldSize === 0) { return ''; }
@@ -675,7 +683,7 @@
     },
 
     _computeBinaryClass(delta) {
-      if (delta === 0) { return; }
+      if (!delta || delta === 0) { return; }
       return delta >= 0 ? 'added' : 'removed';
     },
 
@@ -688,6 +696,7 @@
     },
 
     _computeExpandInlineClass(userPrefs) {
+      if (!userPrefs) { return; }
       return userPrefs.expand_inline_diffs ? 'expandInline' : '';
     },
 
@@ -701,6 +710,7 @@
     },
 
     _computeFilesShown(numFilesShown, files) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return files.base.slice(0, numFilesShown);
     },
 
@@ -737,11 +747,12 @@
     },
 
     _computeFileListButtonHidden(numFilesShown, files) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return numFilesShown >= files.length;
     },
 
     _computeIncrementText(numFilesShown, files) {
-      if (!files) { return ''; }
+      if (!files || !numFilesShown) { return ''; }
       const text =
           Math.min(this.fileListIncrement, files.length - numFilesShown);
       return 'Show ' + text + ' more';
@@ -753,11 +764,12 @@
     },
 
     _computeWarnShowAll(files) {
+      if (!files) { return; }
       return files.length > WARN_SHOW_ALL_THRESHOLD;
     },
 
     _computeShowAllWarning(files) {
-      if (!this._computeWarnShowAll(files)) { return ''; }
+      if (!files || !this._computeWarnShowAll(files)) { return ''; }
       return 'Warning: showing all ' + files.length +
           ' files may take several seconds.';
     },
@@ -790,8 +802,8 @@
       return 'SIDE_BY_SIDE';
     },
 
-    _fileListActionsVisible(shownFilesRecord,
-        maxFilesForBulkActions) {
+    _fileListActionsVisible(shownFilesRecord, maxFilesForBulkActions) {
+      if (!shownFilesRecord) { return; }
       return shownFilesRecord.base.length <= maxFilesForBulkActions;
     },
 
@@ -802,12 +814,14 @@
     },
 
     _computeFileStatusLabel(status) {
+      if (!status) { return; }
       const statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?
           FileStatus[statusCode] : 'Status Unknown';
     },
 
     _isFileExpanded(path, expandedFilesRecord) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return expandedFilesRecord.base.includes(path);
     },
 

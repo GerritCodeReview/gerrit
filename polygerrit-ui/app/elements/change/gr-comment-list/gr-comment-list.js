@@ -34,11 +34,13 @@
     },
 
     _computeFilesFromComments(comments) {
+      if (!comments) { return []; }
       const arr = Object.keys(comments || {});
       return arr.sort(this.specialFilePathCompare);
     },
 
     _computeFileDiffURL(file, changeNum, patchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return this.getBaseUrl() + '/c/' + changeNum + '/' + patchNum + '/' +
           this.encodeURL(file);
     },
@@ -57,6 +59,7 @@
     },
 
     _computeDiffLineURL(file, changeNum, patchNum, comment) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       let diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
       if (comment.line) {
         diffURL += '#';
@@ -67,12 +70,14 @@
     },
 
     _computeCommentsForFile(comments, file) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       // Changes are not picked up by the dom-repeat due to the array instance
       // identity not changing even when it has elements added/removed from it.
       return (comments[file] || []).slice();
     },
 
     _computePatchDisplayName(comment) {
+      if (!comment) { return; }
       if (this._isOnParent(comment)) {
         return 'Base, ';
       }

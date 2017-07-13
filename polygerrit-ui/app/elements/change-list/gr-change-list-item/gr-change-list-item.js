@@ -46,6 +46,7 @@
     },
 
     _computeLabelTitle(change, labelName) {
+      if (!change || !labelName) { return; }
       const label = change.labels[labelName];
       if (!label) { return 'Label not applicable'; }
       const significantLabel = label.rejected || label.approved ||

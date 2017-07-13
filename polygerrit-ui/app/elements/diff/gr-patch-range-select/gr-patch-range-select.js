@@ -53,10 +53,12 @@
     },
 
     _computeLeftDisabled(patchNum, patchRange) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return parseInt(patchNum, 10) >= parseInt(patchRange.patchNum, 10);
     },
 
     _computeRightDisabled(patchNum, patchRange) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (patchRange.basePatchNum == 'PARENT') { return false; }
       return parseInt(patchNum, 10) <= parseInt(patchRange.basePatchNum, 10);
     },
@@ -75,6 +77,7 @@
     },
 
     _computePatchSetDescription(revisions, patchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';

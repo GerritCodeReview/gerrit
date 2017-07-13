@@ -220,6 +220,7 @@
     },
 
     _computeSchemes(schemesObj) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return Object.keys(schemesObj);
     },
 
@@ -231,6 +232,7 @@
     },
 
     _computeCommands(project, schemesObj, _selectedScheme) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const commands = [];
       let commandObj;
       if (schemesObj.hasOwnProperty(_selectedScheme)) {

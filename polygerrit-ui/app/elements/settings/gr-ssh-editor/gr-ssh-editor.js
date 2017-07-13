@@ -88,7 +88,7 @@
     },
 
     _computeAddButtonDisabled(newKey) {
-      return !newKey.length;
+      return !newKey || !newKey.length;
     },
   });
 })();

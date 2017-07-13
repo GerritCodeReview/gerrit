@@ -61,12 +61,13 @@
       };
     },
 
-    _computeDownloadCommands(change, patchNum, _selectedScheme) {
+    _computeDownloadCommands(change, patchNum, selectedScheme) {
       let commandObj;
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       for (const rev in change.revisions) {
         if (change.revisions[rev]._number === parseInt(patchNum, 10) &&
-            change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
-          commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
+            change.revisions[rev].fetch.hasOwnProperty(selectedScheme)) {
+          commandObj = change.revisions[rev].fetch[selectedScheme].commands;
           break;
         }
       }
@@ -90,12 +91,14 @@
     },
 
     _computeDownloadLink(change, patchNum, zip) {
+      if (!change || !patchNum) { return };
       return this.changeBaseURL(change._number, patchNum) + '/patch?' +
           (zip ? 'zip' : 'download');
     },
 
     _computeDownloadFilename(change, patchNum, zip) {
       let shortRev;
+      if (!change || !patchNum) { return };
       for (const rev in change.revisions) {
         if (change.revisions[rev]._number === parseInt(patchNum, 10)) {
           shortRev = rev.substr(0, 7);
@@ -106,11 +109,13 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
+      if (!change || !patchNum) { return };
       return this.changeBaseURL(change._number, patchNum) +
           '/archive?format=' + format;
     },
 
     _computeSchemes(change, patchNum) {
+      if (!change || !patchNum) { return };
       for (const rev of Object.values(change.revisions || {})) {
         if (rev._number === parseInt(patchNum, 10)) {
           const fetch = rev.fetch;

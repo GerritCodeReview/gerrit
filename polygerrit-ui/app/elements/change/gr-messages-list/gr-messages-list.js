@@ -212,7 +212,8 @@
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
     _computeCommentsForMessage(comments, message) {
-      if (message._index === undefined || !comments || !this.messages) {
+      if (!message || message._index === undefined || !comments ||
+          !this.messages) {
         return [];
       }
       const messages = this.messages || [];
@@ -285,6 +286,7 @@
     },
 
     _computeIncrementText(visibleMessages, messages, hideAutomated) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       let delta = this._getDelta(visibleMessages, messages, hideAutomated);
       delta = Math.min(
           this._numRemaining(visibleMessages, messages, hideAutomated), delta);
@@ -299,6 +301,7 @@
 
     _computeShowHideTextHidden(visibleMessages, messages,
         hideAutomated) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (hideAutomated) {
         messages = this._getHumanMessages(messages);
         visibleMessages = this._getHumanMessages(visibleMessages);
@@ -327,6 +330,7 @@
 
     _computeNumMessagesText(visibleMessages, messages,
         hideAutomated) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const total =
           this._numRemaining(visibleMessages, messages, hideAutomated);
       return total === 1 ? 'Show 1 message' : 'Show all ' + total + ' messages';
@@ -334,6 +338,7 @@
 
     _computeIncrementHidden(visibleMessages, messages,
         hideAutomated) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const total =
           this._numRemaining(visibleMessages, messages, hideAutomated);
       return total <= this._getDelta(visibleMessages, messages, hideAutomated);

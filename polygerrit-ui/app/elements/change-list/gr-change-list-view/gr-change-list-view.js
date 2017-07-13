@@ -150,6 +150,7 @@
     },
 
     _computeNavLink(query, offset, direction, changesPerPage) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const limit = this._limitFor(query, changesPerPage);

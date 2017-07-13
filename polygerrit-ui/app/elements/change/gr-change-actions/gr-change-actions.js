@@ -895,6 +895,7 @@
      */
     _computeAllActions(changeActionsRecord, revisionActionsRecord,
         primariesRecord, additionalActionsRecord, change) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       const changeActionValues = this._getActionValues(changeActionsRecord,
@@ -945,6 +946,7 @@
     },
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
@@ -953,6 +955,7 @@
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(a => {
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;

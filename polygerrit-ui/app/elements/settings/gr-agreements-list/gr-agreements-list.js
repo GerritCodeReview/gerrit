@@ -40,6 +40,7 @@
     },
 
     getUrlBase(item) {
+      if (!item) { return; }
       return this.getBaseUrl() + '/' + item;
     },
   });

@@ -396,6 +396,7 @@
      *     direction.
      */
     _computeNavLinkURL(change, path, fileList, direction, opt_noUp) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const newPath = this._getNavLinkPath(path, fileList, direction, opt_noUp);
       if (!newPath) { return null; }
 
@@ -541,6 +542,7 @@
     },
 
     _computeDiffURL(change, patchRangeRecord, path) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return this._getDiffUrl(change, patchRangeRecord.base, path);
     },
 
@@ -594,6 +596,7 @@
     },
 
     _computeChangePath(change, patchRangeRecord, revisions) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return this._getChangePath(change, patchRangeRecord.base, revisions);
     },
 
@@ -619,6 +622,7 @@
     },
 
     _computeKeyNav(path, selectedPath, fileList) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const selectedIndex = fileList.indexOf(selectedPath);
       if (fileList.indexOf(path) == selectedIndex - 1) {
         return '[';
@@ -682,6 +686,8 @@
      * @return {String}
      */
     _getDiffViewMode() {
+      // The observer has arguments, even though there are non here.
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (this.changeViewState.diffMode) {
         return this.changeViewState.diffMode;
       } else if (this._userPrefs) {
@@ -702,6 +708,7 @@
     },
 
     _computeDownloadLink(changeNum, patchRange, path) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       let url = this.changeBaseURL(changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
@@ -746,6 +753,7 @@
     },
 
     _computeCommentSkips(commentMap, fileList, path) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const skips = {previous: null, next: null};
       if (!fileList.length) { return skips; }
       const pathIndex = fileList.indexOf(path);

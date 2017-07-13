@@ -38,14 +38,12 @@
     },
 
     _computeShowWebLink(change, commitInfo, serverConfig) {
-      if (serverConfig.gitweb && serverConfig.gitweb.url &&
+      if (serverConfig && serverConfig.gitweb && serverConfig.gitweb.url &&
           serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
         return true;
       }
 
-      if (!commitInfo.web_links) {
-        return false;
-      }
+      if (!commitInfo || !commitInfo.web_links) { return false;}
 
       for (const link of commitInfo.web_links) {
         if (this._isWebLink(link)) {

@@ -131,7 +131,7 @@
     },
 
     _computeWeblink(project) {
-      if (!project.web_links) {
+      if (!project || project.web_links) {
         return '';
       }
       const webLinks = project.web_links;

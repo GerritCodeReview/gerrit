@@ -149,6 +149,7 @@
     },
 
     _computeShowGwtUiLink(config) {
+      if (!config) { return; }
       return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 

@@ -80,6 +80,7 @@
     },
 
     _computeCheckboxChecked(project, key) {
+      if (!project) { return; }
       return project.hasOwnProperty(key);
     },
 

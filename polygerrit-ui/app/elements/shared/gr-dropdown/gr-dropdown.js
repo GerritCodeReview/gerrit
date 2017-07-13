@@ -166,7 +166,7 @@
     },
 
     _computeLinkURL(link) {
-      if (typeof link.url === 'undefined') {
+      if (!link || !link.url) {
         return '';
       }
       if (link.target) {
@@ -176,6 +176,7 @@
     },
 
     _computeLinkRel(link) {
+      if (!link) { return; }
       return link.target ? 'noopener' : null;
     },
 
@@ -191,6 +192,7 @@
     },
 
     _computeDisabledClass(id, disabledIdsRecord) {
+      if (!disabledIdsRecord) { returnl; }
       return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
     },
 

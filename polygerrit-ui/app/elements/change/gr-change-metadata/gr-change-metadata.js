@@ -166,7 +166,8 @@
     },
 
     _computeTopicReadOnly(mutable, change) {
-      return !mutable || !change.actions.topic || !change.actions.topic.enabled;
+      return !mutable || !change || !change.actions.topic ||
+          !change.actions.topic.enabled;
     },
 
     _computeAssigneeReadOnly(mutable, change) {
@@ -180,6 +181,7 @@
     },
 
     _computeShowReviewersByState(serverConfig) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return !!serverConfig.note_db_enabled;
     },
 
@@ -233,6 +235,7 @@
     },
 
     _computeShowLabelStatus(change) {
+      if (!change) { return; }
       const isNewChange = change.status === this.ChangeStatus.NEW;
       const hasLabels = Object.keys(change.labels).length > 0;
       return isNewChange && hasLabels;
@@ -286,6 +289,7 @@
     },
 
     _computeIsWip(change) {
+      if (!change) { return; }
       return !!change.work_in_progress;
     },
   });

@@ -160,6 +160,7 @@
     },
 
     _computeChangeURL(changeNum, patchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       let urlStr = this.getBaseUrl() + '/c/' + changeNum;
       if (patchNum != null) {
         urlStr += '/' + patchNum;
@@ -169,19 +170,22 @@
 
     _computeChangeContainerClass(currentChange, relatedChange) {
       const classes = ['changeContainer'];
-      if (relatedChange.change_id === currentChange.change_id) {
+      if (relatedChange && currentChange &&
+            relatedChange.change_id === currentChange.change_id) {
         classes.push('thisChange');
       }
       return classes.join(' ');
     },
 
     _computeLinkClass(change) {
+      if (!change) { return; }
       if (change.status == this.ChangeStatus.ABANDONED) {
         return 'strikethrough';
       }
     },
 
     _computeChangeStatusClass(change) {
+      if (!change) { return; }
       const classes = ['status'];
       if (change._revision_number != change._current_revision_number) {
         classes.push('notCurrent');
@@ -196,6 +200,7 @@
     },
 
     _computeChangeStatus(change) {
+      if (!change) { return; }
       switch (change.status) {
         case this.ChangeStatus.MERGED:
           return 'Merged';
@@ -238,6 +243,7 @@
     },
 
     _computeConnectedRevisions(change, patchNum, relatedChanges) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const connected = [];
       let changeRevision;
       for (const rev in change.revisions) {

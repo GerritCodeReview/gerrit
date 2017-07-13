@@ -218,7 +218,7 @@
     },
 
     _computeSuggestionsHidden(suggestions, focused) {
-      return !(suggestions.length && focused);
+      return !(suggestions && suggestions.length && focused);
     },
 
     _computeClass(borderless) {

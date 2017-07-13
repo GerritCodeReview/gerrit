@@ -61,6 +61,7 @@
     },
 
     _computeNavLink(offset, direction, itemsPerPage, filter) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));
@@ -84,7 +85,7 @@
 
     _hideNextArrow(loading, items) {
       let lastPage = false;
-      if (items.length < this.itemsPerPage + 1) {
+      if (items && items.length < this.itemsPerPage + 1) {
         lastPage = true;
       }
       return loading || lastPage || !items || !items.length;

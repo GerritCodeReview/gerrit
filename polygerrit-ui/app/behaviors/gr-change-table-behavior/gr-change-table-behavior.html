@@ -40,12 +40,14 @@ limitations under the License.
      * @param {Array} columns
      */
     getComplementColumns(columns) {
+      if (!columns) { return }
       return this.columnNames.filter(column => {
         return !columns.includes(column);
       });
     },
 
     isColumnHidden(columnToCheck, columnsToDisplay) {
+      if (!columnToCheck || !columnsToDisplay) { return }
       return !columnsToDisplay.includes(columnToCheck);
     },
   };

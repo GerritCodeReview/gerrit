@@ -63,7 +63,7 @@
 
     _getLinks(switchAccountUrl, path) {
       const links = [{name: 'Settings', url: '/settings'}];
-      if (switchAccountUrl) {
+      if (switchAccountUrl && path) {
         const replacements = {path};
         const url = this._interpolateUrl(switchAccountUrl, replacements);
         links.push({name: 'Switch account', url});
@@ -73,6 +73,7 @@
     },
 
     _getTopContent(account) {
+      if (!account) { return; }
       return [
         {text: this._accountName(account), bold: true},
         {text: account.email ? account.email : ''},

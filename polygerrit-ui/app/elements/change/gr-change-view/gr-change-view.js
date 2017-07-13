@@ -281,7 +281,8 @@
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change) {
-      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED) {
+      if (!loggedIn || editing || !change ||
+          change.status === this.ChangeStatus.MERGED) {
         return true;
       }
 
@@ -620,10 +621,12 @@
     },
 
     _computeChangeUrl(change) {
+      if (!change) { return; }
       return Gerrit.Nav.getUrlForChange(change);
     },
 
     _computeChangeStatus(change, patchNum) {
+      if (!change) { return; }
       let statusString = this.changeStatusString(change);
       if (change.status === this.ChangeStatus.NEW) {
         const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
@@ -635,6 +638,7 @@
     },
 
     _privateChanges(change) {
+      if (!change) { return; }
       return change.is_private ? ' (Private)' : '';
     },
 
@@ -643,6 +647,7 @@
     },
 
     _computeMergedCommitInfo(current_revision, revisions) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const rev = revisions[current_revision];
       if (!rev || !rev.commit) { return {}; }
       // CommitInfo.commit is optional. Set commit in all cases to avoid error
@@ -664,6 +669,7 @@
     },
 
     _computeChangeIdCommitMessageError(commitMessage, change) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
 
       // Find the last match in the commit message:
@@ -689,6 +695,7 @@
     },
 
     _computePatchInfoClass(patchNum, allPatchSets) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (parseInt(patchNum, 10) ===
           this.computeLatestPatchNum(allPatchSets)) {
         return '';
@@ -704,6 +711,7 @@
      * @return {Boolean}
      */
     _computePatchSetDisabled(patchNum, basePatchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       basePatchNum = basePatchNum === 'PARENT' ? 0 : basePatchNum;
       return parseInt(patchNum, 10) <= parseInt(basePatchNum, 10);
     },
@@ -1061,12 +1069,14 @@
     },
 
     _computePatchSetDescription(change, patchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     _computePatchSetCommentsString(allComments, patchNum) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       let numComments = 0;
       let numUnresolved = 0;
       for (const file in allComments) {
@@ -1130,9 +1140,12 @@
       return !(loggedIn && (account._account_id === change.owner._account_id));
     },
 
-    _computeReplyDisabled() { return false; },
+    _computeReplyDisabled(serverConfig) {
+      return serverConfig === undefined ? true: false;
+    },
 
     _computeChangePermalinkAriaLabel(changeNum) {
+      if (!changeNum) { return; }
       return 'Change ' + changeNum;
     },
 
@@ -1249,6 +1262,8 @@
     },
 
     _computeRelatedChangesToggleClass() {
+      if (this._relatedChangesLoading) { return }
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       // Prevents showMore from showing when click on related change, since the
       // line height would be positive, but related changes height is 0.
       if (!this._getScrollHeight(this.$.relatedChanges)) { return ''; }
@@ -1306,6 +1321,7 @@
     },
 
     _computeHeaderClass(change) {
+      if (!change) { return; }
       return change.work_in_progress ? 'header wip' : 'header';
     },
   });

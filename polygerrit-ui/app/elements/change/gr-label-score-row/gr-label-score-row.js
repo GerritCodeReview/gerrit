@@ -64,6 +64,7 @@
     },
 
     _computeLabelValue(labels, permittedLabels, label) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (!labels[label.name]) { return null; }
       const labelValue = label.value;
       const len = permittedLabels[label.name] != null ?
@@ -85,6 +86,7 @@
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {
+      if (!permittedLabels) { return; }
       return permittedLabels.hasOwnProperty(label);
     },
 
@@ -94,10 +96,12 @@
     },
 
     _computePermittedLabelValues(permittedLabels, label) {
+      if (!permittedLabels) { return; }
       return permittedLabels[label];
     },
 
     _computeLabelValueTitle(labels, label, value) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return labels[label] && labels[label].values[value];
     },
   });

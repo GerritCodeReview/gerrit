@@ -26,6 +26,7 @@ limitations under the License.
     },
 
     computeShownItems(items) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return items.slice(0, 25);
     },
 

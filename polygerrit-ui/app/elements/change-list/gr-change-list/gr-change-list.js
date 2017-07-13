@@ -110,6 +110,7 @@
     },
 
     _lowerCase(column) {
+      if (!column) { return; }
       return column.toLowerCase();
     },
 
@@ -140,11 +141,13 @@
     },
 
     _computeColspan(changeTableColumns, labelNames) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
     },
 
     _computeLabelNames(sections) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (!sections) { return []; }
       let labels = [];
       const nonExistingLabel = function(item) {
@@ -163,6 +166,7 @@
     },
 
     _computeLabelShortcut(labelName) {
+      if (!labelName) { return; }
       return labelName.replace(/[a-z-]/g, '');
     },
 
@@ -191,12 +195,14 @@
     },
 
     _computeItemNeedsReview(account, change, showReviewedState) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       return showReviewedState && !change.reviewed &&
           this.changeIsOpen(change.status) &&
           account._account_id != change.owner._account_id;
     },
 
     _computeItemAssigned(account, change) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       if (!change.assignee) { return false; }
       return account._account_id === change.assignee._account_id;
     },

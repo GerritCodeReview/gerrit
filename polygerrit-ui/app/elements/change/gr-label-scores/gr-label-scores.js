@@ -78,6 +78,7 @@
     },
 
     _computeLabels(labelRecord) {
+      if (!labelRecord) { return; }
       const labelsObj = labelRecord.base;
       if (!labelsObj) { return []; }
       return Object.keys(labelsObj).sort().map(key => {

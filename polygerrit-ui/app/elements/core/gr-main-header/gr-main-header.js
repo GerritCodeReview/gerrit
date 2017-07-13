@@ -140,10 +140,12 @@
     },
 
     _computeRelativeURL(path) {
+      if (!path) { return; }
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
     _computeLinks(defaultLinks, userLinks, docBaseUrl) {
+      for (const arg of arguments) { if (arg === undefined) { return; } }
       const links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({

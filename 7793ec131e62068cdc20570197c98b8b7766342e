@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f3abdbd_f22be0cf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-13T18:41:00Z",
+      "side": 1,
+      "message": "Oops, must\u0027ve been a stray ^A keypress in vim.",
+      "parentUuid": "e7bf0c66_3c228d72",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7793ec131e62068cdc20570197c98b8b7766342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e89d5ad1_e4dc3fd2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "7793ec131e62068cdc20570197c98b8b7766342e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96cfcc7a_2a564026",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-13T18:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e89d5ad1_e4dc3fd2",
+      "range": {
+        "startLine": 149,
+        "startChar": 13,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "7793ec131e62068cdc20570197c98b8b7766342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

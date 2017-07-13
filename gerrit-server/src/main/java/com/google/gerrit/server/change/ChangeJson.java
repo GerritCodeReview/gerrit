@@ -452,6 +452,7 @@ public class ChangeJson {
       info.isPrivate = c.isPrivate() ? true : null;
       info.workInProgress = c.isWorkInProgress() ? true : null;
       info.hasReviewStarted = c.hasReviewStarted();
+      info.revertOf = c.getRevertOf() != null ? c.getRevertOf().get() : null;
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -557,6 +558,9 @@ public class ChangeJson {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(ctl, out);
+      // TODO(hiesel) Replace with a call to ChangeData where the value was reconstructed from the
+      // index.
+      out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
     }
 
     if (has(REVIEWER_UPDATES)) {

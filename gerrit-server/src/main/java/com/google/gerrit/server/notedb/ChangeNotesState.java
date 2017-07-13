@@ -328,6 +328,7 @@ public abstract class ChangeNotesState {
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
     change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
     change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
+    change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

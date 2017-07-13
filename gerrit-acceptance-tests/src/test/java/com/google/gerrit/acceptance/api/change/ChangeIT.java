@@ -614,6 +614,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(revertChange.messages).hasSize(1);
     assertThat(revertChange.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(revertChange.revertOf).isEqualTo(r.getChange().getId().get());
   }
 
   @Test

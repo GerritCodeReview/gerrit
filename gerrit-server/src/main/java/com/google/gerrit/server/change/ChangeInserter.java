@@ -129,6 +129,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean fireRevisionCreated;
   private boolean sendMail;
   private boolean updateRef;
+  private Change.Id revertOf;
 
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
@@ -198,6 +199,7 @@ public class ChangeInserter implements InsertChangeOp {
     change.setPrivate(isPrivate);
     change.setWorkInProgress(workInProgress);
     change.setReviewStarted(!workInProgress);
+    change.setRevertOf(revertOf);
     return change;
   }
 
@@ -319,6 +321,11 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  public ChangeInserter setRevertOf(Change.Id revertOf) {
+    this.revertOf = revertOf;
+    return this;
+  }
+
   public void setPushCertificate(String cert) {
     pushCert = cert;
   }
@@ -390,6 +397,9 @@ public class ChangeInserter implements InsertChangeOp {
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
     update.setWorkInProgress(workInProgress);
+    if (revertOf != null) {
+      update.setRevertOf(revertOf.get());
+    }
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;

@@ -218,6 +218,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.getAccountId());
       ins.setExtraCC(ccs);
+      ins.setRevertOf(changeIdToRevert);
 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);

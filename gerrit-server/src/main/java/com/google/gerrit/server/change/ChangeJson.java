@@ -120,6 +120,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -542,6 +543,7 @@ public class ChangeJson {
     out.submitted = getSubmittedOn(cd);
     out.plugins =
         pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
+    out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't

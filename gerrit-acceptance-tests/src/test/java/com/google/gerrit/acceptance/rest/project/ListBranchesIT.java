@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import org.junit.Test;
@@ -147,8 +149,17 @@ public class ListBranchesIT extends AbstractDaemonTest {
             "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
         list().withSubstring("Branch").get());
 
+    assertRefNames(
+        ImmutableList.of(
+            "refs/heads/someBranch1", "refs/heads/someBranch2", "refs/heads/someBranch3"),
+        list().withSubstring("somebranch").get());
+
     // Using regex.
     assertRefNames(ImmutableList.of("refs/heads/master"), list().withRegex(".*ast.*r").get());
+    assertRefNames(ImmutableList.of(), list().withRegex(".*AST.*R").get());
+
+    // Conflicting options
+    assertBadRequest(list().withSubstring("somebranch").withRegex(".*ast.*r"));
   }
 
   private ListRefsRequest<BranchInfo> list() throws Exception {
@@ -161,5 +172,14 @@ public class ListBranchesIT extends AbstractDaemonTest {
     info.revision = revision;
     info.canDelete = canDelete ? true : null;
     return info;
+  }
+
+  private void assertBadRequest(ListRefsRequest<BranchInfo> req) throws Exception {
+    try {
+      req.get();
+      fail("Expected BadRequestException");
+    } catch (BadRequestException e) {
+      // Expected
+    }
   }
 }

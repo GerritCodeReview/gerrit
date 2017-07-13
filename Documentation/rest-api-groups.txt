@@ -227,6 +227,8 @@ error out.)
 Substring(m)::
 Limit the results to those groups that match the specified substring.
 +
+The match is case insensitive.
++
 List all groups that match substring `test/`:
 +
 .Request

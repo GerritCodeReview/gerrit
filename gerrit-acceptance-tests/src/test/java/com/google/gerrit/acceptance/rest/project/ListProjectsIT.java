@@ -112,6 +112,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThatNameList(filter(gApi.projects().list().withPrefix(p).get()))
         .containsExactly(someOtherProject, someProject)
         .inOrder();
+    p = name("SOME");
+    assertThatNameList(filter(gApi.projects().list().withPrefix(p).get())).isEmpty();
   }
 
   @Test
@@ -159,6 +161,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertBadRequest(gApi.projects().list().withSubstring("some").withRegex(".*"));
     assertBadRequest(gApi.projects().list().withSubstring("some").withPrefix("some"));
     assertThatNameList(filter(gApi.projects().list().withSubstring("some").get()))
+        .containsExactly(projectAwesome, someOtherProject, someProject)
+        .inOrder();
+    assertThatNameList(filter(gApi.projects().list().withSubstring("SOME").get()))
         .containsExactly(projectAwesome, someOtherProject, someProject)
         .inOrder();
   }

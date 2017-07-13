@@ -129,6 +129,11 @@ cc:'USER'::
 Changes that have the given user CC'ed on them. The special case of `cc:self`
 will find changes where the caller has been CC'ed.
 
+[[revertof]]
+revertof:'ID'::
++
+Changes that revert the change specified by the numeric 'ID'.
+
 [[reviewerin]]
 reviewerin:'GROUP'::
 +

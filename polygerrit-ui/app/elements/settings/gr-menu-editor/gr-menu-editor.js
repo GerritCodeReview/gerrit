@@ -58,7 +58,7 @@
     },
 
     _computeAddDisabled(newName, newUrl) {
-      return !newName.length || !newUrl.length;
+      return !newName || !newUrl || !newName.length || !newUrl.length;
     },
 
     _handleInputKeydown(e) {

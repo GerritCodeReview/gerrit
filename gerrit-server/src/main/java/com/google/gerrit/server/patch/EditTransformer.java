@@ -29,6 +29,7 @@ import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -186,18 +187,27 @@ class EditTransformer {
           edit.getBeginA(),
           edit.getEndA(),
           edit.getBeginB(),
-          edit.getEndB());
+          edit.getEndB(),
+          false);
     }
 
     static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
-      return create(patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1);
+      return create(
+          patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(
-        String oldFilePath, String newFilePath, int beginA, int endA, int beginB, int endB) {
+        String oldFilePath,
+        String newFilePath,
+        int beginA,
+        int endA,
+        int beginB,
+        int endB,
+        boolean filePathAdjusted) {
       String adjustedOldFilePath = MoreObjects.firstNonNull(oldFilePath, newFilePath);
+      boolean implicitRename = !Objects.equals(oldFilePath, newFilePath) && filePathAdjusted;
       return new AutoValue_EditTransformer_ContextAwareEdit(
-          adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB);
+          adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
     }
 
     public abstract String getOldFilePath();
@@ -211,6 +221,10 @@ class EditTransformer {
     public abstract int getBeginB();
 
     public abstract int getEndB();
+
+    // Used for equals(), for which this value is important.
+    @SuppressWarnings("unused")
+    public abstract boolean isImplicitRename();
 
     public Optional<Edit> toEdit() {
       if (getBeginA() < 0) {
@@ -258,7 +272,8 @@ class EditTransformer {
           edit.getBeginA() + shiftedAmount,
           edit.getEndA() + shiftedAmount,
           edit.getBeginB(),
-          edit.getEndB());
+          edit.getEndB(),
+          !Objects.equals(edit.getOldFilePath(), adjustedFilePath));
     }
   }
 
@@ -289,7 +304,8 @@ class EditTransformer {
           edit.getBeginA(),
           edit.getEndA(),
           edit.getBeginB() + shiftedAmount,
-          edit.getEndB() + shiftedAmount);
+          edit.getEndB() + shiftedAmount,
+          !Objects.equals(edit.getNewFilePath(), adjustedFilePath));
     }
   }
 }

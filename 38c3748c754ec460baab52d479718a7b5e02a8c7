@@ -71,6 +71,30 @@
       "revId": "38c3748c754ec460baab52d479718a7b5e02a8c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2a438a8_8b1a0802",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-13T08:32:10Z",
+      "side": 1,
+      "message": "Fine with me too.",
+      "parentUuid": "99090f51_e8559070",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 244,
+        "endChar": 5
+      },
+      "revId": "38c3748c754ec460baab52d479718a7b5e02a8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

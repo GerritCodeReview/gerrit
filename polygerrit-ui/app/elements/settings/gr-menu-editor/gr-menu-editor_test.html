@@ -64,19 +64,22 @@ limitations under the License.
       Polymer.dom.flush();
     });
 
-    test('renders', () => {
+    test('renders', done => {
       const rows = element.$$('tbody').querySelectorAll('tr');
       let tds;
 
-      assert.equal(rows.length, menu.length);
-      for (let i = 0; i < menu.length; i++) {
-        tds = rows[i].querySelectorAll('td');
-        assert.equal(tds[0].textContent, menu[i].name);
-        assert.equal(tds[1].textContent, menu[i].url);
-      }
+      Polymer.Base.async(() => {
+        assert.equal(rows.length, menu.length);
+        for (let i = 0; i < menu.length; i++) {
+          tds = rows[i].querySelectorAll('td');
+          assert.equal(tds[0].textContent, menu[i].name);
+          assert.equal(tds[1].textContent, menu[i].url);
+        }
 
-      assert.isTrue(element._computeAddDisabled(element._newName,
-          element._newUrl));
+        assert.isTrue(element._computeAddDisabled(element._newName,
+            element._newUrl));
+        done();
+      }, 1);
     });
 
     test('_computeAddDisabled', () => {
@@ -86,23 +89,27 @@ limitations under the License.
       assert.isFalse(element._computeAddDisabled('name', 'url'));
     });
 
-    test('add a new menu item', () => {
+    test('add a new menu item', done => {
       const newName = 'new name';
       const newUrl = 'new url';
 
-      element._newName = newName;
-      element._newUrl = newUrl;
-      assert.isFalse(element._computeAddDisabled(element._newName,
-          element._newUrl));
+      Polymer.Base.async(() => {
+        element._newName = newName;
+        element._newUrl = newUrl;
 
-      const originalMenuLength = element.menuItems.length;
+        assert.isFalse(element._computeAddDisabled(element._newName,
+            element._newUrl));
 
-      element._handleAddButton();
+        const originalMenuLength = element.menuItems.length;
 
-      assert.equal(element.menuItems.length, originalMenuLength + 1);
-      assert.equal(element.menuItems[element.menuItems.length - 1].name,
-          newName);
-      assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
+        element._handleAddButton();
+
+        assert.equal(element.menuItems.length, originalMenuLength + 1);
+        assert.equal(element.menuItems[element.menuItems.length - 1].name,
+            newName);
+        assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
+        done();
+      }, 1);
     });
 
     test('move items down', () => {

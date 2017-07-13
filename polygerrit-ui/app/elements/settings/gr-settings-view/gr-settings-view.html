@@ -220,34 +220,31 @@ limitations under the License.
           <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
             <span class="title">Diff width</span>
             <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
+              <iron-input
                   allowed-pattern="[0-9]"
                   bind-value="{{_diffPrefs.line_length}}">
+                <input type="number">
+              </iron-input>
             </span>
           </section>
           <section>
             <span class="title">Tab width</span>
             <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
+              <iron-input
                   allowed-pattern="[0-9]"
                   bind-value="{{_diffPrefs.tab_size}}">
+                <input type="number">
+              </iron-input>
             </span>
           </section>
           <section hidden$="[[!_diffPrefs.font_size]]">
             <span class="title">Font size</span>
             <span class="value">
-              <input
-                  is="iron-input"
-                  type="number"
-                  prevent-invalid-input
-                  allowed-pattern="[0-9]"
+              <iron-input
+                   allowed-pattern="[0-9]"
                   bind-value="{{_diffPrefs.font_size}}">
+                <input type="number">
+              </iron-input>
             </span>
           </section>
           <section>
@@ -337,14 +334,15 @@ limitations under the License.
           <section>
             <span class="title">New email address</span>
             <span class="value">
-              <input
+              <iron-input
                   id="newEmailInput"
-                  bind-value="{{_newEmail}}"
-                  is="iron-input"
-                  type="text"
-                  disabled="[[_addingEmail]]"
-                  on-keydown="_handleNewEmailKeydown"
-                  placeholder="email@example.com">
+                  bind-value="{{_newEmail}}">
+                <input
+                    type="text"
+                    disabled="[[_addingEmail]]"
+                    on-keydown="_handleNewEmailKeydown"
+                    placeholder="email@example.com">
+              </iron-input>
             </span>
           </section>
           <section

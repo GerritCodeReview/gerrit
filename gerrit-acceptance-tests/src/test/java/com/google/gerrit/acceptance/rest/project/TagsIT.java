@@ -108,6 +108,9 @@ public class TagsIT extends AbstractDaemonTest {
     result = getTags().withRegex("^tag-[C|D]$").get();
     assertTagList(FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
 
+    result = getTags().withRegex("^tag-[c|d]$").get();
+    assertTagList(FluentIterable.from(ImmutableList.of()), result);
+
     // With substring filter
     result = getTags().withSubstring("tag-").get();
     assertTagList(FluentIterable.from(testTags), result);

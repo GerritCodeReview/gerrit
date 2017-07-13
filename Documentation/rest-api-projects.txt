@@ -1217,6 +1217,8 @@ Boundary matchers '^' and '$' are implicit. For example: the regex 't*' will
 match any branches that start with 'test' and regex '*t' will match any
 branches that end with 'test'.
 +
+The match is case sensitive.
++
 List all branches that match regex `t.*1`:
 +
 .Request
@@ -1903,6 +1905,8 @@ Limit the results to those tags that match the specified regex.
 Boundary matchers '^' and '$' are implicit. For example: the regex 't*' will
 match any tags that start with 't' and regex '*t' will match any
 tags that end with 't'.
++
+The match is case sensitive.
 +
 List all tags that match regex `v.*0`:
 +

@@ -193,6 +193,13 @@ limitations under the License.
       assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
     });
 
+    test('CC=email labels link correctly', function() {
+      element.removeZeroWidthSpace = true;
+      element.content = 'CC=\u200Btest@google.com';
+      assert.equal(element.$.output.textContent, 'CC=test@google.com');
+      assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
+    });
+
     test('overlapping links', function() {
       element.config = {
         b1: {

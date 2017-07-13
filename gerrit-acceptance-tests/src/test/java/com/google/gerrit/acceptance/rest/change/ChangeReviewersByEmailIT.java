@@ -314,7 +314,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void reviewersByEmailAreServedFromIndex() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
     AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {

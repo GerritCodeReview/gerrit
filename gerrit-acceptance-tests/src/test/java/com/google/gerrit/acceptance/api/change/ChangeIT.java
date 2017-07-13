@@ -1384,7 +1384,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveEmailFallback() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
@@ -1480,7 +1480,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
     assume().that(notesMigration.changePrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
 
     PushOneCommit.Result r = createChange();
@@ -2159,8 +2159,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void check() throws Exception {
-    // TODO(dborowitz): Re-enable when ConsistencyChecker supports NoteDb.
-    assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).get().problems).isNull();
     assertThat(gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.CHECK)).problems)

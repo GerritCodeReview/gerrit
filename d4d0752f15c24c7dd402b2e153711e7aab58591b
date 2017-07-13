@@ -23,6 +23,30 @@
       "revId": "d4d0752f15c24c7dd402b2e153711e7aab58591b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d4af4b5_0c14765c",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-13T12:06:16Z",
+      "side": 1,
+      "message": "TBH I did this because I expect to have to type it manually on the command line, and I don\u0027t want to have to remember which exact thing is allowed. SshMode is slightly different in that we only set it programmatically in our BUILD file, we don\u0027t actually expect people to type it. So I agree in principle that we should try to be consistent, but I don\u0027t think it\u0027s urgent.",
+      "parentUuid": "3c3d2cea_69b5632a",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 15
+      },
+      "revId": "d4d0752f15c24c7dd402b2e153711e7aab58591b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f840af_c881bbb2",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "Are these modifications intentional?",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4d9273_0719f26b",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "Revert unnecessary change.",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de1ac3d_be36435e",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "Is this the recommended method for accessing the actual input element? Seems needlessly verbose to me.",
+      "range": {
+        "startLine": 197,
+        "startChar": 29,
+        "endLine": 197,
+        "endChar": 47
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fc5b2f_9bb31f9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "This seems like something you could include in the test boilerplate, possibly. Then we\u0027d have access to it in every file without duplication.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511f2fe1_b05a4b45",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "Sandbox",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcfb7b29_59e53986",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "I notice your HTML spacing is not consistent, in this file and others.\n\nAFAIK, whenever we have a multiline element, we put each attribute on its own line. (Please correct me if I\u0027m wrong... I know I\u0027ve been told to do that in the past, though.)",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 48
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47f339d_d8421ea5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:36:14Z",
+      "side": 1,
+      "message": "We can remove these lines and just check for truthiness.",
+      "range": {
+        "startLine": 61,
+        "startChar": 32,
+        "endLine": 61,
+        "endChar": 69
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

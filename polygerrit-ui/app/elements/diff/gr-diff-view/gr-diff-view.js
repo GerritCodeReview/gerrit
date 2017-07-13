@@ -461,7 +461,7 @@
       this._path = value.path;
 
       this.fire('title-change',
-          {title: this._computeFileDisplayName(this._path)});
+          {title: this._computeTruncatedFileDisplayName(this._path)});
 
       // When navigating away from the page, there is a possibility that the
       // patch number is no longer a part of the URL (say when navigating to
@@ -526,7 +526,7 @@
     _pathChanged(path) {
       if (path) {
         this.fire('title-change',
-            {title: this._computeFileDisplayName(path)});
+            {title: this._computeTruncatedFileDisplayName(path)});
       }
 
       if (this._fileList.length == 0) { return; }
@@ -603,7 +603,7 @@
       } else if (path === MERGE_LIST_PATH) {
         return 'Merge list';
       }
-      return path.split('/').pop();
+      return path;
     },
 
     _computeTruncatedFileDisplayName(path) {

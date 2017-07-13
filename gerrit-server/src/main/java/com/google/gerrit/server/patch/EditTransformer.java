@@ -19,7 +19,6 @@ import static com.google.common.collect.Multimaps.toMultimap;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -109,10 +108,8 @@ class EditTransformer {
   private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
     Map<String, List<ContextAwareEdit>> editsPerFilePath =
         edits.stream().collect(groupingBy(sideStrategy::getFilePath));
-    Map<String, PatchListEntry> transformingEntryPerPath =
-        transformingEntries
-            .stream()
-            .collect(toMap(EditTransformer::getOldFilePath, Function.identity()));
+    Map<String, List<PatchListEntry>> transEntriesPerPath =
+        transformingEntries.stream().collect(groupingBy(EditTransformer::getOldFilePath));
 
     edits =
         editsPerFilePath
@@ -120,10 +117,9 @@ class EditTransformer {
             .stream()
             .flatMap(
                 pathAndEdits -> {
-                  PatchListEntry transformingEntry =
-                      transformingEntryPerPath.get(pathAndEdits.getKey());
-                  return transformEdits(sideStrategy, pathAndEdits.getValue(), transformingEntry)
-                      .stream();
+                  List<PatchListEntry> transEntries =
+                      transEntriesPerPath.getOrDefault(pathAndEdits.getKey(), ImmutableList.of());
+                  return transformEdits(sideStrategy, pathAndEdits.getValue(), transEntries);
                 })
             .collect(toList());
   }
@@ -132,15 +128,22 @@ class EditTransformer {
     return MoreObjects.firstNonNull(patchListEntry.getOldName(), patchListEntry.getNewName());
   }
 
-  private static List<ContextAwareEdit> transformEdits(
+  private static Stream<ContextAwareEdit> transformEdits(
       SideStrategy sideStrategy,
       List<ContextAwareEdit> originalEdits,
-      PatchListEntry transformingEntry) {
-    if (transformingEntry == null) {
-      return originalEdits;
+      List<PatchListEntry> transformingEntries) {
+    if (transformingEntries.isEmpty()) {
+      return originalEdits.stream();
     }
-    return transformEdits(
-        sideStrategy, originalEdits, transformingEntry.getEdits(), transformingEntry.getNewName());
+
+    // TODO(aliceks): Find a way to prevent an explosion of the number of entries.
+    return transformingEntries
+        .stream()
+        .flatMap(
+            transEntry ->
+                transformEdits(
+                        sideStrategy, originalEdits, transEntry.getEdits(), transEntry.getNewName())
+                    .stream());
   }
 
   private static List<ContextAwareEdit> transformEdits(

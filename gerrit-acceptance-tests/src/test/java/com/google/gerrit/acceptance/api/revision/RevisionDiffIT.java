@@ -139,6 +139,20 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copiedFileTreatedAsAddedFileInDiff() throws Exception {
+    String copyFilePath = "copy_of_some_file.txt";
+    gApi.changes().id(changeId).edit().modifyFile(copyFilePath, RawInputUtil.create(FILE_CONTENT));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, copyFilePath);
+    // If this ever changes, please add tests which cover copied files.
+    assertThat(changedFiles.get(copyFilePath)).status().isEqualTo('A');
+    assertThat(changedFiles.get(copyFilePath)).linesInserted().isEqualTo(100);
+    assertThat(changedFiles.get(copyFilePath)).linesDeleted().isNull();
+  }
+
+  @Test
   public void addedBinaryFileIsIncludedInDiff() throws Exception {
     String imageFileName = "an_image.png";
     byte[] imageBytes = createRgbImage(255, 0, 0);
@@ -1037,6 +1051,43 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).isDueToRebase();
     assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+  }
+
+  @Test
+  public void copiedAndRenamedFilesWithOnlyRebaseHunksAreIdentified() throws Exception {
+    String newFileContent = FILE_CONTENT.replace("Line 5\n", "Line five\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
+
+    rebaseChangeOn(changeId, commit2);
+    // Copies are only identified by JGit when paired with renaming.
+    String copyFileName = "copy_of_some_file.txt";
+    String renamedFileName = "renamed_some_file.txt";
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(copyFileName, RawInputUtil.create(newFileContent));
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, copyFileName, renamedFileName);
+
+    DiffInfo renamedFileDiffInfo =
+        getDiffRequest(changeId, CURRENT, renamedFileName).withBase(initialPatchSetId).get();
+    assertThat(renamedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(renamedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(renamedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(renamedFileDiffInfo).content().element(1).isDueToRebase();
+    assertThat(renamedFileDiffInfo).content().element(2).commonLines().hasSize(95);
+
+    DiffInfo copiedFileDiffInfo =
+        getDiffRequest(changeId, CURRENT, copyFileName).withBase(initialPatchSetId).get();
+    assertThat(copiedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(copiedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(copiedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(copiedFileDiffInfo).content().element(1).isDueToRebase();
+    assertThat(copiedFileDiffInfo).content().element(2).commonLines().hasSize(95);
   }
 
   /*

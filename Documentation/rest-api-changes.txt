@@ -5729,6 +5729,8 @@ When present, change is marked as private.
 When present, change is marked as Work In Progress.
 |`has_review_started` |optional, not set if `false`|
 When present, change has been marked Ready at some point in time.
+|`revert_of`          |optional|
+The numeric Change-Id of the change that this change reverts.
 |==================================
 
 [[change-input]]

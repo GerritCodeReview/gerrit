@@ -45,11 +45,12 @@ limitations under the License.
         text-decoration: underline;
       }
     </style>
-    <input
-        is="iron-input"
+    <iron-input
         id="input"
-        hidden$="[[!editing]]"
-        bind-value="{{_inputText}}">
+        bind-value="{{_inputText}}"
+        hidden$="[[!editing]]">
+      <input>
+    </iron-input>
     <label
         hidden$="[[editing]]"
         class$="[[_computeLabelClass(readOnly, value, placeholder)]]"

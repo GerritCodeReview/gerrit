@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -46,12 +45,13 @@ limitations under the License.
     </style>
     <div class="text">
         <label>[[title]]</label>
-        <input id="input" is="iron-input"
-            class$="copyText [[_computeInputClass(hideInput)]]"
+        <input
+            id="input"
             type="text"
-            bind-value="[[text]]"
             on-tap="_handleInputTap"
-            readonly>
+            readonly
+            class$="copyText [[_computeInputClass(hideInput)]]"
+            value="[[text]]">
         <gr-button id="button"
             class="copyToClipboard"
             on-tap="_copyToClipboard">

@@ -363,6 +363,7 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private Integer unresolvedCommentCount;
+  private Change.Id revertOf;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -1342,6 +1343,17 @@ public class ChangeData {
       }
     }
     return starsOf.stars();
+  }
+
+  public void setRevertOf(Change.Id revertOf) {
+    this.revertOf = revertOf;
+  }
+
+  public Change.Id getRevertOf() throws OrmException {
+    if (revertOf == null && lazyLoad) {
+      revertOf = change().getRevertOf();
+    }
+    return revertOf;
   }
 
   @Override

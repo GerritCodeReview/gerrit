@@ -3494,6 +3494,34 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
   }
 
+  @Test
+  public void revertOfIsNullByDefault() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getRevertOf()).isNull();
+  }
+
+  @Test
+  public void setRevertOfPersistsValue() throws Exception {
+    Change c = newChange();
+    Change changeToRevert = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setRevertOf(changeToRevert.getChangeId());
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getRevertOf()).isEqualTo(changeToRevert.getId());
+  }
+
+  @Test
+  public void setRevertOfToCurrentChangeFails() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("A change cannot revert itself.");
+    update.setRevertOf(c.getId().get());
+  }
+
   private boolean testJson() {
     return noteUtil.getWriteJson();
   }

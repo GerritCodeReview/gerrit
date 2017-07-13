@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1499884274 -0400\nnonce AB2F6yDLEt+3IgFDoClxZo5tIjL42of4hvFRg1KSfmXkVx6lGcDA5Aezc0hwfvOPcjJ1mdUPimyG\n\n0000000000000000000000000000000000000000 d4d0752f15c24c7dd402b2e153711e7aab58591b refs/for/master%topic\u003dlocal-disk-tests,r\u003dekempin,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZZmryAAoJEF/XxZqaEoiMaWkQAJamFdZt6DoZP3QyqoNd5/hW\nxwNoyqNPvRhptWigWS5q8/nmnA5cuAF+23tfSDA3txPx+Og3Szf62prN3KDsSLd6\nDybLxde5BFFuQ+GqW+O1FbC4j0hwr9luRDALxrBG/dJ3PZZW+6U6Uw81aChvM5+y\nYvFdrgUgIiPTt1VgQc171FCm+MUlZ/NUq9j5mqTMDMGf7ZjnaCk3+7LHhhUxh+ny\n6adG744+dR78Yha69uC+/rtwRNXCJ/J6dXRhvRtKB5wu7jaWH7hfxzc60SqdlMK/\nQFH1WijK2Vd6zD64ug68hSAByJK3H99esTAbs67ga9xmoyqzcjub6Mp5tDYMwldh\n+JgKIvgphEhVQw6u7NFTDGRLD/SX1jbEYyvS5RZ4MXSQ58an92vQ3BV+YBuqZ9CF\npGJyQlqcrng0W3wTgjg6de6EeSdVqBA3ul487yFMyRk7kfMVv1/JPH0QlQgI12pJ\nrKcRGfvRbyqRo9xBvIhbTNiPY+YwxYflSRbTFUeTxOkzzc8buWH9SOSLOqhNZZwy\nbWOeT2jgXhmr3EOwQyDqjJWLYOC2Uy2jNAInaSV534w5rKk6jkj4cGy6BXINB4Ce\nXHS7L4CYU+KV1koH60s4EVPsWhq/1ItgcvLNc6UDbb6Ti53mJ28XwBy0kerAPN0+\nZUuTlp8KJtERdeMuBsb1\n\u003dh6WD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc413d3c_c8a190c6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-13T07:32:36Z",
+      "side": 1,
+      "message": "optional: Annotate the parameters that can be null (sitePath, daemonService) with @Nullable?",
+      "range": {
+        "startLine": 427,
+        "startChar": 6,
+        "endLine": 427,
+        "endChar": 19
+      },
+      "revId": "d0f00a76e5d071e1ad5c544c8705ed2591224c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

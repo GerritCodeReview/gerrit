@@ -120,6 +120,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -212,6 +213,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -243,6 +245,7 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -267,6 +270,7 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.queryProvider = queryProvider;
     this.options = Sets.immutableEnumSet(options);
   }
 
@@ -542,6 +546,7 @@ public class ChangeJson {
     out.submitted = getSubmittedOn(cd);
     out.plugins =
         pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
+    out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't

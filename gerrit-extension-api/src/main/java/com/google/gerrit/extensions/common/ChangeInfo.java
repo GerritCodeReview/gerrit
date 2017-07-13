@@ -48,6 +48,7 @@ public class ChangeInfo {
   public Boolean isPrivate;
   public Boolean workInProgress;
   public Boolean hasReviewStarted;
+  public Integer revertOf;
 
   public int _number;
 

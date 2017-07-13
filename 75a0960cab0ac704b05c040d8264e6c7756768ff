@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ff225f7_88888952",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-13T12:34:30Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to like this, although it passes for me locally.",
+      "range": {
+        "startLine": 484,
+        "startChar": 70,
+        "endLine": 484,
+        "endChar": 73
+      },
+      "revId": "75a0960cab0ac704b05c040d8264e6c7756768ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

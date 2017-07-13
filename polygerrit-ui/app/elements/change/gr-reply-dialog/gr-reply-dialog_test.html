@@ -759,5 +759,44 @@ limitations under the License.
       });
       element._handle400Error(response);
     });
+
+    test('ready property when posting review', done => {
+      let resolve;
+      sandbox.stub(element, '_saveReview', obj => resolve(obj));
+      function send(startReview) {
+        return new Promise(r => {
+          resolve = r;
+          element.send(true, startReview);
+        });
+      }
+
+      send(true)
+          .then(obj => assert.isTrue(obj.ready))
+          .then(() => send(false))
+          .then(obj => assert.isUndefined(obj.ready))
+          .then(done);
+    });
+
+    suite('start/save review', () => {
+      let sendSpy;
+      setup(() => {
+        sendSpy = sandbox.spy(element, 'send');
+        element.canBeStarted = true;
+        // Flush to make both Start/Save buttons appear in DOM.
+        flushAsynchronousOperations();
+      });
+
+      test('start review sets ready', () => {
+        MockInteractions.tap(element.$$('.send'));
+        flushAsynchronousOperations();
+        assert.isTrue(sendSpy.calledWith(true, true));
+      });
+
+      test('save review doesn\'t set ready', () => {
+        MockInteractions.tap(element.$$('.save'));
+        flushAsynchronousOperations();
+        assert.isTrue(sendSpy.calledWith(true, false));
+      });
+    });
   });
 </script>

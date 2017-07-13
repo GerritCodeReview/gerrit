@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42b232e2_e8f7ac1c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T18:22:40Z",
+      "side": 1,
+      "message": "Does this need to be here? Can we just put it on the table?",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf1d4f8_4ffa89c0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T18:22:40Z",
+      "side": 1,
+      "message": "Nit: formatting is off.\n\n      return isOwner \u0026\u0026 this._stripRefs(ref, detailType) \u003d\u003d\u003d \u0027HEAD\u0027 ?\n          \u0027canEdit\u0027 : \u0027\u0027;",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 15
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef5061e1_ea452069",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T18:22:40Z",
+      "side": 1,
+      "message": "Maybe bring this to the end of the prior line? I\u0027m not a fan of unnecessary indenting.\n\nUp to you :)",
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a44e21e_0724adfe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T18:22:40Z",
+      "side": 1,
+      "message": "You can remove all of the highlighted text here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 27
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ad1c0d_386dbe11",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T18:22:40Z",
+      "side": 1,
+      "message": "Does this work? This.send returns a promise.",
+      "range": {
+        "startLine": 551,
+        "startChar": 6,
+        "endLine": 551,
+        "endChar": 39
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

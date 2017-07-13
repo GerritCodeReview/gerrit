@@ -46,6 +46,30 @@
       "revId": "eeafa52f7d03ff006bf637185c43c7829a907884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8526564_2283d257",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-13T00:41:14Z",
+      "side": 1,
+      "message": "Yep i was. Sorry about that.\n\nI\u0027ve replaced what it should check.",
+      "parentUuid": "0c4306cc_ea421674",
+      "range": {
+        "startLine": 52,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "eeafa52f7d03ff006bf637185c43c7829a907884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

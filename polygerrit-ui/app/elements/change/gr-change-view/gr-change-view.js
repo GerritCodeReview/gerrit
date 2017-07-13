@@ -26,7 +26,7 @@
 
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
-  const REVIEWERS_REGEX = /^R=/gm;
+  const REVIEWERS_REGEX = /^(R|CC)=/gm;
   const MIN_CHECK_INTERVAL_SECS = 0;
 
   // These are the same as the breakpoint set in CSS. Make sure both are changed
@@ -917,8 +917,8 @@
     _prepareCommitMsgForLinkify(msg) {
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
-      // from including R= as part of the email address.
-      return msg.replace(REVIEWERS_REGEX, 'R=\u200B');
+      // from including R= or CC= as part of the email address.
+      return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
     },
 
     _getChangeDetail() {

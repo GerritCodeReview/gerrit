@@ -253,6 +253,10 @@ limitations under the License.
       commitMessage = 'R=test@google.com\nR=test@google.com';
       result = element._prepareCommitMsgForLinkify(commitMessage);
       assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
+
+      commitMessage = 'CC=test@google.com';
+      result = element._prepareCommitMsgForLinkify(commitMessage);
+      assert.equal(result, 'CC=\u200Btest@google.com');
     }),
 
     test('_computePatchSetCommentsString', () => {

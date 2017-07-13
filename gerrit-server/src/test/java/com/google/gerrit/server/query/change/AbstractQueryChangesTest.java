@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -49,6 +50,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -2121,6 +2123,31 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("us");
   }
 
+  @Test
+  public void revertOf() throws Exception {
+    if (getSchemaVersion() < 45) {
+      assertMissingField(ChangeField.REVERT_OF);
+      assertFailingQuery(
+          "revertof:1", "'revertof' operator is not supported by change index version");
+      return;
+    }
+
+    TestRepository<Repo> repo = createProject("repo");
+    // Create two commits and revert second commit (initial commit can't be reverted)
+    Change initial = insert(repo, newChange(repo));
+    gApi.changes().id(initial.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(initial.getChangeId()).current().submit();
+
+    ChangeInfo changeToRevert =
+        gApi.changes().create(new ChangeInput("repo", "master", "commit to revert")).get();
+    gApi.changes().id(changeToRevert.id).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToRevert.id).current().submit();
+
+    ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
+    assertQueryByIds(
+        "revertof:" + changeToRevert._number, new Change.Id(changeThatReverts._number));
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }
@@ -2255,36 +2282,47 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return assertQuery(newQuery(query), changes);
   }
 
+  protected List<ChangeInfo> assertQueryByIds(Object query, Change.Id... changes) throws Exception {
+    return assertQueryByIds(newQuery(query), changes);
+  }
+
   protected List<ChangeInfo> assertQuery(QueryRequest query, Change... changes) throws Exception {
+    return assertQueryByIds(
+        query, Arrays.stream(changes).map(Change::getId).toArray(Change.Id[]::new));
+  }
+
+  protected List<ChangeInfo> assertQueryByIds(QueryRequest query, Change.Id... changes)
+      throws Exception {
     List<ChangeInfo> result = query.get();
-    Iterable<Integer> ids = ids(result);
+    Iterable<Change.Id> ids = ids(result);
     assertThat(ids)
         .named(format(query, ids, changes))
-        .containsExactlyElementsIn(ids(changes))
+        .containsExactlyElementsIn(Arrays.asList(changes))
         .inOrder();
     return result;
   }
 
-  private String format(QueryRequest query, Iterable<Integer> actualIds, Change... expectedChanges)
+  private String format(
+      QueryRequest query, Iterable<Change.Id> actualIds, Change.Id... expectedChanges)
       throws RestApiException {
     StringBuilder b = new StringBuilder();
     b.append("query '").append(query.getQuery()).append("' with expected changes ");
-    b.append(format(Arrays.stream(expectedChanges).map(Change::getChangeId).iterator()));
+    b.append(format(Arrays.asList(expectedChanges)));
     b.append(" and result ");
     b.append(format(actualIds));
     return b.toString();
   }
 
-  private String format(Iterable<Integer> changeIds) throws RestApiException {
+  private String format(Iterable<Change.Id> changeIds) throws RestApiException {
     return format(changeIds.iterator());
   }
 
-  private String format(Iterator<Integer> changeIds) throws RestApiException {
+  private String format(Iterator<Change.Id> changeIds) throws RestApiException {
     StringBuilder b = new StringBuilder();
     b.append("[");
     while (changeIds.hasNext()) {
-      int id = changeIds.next();
-      ChangeInfo c = gApi.changes().id(id).get();
+      Change.Id id = changeIds.next();
+      ChangeInfo c = gApi.changes().id(id.get()).get();
       b.append("{")
           .append(id)
           .append(" (")
@@ -2307,12 +2345,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return b.toString();
   }
 
-  protected static Iterable<Integer> ids(Change... changes) {
-    return FluentIterable.from(Arrays.asList(changes)).transform(in -> in.getId().get());
+  protected static Iterable<Change.Id> ids(Change... changes) {
+    return Arrays.stream(changes).map(c -> c.getId()).collect(toList());
   }
 
-  protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {
-    return FluentIterable.from(changes).transform(in -> in._number);
+  protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {
+    return Streams.stream(changes).map(c -> new Change.Id(c._number)).collect(toList());
   }
 
   protected static long lastUpdatedMs(Change c) {

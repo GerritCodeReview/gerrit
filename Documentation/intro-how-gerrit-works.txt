@@ -1,0 +1,37 @@
+= How Gerrit Works
+
+To understand how Gerrit fits into and enhances the developer workflow, consider
+a typical project. This project has a central source repository, which serves as
+the authoritative copy of the project's contents.
+
+.Central Source Repository
+image::images/intro-quick-central-repo.png[Authoritative Source Repository]
+
+Gerrit takes the place of this central repository and adds an additional
+concept: a _store of pending changes_.
+
+.Gerrit in place of Central Repository
+image::images/intro-quick-central-gerrit.png[Gerrit in place of Central Repository]
+
+With Gerrit, when a developer makes a change, it is sent to this store of
+pending changes, where other developers can review, discuss and approve the
+change. After enough reviewers grant their approval, the change becomes an
+official part of the codebase.
+
+In addition to this store of pending changes, Gerrit captures notes
+and comments about each change. These features allow developers to review
+changes at their convenience, or when conversations about a change can't
+happen face to face. They also help to create a record of the conversation
+around a given change, which can provide a history of when a change was made and
+why.
+
+Like any repository hosting solution, Gerrit has a powerful
+link:access-control.html[access control model]. This model allows you to
+fine-tune access to your repository.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

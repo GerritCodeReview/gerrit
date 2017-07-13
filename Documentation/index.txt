@@ -4,12 +4,17 @@
 
 . link:linux-quickstart.html[Quickstart for Installing Gerrit on Linux]
 
-== Tutorial
-. Getting started
-.. link:intro-quick.html[A Quick Introduction to Gerrit]
-.. link:intro-user.html[User Guide]
-.. link:intro-project-owner.html[Project Owner Guide]
-.. link:http://source.android.com/source/life-of-a-patch[Default Android Workflow] (external)
+== About Gerrit
+. link:intro-product-overview.html[Product Overview]
+. link:intro-how-gerrit-works.html[How Gerrit Works]
+. link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
+
+== Guides
+. link:intro-user.html[User Guide]
+. link:intro-project-owner.html[Project Owner Guide]
+. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
+
+== Tutorials
 . Web
 .. link:user-review-ui.html[Reviewing Changes]
 .. link:user-search.html[Searching Changes]

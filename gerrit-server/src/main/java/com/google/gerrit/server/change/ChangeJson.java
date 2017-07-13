@@ -120,6 +120,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -212,6 +213,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -243,6 +245,7 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -267,6 +270,7 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.queryProvider = queryProvider;
     this.options = Sets.immutableEnumSet(options);
   }
 
@@ -452,7 +456,7 @@ public class ChangeJson {
       info.isPrivate = c.isPrivate() ? true : null;
       info.workInProgress = c.isWorkInProgress() ? true : null;
       info.hasReviewStarted = c.hasReviewStarted();
-      finish(info);
+      info.id = triplet(info.project, info.branch, info.changeId);
     } else {
       info = new ChangeInfo();
       info._number = result.id().get();
@@ -557,6 +561,15 @@ public class ChangeJson {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(ctl, out);
+
+      if (cd.change().getRevertOf() != null) {
+        List<ChangeData> revertList =
+            queryProvider.get().byLegacyChangeId(cd.change().getRevertOf());
+        if (revertList.size() == 1) {
+          out.revertOf =
+              triplet(out.project, out.branch, revertList.get(0).change().getKey().get());
+        }
+      }
     }
 
     if (has(REVIEWER_UPDATES)) {
@@ -574,7 +587,7 @@ public class ChangeJson {
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
-    finish(out);
+    out.id = triplet(out.project, out.branch, out.changeId);
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
@@ -1410,10 +1423,8 @@ public class ChangeJson {
     fetchInfo.commands.put(commandName, c);
   }
 
-  static void finish(ChangeInfo info) {
-    info.id =
-        Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+  static String triplet(String project, String branch, String id) {
+    return Joiner.on('~').join(Url.encode(project), Url.encode(branch), Url.encode(id));
   }
 
   private static void addApproval(LabelInfo label, ApprovalInfo approval) {

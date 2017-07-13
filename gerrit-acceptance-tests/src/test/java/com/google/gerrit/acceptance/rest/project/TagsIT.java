@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -116,6 +117,9 @@ public class TagsIT extends AbstractDaemonTest {
     assertTagList(FluentIterable.from(testTags), result);
     result = getTags().withSubstring("ag-B").get();
     assertTagList(FluentIterable.from(ImmutableList.of("tag-B")), result);
+
+    // With conflicting options
+    assertBadRequest(getTags().withSubstring("ag-B").withRegex("^tag-[c|d]$"));
   }
 
   @Test
@@ -346,5 +350,14 @@ public class TagsIT extends AbstractDaemonTest {
 
   private TagApi tag(String tagname) throws Exception {
     return gApi.projects().name(project.get()).tag(tagname);
+  }
+
+  private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {
+    try {
+      req.get();
+      fail("Expected BadRequestException");
+    } catch (BadRequestException e) {
+      // Expected
+    }
   }
 }

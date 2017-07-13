@@ -56,6 +56,9 @@ public class RefFilter<T extends RefInfo> {
   }
 
   public List<T> filter(List<T> refs) throws BadRequestException {
+    if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
+      throw new BadRequestException("specify exactly one of m/r");
+    }
     FluentIterable<T> results = FluentIterable.from(refs);
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       results = results.filter(new SubstringPredicate(matchSubstring));

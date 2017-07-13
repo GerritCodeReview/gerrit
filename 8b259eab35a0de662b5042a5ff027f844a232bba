@@ -23,6 +23,30 @@
       "revId": "8b259eab35a0de662b5042a5ff027f844a232bba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4b0dac3_60b776e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-13T11:45:43Z",
+      "side": 1,
+      "message": "It would be nice if CI could test with all modes, but it\u0027s too slow as it is, so adding a bunch more modes is not going to help.\n\nThe particular choice of modes in CI was based on what was actually running on googlesource.com, so we would have some confidence that master is not going to break us.\n\nNow that I\u0027m actively working on the online migration process, I\u0027m starting to care again about some of the intermediate modes that CI is skipping. But I\u0027m not sure how to solve the slowness problem.",
+      "parentUuid": "9f03a180_fe926881",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "8b259eab35a0de662b5042a5ff027f844a232bba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

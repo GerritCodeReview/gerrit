@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -28,6 +29,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
@@ -36,6 +38,7 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEv
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -477,6 +480,11 @@ public class GroupsIT extends AbstractDaemonTest {
     Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withSubstring("foo"));
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withUser("u"));
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withOwned(true));
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withVisibleToAll(true));
+    assertBadRequest(gApi.groups().list().withSuggest("adm").withStart(1));
   }
 
   @Test
@@ -634,5 +642,14 @@ public class GroupsIT extends AbstractDaemonTest {
     name = name(name);
     accounts.create(name, group);
     return name;
+  }
+
+  private void assertBadRequest(Groups.ListRequest req) throws Exception {
+    try {
+      req.get();
+      fail("Expected BadRequestException");
+    } catch (BadRequestException e) {
+      // Expected
+    }
   }
 }

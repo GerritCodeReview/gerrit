@@ -23,32 +23,34 @@ limitations under the License.
 <dom-module id="gr-autocomplete">
   <template>
     <style include="shared-styles">
-      input {
+      iron-input, input {
         font-size: 1em;
         height: 100%;
         width: 100%;
+      }
+      iron-input {
         @apply --gr-autocomplete;
       }
-      input.borderless,
-      input.borderless:focus {
+      iron-input.borderless input,
+      iron-input.borderless:focus input {
         border: none;
         outline: none;
       }
-      input.warnUncommitted {
+      iron-input.warnUncommitted input {
         color: red;
       }
     </style>
-    <input
-        id="input"
+    <iron-input id="input"
         class$="[[_computeClass(borderless)]]"
-        is="iron-input"
-        disabled$="[[disabled]]"
-        bind-value="{{text}}"
-        placeholder="[[placeholder]]"
-        on-keydown="_handleKeydown"
-        on-focus="_onInputFocus"
-        on-blur="_onInputBlur"
-        autocomplete="off" />
+        bind-value="{{text}}">
+      <input
+          disabled$="[[disabled]]"
+          placeholder="[[placeholder]]"
+          on-keydown="_handleKeydown"
+          on-focus="_onInputFocus"
+          on-blur="_onInputBlur"
+          autocomplete="off" />
+    </iron-input>
     <!-- This container is needed for Safari and Firefox -->
     <div id="suggestionContainer">
       <gr-autocomplete-dropdown id="suggestions"

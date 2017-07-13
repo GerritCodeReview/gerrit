@@ -161,7 +161,7 @@ limitations under the License.
     test('_handleAddProject', () => {
       element.$.newProject.value = {id: 'project d'};
       element.$.newProject.setText('project d');
-      element.$.newFilter.bindValue = '';
+      element.$.newFilter.value = '';
 
       element._handleAddProject();
 
@@ -174,7 +174,7 @@ limitations under the License.
     test('_handleAddProject with invalid inputs', () => {
       element.$.newProject.value = {id: 'project b'};
       element.$.newProject.setText('project b');
-      element.$.newFilter.bindValue = 'filter 1';
+      element.$.newFilter.value = 'filter 1';
 
       element._handleAddProject();
 

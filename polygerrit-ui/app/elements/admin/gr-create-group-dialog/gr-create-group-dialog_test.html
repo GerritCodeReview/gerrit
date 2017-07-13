@@ -50,13 +50,14 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('name is updated correctly', () => {
-      assert.isFalse(element.hasNewGroupName);
-
-      element.$.groupNameInput.bindValue = GROUP_NAME;
-
-      assert.isTrue(element.hasNewGroupName);
-      assert.deepEqual(element._name, GROUP_NAME);
+    test('name is updated correctly', done => {
+      Polymer.Base.async(() => {
+        assert.isFalse(element.hasNewGroupName);
+        element.$.groupNameInput.bindValue = GROUP_NAME;
+        assert.isTrue(element.hasNewGroupName);
+        assert.deepEqual(element._name, GROUP_NAME);
+        done();
+      }, 1);
     });
 
     test('test for redirecting to group on successful creation', done => {

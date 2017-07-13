@@ -1,0 +1,40 @@
+= Gerrit Product Overview
+
+Gerrit is a web-based code review tool built on top of the
+https://git-scm.com/[git version control system]. This introduction provides
+an overview of Gerrit and describes how Gerrit integrates into a typical
+development workflow. It also provides a brief tutorial that shows how to manage
+a change using Gerrit.
+
+== What is Gerrit?
+
+Gerrit makes code review easy by providing a lightweight framework for reviewing
+commits before they are accepted by the codebase. Gerrit works equally well for
+projects where approving changes is restricted to selected users, as is typical
+for Open Source software development, as well as projects where all contributors
+are trusted.
+
+== Learn About Gerrit
+
+If you're new to Gerrit and want to know more about how it can improve your
+developer workflow, see the following topics:
+
+. link:intro-product-overview.html[Product Overview]
+. link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
+
+== Getting Started
+
+This documentation contains several guides to help you learn about the Gerrit
+features most relevant to you:
+
+. link:intro-user.html[User Guide]
+. link:intro-project-owner.html[Project Owner Guide]
+. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------
+

@@ -167,7 +167,7 @@ public class MetaDataUpdate implements AutoCloseable {
     }
   }
 
-  interface InternalFactory {
+  public interface InternalFactory {
     MetaDataUpdate create(
         @Assisted Project.NameKey projectName,
         @Assisted Repository repository,

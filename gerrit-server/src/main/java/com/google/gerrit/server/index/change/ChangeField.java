@@ -207,6 +207,12 @@ public class ChangeField {
           .stored()
           .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()));
 
+  /** References a change that this change reverts. */
+  public static final FieldDef<ChangeData, Integer> REVERT_OF =
+      integer(ChangeQueryBuilder.FIELD_REVERTOF)
+          .stored()
+          .build(cd -> cd.getRevertOf() != null ? cd.getRevertOf().get() : null);
+
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);

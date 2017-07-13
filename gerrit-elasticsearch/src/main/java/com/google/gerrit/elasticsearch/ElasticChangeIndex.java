@@ -392,7 +392,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       if (fields.contains(ChangeField.REF_STATE_PATTERN.getName())) {
         cd.setRefStatePatterns(getByteArray(source, ChangeField.REF_STATE_PATTERN.getName()));
       }
-
+      if (fields.contains(ChangeField.REVERT_OF.getName())) {
+        Number revertOf = source.get(ChangeField.REVERT_OF.getName()).getAsNumber();
+        if (revertOf != null) {
+          cd.setRevertOf(new Change.Id(revertOf.intValue()));
+        }
+      }
       return cd;
     }
 

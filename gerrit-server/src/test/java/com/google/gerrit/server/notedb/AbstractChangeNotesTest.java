@@ -56,7 +56,6 @@ import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
-import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -97,8 +96,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   @ConfigSuite.Parameter public Config testConfig;
 
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
-
-  private static final NotesMigration MIGRATION = new TestNotesMigration().setAllEnabled(true);
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
@@ -154,7 +151,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 install(NoteDbModule.forTest(testConfig));
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
-                bind(NotesMigration.class).toInstance(MIGRATION);
                 bind(GitRepositoryManager.class).toInstance(repoManager);
                 bind(ProjectCache.class).toProvider(Providers.<ProjectCache>of(null));
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
@@ -176,6 +172,11 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
+
+                MutableNotesMigration migration = MutableNotesMigration.newDisabled();
+                migration.setFrom(NotesMigrationState.FINAL);
+                bind(MutableNotesMigration.class).toInstance(migration);
+                bind(NotesMigration.class).to(MutableNotesMigration.class);
 
                 // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
                 bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})

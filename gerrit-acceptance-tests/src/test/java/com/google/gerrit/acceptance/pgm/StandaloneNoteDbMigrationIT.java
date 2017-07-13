@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -31,12 +32,12 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.schema.ReviewDbFactory;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -66,6 +67,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
 
   @Before
   public void setUp() throws Exception {
+    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
   }
 
@@ -198,8 +200,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
     gerritConfig.load();
-    assertThat(NotesMigrationState.forNotesMigration(new ConfigNotesMigration(gerritConfig)))
-        .hasValue(expected);
+    assertThat(NotesMigrationState.forConfig(gerritConfig)).hasValue(expected);
   }
 
   private ReviewDb openUnderlyingReviewDb(ServerContext ctx) throws Exception {

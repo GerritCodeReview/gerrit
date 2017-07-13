@@ -38,7 +38,6 @@ import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -51,16 +50,18 @@ import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
+  private final Path sitePath;
 
-  InMemoryTestingDatabaseModule(Config cfg) {
+  InMemoryTestingDatabaseModule(Config cfg, Path sitePath) {
     this.cfg = cfg;
+    this.sitePath = sitePath;
+    makeSiteDirs(sitePath);
   }
 
   @Override
@@ -68,9 +69,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
 
     // TODO(dborowitz): Use jimfs.
-    Path p = Paths.get(cfg.getString("gerrit", null, "tempSiteDir"));
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(p);
-    makeSiteDirs(p);
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
@@ -78,7 +77,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
-    bind(NotesMigration.class).to(TestNotesMigration.class);
+    install(new NotesMigration.Module());
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);

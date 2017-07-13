@@ -28,7 +28,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -105,10 +105,9 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector(
-      final boolean enableMetrics, DataSourceProvider.Context context) {
-    final Path sitePath = getSitePath();
-    final List<Module> modules = new ArrayList<>();
+  protected Injector createDbInjector(boolean enableMetrics, DataSourceProvider.Context context) {
+    Path sitePath = getSitePath();
+    List<Module> modules = new ArrayList<>();
 
     Module sitePathModule =
         new AbstractModule() {
@@ -169,7 +168,7 @@ public abstract class SiteProgram extends AbstractProgram {
       throw new ProvisionException("database.type must be defined");
     }
 
-    final DataSourceType dst =
+    DataSourceType dst =
         Guice.createInjector(new DataSourceModule(), configModule, sitePathModule)
             .getInstance(Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
 
@@ -183,12 +182,12 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
-    modules.add(new ConfigNotesMigration.Module());
+    modules.add(new NotesMigration.Module());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);
     } catch (CreationException ce) {
-      final Message first = ce.getErrorMessages().iterator().next();
+      Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();
 
       if (why instanceof SQLException) {
@@ -204,7 +203,7 @@ public abstract class SiteProgram extends AbstractProgram {
         throw die("Cannot connect to SQL database", why);
       }
 
-      final StringBuilder buf = new StringBuilder();
+      StringBuilder buf = new StringBuilder();
       if (why != null) {
         buf.append(why.getMessage());
         why = why.getCause();

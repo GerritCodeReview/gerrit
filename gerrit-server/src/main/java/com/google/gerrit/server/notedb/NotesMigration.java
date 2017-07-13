@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import java.util.Objects;
+import com.google.inject.AbstractModule;
+import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Current low-level settings of the NoteDb migration for changes.
@@ -47,6 +53,100 @@ import java.util.Objects;
  * NotesMigration}'s methods will not change in a running server.
  */
 public abstract class NotesMigration {
+  public static final String SECTION_NOTE_DB = "noteDb";
+
+  private static final String DISABLE_REVIEW_DB = "disableReviewDb";
+  private static final String FUSE_UPDATES = "fuseUpdates";
+  private static final String PRIMARY_STORAGE = "primaryStorage";
+  private static final String READ = "read";
+  private static final String SEQUENCE = "sequence";
+  private static final String WRITE = "write";
+
+  public static class Module extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(MutableNotesMigration.class);
+      bind(NotesMigration.class).to(MutableNotesMigration.class);
+    }
+  }
+
+  @AutoValue
+  abstract static class Snapshot {
+    static Builder builder() {
+      // Default values are defined as what we would read from an empty config.
+      return create(new Config()).toBuilder();
+    }
+
+    static Snapshot create(Config cfg) {
+      return new AutoValue_NotesMigration_Snapshot.Builder()
+          .setWriteChanges(cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, false))
+          .setReadChanges(cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, false))
+          .setReadChangeSequence(cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, false))
+          .setChangePrimaryStorage(
+              cfg.getEnum(
+                  SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB))
+          .setDisableChangeReviewDb(
+              cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false))
+          .setFuseUpdates(cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false))
+          .setFailOnLoadForTest(false) // Only set in tests, can't be set via config.
+          .build();
+    }
+
+    abstract boolean writeChanges();
+
+    abstract boolean readChanges();
+
+    abstract boolean readChangeSequence();
+
+    abstract PrimaryStorage changePrimaryStorage();
+
+    abstract boolean disableChangeReviewDb();
+
+    abstract boolean fuseUpdates();
+
+    abstract boolean failOnLoadForTest();
+
+    abstract Builder toBuilder();
+
+    void setConfigValues(Config cfg) {
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), WRITE, writeChanges());
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, readChanges());
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, readChangeSequence());
+      cfg.setEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, changePrimaryStorage());
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, disableChangeReviewDb());
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, fuseUpdates());
+    }
+
+    @AutoValue.Builder
+    abstract static class Builder {
+      abstract Builder setWriteChanges(boolean writeChanges);
+
+      abstract Builder setReadChanges(boolean readChanges);
+
+      abstract Builder setReadChangeSequence(boolean readChangeSequence);
+
+      abstract Builder setChangePrimaryStorage(PrimaryStorage changePrimaryStorage);
+
+      abstract Builder setDisableChangeReviewDb(boolean disableChangeReviewDb);
+
+      abstract Builder setFuseUpdates(boolean fuseUpdates);
+
+      abstract Builder setFailOnLoadForTest(boolean failOnLoadForTest);
+
+      abstract Snapshot autoBuild();
+
+      Snapshot build() {
+        Snapshot s = autoBuild();
+        checkArgument(
+            !(s.disableChangeReviewDb() && s.changePrimaryStorage() != PrimaryStorage.NOTE_DB),
+            "cannot disable ReviewDb for changes if default change primary storage is ReviewDb");
+        return s;
+      }
+    }
+  }
+
+  protected final AtomicReference<Snapshot> snapshot;
+
   /**
    * Read changes from NoteDb.
    *
@@ -57,7 +157,9 @@ public abstract class NotesMigration {
    * <p>If true and {@code writeChanges() = false}, changes can still be read from NoteDb, but any
    * attempts to write will generate an error.
    */
-  public abstract boolean readChanges();
+  public final boolean readChanges() {
+    return snapshot.get().readChanges();
+  }
 
   /**
    * Write changes to NoteDb.
@@ -73,7 +175,9 @@ public abstract class NotesMigration {
    * readChanges() = false}, writes to NoteDb are simply ignored; if {@code true}, any attempts to
    * write will generate an error.
    */
-  public abstract boolean rawWriteChangesSetting();
+  public final boolean rawWriteChangesSetting() {
+    return snapshot.get().writeChanges();
+  }
 
   /**
    * Read sequential change ID numbers from NoteDb.
@@ -81,10 +185,14 @@ public abstract class NotesMigration {
    * <p>If true, change IDs are read from {@code refs/sequences/changes} in All-Projects. If false,
    * change IDs are read from ReviewDb's native sequences.
    */
-  public abstract boolean readChangeSequence();
+  public final boolean readChangeSequence() {
+    return snapshot.get().readChangeSequence();
+  }
 
   /** @return default primary storage for new changes. */
-  public abstract PrimaryStorage changePrimaryStorage();
+  public final PrimaryStorage changePrimaryStorage() {
+    return snapshot.get().changePrimaryStorage();
+  }
 
   /**
    * Disable ReviewDb access for changes.
@@ -93,7 +201,9 @@ public abstract class NotesMigration {
    * results; updates do nothing, as does opening, committing, or rolling back a transaction on the
    * Changes table.
    */
-  public abstract boolean disableChangeReviewDb();
+  public final boolean disableChangeReviewDb() {
+    return snapshot.get().disableChangeReviewDb();
+  }
 
   /**
    * Fuse meta ref updates in the same batch as code updates.
@@ -106,18 +216,8 @@ public abstract class NotesMigration {
    *
    * <p>Has no effect if {@link #disableChangeReviewDb()} is false.
    */
-  public abstract boolean fuseUpdates();
-
-  /**
-   * Set the values returned by this instance to match another instance.
-   *
-   * <p>Optional operation: not all implementations support setting values after initialization.
-   *
-   * @param other other instance to copy values from.
-   * @return this.
-   */
-  public NotesMigration setFrom(NotesMigration other) {
-    throw new UnsupportedOperationException(getClass().getSimpleName() + " is read-only");
+  public final boolean fuseUpdates() {
+    return snapshot.get().fuseUpdates();
   }
 
   /**
@@ -125,8 +225,8 @@ public abstract class NotesMigration {
    *
    * <p>Used in conjunction with {@link #readChanges()} for tests.
    */
-  public boolean failOnLoad() {
-    return false;
+  public boolean failOnLoadForTest() {
+    return snapshot.get().failOnLoadForTest();
   }
 
   public final boolean commitChangeWrites() {
@@ -151,30 +251,26 @@ public abstract class NotesMigration {
     return rawWriteChangesSetting() || readChanges();
   }
 
+  public final void setConfigValues(Config cfg) {
+    snapshot.get().setConfigValues(cfg);
+  }
+
   @Override
   public final boolean equals(Object o) {
-    if (!(o instanceof NotesMigration)) {
-      return false;
-    }
-    NotesMigration m = (NotesMigration) o;
-    return readChanges() == m.readChanges()
-        && rawWriteChangesSetting() == m.rawWriteChangesSetting()
-        && readChangeSequence() == m.readChangeSequence()
-        && changePrimaryStorage() == m.changePrimaryStorage()
-        && disableChangeReviewDb() == m.disableChangeReviewDb()
-        && fuseUpdates() == m.fuseUpdates()
-        && failOnLoad() == m.failOnLoad();
+    return o instanceof NotesMigration
+        && snapshot.get().equals(((NotesMigration) o).snapshot.get());
   }
 
   @Override
   public final int hashCode() {
-    return Objects.hash(
-        readChanges(),
-        rawWriteChangesSetting(),
-        readChangeSequence(),
-        changePrimaryStorage(),
-        disableChangeReviewDb(),
-        fuseUpdates(),
-        failOnLoad());
+    return snapshot.get().hashCode();
+  }
+
+  protected NotesMigration(Snapshot snapshot) {
+    this.snapshot = new AtomicReference<>(snapshot);
+  }
+
+  final Snapshot snapshot() {
+    return snapshot.get();
   }
 }

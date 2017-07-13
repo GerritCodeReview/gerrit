@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.server.OrmException;
@@ -52,7 +53,7 @@ public class NoteDbChecker {
 
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
-  private final TestNotesMigration notesMigration;
+  private final MutableNotesMigration notesMigration;
   private final ChangeBundleReader bundleReader;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
@@ -62,7 +63,7 @@ public class NoteDbChecker {
   NoteDbChecker(
       Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
-      TestNotesMigration notesMigration,
+      MutableNotesMigration notesMigration,
       ChangeBundleReader bundleReader,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,

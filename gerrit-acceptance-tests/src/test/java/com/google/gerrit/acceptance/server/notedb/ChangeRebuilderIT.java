@@ -151,7 +151,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    assume().that(NoteDbMode.readWrite()).isFalse();
+    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     setNotesMigration(false, false);
   }

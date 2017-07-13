@@ -14,15 +14,15 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.server.notedb.ConfigNotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.notedb.ConfigNotesMigration;
+import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.inject.Inject;
 import java.util.Locale;
 import javax.inject.Singleton;
@@ -66,7 +66,8 @@ class InitExperimental implements InitStep {
       return;
     }
 
-    Config defaultConfig = ConfigNotesMigration.allEnabledConfig();
+    Config defaultConfig = new Config();
+    NotesMigrationState.FINAL.setConfigValues(defaultConfig);
     for (String name : defaultConfig.getNames(SECTION_NOTE_DB, CHANGES.key())) {
       noteDbChanges.set(name, defaultConfig.getString(SECTION_NOTE_DB, CHANGES.key(), name));
     }

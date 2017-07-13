@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -169,6 +170,7 @@ class ChangeNotesParser {
   private Boolean hasReviewStarted;
   private ReviewerSet pendingReviewers;
   private ReviewerByEmailSet pendingReviewersByEmail;
+  private Change.Id revertOf;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -267,7 +269,8 @@ class ChangeNotesParser {
         readOnlyUntil,
         isPrivate,
         workInProgress,
-        hasReviewStarted);
+        hasReviewStarted,
+        revertOf);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -413,6 +416,10 @@ class ChangeNotesParser {
 
     if (isPrivate == null) {
       parseIsPrivate(commit);
+    }
+
+    if (revertOf == null) {
+      revertOf = parseRevertOf(commit);
     }
 
     previousWorkInProgressFooter = null;
@@ -1020,6 +1027,18 @@ class ChangeNotesParser {
       return;
     }
     throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
+  }
+
+  private Change.Id parseRevertOf(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String footer = parseOneFooter(commit, FOOTER_REVERT_OF);
+    if (footer == null) {
+      return null;
+    }
+    Integer revertOf = Ints.tryParse(footer);
+    if (revertOf == null) {
+      throw invalidFooter(FOOTER_REVERT_OF, footer);
+    }
+    return new Change.Id(revertOf);
   }
 
   private void pruneReviewers() {

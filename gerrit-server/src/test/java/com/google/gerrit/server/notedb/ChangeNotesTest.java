@@ -3494,6 +3494,43 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
   }
 
+  @Test
+  public void revertOfIsNullByDefault() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getRevertOf()).isNull();
+  }
+
+  @Test
+  public void setRevertOfPersistsValue() throws Exception {
+    Change changeToRevert = newChange();
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeId(c.getKey().get());
+    update.setRevertOf(changeToRevert.getId().get());
+    update.commit();
+    assertThat(newNotes(c).getRevertOf()).isEqualTo(changeToRevert.getId());
+  }
+
+  @Test
+  public void setRevertOfToCurrentChangeFails() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("A change cannot revert itself");
+    update.setRevertOf(c.getId().get());
+  }
+
+  @Test
+  public void setRevertOfOnChildCommitFails() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    exception.expect(OrmException.class);
+    exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
+    update.setRevertOf(newChange().getId().get());
+    update.commit();
+  }
+
   private boolean testJson() {
     return noteUtil.getWriteJson();
   }

@@ -23,6 +23,30 @@
       "revId": "38c3748c754ec460baab52d479718a7b5e02a8c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e87fb3c_85094e1d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-13T07:10:21Z",
+      "side": 1,
+      "message": "Yes, this seems to be not needed.",
+      "parentUuid": "c76596a9_0f246b61",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 244,
+        "endChar": 5
+      },
+      "revId": "38c3748c754ec460baab52d479718a7b5e02a8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

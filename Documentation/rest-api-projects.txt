@@ -1183,9 +1183,9 @@ Skip the given number of branches from the beginning of the list.
 ----
 
 Substring(m)::
-Limit the results to those projects that match the specified substring.
+Limit the results to those branches that match the specified substring.
 +
-List all projects that match substring `test`:
+List all branches that match substring `test`:
 +
 .Request
 ----

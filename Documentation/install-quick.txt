@@ -211,7 +211,7 @@ suggested above, http://localhost:8080/1
 
 This covers the scope of getting Gerrit started and your first change uploaded.
 It doesn't give any clue as to how the review workflow works, please read
-link:http://source.android.com/submit-patches/workflow[Default Workflow] to
+link:http://source.android.com/source/life-of-a-patch[Default Workflow] to
 learn more about the workflow of Gerrit.
 
 To read more on the installation of Gerrit please see link:install.html[the detailed

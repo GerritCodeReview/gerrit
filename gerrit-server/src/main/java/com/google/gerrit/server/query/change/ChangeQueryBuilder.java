@@ -179,6 +179,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
+  public static final String FIELD_REVERTOF = "revertof";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -1177,6 +1178,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> unresolved(String value) throws QueryParseException {
     return new IsUnresolvedPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> revertof(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.REVERT_OF)) {
+      return new RevertOfPredicate(value);
+    }
+    throw new QueryParseException("'revertof' operator is not supported by change index version");
   }
 
   @Override

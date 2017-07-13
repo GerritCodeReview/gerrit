@@ -47,6 +47,30 @@
       "revId": "d4d0752f15c24c7dd402b2e153711e7aab58591b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5722c01c_b6d65965",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-13T12:21:00Z",
+      "side": 1,
+      "message": "+1, sounds good to me.",
+      "parentUuid": "1d4af4b5_0c14765c",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 15
+      },
+      "revId": "d4d0752f15c24c7dd402b2e153711e7aab58591b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

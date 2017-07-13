@@ -1194,7 +1194,6 @@ Limit the results to those branches that match the specified substring.
 The match is case insensitive. May not be used together with `r`.
 +
 List all branches that match substring `test`:
-
 +
 .Request
 ----
@@ -1220,8 +1219,8 @@ List all branches that match substring `test`:
 Regex(r)::
 Limit the results to those branches that match the specified regex.
 Boundary matchers '^' and '$' are implicit. For example: the regex 't*' will
-match any branches that start with 'test' and regex '*t' will match any
-branches that end with 'test'.
+match any branches that start with 't' and regex '*t' will match any
+branches that end with 't'.
 +
 The match is case sensitive. May not be used together with `m`.
 +

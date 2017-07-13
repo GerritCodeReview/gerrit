@@ -19,6 +19,8 @@
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
 
+  const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
+
   Polymer({
     is: 'gr-change-list-view',
 
@@ -139,10 +141,19 @@
       return this.$.restAPI.getPreferences();
     },
 
+    _limitFor(query, defaultLimit) {
+      const match = query.match(LIMIT_OPERATOR_PATTERN);
+      if (!match) {
+        return defaultLimit;
+      }
+      return parseInt(match[1], 10);
+    },
+
     _computeNavLink(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      const newOffset = Math.max(0, offset + (changesPerPage * direction));
+      const limit = this._limitFor(query, changesPerPage);
+      const newOffset = Math.max(0, offset + (limit * direction));
       // Double encode URI component.
       let href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {

@@ -485,6 +485,10 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
 
+    groups = gApi.groups().list().withSubstring("admin").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+
     String other = name("Administrators");
     gApi.groups().create(other);
     groups = gApi.groups().list().withSubstring("dmin").getAsMap();

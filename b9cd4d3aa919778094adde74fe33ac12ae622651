@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c4982ed6_8580d159",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-13T23:40:18Z",
+      "side": 1,
+      "message": "IMO it makes more sense to apply these styles in a consistent manner, even when it ultimately makes no difference. Thanks!",
+      "parentUuid": "9ac5c09b_af803670",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "b9cd4d3aa919778094adde74fe33ac12ae622651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebf1d4f8_4ffa89c0",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 5

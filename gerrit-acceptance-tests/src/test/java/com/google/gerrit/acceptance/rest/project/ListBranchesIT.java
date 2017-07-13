@@ -154,6 +154,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
     // Using regex.
     assertRefNames(ImmutableList.of("refs/heads/master"), list().withRegex(".*ast.*r").get());
+    assertRefNames(ImmutableList.of(), list().withRegex(".*AST.*R").get());
   }
 
   private ListRefsRequest<BranchInfo> list() throws Exception {

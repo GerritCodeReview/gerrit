@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6241ea17_7c04f2f6",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T08:45:58Z",
+      "side": 1,
+      "message": "Just Id to be consistent with the method below.",
+      "range": {
+        "startLine": 741,
+        "startChar": 26,
+        "endLine": 741,
+        "endChar": 35
+      },
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

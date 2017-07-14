@@ -5,13 +5,13 @@ GERRIT = "GERRIT:"
 NPM_VERSIONS = {
     "bower": "1.8.0",
     "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
+    "vulcanize": "1.16.0",
 }
 
 NPM_SHA1S = {
     "bower": "55dbebef0ad9155382d9e9d3e497c1372345b44a",
     "crisper": "7183c58cea33632fb036c91cefd1b43e390d22a2",
-    "vulcanize": "679107f251c19ab7539529b1e3fdd40829e6fc63",
+    "vulcanize": "cde3cb7fcbb1efce7a9efbf451c52492c4d933ab",
 }
 
 def _npm_tarball(name):
@@ -28,7 +28,9 @@ def _npm_binary_impl(ctx):
   base =  '%s@%s.npm_binary.tgz' % (name, version)
   dest = ctx.path(base)
   repository = ctx.attr.repository
-  if repository == GERRIT:
+  if name == "vulcanize":
+    url = 'https://github.com/paladox/polymer-analyzer/blob/master/vulcanize-1.16.0.tar.gz?raw=true'
+  elif repository == GERRIT:
     url = 'http://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
   elif repository == NPMJS:
     url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)

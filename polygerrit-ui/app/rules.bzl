@@ -86,6 +86,7 @@ def polygerrit_bundle(name, srcs, outs, app):
       "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
       "for f in $(locations "+ name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
       "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+      "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/custom-elements-es5-adapter.js",
       "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
       "cd $$TMP",
       "find . -exec touch -t 198001010000 '{}' ';'",

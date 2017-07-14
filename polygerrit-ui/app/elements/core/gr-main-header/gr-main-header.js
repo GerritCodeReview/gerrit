@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value() { return '/login'; },
       },
       _userLinks: {
         type: Array,
@@ -184,6 +184,7 @@
 
     _loadAccount() {
       return this.$.restAPI.getAccount().then(account => {
+        console.log(account);
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);

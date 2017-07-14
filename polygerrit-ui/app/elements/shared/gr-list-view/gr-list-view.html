@@ -68,7 +68,9 @@ limitations under the License.
         </gr-button>
       </div>
     </div>
-    <slot></slot>
+    <gr-styled-table>
+      <slot></slot>
+    </gr-styled-table>
     <nav>
       <a id="prevArrow"
           href$="[[_computeNavLink(offset, -1, itemsPerPage, filter, path)]]"

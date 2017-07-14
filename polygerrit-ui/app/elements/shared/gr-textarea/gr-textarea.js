@@ -113,8 +113,7 @@
         this.$.textarea.classList.add('noBorder');
       }
       if (this.backgroundColor) {
-        this.customStyle['--background-color'] = this.backgroundColor;
-        this.updateStyles();
+        this.updateStyles({'--background-color': this.backgroundColor});
       }
       this.listen(this.$.emojiSuggestions, 'dropdown-closed', '_resetAndFocus');
       this.listen(this.$.emojiSuggestions, 'item-selected',

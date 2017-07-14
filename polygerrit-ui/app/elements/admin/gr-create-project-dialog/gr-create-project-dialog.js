@@ -17,12 +17,6 @@
   Polymer({
     is: 'gr-create-project-dialog',
 
-    /**
-     * Fired when a a project is created.
-     *
-     * @event create
-     */
-
     properties: {
       params: Object,
       hasNewProjectName: {

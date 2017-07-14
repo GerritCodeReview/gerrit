@@ -30,6 +30,7 @@ languages included. Build it with the following:
           css \
           d \
           dart \
+          erb \
           go \
           haskell \
           java \
@@ -42,11 +43,14 @@ languages included. Build it with the following:
           objectivec \
           ocaml \
           perl \
+          php \
           protobuf \
+          puppet \
           python \
           ruby \
           rust \
           scala \
+          shell \
           sql \
           swift \
           typescript \

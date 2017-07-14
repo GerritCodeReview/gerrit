@@ -190,6 +190,9 @@
      * Reset named timer.
      */
     time(name) {
+      if (!this._baselines || !this._baselines[name]) {
+        return;
+      }
       this._baselines[name] = this.now();
     },
 
@@ -197,6 +200,9 @@
      * Finish named timer and report it to server.
      */
     timeEnd(name) {
+      if (!this._baselines || !this._baselines[name]) {
+        return;
+      }
       const baseTime = this._baselines[name] || 0;
       const time = Math.round(this.now() - baseTime) + 'ms';
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);

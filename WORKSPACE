@@ -1057,15 +1057,15 @@ bower_archive(
 bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
-    sha1 = "ac96fe31cdf203a63426fa75131b43c98c0597d3",
-    version = "1.5.5",
+    sha1 = "6efac5438baeeffff77da4e2073a3286760cd255",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "iron-input",
     package = "polymerelements/iron-input",
-    sha1 = "9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac",
-    version = "1.0.10",
+    sha1 = "42f233d8adf3883bcce2fa364c7785a5d2571db4",
+    version = "2.0.0",
 )
 
 bower_archive(
@@ -1113,8 +1113,15 @@ bower_archive(
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "566b5fe9a2a3eea2cf3417c67d975a6752d131eb",
-    version = "1.9.3",
+    sha1 = "f24562399ebf970788daf7d394fb8002edf3d93f",
+    version = "2.1.0",
+)
+
+bower_archive(
+    name = "shadycss",
+    package = "webcomponents/shadycss",
+    sha1 = "4bf6e87e6cf616283fa3b19ff9d69dfe0ae92d61",
+    version = "v1.0.6",
 )
 
 bower_archive(
@@ -1124,34 +1131,27 @@ bower_archive(
     version = "1.2.6-beta",
 )
 
-bower_archive(
-    name = "promise-polyfill",
-    package = "polymerlabs/promise-polyfill",
-    sha1 = "a3b598c06cbd7f441402e666ff748326030905d6",
-    version = "1.0.0",
-)
-
 # bower test stuff
 
 bower_archive(
     name = "iron-test-helpers",
     package = "polymerelements/iron-test-helpers",
-    sha1 = "433b03b106f5ff32049b84150cd70938e18b67ac",
-    version = "1.2.5",
+    sha1 = "c595fb9db28fa197c0c1639a8d147a829bfc11ae",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "test-fixture",
     package = "polymerelements/test-fixture",
-    sha1 = "e373bd21c069163c3a754e234d52c07c77b20d3c",
-    version = "1.1.1",
+    sha1 = "fbb84c9bcab89b88b99fbf74b64b5da3fb03f95e",
+    version = "3.0.0-rc.1",
 )
 
 bower_archive(
     name = "web-component-tester",
     package = "web-component-tester",
-    sha1 = "4e778f8b7d784ba2a069d83d0cd146125c5c4fcb",
-    version = "5.0.1",
+    sha1 = "031e7120662637a46b88c8f37d126cd759472016",
+    version = "6.0.0",
 )
 
 # Bower component transitive dependencies.

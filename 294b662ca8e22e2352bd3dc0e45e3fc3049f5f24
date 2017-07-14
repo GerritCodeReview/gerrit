@@ -22,6 +22,80 @@
       "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ad33d62_5ca48f20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:53:03Z",
+      "side": 1,
+      "message": "Optional: you could just make the type of revertOf a Change.Id, then you could avoid this ternary.",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0ee11e9_a6646242",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:53:03Z",
+      "side": 1,
+      "message": "This should be a parseException if it\u0027s not in int format.",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbcf84e4_10d73f5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:53:03Z",
+      "side": 1,
+      "message": "Do you think it is ever possible to set revertOf on a commit other than the root commit (i.e. when creating the change)? If not, please add a check for this as well. Even if you think it might be possible eventually, but isn\u0027t presently, might be worth having that check.",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e80a5418_5b030f36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:53:03Z",
+      "side": 1,
+      "message": "Tiny nit: exception messages don\u0027t end in periods",
+      "range": {
+        "startLine": 519,
+        "startChar": 67,
+        "endLine": 519,
+        "endChar": 68
+      },
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

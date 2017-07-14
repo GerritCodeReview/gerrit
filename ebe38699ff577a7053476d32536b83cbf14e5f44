@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c8f6cac_f9a2ee45",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5732,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T08:59:48Z",
+      "side": 1,
+      "message": "nit: keep the columns aligned",
+      "range": {
+        "startLine": 5732,
+        "startChar": 13,
+        "endLine": 5732,
+        "endChar": 23
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c319f3_3666b239",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T08:59:48Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be needed since the revertOf field is part of the Change object. In the index we have a special field that stores a proto of the change which we use to reconstruct the change object when a change is read from the index. This proto will automatically contain the new field and you don\u0027t need any special logic for it.",
+      "range": {
+        "startLine": 561,
+        "startChar": 6,
+        "endLine": 562,
+        "endChar": 15
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

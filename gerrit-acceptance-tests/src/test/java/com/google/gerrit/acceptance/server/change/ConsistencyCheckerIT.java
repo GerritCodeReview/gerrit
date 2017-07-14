@@ -54,6 +54,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -95,6 +96,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private Account.Id adminId;
   private ConsistencyChecker checker;
 
+  private void assumeNoteDbDisabled() {
+    assume().that(notesMigration.readChanges()).isFalse();
+    assume().that(NoteDbMode.get()).isNotEqualTo(NoteDbMode.CHECK);
+  }
+
   @Before
   public void setUp() throws Exception {
     // Ignore client clone of project; repurpose as server-side TestRepository.
@@ -128,7 +134,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void missingRepo() throws Exception {
     // NoteDb can't have a change without a repo.
-    assume().that(notesMigration.readChanges()).isFalse();
+    assumeNoteDbDisabled();
 
     ChangeControl ctl = insertChange();
     Project.NameKey name = ctl.getProject().getNameKey();
@@ -141,7 +147,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void invalidRevision() throws Exception {
     // NoteDb always parses the revision when inserting a patch set, so we can't
     // create an invalid patch set.
-    assume().that(notesMigration.readChanges()).isFalse();
+    assumeNoteDbDisabled();
 
     ChangeControl ctl = insertChange();
     PatchSet ps =
@@ -272,6 +278,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void onlyPatchSetObjectMissingWithFix() throws Exception {
     Change c = TestChanges.newChange(project, admin.getId(), sequences.nextChangeId());
+
+    // Set review started, mimicking Schema_153, so tests pass with NoteDbMode.CHECK.
+    c.setReviewStarted(true);
+
     PatchSet.Id psId = c.currentPatchSetId();
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PatchSet ps = newPatchSet(psId, rev, adminId);
@@ -321,7 +331,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Test
   public void currentPatchSetMissing() throws Exception {
     // NoteDb can't create a change without a patch set.
-    assume().that(notesMigration.readChanges()).isFalse();
+    assumeNoteDbDisabled();
 
     ChangeControl ctl = insertChange();
     db.patchSets().deleteKeys(singleton(ctl.getChange().currentPatchSetId()));

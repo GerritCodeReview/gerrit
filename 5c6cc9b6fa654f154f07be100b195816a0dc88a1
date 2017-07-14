@@ -250,6 +250,30 @@
     },
     {
       "key": {
+        "uuid": "c824dc11_6b7a8d76",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:30:07Z",
+      "side": 1,
+      "message": "The rest don\u0027t return promises :)",
+      "parentUuid": "2a8825af_0aaac0fe",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "511f2fe1_b05a4b45",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 3

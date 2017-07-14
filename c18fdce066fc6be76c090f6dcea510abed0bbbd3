@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70c7e7eb_55916a63",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T18:59:33Z",
+      "side": 1,
+      "message": "Do we need any kind of guard against a default_value that wasn\u0027t correctly set, or for some other reason can\u0027t be found in the labels dict?",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "c18fdce066fc6be76c090f6dcea510abed0bbbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20698e47_41a0bb50",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T18:59:33Z",
+      "side": 1,
+      "message": "How does this test for default_value?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 7
+      },
+      "revId": "c18fdce066fc6be76c090f6dcea510abed0bbbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

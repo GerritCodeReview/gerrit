@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "d22d16c9_547ff920",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 85
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T22:09:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e0423e7d_d93e682f",
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e266e636_7d7a215a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 85
@@ -230,6 +248,24 @@
       "writtenOn": "2017-07-14T18:18:58Z",
       "side": 1,
       "message": "Is group a group name that would need encoding?",
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5da04f_ec1b976c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T22:09:17Z",
+      "side": 1,
+      "message": "Ah thanks for spotting that. Yes we need to encode that :).",
+      "parentUuid": "e266e636_7d7a215a",
       "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

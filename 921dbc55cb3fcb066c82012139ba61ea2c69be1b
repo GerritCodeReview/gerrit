@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f7b8570_4b8ef62c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:59:41Z",
+      "side": 1,
+      "message": "And that\u0027s why we test :D",
+      "revId": "921dbc55cb3fcb066c82012139ba61ea2c69be1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

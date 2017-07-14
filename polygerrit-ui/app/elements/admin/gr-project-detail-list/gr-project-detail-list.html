@@ -18,20 +18,38 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
+<link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 
 <dom-module id="gr-project-detail-list">
   <template>
+    <style include="gr-form-styles"></style>
     <style include="shared-styles">
-      .repositoryBrowser {
+      .editing .editItem {
+        display: inherit;
+      }
+      .editItem,
+      .editing .editBtn,
+      .canEdit .revisionNoEditing,
+      .editing .revisionWithEditing,
+      .repositoryBrowser:not(.show),
+      .revisionEdit {
         display: none;
       }
-      .repositoryBrowser.show{
-        display: table-cell;
+      gr-button {
+        margin-left: .3em;
+      }
+      .editBtn {
+        margin-left: 1em;
+      }
+      .canEdit .revisionEdit{
+        align-items: baseline;
+        display: flex;
+        line-height: 1em;
       }
     </style>
     <gr-list-view
@@ -41,7 +59,11 @@ limitations under the License.
         loading="[[_loading]]"
         offset="[[_offset]]"
         path="[[_getPath(_project, detailType)]]">
+<<<<<<< HEAD
       <table id="list">
+=======
+      <table id="list" class="gr-form-styles">
+>>>>>>> 85fab4e220... Add ability to modify the ref of 'HEAD'
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>
@@ -55,7 +77,36 @@ limitations under the License.
             class$="[[computeLoadingClass(_loading)]]">
           <tr class="table">
             <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
-            <td class="description">[[item.revision]]</td>
+            <td class$="description [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+              <span class="revisionNoEditing">
+                [[item.revision]]
+              </span>
+              <span class$="revisionEdit [[_computeEditingClass(_isEditing)]]">
+                <span class="revisionWithEditing">
+                  [[item.revision]]
+                </span>
+                <gr-button
+                    on-tap="_handleEditRevision"
+                    class="editBtn">
+                  edit
+                </gr-button>
+                <input
+                    is=iron-input
+                    bind-value="{{_revisedRef}}"
+                    class="editItem">
+                <gr-button
+                    on-tap="_handleSaveRevision"
+                    class="saveBtn editItem"
+                    disabled="[[!_revisedRef]]">
+                  Save
+                </gr-button>
+                <gr-button
+                    on-tap="_handleCancelRevision"
+                    class="cancelBtn editItem">
+                  Cancel
+                </gr-button>
+              </span>
+            </td>
             <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
               <template is="dom-repeat"
                   items="[[_computeWeblink(item)]]" as="link">

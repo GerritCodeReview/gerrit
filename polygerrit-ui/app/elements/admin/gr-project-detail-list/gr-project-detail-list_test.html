@@ -71,7 +71,10 @@ limitations under the License.
 
     suite('list of project branches', () => {
       setup(done => {
-        branches = _.times(26, branchGenerator);
+        branches = [{
+          ref: 'HEAD',
+          revision: 'master',
+        }].concat(_.times(25, branchGenerator));
 
         stub('gr-rest-api-interface', {
           getProjectBranches(num, project, offset) {
@@ -89,14 +92,14 @@ limitations under the License.
 
       test('test for test branch in the list', done => {
         flush(() => {
-          assert.equal(element._items[1].ref, 'refs/heads/test2');
+          assert.equal(element._items[2].ref, 'refs/heads/test2');
           done();
         });
       });
 
       test('test for test web links in the branches list', done => {
         flush(() => {
-          assert.equal(element._items[1].web_links[0].url,
+          assert.equal(element._items[2].web_links[0].url,
               'https://git.example.org/branch/test;refs/heads/test2');
           done();
         });
@@ -104,7 +107,7 @@ limitations under the License.
 
       test('test for refs/heads/ being striped from ref', done => {
         flush(() => {
-          assert.equal(element._stripRefs(element._items[1].ref,
+          assert.equal(element._stripRefs(element._items[2].ref,
               element.detailType), 'test2');
           done();
         });
@@ -112,6 +115,138 @@ limitations under the License.
 
       test('_shownItems', () => {
         assert.equal(element._shownItems.length, 25);
+      });
+
+      test('Edit HEAD button not admin', done => {
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.restAPI, 'getProjectAccess').returns(
+            Promise.resolve({
+              test: {is_owner: false},
+            }));
+        element._determineIfOwner('test').then(() => {
+          assert.equal(element._isOwner, false);
+          assert.equal(getComputedStyle(Polymer.dom(element.root)
+              .querySelector('.revisionNoEditing')).display, 'inline');
+          assert.equal(getComputedStyle(Polymer.dom(element.root)
+              .querySelector('.revisionEdit')).display, 'none');
+          done();
+        });
+      });
+
+      test('Edit HEAD button admin', done => {
+        const saveBtn = Polymer.dom(element.root).querySelector('.saveBtn');
+        const cancelBtn = Polymer.dom(element.root).querySelector('.cancelBtn');
+        const editBtn = Polymer.dom(element.root).querySelector('.editBtn');
+        const revisionNoEditing = Polymer.dom(element.root)
+              .querySelector('.revisionNoEditing');
+        const revisionWithEditing = Polymer.dom(element.root)
+              .querySelector('.revisionWithEditing');
+
+        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sandbox.stub(element.$.restAPI, 'getProjectAccess').returns(
+            Promise.resolve({
+              test: {is_owner: true},
+            }));
+        sandbox.stub(element, '_handleSaveRevision');
+        element._determineIfOwner('test').then(() => {
+          assert.equal(element._isOwner, true);
+          // The revision container for non-editing enabled row is not visible.
+          assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
+
+          // The revision container for editing enabled row is visible.
+          assert.notEqual(getComputedStyle(Polymer.dom(element.root)
+              .querySelector('.revisionEdit')).display, 'none');
+
+          // The revision and edit button are visible.
+          assert.notEqual(getComputedStyle(revisionWithEditing).display,
+              'none');
+          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          const hiddenElements = Polymer.dom(element.root)
+              .querySelectorAll('.canEdit .editItem');
+
+          for (const item of hiddenElements) {
+            assert.equal(getComputedStyle(item).display, 'none');
+          }
+
+          MockInteractions.tap(editBtn);
+          flushAsynchronousOperations();
+          // The revision and edit button are not visible.
+          assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
+          assert.equal(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          for (item of hiddenElements) {
+            assert.notEqual(getComputedStyle(item).display, 'none');
+          }
+
+          // The revised ref was set correctly
+          assert.equal(element._revisedRef, 'master');
+
+          assert.isFalse(saveBtn.disabled);
+
+          // Delete the ref.
+          element._revisedRef = '';
+          assert.isTrue(saveBtn.disabled);
+
+          // Change the ref to something else
+          element._revisedRef = 'newRef';
+          element._project = 'test';
+          assert.isFalse(saveBtn.disabled);
+
+          // Save button calls handleSave. since this is stubbed, the edit
+          // section remains open.
+          MockInteractions.tap(saveBtn);
+          assert.isTrue(element._handleSaveRevision.called);
+
+          // When cancel is tapped, the edit secion closes.
+          MockInteractions.tap(cancelBtn);
+          flushAsynchronousOperations();
+
+          // The revision and edit button are visible.
+          assert.notEqual(getComputedStyle(revisionWithEditing).display,
+              'none');
+          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+
+          // The input, cancel, and save buttons are not visible.
+          for (const item of hiddenElements) {
+            assert.equal(getComputedStyle(item).display, 'none');
+          }
+          done();
+        });
+      });
+
+      test('_handleSaveRevision with invalid rev', done => {
+        const event = {model: {set: sandbox.stub()}};
+        element._isEditing = true;
+        sandbox.stub(element.$.restAPI, 'setProjectHead').returns(
+            Promise.resolve({
+              status: 400,
+            })
+        );
+
+        element._setProjectHead('test', 'newRef', event).then(() => {
+          assert.isTrue(element._isEditing);
+          assert.isFalse(event.model.set.called);
+          done();
+        });
+      });
+
+      test('_handleSaveRevision with valid rev', done => {
+        const event = {model: {set: sandbox.stub()}};
+        element._isEditing = true;
+        sandbox.stub(element.$.restAPI, 'setProjectHead').returns(
+            Promise.resolve({
+              status: 200,
+            })
+        );
+
+        element._setProjectHead('test', 'newRef', event).then(() => {
+          assert.isFalse(element._isEditing);
+          assert.isTrue(event.model.set.called);
+          done();
+        });
       });
     });
 

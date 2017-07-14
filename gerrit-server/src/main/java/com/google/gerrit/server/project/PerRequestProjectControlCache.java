@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class PerRequestProjectControlCache {
     return ctl;
   }
 
-  public void evict(Project project) {
+  public void evict(Project project) throws IOException {
     projectCache.evict(project);
     controls.remove(project.getNameKey());
   }

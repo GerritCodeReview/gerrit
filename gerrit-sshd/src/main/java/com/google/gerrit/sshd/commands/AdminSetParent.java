@@ -174,7 +174,13 @@ final class AdminSetParent extends SshCommand {
         err.append("error: ").append(msg).append("\n");
       }
 
-      projectCache.evict(nameKey);
+      try {
+        projectCache.evict(nameKey);
+      } catch (IOException e) {
+        final String msg = "Cannot reindex project: " + name;
+        log.error(msg, e);
+        err.append("error: ").append(msg).append("\n");
+      }
     }
 
     if (err.length() > 0) {

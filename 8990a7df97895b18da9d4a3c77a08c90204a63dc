@@ -16,6 +16,24 @@
       "revId": "8990a7df97895b18da9d4a3c77a08c90204a63dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6794d099_66e3cfce",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T17:44:06Z",
+      "side": 1,
+      "message": "Hmm, i just rebased thinking this was caused by my change and looked at the diff and it was not.",
+      "parentUuid": "62994a73_3cb804a5",
+      "revId": "8990a7df97895b18da9d4a3c77a08c90204a63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

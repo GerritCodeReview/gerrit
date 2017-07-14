@@ -59,8 +59,6 @@ package_licenses = {
   "paper-styles": "polymer",
   "polymer": "polymer",
   "polymer-resin": "polymer",
-  "promise-polyfill": "promise-polyfill",
-  "web-animations-js": "Apache2.0",
   "webcomponentsjs": "polymer",
 }
 

@@ -22,6 +22,30 @@
       "revId": "55ca6e18602bfbeab9b19e93da9acaa91af450aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72c1e835_a45a91c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 47
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T20:44:19Z",
+      "side": 1,
+      "message": "right sorry. Will try to fix up the test now.",
+      "parentUuid": "65dd991f_5c338b95",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "55ca6e18602bfbeab9b19e93da9acaa91af450aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

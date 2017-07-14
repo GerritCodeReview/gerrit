@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -692,12 +692,20 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     _fetchSharedCacheURL(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+      try{
+        if (this._sharedFetchPromises[url]) {
+          return this._sharedFetchPromises[url];
+        }
+      } catch(e) {
+        // continue to line below cache
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      try {
+        if (this._cache[url] !== undefined) {
+          return Promise.resolve(this._cache[url]);
+        }
+      } catch(e) {
+        // continue to line below
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
           .then(response => {

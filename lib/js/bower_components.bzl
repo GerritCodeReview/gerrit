@@ -77,7 +77,6 @@ def define_bower_components():
     deps = [
       ":iron-behaviors",
       ":iron-overlay-behavior",
-      ":iron-resizable-behavior",
       ":neon-animation",
       ":polymer",
     ],
@@ -199,7 +198,6 @@ def define_bower_components():
       ":iron-resizable-behavior",
       ":iron-selector",
       ":polymer",
-      ":web-animations-js",
     ],
   )
   bower_component(
@@ -302,7 +300,10 @@ def define_bower_components():
   bower_component(
     name = "polymer",
     license = "//lib:LICENSE-polymer",
-    deps = [ ":webcomponentsjs" ],
+    deps = [
+      ":shadycss",
+      ":webcomponentsjs",
+    ],
     seed = True,
   )
   bower_component(
@@ -310,6 +311,10 @@ def define_bower_components():
     license = "//lib:LICENSE-promise-polyfill",
     deps = [ ":polymer" ],
     seed = True,
+  )
+  bower_component(
+    name = "shadycss",
+    license = "//lib:LICENSE-polymer",
   )
   bower_component(
     name = "sinon-chai",
@@ -327,10 +332,6 @@ def define_bower_components():
     name = "test-fixture",
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     seed = True,
-  )
-  bower_component(
-    name = "web-animations-js",
-    license = "//lib:LICENSE-Apache2.0",
   )
   bower_component(
     name = "web-component-tester",

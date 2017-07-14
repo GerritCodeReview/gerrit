@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,24 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<script>
-  // This must be set prior to loading Polymer for the first time.
-  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-    window.Polymer = {
-      dom: 'shadow',
-    };
-  }
-</script>
+<!--<script>window.ShadyDOM = { force: true };</script>-->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
+<!--<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
 <script>
   security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],
     reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
   });
-</script>
-
+</script>-->
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
@@ -53,6 +45,7 @@ limitations under the License.
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
+<link rel="import" href="./shared/gr-fixed-panel/gr-fixed-panel.html">
 
 <script src="../scripts/util.js"></script>
 
@@ -180,7 +173,7 @@ limitations under the License.
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
+    <footer r="contentinfo" class="shadow">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>

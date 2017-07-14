@@ -36,6 +36,14 @@
        */
       detailType: String,
 
+      _editing: {
+        type: Boolean,
+        value: false,
+      },
+      _isOwner: {
+        type: Boolean,
+        value: false,
+      },
       /**
        * Offset of currently visible query results.
        */
@@ -66,12 +74,22 @@
       Gerrit.URLEncodingBehavior,
     ],
 
+    _determineIfOwner(project) {
+      return this._getLoggedIn()
+          .then(loggedIn =>
+                loggedIn ? this.$.restAPI.getProjectAccess(project) : null)
+          .then(access =>
+                this._isOwner = access && access[project].is_owner);
+    },
+
     _paramsChanged(params) {
       this._loading = true;
       if (!params || !params.project) { return; }
 
       this._project = params.project;
       this.detailType = params.detailType;
+
+      this._determineIfOwner(this._project);
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
@@ -124,6 +142,41 @@
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return item.replace('refs/tags/', '');
       }
+    },
+
+    _getLoggedIn() {
+      return this.$.restAPI.getLoggedIn();
+    },
+
+    _computeEditingClass(isEditing) {
+      return isEditing ? 'editing' : '';
+    },
+
+    _computeCanEditClass(ref, detailType, isOwner) {
+      return isOwner && this._stripRefs(ref, detailType) === 'HEAD' ?
+          'canEdit' : '';
+    },
+
+    _handleEditRevision() {
+      this._revisedRef = event.model.get('item.revision');
+      this._isEditing = true;
+    },
+
+    _handleCancelRevision() {
+      this._isEditing = false;
+    },
+
+    _handleSaveRevision() {
+      this._setProjectHead(this._project, this._revisedRef, event);
+    },
+
+    _setProjectHead(project, ref, event) {
+      return this.$.restAPI.setProjectHead(project, ref).then(res => {
+        if (res.status < 400) {
+          this._isEditing = false;
+          event.model.set('item.revision', ref);
+        }
+      });
     },
   });
 })();

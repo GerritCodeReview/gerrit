@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "47544060_fa7e76e7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5733,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T14:25:23Z",
+      "side": 1,
+      "message": "Yeah for consistency this should probably have the same format as ChangeInfo.id, hence the triplet.",
+      "parentUuid": "e8d1c693_1e10de2f",
+      "range": {
+        "startLine": 5733,
+        "startChar": 4,
+        "endLine": 5733,
+        "endChar": 21
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5c319f3_3666b239",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -313,6 +314,19 @@ class LdapRealm extends AbstractRealm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
+  }
+
+  @Override
+  public Boolean isActive(String username)
+      throws NamingException, AccountException, LoginException {
+    try {
+      final DirContext ctx = helper.open();
+      final Helper.LdapSchema schema = helper.getSchema(ctx);
+      helper.findAccount(schema, ctx, username, false);
+    } catch (NoSuchUserException e) {
+      return false;
+    }
+    return true;
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

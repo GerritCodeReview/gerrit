@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65dd991f_5c338b95",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 47
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T18:17:01Z",
+      "side": 1,
+      "message": "You set this earlier. what are you testing here?",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "55ca6e18602bfbeab9b19e93da9acaa91af450aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,42 +13,35 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<script>
-  // This must be set prior to loading Polymer for the first time.
-  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-    window.Polymer = {
-      dom: 'shadow',
-    };
-  }
-</script>
+<!--<script>window.ShadyDOM = { force: true };</script>-->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
+<!--<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
 <script>
   security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],
     reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
   });
-</script>
+</script>-->
 
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="../styles/shared-styles.html">
-<link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
+<!--<link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
 <link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
-<link rel="import" href="./change/gr-change-view/gr-change-view.html">
+<link rel="import" href="./change/gr-change-view/gr-change-view.html">-->
 <link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
-<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
+<!--<link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">-->
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
-<link rel="import" href="./core/gr-navigation/gr-navigation.html">
+<!--<link rel="import" href="./core/gr-navigation/gr-navigation.html">-->
 <link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
-<link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<!--<link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 <link rel="import" href="./edit/gr-editor-view/gr-editor-view.html">
 <link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="./plugins/gr-endpoint-param/gr-endpoint-param.html">
+<link rel="import" href="./plugins/gr-endpoint-param/gr-endpoint-param.html">-->
 <link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
@@ -136,7 +129,7 @@ limitations under the License.
           class$="[[_computeShadowClass(_isShadowDom)]]">
       </gr-main-header>
     </gr-fixed-panel>
-    <main>
+    <main><!--
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"
@@ -186,9 +179,9 @@ limitations under the License.
         <div class="errorEmoji">[[_lastError.emoji]]</div>
         <div class="errorText">[[_lastError.text]]</div>
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
-      </div>
+      </div>-->
     </main>
-    <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
+    <!--<footer r="contentinfo" class="shadow">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>
@@ -204,7 +197,7 @@ limitations under the License.
         </template>
         | Press &ldquo;?&rdquo; for keyboard shortcuts
       </div>
-    </footer>
+    </footer>--><!--
     <gr-overlay id="keyboardShortcuts" with-backdrop>
       <gr-keyboard-shortcuts-dialog
           view="[[params.view]]"
@@ -216,16 +209,16 @@ limitations under the License.
           on-account-detail-update="_handleAccountDetailUpdate"
           on-close="_handleRegistrationDialogClose">
       </gr-registration-dialog>
-    </gr-overlay>
+    </gr-overlay>-->
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
-    <gr-plugin-host id="plugins"
+    <!--<gr-plugin-host id="plugins"
         config="[[_serverConfig]]">
     </gr-plugin-host>
-    <gr-external-style id="externalStyle" name="app-theme"></gr-external-style>
+    <gr-external-style id="externalStyle" name="app-theme"></gr-external-style>-->
   </template>
   <script src="gr-app.js" crossorigin="anonymous"></script>
 </dom-module>

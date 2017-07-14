@@ -18,13 +18,6 @@
   // only for cases when the keyup event is lost.
   const G_KEY_TIMEOUT_MS = 1000;
 
-  // Eagerly render Polymer components when backgrounded. (Skips
-  // requestAnimationFrame.)
-  // @see https://github.com/Polymer/polymer/issues/3851
-  // TODO: Reassess after Polymer 2.0 upgrade.
-  // @see Issue 4699
-  Polymer.RenderStatus._makeReady();
-
   Polymer({
     is: 'gr-app',
 
@@ -110,7 +103,7 @@
     },
 
     ready() {
-      this._isShadowDom = Polymer.Settings.useShadow;
+      this._isShadowDom = false;
       this.$.router.start();
 
       this.$.restAPI.getAccount().then(account => {
@@ -128,6 +121,7 @@
       this._settingsUrl = Gerrit.Nav.getUrlForSettings();
 
       this.$.reporting.appStarted();
+
       this._viewState = {
         changeView: {
           changeNum: null,
@@ -161,6 +155,7 @@
     },
 
     _viewChanged(view) {
+      console.log(view);
       this.$.errorView.classList.remove('show');
       this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
       this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@
     _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_options) {
       const urlWithParams = this._urlWithParams(url, opt_params);
-      return this._auth.fetch(urlWithParams, opt_options).then(response => {
+      return Gerrit.Auth.fetch(urlWithParams, opt_options).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
@@ -795,12 +795,26 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     _fetchSharedCacheURL(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+        this._sharedFetchPromises = {
+          url,
+        };
+        this._cache = {
+          url,
+        };
+      try{
+        if (this._sharedFetchPromises[url]) {
+          //return this._sharedFetchPromises[url];
+        }
+      } catch(e) {
+        // continue to line below cache
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      try {
+        if (this._cache[url] !== undefined) {
+          //return Promise.resolve(this._cache[url]);
+        }
+      } catch(e) {
+        // continue to line below
       }
       this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
           .then(response => {
@@ -1508,7 +1522,7 @@
       if (!url.startsWith('http')) {
         url = this.getBaseUrl() + url;
       }
-      return this._auth.fetch(url, options).then(response => {
+      return Gerrit.Auth.fetch(url, options).then(response => {
         if (!response.ok) {
           if (opt_errFn) {
             return opt_errFn.call(opt_ctx || null, response);
@@ -1757,7 +1771,7 @@
     },
 
     _fetchB64File(url) {
-      return this._auth.fetch(this.getBaseUrl() + url)
+      return Gerrit.Auth.fetch(this.getBaseUrl() + url)
           .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
             const type = response.headers.get('X-FYI-Content-Type');

@@ -61,6 +61,10 @@ public class IndexServlet extends HttpServlet {
   }
 
   static String computeCanonicalPath(String canonicalURL) throws URISyntaxException {
+    if (canonicalURL == null) {
+      return "";
+    }
+
     // If we serving from a sub-directory rather than root, determine the path
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);

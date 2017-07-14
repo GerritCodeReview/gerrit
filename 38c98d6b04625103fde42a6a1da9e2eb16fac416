@@ -34,6 +34,24 @@
       "revId": "38c98d6b04625103fde42a6a1da9e2eb16fac416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "103d77e8_df5dcc21",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T22:39:34Z",
+      "side": 1,
+      "message": "The file had no trailing newline, my editor added one. I say we keep it. :)",
+      "parentUuid": "2329b605_a11c4841",
+      "revId": "38c98d6b04625103fde42a6a1da9e2eb16fac416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

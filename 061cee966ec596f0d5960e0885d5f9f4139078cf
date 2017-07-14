@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "193b3e51_e81b49bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T20:20:48Z",
+      "side": 1,
+      "message": "Yes, thanks!",
+      "parentUuid": "aee98013_f20340e3",
+      "revId": "061cee966ec596f0d5960e0885d5f9f4139078cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8b3d6df_4db12e5a",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-14T19:17:05Z",
       "side": 1,
       "message": "(just curious) What determines whether attributes like this belong on the \u003ciron-input\u003e or the \u003cinput\u003e element?",
+      "revId": "061cee966ec596f0d5960e0885d5f9f4139078cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1470b3d_a061e067",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T20:20:48Z",
+      "side": 1,
+      "message": "bind-value is always on the iron-input element, as it handles the synchronization between the two way bound property and the native input value. Other properties that could be on the iron-input are allowed-pattern, auto-validate, as these are all things that are handled by iron-input and not the native input.\n\nhttps://github.com/PolymerElements/iron-input/blob/master/iron-input.html#L118\n\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/input\n\nIn this example, hidden is on the iron-input because we want the entire thing to be hidden, not just the native input element.",
+      "parentUuid": "d8b3d6df_4db12e5a",
       "revId": "061cee966ec596f0d5960e0885d5f9f4139078cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

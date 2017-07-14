@@ -444,21 +444,24 @@
 
     _prefsChanged(prefs) {
       if (!prefs) { return; }
+
+      const stylesToUpdate = {};
+
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
-          this.customStyle['--content-width'] = 'none';
+          stylesToUpdate['--content-width'] = 'none';
         }
       } else {
         this._diffTableClass = '';
-        this.customStyle['--content-width'] = prefs.line_length + 'ch';
+        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
       }
 
       if (prefs.font_size) {
-        this.customStyle['--font-size'] = prefs.font_size + 'px';
+        stylesToUpdate['--font-size'] = prefs.font_size + 'px';
       }
 
-      this.updateStyles();
+      this.updateStyles(stylesToUpdate);
 
       if (this._diff && this._comments && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();

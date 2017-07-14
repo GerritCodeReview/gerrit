@@ -26,8 +26,7 @@
     },
 
     _updateWidth(maxWidth) {
-      this.customStyle['--tooltip-max-width'] = maxWidth;
-      this.updateStyles();
+      this.updateStyles({'--tooltip-max-width': maxWidth});
     },
   });
 })();

@@ -487,6 +487,10 @@ public class ProjectControl {
     }
   }
 
+  public boolean canRead() {
+    return !isHidden() && allRefsAreVisible(Collections.emptySet());
+  }
+
   ForProject asForProject() {
     return new ForProjectImpl();
   }

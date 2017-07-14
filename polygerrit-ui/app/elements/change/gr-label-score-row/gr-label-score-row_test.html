@@ -213,6 +213,7 @@ limitations under the License.
       assert.isOk(element.$$('iron-selector'));
       assert.isTrue(element.$$('iron-selector').hidden);
     });
+
     test('asymetrical labels', () => {
       element.permittedLabels = {
         'Code-Review': [
@@ -251,6 +252,34 @@ limitations under the License.
           .items.length, 5);
       assert.strictEqual(Polymer.dom(element.root).
           querySelectorAll('.placeholder').length, 0);
+    });
+
+    test('default_value', () => {
+      element.permittedLabels = {
+        Verified: [
+          '-1',
+          ' 0',
+          '+1',
+        ],
+      };
+      element.labels = {
+        Verified: {
+          values: {
+            '0': 'No score',
+            '+1': 'good',
+            '+2': 'excellent',
+            '-1': 'bad',
+            '-2': 'terrible',
+          },
+          default_value: -1,
+        },
+      };
+      element.label = {
+        name: 'Verified',
+        value: null,
+      };
+      flushAsynchronousOperations();
+      assert.strictEqual(element.selectedValue, '-1');
     });
   });
 </script>

@@ -323,6 +323,18 @@ class LdapRealm extends AbstractRealm {
     }
   }
 
+  @Override
+  public boolean isActive(String username) throws LoginException, NamingException, AccountException {
+    try {
+      DirContext ctx = helper.open();
+      Helper.LdapSchema schema = helper.getSchema(ctx);
+      helper.findAccount(schema, ctx, username, false);
+    } catch (NoSuchUserException e) {
+      return false;
+    }
+    return true;
+  }
+
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final ExternalIds externalIds;
 

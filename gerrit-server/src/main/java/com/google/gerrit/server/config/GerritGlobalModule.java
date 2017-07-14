@@ -280,6 +280,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(GcConfig.class);
     bind(ChangeCleanupConfig.class);
+    bind(AccountDeactivatorConfig.class);
 
     bind(ApprovalsUtil.class);
 

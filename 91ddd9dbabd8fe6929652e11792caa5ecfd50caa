@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "f8b8e1dd_cc92be83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T14:01:50Z",
+      "side": 1,
+      "message": "+1 to everything Edwin said, the field in Change will always be populated from the stored Change proto, there is no need for this field to be stored.",
+      "range": {
+        "startLine": 213,
+        "startChar": 19,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b92dd2e4_7ff1b8cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -137,6 +160,40 @@
       "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bbb4291_ebe1d40d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T14:01:50Z",
+      "side": 1,
+      "message": "No need to store this separately, you can use getValue() or just the protected value field.",
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbb0ca0d_841eeee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T14:01:50Z",
+      "side": 1,
+      "message": "I found this a little hard to read. revertOf should never be null, so this might be more readable as:\n\n if (cd.getRevertOf() \u003d\u003d null) {\n   return false;\n }\n return cd.getRevertOf().toString().equals(value);\n\nUm, except that OperatorPredicate doesn\u0027t actually checkNotNull on the value argument to its constructor. Probably it should.",
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

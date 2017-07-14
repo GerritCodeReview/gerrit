@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -580,9 +581,14 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private String getPluginCanonicalWebUrl(String name) {
+    String canonicalWebUrl = urlProvider.get();
+    if (Strings.isNullOrEmpty(canonicalWebUrl)) {
+      return "/plugins/" + name;
+    }
+
     String url =
         String.format(
-            "%s/plugins/%s/", CharMatcher.is('/').trimTrailingFrom(urlProvider.get()), name);
+            "%s/plugins/%s/", CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl), name);
     return url;
   }
 

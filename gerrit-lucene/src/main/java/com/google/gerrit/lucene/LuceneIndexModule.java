@@ -27,6 +27,7 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -85,7 +86,10 @@ public class LuceneIndexModule extends AbstractModule {
         new FactoryModuleBuilder()
             .implement(GroupIndex.class, LuceneGroupIndex.class)
             .build(GroupIndex.Factory.class));
-
+    install(
+        new FactoryModuleBuilder()
+            .implement(ProjectIndex.class, LuceneProjectIndex.class)
+            .build(ProjectIndex.Factory.class));
     install(new IndexModule(threads));
     if (singleVersions == null) {
       install(new MultiVersionModule());

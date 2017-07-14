@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.project.ProjectField;
 import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -79,6 +80,13 @@ public final class IndexUtils {
     return fs.contains(GroupField.UUID.getName())
         ? fs
         : Sets.union(fs, ImmutableSet.of(GroupField.UUID.getName()));
+  }
+
+  public static Set<String> projectFields(QueryOptions opts) {
+    Set<String> fs = opts.fields();
+    return fs.contains(ProjectField.NAME.getName())
+        ? fs
+        : Sets.union(fs, ImmutableSet.of(ProjectField.NAME.getName()));
   }
 
   private IndexUtils() {

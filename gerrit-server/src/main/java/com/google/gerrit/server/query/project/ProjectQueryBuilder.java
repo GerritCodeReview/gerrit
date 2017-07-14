@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.common.primitives.Ints;
+import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
 /** Parses a query string meant to be applied to project objects. */
 public class ProjectQueryBuilder extends QueryBuilder<ProjectState> {
+  public static final String FIELD_LIMIT = "limit";
+
   private static final QueryBuilder.Definition<ProjectState, ProjectQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ProjectQueryBuilder.class);
 
@@ -33,5 +38,14 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectState> {
   @Operator
   public Predicate<ProjectState> name(String name) {
     return ProjectPredicates.name(new Project.NameKey(name));
+  }
+
+  @Operator
+  public Predicate<ProjectState> limit(String query) throws QueryParseException {
+    Integer limit = Ints.tryParse(query);
+    if (limit == null) {
+      throw error("Invalid limit: " + query);
+    }
+    return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 }

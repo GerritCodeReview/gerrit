@@ -45,6 +45,12 @@ import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
+import com.google.gerrit.server.index.project.ProjectIndexDefinition;
+import com.google.gerrit.server.index.project.ProjectIndexRewriter;
+import com.google.gerrit.server.index.project.ProjectIndexer;
+import com.google.gerrit.server.index.project.ProjectIndexerImpl;
+import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -70,7 +76,8 @@ public class IndexModule extends LifecycleModule {
       ImmutableList.<SchemaDefinitions<?>>of(
           AccountSchemaDefinitions.INSTANCE,
           ChangeSchemaDefinitions.INSTANCE,
-          GroupSchemaDefinitions.INSTANCE);
+          GroupSchemaDefinitions.INSTANCE,
+          ProjectSchemaDefinitions.INSTANCE);
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
@@ -112,14 +119,22 @@ public class IndexModule extends LifecycleModule {
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
 
+    bind(ProjectIndexRewriter.class);
+    bind(ProjectIndexCollection.class);
+    listener().to(ProjectIndexCollection.class);
+    factory(ProjectIndexerImpl.Factory.class);
+
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
   }
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
-      AccountIndexDefinition accounts, ChangeIndexDefinition changes, GroupIndexDefinition groups) {
+      AccountIndexDefinition accounts,
+      ChangeIndexDefinition changes,
+      GroupIndexDefinition groups,
+      ProjectIndexDefinition projects) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups, changes);
+        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups, changes, projects);
     Set<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
     Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
@@ -151,6 +166,13 @@ public class IndexModule extends LifecycleModule {
   @Provides
   @Singleton
   GroupIndexer getGroupIndexer(GroupIndexerImpl.Factory factory, GroupIndexCollection indexes) {
+    return factory.create(indexes);
+  }
+
+  @Provides
+  @Singleton
+  ProjectIndexer getProjectIndexer(
+      ProjectIndexerImpl.Factory factory, ProjectIndexCollection indexes) {
     return factory.create(indexes);
   }
 

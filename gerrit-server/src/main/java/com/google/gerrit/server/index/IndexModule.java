@@ -43,7 +43,14 @@ import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+<<<<<<< HEAD
 import com.google.gerrit.server.index.project.ProjectIndexDefinition;
+=======
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
+import com.google.gerrit.server.index.project.ProjectIndexDefinition;
+import com.google.gerrit.server.index.project.ProjectIndexer;
+import com.google.gerrit.server.index.project.ProjectIndexerImpl;
+>>>>>>> 28f447a8c3... Index project on creation and cache eviction
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -113,6 +120,11 @@ public class IndexModule extends LifecycleModule {
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
 
+    // TODO(xisun): create and bind ProjectIndexRewriter in a separate change
+    bind(ProjectIndexCollection.class);
+    listener().to(ProjectIndexCollection.class);
+    factory(ProjectIndexerImpl.Factory.class);
+
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
   }
 
@@ -155,6 +167,13 @@ public class IndexModule extends LifecycleModule {
   @Provides
   @Singleton
   GroupIndexer getGroupIndexer(GroupIndexerImpl.Factory factory, GroupIndexCollection indexes) {
+    return factory.create(indexes);
+  }
+
+  @Provides
+  @Singleton
+  ProjectIndexer getProjectIndexer(
+      ProjectIndexerImpl.Factory factory, ProjectIndexCollection indexes) {
     return factory.create(indexes);
   }
 

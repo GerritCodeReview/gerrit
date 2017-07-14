@@ -24,7 +24,6 @@ bower_component_bundle(
         "//lib/js:paper-listbox",
         "//lib/js:polymer",
         "//lib/js:polymer-resin",
-        "//lib/js:promise-polyfill",
     ],
 )
 

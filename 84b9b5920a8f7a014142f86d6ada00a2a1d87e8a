@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e423cb11_77f756ca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T17:02:35Z",
+      "side": 1,
+      "message": "change to if (canonicalURL \u003d\u003d null) { please.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "84b9b5920a8f7a014142f86d6ada00a2a1d87e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

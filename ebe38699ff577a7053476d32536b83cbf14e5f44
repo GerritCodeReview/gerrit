@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b077b78b_ff5f095d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 0,
+      "message": "Should this not be added in the predecessor change?",
+      "range": {
+        "startLine": 5733,
+        "startChar": 62,
+        "endLine": 5734,
+        "endChar": 65
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbe98783_f2af4735",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed since the revertOf field is part of the change proto that is stored in the index.",
+      "range": {
+        "startLine": 395,
+        "startChar": 6,
+        "endLine": 400,
+        "endChar": 7
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f2bf778_121d13ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 1,
+      "message": "Please document the new operator in user-search.txt",
+      "range": {
+        "startLine": 157,
+        "startChar": 21,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38cbe6dd_c95f5388",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed since the revertOf field is part of the change proto that is stored in the index.",
+      "range": {
+        "startLine": 487,
+        "startChar": 4,
+        "endLine": 489,
+        "endChar": 5
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b92dd2e4_7ff1b8cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 1,
+      "message": "Not needed, since this field is part of the Change object.",
+      "range": {
+        "startLine": 1348,
+        "startChar": 2,
+        "endLine": 1357,
+        "endChar": 3
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92aad03c_a71a3365",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-14T09:08:09Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

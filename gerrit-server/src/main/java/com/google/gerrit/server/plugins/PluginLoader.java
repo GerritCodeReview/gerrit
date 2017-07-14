@@ -580,9 +580,14 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private String getPluginCanonicalWebUrl(String name) {
+    String canonicalWebUrl = urlProvider.get();
+    if (canonicalWebUrl == null) {
+      return "/plugins/" + name;
+    }
+
     String url =
         String.format(
-            "%s/plugins/%s/", CharMatcher.is('/').trimTrailingFrom(urlProvider.get()), name);
+            "%s/plugins/%s/", CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl), name);
     return url;
   }
 

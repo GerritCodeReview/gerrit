@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "15aac9d3_210a516d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T22:27:42Z",
+      "side": 1,
+      "message": "That looks like a mistake. An early revision of that file did fire an event, but that was later removed without removing the comment. You should remove this comment from this file. I have change 113670 open to remove it from gr-create-project-dialog.js.",
+      "parentUuid": "dcd70d4e_7c8b0f7c",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "983957ae_3647c414",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
         "patchSetId": 85
@@ -293,6 +317,24 @@
       "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "076b0aca_dca2c0f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T22:27:42Z",
+      "side": 1,
+      "message": "We could really use very thorough jsdoc comments throughout this file (and our codebase). Filed issue 6744.",
+      "parentUuid": "7f5da04f_ec1b976c",
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

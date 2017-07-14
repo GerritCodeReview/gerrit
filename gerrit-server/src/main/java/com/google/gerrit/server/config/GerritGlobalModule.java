@@ -82,6 +82,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
@@ -280,6 +281,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(GcConfig.class);
     bind(ChangeCleanupConfig.class);
+    bind(AccountDeactivator.class);
 
     bind(ApprovalsUtil.class);
 

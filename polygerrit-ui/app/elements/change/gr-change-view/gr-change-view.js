@@ -1142,6 +1142,8 @@
     },
 
     _computeRelatedChangesClass(collapsed, loading) {
+      // TODO(beckysiegel) figure out how to check for customstyle in Polymer2,
+      // since customStyle was removed.
       if (!loading && !this.customStyle['--relation-chain-max-height']) {
         this._updateRelatedChangeMaxHeight();
       }
@@ -1227,8 +1229,10 @@
               EXTRA_HEIGHT;
         }
       }
+      const stylesToUpdate = {};
+
       if (this.$.relatedChanges.hidden) {
-        this.customStyle['--commit-message-max-width'] = 'none';
+        stylesToUpdate['--commit-message-max-width'] = 'none';
       }
       // Get the line height of related changes, and convert it to the nearest
       // integer.
@@ -1238,14 +1242,14 @@
       const remainder = newHeight % lineHeight;
       newHeight = newHeight - remainder;
 
-      this.customStyle['--relation-chain-max-height'] = newHeight + 'px';
+      stylesToUpdate['--relation-chain-max-height'] = newHeight + 'px';
 
       // Update the max-height of the relation chain to this new height.
       if (hasCommitToggle) {
-        this.customStyle['--related-change-btn-top-padding'] =
-          remainder + 'px';
+        stylesToUpdate['--related-change-btn-top-padding'] = remainder + 'px';
       }
-      this.updateStyles();
+
+      this.updateStyles(stylesToUpdate);
     },
 
     _computeRelatedChangesToggleClass() {

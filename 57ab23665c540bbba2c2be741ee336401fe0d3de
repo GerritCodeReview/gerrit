@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db449de8_f3d8cb68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/project/ProjectPredicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T19:19:01Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this variant of the constructor. The name should never be different from def.getName()",
+      "range": {
+        "startLine": 34,
+        "startChar": 52,
+        "endLine": 34,
+        "endChar": 64
+      },
+      "revId": "57ab23665c540bbba2c2be741ee336401fe0d3de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

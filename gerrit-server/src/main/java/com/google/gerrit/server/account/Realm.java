@@ -20,6 +20,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import java.io.IOException;
 import java.util.Set;
 
+import javax.naming.NamingException;
+import javax.security.auth.login.LoginException;
+
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
   boolean allowsEdit(AccountFieldName field);
@@ -45,4 +48,15 @@ public interface Realm {
    * into an email address, and then locate the user by that email address.
    */
   Account.Id lookup(String accountName) throws IOException;
+
+  /**
+   * @return true if the account is active.
+   * @throws NamingException
+   * @throws LoginException
+   * @throws AccountException
+   */
+  default boolean isActive(String username)
+      throws LoginException, NamingException, AccountException {
+    return true;
+  }
 }

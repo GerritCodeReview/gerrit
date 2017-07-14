@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f079fd02_b0e6a19e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-14T22:16:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "983957ae_3647c414",
+      "range": {
+        "startLine": 61,
+        "startChar": 57,
+        "endLine": 61,
+        "endChar": 74
+      },
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27ff00b2_d1f7e94f",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
         "patchSetId": 85

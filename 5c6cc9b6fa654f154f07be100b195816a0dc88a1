@@ -274,6 +274,30 @@
     },
     {
       "key": {
+        "uuid": "c0036001_e6da9b2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:31:25Z",
+      "side": 1,
+      "message": "You\u0027re right, but they do call done instead, which is another way to accomplish the same thing.\n\nTo me it makes sense to introduce only one new example of how to test things like this asynchronously, instead of two.",
+      "parentUuid": "c824dc11_6b7a8d76",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "511f2fe1_b05a4b45",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 3

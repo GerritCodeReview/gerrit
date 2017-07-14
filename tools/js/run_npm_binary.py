@@ -55,7 +55,10 @@ def extract(path, outdir, bin):
         extract_one(mem)
     # Extract bin last so other processes only short circuit when extraction is
     # finished.
-    extract_one(tar.getmember(bin))
+    try:
+      extract_one(tar.getmember(bin))
+    except KeyError:
+      pass # Either exists, or will fail on the next line.
 
 def main(args):
   path = args[0]

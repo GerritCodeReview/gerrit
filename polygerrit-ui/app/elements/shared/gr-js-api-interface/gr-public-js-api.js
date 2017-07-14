@@ -82,7 +82,7 @@
     };
   }
 
-  Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
+  //Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
 
   Plugin.prototype._name = '';
 
@@ -223,6 +223,7 @@
   const Gerrit = window.Gerrit || {};
 
   // Number of plugins to initialize, -1 means 'not yet known'.
+
   Gerrit._pluginsPending = -1;
 
   Gerrit._endpoints = new GrPluginEndpoints();
@@ -306,9 +307,9 @@
     }
   };
 
-  Gerrit._pluginInstalled = function() {
+  /*Gerrit._pluginInstalled = function() {
     Gerrit._setPluginsCount(Gerrit._pluginsPending - 1);
-  };
+  };*/
 
   Gerrit._arePluginsLoaded = function() {
     return Gerrit._pluginsPending === 0;

@@ -213,6 +213,7 @@ limitations under the License.
       assert.isOk(element.$$('iron-selector'));
       assert.isTrue(element.$$('iron-selector').hidden);
     });
+
     test('asymetrical labels', () => {
       element.permittedLabels = {
         'Code-Review': [
@@ -251,6 +252,15 @@ limitations under the License.
           .items.length, 5);
       assert.strictEqual(Polymer.dom(element.root).
           querySelectorAll('.placeholder').length, 0);
+    });
+
+    test('default_value', () => {
+      element.label = {
+        name: 'Verified',
+        value: null,
+      };
+      flushAsynchronousOperations();
+      assert.strictEqual(element.selectedValue, ' 0');
     });
   });
 </script>

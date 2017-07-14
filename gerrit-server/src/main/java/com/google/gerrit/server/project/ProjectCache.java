@@ -46,16 +46,16 @@ public interface ProjectCache {
   ProjectState checkedGet(Project.NameKey projectName) throws IOException;
 
   /** Invalidate the cached information about the given project. */
-  void evict(Project p);
+  void evict(Project p) throws IOException;
 
   /** Invalidate the cached information about the given project. */
-  void evict(Project.NameKey p);
+  void evict(Project.NameKey p) throws IOException;
 
   /**
    * Remove information about the given project from the cache. It will no longer be returned from
    * {@link #all()}.
    */
-  void remove(Project p);
+  void remove(Project p) throws IOException;
 
   /** @return sorted iteration of projects. */
   Iterable<Project.NameKey> all();
@@ -75,5 +75,5 @@ public interface ProjectCache {
   Iterable<Project.NameKey> byName(String prefix);
 
   /** Notify the cache that a new project was constructed. */
-  void onCreateProject(Project.NameKey newProjectName);
+  void onCreateProject(Project.NameKey newProjectName) throws IOException;
 }

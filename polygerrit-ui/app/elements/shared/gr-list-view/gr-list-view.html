@@ -19,7 +19,6 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="gr-styled-table.html">
 
 <dom-module id="gr-list-view">
   <template>
@@ -69,9 +68,7 @@ limitations under the License.
         </gr-button>
       </div>
     </div>
-    <gr-styled-table>
-      <content></content>
-    </gr-styled-table>
+    <content></content>
     <nav>
       <a id="prevArrow"
           href$="[[_computeNavLink(offset, -1, itemsPerPage, filter)]]"

@@ -123,7 +123,10 @@ limitations under the License.
           sandbox.stub(element, '_saveReview', review => {
             assert.deepEqual(review, {
               drafts: 'PUBLISH_ALL_REVISIONS',
-              labels: {},
+              labels: {
+                'Code-Review': 0,
+                'Verified': 0,
+              },
               message: 'I wholeheartedly disapprove',
               reviewers: [],
             });
@@ -155,7 +158,10 @@ limitations under the License.
           sandbox.stub(element, '_saveReview', review => {
             assert.deepEqual(review, {
               drafts: 'KEEP',
-              labels: {},
+              labels: {
+                'Code-Review': 0,
+                'Verified': 0,
+              },
               message: 'I wholeheartedly disapprove',
               reviewers: [],
             });
@@ -223,7 +229,7 @@ limitations under the License.
       flush(() => {
         element.$$('gr-label-scores').$$(`gr-label-score-row[name="Code-Review"]`)
             .setSelectedValue(-1);
-        assert.isNull(element.getLabelValue('Verified'));
+        assert.strictEqual(element.getLabelValue('Verified'), ' 0');
         done();
       });
     });
@@ -236,7 +242,10 @@ limitations under the License.
       element.setLabelValue(label, value);
       flushAsynchronousOperations();
       const labels = element.$.labelScores.getLabelValues();
-      assert.deepEqual(labels, {Verified: 1});
+      assert.deepEqual(labels, {
+        'Code-Review': 0,
+        'Verified': 1,
+      });
     });
 
     function getActiveElement() {
@@ -504,7 +513,10 @@ limitations under the License.
     test('only send labels that have changed', done => {
       flush(() => {
         sandbox.stub(element, '_saveReview', review => {
-          assert.deepEqual(review.labels, {Verified: -1});
+          assert.deepEqual(review.labels, {
+            'Code-Review': 0,
+            'Verified': -1,
+          });
           return Promise.resolve({ok: true});
         });
 

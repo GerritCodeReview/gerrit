@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "33b9e6d4_bf1a8345",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:27:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea678acc_698c9188",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec4d9273_0719f26b",
         "filename": "lib/js/bower_components.bzl",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "This is automated, it should remain.",
       "parentUuid": "ec4d9273_0719f26b",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "118bb4d7_e824c460",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:27:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7293fb0b_7ef7c084",
       "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -107,6 +143,30 @@
       "side": 1,
       "message": "Yes, see iron-input implementation, especially tests.\nex: \nhttps://github.com/PolymerElements/iron-input/blob/master/test/iron-input.html#L139",
       "parentUuid": "5de1ac3d_be36435e",
+      "range": {
+        "startLine": 197,
+        "startChar": 29,
+        "endLine": 197,
+        "endChar": 47
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3740f94_0ca1c95b",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:27:47Z",
+      "side": 1,
+      "message": "Bummer. Ok.",
+      "parentUuid": "e5b520cc_434150c9",
       "range": {
         "startLine": 197,
         "startChar": 29,
@@ -163,6 +223,30 @@
       "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8825af_0aaac0fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T00:27:47Z",
+      "side": 1,
+      "message": "It sure looks similar to all of the other tests you refactored, though. Am I wrong in thinking we can use this utility wherever you call Polymer.Base.async?",
+      "parentUuid": "0ac07b01_d7fd327b",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

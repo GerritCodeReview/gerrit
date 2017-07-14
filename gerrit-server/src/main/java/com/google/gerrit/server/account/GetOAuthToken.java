@@ -35,7 +35,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
   private final OAuthTokenCache tokenCache;
-  private final String hostName;
+  private final Provider<String> canonicalWebUrlProvider;
 
   @Inject
   GetOAuthToken(
@@ -44,7 +44,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
       @CanonicalWebUrl Provider<String> urlProvider) {
     this.self = self;
     this.tokenCache = tokenCache;
-    this.hostName = getHostName(urlProvider.get());
+    this.canonicalWebUrlProvider = urlProvider;
   }
 
   @Override
@@ -60,7 +60,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
     }
     OAuthTokenInfo accessTokenInfo = new OAuthTokenInfo();
     accessTokenInfo.username = a.getUserName();
-    accessTokenInfo.resourceHost = hostName;
+    accessTokenInfo.resourceHost = getHostName(canonicalWebUrlProvider.get());
     accessTokenInfo.accessToken = accessToken.getToken();
     accessTokenInfo.providerId = accessToken.getProviderId();
     accessTokenInfo.expiresAt = Long.toString(accessToken.getExpiresAt());

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.common.base.Strings;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.template.soy.SoyFileSet;
@@ -61,6 +62,10 @@ public class IndexServlet extends HttpServlet {
   }
 
   static String computeCanonicalPath(String canonicalURL) throws URISyntaxException {
+    if (Strings.isNullOrEmpty(canonicalURL)) {
+      return "";
+    }
+
     // If we serving from a sub-directory rather than root, determine the path
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);

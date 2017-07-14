@@ -18,7 +18,9 @@ def _npm_binary_impl(ctx):
   base =  '%s@%s.npm_binary.tgz' % (name, version)
   dest = ctx.path(base)
   repository = ctx.attr.repository
-  if repository == GERRIT:
+  if name == "vulcanize":
+    url = 'https://github.com/paladox/polymer-analyzer/blob/master/vulcanize-1.16.0.tar.gz?raw=true'
+  elif repository == GERRIT:
     url = 'http://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
   elif repository == NPMJS:
     url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
@@ -286,6 +288,7 @@ def _vulcanize_impl(ctx):
     'python',
     "$p/" + ctx.file._run_npm.path,
     "$p/" + ctx.file._vulcanize_archive.path,
+    '--polymer2',
     '--inline-scripts',
     '--inline-css',
     '--strip-comments',

@@ -203,7 +203,7 @@
     ],
 
     start() {
-      if (!this._app) { return; }
+      //if (!this._app) { return; }
       this._startRouter();
     },
 

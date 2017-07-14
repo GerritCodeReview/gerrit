@@ -99,6 +99,7 @@
     },
 
     reporter(...args) {
+      //
       const report = (Gerrit._arePluginsLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
       report.apply(this, args);

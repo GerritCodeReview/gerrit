@@ -116,7 +116,8 @@
     this._name = getPluginNameFromUrl(this._url);
   }
 
-  Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
+  //
+  //Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
 
   Plugin.prototype._name = '';
 
@@ -394,6 +395,7 @@
   }
 
   // Number of plugins to initialize, -1 means 'not yet known'.
+
   Gerrit._pluginsPending = -1;
 
   Gerrit._endpoints = new GrPluginEndpoints();
@@ -520,17 +522,18 @@
     }
   };
 
-  Gerrit._pluginInstalled = function() {
-    Gerrit._setPluginsCount(Gerrit._pluginsPending - 1);
-  };
+  //
+  //Gerrit._pluginInstalled = function() {
+  //  Gerrit._setPluginsCount(Gerrit._pluginsPending - 1);
+  //};
 
   Gerrit._arePluginsLoaded = function() {
     return Gerrit._pluginsPending === 0;
   };
 
-  Gerrit._getPluginScreenName = function(pluginName, screenName) {
+  /*Gerrit._getPluginScreenName = function(pluginName, screenName) {
     return `${pluginName}-screen-${screenName}`;
-  };
+  };*/
 
   window.Gerrit = Gerrit;
 })(window);

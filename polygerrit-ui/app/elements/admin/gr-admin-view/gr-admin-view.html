@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
+<link rel="import" href="../../../styles/gr-page-nav-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
@@ -34,7 +35,8 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
-    <gr-page-nav>
+    <style include="gr-page-nav-styles"></style>
+    <gr-page-nav class="navStyles">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">

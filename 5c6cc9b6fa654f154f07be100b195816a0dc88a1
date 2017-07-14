@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea678acc_698c9188",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "Yes, they occur from running the script below, which is required with a WORKSPACE change. It was necessary to update the iron-input dependency.",
+      "parentUuid": "c8f840af_c881bbb2",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec4d9273_0719f26b",
         "filename": "lib/js/bower_components.bzl",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7293fb0b_7ef7c084",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "This is automated, it should remain.",
+      "parentUuid": "ec4d9273_0719f26b",
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "e5b520cc_434150c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "Yes, see iron-input implementation, especially tests.\nex: \nhttps://github.com/PolymerElements/iron-input/blob/master/test/iron-input.html#L139",
+      "parentUuid": "5de1ac3d_be36435e",
+      "range": {
+        "startLine": 197,
+        "startChar": 29,
+        "endLine": 197,
+        "endChar": 47
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51fc5b2f_9bb31f9f",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 3
@@ -79,6 +139,30 @@
       "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac07b01_d7fd327b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "For now, this is the only place that needs it, though if it ends up being something that needs to be used elsewhere, I agree. I\u0027d rather keep this change as simple as possible given how large it is already.",
+      "parentUuid": "51fc5b2f_9bb31f9f",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "7e0ca6c5_b7fd5ec1",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "I would rather not introduce even more changes with this refactoring.",
+      "parentUuid": "511f2fe1_b05a4b45",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcfb7b29_59e53986",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
         "patchSetId": 3
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "f02fb85a_7282ad19",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "It seems that\u0027s the case at least for inputs, updated.",
+      "parentUuid": "dcfb7b29_59e53986",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 48
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f339d_d8421ea5",
         "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
         "patchSetId": 3
@@ -148,6 +280,30 @@
       "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e43937e7_82a4b0cc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T00:10:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47f339d_d8421ea5",
+      "range": {
+        "startLine": 61,
+        "startChar": 32,
+        "endLine": 61,
+        "endChar": 69
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

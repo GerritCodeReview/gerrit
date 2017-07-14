@@ -19,21 +19,21 @@ limitations under the License.
 <dom-module id="gr-diff-selection">
   <template>
     <style include="shared-styles">
-      .contentWrapper ::content .content,
-      .contentWrapper ::content .contextControl {
+      .contentWrapper ::slotted .content,
+      .contentWrapper ::slotted .contextControl {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
       }
 
-      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .side-by-side .left + .content .contentText,
-      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .side-by-side .right + .content .contentText,
-      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .unified .left.lineNum ~ .content:not(.both) .contentText,
-      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .unified .right.lineNum ~ .content .contentText,
-      :host-context(.selected-left.selected-comment) .contentWrapper ::content .side-by-side .left + .content .message,
-      :host-context(.selected-right.selected-comment) .contentWrapper ::content .side-by-side .right + .content .message :not(.collapsedContent),
-      :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent){
+      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::slotted .side-by-side .left + .content .contentText,
+      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::slotted .side-by-side .right + .content .contentText,
+      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::slotted .unified .left.lineNum ~ .content:not(.both) .contentText,
+      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::slotted .unified .right.lineNum ~ .content .contentText,
+      :host-context(.selected-left.selected-comment) .contentWrapper ::slotted .side-by-side .left + .content .message,
+      :host-context(.selected-right.selected-comment) .contentWrapper ::slotted .side-by-side .right + .content .message :not(.collapsedContent),
+      :host-context(.selected-comment) .contentWrapper ::slotted .unified .message :not(.collapsedContent){
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;
@@ -41,7 +41,7 @@ limitations under the License.
       }
     </style>
     <div class="contentWrapper">
-      <content></content>
+      <slot></slot>
     </div>
   </template>
   <script src="../gr-diff-highlight/gr-range-normalizer.js"></script>

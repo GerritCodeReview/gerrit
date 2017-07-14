@@ -322,6 +322,30 @@
     },
     {
       "key": {
+        "uuid": "f1448cdd_be342a08",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-14T17:43:18Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\n\nI think it would be a more explicit way to do these kind of tests everywhere, but whatever. Don\u0027t let me block this change.",
+      "parentUuid": "f9891d0a_813c6f20",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 5
+      },
+      "revId": "5c6cc9b6fa654f154f07be100b195816a0dc88a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "511f2fe1_b05a4b45",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 3

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff61746c_a635191b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-14T11:21:36Z",
+      "side": 1,
+      "message": "property",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbe98783_f2af4735",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 2

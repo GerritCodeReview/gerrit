@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "e8d1c693_1e10de2f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5733,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:56:35Z",
+      "side": 1,
+      "message": "Hm. The REST API has in the past been kind of opinionated that changes should be represented as triplets instead of numbers. I think we generally think that may have been a mistake, but I\u0027m on the fence as to whether we should start being inconsistent here.\n\nEdwin, thoughts?",
+      "range": {
+        "startLine": 5733,
+        "startChar": 4,
+        "endLine": 5733,
+        "endChar": 21
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5c319f3_3666b239",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -45,6 +68,23 @@
       "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8d6ab89_9545491c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T13:56:35Z",
+      "side": 1,
+      "message": "This belongs in the parent change.",
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b900f73_04b26b52",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 85
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T18:18:58Z",
+      "side": 1,
+      "message": "Why are these dialog elements imported here?",
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f7b3bf_0ff2d3cb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T18:18:58Z",
+      "side": 1,
+      "message": "Where does this get fired?",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "983957ae_3647c414",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T18:18:58Z",
+      "side": 1,
+      "message": "No need to create a resolved promise here, just return.",
+      "range": {
+        "startLine": 61,
+        "startChar": 57,
+        "endLine": 61,
+        "endChar": 74
+      },
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27ff00b2_d1f7e94f",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.js",
         "patchSetId": 85
@@ -43,6 +106,40 @@
         "endLine": 63,
         "endChar": 18
       },
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0423e7d_d93e682f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 85
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T18:18:58Z",
+      "side": 1,
+      "message": "Add a test for non-201 response as well.",
+      "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e266e636_7d7a215a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-14T18:18:58Z",
+      "side": 1,
+      "message": "Is group a group name that would need encoding?",
       "revId": "cc94ec8cca50895ceb4b17a94c57e30c7f9d2b12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

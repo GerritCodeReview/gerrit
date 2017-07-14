@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87812ce8_2b2927aa",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T20:39:58Z",
+      "side": 1,
+      "message": "Is it worth mentioning that you can see them if you really want to by viewing the HTML source?",
+      "range": {
+        "startLine": 150,
+        "startChar": 35,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff31156_ba3a5f92",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T20:39:58Z",
+      "side": 1,
+      "message": "Full or abbreviated?",
+      "range": {
+        "startLine": 227,
+        "startChar": 65,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0450a22d_dfcf9da8",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T20:39:58Z",
+      "side": 1,
+      "message": "What is the format for boolean values?",
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbb33838_7408f720",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-14T20:39:58Z",
+      "side": 1,
+      "message": "This is not helpful enough; how does the user get from here to user-notify.html?\n\nIn theory the UI should know whether the current server is capable of serving documentation, that\u0027s why the GWT UI requests /Documentation/index.html on startup, but I forget exactly how it works. If the server does support docs, we should link to them.\n\nThat might be too much work though. I\u0027m personally ok with just linking to https://gerrit-review.googlesource.com/Documentation in this case. In the long term we are going to change to rendering Markdown in the server, at which point I think we might also remove the option to _not_ serve documentation, at which point we can just change this to link directly to this server\u0027s docs and not worry about the conditional.",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

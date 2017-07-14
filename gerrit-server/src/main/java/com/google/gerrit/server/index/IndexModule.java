@@ -110,6 +110,11 @@ public class IndexModule extends LifecycleModule {
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
 
+    // TODO(xisun): create and bind ProjectIndexRewriter in a separate change
+    bind(ProjectIndexCollection.class);
+    listener().to(ProjectIndexCollection.class);
+    factory(ProjectIndexerImpl.Factory.class);
+
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
   }
 
@@ -151,6 +156,13 @@ public class IndexModule extends LifecycleModule {
   @Provides
   @Singleton
   GroupIndexer getGroupIndexer(GroupIndexerImpl.Factory factory, GroupIndexCollection indexes) {
+    return factory.create(indexes);
+  }
+
+  @Provides
+  @Singleton
+  ProjectIndexer getProjectIndexer(
+      ProjectIndexerImpl.Factory factory, ProjectIndexCollection indexes) {
     return factory.create(indexes);
   }
 

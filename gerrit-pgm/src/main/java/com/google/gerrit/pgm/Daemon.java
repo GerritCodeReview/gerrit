@@ -51,6 +51,7 @@ import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
+import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -457,6 +458,7 @@ public class Daemon extends SiteProgram {
           }
         });
     modules.add(new GarbageCollectionModule());
+    modules.add(new AccountDeactivator.Module());
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }

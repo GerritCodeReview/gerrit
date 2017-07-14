@@ -591,6 +591,11 @@ updated to be inactive and the login attempt will be blocked. Users enabling thi
 should ensure that their authentication back-end is supported. Currently, only
 LDAP authentication is supported.
 +
+In addition, if this parameter is not set, or false, the corresponding scheduled
+task to deactivate inactive Gerrit accounts will also be disabled. If this
+parameter is set to true, users should also consider configuring the
+accountDeactivation section appropriately.
++
 By default, false.
 
 [[cache]]
@@ -4490,6 +4495,44 @@ on the server. One or more groups can be set.
 +
 If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
+
+[[accountDeactivation]]
+=== Section accountDeactivation
+
+Configures the parameters for the scheduled task to sweep and deactivate Gerrit
+accounts according to their status reported by the auth backend. Currently only
+supported for LDAP backends.
+
+[[accountDeactivation.startTime]]accountDeactivation.startTime::
++
+Start time to define the first execution of account deactivations.
+If the configured `'accountDeactivation.interval'` is shorter than `'accountDeactivation.startTime - now'`
+the start time will be preponed by the maximum integral multiple of
+`'accountDeactivation.interval'` so that the start time is still in the future.
++
+----
+<day of week> <hours>:<minutes>
+or
+<hours>:<minutes>
+
+<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+<hours>       : 00-23
+<minutes>     : 0-59
+----
+
+[[accountDeactivation.interval]]accountDeactivation.interval::
++
+Interval for periodic repetition of triggering account deactivation sweeps.
+The interval must be larger than zero. The following suffixes are supported
+to define the time unit for the interval:
++
+* `s, sec, second, seconds`
+* `m, min, minute, minutes`
+* `h, hr, hour, hours`
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
 
 [[urlAlias]]
 === Section urlAlias

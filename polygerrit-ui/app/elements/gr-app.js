@@ -14,13 +14,6 @@
 (function() {
   'use strict';
 
-  // Eagerly render Polymer components when backgrounded. (Skips
-  // requestAnimationFrame.)
-  // @see https://github.com/Polymer/polymer/issues/3851
-  // TODO: Reassess after Polymer 2.0 upgrade.
-  // @see Issue 4699
-  Polymer.RenderStatus._makeReady();
-
   Polymer({
     is: 'gr-app',
 
@@ -93,6 +86,7 @@
       });
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
+        console.log(config);
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
@@ -151,6 +145,7 @@
     },
 
     _computeShowGwtUiLink(config) {
+      console.log(config);
       return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 

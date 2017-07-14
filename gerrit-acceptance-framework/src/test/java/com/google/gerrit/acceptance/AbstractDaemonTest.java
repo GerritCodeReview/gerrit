@@ -165,6 +165,7 @@ import org.junit.runners.model.Statement;
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
+  private static Description firstTest;
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
@@ -179,6 +180,9 @@ public abstract class AbstractDaemonTest {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+              if (firstTest == null) {
+                firstTest = description;
+              }
               beforeTest(description);
               try {
                 base.evaluate();
@@ -273,6 +277,11 @@ public abstract class AbstractDaemonTest {
     if (commonServer != null) {
       try {
         commonServer.close();
+      } catch (Throwable t) {
+        throw new AssertionError(
+            "Error stopping common server in "
+                + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
+            t);
       } finally {
         commonServer = null;
       }

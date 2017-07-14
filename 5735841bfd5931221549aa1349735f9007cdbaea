@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8013e3f_2ed0bd7f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 84
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T17:51:30Z",
+      "side": 1,
+      "message": "You stated that the test was that handleCreateGroup was called. However you call it explicitly in the test. Because it is called externally (not by this component), it doesn\u0027t need to be tested here.\n\nThe testing of name input is good, so I changed the test name to reflect that.",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "5735841bfd5931221549aa1349735f9007cdbaea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fbf94b6_9bdeba9f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 84
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T17:51:30Z",
+      "side": 1,
+      "message": "Done was called outside of the async parts of this test, so it did not ever run on line 68. Since that part of the test is duplicate of the next test, removed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "5735841bfd5931221549aa1349735f9007cdbaea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dceb558f_98a08fef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog_test.html",
+        "patchSetId": 84
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-14T17:51:30Z",
+      "side": 1,
+      "message": "Spies still call the original function, but allow you to see that it happened. Because of this, the actual redirect occurs (when the test is set up correctly). It has to be a stub instead, which is a function replacement.",
+      "range": {
+        "startLine": 81,
+        "startChar": 30,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "5735841bfd5931221549aa1349735f9007cdbaea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

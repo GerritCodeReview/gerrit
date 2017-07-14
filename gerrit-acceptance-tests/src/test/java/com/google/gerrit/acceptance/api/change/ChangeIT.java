@@ -1130,6 +1130,38 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOntoMergedChange() throws Exception {
+    // Create two merged changes on 'master' branch.
+    PushOneCommit.Result change1 = createChange();
+    merge(change1);
+    merge(createChange());
+
+    // Create another change on 'master' branch.
+    PushOneCommit.Result change2 = createChange();
+
+    // Create a change on 'foo' branch.
+    createBranch(new Branch.NameKey(project, "foo"));
+    PushOneCommit.Result change3 = createChange("refs/for/foo");
+
+    String dest1 = change1.getChange().change().getDest().get();
+    String dest2 = change2.getChange().change().getDest().get();
+    String dest3 = change3.getChange().change().getDest().get();
+
+    RebaseInput input = new RebaseInput();
+    input.base = change1.getCommit().getName();
+
+    // Rebase 'change2' to 'change1', which has the same destination branch.
+    assertThat(dest2).isEqualTo(dest1);
+    gApi.changes().id(change2.getChangeId()).current().rebase(input);
+    assertThat(change2.getPatchSetId().get()).isEqualTo(2);
+
+    // Rebase 'change3' to 'change1', which has a different destination branch.
+    assertThat(dest3).isNotEqualTo(dest1);
+    gApi.changes().id(change3.getChangeId()).current().rebase(input);
+    assertThat(change3.getPatchSetId().get()).isEqualTo(2);
+  }
+
+  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void changeNoParentToOneParent() throws Exception {
     // create initial commit with no parent and push it as change, so that patch

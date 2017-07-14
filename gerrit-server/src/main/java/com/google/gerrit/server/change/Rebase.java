@@ -131,9 +131,9 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
     Change change = rsrc.getChange();
     String str = input.base.trim();
+    Ref destRef = repo.exactRef(destRefKey.get());
     if (str.equals("")) {
       // Remove existing dependency to other patch set.
-      Ref destRef = repo.exactRef(destRefKey.get());
       if (destRef == null) {
         throw new ResourceConflictException(
             "can't rebase onto tip of branch " + destRefKey.get() + "; branch doesn't exist");
@@ -158,11 +158,12 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     if (!baseChange.getProject().equals(change.getProject())) {
       throw new ResourceConflictException(
           "base change is in wrong project: " + baseChange.getProject());
-    } else if (!baseChange.getDest().equals(change.getDest())) {
-      throw new ResourceConflictException(
-          "base change is targeting wrong branch: " + baseChange.getDest());
     } else if (baseChange.getStatus() == Status.ABANDONED) {
       throw new ResourceConflictException("base change is abandoned: " + baseChange.getKey());
+    } else if (!baseChange.getDest().equals(change.getDest())
+        && !isMergedInto(rw, base.patchSet(), destRef)) {
+      throw new ResourceConflictException(
+          "base change is targeting wrong branch: " + baseChange.getDest());
     } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
       throw new ResourceConflictException(
           "base change "
@@ -172,10 +173,19 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     return ObjectId.fromString(base.patchSet().getRevision().get());
   }
 
+  private boolean isMergedInto(RevWalk rw, PatchSet ps, Ref ref) throws IOException {
+    if (ref == null) {
+      return false;
+    }
+    return rw.isMergedInto(getRevCommit(rw, ps), rw.parseCommit(ref.getObjectId()));
+  }
+
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip) throws IOException {
-    ObjectId baseId = ObjectId.fromString(base.getRevision().get());
-    ObjectId tipId = ObjectId.fromString(tip.getRevision().get());
-    return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
+    return rw.isMergedInto(getRevCommit(rw, base), getRevCommit(rw, tip));
+  }
+
+  private RevCommit getRevCommit(RevWalk revWalk, PatchSet ps) throws IOException {
+    return revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {

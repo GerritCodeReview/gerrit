@@ -18,6 +18,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
@@ -28,6 +29,7 @@ limitations under the License.
 <dom-module id="gr-admin-group-list">
   <template>
     <style include="shared-styles"></style>
+    <style include="gr-table-styles"></style>
     <gr-list-view
         create-new="[[_createNewCapability]]"
         filter="[[_filter]]"
@@ -37,7 +39,7 @@ limitations under the License.
         offset="[[_offset]]"
         on-create-clicked="_handleCreateClicked"
         path="[[_path]]">
-      <table id="list">
+      <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Group Name</th>
           <th class="description topHeader">Group Description</th>

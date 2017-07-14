@@ -14,64 +14,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<dom-module id="gr-styled-table">
+<dom-module id="gr-table-styles">
   <template>
-    <style include="shared-styles">
-      ::content {
-        display: flex;
-        flex-direction: column;
-      }
-      ::content .loading {
+    <style>
+      .genericList .loading {
         display: none;
       }
-      ::content #list {
+      .genericList {
         border-collapse: collapse;
         width: 100%;
       }
-      ::content #list tr.table {
+      .genericList tr.table {
         border-bottom: 1px solid #eee;
       }
-      ::content #list td {
+      .genericList td {
         flex-shrink: 0;
         padding: .3em .5em;
       }
-      ::content #list th {
+      .genericList th {
         background-color: #ddd;
         border-bottom: 1px solid #eee;
         font-weight: bold;
         padding: .3em .5em;
         text-align: left;
       }
-      ::content #list a {
+      .genericList a {
         color: var(--default-text-color);
         text-decoration: none;
       }
-      ::content #list a:hover {
+      .genericList a:hover {
         text-decoration: underline;
       }
-      ::content #list .description {
+      .genericList .description {
         width: 70%;
       }
-      ::content #list .loadingMsg {
+      .genericList .loadingMsg {
         color: #666;
         display: block;
         padding: 1em var(--default-horizontal-margin);
       }
-      ::content #list .loadingMsg:not(.loading) {
+      .genericList .loadingMsg:not(.loading) {
         display: none;
       }
     </style>
-    <content></content>
   </template>
-   <script>
-    (function() {
-      'use strict';
-      Polymer({
-        is: 'gr-styled-table',
-      });
-    })();
-  </script>
 </dom-module>

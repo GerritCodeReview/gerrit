@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4eedcbce_a268b16e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-14T20:33:04Z",
+      "side": 1,
+      "message": "I\u0027d say, if there\u0027s a malformed REST API response, we should fix it on the server rather than guard against it.",
+      "parentUuid": "70c7e7eb_55916a63",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "c18fdce066fc6be76c090f6dcea510abed0bbbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20698e47_41a0bb50",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-14T18:59:33Z",
       "side": 1,
       "message": "How does this test for default_value?",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 7
+      },
+      "revId": "c18fdce066fc6be76c090f6dcea510abed0bbbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "454942fb_9b9908ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-14T20:33:04Z",
+      "side": 1,
+      "message": "Copy-pasted some setup for this test to be more apparent.",
+      "parentUuid": "20698e47_41a0bb50",
       "range": {
         "startLine": 257,
         "startChar": 4,

@@ -69,9 +69,8 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownItems]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
+        <template is="dom-repeat" items="[[_shownItems]]">
+          <tr class$="table [[computeLoadingClass(_loading)]]">
             <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
             <td class$="description [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
               <span class="revisionNoEditing">

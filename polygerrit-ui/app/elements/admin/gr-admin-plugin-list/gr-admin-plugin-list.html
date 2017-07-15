@@ -34,9 +34,8 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_plugins]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
+        <template is="dom-repeat" items="[[_plugins]]">
+          <tr class$="table [[computeLoadingClass(_loading)]]">
             <td class="name">
               <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
             </td>

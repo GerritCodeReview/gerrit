@@ -118,7 +118,13 @@
             name: `${this._group}`,
             view: 'gr-group',
             url: `/admin/groups/${this.encodeURL(this._group, true)}`,
-            children: [],
+            children: [{
+              name: 'Audit Type',
+              detailType: 'audit',
+              view: 'gr-group-audit-log',
+              url: `/admin/groups/${this.encodeURL(this._group, true)}` +
+                    ',audit-log',
+            }],
           };
         }
         filteredLinks.push(linkCopy);
@@ -138,6 +144,7 @@
 
     _paramsChanged(params) {
       this.set('_showGroup', params.adminView === 'gr-group');
+      this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',

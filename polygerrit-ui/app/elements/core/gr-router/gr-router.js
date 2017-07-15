@@ -113,6 +113,15 @@
       });
     });
 
+    page(/^\/admin\/groups\/(.+),audit-log$/, loadUser, data => {
+      app.params = {
+        view: 'gr-admin-view',
+        adminView: 'gr-group-audit-log',
+        detailType: 'audit-log',
+        group: data.params[0],
+      };
+    });
+
     // Matches /admin/groups[,<offset>][/].
     page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {

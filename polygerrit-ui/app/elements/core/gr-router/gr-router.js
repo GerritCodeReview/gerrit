@@ -113,6 +113,22 @@
       });
     });
 
+    // Matches /admin/groups/<group>
+    page(/^\/admin\/groups\/(.+),audit-log$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-admin-view',
+            adminView: 'gr-group-audit-log',
+            detailType: 'audit-log',
+            group: data.params[0],
+          };
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     // Matches /admin/groups[,<offset>][/].
     page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {

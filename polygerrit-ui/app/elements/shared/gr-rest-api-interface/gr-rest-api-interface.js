@@ -228,6 +228,10 @@
           '/groups/?owned&q=' + group);
     },
 
+    getGroupAuditLog(group) {
+      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    },
+
     saveGroupConfig(api, group, config, opt_errFn, opt_ctx) {
       return this.send('PUT', `/groups/${group}/${api}`, config, opt_errFn,
           opt_ctx);

@@ -34,16 +34,17 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_plugins]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
-            <td class="name">
-              <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
-            </td>
-            <td class="version">[[item.version]]</td>
-            <td class="status">[[_status(item)]]</td>
-          </tr>
-        </template>
+        <tbody class$="[[computeLoadingClass(_loading)]]">
+          <template is="dom-repeat" items="[[_plugins]]">
+            <tr class="table">
+              <td class="name">
+                <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+              </td>
+              <td class="version">[[item.version]]</td>
+              <td class="status">[[_status(item)]]</td>
+            </tr>
+          </template>
+        </tbody>
       </table>
     </gr-styled-table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

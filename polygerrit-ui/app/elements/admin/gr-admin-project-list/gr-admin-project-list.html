@@ -47,27 +47,28 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownProjects]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
-            <td class="name">
-              <a href$="[[_computeProjectUrl(item.name)]]">[[item.name]]</a>
-            </td>
-            <td class="description">[[item.description]]</td>
-            <td class="repositoryBrowser">
-              <template is="dom-repeat"
-                  items="[[_computeWeblink(item)]]" as="link">
-                <a href$="[[link.url]]"
-                    class="webLink"
-                    rel="noopener"
-                    target="_blank">
-                  ([[link.name]])
-                </a>
-              </template>
-            </td>
-            <td class="readOnly">[[_readOnly(item)]]</td>
-          </tr>
-        </template>
+        <tbody class$="[[computeLoadingClass(_loading)]]">
+          <template is="dom-repeat" items="[[_shownProjects]]">
+            <tr class="table">
+              <td class="name">
+                <a href$="[[_computeProjectUrl(item.name)]]">[[item.name]]</a>
+              </td>
+              <td class="description">[[item.description]]</td>
+              <td class="repositoryBrowser">
+                <template is="dom-repeat"
+                    items="[[_computeWeblink(item)]]" as="link">
+                  <a href$="[[link.url]]"
+                      class="webLink"
+                      rel="noopener"
+                      target="_blank">
+                    ([[link.name]])
+                  </a>
+                </template>
+              </td>
+              <td class="readOnly">[[_readOnly(item)]]</td>
+            </tr>
+          </template>
+        </tbody>
       </table>
     </gr-list-view>
     <gr-overlay id="createOverlay" with-backdrop>

@@ -15,8 +15,9 @@
 package com.google.gerrit.client.plugins;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.SuggestOracle;
 
-public class PluginInfo extends JavaScriptObject {
+public class PluginInfo extends JavaScriptObject implements SuggestOracle.Suggestion {
   public final native String name() /*-{ return this.name }-*/;
 
   public final native String version() /*-{ return this.version }-*/;
@@ -24,6 +25,16 @@ public class PluginInfo extends JavaScriptObject {
   public final native String indexUrl() /*-{ return this.index_url }-*/;
 
   public final native boolean disabled() /*-{ return this.disabled || false }-*/;
+
+  @Override
+  public final String getDisplayString() {
+    return name();
+  }
+
+  @Override
+  public final String getReplacementString() {
+    return name();
+  }
 
   protected PluginInfo() {}
 }

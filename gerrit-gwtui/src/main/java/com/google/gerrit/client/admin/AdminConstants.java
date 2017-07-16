@@ -211,6 +211,8 @@ public interface AdminConstants extends Constants {
 
   String groupTabAuditLog();
 
+  String pluginFilter();
+
   String projectListTitle();
 
   String projectFilter();

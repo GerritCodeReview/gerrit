@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,9 @@
 
 package com.google.gerrit.client.plugins;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gerrit.client.general.Suggest;
 
-public class PluginInfo extends JavaScriptObject {
-  public final native String name() /*-{ return this.name }-*/;
-
+public class PluginInfo extends Suggest {
   public final native String version() /*-{ return this.version }-*/;
 
   public final native String indexUrl() /*-{ return this.index_url }-*/;

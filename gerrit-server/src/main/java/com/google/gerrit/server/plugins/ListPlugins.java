@@ -15,9 +15,12 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -29,6 +32,7 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Option;
@@ -37,6 +41,10 @@ import org.kohsuke.args4j.Option;
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
+  private int limit;
+  private int start;
+  private String matchPrefix;
+  private String matchSubstring;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -48,6 +56,36 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     usage = "List all plugins, including disabled plugins"
   )
   private boolean all;
+
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of plugins to list"
+  )
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "number of plugins to skip"
+  )
+  public void setStart(int start) {
+    this.start = start;
+  }
+
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match plugin substring"
+  )
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
 
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
@@ -70,8 +108,10 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   public JsonElement display(PrintWriter stdout) {
+    int foundIndex = 0;
+    int found = 0;
     Map<String, PluginInfo> output = new TreeMap<>();
-    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
+    List<Plugin> plugins = Lists.newArrayList(scan());
     Collections.sort(
         plugins,
         new Comparator<Plugin>() {
@@ -99,6 +139,12 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
             p.isDisabled() ? "DISABLED" : "ENABLED",
             p.getSrcFile().getFileName());
       }
+      if (foundIndex++ < start) {
+        continue;
+      }
+      if (limit > 0 && ++found > limit) {
+        break;
+      }
     }
 
     if (stdout == null) {
@@ -113,6 +159,26 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
     stdout.flush();
     return null;
+  }
+
+  private Iterable<Plugin> scan() throws BadRequestException {
+    if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null);
+      return pluginLoader.getPlugins(matchPrefix);
+    } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null);
+      return Iterables.filter(
+          pluginLoader.getPlugins(all),
+          p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
+    } else {
+      return pluginLoader.getPlugins(all);
+    }
+  }
+
+  private static void checkMatchOptions(boolean cond) throws BadRequestException {
+    if (!cond) {
+      throw new BadRequestException("specify exactly one of p/m");
+    }
   }
 
   static class PluginInfo {

@@ -12,18 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.client.general;
 
-import com.google.gerrit.client.general.Suggest;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
-public class PluginInfo extends Suggest {
-  public final native String version() /*-{ return this.version }-*/;
+public class Suggest extends JavaScriptObject implements SuggestOracle.Suggestion {
+  public final native String name() /*-{ return this.name; }-*/;
 
-  public final native String indexUrl() /*-{ return this.index_url }-*/;
+  public final native String description() /*-{ return this.description; }-*/;
 
-  public final native boolean disabled() /*-{ return this.disabled || false }-*/;
+  @Override
+  public final String getDisplayString() {
+    if (description() != null) {
+      return name() + " (" + description() + ")";
+    }
+    return name();
+  }
 
-  protected PluginInfo() {}
+  @Override
+  public final String getReplacementString() {
+    return name();
+  }
+
+  protected Suggest() {}
 }

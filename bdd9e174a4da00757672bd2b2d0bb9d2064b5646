@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0eee5bd_93cfa9ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-16T21:15:16Z",
+      "side": 1,
+      "message": "Im not sure if this is /x/ when checking the url or if it is done if pluginName + \u0027/settings\u0027 exists?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 6
+      },
+      "revId": "bdd9e174a4da00757672bd2b2d0bb9d2064b5646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

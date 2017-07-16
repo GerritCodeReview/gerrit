@@ -217,6 +217,10 @@ public interface GerritCss extends CssResource {
 
   String patchSetActions();
 
+  String pluginFilterLabel();
+
+  String pluginFilterPanel();
+
   String pluginProjectConfigInheritedValue();
 
   String pluginsTable();

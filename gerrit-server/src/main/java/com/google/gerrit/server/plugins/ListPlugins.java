@@ -20,6 +20,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +43,10 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
   private boolean all;
+  private int limit;
+  private int start;
+  private String matchPrefix;
+  private String matchSubstring;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -53,6 +59,36 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   )
   public void setAll(boolean all) {
     this.all = all;
+  }
+
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of plugins to list"
+  )
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "number of plugins to skip"
+  )
+  public void setStart(int start) {
+    this.start = start;
+  }
+
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match plugin substring"
+  )
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
   }
 
   @Inject
@@ -70,17 +106,19 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) {
+  public Object apply(TopLevelResource resource) throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public SortedMap<String, PluginInfo> apply() {
+  public SortedMap<String, PluginInfo> apply() throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) {
+  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) throws BadRequestException {
+    int foundIndex = 0;
+    int found = 0;
     SortedMap<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(
@@ -98,7 +136,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
           "-------------------------------------------------------------------------------\n");
     }
 
-    for (Plugin p : plugins) {
+    for (Plugin p : filter()) {
       PluginInfo info = toPluginInfo(p);
       if (format.isJson()) {
         output.put(p.getName(), info);
@@ -109,6 +147,13 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
             Strings.nullToEmpty(info.version),
             p.isDisabled() ? "DISABLED" : "ENABLED",
             p.getSrcFile().getFileName());
+      }
+
+      if (foundIndex++ < start) {
+        continue;
+      }
+      if (limit > 0 && ++found > limit) {
+        break;
       }
     }
 
@@ -122,6 +167,19 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
     stdout.flush();
     return null;
+  }
+
+  private Collection<Plugin> filter() throws BadRequestException {
+    Collection<Plugin> matches = Lists.newArrayList(scan());
+    return matches;
+  }
+
+  private Iterable<Plugin> scan() throws BadRequestException {
+    if (matchSubstring != null) {
+      return pluginLoader.getPlugins(all);
+    } else {
+      return pluginLoader.getPlugins(all);
+    }
   }
 
   public static PluginInfo toPluginInfo(Plugin p) {

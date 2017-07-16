@@ -49,6 +49,46 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   )
   private boolean all;
 
+  @Option(name = "--type", usage = "type of plugin")
+  public void setFilterType(FilterType type) {
+    this.type = type;
+  }
+
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of plugins to list"
+  )
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "number of plugins to skip"
+  )
+  public void setStart(int start) {
+    this.start = start;
+  }
+
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match plugin substring"
+  )
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
+
+  @Option(name = "-r", metaVar = "REGEX", usage = "match plugin regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
@@ -71,7 +111,10 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
 
   public JsonElement display(PrintWriter stdout) {
     Map<String, PluginInfo> output = new TreeMap<>();
-    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
+    List<Plugin> plugins = Lists.newArrayList(scan());
+    if (limit > 0 && ++found > limit) {
+      break;
+    }
     Collections.sort(
         plugins,
         new Comparator<Plugin>() {
@@ -113,6 +156,26 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
     stdout.flush();
     return null;
+  }
+
+  private Iterable<Plugin> scan() throws BadRequestException {
+    if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null && matchRegex == null);
+      return pluginLoader.getPlugins(matchPrefix);
+    } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null && matchRegex == null);
+      return Iterables.filter(
+          pluginLoader.getPlugins(all),
+          p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
+    } else {
+      return pluginLoader.getPlugins(all);
+    }
+  }
+
+  private static void checkMatchOptions(boolean cond) throws BadRequestException {
+    if (!cond) {
+      throw new BadRequestException("specify exactly one of p/m/r");
+    }
   }
 
   static class PluginInfo {

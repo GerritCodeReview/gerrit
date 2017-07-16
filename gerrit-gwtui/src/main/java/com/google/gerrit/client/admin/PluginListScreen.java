@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+w// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.admin;
 
+
+import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.plugins.PluginInfo;
@@ -21,17 +24,47 @@ import com.google.gerrit.client.plugins.PluginMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.client.ui.PagingHyperlink;
+import com.google.gerrit.common.PageLinks;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class PluginListScreen extends PluginScreen {
+public class PluginListScreen extends PaginatedProjectScreen {
 
   private Panel pluginPanel;
   private PluginTable pluginTable;
+  private Hyperlink prev;
+  private Hyperlink next;
+  private NpTextBox filterTxt;
+
+  private Query query;
+
+  public PluginListScreen() {
+    super(null);
+  }
+
+  public PluginListScreen(String params) {
+    this();
+    parseToken(params);
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    query = new Query(match).start(start).run();
+  }
+
+  @Override
+  public String getScreenToken() {
+    return ADMIN_PLUGINS;
+  }
 
   @Override
   protected void onInitUI() {
@@ -52,6 +85,15 @@ public class PluginListScreen extends PluginScreen {
   }
 
   private void initPluginList() {
+    setPageTitle(AdminConstants.I.plugins());
+    initPageHeader();
+
+    prev = PagingHyperlink.createPrev();
+    prev.setVisible(false);
+
+    next = PagingHyperlink.createNext();
+    next.setVisible(false);
+
     pluginTable = new PluginTable();
     pluginTable.addStyleName(Gerrit.RESOURCES.css().pluginsTable());
 
@@ -59,6 +101,41 @@ public class PluginListScreen extends PluginScreen {
     pluginPanel.setWidth("500px");
     pluginPanel.add(pluginTable);
     add(pluginPanel);
+    final HorizontalPanel buttons = new HorizontalPanel();
+    buttons.setStyleName(Gerrit.RESOURCES.css().changeTablePrevNextLinks());
+    buttons.add(prev);
+    buttons.add(next);
+    add(buttons);
+  }
+
+  private void initPageHeader() {
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.setStyleName(Gerrit.RESOURCES.css().pluginFilterPanel());
+    final Label filterLabel = new Label(AdminConstants.I.pluginFilter());
+    filterLabel.setStyleName(Gerrit.RESOURCES.css().pluginFilterLabel());
+    hp.add(filterLabel);
+    filterTxt = new NpTextBox();
+    filterTxt.setValue(match);
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q =
+                new Query(filterTxt.getValue())
+                    .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+            if (match.equals(q.qMatch)) {
+              q.start(start);
+            }
+            if (q.open || !match.equals(q.qMatch)) {
+              if (query == null) {
+                q.run();
+              }
+              query = q;
+            }
+          }
+        });
+    hp.add(filterTxt);
+    add(hp);
   }
 
   private static class PluginTable extends FancyFlexTable<PluginInfo> {
@@ -117,6 +194,77 @@ public class PluginListScreen extends PluginScreen {
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, plugin);
+    }
+  }
+
+  private class Query {
+    private final String qMatch;
+    private int qStart;
+    private boolean open;
+
+    Query(String match) {
+      this.qMatch = match;
+    }
+
+    Query start(int start) {
+      this.qStart = start;
+      return this;
+    }
+
+    Query open(boolean open) {
+      this.open = open;
+      return this;
+    }
+
+    Query run() {
+      int limit = open ? 1 : pageSize + 1;
+      PluginMap.match(
+          qMatch,
+          limit,
+          qStart,
+          new GerritCallback<PluginMap>() {
+            @Override
+            public void onSuccess(PluginMap result) {
+              if (!isAttached()) {
+                // View has been disposed.
+              } else if (query == Query.this) {
+                query = null;
+                showMap(result);
+              } else {
+                query.run();
+              }
+            }
+          });
+      return this;
+    }
+
+    private void showMap(PluginMap result) {
+      if (open && !result.isEmpty()) {
+        Gerrit.display(result.values().get(0));
+        return;
+      }
+
+      setToken(getTokenForScreen(qMatch, qStart));
+      PluginListScreen.this.match = qMatch;
+      PluginListScreen.this.start = qStart;
+
+      if (result.size() <= pageSize) {
+        pluginTable.display(result);
+        next.setVisible(false);
+      } else {
+        pluginTable.displaySubset(result, 0, result.size() - 1);
+        setupNavigationLink(next, qMatch, qStart + pageSize);
+      }
+
+      if (qStart > 0) {
+        setupNavigationLink(prev, qMatch, qStart - pageSize);
+      } else {
+        prev.setVisible(false);
+      }
+
+      if (!isCurrentView()) {
+        display();
+      }
     }
   }
 }

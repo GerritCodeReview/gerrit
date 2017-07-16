@@ -1010,6 +1010,15 @@ a:hover.downloadLink {
 /** PluginListScreen **/
 .pluginsTable {
 }
+.pluginFilterPanel {
+  margin-bottom: 10px;
+}
+.pluginFilterPanel input {
+  width: 200px;
+}
+.pluginFilterLabel {
+  margin-right: 5px;
+}
 
 /** ProjectListScreen **/
 .projectFilterPanel {

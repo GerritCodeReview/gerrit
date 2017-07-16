@@ -23,6 +23,10 @@
         type: Boolean,
         value: true,
       },
+      _settingsPath: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -34,7 +38,7 @@
     },
 
     _getPlugins() {
-      return this.$.restAPI.getPlugins()
+      this.$.restAPI.getPlugins()
           .then(plugins => {
             if (!plugins) {
               this._plugins = [];
@@ -46,7 +50,22 @@
                plugin.name = key;
                return plugin;
              });
+             this.$.restAPI.probePath(this.getBaseUrl() + '/x/' + this._plugins).then(ok => {
+                      if (ok) {
+                        this._docBaseUrl = this.getBaseUrl() + '/x' + ';
+                      } else {
+                        this._docBaseUrl = null;
+                      }
+                  });
             this._loading = false;
+          });
+    },
+
+    getSettingsPath(pluginName) {
+      return this.$.restAPI.probePath(this.getBaseUrl() + '/x/' + pluginName + '/settings').then(ok => {
+              if (ok) {
+                return 'hidden';
+              }
           });
     },
 
@@ -57,5 +76,8 @@
     _computePluginUrl(id) {
       return this.getUrl('/', id);
     },
+
+    _generateSettingsUrl(pluginName) {
+      return this.getBaseUrl() + '/x/' + pluginName + '/settings';
   });
 })();

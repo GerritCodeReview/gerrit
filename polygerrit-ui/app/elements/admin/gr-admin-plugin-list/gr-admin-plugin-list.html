@@ -24,6 +24,11 @@ limitations under the License.
 <dom-module id="gr-admin-plugin-list">
   <template>
     <style include="shared-styles"></style>
+    <style>
+      .settings.hidden {
+        display: none;
+      }
+    </style>
     <gr-styled-table>
       <table id="list">
         <tr class="headerRow">
@@ -39,6 +44,9 @@ limitations under the License.
           <tr class="table">
             <td class="name">
               <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+            </td>
+            <td class$="settings [[_getSettingsPath(item.id)]]">
+              <a href$="[[_generateSettingsUrl(item.id)]]">Plugin Settings</a>
             </td>
             <td class="version">[[item.version]]</td>
             <td class="status">[[_status(item)]]</td>

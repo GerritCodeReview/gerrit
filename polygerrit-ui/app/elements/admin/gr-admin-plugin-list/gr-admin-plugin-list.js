@@ -50,12 +50,25 @@
           });
     },
 
+    getSettingsPath(pluginName) {
+      const plugin = this.getBaseUrl() + '/x/' + pluginName + '/settings';
+      return this.$.restAPI.probePath(plugin).then(ok => {
+              if (!ok) {
+                return 'hidden';
+              }
+          });
+    },
+
     _status(item) {
       return item.disabled === true ? 'Disabled' : 'Enabled';
     },
 
     _computePluginUrl(id) {
       return this.getUrl('/', id);
+    },
+
+    _generateSettingsUrl(pluginName) {
+      return this.getBaseUrl() + '/x/' + pluginName + '/settings';
     },
   });
 })();

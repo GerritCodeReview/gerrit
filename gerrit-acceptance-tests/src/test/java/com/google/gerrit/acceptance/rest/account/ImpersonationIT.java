@@ -147,29 +147,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id.toString();
-    in.strictLabels = true;
     in.label("Not-A-Label", 5);
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("label \"Not-A-Label\" is not a configured label");
     revision.review(in);
-  }
-
-  @Test
-  public void voteOnBehalfOfInvalidLabelIgnoredWithoutStrictLabels() throws Exception {
-    allowCodeReviewOnBehalfOf();
-    PushOneCommit.Result r = createChange();
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-
-    ReviewInput in = new ReviewInput();
-    in.onBehalfOf = user.id.toString();
-    in.strictLabels = false;
-    in.label("Code-Review", 1);
-    in.label("Not-A-Label", 5);
-
-    revision.review(in);
-
-    assertThat(gApi.changes().id(r.getChangeId()).get().labels).doesNotContainKey("Not-A-Label");
   }
 
   @Test

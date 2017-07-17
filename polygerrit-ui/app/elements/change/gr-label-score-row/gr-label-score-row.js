@@ -66,7 +66,8 @@
     _getLabelValue(labels, permittedLabels, label) {
       if (label.value) {
         return label.value;
-      } else if (labels[label.name].hasOwnProperty('default_value')) {
+      } else if (labels[label.name].hasOwnProperty('default_value') &&
+                 permittedLabels.hasOwnProperty(label.name)) {
         // default_value is an int, convert it to string label, e.g. "+1".
         return permittedLabels[label.name].find(
             value => parseInt(value, 10) === labels[label.name].default_value);

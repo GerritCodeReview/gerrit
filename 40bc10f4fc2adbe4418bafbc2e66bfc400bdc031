@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73729195_0801c40a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T19:47:28Z",
+      "side": 1,
+      "message": "Is there an issue to link here?",
+      "revId": "40bc10f4fc2adbe4418bafbc2e66bfc400bdc031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

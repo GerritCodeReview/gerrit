@@ -16,6 +16,24 @@
       "revId": "40bc10f4fc2adbe4418bafbc2e66bfc400bdc031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73d4e739_22636f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-17T20:37:24Z",
+      "side": 1,
+      "message": "There\u0027s an internal issue but it\u0027s not a useful public reference.",
+      "parentUuid": "73729195_0801c40a",
+      "revId": "40bc10f4fc2adbe4418bafbc2e66bfc400bdc031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

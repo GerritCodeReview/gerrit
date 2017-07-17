@@ -16,6 +16,24 @@
       "revId": "bebc963ffe0ec4223aa8fc79059746a22102c369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f2699b2_acbfff2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-17T09:39:09Z",
+      "side": 1,
+      "message": "I thought it would be safe to use since it\u0027s mentioned in this list [1] of supported @SuppressWarnings. I removed it now.\n\n[1] http://help.eclipse.org/neon/index.jsp?topic\u003d%2Forg.eclipse.jdt.doc.user%2Ftasks%2Ftask-suppress_warnings.htm",
+      "parentUuid": "6ed03276_1dc0a4db",
+      "revId": "bebc963ffe0ec4223aa8fc79059746a22102c369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

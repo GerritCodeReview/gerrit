@@ -21,7 +21,6 @@ import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -38,9 +37,6 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   @Override
   public Predicate<AccountState> rewrite(Predicate<AccountState> in, QueryOptions opts)
       throws QueryParseException {
-    if (!AccountPredicates.hasActive(in)) {
-      in = Predicate.and(in, AccountPredicates.isActive());
-    }
     AccountIndex index = indexes.getSearchIndex();
     checkNotNull(index, "no active search index configured for accounts");
     return new IndexedAccountQuery(index, in, opts);

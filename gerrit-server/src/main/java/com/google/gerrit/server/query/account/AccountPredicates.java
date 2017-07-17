@@ -31,6 +31,10 @@ public class AccountPredicates {
     return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;
   }
 
+  public static Predicate<AccountState> andActive(Predicate<AccountState> p) {
+    return Predicate.and(p, isActive());
+  }
+
   public static Predicate<AccountState> defaultPredicate(String query) {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);

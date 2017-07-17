@@ -34,6 +34,24 @@
       "revId": "bebc963ffe0ec4223aa8fc79059746a22102c369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03168d17_1dacafd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-17T13:26:40Z",
+      "side": 1,
+      "message": "Eclipse supports @SuppressWarnings(\"unused\") in general, it just doesn\u0027t detect a warning on this line in the first place, so you get a different warning about an unnecessary @SuppressWarnings.",
+      "parentUuid": "8f2699b2_acbfff2d",
+      "revId": "bebc963ffe0ec4223aa8fc79059746a22102c369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

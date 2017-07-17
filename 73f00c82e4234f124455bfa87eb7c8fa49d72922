@@ -34,6 +34,24 @@
       "revId": "73f00c82e4234f124455bfa87eb7c8fa49d72922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62fb47dd_47d89048",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-07-17T06:15:51Z",
+      "side": 1,
+      "message": "When the directory name is gerrit, .cache/bazel/.../execroot contains:\n\n gerrit (directory)\n\nand bazel-gerrit is a link to gerrit.\n\nWhen it is not-gerrit, it contains:\n\n not-gerrit (directory)\n gerrit -\u003e not-gerrit\n\nand bazel-not-gerrit is a link to not-gerrit.\n\nWhen it is bin or genfiles, it contains:\n\n bin (empty directory)\n gerrit (directory)\n\nand there is no link to this directory in the source directory.",
+      "parentUuid": "b7d3cf0f_070adc55",
+      "revId": "73f00c82e4234f124455bfa87eb7c8fa49d72922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

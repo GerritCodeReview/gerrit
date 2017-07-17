@@ -493,6 +493,29 @@ limitations under the License.
       });
     });
 
+    test('diff cursor is updated when params change', done => {
+      sandbox.stub(element.$.storage, 'getPreferences');
+      sandbox.stub(element.$.diff, 'reload').returns(Promise.resolve({}));
+      sandbox.stub(element, '_loadCommentMap').returns(Promise.resolve({}));
+      sandbox.stub(element, '_getPreferences').returns(Promise.resolve({}));
+      sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({}));
+
+      const updateStub = sandbox.stub(element.$.cursor, 'handleDiffUpdate');
+
+      element.params = {
+        view: 'gr-diff-view',
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+
+      flush(() => {
+        assert.isTrue(updateStub.called);
+        done();
+      });
+    });
+
     test('diff mode selector correctly toggles the diff', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diff;

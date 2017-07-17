@@ -15,9 +15,11 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 import java.sql.Timestamp;
@@ -161,19 +163,16 @@ class ChangeMessageEvent extends Event {
   }
 
   private void setWorkInProgress(ChangeUpdate update) {
-    String msg = message.getMessage();
-    if (msg == null) {
-      return;
-    }
-    Matcher m = WIP_SET_REGEXP.matcher(msg);
-    if (m.matches()) {
+    String msg = Strings.nullToEmpty(message.getMessage());
+    String tag = message.getTag();
+    if (ChangeMessagesUtil.TAG_SET_WIP.equals(tag)
+        || ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET.equals(tag)
+        || WIP_SET_REGEXP.matcher(msg).matches()) {
       update.setWorkInProgress(true);
       noteDbChange.setWorkInProgress(true);
-      return;
-    }
-
-    m = WIP_UNSET_REGEXP.matcher(msg);
-    if (m.matches()) {
+    } else if (ChangeMessagesUtil.TAG_SET_READY.equals(tag)
+        || ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET.equals(tag)
+        || WIP_UNSET_REGEXP.matcher(msg).matches()) {
       update.setWorkInProgress(false);
       noteDbChange.setWorkInProgress(false);
     }

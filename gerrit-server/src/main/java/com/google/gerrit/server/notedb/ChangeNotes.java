@@ -228,7 +228,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public List<ChangeNotes> create(ReviewDb db, Collection<Change.Id> changeIds)
         throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.enabled()) {
+      if (args.migration.readChanges()) {
         for (Change.Id changeId : changeIds) {
           try {
             notes.add(createChecked(changeId));
@@ -252,7 +252,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Predicate<ChangeNotes> predicate)
         throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.enabled()) {
+      if (args.migration.readChanges()) {
         for (Change.Id cid : changeIds) {
           try {
             ChangeNotes cn = create(db, project, cid);

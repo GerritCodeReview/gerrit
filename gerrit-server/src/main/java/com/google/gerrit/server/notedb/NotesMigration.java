@@ -247,10 +247,6 @@ public abstract class NotesMigration {
     return !rawWriteChangesSetting() && readChanges();
   }
 
-  public final boolean enabled() {
-    return rawWriteChangesSetting() || readChanges();
-  }
-
   public final void setConfigValues(Config cfg) {
     snapshot.get().setConfigValues(cfg);
   }

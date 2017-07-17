@@ -203,7 +203,7 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!args.migration.enabled()) {
+    } else if (!args.migration.readChanges()) {
       return null;
     }
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {

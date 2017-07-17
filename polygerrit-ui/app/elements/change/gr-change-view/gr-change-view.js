@@ -1227,9 +1227,6 @@
               EXTRA_HEIGHT;
         }
       }
-      if (this.$.relatedChanges.hidden) {
-        this.customStyle['--commit-message-max-width'] = 'none';
-      }
       // Get the line height of related changes, and convert it to the nearest
       // integer.
       const lineHeight = this._getLineHeight(this.$.relatedChanges);

@@ -116,19 +116,33 @@ limitations under the License.
           status === this.ChangeStatus.DRAFT;
     },
 
+    wipOrPrivateStatus(change) {
+      if (change.work_in_progress && change.is_private) {
+        return ' (Private) (WIP)';
+      } else if (change.work_in_progress) {
+        return ' (WIP)';
+      } else if (change.is_private) {
+        return ' (Private)';
+      }
+      return '';
+    },
+
     changeStatusString(change) {
       // "Closed" states should take precedence over "open" ones.
       if (change.status === this.ChangeStatus.MERGED) {
-        return 'Merged';
+        return 'Merged' + this.wipOrPrivateStatus(change);
       }
       if (change.status === this.ChangeStatus.ABANDONED) {
-        return 'Abandoned';
+        return 'Abandoned' + this.wipOrPrivateStatus(change);
       }
       if (change.mergeable === false) {
-        return 'Merge Conflict';
+        return 'Merge Conflict' + this.wipOrPrivateStatus(change);
       }
       if (change.status === this.ChangeStatus.DRAFT) {
-        return 'Draft';
+        return 'Draft' + this.wipOrPrivateStatus(change);
+      }
+      if (change.status === this.ChangeStatus.NEW) {
+        return this.wipOrPrivateStatus(change);
       }
       return '';
     },

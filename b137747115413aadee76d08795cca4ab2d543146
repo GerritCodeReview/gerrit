@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "be50879f_2b40e958",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-17T17:41:43Z",
+      "side": 1,
+      "message": "Not your code, but... strict EQ please.",
+      "range": {
+        "startLine": 160,
+        "startChar": 19,
+        "endLine": 160,
+        "endChar": 21
+      },
+      "revId": "b137747115413aadee76d08795cca4ab2d543146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f8370e5_221abb85",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2017-07-17T17:29:37Z",
       "side": 1,
       "message": "should this be called if there is no target?",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 29
+      },
+      "revId": "b137747115413aadee76d08795cca4ab2d543146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b44fcf7_a813e815",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-17T17:41:43Z",
+      "side": 1,
+      "message": "Agreed. It seems to me that it would make sense to return around #170 if there\u0027s no newTarget, right?",
+      "parentUuid": "1f8370e5_221abb85",
       "range": {
         "startLine": 177,
         "startChar": 6,

@@ -115,9 +115,7 @@ public class IndexModule extends LifecycleModule {
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
-      AccountIndexDefinition accounts,
-      ChangeIndexDefinition changes,
-      GroupIndexDefinition groups) {
+      AccountIndexDefinition accounts, ChangeIndexDefinition changes, GroupIndexDefinition groups) {
     Collection<IndexDefinition<?, ?, ?>> result =
         ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups, changes);
     Set<String> expected =

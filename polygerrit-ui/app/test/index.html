@@ -25,6 +25,22 @@ limitations under the License.
   const elementsPath = '../elements/';
   const behaviorsPath = '../behaviors/';
 
+  // Behaviors tests.
+  const behaviors = [
+    'base-url-behavior/base-url-behavior_test.html',
+    'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',
+    'rest-client-behavior/rest-client-behavior_test.html',
+    'gr-change-table-behavior/gr-change-table-behavior_test.html',
+    'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
+    'gr-path-list-behavior/gr-path-list-behavior_test.html',
+    'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
+  ];
+  for (let file of behaviors) {
+    // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
+    file = behaviorsPath + file;
+    testFiles.push(file);
+  }
+
   // Elements tests.
   const elements = [
     // This seemed to be flakey when it was farther down the list. Keep at the
@@ -135,22 +151,6 @@ limitations under the License.
     file = elementsPath + file;
     testFiles.push(file);
     testFiles.push(file + '?dom=shadow');
-  }
-
-  // Behaviors tests.
-  const behaviors = [
-    'base-url-behavior/base-url-behavior_test.html',
-    'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',
-    'rest-client-behavior/rest-client-behavior_test.html',
-    'gr-change-table-behavior/gr-change-table-behavior_test.html',
-    'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
-    'gr-path-list-behavior/gr-path-list-behavior_test.html',
-    'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
-  ];
-  for (let file of behaviors) {
-    // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
-    file = behaviorsPath + file;
-    testFiles.push(file);
   }
 
   WCT.loadSuites(testFiles);

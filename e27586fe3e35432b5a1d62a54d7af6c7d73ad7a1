@@ -175,6 +175,30 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2164bba4_ff536836",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-17T21:36:40Z",
+      "side": 1,
+      "message": "\u003e PG does the same as GWT in this regard, but in my understanding, the documentation served by an arbitrary Gerrit instance is not necessarily the docs for Gerrit itself. Is that right?\n\nI don\u0027t understand what you mean. Do you mean that you need to guard against https://gerrit.wikimedia.org/r/Documentation/index.html containing Mediawiki documentation instead of gerrit documentation?\n\nThe main difference between gerrit-review.googlesource.com/Documentation and other sites is that gerrit-review shows the latest docs, while other sites show docs for the version running at that site. That can be useful when reading REST API documentation, for example. The list of supported mail footers is likely analogous to that --- it\u0027s more helpful to show the list for the currently running server instead of a newer list.",
+      "parentUuid": "2f4b3992_d00aeae2",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

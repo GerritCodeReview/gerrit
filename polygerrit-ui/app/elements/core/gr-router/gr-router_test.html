@@ -64,7 +64,7 @@ limitations under the License.
       test('change', () => {
         const params = {
           view: Gerrit.Nav.View.CHANGE,
-          id: '1234',
+          changeNum: '1234',
         };
         assert.equal(element._generateUrl(params), '/c/1234');
 
@@ -78,7 +78,7 @@ limitations under the License.
       test('diff', () => {
         const params = {
           view: Gerrit.Nav.View.DIFF,
-          changeId: '42',
+          changeNum: '42',
           path: 'x+y/path.cpp',
           patchNum: 12,
         };

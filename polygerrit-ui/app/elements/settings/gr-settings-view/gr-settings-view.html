@@ -18,6 +18,7 @@ limitations under the License.
 
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
+<link rel="import" href="../../../styles/gr-page-nav-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -46,9 +47,10 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <style include="gr-menu-page-styles"></style>
+    <style include="gr-page-nav-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <gr-page-nav>
+      <gr-page-nav class="navStyles">
         <ul>
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Preferences">Preferences</a></li>

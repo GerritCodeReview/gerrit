@@ -449,7 +449,7 @@
     },
 
     _paramsChanged(value) {
-      if (value.view != this.tagName.toLowerCase()) { return; }
+      if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
       this._loadHash(this.params.hash);
 

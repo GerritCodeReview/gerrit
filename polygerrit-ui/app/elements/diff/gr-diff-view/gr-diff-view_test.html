@@ -469,7 +469,7 @@ limitations under the License.
 
       element._loggedIn = true;
       element.params = {
-        view: 'gr-diff-view',
+        view: Gerrit.Nav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',
@@ -493,7 +493,7 @@ limitations under the License.
       });
     });
 
-    test('hash is determined from parmas', done => {
+    test('hash is determined from params', done => {
       stub('gr-rest-api-interface', {
         getDiffComments() { return Promise.resolve({}); },
       });
@@ -502,7 +502,7 @@ limitations under the License.
 
       element._loggedIn = true;
       element.params = {
-        view: 'gr-diff-view',
+        view: Gerrit.Nav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',

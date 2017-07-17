@@ -457,12 +457,12 @@
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
 
-        url = `/c/${params.id}${range}`;
+        url = `/c/${params.changeNum}${range}`;
       } else if (params.view === Gerrit.Nav.View.DIFF) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
 
-        url = `/c/${params.changeId}${range}/${encode(params.path, true)}`;
+        url = `/c/${params.changeNum}${range}/${encode(params.path, true)}`;
       } else {
         throw new Error('Can\'t generate');
       }

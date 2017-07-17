@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "547b8551_b5162ef8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-plugin-list/gr-admin-plugin-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-17T17:31:34Z",
+      "side": 1,
+      "message": "Im wondering how can i get this to to do \u0027hidden\u0027 if it returns true and to not be \u0027hidden\u0027 if false. I am using probePath to check to see if the path exists. But some how it also shows 404 in the console.\n\nBut i\u0027ve been trying to figure out why it wont work.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 6
+      },
+      "revId": "5c0c0a2ae373ce4d27a85ba57a0e1a2bf7c60223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

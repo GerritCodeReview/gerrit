@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13acc3cd_41f2abde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-17T05:55:17Z",
+      "side": 1,
+      "message": "Hm, what happens when $(basename $PWD) is \"bin\", for example?",
+      "revId": "73f00c82e4234f124455bfa87eb7c8fa49d72922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

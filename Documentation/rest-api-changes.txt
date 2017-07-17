@@ -6754,13 +6754,6 @@ list of link:#comment-input[CommentInput] entities.
 |`robot_comments`         |optional|
 The robot comments that should be added as a map that maps a file path
 to a list of link:#robot-comment-input[RobotCommentInput] entities.
-|`strict_labels`          |`true` if not set|
-Whether all labels are required to be within the user's permitted ranges
-based on access controls. +
-If `true`, attempting to use a label not granted to the user will fail
-the entire modify operation early. +
-If `false`, the operation will execute anyway, but the proposed labels
-will be modified to be the "best" value allowed by the access controls.
 |`drafts`                 |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this

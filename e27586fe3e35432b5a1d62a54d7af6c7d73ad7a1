@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "37ecce16_36b2ce9d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T21:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87812ce8_2b2927aa",
+      "range": {
+        "startLine": 150,
+        "startChar": 35,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bff31156_ba3a5f92",
         "filename": "Documentation/user-notify.txt",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8c6e7c35_7ea78379",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T21:27:23Z",
+      "side": 1,
+      "message": "Done. I hadn\u0027t even realized that it was the abbreviated branch name.",
+      "parentUuid": "bff31156_ba3a5f92",
+      "range": {
+        "startLine": 227,
+        "startChar": 65,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0450a22d_dfcf9da8",
         "filename": "Documentation/user-notify.txt",
         "patchSetId": 6
@@ -62,6 +110,24 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bbdb083_036a0ba7",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T21:27:23Z",
+      "side": 1,
+      "message": "Good point. The strings \"Yes\" and \"No\" are not obvious from this. Done.",
+      "parentUuid": "0450a22d_dfcf9da8",
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4b3992_d00aeae2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T21:27:23Z",
+      "side": 1,
+      "message": "\u003e In theory the UI should know whether the current server is capable of serving documentation, [...]. If the server does support docs, we should link to them.\n\nPG does the same as GWT in this regard, but in my understanding, the documentation served by an arbitrary Gerrit instance is not necessarily the docs for Gerrit itself. Is that right?\n\n\u003e I\u0027m personally ok with just linking to https://gerrit-review.googlesource.com/Documentation in this case.\n\nDone.",
+      "parentUuid": "cbb33838_7408f720",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

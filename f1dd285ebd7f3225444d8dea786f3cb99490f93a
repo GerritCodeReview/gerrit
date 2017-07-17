@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ca5a580_c5022a58",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-17T22:16:38Z",
+      "side": 1,
+      "message": "This needs an aria-label and tabindex\u003d\"-1\" for sightless users. A tooltip might also be nice.",
+      "revId": "f1dd285ebd7f3225444d8dea786f3cb99490f93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

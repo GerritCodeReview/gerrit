@@ -281,5 +281,33 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.strictEqual(element.selectedValue, '-1');
     });
+
+    test('default_value is null if not permitted', () => {
+      element.permittedLabels = {
+        Verified: [
+          '-1',
+          ' 0',
+          '+1',
+        ],
+      };
+      element.labels = {
+        'Code-Review': {
+          values: {
+            '0': 'No score',
+            '+1': 'good',
+            '+2': 'excellent',
+            '-1': 'bad',
+            '-2': 'terrible',
+          },
+          default_value: -1,
+        },
+      };
+      element.label = {
+        name: 'Code-Review',
+        value: null,
+      };
+      flushAsynchronousOperations();
+      assert.isNull(element.selectedValue);
+    });
   });
 </script>

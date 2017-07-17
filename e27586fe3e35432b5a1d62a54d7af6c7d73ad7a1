@@ -223,6 +223,30 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42d7748_e57b1d39",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-17T22:00:31Z",
+      "side": 1,
+      "message": "\u003e If [Documentation] always referred to Gerrit, could it be renamed [Gerrit help] or similar?\n\nSGTM.",
+      "parentUuid": "91725054_bbf88718",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

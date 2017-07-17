@@ -16,6 +16,24 @@
       "revId": "2609d792dcd3698d21a93fb27c894877246f38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70f3725b_eef37c57",
+        "filename": "polygerrit-ui/app/styles/gr-list-view-styles.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-17T18:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0294e74_888f20cb",
+      "revId": "2609d792dcd3698d21a93fb27c894877246f38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

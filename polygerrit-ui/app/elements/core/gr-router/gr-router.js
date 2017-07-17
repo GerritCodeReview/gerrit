@@ -86,7 +86,7 @@
         if (hash.indexOf('/VE/') === 0) {
           newUrl = base + '/settings' + data.hash;
         }
-        page(newUrl);
+        page.redirect(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(function(loggedIn) {

@@ -485,7 +485,9 @@
 
       Promise.all(promises).then(() => {
         this._loading = false;
-        this.$.diff.reload();
+        return this.$.diff.reload();
+      }).then(() => {
+        this.$.cursor.handleDiffUpdate();
       });
 
       this._loadCommentMap().then(commentMap => {

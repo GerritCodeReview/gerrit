@@ -22,6 +22,30 @@
       "revId": "8511cd357d01e9bf141cf773b6acd209aef79561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bd39be5_fcc41752",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 55
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-17T17:36:20Z",
+      "side": 1,
+      "message": "I could only get it to work in a flush.\n\nThough i confirmed that the test still works by putting in something else that i knew would fail the test locally.",
+      "parentUuid": "97af91c5_ca4257ac",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "8511cd357d01e9bf141cf773b6acd209aef79561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

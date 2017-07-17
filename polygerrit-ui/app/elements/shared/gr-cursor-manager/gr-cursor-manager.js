@@ -157,18 +157,20 @@
       const newIndex = this._getNextindex(delta, opt_condition);
 
       let newTarget = null;
-      if (newIndex != -1) {
+      if (newIndex !== -1) {
         newTarget = this.stops[newIndex];
       }
+
+      this.index = newIndex;
+      this.target = newTarget;
+
+      if (!this.target) { return; }
 
       if (opt_getTargetHeight) {
         this._targetHeight = opt_getTargetHeight(newTarget);
       } else {
         this._targetHeight = newTarget.scrollHeight;
       }
-
-      this.index = newIndex;
-      this.target = newTarget;
 
       if (this.focusOnMove) { this.target.focus(); }
 

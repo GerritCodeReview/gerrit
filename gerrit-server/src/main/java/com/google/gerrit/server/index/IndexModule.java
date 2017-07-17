@@ -47,6 +47,7 @@ import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import com.google.gerrit.server.index.project.ProjectIndexDefinition;
+import com.google.gerrit.server.index.project.ProjectIndexRewriter;
 import com.google.gerrit.server.index.project.ProjectIndexer;
 import com.google.gerrit.server.index.project.ProjectIndexerImpl;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
@@ -118,6 +119,7 @@ public class IndexModule extends LifecycleModule {
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
 
+    bind(ProjectIndexRewriter.class);
     bind(ProjectIndexCollection.class);
     listener().to(ProjectIndexCollection.class);
     factory(ProjectIndexerImpl.Factory.class);

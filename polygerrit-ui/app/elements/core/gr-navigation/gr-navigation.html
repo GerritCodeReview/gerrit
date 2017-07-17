@@ -23,7 +23,7 @@ limitations under the License.
     // remaining properties depend on the value used for view.
     //
     //  - Gerrit.Nav.View.CHANGE:
-    //    - `id`, required, String: the numeric ID of the change.
+    //    - `changeNum`, required, String: the numeric ID of the change.
     //
     // - Gerrit.Nav.View.SEARCH:
     //    - `owner`, optional, String: the owner name.
@@ -35,7 +35,7 @@ limitations under the License.
     //        together.
     //
     //  - Gerrit.Nav.View.DIFF:
-    //    - `changeId`, required, String: the numeric ID of the change.
+    //    - `changeNum`, required, String: the numeric ID of the change.
     //    - `path`, required, String: the filepath of the diff.
     //    - `patchNum`, required, Number, the patch for the right-hand-side of
     //        the diff.
@@ -151,7 +151,7 @@ limitations under the License.
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.CHANGE,
-          id: change._number,
+          changeNum: change._number,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,
         });
@@ -185,7 +185,7 @@ limitations under the License.
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.DIFF,
-          changeId: change._number,
+          changeNum: change._number,
           path,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,

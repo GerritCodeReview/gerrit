@@ -527,6 +527,10 @@ public class ProjectControl {
     return !refs.isEmpty() && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
   }
 
+  public boolean canRead() {
+    return !isHidden() && allRefsAreVisible(Collections.emptySet());
+  }
+
   ForProject asForProject() {
     return new ForProjectImpl();
   }

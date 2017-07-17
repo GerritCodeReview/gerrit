@@ -614,7 +614,7 @@ limitations under the License.
       const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
 
       const value = {
-        view: 'gr-change-view',
+        view: Gerrit.Nav.View.CHANGE,
         patchNum: '1',
       };
       element._paramsChanged(value);
@@ -636,7 +636,7 @@ limitations under the License.
           () => { return Promise.resolve(); });
 
       const value = {
-        view: 'gr-change-view',
+        view: Gerrit.Nav.View.CHANGE,
       };
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledOnce);
@@ -1092,7 +1092,7 @@ limitations under the License.
 
         // simulate reloading component, which is done when route
         // changes to match a regex of change view type.
-        element._paramsChanged({view: 'gr-change-view'});
+        element._paramsChanged({view: Gerrit.Nav.View.CHANGE});
       });
 
       test('scrollTop is reset when new change is loaded', () => {

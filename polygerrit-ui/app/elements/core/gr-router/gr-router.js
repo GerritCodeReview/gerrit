@@ -105,7 +105,7 @@
     page('/dashboard/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          data.params.view = 'gr-dashboard-view';
+          data.params.view = Gerrit.Nav.View.DASHBOARD;
           app.params = data.params;
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -118,7 +118,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
             offset: data.params[1] || 0,
             filter: null,
@@ -133,7 +133,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
             offset: data.params.offset,
             filter: data.params.filter,
@@ -148,7 +148,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
             filter: data.params.filter || null,
           };
@@ -161,7 +161,7 @@
     // Matches /admin/projects/<project>,branches[,<offset>].
     page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-project-detail-list',
         detailType: 'branches',
         project: data.params[0],
@@ -173,7 +173,7 @@
     page('/admin/projects/:project,branches/q/filter::filter,:offset',
         loadUser, data => {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'branches',
             project: data.params.project,
@@ -185,7 +185,7 @@
     page('/admin/projects/:project,branches/q/filter::filter',
         loadUser, data => {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'branches',
             project: data.params.project,
@@ -196,7 +196,7 @@
     // Matches /admin/projects/<project>,tags[,<offset>].
     page(/^\/admin\/projects\/(.+),tags(,(.+))?$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-project-detail-list',
         detailType: 'tags',
         project: data.params[0],
@@ -208,7 +208,7 @@
     page('/admin/projects/:project,tags/q/filter::filter,:offset',
         loadUser, data => {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'tags',
             project: data.params.project,
@@ -220,7 +220,7 @@
     page('/admin/projects/:project,tags/q/filter::filter',
         loadUser, data => {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'tags',
             project: data.params.project,
@@ -231,7 +231,7 @@
     // Matches /admin/projects[,<offset>][/].
     page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
         offset: data.params[1] || 0,
         filter: null,
@@ -240,7 +240,7 @@
 
     page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
         offset: data.params.offset,
         filter: data.params.filter,
@@ -249,7 +249,7 @@
 
     page('/admin/projects/q/filter::filter', loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
         filter: data.params.filter || null,
       };
@@ -258,7 +258,7 @@
     // Matches /admin/projects/<project>
     page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
       app.params = {
-        view: 'gr-admin-view',
+        view: Gerrit.Nav.View.ADMIN,
         project: data.params[0],
         adminView: 'gr-project',
       };
@@ -268,7 +268,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-admin-view',
+            view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-plugin-list',
           };
         } else {
@@ -280,7 +280,7 @@
     page('/admin/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          data.params.view = 'gr-admin-view';
+          data.params.view = Gerrit.Nav.View.ADMIN;
           data.params.placeholder = true;
           app.params = data.params;
         } else {
@@ -290,7 +290,7 @@
     });
 
     function queryHandler(data) {
-      data.params.view = 'gr-change-list-view';
+      data.params.view = Gerrit.Nav.View.SEARCH;
       app.params = data.params;
     }
 
@@ -349,7 +349,7 @@
         changeNum: ctx.params[0],
         basePatchNum: ctx.params[3],
         patchNum: ctx.params[5],
-        view: 'gr-change-view',
+        view: Gerrit.Nav.View.CHANGE,
       };
 
       // Don't allow diffing the same patch number against itself.
@@ -375,7 +375,7 @@
         patchNum: ctx.params[4],
         path: ctx.params[5],
         hash: ctx.hash,
-        view: 'gr-diff-view',
+        view: Gerrit.Nav.View.DIFF,
       };
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum === params.patchNum) {
@@ -406,7 +406,7 @@
     page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          data.params.view = 'gr-cla-view';
+          data.params.view = Gerrit.Nav.View.AGREEMENTS;
           app.params = data.params;
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
@@ -418,7 +418,7 @@
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
-            view: 'gr-settings-view',
+            view: Gerrit.Nav.View.SETTINGS,
             emailToken: data.params[0],
           };
         } else {
@@ -430,7 +430,7 @@
     page(/^\/settings\/?/, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          app.params = {view: 'gr-settings-view'};
+          app.params = {view: Gerrit.Nav.View.SETTINGS};
         } else {
           page.show('/login/' + encodeURIComponent(data.canonicalPath));
         }

@@ -199,6 +199,30 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91725054_bbf88718",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T21:46:50Z",
+      "side": 1,
+      "message": "\u003e \u003e PG does the same as GWT in this regard, but in my understanding, the documentation served by an arbitrary Gerrit instance is not necessarily the docs for Gerrit itself. Is that right?\n\u003e \n\u003e I don\u0027t understand what you mean. Do you mean that you need to guard against https://gerrit.wikimedia.org/r/Documentation/index.html containing Mediawiki documentation instead of gerrit documentation?\n\nYes, I\u0027m just not clear regarding whether the [Documentation] link in the header is expected to always refer to Gerrit\u0027s docs (as opposed to the docs for the project hosted by Gerrit) -- especially considering that the docs link is server-configurable.\n\nIf [Documentation] always referred to Gerrit, could it be renamed [Gerrit help] or similar?\n\nIf [Documentation] might refer to a completely unrelated corpus, then it seems better not to even link to it by that means (or to try to guard based on its content).\n\n\u003e The main difference between gerrit-review.googlesource.com/Documentation and other sites is that gerrit-review shows the latest docs, while other sites show docs for the version running at that site.\n\nIf I\u0027m misunderstanding the purpose of the [Documentation] link (which it\u0027s starting to sound like I have) then I see the value in keeping that consistency.",
+      "parentUuid": "2164bba4_ff536836",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

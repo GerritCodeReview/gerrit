@@ -140,12 +140,6 @@ public class ReviewCommand extends SshCommand {
   private boolean json;
 
   @Option(
-    name = "--strict-labels",
-    usage = "Strictly check if the labels specified can be applied to the given patch set(s)"
-  )
-  private boolean strictLabels;
-
-  @Option(
     name = "--tag",
     aliases = "-t",
     usage = "applies a tag to the given review",
@@ -308,7 +302,6 @@ public class ReviewCommand extends SshCommand {
     review.notify = notify;
     review.labels = new TreeMap<>();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;
-    review.strictLabels = strictLabels;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();
       if (v != null) {

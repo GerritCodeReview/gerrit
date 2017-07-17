@@ -1560,7 +1560,6 @@ public class ChangeIT extends AbstractDaemonTest {
     // Exact request format made by GWT UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
     ReviewInput in = new ReviewInput();
     in.labels = ImmutableMap.of("Code-Review", (short) 0);
-    in.strictLabels = true;
     in.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);

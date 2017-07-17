@@ -100,7 +100,7 @@
     },
 
     _paramsChanged(value) {
-      if (value.view != this.tagName.toLowerCase()) { return; }
+      if (value.view !== Gerrit.Nav.View.SEARCH) { return; }
 
       this._loading = true;
       this._query = value.query;

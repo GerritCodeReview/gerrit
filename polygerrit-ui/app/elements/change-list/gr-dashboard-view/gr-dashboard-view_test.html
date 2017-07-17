@@ -49,10 +49,10 @@ limitations under the License.
       const getChangesStub = sandbox.stub(element, '_getChanges',
           () => Promise.resolve());
 
-      element.params = {view: 'gr-dashboard-view'};
+      element.params = {view: Gerrit.Nav.View.DASHBOARD};
 
       assert.equal(getChangesStub.callCount, 1);
-      element.params = {view: 'gr-dashboard-view'};
+      element.params = {view: Gerrit.Nav.View.DASHBOARD};
       assert.equal(getChangesStub.callCount, 2);
     });
 

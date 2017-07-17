@@ -58,6 +58,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -303,7 +304,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, project, id);
+            null, null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -313,6 +314,7 @@ public class ChangeData {
   private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -372,6 +374,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -391,6 +394,7 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -412,6 +416,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -430,6 +435,7 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -452,6 +458,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -470,6 +477,7 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -493,6 +501,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -511,6 +520,7 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -535,6 +545,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -556,6 +567,7 @@ public class ChangeData {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -1104,7 +1116,10 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = new SubmitRuleEvaluator(accountCache, this).setOptions(options).evaluate();
+      records =
+          new SubmitRuleEvaluator(accountByEmailCache, accountCache, this)
+              .setOptions(options)
+              .evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -1121,7 +1136,8 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = new SubmitRuleEvaluator(accountCache, this).getSubmitType();
+      submitTypeRecord =
+          new SubmitRuleEvaluator(accountByEmailCache, accountCache, this).getSubmitType();
     }
     return submitTypeRecord;
   }

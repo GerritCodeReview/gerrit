@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -82,6 +83,7 @@ public class SubmitRuleEvaluator {
     }
   }
 
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final ChangeData cd;
   private final ChangeControl control;
@@ -94,7 +96,10 @@ public class SubmitRuleEvaluator {
 
   private Term submitRule;
 
-  public SubmitRuleEvaluator(AccountCache accountCache, ChangeData cd) throws OrmException {
+  public SubmitRuleEvaluator(
+      AccountByEmailCache accountByEmailCache, AccountCache accountCache, ChangeData cd)
+      throws OrmException {
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.cd = cd;
     this.control = cd.changeControl();
@@ -567,6 +572,7 @@ public class SubmitRuleEvaluator {
       }
       throw new RuleEvalException(msg, err);
     }
+    env.set(StoredValues.ACCOUNT_BY_EMAIL_CACHE, accountByEmailCache);
     env.set(StoredValues.ACCOUNT_CACHE, accountCache);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);

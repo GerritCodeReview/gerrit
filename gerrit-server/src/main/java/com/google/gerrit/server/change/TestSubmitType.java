@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -35,6 +36,7 @@ import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
@@ -45,10 +47,12 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   @Inject
   TestSubmitType(
       Provider<ReviewDb> db,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ChangeData.Factory changeDataFactory,
       RulesCache rules) {
     this.db = db;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
@@ -66,7 +70,9 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
         new SubmitRuleEvaluator(
-            accountCache, changeDataFactory.create(db.get(), rsrc.getControl()));
+            accountByEmailCache,
+            accountCache,
+            changeDataFactory.create(db.get(), rsrc.getControl()));
 
     SubmitTypeRecord rec =
         evaluator

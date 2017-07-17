@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -95,6 +96,7 @@ public class MergeSuperSet {
     abstract ImmutableSet<String> hashes();
   }
 
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -109,11 +111,13 @@ public class MergeSuperSet {
   @Inject
   MergeSuperSet(
       @GerritServerConfig Config cfg,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider) {
     this.cfg = cfg;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
@@ -165,7 +169,9 @@ public class MergeSuperSet {
     SubmitTypeRecord str =
         ps == cd.currentPatchSet()
             ? cd.submitTypeRecord()
-            : new SubmitRuleEvaluator(accountCache, cd).setPatchSet(ps).getSubmitType();
+            : new SubmitRuleEvaluator(accountByEmailCache, accountCache, cd)
+                .setPatchSet(ps)
+                .getSubmitType();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }

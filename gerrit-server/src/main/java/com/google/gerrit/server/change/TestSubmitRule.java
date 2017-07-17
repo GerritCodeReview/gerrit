@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -40,6 +41,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final AccountLoader.Factory accountInfoFactory;
 
@@ -51,11 +53,13 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.accountInfoFactory = infoFactory;
   }
@@ -72,7 +76,9 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
         new SubmitRuleEvaluator(
-            accountCache, changeDataFactory.create(db.get(), rsrc.getControl()));
+            accountByEmailCache,
+            accountCache,
+            changeDataFactory.create(db.get(), rsrc.getControl()));
 
     List<SubmitRecord> records =
         evaluator

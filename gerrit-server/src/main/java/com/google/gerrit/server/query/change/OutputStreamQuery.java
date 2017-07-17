@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -69,6 +70,7 @@ public class OutputStreamQuery {
   }
 
   private final ReviewDb db;
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
@@ -94,6 +96,7 @@ public class OutputStreamQuery {
   @Inject
   OutputStreamQuery(
       ReviewDb db,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
@@ -102,6 +105,7 @@ public class OutputStreamQuery {
       TrackingFooters trackingFooters,
       CurrentUser user) {
     this.db = db;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
@@ -249,7 +253,7 @@ public class OutputStreamQuery {
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
           c,
-          new SubmitRuleEvaluator(accountCache, d)
+          new SubmitRuleEvaluator(accountByEmailCache, accountCache, d)
               .setAllowClosed(true)
               .setAllowDraft(true)
               .evaluate());

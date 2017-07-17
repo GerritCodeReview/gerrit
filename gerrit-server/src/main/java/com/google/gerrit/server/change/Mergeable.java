@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -62,6 +63,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;
+  private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -73,6 +75,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   @Inject
   Mergeable(
       GitRepositoryManager gitManager,
+      AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -81,6 +84,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeIndexer indexer,
       MergeabilityCache cache) {
     this.gitManager = gitManager;
+    this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -144,7 +148,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
     SubmitTypeRecord rec =
-        new SubmitRuleEvaluator(accountCache, cd).setPatchSet(patchSet).getSubmitType();
+        new SubmitRuleEvaluator(accountByEmailCache, accountCache, cd)
+            .setPatchSet(patchSet)
+            .getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

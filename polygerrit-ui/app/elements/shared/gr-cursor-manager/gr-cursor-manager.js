@@ -161,16 +161,18 @@
         newTarget = this.stops[newIndex];
       }
 
-      if (opt_getTargetHeight) {
-        this._targetHeight = opt_getTargetHeight(newTarget);
-      } else {
-        this._targetHeight = newTarget.scrollHeight;
+      if (newTarget) {
+        if (opt_getTargetHeight) {
+          this._targetHeight = opt_getTargetHeight(newTarget);
+        } else {
+          this._targetHeight = newTarget.scrollHeight;
+        }
       }
 
       this.index = newIndex;
       this.target = newTarget;
 
-      if (this.focusOnMove) { this.target.focus(); }
+      if (this.focusOnMove && this.target) { this.target.focus(); }
 
       this._decorateTarget();
     },

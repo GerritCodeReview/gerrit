@@ -214,6 +214,15 @@ public class GerritServer implements AutoCloseable {
         .isNotEqualTo(NoteDbMode.FUSED);
     Config cfg = desc.buildConfig(baseConfig);
     Map<String, Config> pluginConfigs = desc.buildPluginConfigs();
+
+    MergeableFileBasedConfig gerritConfig =
+        new MergeableFileBasedConfig(
+            site.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
+    gerritConfig.load();
+    gerritConfig.merge(cfg);
+    mergeTestConfig(gerritConfig);
+    gerritConfig.save();
+
     Init init = new Init();
     int rc =
         init.main(
@@ -223,14 +232,6 @@ public class GerritServer implements AutoCloseable {
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
-
-    MergeableFileBasedConfig gerritConfig =
-        new MergeableFileBasedConfig(
-            site.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
-    gerritConfig.load();
-    gerritConfig.merge(cfg);
-    mergeTestConfig(gerritConfig);
-    gerritConfig.save();
 
     for (String pluginName : pluginConfigs.keySet()) {
       MergeableFileBasedConfig pluginCfg =
@@ -258,6 +259,7 @@ public class GerritServer implements AutoCloseable {
   public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     baseConfig = new Config(baseConfig);
+    baseConfig.setString("gerrit", null, "basePath", site.resolve("git").toString());
     baseConfig.setString("gerrit", null, "tempSiteDir", site.toString());
     try {
       if (!desc.memory()) {

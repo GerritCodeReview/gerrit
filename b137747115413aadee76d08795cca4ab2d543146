@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e2de9575_53f150bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T20:57:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be50879f_2b40e958",
+      "range": {
+        "startLine": 160,
+        "startChar": 19,
+        "endLine": 160,
+        "endChar": 21
+      },
+      "revId": "b137747115413aadee76d08795cca4ab2d543146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f8370e5_221abb85",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "b137747115413aadee76d08795cca4ab2d543146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee9944c_73851fb3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-17T20:57:49Z",
+      "side": 1,
+      "message": "Done.\n\n`_decorateTarget` has its own null check, and we can\u0027t return ~l.170 because we still need to update `this.index` and `this.target` with `-1` and `null` resp., but I rearranged the function to make more sense in this regard.",
+      "parentUuid": "9b44fcf7_a813e815",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 29
+      },
+      "revId": "b137747115413aadee76d08795cca4ab2d543146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

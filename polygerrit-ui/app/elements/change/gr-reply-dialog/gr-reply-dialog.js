@@ -326,7 +326,7 @@
       return {reviewer: reviewerId, confirmed};
     },
 
-    send(includeComments) {
+    send(includeComments, startReview) {
       if (this.knownLatestState === 'not-latest') {
         this.fire('show-alert',
             {message: 'Cannot reply to non-latest patch.'});
@@ -339,6 +339,10 @@
         drafts: includeComments ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
         labels,
       };
+
+      if (startReview) {
+        obj.ready = true;
+      }
 
       if (this.draft != null) {
         obj.message = this.draft;
@@ -575,7 +579,7 @@
         // the text field of the CC entry.
         return;
       }
-      this.send(this._includeComments).then(keepReviewers => {
+      this.send(this._includeComments, false).then(keepReviewers => {
         this._purgeReviewersPendingRemove(false, keepReviewers);
       });
     },
@@ -587,17 +591,10 @@
         // the text field of the CC entry.
         return;
       }
-      if (this.canBeStarted) {
-        this._startReview().then(() => {
-          return this.send(this._includeComments);
-        }).then(keepReviewers => {
-          this._purgeReviewersPendingRemove(false, keepReviewers);
-        });
-        return;
-      }
-      this.send(this._includeComments).then(keepReviewers => {
-        this._purgeReviewersPendingRemove(false, keepReviewers);
-      });
+      return this.send(this._includeComments, this.canBeStarted)
+          .then(keepReviewers => {
+            this._purgeReviewersPendingRemove(false, keepReviewers);
+          });
     },
 
     _saveReview(review, opt_errFn) {

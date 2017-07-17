@@ -90,7 +90,7 @@
         if (hash.startsWith('/VE/')) {
           newUrl = base + '/settings' + data.hash;
         }
-        page(newUrl);
+        page.redirect(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(loggedIn => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0294e74_888f20cb",
+        "filename": "polygerrit-ui/app/styles/gr-list-view-styles.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-17T17:50:03Z",
+      "side": 1,
+      "message": "Maybe a more general name would be good here? Perhaps gr-table-styles? Up to you.",
+      "revId": "2609d792dcd3698d21a93fb27c894877246f38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

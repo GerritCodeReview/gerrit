@@ -16,6 +16,24 @@
       "revId": "e4ff89a83b4ed0816bfad0d8adb282bc599965f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd95703_ed653145",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-18T16:50:27Z",
+      "side": 1,
+      "message": "It adds a new entry, so if you\u0027re on #25 of a file, click \"]\" then click back, you end up on the file (no hash), click back again, end up on the #25 hash.",
+      "parentUuid": "5c4a2920_93bbe598",
+      "revId": "e4ff89a83b4ed0816bfad0d8adb282bc599965f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

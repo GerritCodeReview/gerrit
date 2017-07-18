@@ -143,6 +143,13 @@ limitations under the License.
       assert.isTrue(getTargetHeight.called);
     });
 
+    test('_moveCursor from -1 does not check height', () => {
+      element.stops = list.querySelectorAll('li');
+      const getTargetHeight = sinon.stub();
+      element._moveCursor(1, () => false, getTargetHeight);
+      assert.isFalse(getTargetHeight.called);
+    });
+
     test('opt_noScroll', () => {
       sandbox.stub(element, '_targetIsVisible', () => false);
       const scrollStub = sandbox.stub(window, 'scrollTo');

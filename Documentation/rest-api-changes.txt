@@ -6737,6 +6737,9 @@ Map of account or group identifier to
 link:rest-api-changes.html#add-reviewer-result[AddReviewerResult]
 representing the outcome of adding as a reviewer.
 Absent if no reviewer additions were requested.
+|`ready`                  |optional|
+If true, the change was moved from WIP to ready for review as a result of this
+action. Not set if false.
 |============================
 
 [[reviewer-info]]

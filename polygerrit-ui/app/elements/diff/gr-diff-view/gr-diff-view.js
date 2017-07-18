@@ -451,7 +451,7 @@
     _paramsChanged(value) {
       if (value.view != this.tagName.toLowerCase()) { return; }
 
-      this._loadHash(location.hash);
+      this._loadHash(this.params.hash);
 
       this._changeNum = value.changeNum;
       this._patchRange = {

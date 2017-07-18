@@ -46,6 +46,30 @@
       "revId": "b3955a6909f8f7f0885518415a394e45f5b4f05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4025577_52f83a15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-18T02:05:27Z",
+      "side": 1,
+      "message": "Not in the context of tbody. removed.",
+      "parentUuid": "2f29d1f0_61849311",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "b3955a6909f8f7f0885518415a394e45f5b4f05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

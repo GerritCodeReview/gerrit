@@ -34,6 +34,24 @@
       "revId": "40bc10f4fc2adbe4418bafbc2e66bfc400bdc031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a51201f_cce4d423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-18T15:13:29Z",
+      "side": 1,
+      "message": "You could use issue 6762.",
+      "parentUuid": "73d4e739_22636f61",
+      "revId": "40bc10f4fc2adbe4418bafbc2e66bfc400bdc031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

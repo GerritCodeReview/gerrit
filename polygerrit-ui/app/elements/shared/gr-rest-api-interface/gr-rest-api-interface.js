@@ -70,6 +70,8 @@
       },
     },
 
+    JSON_PREFIX,
+
     created() {
       auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
@@ -1142,9 +1144,10 @@
           });
     },
 
-    startReview(changeNum, review) {
+    startReview(changeNum, opt_body, opt_errFn) {
       return this.send(
-          'POST', this.getChangeActionURL(changeNum, null, '/ready'), review);
+          'POST', this.getChangeActionURL(changeNum, null, '/ready'),
+          opt_body, opt_errFn);
     },
 
     deleteComment(changeNum, patchNum, commentID, reason) {

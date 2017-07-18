@@ -112,6 +112,20 @@ limitations under the License.
       sandbox.restore();
     });
 
+    function stubSaveReview(jsonResponseProducer) {
+      return sandbox.stub(element, '_saveReview', review => {
+        const result = jsonResponseProducer(review);
+        const resultStr =
+            element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
+        return Promise.resolve({
+          ok: true,
+          text() {
+            return Promise.resolve(resultStr);
+          },
+        });
+      });
+    }
+
     test('default to publishing drafts with reply', done => {
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
@@ -120,7 +134,7 @@ limitations under the License.
         flush(() => {
           element.draft = 'I wholeheartedly disapprove';
 
-          sandbox.stub(element, '_saveReview', review => {
+          stubSaveReview(review => {
             assert.deepEqual(review, {
               drafts: 'PUBLISH_ALL_REVISIONS',
               labels: {
@@ -132,7 +146,6 @@ limitations under the License.
             });
             assert.isFalse(element.$.commentList.hidden);
             done();
-            return Promise.resolve({ok: true});
           });
 
           // This is needed on non-Blink engines most likely due to the ways in
@@ -155,7 +168,7 @@ limitations under the License.
         flush(() => {
           element.draft = 'I wholeheartedly disapprove';
 
-          sandbox.stub(element, '_saveReview', review => {
+          stubSaveReview(review => {
             assert.deepEqual(review, {
               drafts: 'KEEP',
               labels: {
@@ -167,7 +180,6 @@ limitations under the License.
             });
             assert.isTrue(element.$.commentList.hidden);
             done();
-            return Promise.resolve({ok: true});
           });
 
           // This is needed on non-Blink engines most likely due to the ways in
@@ -181,7 +193,7 @@ limitations under the License.
 
     test('label picker', done => {
       element.draft = 'I wholeheartedly disapprove';
-      sandbox.stub(element, '_saveReview', review => {
+      stubSaveReview(review => {
         assert.deepEqual(review, {
           drafts: 'PUBLISH_ALL_REVISIONS',
           labels: {
@@ -191,7 +203,6 @@ limitations under the License.
           message: 'I wholeheartedly disapprove',
           reviewers: [],
         });
-        return Promise.resolve({ok: true});
       });
 
       sandbox.stub(element.$.labelScores, 'getLabelValues', () => {
@@ -512,12 +523,11 @@ limitations under the License.
 
     test('only send labels that have changed', done => {
       flush(() => {
-        sandbox.stub(element, '_saveReview', review => {
+        stubSaveReview(review => {
           assert.deepEqual(review.labels, {
             'Code-Review': 0,
             'Verified': -1,
           });
-          return Promise.resolve({ok: true});
         });
 
         element.addEventListener('send', () => {
@@ -639,10 +649,7 @@ limitations under the License.
 
       const mutations = [];
 
-      sandbox.stub(element, '_saveReview', review => {
-        mutations.push(...review.reviewers);
-        return Promise.resolve({ok: true});
-      });
+      stubSaveReview(review => mutations.push(...review.reviewers));
 
       sandbox.stub(element, '_removeAccount', (account, type) => {
         mutations.push({state: 'REMOVED', account});
@@ -772,27 +779,54 @@ limitations under the License.
       element._handle400Error(response);
     });
 
-    test('ready property when posting review', done => {
-      let resolve;
-      sandbox.stub(element, '_saveReview', obj => resolve(obj));
-      function send(startReview) {
-        return new Promise(r => {
-          resolve = r;
-          element.send(true, startReview);
-        });
-      }
+    suite('post review API', () => {
+      let startReviewStub;
 
-      send(true)
-          .then(obj => assert.isTrue(obj.ready))
-          .then(() => send(false))
-          .then(obj => assert.isUndefined(obj.ready))
-          .then(done);
+      setup(() => {
+        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview');
+      });
+
+      test('ready property in review input on start review', () => {
+        stubSaveReview(review => {
+          assert.isTrue(review.ready);
+          return {ready: true};
+        });
+        return element.send(true, true).then(() => {
+          assert.isFalse(startReviewStub.called);
+        });
+      });
+
+      test('no ready property in review input on save review', () => {
+        stubSaveReview(review => {
+          assert.isUndefined(review.ready);
+          return {};
+        });
+        return element.send(true, false).then(() => {
+          assert.isFalse(startReviewStub.called);
+        });
+      });
+
+      test('fall back to start review against old backend', () => {
+        stubSaveReview(review => {
+          return {}; // old backend won't set ready: true
+        });
+
+        return element.send(true, true).then(() => {
+          assert.isTrue(startReviewStub.called);
+        }).then(() => {
+          startReviewStub.reset();
+          return element.send(true, false);
+        }).then(() => {
+          assert.isFalse(startReviewStub.called);
+        });
+      });
     });
 
-    suite('start/save review', () => {
-      let sendSpy;
+    suite('start review and save buttons', () => {
+      let sendStub;
+
       setup(() => {
-        sendSpy = sandbox.spy(element, 'send');
+        sendStub = sandbox.stub(element, 'send', () => Promise.resolve());
         element.canBeStarted = true;
         // Flush to make both Start/Save buttons appear in DOM.
         flushAsynchronousOperations();
@@ -801,13 +835,13 @@ limitations under the License.
       test('start review sets ready', () => {
         MockInteractions.tap(element.$$('.send'));
         flushAsynchronousOperations();
-        assert.isTrue(sendSpy.calledWith(true, true));
+        assert.isTrue(sendStub.calledWith(true, true));
       });
 
       test('save review doesn\'t set ready', () => {
         MockInteractions.tap(element.$$('.save'));
         flushAsynchronousOperations();
-        assert.isTrue(sendSpy.calledWith(true, false));
+        assert.isTrue(sendStub.calledWith(true, false));
       });
     });
   });

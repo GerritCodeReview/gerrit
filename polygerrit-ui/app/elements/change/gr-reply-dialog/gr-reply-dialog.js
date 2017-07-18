@@ -374,6 +374,27 @@
         if (!response || !response.ok) {
           return response;
         }
+        return this.$.restAPI.getResponseObject(response);
+      }).then(result => {
+        // TODO(logan): Remove this once the required API changes are live and
+        // stable on googlesource.com.
+        if (startReview && !result.ready) {
+          // If we don't see ready in the response, then we're talking to a
+          // backend that doesn't support moving out of WIP at the same time as
+          // posting a review. Fall back to sending a second API call to start
+          // review and block until that returns.
+          return this.$.restAPI.startReview(this.change._number, null,
+              response => {
+                // If we see a 409 response code, then that means the server
+                // *does* support moving from WIP->ready when posting a review.
+                // In that case we should just ignore this error.
+                if (response.status === 409) {
+                  return;
+                }
+                this.fire('server-error', {response});
+              });
+        }
+      }).then(() => {
         this.disabled = false;
         this.draft = '';
         this._includeComments = true;
@@ -600,13 +621,6 @@
     _saveReview(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
-    },
-
-    _startReview() {
-      if (!this.canBeStarted) {
-        return Promise.resolve();
-      }
-      return this.$.restAPI.startReview(this.change._number);
     },
 
     _reviewerPendingConfirmationUpdated(reviewer) {

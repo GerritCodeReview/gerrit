@@ -16,6 +16,24 @@
       "revId": "71928ee6215548e059d7aa647bdc6cfd9d63e862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52df21f2_595f2a47",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-18T21:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7443c420_193b0f40",
+      "revId": "71928ee6215548e059d7aa647bdc6cfd9d63e862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ecd71528_fdf6e7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T00:35:53Z",
+      "side": 1,
+      "message": "When I try the repo steps in the linked issue, I still see the incorrect behavior. Can you repro locally?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "844a54bf92656a2f69f60145bab1f677d12107d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5bcc232_e507a339",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2

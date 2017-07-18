@@ -441,10 +441,12 @@ limitations under the License.
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
       element.fetchJSON('/bar').then(r => {
-        assert.isTrue(authErrorStub.called);
-        assert.isFalse(serverErrorStub.called);
-        assert.isNull(element._cache['/accounts/self/detail']);
-        done();
+        flush(() => {
+          assert.isTrue(authErrorStub.called);
+          assert.isFalse(serverErrorStub.called);
+          assert.isNull(element._cache['/accounts/self/detail']);
+          done();
+        });
       });
     });
 

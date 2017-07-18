@@ -16,6 +16,24 @@
       "revId": "be93ac17b0906c6bebcb426ace0a2cc90adc00b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "773c4294_9f925afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-18T21:30:49Z",
+      "side": 1,
+      "message": "E.g. it can say something like \"The googlesource.com environment is not ready for this yet.\"",
+      "parentUuid": "14f5fca4_8ee8e19e",
+      "revId": "be93ac17b0906c6bebcb426ace0a2cc90adc00b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -169,7 +169,7 @@ public class RawMailParser {
   }
 
   private static boolean isMixedOrAlternative(String mimeType) {
-    return mimeType.equals("multipart/alternative") || mimeType.equals("multipart/mixed");
+    return mimeType.startsWith("multipart/");
   }
 
   private static boolean isAttachment(String dispositionType) {

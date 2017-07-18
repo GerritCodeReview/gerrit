@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c4a2920_93bbe598",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-18T16:33:59Z",
+      "side": 1,
+      "message": "How does this affect back button behavior?",
+      "revId": "e4ff89a83b4ed0816bfad0d8adb282bc599965f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

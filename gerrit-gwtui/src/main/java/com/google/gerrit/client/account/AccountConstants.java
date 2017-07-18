@@ -37,6 +37,10 @@ public interface AccountConstants extends Constants {
 
   String contextWholeFile();
 
+  String languageLabel();
+
+  String messageLanguageEnglish();
+
   String showSiteHeader();
 
   String useFlashClipboard();

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdaecba0_d9a3faf1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T23:51:41Z",
+      "side": 1,
+      "message": "Is this used by gr-admin-view?",
+      "revId": "130ccfa39038201e47bb0753ffecd5b80965df45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3c6562_4425d63b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T23:51:41Z",
+      "side": 1,
+      "message": "Looks like this has not been imported by gr-change-view.",
+      "range": {
+        "startLine": 432,
+        "startChar": 25,
+        "endLine": 432,
+        "endChar": 47
+      },
+      "revId": "130ccfa39038201e47bb0753ffecd5b80965df45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "041e8bc3_cfcc4640",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T23:51:41Z",
+      "side": 1,
+      "message": "Nit: since it\u0027s arbitrary, can this be named \"AGREEMENTS\"? Just a thought.",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 11
+      },
+      "revId": "130ccfa39038201e47bb0753ffecd5b80965df45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

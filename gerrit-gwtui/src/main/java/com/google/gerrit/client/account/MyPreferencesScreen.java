@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.Language;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -47,6 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MyPreferencesScreen extends SettingsScreen {
+  private ListBox language;
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox highlightAssigneeInChangeTable;
@@ -70,6 +72,9 @@ public class MyPreferencesScreen extends SettingsScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+
+    language = new ListBox();
+    language.addItem(Util.C.messageLanguageEnglish(), GeneralPreferencesInfo.Language.EN.name());
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
@@ -169,6 +174,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     int row = 0;
 
+    formGrid.setText(row, labelIdx, Util.C.languageLabel());
+    formGrid.setWidget(row, fieldIdx, language);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
     formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
     row++;
@@ -252,6 +261,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     add(save);
 
     final OnEditEnabler e = new OnEditEnabler(save);
+    e.listenTo(language);
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
     e.listenTo(maximumPageSize);
@@ -291,6 +301,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void enable(boolean on) {
+    language.setEnabled(on);
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     maximumPageSize.setEnabled(on);
@@ -311,6 +322,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void display(GeneralPreferences p) {
+    setListBox(language, GeneralPreferencesInfo.Language.EN, p.language());
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
@@ -401,6 +413,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
   private void doSave() {
     GeneralPreferences p = GeneralPreferences.create();
+    p.language(getListBox(language, Language.EN, Language.values()));
     p.showSiteHeader(showSiteHeader.getValue());
     p.useFlashClipboard(useFlashClipboard.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));

@@ -20,12 +20,14 @@ import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticProjectIndex.PROJECTS_PREFIX;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
 import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
 import com.google.gerrit.elasticsearch.ElasticGroupIndex.GroupMapping;
+import com.google.gerrit.elasticsearch.ElasticProjectIndex.ProjectMapping;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -33,6 +35,8 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -155,6 +159,18 @@ final class ElasticTestUtils {
         .indices()
         .prepareCreate(String.format("%s%04d", GROUPS_PREFIX, groupSchema.getVersion()))
         .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
+        .execute()
+        .actionGet();
+
+    Schema<ProjectState> projectSchema = ProjectSchemaDefinitions.INSTANCE.getLatest();
+    ProjectMapping projectMapping = new ProjectMapping(projectSchema);
+    nodeInfo
+        .node
+        .client()
+        .admin()
+        .indices()
+        .prepareCreate(String.format("%s%04d", PROJECTS_PREFIX, projectSchema.getVersion()))
+        .addMapping(ElasticProjectIndex.PROJECTS, gson.toJson(projectMapping))
         .execute()
         .actionGet();
   }

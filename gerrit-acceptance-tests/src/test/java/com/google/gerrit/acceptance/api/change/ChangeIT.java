@@ -510,7 +510,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(false);
-    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    assertThat(result.reviewStarted).isTrue();
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
     assertThat(info.workInProgress).isNull();
@@ -523,7 +524,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    assertThat(result.reviewStarted).isNull();
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
     assertThat(info.workInProgress).isTrue();

@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "64ecd631_4e5d71ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-18T15:00:49Z",
+      "side": 1,
+      "message": "Gerrit does have rules, they are here:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization\n\nI personally don\u0027t think it\u0027s worth our collective mental effort to memorize all those rules verbatim; the readability win is not large. Obviously I just have a subset of these (\"constructors, and then instance methods\") in my head.",
+      "parentUuid": "7a74f6ba_ee207d77",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b4bdff3_2c539d92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 1

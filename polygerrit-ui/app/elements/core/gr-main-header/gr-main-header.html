@@ -16,6 +16,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../shared/gr-localisation/gr-localisation.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
@@ -50,7 +51,7 @@ limitations under the License.
         width: var(--header-icon-size);
       }
       .bigTitle::after {
-        content: var(--header-title-content);
+        content: [[localize('app-name')]];
       }
       ul {
         list-style: none;

@@ -33,8 +33,11 @@ import bowerutil
 
 # list of licenses for packages that don't specify one in their bower.json file.
 package_licenses = {
+  "app-localize-behavior": "polymer",
   "es6-promise": "es6-promise",
   "fetch": "fetch",
+  "intl-messageformat": "intl-messageformat",
+  "iron-ajax": "polymer",
   "iron-a11y-announcer": "polymer",
   "iron-a11y-keys-behavior": "polymer",
   "iron-autogrow-textarea": "polymer",

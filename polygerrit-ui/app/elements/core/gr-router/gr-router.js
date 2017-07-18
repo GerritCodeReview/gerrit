@@ -340,6 +340,7 @@
         basePatchNum: ctx.params[2],
         patchNum: ctx.params[4],
         path: ctx.params[5],
+        hash: ctx.hash,
         view: 'gr-diff-view',
       };
       // Don't allow diffing the same patch number against itself.

@@ -368,7 +368,15 @@
           this._change && this._change.revisions);
     },
 
+    _removeHash() {
+      history.pushState('', document.title, window.location.pathname);
+    },
+
     _navToFile(path, fileList, direction) {
+      // Remove any existing hash that may exist in the URL currently, so that
+      // don't accidentally end up focusing on that line.
+      this._removeHash();
+
       const newPath = this._getNavLinkPath(path, fileList, direction);
       if (!newPath) { return; }
 

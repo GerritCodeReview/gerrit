@@ -493,6 +493,18 @@ limitations under the License.
       });
     });
 
+    test('_removeHash is called by _naveToFile', () => {
+      sandbox.stub(element, '_removeHash');
+      element._navToFile();
+      assert.isTrue(element._removeHash.called);
+    });
+
+    test('_removeHash removes the location hash', () => {
+      window.location.hash = 123;
+      element._removeHash();
+      assert.equal(window.location.hash, '');
+    });
+
     test('diff mode selector correctly toggles the diff', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diff;

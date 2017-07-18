@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6884fdf2_03eb70bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T00:30:02Z",
+      "side": 1,
+      "message": "Nit: Can you just use...\n\n const path \u003d encode(params.path, true);\n\n...using the `encode` defined on l.40?",
+      "range": {
+        "startLine": 337,
+        "startChar": 14,
+        "endLine": 340,
+        "endChar": 49
+      },
+      "revId": "52676736ce19e969feccec309514c30085b80e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

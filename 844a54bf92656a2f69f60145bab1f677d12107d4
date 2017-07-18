@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5bcc232_e507a339",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-18T00:11:29Z",
+      "side": 1,
+      "message": "This can fit on one line.",
+      "range": {
+        "startLine": 489,
+        "startChar": 0,
+        "endLine": 492,
+        "endChar": 0
+      },
+      "revId": "844a54bf92656a2f69f60145bab1f677d12107d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92985428_7021ecfe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-18T00:11:29Z",
+      "side": 1,
+      "message": "Can this just be a call to flushAsynchronousOperations() and then the assert?",
+      "range": {
+        "startLine": 511,
+        "startChar": 0,
+        "endLine": 516,
+        "endChar": 9
+      },
+      "revId": "844a54bf92656a2f69f60145bab1f677d12107d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -156,7 +156,7 @@ public class RawMailParser {
       } else if (part.getMimeType().equals("text/html")) {
         htmlBuilder.append(result);
       }
-    } else if (isMixedOrAlternative(part.getMimeType())) {
+    } else if (isMultipart(part.getMimeType())) {
       Multipart multipart = (Multipart) part.getBody();
       for (Entity e : multipart.getBodyParts()) {
         handleMimePart(e, textBuilder, htmlBuilder);
@@ -168,8 +168,8 @@ public class RawMailParser {
     return (mimeType.equals("text/plain") || mimeType.equals("text/html"));
   }
 
-  private static boolean isMixedOrAlternative(String mimeType) {
-    return mimeType.equals("multipart/alternative") || mimeType.equals("multipart/mixed");
+  private static boolean isMultipart(String mimeType) {
+    return mimeType.startsWith("multipart/");
   }
 
   private static boolean isAttachment(String dispositionType) {

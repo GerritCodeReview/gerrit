@@ -28,6 +28,8 @@
   };
 
   let auth = null;
+  const etags = new GrEtagDecorator();
+  window._etags = etags;
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -74,24 +76,15 @@
       auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
 
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
+    _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
+        opt_options) {
       const urlWithParams = this._urlWithParams(url, opt_params);
       return auth.fetch(urlWithParams, opt_options).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
         }
-
-        if (!response.ok) {
-          if (opt_errFn) {
-            opt_errFn.call(null, response);
-            return;
-          }
-          this.fire('server-error', {response});
-          return;
-        }
-
-        return this.getResponseObject(response);
+        return response;
       }).catch(err => {
         if (opt_errFn) {
           opt_errFn.call(null, null, err);
@@ -100,6 +93,22 @@
           this._checkAuthRedirect();
         }
       });
+    },
+
+    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
+      return this._fetchRawJSON(
+          url, opt_errFn, opt_cancelCondition, opt_params, opt_options)
+          .then(response => {
+            if (!response.ok) {
+              if (opt_errFn) {
+                opt_errFn.call(null, response);
+                return;
+              }
+              this.fire('server-error', {response});
+              return;
+            }
+            return response && this.getResponseObject(response);
+          });
     },
 
     _checkAuthRedirect() {
@@ -462,20 +471,34 @@
     },
 
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this.listChangesOptionsToHex(
+      const params = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_REVISIONS
       );
-      return this._getChangeDetail(changeNum, options, opt_errFn,
+      return this._getChangeDetail(changeNum, params, opt_errFn,
           opt_cancelCondition);
     },
 
-    _getChangeDetail(changeNum, options, opt_errFn,
+    _getChangeDetail(changeNum, params, opt_errFn,
         opt_cancelCondition) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, null, '/detail'),
+      const url = this.getChangeActionURL(changeNum, null, '/detail');
+      return this._fetchRawJSON(
+          url,
           opt_errFn,
           opt_cancelCondition,
-          {O: options});
+          {O: params},
+          etags.getOptions(url))
+          .then(response => {
+            if (response && response.status === 304) {
+              return Promise.resolve(etags.getCachedPayload(url));
+            } else {
+              const payloadPromise = response ?
+                    this.getResponseObject(response) : Promise.resolve();
+              payloadPromise.then(payload => {
+                etags.collect(url, response, payload);
+              });
+              return payloadPromise;
+            }
+          });
     },
 
     getChangeCommitInfo(changeNum, patchNum) {

@@ -162,13 +162,10 @@
     },
 
     _handleItemSelect(e) {
-      let silent = false;
-      if (e.detail.trigger === 'tab' && this.tabComplete) {
-        silent = true;
-      }
+      // Let _handleKeydown deal with keyboard interaction.
+      if (e.detail.trigger !== 'tap') { return; }
       this._selected = e.detail.selected;
-      this._commit(silent);
-      if (silent) { this.focus(); }
+      this._commit();
     },
 
     /**
@@ -189,7 +186,7 @@
 
     _onInputBlur() {
       this.$.input.classList.toggle('warnUncommitted',
-          this.warnUncommitted && this.text.length);
+          this.warnUncommitted && this.text.length && !this._focused);
     },
 
     _updateSuggestions() {

@@ -247,6 +247,30 @@
       "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17b861c_9c159909",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-18T16:28:14Z",
+      "side": 1,
+      "message": "\u003e Yes, I\u0027m just not clear regarding whether the [Documentation] link in the header is expected to always refer to Gerrit\u0027s docs (as opposed to the docs for the project hosted by Gerrit) -- especially considering that the docs link is server-configurable.\n\nIt\u0027s always Gerrit\u0027s docs.\n\nThe only reason it\u0027s configurable is so we can point the link on https://foo-review.googlesource.com/ to https://gerrit-review.googlesource.com/Documentation. Either way, it\u0027s always the Gerrit docs, never anything else.\n\n\u003e If [Documentation] always referred to Gerrit, could it be renamed [Gerrit help] or similar?\n\nYes.\n\n\u003e If I\u0027m misunderstanding the purpose of the [Documentation] link (which it\u0027s starting to sound like I have) then I see the value in keeping that consistency.\n\nRight, the value is clear, it just comes with an implementation cost (constructing a proper URL and interpolating it into this string in both UIs).",
+      "parentUuid": "a42d7748_e57b1d39",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "e27586fe3e35432b5a1d62a54d7af6c7d73ad7a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

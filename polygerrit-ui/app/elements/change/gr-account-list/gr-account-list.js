@@ -194,7 +194,7 @@
     },
 
     _handleInputKeydown(e) {
-      const input = e.detail.input.inputElement;
+      const input = e.detail.input;
       if (input.selectionStart !== input.selectionEnd ||
           input.selectionStart !== 0) {
         return;

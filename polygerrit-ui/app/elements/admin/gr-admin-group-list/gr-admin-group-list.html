@@ -46,16 +46,17 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownGroups]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
-            <td class="name">
-              <a href$="[[_computeGroupUrl(item.group_id)]]">[[item.name]]</a>
-            </td>
-            <td class="description">[[item.description]]</td>
-            <td class="visibleToAll">[[_visibleToAll(item)]]</td>
-          </tr>
-        </template>
+        <tbody class$="[[computeLoadingClass(_loading)]]">
+          <template is="dom-repeat" items="[[_shownGroups]]">
+            <tr class="table">
+              <td class="name">
+                <a href$="[[_computeGroupUrl(item.group_id)]]">[[item.name]]</a>
+              </td>
+              <td class="description">[[item.description]]</td>
+              <td class="visibleToAll">[[_visibleToAll(item)]]</td>
+            </tr>
+          </template>
+        </tbody>
       </table>
     </gr-list-view>
     <gr-overlay id="createOverlay" with-backdrop>

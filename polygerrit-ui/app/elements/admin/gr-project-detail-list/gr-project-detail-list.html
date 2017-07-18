@@ -69,53 +69,54 @@ limitations under the License.
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
         </tr>
-        <template is="dom-repeat" items="[[_shownItems]]"
-            class$="[[computeLoadingClass(_loading)]]">
-          <tr class="table">
-            <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
-            <td class$="description [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
-              <span class="revisionNoEditing">
-                [[item.revision]]
-              </span>
-              <span class$="revisionEdit [[_computeEditingClass(_isEditing)]]">
-                <span class="revisionWithEditing">
+        <tbody class$="[[computeLoadingClass(_loading)]]">
+          <template is="dom-repeat" items="[[_shownItems]]">
+            <tr class="table">
+              <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
+              <td class$="description [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+                <span class="revisionNoEditing">
                   [[item.revision]]
                 </span>
-                <gr-button
-                    on-tap="_handleEditRevision"
-                    class="editBtn">
-                  edit
-                </gr-button>
-                <input
-                    is=iron-input
-                    bind-value="{{_revisedRef}}"
-                    class="editItem">
-                <gr-button
-                    on-tap="_handleSaveRevision"
-                    class="saveBtn editItem"
-                    disabled="[[!_revisedRef]]">
-                  Save
-                </gr-button>
-                <gr-button
-                    on-tap="_handleCancelRevision"
-                    class="cancelBtn editItem">
-                  Cancel
-                </gr-button>
-              </span>
-            </td>
-            <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
-              <template is="dom-repeat"
-                  items="[[_computeWeblink(item)]]" as="link">
-                <a href$="[[link.url]]"
-                    class="webLink"
-                    rel="noopener"
-                    target="_blank">
-                  ([[link.name]])
-                </a>
-              </template>
-            </td>
-          </tr>
-        </template>
+                <span class$="revisionEdit [[_computeEditingClass(_isEditing)]]">
+                  <span class="revisionWithEditing">
+                    [[item.revision]]
+                  </span>
+                  <gr-button
+                      on-tap="_handleEditRevision"
+                      class="editBtn">
+                    edit
+                  </gr-button>
+                  <input
+                      is=iron-input
+                      bind-value="{{_revisedRef}}"
+                      class="editItem">
+                  <gr-button
+                      on-tap="_handleSaveRevision"
+                      class="saveBtn editItem"
+                      disabled="[[!_revisedRef]]">
+                    Save
+                  </gr-button>
+                  <gr-button
+                      on-tap="_handleCancelRevision"
+                      class="cancelBtn editItem">
+                    Cancel
+                  </gr-button>
+                </span>
+              </td>
+              <td class$="repositoryBrowser [[computeBrowserClass(detailType)]]">
+                <template is="dom-repeat"
+                    items="[[_computeWeblink(item)]]" as="link">
+                  <a href$="[[link.url]]"
+                      class="webLink"
+                      rel="noopener"
+                      target="_blank">
+                    ([[link.name]])
+                  </a>
+                </template>
+              </td>
+            </tr>
+          </template>
+        </tbody>
       </table>
     </gr-list-view>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

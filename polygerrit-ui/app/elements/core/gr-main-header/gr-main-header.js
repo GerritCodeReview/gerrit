@@ -14,20 +14,22 @@
 (function() {
   'use strict';
 
+  const localisation = window.Gerrit.LocalisationBehavior;
+
   const DEFAULT_LINKS = [{
-    title: 'Changes',
+    title: localisation._computeLocalize('changes'),
     links: [
       {
         url: '/q/status:open',
-        name: 'Open',
+        name: localisation._computeLocalize('open'),
       },
       {
         url: '/q/status:merged',
-        name: 'Merged',
+        name: localisation._computeLocalize('merged'),
       },
       {
         url: '/q/status:abandoned',
-        name: 'Abandoned',
+        name: localisation._computeLocalize('abandoned'),
       },
     ],
   }];
@@ -35,27 +37,27 @@
   const DOCUMENTATION_LINKS = [
     {
       url: '/index.html',
-      name: 'Table of Contents',
+      name: localisation._computeLocalize('tableofContents'),
     },
     {
       url: '/user-search.html',
-      name: 'Searching',
+      name: localisation._computeLocalize('searching'),
     },
     {
       url: '/user-upload.html',
-      name: 'Uploading',
+      name: localisation._computeLocalize('uploading'),
     },
     {
       url: '/access-control.html',
-      name: 'Access Control',
+      name: localisation._computeLocalize('accessControl'),
     },
     {
       url: '/rest-api.html',
-      name: 'REST API',
+      name: localisation._computeLocalize('restApi'),
     },
     {
       url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
+      name: localisation._computeLocalize('projectOwnerGuide'),
     },
   ];
 
@@ -103,6 +105,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.LocalisationBehavior,
     ],
 
     observers: [

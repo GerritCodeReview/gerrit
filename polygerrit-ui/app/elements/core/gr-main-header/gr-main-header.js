@@ -14,20 +14,22 @@
 (function() {
   'use strict';
 
+  const localisation = window.Gerrit.LocalisationBehavior;
+
   const DEFAULT_LINKS = [{
-    title: 'Changes',
+    title: localisation._computeLocalize('changes'),
     links: [
       {
         url: '/q/status:open',
-        name: 'Open',
+        name: localisation._computeLocalize('open'),
       },
       {
         url: '/q/status:merged',
-        name: 'Merged',
+        name: localisation._computeLocalize('merged'),
       },
       {
         url: '/q/status:abandoned',
-        name: 'Abandoned',
+        name: localisation._computeLocalize('abandoned'),
       },
     ],
   }];
@@ -103,6 +105,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.LocalisationBehavior,
     ],
 
     observers: [

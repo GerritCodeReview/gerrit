@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "6f235596_77f33c91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T12:44:52Z",
+      "side": 1,
+      "message": "nit: computing.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6015437_fba56083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T12:44:52Z",
+      "side": 1,
+      "message": "nit: not",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9ba1cc_ce29a535",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T12:44:52Z",
+      "side": 1,
+      "message": "It\u0027s the constructor of this class. Should we move it up close to the other constructor?",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b4bdff3_2c539d92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T12:44:52Z",
+      "side": 1,
+      "message": "It\u0027s worth to throw out the cause of first attempt.",
+      "range": {
+        "startLine": 105,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 94
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d536038_ed33991f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 1
@@ -13,6 +105,30 @@
       "writtenOn": "2017-07-18T09:58:47Z",
       "side": 1,
       "message": "store the cause here and extract it in 104 to avoid making the assmuption that LOE is the only cause for tombstones.\n\nor rename: LargeObjectTombstone",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 49
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca68a96d_a81dd548",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T12:44:52Z",
+      "side": 1,
+      "message": "+1. We should probably store some message, e.g. cause, in PatchListTomestone so that we can track the if there something wrong.",
+      "parentUuid": "8d536038_ed33991f",
       "range": {
         "startLine": 119,
         "startChar": 31,

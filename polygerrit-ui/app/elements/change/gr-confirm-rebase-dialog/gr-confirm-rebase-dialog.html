@@ -98,12 +98,12 @@ limitations under the License.
           </label>
         </div>
         <div class="parentRevisionContainer">
-          <input is="iron-input"
-              type="text"
+          <iron-input
               id="parentInput"
               bind-value="{{base}}"
-              on-tap="_handleEnterChangeNumberTap"
-              placeholder="Change number">
+              on-tap="_handleEnterChangeNumberTap">
+            <input type="text" placeholder="Change number">
+          </iron-input>
         </div>
       </div>
     </gr-confirm-dialog>

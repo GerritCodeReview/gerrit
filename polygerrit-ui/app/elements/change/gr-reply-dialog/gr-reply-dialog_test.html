@@ -267,6 +267,14 @@ limitations under the License.
       });
     }
 
+    function testAsync(testFunc) {
+      return new Promise(resolve => {
+        Polymer.Base.async(() => {
+          resolve(testFunc());
+        }, 1);
+      });
+    }
+
     function testConfirmationDialog(done, cc) {
       const yesButton =
           element.$$('.reviewerConfirmationButtons gr-button:first-child');
@@ -318,55 +326,59 @@ limitations under the License.
         MockInteractions.tap(noButton); // close the overlay
         return observer;
       }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+        return testAsync(() => {
+          assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
-        // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
+          // We should be focused on account entry input.
+          assert.equal(getActiveElement().tagName, 'INPUT');
 
-        // No reviewer/CC should have been added.
-        assert.equal(element.$$('#ccs').additions().length, 0);
-        assert.equal(element.$.reviewers.additions().length, 0);
+          // No reviewer/CC should have been added.
+          assert.equal(element.$$('#ccs').additions().length, 0);
+          assert.equal(element.$.reviewers.additions().length, 0);
 
-        // Reopen confirmation dialog.
-        observer = overlayObserver('opened');
-        if (cc) {
-          element._ccPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        } else {
-          element._reviewerPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        }
-        return observer;
-      }).then(() => {
+          // Reopen confirmation dialog.
+          observer = overlayObserver('opened');
+          if (cc) {
+            element._ccPendingConfirmation = {
+              group,
+              count: 10,
+            };
+          } else {
+            element._reviewerPendingConfirmation = {
+              group,
+              count: 10,
+            };
+          }
+          return observer;
+        });
+      }).then(x => {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
         MockInteractions.tap(yesButton); // Confirm the group.
         return observer;
       }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-        const additions = cc ?
-            element.$$('#ccs').additions() :
-            element.$.reviewers.additions();
-        assert.deepEqual(
-            additions,
-            [
-              {
-                group: {
-                  id: 'id',
-                  name: 'name',
-                  confirmed: true,
-                  _group: true,
-                  _pendingAdd: true,
+        return testAsync(() => {
+          assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+          const additions = cc ?
+              element.$$('#ccs').additions() :
+              element.$.reviewers.additions();
+          assert.deepEqual(
+              additions,
+              [
+                {
+                  group: {
+                    id: 'id',
+                    name: 'name',
+                    confirmed: true,
+                    _group: true,
+                    _pendingAdd: true,
+                  },
                 },
-              },
-            ]);
+              ]);
 
-        // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
+          // We should be focused on account entry input.
+          assert.equal(getActiveElement().tagName, 'INPUT');
+        });
       }).then(done);
     }
 

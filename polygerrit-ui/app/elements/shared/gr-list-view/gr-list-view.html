@@ -57,10 +57,11 @@ limitations under the License.
     <div id="topContainer">
       <div>
         <label>Filter:</label>
-        <input is="iron-input"
-            type="text"
+        <iron-input
             id="filter"
             bind-value="{{filter}}">
+          <input type="text">
+        </iron-input>
       </div>
       <div id="createNewContainer"
           class$="[[_computeCreateClass(createNew)]]">

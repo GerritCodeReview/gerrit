@@ -170,12 +170,13 @@ limitations under the License.
                 <section>
                   <span class="title">Maximum Git object size limit</span>
                   <span class="value">
-                    <input
+                    <iron-input
                         id="maxGitObjSizeInput"
-                        bind-value="{{_projectConfig.max_object_size_limit.configured_value}}"
-                        is="iron-input"
-                        type="text"
-                        disabled$="[[_readOnly]]">
+                        bind-value="{{_projectConfig.max_object_size_limit.configured_value}}">
+                      <input
+                          type="text"
+                          disabled$="[[_readOnly]]">
+                    </iron-input>
                   </span>
                 </section>
                 <section>

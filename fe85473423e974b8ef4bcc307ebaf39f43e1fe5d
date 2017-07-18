@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "7a74f6ba_ee207d77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-18T13:08:21Z",
+      "side": 1,
+      "message": "Comment removed by: Changcheng Xiao",
+      "parentUuid": "af1dec74_ebeb880f",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b4bdff3_2c539d92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 1

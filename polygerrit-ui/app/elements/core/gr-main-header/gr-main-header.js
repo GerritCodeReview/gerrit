@@ -14,48 +14,32 @@
 (function() {
   'use strict';
 
-  const DEFAULT_LINKS = [{
-    title: 'Changes',
-    links: [
-      {
-        url: '/q/status:open',
-        name: 'Open',
-      },
-      {
-        url: '/q/status:merged',
-        name: 'Merged',
-      },
-      {
-        url: '/q/status:abandoned',
-        name: 'Abandoned',
-      },
-    ],
-  }];
+  const localisation = window.Gerrit.LocalisationBehavior;
 
   const DOCUMENTATION_LINKS = [
     {
       url: '/index.html',
-      name: 'Table of Contents',
+      name: localisation._computeLocalize('tableofContents'),
     },
     {
       url: '/user-search.html',
-      name: 'Searching',
+      name: localisation._computeLocalize('searching'),
     },
     {
       url: '/user-upload.html',
-      name: 'Uploading',
+      name: localisation._computeLocalize('uploading'),
     },
     {
       url: '/access-control.html',
-      name: 'Access Control',
+      name: localisation._computeLocalize('accessControl'),
     },
     {
       url: '/rest-api.html',
-      name: 'REST API',
+      name: localisation._computeLocalize('restApi'),
     },
     {
       url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
+      name: localisation._computeLocalize('projectOwnerGuide'),
     },
   ];
 
@@ -67,6 +51,7 @@
     },
 
     properties: {
+      prefs: Object,
       searchQuery: {
         type: String,
         notify: true,
@@ -80,7 +65,23 @@
       _defaultLinks: {
         type: Array,
         value() {
-          return DEFAULT_LINKS;
+          return [{
+            title: localisation._computeLocalize('changes',  this.prefs ? this.prefs.language.toLowerCase() : 'en'),
+            links: [
+              {
+                url: '/q/status:open',
+                name: localisation._computeLocalize('open'),
+              },
+              {
+                url: '/q/status:merged',
+                name: localisation._computeLocalize('merged'),
+              },
+              {
+                url: '/q/status:abandoned',
+                name: localisation._computeLocalize('abandoned'),
+              },
+            ],
+          }];
         },
       },
       _docBaseUrl: {
@@ -103,6 +104,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.LocalisationBehavior,
     ],
 
     observers: [
@@ -112,6 +114,7 @@
     attached() {
       this._loadAccount();
       this._loadConfig();
+      this._loadPreference();
       this.listen(window, 'location-change', '_handleLocationChange');
     },
 
@@ -195,6 +198,12 @@
         if (!this._docBaseUrl) {
           return this._probeDocLink('/Documentation/index.html');
         }
+      });
+    },
+
+    _loadPreference() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this.prefs = prefs;
       });
     },
 

@@ -1231,9 +1231,6 @@
       }
       const stylesToUpdate = {};
 
-      if (this.$.relatedChanges.hidden) {
-        stylesToUpdate['--commit-message-max-width'] = 'none';
-      }
       // Get the line height of related changes, and convert it to the nearest
       // integer.
       const lineHeight = this._getLineHeight(this.$.relatedChanges);

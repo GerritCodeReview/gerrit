@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c32f2d2c_5c15e1a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-18T13:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe8caadb_b386a925",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "b54fe9a833a6b9959aefe3b0f735d15412d9f901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6dcc99b_e93109b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-18T13:22:01Z",
       "side": 1,
       "message": "Does this method name make sense any more?",
+      "range": {
+        "startLine": 171,
+        "startChar": 25,
+        "endLine": 171,
+        "endChar": 45
+      },
+      "revId": "b54fe9a833a6b9959aefe3b0f735d15412d9f901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b03f8c7_c1782321",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/RawMailParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-18T13:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6dcc99b_e93109b7",
       "range": {
         "startLine": 171,
         "startChar": 25,

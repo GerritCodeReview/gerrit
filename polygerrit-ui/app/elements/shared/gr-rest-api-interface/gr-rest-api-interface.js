@@ -28,6 +28,7 @@
   };
 
   let auth = null;
+  const etags = new GrEtagDecorator();
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -74,7 +75,8 @@
       auth = window.USE_GAPI_AUTH ? new GrGapiAuth() : new GrGerritAuth();
     },
 
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
+    _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
+        opt_options) {
       const urlWithParams = this._urlWithParams(url, opt_params);
       return auth.fetch(urlWithParams, opt_options).then(response => {
         if (opt_cancelCondition && opt_cancelCondition()) {
@@ -91,7 +93,7 @@
           return;
         }
 
-        return this.getResponseObject(response);
+        return response;
       }).catch(err => {
         if (opt_errFn) {
           opt_errFn.call(null, null, err);
@@ -100,6 +102,14 @@
           this._checkAuthRedirect();
         }
       });
+    },
+
+    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
+      return this._fetchRawJSON(
+          url, opt_errFn, opt_cancelCondition, opt_params, opt_options)
+          .then(response => {
+            return this.getResponseObject(response);
+          });
     },
 
     _checkAuthRedirect() {
@@ -462,20 +472,26 @@
     },
 
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this.listChangesOptionsToHex(
+      const params = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_REVISIONS
       );
-      return this._getChangeDetail(changeNum, options, opt_errFn,
+      return this._getChangeDetail(changeNum, params, opt_errFn,
           opt_cancelCondition);
     },
 
-    _getChangeDetail(changeNum, options, opt_errFn,
+    _getChangeDetail(changeNum, params, opt_errFn,
         opt_cancelCondition) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, null, '/detail'),
+      const url = this.getChangeActionURL(changeNum, null, '/detail');
+      return this._fetchRawJSON(
+          url,
           opt_errFn,
           opt_cancelCondition,
-          {O: options});
+          {O: params},
+          etags.getOptions(url))
+          .then(response => {
+            etags.collect(url, response);
+            return this.getResponseObject(response);
+          });
     },
 
     getChangeCommitInfo(changeNum, patchNum) {

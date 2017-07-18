@@ -101,6 +101,10 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
+      if (pl instanceof PatchListTombstone) {
+        throw new PatchListNotAvailableException(
+            "Error computing " + key + ". Previous attempt failed with LargeObjectException");
+      }
       if (key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF) {
         diffSummaryCache.put(DiffSummaryKey.fromPatchListKey(key), toDiffSummary(pl));
       }
@@ -110,6 +114,9 @@ public class PatchListCacheImpl implements PatchListCache {
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
+        // Cache negative result so we don't need to redo expensive computations that would yield
+        // the same result.
+        fileCache.put(key, new PatchListTombstone());
         PatchListLoader.log.warn("Error computing " + key, e);
         throw new PatchListNotAvailableException(e);
       }
@@ -180,5 +187,12 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       throw e;
     }
+  }
+
+  /** Used to cache negative results in {@code fileCache}. */
+  private class PatchListTombstone extends PatchList {
+    private static final long serialVersionUID = 1L;
+
+    private PatchListTombstone() {}
   }
 }

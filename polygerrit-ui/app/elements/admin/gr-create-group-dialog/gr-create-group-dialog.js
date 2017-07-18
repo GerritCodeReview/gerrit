@@ -24,7 +24,7 @@
         notify: true,
         value: false,
       },
-      _name: String,
+      _name: Object,
       _groupCreated: {
         type: Boolean,
         value: false,

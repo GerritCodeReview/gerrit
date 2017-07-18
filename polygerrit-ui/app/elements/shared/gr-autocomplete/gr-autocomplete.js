@@ -154,8 +154,7 @@
     },
 
     selectAll() {
-      this.$.input.inputElement.setSelectionRange(0,
-          this.$.input.bindValue.length);
+      this.$.input.setSelectionRange(0, this.$.input.value.length);
     },
 
     clear() {

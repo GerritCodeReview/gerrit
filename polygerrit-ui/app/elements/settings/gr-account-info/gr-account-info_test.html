@@ -128,26 +128,23 @@ limitations under the License.
       });
 
       test('name', done => {
-        Polymer.Base.async(() => {
-          assert.isTrue(element.mutable);
-          assert.isFalse(element.hasUnsavedChanges);
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
 
-          element.set('_account.name', 'new name');
+        element.set('_account.name', 'new name');
 
-          assert.isTrue(nameChangedSpy.called);
-          assert.isFalse(statusChangedSpy.called);
-          assert.isTrue(element.hasUnsavedChanges);
+        assert.isTrue(nameChangedSpy.called);
+        assert.isFalse(statusChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
 
-          MockInteractions.pressAndReleaseKeyOn(
-              element.$.nameInput.inputElement, 13);
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
 
-          assert.isTrue(nameStub.called);
-          assert.isFalse(statusStub.called);
-          nameStub.lastCall.returnValue.then(() => {
-            assert.equal(nameStub.lastCall.args[0], 'new name');
-            done();
-          });
-        }, 1);
+        assert.isTrue(nameStub.called);
+        assert.isFalse(statusStub.called);
+        nameStub.lastCall.returnValue.then(() => {
+          assert.equal(nameStub.lastCall.args[0], 'new name');
+          done();
+        });
       });
 
       test('status', done => {

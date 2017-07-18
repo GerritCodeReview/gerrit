@@ -46,6 +46,30 @@
       "revId": "ee02d8389deac0bc509fe9f90ea897591aa3d34b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c682c9_06ab8657",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-18T16:41:47Z",
+      "side": 1,
+      "message": "A table named table, and a table style named styledTable are a bit vague.\n\nSo this is a set of styles for a table that contains items such as groups, plugins, projects, etc.\nIf it was for admin purposes only, it could be admin list. But it\u0027s not.\nSo looks like it\u0027s a style for a generic items list, essentially.\n\nSomething like (generic|general|common|base)List, perhaps?",
+      "parentUuid": "cc6d821c_68e89e1c",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "ee02d8389deac0bc509fe9f90ea897591aa3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

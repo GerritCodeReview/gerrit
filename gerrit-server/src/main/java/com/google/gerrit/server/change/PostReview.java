@@ -330,6 +330,10 @@ public class PostReview
           output.error = ERROR_ONLY_OWNER_CAN_MODIFY_WORK_IN_PROGRESS;
           return Response.withStatusCode(SC_BAD_REQUEST, output);
         }
+        if (input.ready) {
+          output.reviewStarted = true;
+        }
+
         // Suppress notifications in WorkInProgressOp, we'll take care of
         // them in this endpoint.
         WorkInProgressOp.Input wipIn = new WorkInProgressOp.Input();

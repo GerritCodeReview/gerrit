@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
@@ -96,6 +97,7 @@ public class MergeSuperSet {
   }
 
   private final AccountCache accountCache;
+  private final Accounts accounts;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
@@ -110,11 +112,13 @@ public class MergeSuperSet {
   MergeSuperSet(
       @GerritServerConfig Config cfg,
       AccountCache accountCache,
+      Accounts accounts,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider) {
     this.cfg = cfg;
     this.accountCache = accountCache;
+    this.accounts = accounts;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
@@ -165,7 +169,7 @@ public class MergeSuperSet {
     SubmitTypeRecord str =
         ps == cd.currentPatchSet()
             ? cd.submitTypeRecord()
-            : new SubmitRuleEvaluator(accountCache, cd).setPatchSet(ps).getSubmitType();
+            : new SubmitRuleEvaluator(accountCache, accounts, cd).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }

@@ -165,6 +165,8 @@ public class PatchList implements Serializable {
     return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
   }
 
+  protected PatchList() {}
+
   private int search(String fileName) {
     PatchListEntry want = PatchListEntry.empty(fileName);
     return Arrays.binarySearch(patches, 0, patches.length, want, PATCH_CMP);

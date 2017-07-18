@@ -27,10 +27,13 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -53,6 +56,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -68,6 +74,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   Move(
@@ -78,7 +85,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       Provider<InternalChangeQuery> queryProvider,
       ChangeMessagesUtil cmUtil,
       RetryHelper retryHelper,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ApprovalsUtil approvalsUtil) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -87,6 +95,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.queryProvider = queryProvider;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
@@ -192,6 +201,23 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       update.setBranch(newDestKey.get());
       change.setDest(newDestKey);
+
+      List<PatchSetApproval> approvals = new ArrayList<>();
+      for (Map.Entry<PatchSet.Id, PatchSetApproval> entry :
+          approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).entries()) {
+        // remove votes from NoteDb.
+        update.removeApprovalFor(entry.getValue().getAccountId(), entry.getValue().getLabel());
+        approvals.add(
+            new PatchSetApproval(
+                new PatchSetApproval.Key(
+                    entry.getKey(),
+                    entry.getValue().getAccountId(),
+                    new LabelId(entry.getValue().getLabel())),
+                (short) 0,
+                ctx.getWhen()));
+      }
+      // Remove all votes from reviewDb.
+      ctx.getDb().patchSetApprovals().upsert(approvals);
 
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Change destination moved from ");

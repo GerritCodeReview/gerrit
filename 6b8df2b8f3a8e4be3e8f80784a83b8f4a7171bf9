@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edf029e2_8618024b",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-18T21:26:14Z",
+      "side": 1,
+      "message": "Just a regular equal sign here is fine.\n\n  tabindex\u003d\"-1\"",
+      "range": {
+        "startLine": 135,
+        "startChar": 16,
+        "endLine": 135,
+        "endChar": 30
+      },
+      "revId": "6b8df2b8f3a8e4be3e8f80784a83b8f4a7171bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

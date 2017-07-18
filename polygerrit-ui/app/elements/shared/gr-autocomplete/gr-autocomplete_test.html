@@ -349,9 +349,8 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(
             element.$.suggestions.$$('li:first-child'), 9, null, 'tab');
         flushAsynchronousOperations();
-
-        assert.isTrue(commitSpy.called);
-        assert.isFalse(focusSpy.called);
+        assert.isFalse(commitSpy.called);
+        assert.isFalse(element._focused);
       });
 
       test('tab on suggestion, tabComplete = true', () => {
@@ -368,7 +367,7 @@ limitations under the License.
         flushAsynchronousOperations();
 
         assert.isTrue(commitSpy.called);
-        assert.isTrue(focusSpy.called);
+        assert.isTrue(element._focused);
       });
 
       test('tap on suggestion commits, does not call focus', () => {

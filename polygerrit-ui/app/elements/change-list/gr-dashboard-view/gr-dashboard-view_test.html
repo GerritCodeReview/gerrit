@@ -55,5 +55,14 @@ limitations under the License.
       element.params = {view: 'gr-dashboard-view'};
       assert.equal(getChangesStub.callCount, 2);
     });
+
+    test('_dashboardQueryForSection', () => {
+      const query = 'query';
+      const suffixForDashboard = 'suffix';
+      assert.equal(element._dashboardQueryForSection({query}), 'query');
+      assert.equal(
+          element._dashboardQueryForSection({query, suffixForDashboard}),
+          'query suffix');
+    });
   });
 </script>

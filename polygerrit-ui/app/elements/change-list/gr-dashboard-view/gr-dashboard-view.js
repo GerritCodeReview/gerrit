@@ -26,8 +26,8 @@
     },
     {
       name: 'Recently closed',
-      query: 'is:closed (owner:self OR reviewer:self OR assignee:self) ' +
-          '-age:4w limit:10',
+      query: 'is:closed (owner:self OR reviewer:self OR assignee:self)',
+      suffixForDashboard: '-age:4w limit:10',
     },
   ];
 
@@ -99,9 +99,17 @@
     _getChanges() {
       return this.$.restAPI.getChanges(
           null,
-          this.sectionMetadata.map(section => section.query),
+          this.sectionMetadata.map(
+              section => this._dashboardQueryForSection(section)),
           null,
           this.options);
+    },
+
+    _dashboardQueryForSection(section) {
+      if (section.suffixForDashboard) {
+        return section.query + ' ' + section.suffixForDashboard;
+      }
+      return section.query;
     },
   });
 })();

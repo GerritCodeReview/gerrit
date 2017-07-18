@@ -13,6 +13,11 @@ def load_bower_archives():
     version = "2.12.0",
     sha1 = "88ae82dcdeb6c658f76eff509d0ee425cae14d49")
   bower_archive(
+    name = "app-localize-behavior",
+    package = "app-localize-behavior",
+    version = "1.0.1",
+    sha1 = "87cd253f21084a5fa77120c85b71beb552384004")
+  bower_archive(
     name = "async",
     package = "async",
     version = "1.5.2",
@@ -23,6 +28,11 @@ def load_bower_archives():
     version = "3.5.0",
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
+    name = "intl-messageformat",
+    package = "intl-messageformat",
+    version = "v1.3.0",
+    sha1 = "6258a38ef15ef7310dcad8a877b6c0123da9f48e")
+  bower_archive(
     name = "iron-a11y-announcer",
     package = "iron-a11y-announcer",
     version = "2.0.0",
@@ -32,6 +42,11 @@ def load_bower_archives():
     package = "iron-a11y-keys-behavior",
     version = "1.1.9",
     sha1 = "f58358ee652c67e6e721364ba50fb77a2ece1465")
+  bower_archive(
+    name = "iron-ajax",
+    package = "iron-ajax",
+    version = "v1.4.4",
+    sha1 = "649f439475dca829190852aa8d88553f2a120098")
   bower_archive(
     name = "iron-behaviors",
     package = "iron-behaviors",

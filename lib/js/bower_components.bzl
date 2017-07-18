@@ -12,6 +12,15 @@ def define_bower_components():
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
+    name = "app-localize-behavior",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":polymer",
+      ":intl-messageformat",
+      ":iron-ajax",
+    ],
+  )
+  bower_component(
     name = "async",
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
@@ -30,12 +39,21 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "intl-messageformat",
+    license = "//lib:LICENSE-intl-messageformat",
+  )
+  bower_component(
     name = "iron-a11y-announcer",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
   )
   bower_component(
     name = "iron-a11y-keys-behavior",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
+    name = "iron-ajax",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
   )

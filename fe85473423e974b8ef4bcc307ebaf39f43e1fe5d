@@ -138,6 +138,30 @@
       "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e17e96c6_9b819952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-18T12:46:50Z",
+      "side": 1,
+      "message": "+1 to renaming",
+      "parentUuid": "8d536038_ed33991f",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 49
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

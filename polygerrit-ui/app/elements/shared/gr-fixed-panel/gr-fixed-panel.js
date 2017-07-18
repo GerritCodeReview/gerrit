@@ -87,8 +87,7 @@
       }
       this.$.header.style.top = '';
       this._headerFloating = false;
-      this.customStyle['--header-height'] = '';
-      this.updateStyles();
+      this.updateStyles({'--header-height': ''});
     },
 
     update() {
@@ -175,8 +174,7 @@
     },
 
     _floatHeader() {
-      this.customStyle['--header-height'] = this._headerHeight + 'px';
-      this.updateStyles();
+      this.updateStyles({'--header-height': this._headerHeight + 'px'});
       this._headerFloating = true;
     },
   });

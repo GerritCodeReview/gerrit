@@ -34,6 +34,24 @@
       "revId": "e4ff89a83b4ed0816bfad0d8adb282bc599965f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b4c44b6_774034bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-18T23:46:01Z",
+      "side": 1,
+      "message": "Could we rearrange the timing so that the hash is gone before the diff view tries to load it? That way we avoid adding the extra history state.",
+      "parentUuid": "4dd95703_ed653145",
+      "revId": "e4ff89a83b4ed0816bfad0d8adb282bc599965f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

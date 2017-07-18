@@ -451,7 +451,7 @@
     _paramsChanged(value) {
       if (value.view != this.tagName.toLowerCase()) { return; }
 
-      this._loadHash(location.hash);
+      this._loadHash(this.params.hash);
 
       this._changeNum = value.changeNum;
       this._patchRange = {
@@ -512,7 +512,7 @@
      * If the URL hash is a diff address then configure the diff cursor.
      */
     _loadHash(hash) {
-      hash = hash.replace(/^#/, '');
+      hash = (hash || '').replace(/^#/, '');
       if (!HASH_PATTERN.test(hash)) { return; }
       if (hash[0] === 'a' || hash[0] === 'b') {
         this.$.cursor.side = DiffSides.LEFT;

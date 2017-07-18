@@ -402,6 +402,24 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         .inOrder();
   }
 
+  @Test
+  public void suggestNoInactiveAccounts() throws Exception {
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    assertThat(gApi.accounts().id(foo1.username).getActive()).isTrue();
+
+    TestAccount foo2 = accountCreator.create(name + "-2");
+    assertThat(gApi.accounts().id(foo2.username).getActive()).isTrue();
+
+    String changeId = createChange().getChangeId();
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    gApi.accounts().id(foo2.username).setActive(false);
+    assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query)
       throws Exception {
     return gApi.changes().id(changeId).suggestReviewers(query).get();

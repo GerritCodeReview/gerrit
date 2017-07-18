@@ -43,6 +43,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
+import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -200,7 +201,9 @@ public class ReviewersUtil {
         QueryResult<AccountState> result =
             accountQueryProcessor
                 .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
-                .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+                .query(
+                    AccountPredicates.andActive(
+                        accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())));
         return result.entities().stream().map(a -> a.getAccount().getId()).collect(toList());
       } catch (QueryParseException e) {
         return ImmutableList.of();

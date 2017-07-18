@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
+import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -179,6 +180,11 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         queryProcessor.setLimit(suggestLimit);
       } else {
         queryPred = queryBuilder.parse(query);
+      }
+      if (!AccountPredicates.hasActive(queryPred)) {
+        // if neither 'is:active' nor 'is:inactive' appears in the query only
+        // active accounts should be queried
+        queryPred = AccountPredicates.andActive(queryPred);
       }
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {

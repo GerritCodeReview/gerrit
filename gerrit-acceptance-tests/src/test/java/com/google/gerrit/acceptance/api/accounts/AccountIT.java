@@ -89,6 +89,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -150,6 +151,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
 
   @Inject private Sequences seq;
+
+  @Inject private InternalAccountQuery accountQuery;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -1226,6 +1229,21 @@ public class AccountIT extends AbstractDaemonTest {
     checkInfo = gApi.config().server().checkConsistency(input);
     assertThat(checkInfo.checkAccountsResult.problems).hasSize(expectedProblems.size());
     assertThat(checkInfo.checkAccountsResult.problems).containsExactlyElementsIn(expectedProblems);
+  }
+
+  @Test
+  public void internalQueryFindActiveAndInactiveAccounts() throws Exception {
+    String name = name("foo");
+    assertThat(accountQuery.byDefault(name)).isEmpty();
+
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    assertThat(gApi.accounts().id(foo1.username).getActive()).isTrue();
+
+    TestAccount foo2 = accountCreator.create(name + "-2");
+    gApi.accounts().id(foo2.username).setActive(false);
+    assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
+
+    assertThat(accountQuery.byDefault(name)).hasSize(2);
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

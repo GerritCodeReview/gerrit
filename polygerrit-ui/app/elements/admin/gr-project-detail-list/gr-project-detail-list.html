@@ -86,10 +86,11 @@ limitations under the License.
                       class="editBtn">
                     edit
                   </gr-button>
-                  <input
-                      is=iron-input
+                  <iron-input
                       bind-value="{{_revisedRef}}"
                       class="editItem">
+                    <input type="text">
+                  </iron-input>
                   <gr-button
                       on-tap="_handleSaveRevision"
                       class="saveBtn editItem"

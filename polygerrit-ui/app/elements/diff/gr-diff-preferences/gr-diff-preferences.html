@@ -93,58 +93,49 @@ limitations under the License.
         </div>
         <div class="pref">
           <label for="lineWrappingInput">Fit to screen</label>
-          <input type="checkbox"
+          <input
+              is="iron-input"
+              type="checkbox"
               id="lineWrappingInput"
               on-tap="_handlelineWrappingTap">
         </div>
         <div class="pref" id="columnsPref"
             hidden$="[[_newPrefs.line_wrapping]]">
           <label for="columnsInput">Diff width</label>
-          <iron-input
-              id="columnsInput"
-              bind-value="{{_newPrefs.line_length}}"
-              allowed-pattern="[0-9]">
-            <input type="number">
-          </iron-input>
+          <input is="iron-input" type="number" id="columnsInput"
+              prevent-invalid-input
+              allowed-pattern="[0-9]"
+              bind-value="{{_newPrefs.line_length}}">
         </div>
         <div class="pref">
           <label for="tabSizeInput">Tab width</label>
-          <iron-input
-              id="tabSizeInput"
+          <input is="iron-input" type="number" id="tabSizeInput"
+              prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{_newPrefs.tab_size}}">
-            <input type="number">
-          </iron-input>
         </div>
         <div class="pref" hidden$="[[!_newPrefs.font_size]]">
           <label for="fontSizeInput">Font size</label>
-          <iron-input
-              id="fontSizeInput"
-              allowed-pattern="[0-9]"
-              bind-value="{{_newPrefs.font_size}}">
-            <input type="number">
-          </iron-input>
+          <input is="iron-input" type="number" id="fontSizeInput"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                bind-value="{{_newPrefs.font_size}}">
         </div>
         <div class="pref">
           <label for="showTabsInput">Show tabs</label>
-          <input
-              type="checkbox"
-              id="showTabsInput"
+          <input is="iron-input" type="checkbox" id="showTabsInput"
               on-tap="_handleShowTabsTap">
         </div>
         <div class="pref">
           <label for="showTrailingWhitespaceInput">
             Show trailing whitespace</label>
-          <input
+          <input is="iron-input" type="checkbox"
               id="showTrailingWhitespaceInput"
-              type="checkbox"
               on-tap="_handleShowTrailingWhitespaceTap">
         </div>
         <div class="pref">
           <label for="syntaxHighlightInput">Syntax highlighting</label>
-          <input
-              id="syntaxHighlightInput"
-              type="checkbox"
+          <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
               on-tap="_handleSyntaxHighlightTap">
         </div>
       </div>

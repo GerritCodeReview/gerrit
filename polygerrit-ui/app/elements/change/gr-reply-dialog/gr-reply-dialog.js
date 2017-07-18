@@ -395,14 +395,10 @@
             .focus.bind(textarea.getNativeTextarea()));
       } else if (section === FocusTarget.REVIEWERS) {
         const reviewerEntry = this.$.reviewers.focusStart;
-        Polymer.Base.async(() => {
-          reviewerEntry.inputElement.focus();
-        }, 1);
+        reviewerEntry.async(reviewerEntry.focus);
       } else if (section === FocusTarget.CCS) {
         const ccEntry = this.$$('#ccs').focusStart;
-        Polymer.Base.async(() => {
-          ccEntry.inputElement.focus();
-        }, 1);
+        ccEntry.async(ccEntry.focus);
       }
     },
 

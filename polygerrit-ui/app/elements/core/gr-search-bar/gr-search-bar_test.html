@@ -65,47 +65,35 @@ limitations under the License.
     });
 
     test('enter in search input triggers nav', done => {
-      Polymer.Base.async(() => {
-        sinon.stub(page, 'show', () => {
-          page.show.restore();
-          assert.notEqual(getActiveElement(), element.$.searchInput);
-          assert.notEqual(getActiveElement(), element.$.searchButton);
-          done();
-        });
-        element.value = 'test';
-        MockInteractions.pressAndReleaseKeyOn(
-            element.$.searchInput.$.input.inputElement, 13,
-            null, 'enter');
-      }, 1);
+      sinon.stub(page, 'show', () => {
+        page.show.restore();
+        assert.notEqual(getActiveElement(), element.$.searchInput);
+        assert.notEqual(getActiveElement(), element.$.searchButton);
+        done();
+      });
+      element.value = 'test';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
     });
 
-    test('search query should be double-escaped', done => {
-      Polymer.Base.async(() => {
-        const showStub = sinon.stub(page, 'show');
-        element.$.searchInput.text = 'fate/stay';
-        MockInteractions.pressAndReleaseKeyOn(
-            element.$.searchInput.$.input.inputElement, 13,
-            null, 'enter');
-        assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
-        showStub.restore();
-        done();
-      }, 1);
+    test('search query should be double-escaped', () => {
+      const showStub = sinon.stub(page, 'show');
+      element.$.searchInput.text = 'fate/stay';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
+      assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
+      showStub.restore();
     });
 
-    test('input blurred after commit', done => {
-      Polymer.Base.async(() => {
-        const showStub = sinon.stub(page, 'show');
-        const blurSpy = sinon.spy(
-            element.$.searchInput.$.input, 'blur');
-        element.$.searchInput.text = 'fate/stay';
-        MockInteractions.pressAndReleaseKeyOn(
-            element.$.searchInput.$.input.inputElement, 13,
-            null, 'enter');
-        assert.isTrue(blurSpy.called);
-        showStub.restore();
-        blurSpy.restore();
-        done();
-      }, 1);
+    test('input blurred after commit', () => {
+      const showStub = sinon.stub(page, 'show');
+      const blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
+      element.$.searchInput.text = 'fate/stay';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
+      assert.isTrue(blurSpy.called);
+      showStub.restore();
+      blurSpy.restore();
     });
 
     test('empty search query does not trigger nav', () => {
@@ -116,14 +104,12 @@ limitations under the License.
       assert.isFalse(showSpy.called);
     });
 
-    test('keyboard shortcuts', done => {
-      Polymer.Base.async(() => {
-        const focusSpy = sinon.spy(element.$.searchInput, 'focus');
-        const selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
-        MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
-        assert.isTrue(focusSpy.called);
-        assert.isTrue(selectAllSpy.called); done();
-      }, 1);
+    test('keyboard shortcuts', () => {
+      const focusSpy = sinon.spy(element.$.searchInput, 'focus');
+      const selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
+      MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
+      assert.isTrue(focusSpy.called);
+      assert.isTrue(selectAllSpy.called);
     });
 
     suite('_getSearchSuggestions', () => {

@@ -27,7 +27,7 @@ import com.google.gerrit.server.project.ProjectState;
 public class ProjectField {
 
   public static final FieldDef<ProjectState, String> NAME =
-      exact("name").build(p -> p.getProject().getName());
+      exact("name").stored().build(p -> p.getProject().getName());
 
   public static final FieldDef<ProjectState, String> DESCRIPTION =
       fullText("description").build(p -> p.getProject().getDescription());

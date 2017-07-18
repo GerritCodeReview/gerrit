@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "27014079_6469d53f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-18T13:07:11Z",
+      "side": 1,
+      "message": "I have a strong preference to keep constructors together.\n\n(Other than constructors I don\u0027t have strong preferences, e.g. strictly ordering by visibility, keeping overloads together even if visibility is different, putting helper methods close to where they\u0027re used, etc. are are arguably ok.)",
+      "parentUuid": "af1dec74_ebeb880f",
+      "range": {
+        "startLine": 168,
+        "startChar": 2,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "fe85473423e974b8ef4bcc307ebaf39f43e1fe5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b4bdff3_2c539d92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 1

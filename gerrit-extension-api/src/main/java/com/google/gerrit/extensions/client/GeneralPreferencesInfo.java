@@ -68,6 +68,10 @@ public class GeneralPreferencesInfo {
     }
   }
 
+  public enum Language {
+    EN
+  }
+
   public enum ReviewCategoryStrategy {
     NONE,
     NAME,
@@ -129,6 +133,8 @@ public class GeneralPreferencesInfo {
     }
   }
 
+  public Language language;
+
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
   /** Should the site header be displayed when logged in ? */
@@ -163,6 +169,10 @@ public class GeneralPreferencesInfo {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
   }
 
+  public boolean isShowLanguage() {
+    return getLanguage() != Language.EN;
+  }
+
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
       return DateFormat.STD;
@@ -175,6 +185,13 @@ public class GeneralPreferencesInfo {
       return TimeFormat.HHMM_12;
     }
     return timeFormat;
+  }
+
+  public Language getLanguage() {
+    if (language == null) {
+      return Language.EN;
+    }
+    return language;
   }
 
   public ReviewCategoryStrategy getReviewCategoryStrategy() {
@@ -207,6 +224,7 @@ public class GeneralPreferencesInfo {
 
   public static GeneralPreferencesInfo defaults() {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
+    p.language = Language.EN;
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
     p.useFlashClipboard = true;

@@ -42,7 +42,7 @@ limitations under the License.
 
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
-      const tagName = Polymer.dom(event).rootTarget.tagName;
+      const tagName = Polymer.dom(e).rootTarget.tagName;
       if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
         return true;
       }

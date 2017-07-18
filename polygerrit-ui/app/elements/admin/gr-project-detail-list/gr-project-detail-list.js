@@ -166,8 +166,8 @@
       this._isEditing = false;
     },
 
-    _handleSaveRevision() {
-      this._setProjectHead(this._project, this._revisedRef, event);
+    _handleSaveRevision(e) {
+      this._setProjectHead(this._project, this._revisedRef, e);
     },
 
     _setProjectHead(project, ref, event) {

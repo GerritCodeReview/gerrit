@@ -64,22 +64,19 @@ limitations under the License.
       Polymer.dom.flush();
     });
 
-    test('renders', done => {
+    test('renders', () => {
       const rows = element.$$('tbody').querySelectorAll('tr');
       let tds;
 
-      Polymer.Base.async(() => {
-        assert.equal(rows.length, menu.length);
-        for (let i = 0; i < menu.length; i++) {
-          tds = rows[i].querySelectorAll('td');
-          assert.equal(tds[0].textContent, menu[i].name);
-          assert.equal(tds[1].textContent, menu[i].url);
-        }
+      assert.equal(rows.length, menu.length);
+      for (let i = 0; i < menu.length; i++) {
+        tds = rows[i].querySelectorAll('td');
+        assert.equal(tds[0].textContent, menu[i].name);
+        assert.equal(tds[1].textContent, menu[i].url);
+      }
 
-        assert.isTrue(element._computeAddDisabled(element._newName,
-            element._newUrl));
-        done();
-      }, 1);
+      assert.isTrue(element._computeAddDisabled(element._newName,
+          element._newUrl));
     });
 
     test('_computeAddDisabled', () => {
@@ -89,27 +86,23 @@ limitations under the License.
       assert.isFalse(element._computeAddDisabled('name', 'url'));
     });
 
-    test('add a new menu item', done => {
+    test('add a new menu item', () => {
       const newName = 'new name';
       const newUrl = 'new url';
 
-      Polymer.Base.async(() => {
-        element._newName = newName;
-        element._newUrl = newUrl;
+      element._newName = newName;
+      element._newUrl = newUrl;
+      assert.isFalse(element._computeAddDisabled(element._newName,
+          element._newUrl));
 
-        assert.isFalse(element._computeAddDisabled(element._newName,
-            element._newUrl));
+      const originalMenuLength = element.menuItems.length;
 
-        const originalMenuLength = element.menuItems.length;
+      element._handleAddButton();
 
-        element._handleAddButton();
-
-        assert.equal(element.menuItems.length, originalMenuLength + 1);
-        assert.equal(element.menuItems[element.menuItems.length - 1].name,
-            newName);
-        assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
-        done();
-      }, 1);
+      assert.equal(element.menuItems.length, originalMenuLength + 1);
+      assert.equal(element.menuItems[element.menuItems.length - 1].name,
+          newName);
+      assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
     });
 
     test('move items down', () => {

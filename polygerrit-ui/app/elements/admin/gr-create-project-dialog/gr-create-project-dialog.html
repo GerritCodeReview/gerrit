@@ -53,11 +53,10 @@ limitations under the License.
       <div id="form">
         <section>
           <span class="title">Project name</span>
-          <iron-input
+          <input is="iron-input"
               id="projectNameInput"
+              autocomplete="on"
               bind-value="{{_projectConfig.name}}">
-            <input autocomplete="on">
-          </iron-input>
         </section>
         <section>
           <span class="title">Rights inherit from</span>

@@ -100,14 +100,12 @@ limitations under the License.
         const cancelHandler = sandbox.spy();
         element.addEventListener('cancel', cancelHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 27,
-            null, 'esc');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
         assert.isFalse(cancelHandler.called);
         assert.isTrue(element.$.suggestions.hidden);
         assert.equal(element._suggestions.length, 0);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 27,
-            null, 'esc');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
         assert.isTrue(cancelHandler.called);
         done();
       });
@@ -139,23 +137,22 @@ limitations under the License.
 
         assert.equal(element.$.suggestions.$.cursor.index, 0);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 40,
-            null, 'down');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+            'down');
 
         assert.equal(element.$.suggestions.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 40,
-            null, 'down');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+            'down');
 
         assert.equal(element.$.suggestions.$.cursor.index, 2);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 38,
-            null, 'up');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 38, null, 'up');
 
         assert.equal(element.$.suggestions.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 13,
-            null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.equal(element.value, 1);
         assert.isTrue(commitHandler.called);
@@ -178,8 +175,8 @@ limitations under the License.
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 13,
-            null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, 'suggestion');
@@ -200,8 +197,8 @@ limitations under the License.
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 13,
-            null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, '');
@@ -251,8 +248,8 @@ limitations under the License.
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 13,
-            null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
 
         assert.isTrue(commitHandler.called);
         assert.equal(element.text, 'blah 0');
@@ -270,16 +267,14 @@ limitations under the License.
 
       element._suggestions = ['tunnel snakes rule!'];
       element.tabComplete = false;
-      MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 9,
-          null, 'tab');
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitHandler.called);
       assert.isFalse(commitSpy.called);
       assert.isFalse(element._focused);
 
       element.tabComplete = true;
       element._focused = true;
-      MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 9,
-          null, 'tab');
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       assert.isFalse(commitHandler.called);
       assert.isTrue(commitSpy.called);
       assert.isTrue(element._focused);
@@ -312,8 +307,8 @@ limitations under the License.
       test('enter does not call focus', () => {
         element._suggestions = ['sugar bombs'];
         focusSpy = sandbox.spy(element, 'focus');
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 13,
-            null, 'enter');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+            'enter');
         flushAsynchronousOperations();
 
         assert.isTrue(commitSpy.called);
@@ -325,8 +320,7 @@ limitations under the License.
         element._suggestions = ['sugar bombs'];
         focusSpy = sandbox.spy(element, 'focus');
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 9,
-            null, 'tab');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
         flushAsynchronousOperations();
 
         assert.isFalse(commitSpy.called);
@@ -335,8 +329,7 @@ limitations under the License.
 
         element.tabComplete = true;
         element._suggestions = ['tunnel snakes drool'];
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 9,
-            null, 'tab');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
         flushAsynchronousOperations();
 
         assert.isTrue(commitSpy.called);
@@ -393,16 +386,12 @@ limitations under the License.
       });
     });
 
-    test('input-keydown event fired', done => {
-      Polymer.Base.async(() => {
-        const listener = sandbox.spy();
-        element.addEventListener('input-keydown', listener);
-        MockInteractions.pressAndReleaseKeyOn(element.$.input.inputElement, 9,
-            null, 'tab');
-        flushAsynchronousOperations();
-        assert.isTrue(listener.called);
-        done();
-      }, 1);
+    test('input-keydown event fired', () => {
+      const listener = sandbox.spy();
+      element.addEventListener('input-keydown', listener);
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+      flushAsynchronousOperations();
+      assert.isTrue(listener.called);
     });
 
     suite('warnUncommitted', () => {
@@ -411,36 +400,27 @@ limitations under the License.
         inputClassList = element.$.input.classList;
       });
 
-      test('enabled', done => {
-        Polymer.Base.async(() => {
-          element.warnUncommitted = true;
-          element.text = 'blah blah blah';
-          MockInteractions.blur(element.$.input.inputElement);
-          assert.isTrue(inputClassList.contains('warnUncommitted'));
-          MockInteractions.focus(element.$.input.inputElement);
-          assert.isFalse(inputClassList.contains('warnUncommitted'));
-          done();
-        }, 1);
+      test('enabled', () => {
+        element.warnUncommitted = true;
+        element.text = 'blah blah blah';
+        MockInteractions.blur(element.$.input);
+        assert.isTrue(inputClassList.contains('warnUncommitted'));
+        MockInteractions.focus(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
       });
 
-      test('disabled', done => {
-        Polymer.Base.async(() => {
-          element.warnUncommitted = false;
-          element.text = 'blah blah blah';
-          MockInteractions.blur(element.$.input.inputElement);
-          assert.isFalse(inputClassList.contains('warnUncommitted'));
-          done();
-        }, 1);
+      test('disabled', () => {
+        element.warnUncommitted = false;
+        element.text = 'blah blah blah';
+        MockInteractions.blur(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
       });
 
-      test('no text', done => {
-        Polymer.Base.async(() => {
-          element.warnUncommitted = true;
-          element.text = '';
-          MockInteractions.blur(element.$.input.inputElement);
-          assert.isFalse(inputClassList.contains('warnUncommitted'));
-          done();
-        }, 1);
+      test('no text', () => {
+        element.warnUncommitted = true;
+        element.text = '';
+        MockInteractions.blur(element.$.input);
+        assert.isFalse(inputClassList.contains('warnUncommitted'));
       });
     });
   });

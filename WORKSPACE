@@ -1062,8 +1062,8 @@ bower_archive(
 bower_archive(
     name = "iron-input",
     package = "polymerelements/iron-input",
-    sha1 = "42f233d8adf3883bcce2fa364c7785a5d2571db4",
-    version = "2.0.0",
+    sha1 = "9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac",
+    version = "1.0.10",
 )
 
 bower_archive(

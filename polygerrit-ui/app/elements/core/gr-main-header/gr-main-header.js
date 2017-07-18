@@ -14,8 +14,10 @@
 (function() {
   'use strict';
 
+  const localisation = window.Gerrit.LocalisationBehavior;
+
   const DEFAULT_LINKS = [{
-    title: 'Changes',
+    title: localisation._computeLocalize('changes'),
     links: [
       {
         url: '/q/status:open',
@@ -103,6 +105,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.LocalisationBehavior,
     ],
 
     observers: [

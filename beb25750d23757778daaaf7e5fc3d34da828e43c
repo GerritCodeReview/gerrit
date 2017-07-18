@@ -22,6 +22,30 @@
       "revId": "beb25750d23757778daaaf7e5fc3d34da828e43c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e0e6af_ebe4677f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-18T17:57:35Z",
+      "side": 1,
+      "message": "I carn\u0027t remeber where i got it from now. Also yes i could make this a constant.",
+      "parentUuid": "e4da913e_6404d85b",
+      "range": {
+        "startLine": 74,
+        "startChar": 68,
+        "endLine": 74,
+        "endChar": 70
+      },
+      "revId": "beb25750d23757778daaaf7e5fc3d34da828e43c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

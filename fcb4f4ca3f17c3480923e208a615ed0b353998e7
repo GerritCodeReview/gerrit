@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f870477e_6cfb515f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:57:53Z",
+      "side": 1,
+      "message": "Very tidy!\n\nMaybe, down the road, we\u0027d end up parsing the hash here also, so that way, instead of `hash: ctx.hash,` the params can say something specific like...\n\nline: {\n  number: 34,\n  side: \u0027right\u0027,\n},",
+      "revId": "fcb4f4ca3f17c3480923e208a615ed0b353998e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

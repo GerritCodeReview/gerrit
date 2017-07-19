@@ -28,6 +28,7 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -83,6 +84,7 @@ public class SubmitRuleEvaluator {
   }
 
   private final AccountCache accountCache;
+  private final Accounts accounts;
   private final ChangeData cd;
   private final ChangeControl control;
 
@@ -94,8 +96,10 @@ public class SubmitRuleEvaluator {
 
   private Term submitRule;
 
-  public SubmitRuleEvaluator(AccountCache accountCache, ChangeData cd) throws OrmException {
+  public SubmitRuleEvaluator(AccountCache accountCache, Accounts accounts, ChangeData cd)
+      throws OrmException {
     this.accountCache = accountCache;
+    this.accounts = accounts;
     this.cd = cd;
     this.control = cd.changeControl();
   }
@@ -567,6 +571,7 @@ public class SubmitRuleEvaluator {
       }
       throw new RuleEvalException(msg, err);
     }
+    env.set(StoredValues.ACCOUNTS, accounts);
     env.set(StoredValues.ACCOUNT_CACHE, accountCache);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);

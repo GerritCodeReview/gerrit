@@ -94,6 +94,30 @@
       "revId": "a0fb7273d747fc79f37ae927f57f9d917415d3bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d39d921b_930b0bc8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T19:08:28Z",
+      "side": 1,
+      "message": "Im not sure how to do that. Im not sure what you mean by groupId?\n\nDo you mean leave it as a number?",
+      "parentUuid": "29e25d43_9690e04e",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 165,
+        "endChar": 9
+      },
+      "revId": "a0fb7273d747fc79f37ae927f57f9d917415d3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

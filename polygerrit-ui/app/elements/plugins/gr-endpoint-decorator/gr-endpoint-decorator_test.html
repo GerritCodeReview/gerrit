@@ -42,13 +42,15 @@ limitations under the License.
       Gerrit.install(p => {
         plugin = p;
         plugin.registerCustomComponent('foo', 'some-module');
+        plugin.registerCustomComponent('foo', 'other-module', {replace: true});
       }, '0.1', 'http://some/plugin/url.html');
 
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');
-      sandbox.stub(element, '_initPluginDomHook');
-      sandbox.stub(element, 'importHref', (url, resolve) => { resolve(); });
+      sandbox.stub(element, '_initDecoration');
+      sandbox.stub(element, '_initReplacement');
+      sandbox.stub(element, 'importHref', (url, resolve) => resolve());
 
       flush(done);
     });
@@ -62,9 +64,14 @@ limitations under the License.
           element.importHref.calledWith(new URL('http://some/plugin/url.html')));
     });
 
-    test('inits plugin-provided dom hook', () => {
+    test('inits decoration dom hook', () => {
       assert.isTrue(
-          element._initPluginDomHook.calledWith('some-module', plugin));
+          element._initDecoration.calledWith('some-module', plugin));
+    });
+
+    test('inits replacement dom hook', () => {
+      assert.isTrue(
+          element._initReplacement.calledWith('other-module', plugin));
     });
   });
 </script>

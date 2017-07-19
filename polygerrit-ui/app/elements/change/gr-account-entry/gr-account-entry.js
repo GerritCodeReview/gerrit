@@ -74,6 +74,7 @@
 
     _handleInputCommit(e) {
       this.fire('add', {value: e.detail.value});
+      this.$.input.focus();
     },
 
     _makeSuggestion(reviewer) {

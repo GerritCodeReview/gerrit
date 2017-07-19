@@ -16,6 +16,7 @@ package com.google.gerrit.server.account.externalids;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
@@ -74,7 +75,38 @@ public class ExternalIds {
     return byAccount(accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 
+  /**
+   * Returns the external ID with the given email.
+   *
+   * <p>Each email should belong to a single external ID only. This means if more than one external
+   * ID is returned there is an inconsistency in the external IDs.
+   *
+   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID
+   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for
+   * multiple emails are needed it is more efficient to use {@link #byEmails(String...)} as this
+   * method reads the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
+   *
+   * @see #byEmails(String...)
+   */
   public Set<ExternalId> byEmail(String email) throws IOException {
     return externalIdCache.byEmail(email);
+  }
+
+  /**
+   * Returns the external IDs for the given emails.
+   *
+   * <p>Each email should belong to a single external ID only. This means if more than one external
+   * ID for an email is returned there is an inconsistency in the external IDs.
+   *
+   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID
+   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for
+   * multiple emails are needed it is more efficient to use this method instead of {@link
+   * #byEmail(String)} as this method reads the SHA1 of the refs/meta/external-ids branch only once
+   * (and not once per email).
+   *
+   * @see #byEmail(String)
+   */
+  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
+    return externalIdCache.byEmails(emails);
   }
 }

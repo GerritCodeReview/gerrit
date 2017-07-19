@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -89,7 +90,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byEmail(String email) throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

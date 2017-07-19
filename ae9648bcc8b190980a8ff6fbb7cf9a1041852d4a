@@ -34,6 +34,24 @@
       "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab50c33f_6e940357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T22:39:46Z",
+      "side": 1,
+      "message": "SGTM, it can just be nice to have a link for repro steps and regressions.",
+      "parentUuid": "3142f2fa_e5fd68be",
+      "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

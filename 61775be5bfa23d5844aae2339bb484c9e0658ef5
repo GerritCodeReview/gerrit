@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2225543a_903ca4e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-19T17:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249ea9b8_10bcdcc1",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 37
+      },
+      "revId": "61775be5bfa23d5844aae2339bb484c9e0658ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "efc1b113_4a7f4670",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "afa983b1_ddc10a65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-19T17:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efc1b113_4a7f4670",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 26
+      },
+      "revId": "61775be5bfa23d5844aae2339bb484c9e0658ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d231e24_cfb4208f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2017-07-19T15:17:12Z",
       "side": 1,
       "message": "ImmutableSetMultimap\u003cString, ExternalId\u003e",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "61775be5bfa23d5844aae2339bb484c9e0658ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a54e90_fac35bc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-19T17:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d231e24_cfb4208f",
       "range": {
         "startLine": 84,
         "startChar": 2,

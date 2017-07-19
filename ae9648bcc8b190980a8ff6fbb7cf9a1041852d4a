@@ -16,6 +16,24 @@
       "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3142f2fa_e5fd68be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T22:37:59Z",
+      "side": 1,
+      "message": "I don\u0027t think there was one created. @Paladox discovered this and was working on a patch earlier, but having trouble.",
+      "parentUuid": "5af956a0_ad8cc97b",
+      "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

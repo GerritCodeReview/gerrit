@@ -13,6 +13,51 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Generates the text to paste into the email for announcing a new
+# release of Gerrit. The text is generated based on a template that
+# is filled with values either passed to the script or calculated
+# at runtime.
+#
+# The script outputs a plain text file with the announcement text:
+#
+#   release-announcement-gerrit-X.Y.txt
+#
+# and, if GPG is available, the announcement text wrapped with a
+# signature:
+#
+#   release-announcement-gerrit-X.Y.txt.asc
+#
+# Usage:
+#
+#   ./tools/release-announcement.py -v 2.14.2 -p 2.14.1 \
+#      -s "This release fixes several bugs since 2.14.1"
+#
+# Parameters:
+#
+#   --version (-v): The version of Gerrit being released.
+#
+#   --previous (-p): The previous version of Gerrit.  Optional. If
+#   specified, the generated text includes a link to the gitiles
+#   log of commits between the previous and new versions.
+#
+#   --summary (-s): Short summary of the release. Optional. When
+#   specified, the summary is inserted in the introductory sentence
+#   of the generated text.
+#
+# Prerequisites:
+#
+# - The Jinja2 python library [1] must be installed.
+#
+# - For GPG signing to work, the python-gnupg library [2] must be
+#   installed, and the ~/.gnupg folder must exist.
+#
+# - The war file must have been installed to the local Maven repository
+#   using the `./tools/mvn/api.sh war_install` command.
+#
+# [1] http://jinja.pocoo.org/
+# [2] http://pythonhosted.org/gnupg/
+
+
 from __future__ import print_function
 import argparse
 import hashlib

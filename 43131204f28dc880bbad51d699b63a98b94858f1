@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9eef1261_5777b1a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T17:47:55Z",
+      "side": 1,
+      "message": "Hmm. I can\u0027t readily find a change with a change detail of 100k even. Do you have an example?\n\nMaybe we should just remove the specific number and merely say\n\n // Limit cache size because /change/detail responses may be large.",
+      "parentUuid": "6b7769ce_dfa59ce3",
+      "revId": "43131204f28dc880bbad51d699b63a98b94858f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40205504_acdaf697",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4

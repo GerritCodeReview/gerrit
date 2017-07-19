@@ -119,6 +119,7 @@
     },
 
     _getPath(project) {
+      Polymer.dom.flush();
       return `/admin/projects/${this.encodeURL(project, false)},` +
           `${this.detailType}`;
     },

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df02f8cd_b8329b86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:06:37Z",
+      "side": 1,
+      "message": "Really? At this time, the /change/detail for this change weighs ~80k (non gzipped).",
+      "revId": "43131204f28dc880bbad51d699b63a98b94858f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40205504_acdaf697",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:06:37Z",
+      "side": 1,
+      "message": "In the spirit of issue 6744, please add JSDocs that describe the differences between these two *fetch*JSON methods.",
+      "revId": "43131204f28dc880bbad51d699b63a98b94858f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17eb812f_991f9b9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:06:37Z",
+      "side": 1,
+      "message": "Why is the flush needed?",
+      "revId": "43131204f28dc880bbad51d699b63a98b94858f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

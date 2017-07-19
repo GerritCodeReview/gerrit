@@ -69,6 +69,30 @@
       "revId": "ec19f6dc0ba603e760168e20c7da25e946f87b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6949cfe_b054e1b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T18:31:44Z",
+      "side": 1,
+      "message": "I doint think it\u0027s possible as i carn\u0027t find a way to be able to tell if it carn\u0027t find can_delete in _shownItems then hide it. Since it will look at the first one and say it carn\u0027t find can_delete so it hides it.\n\nany ideas on how to do this please?",
+      "parentUuid": "d59eab72_0ffc5de3",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 15
+      },
+      "revId": "ec19f6dc0ba603e760168e20c7da25e946f87b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

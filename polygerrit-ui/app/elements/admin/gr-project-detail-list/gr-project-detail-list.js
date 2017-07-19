@@ -118,9 +118,10 @@
       }
     },
 
-    _getPath(project) {
+    _getPath(project, detailType) {
+      Polymer.dom.flush();
       return `/admin/projects/${this.encodeURL(project, false)},` +
-          `${this.detailType}`;
+          `${detailType}`;
     },
 
     _computeWeblink(project) {

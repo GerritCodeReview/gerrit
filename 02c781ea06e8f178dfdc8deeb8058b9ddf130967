@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f4f8df8_fd577d96",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:25:45Z",
+      "side": 1,
+      "message": "This is a tidy solution!",
+      "range": {
+        "startLine": 382,
+        "startChar": 10,
+        "endLine": 385,
+        "endChar": 49
+      },
+      "revId": "02c781ea06e8f178dfdc8deeb8058b9ddf130967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5906c68_6a3ae75a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T16:25:45Z",
+      "side": 1,
+      "message": "Optional: Should this test also be removed when the TODO\u0027d code above is removed? If so maybe this test can use a TODO comment also.\n\nOTOH: the test will fail when you do remove the fallback, so maybe not it\u0027s not needed.",
+      "range": {
+        "startLine": 809,
+        "startChar": 6,
+        "endLine": 809,
+        "endChar": 67
+      },
+      "revId": "02c781ea06e8f178dfdc8deeb8058b9ddf130967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

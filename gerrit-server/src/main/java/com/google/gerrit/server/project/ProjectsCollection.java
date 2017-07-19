@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -38,24 +41,31 @@ import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class ProjectsCollection
-    implements RestCollection<TopLevelResource, ProjectResource>, AcceptsCreate<TopLevelResource> {
+    implements RestCollection<TopLevelResource, ProjectResource>,
+        AcceptsCreate<TopLevelResource>,
+        NeedsParams {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
+  private final Provider<QueryProjects> queryProjects;
   private final ProjectControl.GenericFactory controlFactory;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final CreateProject.Factory createProjectFactory;
 
+  private boolean hasQuery;
+
   @Inject
   ProjectsCollection(
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
+      Provider<QueryProjects> queryProjects,
       ProjectControl.GenericFactory controlFactory,
       PermissionBackend permissionBackend,
       CreateProject.Factory factory,
       Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
+    this.queryProjects = queryProjects;
     this.controlFactory = controlFactory;
     this.permissionBackend = permissionBackend;
     this.user = user;
@@ -63,7 +73,16 @@ public class ProjectsCollection
   }
 
   @Override
+  public void setParams(ListMultimap<String, String> params) throws BadRequestException {
+    // The --query option is defined in QueryProjects
+    this.hasQuery = params.containsKey("query");
+  }
+
+  @Override
   public RestView<TopLevelResource> list() {
+    if (hasQuery) {
+      return queryProjects.get();
+    }
     return list.get().setFormat(OutputFormat.JSON);
   }
 

@@ -330,7 +330,7 @@
       if (this.knownLatestState === 'not-latest') {
         this.fire('show-alert',
             {message: 'Cannot reply to non-latest patch.'});
-        return;
+        return Promise.resolve({});
       }
 
       const labels = this.$.labelScores.getLabelValues();
@@ -371,38 +371,66 @@
 
       const errFn = this._handle400Error.bind(this);
       return this._saveReview(obj, errFn).then(response => {
-        if (!response || !response.ok) {
-          return response;
+        if (!response) {
+          // Null or undefined response indicates that an error handler
+          // took responsibility, so just return.
+          return false;
         }
-        return this.$.restAPI.getResponseObject(response);
-      }).then(result => {
-        // TODO(logan): Remove this once the required API changes are live and
-        // stable on googlesource.com.
-        if (startReview && !result.ready) {
-          // If we don't see ready in the response, then we're talking to a
-          // backend that doesn't support moving out of WIP at the same time as
-          // posting a review. Fall back to sending a second API call to start
-          // review and block until that returns.
-          return this.$.restAPI.startReview(this.change._number, null,
-              response => {
-                // If we see a 409 response code, then that means the server
-                // *does* support moving from WIP->ready when posting a review.
-                // In that case we should just ignore this error.
-                if (response.status === 409) {
-                  return;
-                }
-                this.fire('server-error', {response});
-              });
+        if (!response.ok) {
+          this.fire('server-error', {response});
+          return false;
         }
-      }).then(() => {
+        // TODO(logan): Replace with true value return once the required API
+        // changes are live and stable on googlesource.com.
+        return this._maybeSetReady(startReview, response);
+      }).then(ok => {
         this.disabled = false;
-        this.draft = '';
-        this._includeComments = true;
-        this.fire('send', null, {bubbles: false});
+        if (ok) {
+          this.draft = '';
+          this._includeComments = true;
+          this.fire('send', null, {bubbles: false});
+        }
         return accountAdditions;
       }).catch(err => {
         this.disabled = false;
         throw err;
+      });
+    },
+
+    /**
+     * Returns a promise resolving to true if review was successfully posted,
+     * false otherwise.
+     *
+     * TODO(logan): Remove this once the required API changes are live and
+     * stable on googlesource.com.
+     */
+    _maybeSetReady(startReview, response) {
+      return this.$.restAPI.getResponseObject(response).then(result => {
+        if (!startReview || result.ready) {
+          return Promise.resolve(true);
+        }
+        // We don't have confirmation that review was started, so attempt to
+        // start review explicitly.
+        return new Promise(resolve => {
+          let requestFailed = false;
+          this.$.restAPI.startReview(
+              this.change._number, null, response => {
+                requestFailed = true;
+                // If we see a 409 response code, then that means the server
+                // *does* support moving from WIP->ready when posting a
+                // review. In that case we should just ignore this error.
+                if (response.status === 409) {
+                  resolve(true);
+                  return;
+                }
+                this.fire('server-error', {response});
+                resolve(false);
+              }).then(() => {
+                if (!requestFailed) {
+                  resolve(true);
+                }
+              });
+        });
       });
     },
 

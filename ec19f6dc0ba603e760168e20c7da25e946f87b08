@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "132fcdfc_609546b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T18:53:09Z",
+      "side": 1,
+      "message": "http://imgur.com/a/ipFcT",
+      "parentUuid": "93acb3b7_9890c016",
+      "range": {
+        "startLine": 36,
+        "startChar": 55,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "ec19f6dc0ba603e760168e20c7da25e946f87b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d59eab72_0ffc5de3",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 62
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "For now i would say keep it as we would need to check for can_delete and if your an admin.\n\nWe need to check for can_delete if a user is not an admin or project owner since they could be allowed to deleted a certain branch. I know that the wmf allows users to create refs/sandbox/\u003cuser\u003e on mediawiki/core project.",
       "parentUuid": "d6949cfe_b054e1b1",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 15
+      },
+      "revId": "ec19f6dc0ba603e760168e20c7da25e946f87b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd110885_e94a0d80",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 62
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T18:53:09Z",
+      "side": 1,
+      "message": "Ok, in that case, I\u0027m thinking let\u0027s get rid of the text here (just have an empty \u003cth\u003e\u003c/th\u003e. The Delete buttons speak for themselves.",
+      "parentUuid": "a622ea13_d865b0c7",
       "range": {
         "startLine": 75,
         "startChar": 9,

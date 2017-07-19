@@ -52,6 +52,24 @@
       "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27491622_85f05427",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T22:40:48Z",
+      "side": 1,
+      "message": "See my repro steps at https://gerrit-review.googlesource.com/?polygerrit\u003d0#/c/114590/",
+      "parentUuid": "ab50c33f_6e940357",
+      "revId": "ae9648bcc8b190980a8ff6fbb7cf9a1041852d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

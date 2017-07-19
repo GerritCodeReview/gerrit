@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b627a515_1ea3cbee",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6741,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-19T14:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d28f0d6_a61de102",
+      "range": {
+        "startLine": 6741,
+        "startChar": 0,
+        "endLine": 6741,
+        "endChar": 18
+      },
+      "revId": "ac396f4edd0a4b0563a7ae4925d66923aaf749b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56a1ddc5_5fe127e8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-19T01:04:43Z",
       "side": 1,
       "message": "Typically we say \"Not set if false\".",
+      "range": {
+        "startLine": 6742,
+        "startChar": 0,
+        "endLine": 6742,
+        "endChar": 18
+      },
+      "revId": "ac396f4edd0a4b0563a7ae4925d66923aaf749b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1dabb28_426fa222",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6742,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-19T14:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56a1ddc5_5fe127e8",
       "range": {
         "startLine": 6742,
         "startChar": 0,

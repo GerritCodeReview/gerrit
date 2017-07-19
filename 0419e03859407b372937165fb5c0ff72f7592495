@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f7522f0_62e52d41",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 73
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T22:45:13Z",
+      "side": 1,
+      "message": "This is not disabled for those without permission to modify.",
+      "range": {
+        "startLine": 133,
+        "startChar": 20,
+        "endLine": 144,
+        "endChar": 32
+      },
+      "revId": "0419e03859407b372937165fb5c0ff72f7592495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f74bb8b_8e3b0f30",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T22:45:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this is used.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "0419e03859407b372937165fb5c0ff72f7592495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19d15bb_237bac84",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T22:45:13Z",
+      "side": 1,
+      "message": "To be clear, let\u0027s rename this to groupID. And it should be a Number, not a String.",
+      "revId": "0419e03859407b372937165fb5c0ff72f7592495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8d1a130_2bc57a41",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 73
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T22:45:13Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like this is used?",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 6
+      },
+      "revId": "0419e03859407b372937165fb5c0ff72f7592495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -79,6 +79,13 @@ limitations under the License.
       .submittable {
         color: #1b5e20;
       }
+      .submittableCheck {
+        color: #388E3C;
+        display: none;
+      }
+      .submittableCheck.submittable {
+        display: inline;
+      }
       .hidden,
       .mobile {
         display: none;
@@ -124,6 +131,10 @@ limitations under the License.
                 title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
+            <span
+                tabindex="-1"
+                title="Submittable"
+                class$="submittableCheck [[_computeLinkClass(change)]]">✓</span>
           </div>
         </template>
       </section>

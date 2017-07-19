@@ -176,9 +176,14 @@
     },
 
     _computeLinkClass(change) {
+      const statuses = [];
       if (change.status == this.ChangeStatus.ABANDONED) {
-        return 'strikethrough';
+        statuses.push('strikethrough');
       }
+      if (change.submittable) {
+        statuses.push('submittable');
+      }
+      return statuses.join(' ');
     },
 
     _computeChangeStatusClass(change) {

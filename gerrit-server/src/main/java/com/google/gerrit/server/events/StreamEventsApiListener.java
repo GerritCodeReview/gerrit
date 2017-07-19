@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
+import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -84,7 +85,8 @@ public class StreamEventsApiListener
         ReviewerAddedListener,
         ReviewerDeletedListener,
         RevisionCreatedListener,
-        TopicEditedListener {
+        TopicEditedListener,
+        VoteDeletedListener {
   private static final Logger log = LoggerFactory.getLogger(StreamEventsApiListener.class);
 
   public static class Module extends AbstractModule {
@@ -104,6 +106,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), TopicEditedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), VoteDeletedListener.class).to(StreamEventsApiListener.class);
     }
   }
 
@@ -467,6 +470,26 @@ public class StreamEventsApiListener
       event.abandoner = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onVoteDeleted(VoteDeletedListener.Event ev) {
+    try {
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      VoteDeletedEvent event = new VoteDeletedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+      event.comment = ev.getMessage();
+      event.reviewer = accountAttributeSupplier(ev.getReviewer());
+      event.remover = accountAttributeSupplier(ev.getWho());
+      event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {

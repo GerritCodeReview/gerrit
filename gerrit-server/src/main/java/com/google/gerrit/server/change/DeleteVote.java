@@ -116,7 +116,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     try (BatchUpdate bu =
         batchUpdateFactory.create(
             db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
-      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
+      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccount(), rsrc.getLabel(), input));
       bu.execute();
     }
 
@@ -124,7 +124,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   }
 
   private class Op implements BatchUpdateOp {
-    private final Account.Id accountId;
+    private final Account account;
     private final String label;
     private final DeleteVoteInput input;
     private ChangeMessage changeMessage;
@@ -133,8 +133,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(Account.Id accountId, String label, DeleteVoteInput input) {
-      this.accountId = accountId;
+    private Op(Account account, String label, DeleteVoteInput input) {
+      this.account = account;
       this.label = label;
       this.input = input;
     }
@@ -150,7 +150,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       boolean found = false;
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
 
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, accountId)) {
+      for (PatchSetApproval a :
+          approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, account.getId())) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
           continue; // Ignore undefined labels.
         } else if (!a.getLabel().equals(label)) {
@@ -172,13 +173,13 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
         throw new ResourceNotFoundException();
       }
 
-      ctx.getUpdate(psId).removeApprovalFor(accountId, label);
+      ctx.getUpdate(psId).removeApprovalFor(account.getId(), label);
       ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
-      msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
+      msg.append(" by ").append(userFactory.create(account.getId()).getNameEmail()).append("\n");
       changeMessage =
           ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
@@ -191,7 +192,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       // set the real user; this preserves the calling user as the NoteDb
       // committer.
       return new PatchSetApproval(
-          new PatchSetApproval.Key(ps.getId(), accountId, new LabelId(label)),
+          new PatchSetApproval.Key(ps.getId(), account.getId(), new LabelId(label)),
           (short) 0,
           ctx.getWhen());
     }
@@ -219,6 +220,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       voteDeleted.fire(
           change,
           ps,
+          account,
           newApprovals,
           oldApprovals,
           input.notify,

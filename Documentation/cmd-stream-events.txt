@@ -281,6 +281,24 @@ oldTopic:: Topic name before it was changed.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== Vote Deleted
+
+Sent when a vote was removed from a change.
+
+type:: "vote-deleted"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+reviewer:: user whose vote was removed as link:json.html#account[account attribute]
+
+remover:: user who removed the vote as link:json.html#account[account attribute]
+
+approvals:: all votes as link:json.html#approval[approval attributes]
+
+comment:: Review comment cover message.
+
 == SEE ALSO
 
 * link:json.html[JSON Data Formats]

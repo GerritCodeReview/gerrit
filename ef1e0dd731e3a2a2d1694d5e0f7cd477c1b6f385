@@ -22,6 +22,30 @@
       "revId": "ef1e0dd731e3a2a2d1694d5e0f7cd477c1b6f385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08ed50d_e00bd9a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-19T00:24:06Z",
+      "side": 1,
+      "message": "Wow: good catch.",
+      "parentUuid": "b36b1347_8afd16bc",
+      "range": {
+        "startLine": 137,
+        "startChar": 75,
+        "endLine": 137,
+        "endChar": 79
+      },
+      "revId": "ef1e0dd731e3a2a2d1694d5e0f7cd477c1b6f385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

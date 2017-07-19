@@ -889,8 +889,7 @@
       return auth.fetch(this.getBaseUrl() + url, options).then(response => {
         if (!response.ok) {
           if (opt_errFn) {
-            opt_errFn.call(opt_ctx || null, response);
-            return undefined;
+            return opt_errFn.call(opt_ctx || null, response);
           }
           this.fire('server-error', {response});
         }
@@ -899,7 +898,7 @@
       }).catch(err => {
         this.fire('network-error', {error: err});
         if (opt_errFn) {
-          opt_errFn.call(opt_ctx, null, err);
+          return opt_errFn.call(opt_ctx, null, err);
         } else {
           throw err;
         }

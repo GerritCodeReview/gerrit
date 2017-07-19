@@ -114,14 +114,20 @@ limitations under the License.
 
     function stubSaveReview(jsonResponseProducer) {
       return sandbox.stub(element, '_saveReview', review => {
-        const result = jsonResponseProducer(review);
-        const resultStr =
-            element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
-        return Promise.resolve({
-          ok: true,
-          text() {
-            return Promise.resolve(resultStr);
-          },
+        return new Promise((resolve, reject) => {
+          try {
+            const result = jsonResponseProducer(review) || {};
+            const resultStr =
+                element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
+            resolve({
+              ok: true,
+              text() {
+                return Promise.resolve(resultStr);
+              },
+            });
+          } catch (err) {
+            reject(err);
+          }
         });
       });
     }
@@ -213,10 +219,13 @@ limitations under the License.
       });
 
       element.addEventListener('send', () => {
-        assert.isFalse(element.disabled,
-            'Element should be enabled when done sending reply.');
-        assert.equal(element.draft.length, 0);
-        done();
+        // Flush to ensure properties are updated.
+        flush(() => {
+          assert.isFalse(element.disabled,
+              'Element should be enabled when done sending reply.');
+          assert.equal(element.draft.length, 0);
+          done();
+        });
       });
 
       // This is needed on non-Blink engines most likely due to the ways in
@@ -702,12 +711,14 @@ limitations under the License.
     });
 
     test('should not send on enter key', () => {
+      stubSaveReview(() => undefined);
       element.addEventListener('send', () => assert.fail('wrongly called'));
       MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
       flushAsynchronousOperations();
     });
 
     test('emit send on ctrl+enter key', done => {
+      stubSaveReview(() => undefined);
       element.addEventListener('send', () => done());
       MockInteractions.pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
       flushAsynchronousOperations();
@@ -795,7 +806,9 @@ limitations under the License.
       let startReviewStub;
 
       setup(() => {
-        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview');
+        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview', () => {
+          return Promise.resolve();
+        });
       });
 
       test('ready property in review input on start review', () => {
@@ -811,7 +824,6 @@ limitations under the License.
       test('no ready property in review input on save review', () => {
         stubSaveReview(review => {
           assert.isUndefined(review.ready);
-          return {};
         });
         return element.send(true, false).then(() => {
           assert.isFalse(startReviewStub.called);
@@ -863,6 +875,94 @@ limitations under the License.
         return {ready: true};
       });
       return element.send(true, true);
+    });
+
+    test('buttons disabled until all API calls are resolved', () => {
+      stubSaveReview(review => {
+        return {}; // old backend won't set ready: true
+      });
+      sandbox.stub(element.$.restAPI, 'startReview', () => {
+        return new Promise(resolve => {
+          setTimeout(
+              () => {
+                assert.isTrue(element.disabled);
+                resolve();
+              },
+              10);
+        });
+      });
+      return element.send(true, true).then(() => {
+        assert.isFalse(element.disabled);
+      });
+    });
+
+    suite('error handling', () => {
+      const expectedDraft = 'draft';
+      const expectedError = new Error('test');
+
+      setup(() => {
+        element.draft = expectedDraft;
+      });
+
+      function assertDialogOpenAndEnabled() {
+        assert.strictEqual(expectedDraft, element.draft);
+        assert.isFalse(element.disabled);
+      }
+
+      function assertDialogClosed() {
+        assert.strictEqual('', element.draft);
+        assert.isFalse(element.disabled);
+      }
+
+      test('error occurs in _saveReview', () => {
+        stubSaveReview(review => {
+          throw expectedError;
+        });
+        return element.send(true, true).catch(err => {
+          assert.strictEqual(expectedError, err);
+          assertDialogOpenAndEnabled();
+        });
+      });
+
+      test('error occurs during startReview', () => {
+        stubSaveReview(review => {
+          return {}; // old backend won't set ready: true
+        });
+        const errorStub = sandbox.stub(
+            console, 'error', (msg, err) => undefined);
+        sandbox.stub(element.$.restAPI, 'startReview', () => {
+          throw expectedError;
+        });
+        return element.send(true, true).then(() => {
+          assertDialogClosed();
+          assert.isTrue(
+              errorStub.calledWith('error setting ready:', expectedError));
+        });
+      });
+
+      test('non-ok response received by startReview', () => {
+        stubSaveReview(review => {
+          return {}; // old backend won't set ready: true
+        });
+        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
+          f({status: 500});
+        });
+        return element.send(true, true).then(() => {
+          assertDialogClosed();
+        });
+      });
+
+      test('409 response received by startReview', () => {
+        stubSaveReview(review => {
+          return {}; // old backend won't set ready: true
+        });
+        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
+          f({status: 409});
+        });
+        return element.send(true, true).then(() => {
+          assertDialogClosed();
+        });
+      });
     });
   });
 </script>

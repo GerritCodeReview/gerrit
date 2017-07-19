@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48817880_fb92f858",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T23:08:38Z",
+      "side": 1,
+      "message": "Just a thought--\n\nTo me, this seems excessive at least in the use case of a header- where I imagine people will either want to supply text, an image, and possibly some CSS. Would it not make sense to allow specific customization of those things? I feel it\u0027s safer to not allow random HTML when it\u0027s not required.  \n\nI can see this being something that might be necessary elsewhere, just not sure if this is the right scenario?",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "ace818670d71dab103fea4bc159e738e08fec95c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

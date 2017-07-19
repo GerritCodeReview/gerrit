@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64369bf_914168ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-19T15:56:08Z",
+      "side": 1,
+      "message": "This has the effect of turning on the reflog for all patch set refs. Shawn tells me that reflog was intentionally left disabled on patch set refs to avoid cluttering the on-disk reflog with lots of one-entry logs. Personally I have no experience with on-disk reflogs, so I don\u0027t know how much of an issue this is in practice.\n\nThe problem is actually subtle: setRefLogMessage(null, true) still writes a reflog, containing only the ref change status (\"fast-forward\"/\"forced-update\"). So one mitigation would be to change this line to:\n\n batchRefUpdate.setRefLogMessge(refLogMessage, refLogMessage !\u003d null);\n\nSince the BatchUpdate only has a refLogMessage on merges, this will omit reflogs on patch set refs except in the case where a new patch set ref is created during submit due to cherry-pick/rebase. So this mitigation actually doesn\u0027t work for projects that use those submit strategies.\n\nI\u0027ll defer to you whether it\u0027s worth keeping it this way in stable-2.14.\n\nLong term, I want to extend the BatchRefUpdate interface in upstream JGit to support fine-grained control over reflogs, but that is not going to happen in a Gerrit release branch.",
+      "revId": "64d7c005408e10195ea0b86c777b580d40cf187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

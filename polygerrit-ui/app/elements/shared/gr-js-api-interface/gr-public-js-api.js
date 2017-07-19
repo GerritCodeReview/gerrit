@@ -34,9 +34,20 @@
 
   const API_VERSION = '0.1';
 
+  /**
+   * Plugin-provided custom components can affect content in extension
+   * points using one of following methods:
+   * - DECORATE: custom component is set with `content` attribute and may
+   *   decorate (e.g. style) DOM element.
+   * - REPLACE: contents of extension point are replaced with the custom
+   *   component.
+   * - STYLE: custom component is a shared styles module that is inserted
+   *   into the extension point.
+   */
   const EndpointType = {
+    DECORATE: 'decorate',
+    REPLACE: 'replace',
     STYLE: 'style',
-    DOM_DECORATION: 'dom',
   };
 
   // GWT JSNI uses $wnd to refer to window.
@@ -75,11 +86,12 @@
         endpointName, EndpointType.STYLE, moduleName);
   };
 
-  Plugin.prototype.registerCustomComponent =
-      function(endpointName, moduleName) {
-        this._registerEndpointModule(
-            endpointName, EndpointType.DOM_DECORATION, moduleName);
-      };
+  Plugin.prototype.registerCustomComponent = function(endpointName, moduleName,
+      opt_options) {
+    const type = opt_options && opt_options.replace ?
+          EndpointType.REPLACE : EndpointType.DECORATE;
+    this._registerEndpointModule(endpointName, type, moduleName);
+  };
 
   Plugin.prototype._registerEndpointModule = function(endpoint, type, module) {
     const endpoints = Gerrit._endpoints;
@@ -146,6 +158,10 @@
           Plugin._sharedAPIElement.Element.REPLY_DIALOG));
   };
 
+  Plugin.prototype.theme = function() {
+    return new GrThemeApi(this);
+  };
+
   Plugin.prototype._getGeneratedHookName = function(endpointName) {
     if (!this._generatedHookNames[endpointName]) {
       this._generatedHookNames[endpointName] =
@@ -154,7 +170,7 @@
     return this._generatedHookNames[endpointName];
   };
 
-  Plugin.prototype.getDomHook = function(endpointName) {
+  Plugin.prototype.getDomHook = function(endpointName, opt_options) {
     const hookName = this._getGeneratedHookName(endpointName);
     if (!this._hooks[hookName]) {
       this._hooks[hookName] = new Promise((resolve, reject) => {
@@ -168,7 +184,7 @@
             resolve(this);
           },
         });
-        this.registerCustomComponent(endpointName, hookName);
+        this.registerCustomComponent(endpointName, hookName, opt_options);
       });
     }
     return this._hooks[hookName];

@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
@@ -40,7 +41,8 @@ limitations under the License.
       .bigTitle:hover {
         text-decoration: underline;
       }
-      .bigTitle::before {
+      /* TODO (viktard): Clean-up after chromium-style migrates to component. */
+      .titleText::before {
         background-image: var(--header-icon);
         background-size: var(--header-icon-size) var(--header-icon-size);
         content: "";
@@ -50,7 +52,7 @@ limitations under the License.
         vertical-align: text-bottom;
         width: var(--header-icon-size);
       }
-      .bigTitle::after {
+      .titleText::after {
         content: var(--header-title-content);
       }
       ul {
@@ -131,7 +133,11 @@ limitations under the License.
       }
     </style>
     <nav>
-      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle"></a>
+      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
+        <gr-endpoint-decorator name="header-title">
+          <span class="titleText"></span>
+        </gr-endpoint-decorator>
+      </a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li class$="[[linkGroup.class]]">

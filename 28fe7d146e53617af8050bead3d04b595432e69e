@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a2ceb90_0e0dacff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-19T16:03:32Z",
+      "side": 1,
+      "message": "Weird linebreaks.",
+      "revId": "28fe7d146e53617af8050bead3d04b595432e69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

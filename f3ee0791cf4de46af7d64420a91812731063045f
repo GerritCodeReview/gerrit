@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a598940_8f13572c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6741,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-19T15:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1200a54f_5862821c",
+      "range": {
+        "startLine": 6741,
+        "startChar": 47,
+        "endLine": 6741,
+        "endChar": 73
+      },
+      "revId": "f3ee0791cf4de46af7d64420a91812731063045f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24609167_4ae8a27f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "f3ee0791cf4de46af7d64420a91812731063045f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1049a761_052540d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-19T15:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24609167_4ae8a27f",
+      "revId": "f3ee0791cf4de46af7d64420a91812731063045f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

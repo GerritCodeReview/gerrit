@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29c3e270_2ae80eb2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T18:12:59Z",
+      "side": 1,
+      "message": "An error is being thrown because this is here still.",
+      "range": {
+        "startLine": 105,
+        "startChar": 43,
+        "endLine": 105,
+        "endChar": 79
+      },
+      "revId": "9a71d05cd7daea31beda2cc6d4600c4622b90dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

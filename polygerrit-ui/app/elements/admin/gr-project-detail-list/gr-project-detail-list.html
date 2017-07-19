@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -52,6 +53,7 @@ limitations under the License.
         line-height: 1em;
       }
     </style>
+    <style include="gr-table-styles"></style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_itemsPerPage]]"
@@ -59,7 +61,7 @@ limitations under the License.
         loading="[[_loading]]"
         offset="[[_offset]]"
         path="[[_getPath(_project, detailType)]]">
-      <table id="list" class="gr-form-styles">
+      <table id="list" class="genericList gr-form-styles">
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>

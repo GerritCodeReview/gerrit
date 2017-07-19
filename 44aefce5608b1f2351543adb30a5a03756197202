@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "84b6d60d_5fe200eb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T21:59:02Z",
+      "side": 1,
+      "message": "Yes, thanks, done.",
+      "parentUuid": "26a3bf82_17d4f96d",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "44aefce5608b1f2351543adb30a5a03756197202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2018cc1b_f6ab4dd3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T21:59:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ee47afb_df885596",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "44aefce5608b1f2351543adb30a5a03756197202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a7c1b93_665bab03",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 69
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "62514aca_f3e75d0b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T21:59:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5a7c1b93_665bab03",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 8
+      },
+      "revId": "44aefce5608b1f2351543adb30a5a03756197202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9e663db_07c2833b",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 69
@@ -82,6 +154,30 @@
       "writtenOn": "2017-07-19T21:51:12Z",
       "side": 1,
       "message": "The actual name should be used here, maybe keep groupName and observe group to make the request?",
+      "range": {
+        "startLine": 122,
+        "startChar": 18,
+        "endLine": 122,
+        "endChar": 34
+      },
+      "revId": "44aefce5608b1f2351543adb30a5a03756197202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "239de4ab_e20089b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 69
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-19T21:59:02Z",
+      "side": 1,
+      "message": "How do i observe group? That\u0027s the part im not sure about.",
+      "parentUuid": "a9e663db_07c2833b",
       "range": {
         "startLine": 122,
         "startChar": 18,

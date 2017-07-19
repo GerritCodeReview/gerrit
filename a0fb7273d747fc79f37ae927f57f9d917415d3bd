@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e2f4336_dfac5870",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-19T18:48:24Z",
+      "side": 1,
+      "message": "This seems out of place. it should probably go in gr-group.js (though it looks like it\u0027s already there.)",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 165,
+        "endChar": 9
+      },
+      "revId": "a0fb7273d747fc79f37ae927f57f9d917415d3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

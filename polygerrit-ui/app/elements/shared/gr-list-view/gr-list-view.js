@@ -60,11 +60,11 @@
       this.fire('create-clicked');
     },
 
-    _computeNavLink(offset, direction, itemsPerPage, filter) {
+    _computeNavLink(offset, direction, itemsPerPage, filter, path) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));
-      let href = this.getBaseUrl() + this.path;
+      let href = this.getBaseUrl() + path;
       if (filter) {
         href += '/q/filter:' + filter;
       }

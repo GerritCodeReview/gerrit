@@ -50,24 +50,24 @@ limitations under the License.
       const offset = 25;
       const projectsPerPage = 25;
       const filter = 'test';
-      element.path = '/admin/projects';
+      const path = '/admin/projects';
 
       sandbox.stub(element, 'getBaseUrl', () => '');
 
       assert.equal(
-          element._computeNavLink(offset, 1, projectsPerPage, filter),
+          element._computeNavLink(offset, 1, projectsPerPage, filter, path),
           '/admin/projects/q/filter:test,50');
 
       assert.equal(
-          element._computeNavLink(offset, -1, projectsPerPage, filter),
+          element._computeNavLink(offset, -1, projectsPerPage, filter, path),
           '/admin/projects/q/filter:test');
 
       assert.equal(
-          element._computeNavLink(offset, 1, projectsPerPage, null),
+          element._computeNavLink(offset, 1, projectsPerPage, null, path),
           '/admin/projects,50');
 
       assert.equal(
-          element._computeNavLink(offset, -1, projectsPerPage, null),
+          element._computeNavLink(offset, -1, projectsPerPage, null, path),
           '/admin/projects');
     });
 
@@ -124,6 +124,19 @@ limitations under the License.
       flushAsynchronousOperations();
       MockInteractions.tap(element.$$('#createNew'));
       assert.isTrue(clickHandler.called);
+    });
+
+    test('next/prev links change when path changes', () => {
+      const BRANCHES_PATH = '/path/to/branches';
+      const TAGS_PATH = '/path/to/tags';
+      sandbox.stub(element, '_computeNavLink');
+      element.offset = 0;
+      element.itemsPerPage = 25;
+      element.filter = '';
+      element.path = BRANCHES_PATH;
+      assert.equal(element._computeNavLink.lastCall.args[4], BRANCHES_PATH);
+      element.path = TAGS_PATH;
+      assert.equal(element._computeNavLink.lastCall.args[4], TAGS_PATH);
     });
   });
 </script>

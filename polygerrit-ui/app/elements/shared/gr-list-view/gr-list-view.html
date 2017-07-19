@@ -71,10 +71,10 @@ limitations under the License.
     <content></content>
     <nav>
       <a id="prevArrow"
-          href$="[[_computeNavLink(offset, -1, itemsPerPage, filter)]]"
+          href$="[[_computeNavLink(offset, -1, itemsPerPage, filter, path)]]"
           hidden$="[[_hidePrevArrow(offset)]]" hidden>&larr; Prev</a>
       <a id="nextArrow"
-          href$="[[_computeNavLink(offset, 1, itemsPerPage, filter)]]"
+          href$="[[_computeNavLink(offset, 1, itemsPerPage, filter, path)]]"
           hidden$="[[_hideNextArrow(loading, items)]]" hidden>
         Next &rarr;</a>
     </nav>

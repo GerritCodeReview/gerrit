@@ -65,7 +65,7 @@
     const context = opt_context || window;
     context.onerror = onError.bind(null, context.onerror);
   };
-  catchErrors();
+  // catchErrors();
 
   const GrReporting = Polymer({
     is: 'gr-reporting',

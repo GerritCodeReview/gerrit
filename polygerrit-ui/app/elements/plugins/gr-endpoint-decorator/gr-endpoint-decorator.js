@@ -27,10 +27,17 @@
       });
     },
 
-    _initPluginDomHook(name, plugin) {
+    _initDecoration(name, plugin) {
       const el = document.createElement(name);
       el.plugin = plugin;
       el.content = this.getContentChildren()[0];
+      return Polymer.dom(this.root).appendChild(el);
+    },
+
+    _initReplacement(name, plugin) {
+      this.getContentChildren().forEach(node => node.remove());
+      const el = document.createElement(name);
+      el.plugin = plugin;
       return Polymer.dom(this.root).appendChild(el);
     },
 
@@ -40,8 +47,15 @@
               pluginUrl => this._import(pluginUrl)))
       ).then(() => {
         const modulesData = Gerrit._getEndpointDetails(this.name);
-        for (const {moduleName, plugin} of modulesData) {
-          this._initPluginDomHook(moduleName, plugin);
+        for (const {moduleName, plugin, type} of modulesData) {
+          switch (type) {
+            case 'decorate':
+              this._initDecoration(moduleName, plugin);
+              break;
+            case 'replace':
+              this._initReplacement(moduleName, plugin);
+              break;
+          }
         }
       });
     },

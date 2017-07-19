@@ -697,6 +697,33 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void lookUpByEmail() throws Exception {
+    // exact match with scheme "mailto:"
+    assertEmail(accounts.byEmail(admin.email), admin);
+
+    // exact match with other scheme
+    String email = "foo.bar@example.com";
+    externalIdsUpdateFactory
+        .create()
+        .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
+    assertEmail(accounts.byEmail(email), admin);
+
+    // wrong case doesn't match
+    assertThat(accounts.byEmail(admin.email.toUpperCase(Locale.US))).isEmpty();
+
+    // prefix doesn't match
+    assertThat(accounts.byEmail(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
+
+    // non-existing doesn't match
+    assertThat(accounts.byEmail("non-existing@example.com")).isEmpty();
+
+    // lookup several accounts by email at once
+    Map<String, Set<Account.Id>> byEmails = accounts.byEmails(admin.email, user.email);
+    assertEmail(byEmails.get(admin.email), admin);
+    assertEmail(byEmails.get(user.email), user);
+  }
+
+  @Test
   public void putStatus() throws Exception {
     List<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;

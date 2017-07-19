@@ -74,6 +74,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
@@ -200,6 +201,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;
   @Inject protected AccountCreator accountCreator;
+  @Inject protected Accounts accounts;
   @Inject protected AllProjectsName allProjects;
   @Inject protected BatchUpdate.Factory batchUpdateFactory;
   @Inject protected ChangeData.Factory changeDataFactory;

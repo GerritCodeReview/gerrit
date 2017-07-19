@@ -19,6 +19,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -89,7 +90,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byEmail(String email) throws IOException {
+  public Map<String, Set<ExternalId>> byEmails(String... emails) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

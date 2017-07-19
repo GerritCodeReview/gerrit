@@ -33,6 +33,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -226,9 +228,14 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byEmail(String email) throws IOException {
+  public Map<String, Set<ExternalId>> byEmails(String... emails) throws IOException {
     try {
-      return extIdsByAccount.get(externalIdReader.readRevision()).byEmail().get(email);
+      AllExternalIds allExternalIds = extIdsByAccount.get(externalIdReader.readRevision());
+      Map<String, Set<ExternalId>> byEmails = new HashMap<>();
+      for (String email : emails) {
+        byEmails.put(email, allExternalIds.byEmail().get(email));
+      }
+      return byEmails;
     } catch (ExecutionException e) {
       throw new IOException("Cannot list external ids by email", e);
     }

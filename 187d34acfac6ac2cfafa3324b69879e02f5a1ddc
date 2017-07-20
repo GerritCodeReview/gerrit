@@ -22,6 +22,30 @@
       "revId": "187d34acfac6ac2cfafa3324b69879e02f5a1ddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b45ca027_f5006d71",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 65
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T22:32:56Z",
+      "side": 1,
+      "message": "I tryed using getItems by doing\n\n    _handleDeleteItemConfirm() {\n      this.$.overlay.close();\n      if (this.detailType \u003d\u003d\u003d DETAIL_TYPES.BRANCHES) {\n        return this.$.restAPI.deleteProjectBranches(this._project,\n            this._refName)\n            .then(itemDeleted \u003d\u003e {\n              if (itemDeleted.status \u003d\u003d\u003d 204) {\n                this._getItems(\n                  this._filter, this._project, this._itemsPerPage,\n                  this._offset, this.detailType);\n              }\n            });\n      } else if (this.detailType \u003d\u003d\u003d DETAIL_TYPES.TAGS) {\n        return this.$.restAPI.deleteProjectTags(this._project,\n            this._refName)\n            .then(itemDeleted \u003d\u003e {\n              if (itemDeleted.status \u003d\u003d\u003d 204) {\n                this._getItems(\n                  this._filter, this._project, this._itemsPerPage,\n                  this._offset, this.detailType);\n              }\n            });\n      }\n    },\n\nbut that dosen\u0027t seem to refresh the page.",
+      "parentUuid": "02f1a30e_268ebcef",
+      "range": {
+        "startLine": 212,
+        "startChar": 16,
+        "endLine": 212,
+        "endChar": 41
+      },
+      "revId": "187d34acfac6ac2cfafa3324b69879e02f5a1ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

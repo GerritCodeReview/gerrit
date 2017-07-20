@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32e3c39b_6d6fe05b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 83
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T22:24:00Z",
+      "side": 1,
+      "message": "Ah woops, thanks, done.",
+      "parentUuid": "06c06421_b5a09112",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "98f82e21036494aaef68186352b8913e8c2ec017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70066b1e_fba47808",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
         "patchSetId": 83
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-20T22:15:23Z",
       "side": 1,
       "message": "Here(and below) we are already on this page, don\u0027t need to do this again.\n\nHowever, in this case, we need to update the name (here and in the sidebar).",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 52
+      },
+      "revId": "98f82e21036494aaef68186352b8913e8c2ec017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81892408_fc397f9a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 83
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T22:24:00Z",
+      "side": 1,
+      "message": "I guess to update the name it\u0027s this.groupID? or this.groupName?\n\nActually lets do window.location.reload();.",
+      "parentUuid": "70066b1e_fba47808",
       "range": {
         "startLine": 133,
         "startChar": 14,

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -108,17 +107,17 @@ public class HtmlParser {
             content = ParserUtil.trimQuotation(content);
             // TODO(hiesel) Add more sanitizer
             if (!Strings.isNullOrEmpty(content)) {
-              appendOrAddNewComment(
+              ParserUtil.appendOrAddNewComment(
                   new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE),
                   parsedComments);
             }
           } else if (lastEncounteredComment == null) {
-            appendOrAddNewComment(
+            ParserUtil.appendOrAddNewComment(
                 new MailComment(
                     content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT),
                 parsedComments);
           } else {
-            appendOrAddNewComment(
+            ParserUtil.appendOrAddNewComment(
                 new MailComment(
                     content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT),
                 parsedComments);
@@ -127,27 +126,5 @@ public class HtmlParser {
       }
     }
     return parsedComments;
-  }
-
-  /**
-   * When parsing HTML content, we need to append comments prematurely since we are parsing
-   * block-by-block and never know what comes next. This can result in a comment being parsed as two
-   * comments when it spans multiple blocks. This method takes care of merging those blocks or
-   * adding a new comment to the list of appropriate.
-   */
-  private static void appendOrAddNewComment(MailComment comment, List<MailComment> comments) {
-    if (comments.isEmpty()) {
-      comments.add(comment);
-      return;
-    }
-    MailComment lastComment = Iterables.getLast(comments);
-
-    if (comment.isSameCommentPath(lastComment)) {
-      // Merge the two comments
-      lastComment.message += "\n\n" + comment.message;
-      return;
-    }
-
-    comments.add(comment);
   }
 }

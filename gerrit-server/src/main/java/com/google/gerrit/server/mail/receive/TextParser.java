@@ -81,7 +81,7 @@ public class TextParser {
             currentComment.message = ParserUtil.trimQuotation(currentComment.message);
           }
           if (!Strings.isNullOrEmpty(currentComment.message)) {
-            parsedComments.add(currentComment);
+            ParserUtil.appendOrAddNewComment(currentComment, parsedComments);
           }
           currentComment = null;
         }

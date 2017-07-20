@@ -22,6 +22,30 @@
       "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "915d6698_ca9e0295",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-20T20:21:21Z",
+      "side": 1,
+      "message": "I have no idea what you mean by that comment. Could you try rephrasing?",
+      "parentUuid": "4eec2aeb_5101d256",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

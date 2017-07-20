@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.Language;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -40,6 +41,7 @@ public class GeneralPreferences extends JavaScriptObject {
   public static GeneralPreferences createDefault() {
     GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
     GeneralPreferences p = createObject().cast();
+    p.language(d.language);
     p.changesPerPage(d.changesPerPage);
     p.showSiteHeader(d.showSiteHeader);
     p.useFlashClipboard(d.useFlashClipboard);
@@ -67,6 +69,13 @@ public class GeneralPreferences extends JavaScriptObject {
   }
 
   private native short get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
+
+  public final Language language() {
+    String s = languageRaw();
+    return s != null ? Language.valueOf(s) : Language.EN_US;
+  }
+
+  private native String languageRaw() /*-{ return this.language }-*/;
 
   public final native boolean showSiteHeader() /*-{ return this.show_site_header || false }-*/;
 
@@ -152,6 +161,12 @@ public class GeneralPreferences extends JavaScriptObject {
       publishCommentsOnPush() /*-{ return this.publish_comments_on_push || false }-*/;
 
   public final native JsArray<TopMenuItem> my() /*-{ return this.my; }-*/;
+
+  public final void language(Language s) {
+    languageRaw(s != null ? s.toString() : null);
+  }
+
+  private native void languageRaw(String s) /*-{ this.language = s }-*/;
 
   public final native void changesPerPage(int n) /*-{ this.changes_per_page = n }-*/;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb3f1415_d568bb88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-20T07:21:35Z",
+      "side": 1,
+      "message": "Optional: Now, that we missed to subscribe to vote-deleted event in stream-events API, and nobody noticed, would be great to add a test for that. I used as template CommentAddedEventIT and ended up with something like: [1]. Can be done later (on master), though.\n\n* [1] http://paste.openstack.org/show/615979",
+      "revId": "94b76cf24cc29e9730ad6db0f06a15ee10c9a730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

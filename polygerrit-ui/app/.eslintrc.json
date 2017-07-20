@@ -19,6 +19,7 @@
   },
   "rules": {
     "arrow-parens": ["error", "as-needed"],
+    "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "camelcase": "off",
     "comma-dangle": ["error", "always-multiline"],

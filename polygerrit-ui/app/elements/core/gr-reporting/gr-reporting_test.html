@@ -49,7 +49,7 @@ limitations under the License.
         loadEventEnd: 2,
       };
       sinon.stub(element, 'performanceTiming',
-          {get() {return fakePerformance;}});
+          {get() { return fakePerformance; }});
       sandbox.stub(element, 'reporter');
     });
     teardown(() => {

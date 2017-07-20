@@ -108,7 +108,7 @@
       // We are already displaying these types of links elsewhere,
       // don't include in the metadata links section.
       const webLinks = commitInfo.web_links.filter(
-          l => {return !this._isCommitWebLink(l); });
+          l => { return !this._isCommitWebLink(l); });
 
       return webLinks.length ? webLinks : null;
     },

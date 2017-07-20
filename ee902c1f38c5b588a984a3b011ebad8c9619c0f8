@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "6e31aae5_1e7acccf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:20:37Z",
+      "side": 1,
+      "message": "Oh, i see thanks. I will change to EN_US (capitals because constant everywhere.)",
+      "parentUuid": "61b6d93b_adccf96f",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 6
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9109bc87_c847a2ef",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 17
@@ -105,6 +129,30 @@
       "writtenOn": "2017-07-20T02:56:54Z",
       "side": 1,
       "message": "Use the ternary operator?\n\n return language !\u003d null ? language : Language.EN\n\nWe may also want to support site admin being able to specify a default language?",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 20
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02ef79d0_99492246",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:20:37Z",
+      "side": 1,
+      "message": "Ah yeh, thanks, done.\n\nAlso about admin\u0027s specifying a default lanaguage. How can i do that? Is there a place here i can follow on doing that please?",
+      "parentUuid": "9109bc87_c847a2ef",
       "range": {
         "startLine": 191,
         "startChar": 4,
@@ -163,6 +211,30 @@
     },
     {
       "key": {
+        "uuid": "4bad8253_78c5a3dd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:20:37Z",
+      "side": 1,
+      "message": "Ok thanks.\n\nMaybe a seperate change can do this. But i would like to try to prevent merge conflicts so we can do this after my change is merged.",
+      "parentUuid": "a3fcb496_9b47ab52",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc855854_f86287c3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 17
@@ -174,6 +246,30 @@
       "writtenOn": "2017-07-20T02:56:54Z",
       "side": 1,
       "message": "This will be tedious to maintain if more languages are added.  It would be better to iterate over the enumerations.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 97
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d40f3ff_5f35bee1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:20:37Z",
+      "side": 1,
+      "message": "How can i do that please?",
+      "parentUuid": "dc855854_f86287c3",
       "range": {
         "startLine": 77,
         "startChar": 4,

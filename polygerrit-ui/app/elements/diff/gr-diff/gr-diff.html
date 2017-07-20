@@ -142,6 +142,20 @@ limitations under the License.
       .content.remove {
         background-color: var(--light-remove-highlight-color);
       }
+      .dueToRebase .content.add .intraline,
+      .delta.total.dueToRebase .content.add {
+        background-color: var(--dark-rebased-add-highlight-color);
+      }
+      .dueToRebase .content.add {
+        background-color: var(--light-rebased-add-highlight-color);
+      }
+      .dueToRebase .content.remove .intraline,
+      .delta.total.dueToRebase .content.remove {
+        background-color: var(--dark-rebased-remove-highlight-color);
+      }
+      .dueToRebase .content.remove {
+        background-color: var(--light-rebased-remove-highlight-color);
+      }
       .content .contentText:after {
         /* Newline, to ensure all lines are one line-height tall. */
         content: '\A';

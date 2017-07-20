@@ -177,18 +177,18 @@
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
     },
 
-    open(opt_focusTarget) {
-      this.knownLatestState = LatestPatchState.CHECKING;
-      this.fetchIsLatestKnown(this.change, this.$.restAPI)
-          .then(isUpToDate => {
-            this.knownLatestState = isUpToDate ?
-                LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
-          });
-
+    async open(opt_focusTarget) {
       this._focusOn(opt_focusTarget);
+
       if (!this.draft || !this.draft.length) {
         this.draft = this._loadStoredDraft();
       }
+
+      this.knownLatestState = LatestPatchState.CHECKING;
+      this.knownLatestState =
+          await this.fetchIsLatestKnown(this.change, this.$.restAPI) ?
+          LatestPatchState.LATEST :
+          LatestPatchState.NOT_LATEST;
     },
 
     focus() {
@@ -297,21 +297,21 @@
      * @param {Object} account
      * @param {ReviewerTypes} type
      */
-    _removeAccount(account, type) {
+    async _removeAccount(account, type) {
       if (account._pendingAdd) { return; }
 
-      return this.$.restAPI.removeChangeReviewer(this.change._number,
-          account._account_id).then(response => {
-            if (!response.ok) { return response; }
+      const response = await this.$.restAPI.removeChangeReviewer(
+          this.change._number, account._account_id);
 
-            const reviewers = this.change.reviewers[type] || [];
-            for (let i = 0; i < reviewers.length; i++) {
-              if (reviewers[i]._account_id == account._account_id) {
-                this.splice(['change', 'reviewers', type], i, 1);
-                break;
-              }
-            }
-          });
+      if (!response.ok) { return response; }
+
+      const reviewers = this.change.reviewers[type] || [];
+      for (let i = 0; i < reviewers.length; i++) {
+        if (reviewers[i]._account_id == account._account_id) {
+          this.splice(['change', 'reviewers', type], i, 1);
+          break;
+        }
+      }
     },
 
     _mapReviewer(reviewer) {
@@ -326,11 +326,11 @@
       return {reviewer: reviewerId, confirmed};
     },
 
-    send(includeComments, startReview) {
+    async send(includeComments, startReview) {
       if (this.knownLatestState === 'not-latest') {
         this.fire('show-alert',
             {message: 'Cannot reply to non-latest patch.'});
-        return Promise.resolve({});
+        return {};
       }
 
       const labels = this.$.labelScores.getLabelValues();
@@ -369,32 +369,32 @@
 
       this.disabled = true;
 
-      const errFn = this._handle400Error.bind(this);
-      return this._saveReview(obj, errFn).then(response => {
+      try {
+        const response =
+            await this._saveReview(obj, r => this._handle400Error(r));
+
         if (!response) {
           // Null or undefined response indicates that an error handler
           // took responsibility, so just return.
-          return false;
+          return {};
         }
         if (!response.ok) {
           this.fire('server-error', {response});
-          return false;
+          return {};
         }
-        // TODO(logan): Replace with true value return once the required API
-        // changes are live and stable on googlesource.com.
-        return this._maybeSetReady(startReview, response);
-      }).then(ok => {
+
+        // TODO(logan): Remove once the required API changes are live and stable
+        // on googlesource.com.
+        await this._maybeSetReady(startReview, response);
+
         this.disabled = false;
-        if (ok) {
-          this.draft = '';
-          this._includeComments = true;
-          this.fire('send', null, {bubbles: false});
-        }
+        this.draft = '';
+        this._includeComments = true;
+        this.fire('send', null, {bubbles: false});
         return accountAdditions;
-      }).catch(err => {
+      } finally {
         this.disabled = false;
-        throw err;
-      });
+      }
     },
 
     /**
@@ -404,36 +404,21 @@
      * TODO(logan): Remove this once the required API changes are live and
      * stable on googlesource.com.
      */
-    _maybeSetReady(startReview, response) {
-      return this.$.restAPI.getResponseObject(response).then(result => {
-        if (!startReview || result.ready) {
-          return Promise.resolve(true);
+    async _maybeSetReady(startReview, response) {
+      const result = await this.$.restAPI.getResponseObject(response);
+      if (!startReview || result.ready) {
+        return;
+      }
+
+      // We don't have confirmation that review was started, so attempt to
+      // start review explicitly.
+      return this.$.restAPI.startReview(this.change._number, null, response => {
+        // A response code of 409 indicates that we were able to set ready
+        // in the previous review call, so no need to display an error toast.
+        if (response.status === 409) {
+          return;
         }
-        // We don't have confirmation that review was started, so attempt to
-        // start review explicitly.
-        return new Promise(resolve => {
-          let requestFailed = false;
-          this.$.restAPI.startReview(
-              this.change._number, null, response => {
-                requestFailed = true;
-                // If we see a 409 response code, then that means the server
-                // *does* support moving from WIP->ready when posting a
-                // review. In that case we should just ignore this error.
-                if (response.status === 409) {
-                  resolve(true);
-                  return;
-                }
-                this.fire('server-error', {response});
-                // Resolve to success because the review was posted. User may
-                // end up confused because change may still be WIP despite
-                // using the "Start review" button, but this is temporary.
-                resolve(true);
-              }).then(() => {
-                if (!requestFailed) {
-                  resolve(true);
-                }
-              });
-        });
+        this.fire('server-error', {response});
       });
     },
 
@@ -466,7 +451,7 @@
       return FocusTarget.BODY;
     },
 
-    _handle400Error(response) {
+    async _handle400Error(response) {
       // A call to _saveReview could fail with a server error if erroneous
       // reviewers were requested. This is signalled with a 400 Bad Request
       // status. The default gr-rest-api-interface error handling would
@@ -477,8 +462,6 @@
       // through to restAPI as a custom error handling function. Since we're
       // short-circuiting restAPI we can do our own response parsing and fire
       // the server-error ourselves.
-      //
-      this.disabled = false;
 
       if (response.status !== 400) {
         // This is all restAPI does when there is no custom error handling.
@@ -488,24 +471,23 @@
 
       // Process the response body, format a better error message, and fire
       // an event for gr-event-manager to display.
-      const jsonPromise = this.$.restAPI.getResponseObject(response);
-      return jsonPromise.then(result => {
-        const errors = [];
-        for (const state of ['reviewers', 'ccs']) {
-          if (!result.hasOwnProperty(state)) { continue; }
-          for (const reviewer of Object.values(result[state])) {
-            if (reviewer.error) {
-              errors.push(reviewer.error);
-            }
+      const result = await this.$.restAPI.getResponseObject(response);
+      const errors = [];
+      for (const state of ['reviewers', 'ccs']) {
+        if (!result.hasOwnProperty(state)) { continue; }
+        for (const reviewer of Object.values(result[state])) {
+          if (reviewer.error) {
+            errors.push(reviewer.error);
           }
         }
-        response = {
-          ok: false,
-          status: response.status,
-          text() { return Promise.resolve(errors.join(', ')); },
-        };
-        this.fire('server-error', {response});
-      });
+      }
+      response = {
+        ok: false,
+        status: response.status,
+        async text() { return errors.join(', '); },
+      };
+      this.fire('server-error', {response});
+      return response;
     },
 
     _computeHideDraftList(drafts) {
@@ -624,29 +606,28 @@
           this.serverConfig);
     },
 
-    _saveTapHandler(e) {
+    async _saveTapHandler(e) {
       e.preventDefault();
       if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
         // Do not proceed with the save if there is an invalid email entry in
         // the text field of the CC entry.
         return;
       }
-      this.send(this._includeComments, false).then(keepReviewers => {
-        this._purgeReviewersPendingRemove(false, keepReviewers);
-      });
+
+      const keepReviewers = await this.send(this._includeComments, false);
+      return this._purgeReviewersPendingRemove(false, keepReviewers);
     },
 
-    _sendTapHandler(e) {
+    async _sendTapHandler(e) {
       e.preventDefault();
       if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
         // Do not proceed with the send if there is an invalid email entry in
         // the text field of the CC entry.
         return;
       }
-      return this.send(this._includeComments, this.canBeStarted)
-          .then(keepReviewers => {
-            this._purgeReviewersPendingRemove(false, keepReviewers);
-          });
+
+      const keepReviewers = this.send(this._includeComments, this.canBeStarted);
+      return this._purgeReviewersPendingRemove(false, keepReviewers);
     },
 
     _saveReview(review, opt_errFn) {

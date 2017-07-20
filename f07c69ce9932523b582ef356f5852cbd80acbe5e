@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de3cdcec_b91d4cf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-20T20:45:38Z",
+      "side": 0,
+      "message": "It doesn\u0027t look like this was removed from gr-change-view.js. Should it have been since these tests are getting removed?",
+      "range": {
+        "startLine": 719,
+        "startChar": 29,
+        "endLine": 719,
+        "endChar": 49
+      },
+      "revId": "f07c69ce9932523b582ef356f5852cbd80acbe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

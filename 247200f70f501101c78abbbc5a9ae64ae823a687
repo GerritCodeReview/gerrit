@@ -94,6 +94,29 @@
       "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea1e1ddd_c585215f",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-20T20:45:38Z",
+      "side": 1,
+      "message": "I\u0027m trying to think about the order of these (since that\u0027s the order it will print)... \n\nI\u0027m thinking maybe Merge Conflict should either go first or after WIP?",
+      "range": {
+        "startLine": 125,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 56
+      },
+      "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

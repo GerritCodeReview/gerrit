@@ -199,8 +199,9 @@
     },
 
     saveProjectConfig(project, config, opt_errFn, opt_ctx) {
-      return this.send('PUT', `/projects/${project}/config`, config, opt_errFn,
-          opt_ctx);
+      const encodeName = encodeURIComponent(project);
+      return this.send('PUT', `/projects/${encodeName}/config`, config,
+          opt_errFn, opt_ctx);
     },
 
     createProject(config, opt_errFn, opt_ctx) {
@@ -618,7 +619,8 @@
     },
 
     setProjectHead(project, ref) {
-      return this.send('PUT', `/projects/${project}/HEAD`, {ref});
+      return this.send(
+          'PUT', `/projects/${encodeURIComponent(project)}/HEAD`, {ref});
     },
 
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {

@@ -46,6 +46,7 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -86,6 +88,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AgreementJson agreementJson;
   private final GerritOptions gerritOptions;
   private final ChangeIndexCollection indexes;
+  private final SitePaths sitePaths;
 
   @Inject
   public GetServerInfo(
@@ -107,7 +110,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ProjectCache projectCache,
       AgreementJson agreementJson,
       GerritOptions gerritOptions,
-      ChangeIndexCollection indexes) {
+      ChangeIndexCollection indexes,
+      final SitePaths sitePaths) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -127,6 +131,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.agreementJson = agreementJson;
     this.gerritOptions = gerritOptions;
     this.indexes = indexes;
+    this.sitePaths = sitePaths;
   }
 
   @Override
@@ -139,6 +144,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
+    if (Files.exists(sitePaths.site_theme)) {
+      info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
+    }
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
 

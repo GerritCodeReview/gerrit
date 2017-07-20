@@ -267,14 +267,18 @@ limitations under the License.
       return getComputedStyle(el).getPropertyValue('display') != 'none';
     }
 
-    function overlayObserver(mode) {
+    function observeOneEvent(eventName) {
       return new Promise(resolve => {
-        function listener() {
-          element.removeEventListener('iron-overlay-' + mode, listener);
-          resolve();
+        function listener(e) {
+          element.removeEventListener(eventName, listener);
+          resolve(e);
         }
-        element.addEventListener('iron-overlay-' + mode, listener);
+        element.addEventListener(eventName, listener);
       });
+    }
+
+    function overlayObserver(mode) {
+      return observeOneEvent('iron-overlay-' + mode);
     }
 
     async function testConfirmationDialog(cc) {
@@ -424,7 +428,7 @@ limitations under the License.
       assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
 
-    test('400 converts to human-readable server-error', done => {
+    test('400 converts to human-readable server-error', async () => {
       sandbox.stub(window, 'fetch', async () => {
         const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
@@ -435,19 +439,18 @@ limitations under the License.
         };
       });
 
-      element.addEventListener('server-error', event => {
-        if (event.target !== element) {
-          return;
-        }
-        event.detail.response.text().then(body => {
-          assert.equal(body, 'first error, second error');
-          done();
-        });
-      });
+      const observer = observeOneEvent('server-error');
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
       flush(() => { element.send(); });
+
+      const e = await observer;
+      if (e.target !== element) {
+        return;
+      }
+      const body = await e.detail.response.text();
+      assert.equal(body, 'first error, second error');
     });
 
     test('ccs are displayed if NoteDb is enabled', () => {
@@ -712,7 +715,7 @@ limitations under the License.
           'Start review');
     });
 
-    test('_handle400Error reviewrs and CCs', done => {
+    test('_handle400Error reviewrs and CCs', async () => {
       const error1 = 'error 1';
       const error2 = 'error 2';
       const error3 = 'error 3';
@@ -739,15 +742,15 @@ limitations under the License.
           });
         },
       };
-      element.addEventListener('server-error', async e => {
-        const text = await e.detail.response.text();
-        assert.equal(text, [error1, error2, error3].join(', '));
-        done();
-      });
-      element._handle400Error(response);
+
+      const observer = observeOneEvent('server-error');
+      await element._handle400Error(response);
+      const e = await observer;
+      const text = await e.detail.response.text();
+      assert.equal(text, [error1, error2, error3].join(', '));
     });
 
-    test('_handle400Error CCs only', done => {
+    test('_handle400Error CCs only', async () => {
       const error1 = 'error 1';
       const response = {
         status: 400,
@@ -762,12 +765,12 @@ limitations under the License.
           });
         },
       };
-      element.addEventListener('server-error', async e => {
-        const text = await e.detail.response.text();
-        assert.equal(text, error1);
-        done();
-      });
+
+      const observer = observeOneEvent('server-error');
       element._handle400Error(response);
+      const e = await observer;
+      const text = await e.detail.response.text();
+      assert.equal(text, error1);
     });
 
     suite('post review API', () => {

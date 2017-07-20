@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02f1a30e_268ebcef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 65
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-20T22:25:50Z",
+      "side": 1,
+      "message": "We should handle this in a way other than window.location.reload. Perhaps just call getItems again? (here and below)",
+      "range": {
+        "startLine": 212,
+        "startChar": 16,
+        "endLine": 212,
+        "endChar": 41
+      },
+      "revId": "187d34acfac6ac2cfafa3324b69879e02f5a1ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

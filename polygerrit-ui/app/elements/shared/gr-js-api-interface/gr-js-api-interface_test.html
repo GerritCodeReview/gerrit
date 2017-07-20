@@ -78,7 +78,7 @@ limitations under the License.
 
     test('_send on failure rejects with response text', () => {
       sendStub.returns(Promise.resolve(
-          {status: 400, text() {return Promise.resolve('text');}}));
+          {status: 400, text() { return Promise.resolve('text'); }}));
       return plugin._send().catch(r => {
         assert.equal(r, 'text');
       });
@@ -86,7 +86,7 @@ limitations under the License.
 
     test('_send on failure without text rejects with code', () => {
       sendStub.returns(Promise.resolve(
-          {status: 400, text() {return Promise.resolve(null);}}));
+          {status: 400, text() { return Promise.resolve(null); }}));
       return plugin._send().catch(r => {
         assert.equal(r, '400');
       });

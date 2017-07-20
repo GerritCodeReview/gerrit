@@ -49,7 +49,7 @@ limitations under the License.
     });
 
     test('tap on trigger opens menu', () => {
-      sandbox.stub(element, '_open', () => {element.$.dropdown.open();});
+      sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(element.$.trigger);
       assert.isTrue(element.$.dropdown.opened);

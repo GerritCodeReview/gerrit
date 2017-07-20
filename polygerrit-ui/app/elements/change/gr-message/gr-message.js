@@ -174,7 +174,7 @@
       if (!message.message) { return null; }
       const line = message.message.split('\n', 1)[0];
       const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-      if (!line.match(patchSetPrefix)) { return null;}
+      if (!line.match(patchSetPrefix)) { return null; }
       const scoresRaw = line.split(patchSetPrefix)[1];
       if (!scoresRaw) { return null; }
       const scores = scoresRaw.split(' ');

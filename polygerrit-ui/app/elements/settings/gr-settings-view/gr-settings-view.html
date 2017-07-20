@@ -97,6 +97,17 @@ limitations under the License.
             id="Preferences"
             class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
+          <section hidden$="[[!_localPrefs.language]]">
+            <span class="title">Language</span>
+            <span class="value">
+              <gr-select
+                  bind-value="{{_localPrefs.language}}">
+                <select>
+                  <option value="EN_US">English</option>
+                </select>
+              </gr-select>
+            </span>
+          </section>
           <section>
             <span class="title">Changes per page</span>
             <span class="value">

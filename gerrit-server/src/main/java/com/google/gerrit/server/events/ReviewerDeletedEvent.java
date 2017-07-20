@@ -22,6 +22,7 @@ import com.google.gerrit.server.data.ApprovalAttribute;
 public class ReviewerDeletedEvent extends PatchSetEvent {
   public static final String TYPE = "reviewer-deleted";
   public Supplier<AccountAttribute> reviewer;
+  public Supplier<AccountAttribute> remover;
   public Supplier<ApprovalAttribute[]> approvals;
   public String comment;
 

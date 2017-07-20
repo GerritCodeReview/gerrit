@@ -309,6 +309,7 @@ public class StreamEventsApiListener
       event.change = changeAttributeSupplier(change);
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
+      event.remover = accountAttributeSupplier(ev.getWho());
       event.comment = ev.getComment();
       event.approvals =
           approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());

@@ -255,9 +255,9 @@ change:: link:json.html#change[change attribute]
 
 patchSet:: link:json.html#patchSet[patchSet attribute]
 
-reviewer:: link:json.html#account[account attribute]
+reviewer:: reviewer that was removed as link:json.html#account[account attribute]
 
-author:: link:json.html#account[account attribute]
+remover:: user that removed the reviewer as link:json.html#account[account attribute]
 
 approvals:: All link:json.html#approval[approval attributes] removed.
 

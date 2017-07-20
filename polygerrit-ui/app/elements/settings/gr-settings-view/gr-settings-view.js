@@ -15,6 +15,7 @@
   'use strict';
 
   const PREFS_SECTION_FIELDS = [
+    'language',
     'changes_per_page',
     'date_format',
     'time_format',

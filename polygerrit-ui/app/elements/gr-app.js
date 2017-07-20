@@ -124,13 +124,13 @@
 
     _viewChanged(view) {
       this.$.errorView.classList.remove('show');
-      this.set('_showChangeListView', view === 'gr-change-list-view');
-      this.set('_showDashboardView', view === 'gr-dashboard-view');
-      this.set('_showChangeView', view === 'gr-change-view');
-      this.set('_showDiffView', view === 'gr-diff-view');
-      this.set('_showSettingsView', view === 'gr-settings-view');
-      this.set('_showAdminView', view === 'gr-admin-view');
-      this.set('_showCLAView', view === 'gr-cla-view');
+      this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
+      this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);
+      this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
+      this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
+      this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
+      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
+      this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
@@ -193,7 +193,7 @@
       if (!this.params) {
         return;
       }
-      const viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
+      const viewsToCheck = [Gerrit.Nav.View.SEARCH, Gerrit.Nav.View.DASHBOARD];
       if (viewsToCheck.includes(this.params.view)) {
         this.set('_lastSearchPage', location.pathname);
       }
@@ -218,7 +218,7 @@
 
     _handleAccountDetailUpdate(e) {
       this.$.mainHeader.reload();
-      if (this.params.view === 'gr-settings-view') {
+      if (this.params.view === Gerrit.Nav.View.SETTINGS) {
         this.$$('gr-settings-view').reloadAccountDetail();
       }
     },

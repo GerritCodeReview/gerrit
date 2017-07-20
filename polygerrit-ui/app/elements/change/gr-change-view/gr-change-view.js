@@ -429,7 +429,7 @@
     },
 
     _paramsChanged(value) {
-      if (value.view !== this.tagName.toLowerCase()) {
+      if (value.view !== Gerrit.Nav.View.CHANGE) {
         this._initialLoadComplete = false;
         return;
       }

@@ -1238,6 +1238,7 @@ any account.
 
   )]}'
   {
+    "language": "EN_US",
     "changes_per_page": 25,
     "show_site_header": true,
     "use_flash_clipboard": true,
@@ -1297,6 +1298,7 @@ link:#preferences-input[PreferencesInput] entity.
   Content-Type: application/json; charset=UTF-8
 
   {
+    "language": "EN_US",
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,
@@ -1352,6 +1354,7 @@ link:#preferences-info[PreferencesInfo] entity.
 
   )]}'
   {
+    "language": "EN_US",
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,

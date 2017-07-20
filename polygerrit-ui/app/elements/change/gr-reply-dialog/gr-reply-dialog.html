@@ -146,8 +146,7 @@ limitations under the License.
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <gr-account-chip account="[[_owner]]">
-          <gr-account-chip>
+          <gr-account-chip account="[[_owner]]"></gr-account-chip>
         </div>
       </section>
       <section class="peopleContainer">
@@ -255,7 +254,6 @@ limitations under the License.
             disabled="[[_isState(knownLatestState, 'not-latest')]]"
             class="action send"
             on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-        </gr-button>
         <template is="dom-if" if="[[canBeStarted]]">
           <gr-button
               disabled="[[_isState(knownLatestState, 'not-latest')]]"

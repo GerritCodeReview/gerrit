@@ -53,8 +53,8 @@ limitations under the License.
       patchNum = 1;
 
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getAccount() { return Promise.resolve({}); },
+        async getConfig() { return {}; },
+        async getAccount() { return {}; },
       });
 
       element = fixture('basic');
@@ -101,8 +101,7 @@ limitations under the License.
       eraseDraftCommentStub = sandbox.stub(element.$.storage,
           'eraseDraftComment');
 
-      sandbox.stub(element, 'fetchIsLatestKnown',
-          () => { return Promise.resolve(true); });
+      sandbox.stub(element, 'fetchIsLatestKnown', async () => true);
 
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
@@ -113,22 +112,16 @@ limitations under the License.
     });
 
     function stubSaveReview(jsonResponseProducer) {
-      return sandbox.stub(element, '_saveReview', review => {
-        return new Promise((resolve, reject) => {
-          try {
-            const result = jsonResponseProducer(review) || {};
-            const resultStr =
-                element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
-            resolve({
-              ok: true,
-              text() {
-                return Promise.resolve(resultStr);
-              },
-            });
-          } catch (err) {
-            reject(err);
-          }
-        });
+      return sandbox.stub(element, '_saveReview', async review => {
+        const result = jsonResponseProducer(review) || {};
+        const resultStr =
+            element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
+        return {
+          ok: true,
+          async text() {
+            return resultStr;
+          },
+        };
       });
     }
 
@@ -284,7 +277,7 @@ limitations under the License.
       });
     }
 
-    function testConfirmationDialog(done, cc) {
+    async function testConfirmationDialog(cc) {
       const yesButton =
           element.$$('.reviewerConfirmationButtons gr-button:first-child');
       const noButton =
@@ -325,74 +318,73 @@ limitations under the License.
             element._pendingConfirmationDetails);
       }
 
-      observer.then(() => {
-        assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-        observer = overlayObserver('closed');
-        const expected = 'Group name has 10 members';
-        assert.notEqual(
-            element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
-            -1);
-        MockInteractions.tap(noButton); // close the overlay
-        return observer;
-      }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+      await observer;
+      assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+      observer = overlayObserver('closed');
+      const expected = 'Group name has 10 members';
+      assert.notEqual(
+          element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
+          -1);
+      MockInteractions.tap(noButton); // close the overlay
 
-        // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
+      await observer;
+      assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
-        // No reviewer/CC should have been added.
-        assert.equal(element.$$('#ccs').additions().length, 0);
-        assert.equal(element.$.reviewers.additions().length, 0);
+      // We should be focused on account entry input.
+      assert.equal(getActiveElement().id, 'input');
 
-        // Reopen confirmation dialog.
-        observer = overlayObserver('opened');
-        if (cc) {
-          element._ccPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        } else {
-          element._reviewerPendingConfirmation = {
-            group,
-            count: 10,
-          };
-        }
-        return observer;
-      }).then(() => {
-        assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-        observer = overlayObserver('closed');
-        MockInteractions.tap(yesButton); // Confirm the group.
-        return observer;
-      }).then(() => {
-        assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-        const additions = cc ?
-            element.$$('#ccs').additions() :
-            element.$.reviewers.additions();
-        assert.deepEqual(
-            additions,
-            [
-              {
-                group: {
-                  id: 'id',
-                  name: 'name',
-                  confirmed: true,
-                  _group: true,
-                  _pendingAdd: true,
-                },
+      // No reviewer/CC should have been added.
+      assert.equal(element.$$('#ccs').additions().length, 0);
+      assert.equal(element.$.reviewers.additions().length, 0);
+
+      // Reopen confirmation dialog.
+      observer = overlayObserver('opened');
+      if (cc) {
+        element._ccPendingConfirmation = {
+          group,
+          count: 10,
+        };
+      } else {
+        element._reviewerPendingConfirmation = {
+          group,
+          count: 10,
+        };
+      }
+
+      await observer;
+      assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+      observer = overlayObserver('closed');
+      MockInteractions.tap(yesButton); // Confirm the group.
+
+      await observer;
+      assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+      const additions = cc ?
+          element.$$('#ccs').additions() :
+          element.$.reviewers.additions();
+      assert.deepEqual(
+          additions,
+          [
+            {
+              group: {
+                id: 'id',
+                name: 'name',
+                confirmed: true,
+                _group: true,
+                _pendingAdd: true,
               },
-            ]);
+            },
+          ]);
 
-        // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
-      }).then(done);
+      // We should be focused on account entry input.
+      assert.equal(getActiveElement().id, 'input');
     }
 
-    test('cc confirmation', done => {
-      testConfirmationDialog(done, true);
+    test('cc confirmation', async () => {
+      await testConfirmationDialog(true);
     });
 
-    test('reviewer confirmation', done => {
-      testConfirmationDialog(done, false);
+    test('reviewer confirmation', async () => {
+      await testConfirmationDialog(false);
     });
 
     test('_getStorageLocation', () => {
@@ -433,14 +425,14 @@ limitations under the License.
     });
 
     test('400 converts to human-readable server-error', done => {
-      sandbox.stub(window, 'fetch', () => {
+      sandbox.stub(window, 'fetch', async () => {
         const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
-        return Promise.resolve({
+        return {
           ok: false,
           status: 400,
-          text() { return Promise.resolve(text); },
-        });
+          async text() { return text; },
+        };
       });
 
       element.addEventListener('server-error', event => {
@@ -636,7 +628,7 @@ limitations under the License.
       assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
     });
 
-    test('migrate reviewers between states', done => {
+    test('migrate reviewers between states', async () => {
       element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
@@ -657,9 +649,8 @@ limitations under the License.
 
       stubSaveReview(review => mutations.push(...review.reviewers));
 
-      sandbox.stub(element, '_removeAccount', (account, type) => {
+      sandbox.stub(element, '_removeAccount', async (account, type) => {
         mutations.push({state: 'REMOVED', account});
-        return Promise.resolve();
       });
 
       // Remove and add to other field.
@@ -682,20 +673,16 @@ limitations under the License.
       };
 
       // Send and purge and verify moves, delete cc3.
-      element.send()
-          .then(keepReviewers =>
-              element._purgeReviewersPendingRemove(false, keepReviewers))
-          .then(() => {
-            assert.deepEqual(
-                mutations, [
-                  mapReviewer(cc1),
-                  mapReviewer(cc2),
-                  mapReviewer(reviewer1, 'CC'),
-                  mapReviewer(reviewer2, 'CC'),
-                  {account: cc3, state: 'REMOVED'},
-                ]);
-            done();
-          });
+      const keepReviewers = await element.send();
+      await element._purgeReviewersPendingRemove(false, keepReviewers);
+      assert.deepEqual(
+          mutations, [
+            mapReviewer(cc1),
+            mapReviewer(cc2),
+            mapReviewer(reviewer1, 'CC'),
+            mapReviewer(reviewer2, 'CC'),
+            {account: cc3, state: 'REMOVED'},
+          ]);
     });
 
     test('emits cancel on esc key', () => {
@@ -731,8 +718,8 @@ limitations under the License.
       const error3 = 'error 3';
       const response = {
         status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
+        async text() {
+          return ')]}\'' + JSON.stringify({
             reviewers: {
               username1: {
                 input: 'user 1',
@@ -749,14 +736,13 @@ limitations under the License.
                 error: error3,
               },
             },
-          }));
+          });
         },
       };
-      element.addEventListener('server-error', e => {
-        e.detail.response.text().then(text => {
-          assert.equal(text, [error1, error2, error3].join(', '));
-          done();
-        });
+      element.addEventListener('server-error', async e => {
+        const text = await e.detail.response.text();
+        assert.equal(text, [error1, error2, error3].join(', '));
+        done();
       });
       element._handle400Error(response);
     });
@@ -765,22 +751,21 @@ limitations under the License.
       const error1 = 'error 1';
       const response = {
         status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
+        async text() {
+          return ')]}\'' + JSON.stringify({
             ccs: {
               username1: {
                 input: 'user 1',
                 error: error1,
               },
             },
-          }));
+          });
         },
       };
-      element.addEventListener('server-error', e => {
-        e.detail.response.text().then(text => {
-          assert.equal(text, error1);
-          done();
-        });
+      element.addEventListener('server-error', async e => {
+        const text = await e.detail.response.text();
+        assert.equal(text, error1);
+        done();
       });
       element._handle400Error(response);
     });
@@ -789,43 +774,38 @@ limitations under the License.
       let startReviewStub;
 
       setup(() => {
-        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview', () => {
-          return Promise.resolve();
-        });
+        startReviewStub = sandbox.stub(
+            element.$.restAPI, 'startReview', async () => undefined);
       });
 
-      test('ready property in review input on start review', () => {
+      test('ready property in review input on start review', async () => {
         stubSaveReview(review => {
           assert.isTrue(review.ready);
           return {ready: true};
         });
-        return element.send(true, true).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
+        await element.send(true, true);
+        assert.isFalse(startReviewStub.called);
       });
 
-      test('no ready property in review input on save review', () => {
+      test('no ready property in review input on save review', async () => {
         stubSaveReview(review => {
           assert.isUndefined(review.ready);
         });
-        return element.send(true, false).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
+        await element.send(true, false);
+        assert.isFalse(startReviewStub.called);
       });
 
-      test('fall back to start review against old backend', () => {
+      test('fall back to start review against old backend', async () => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
 
-        return element.send(true, true).then(() => {
-          assert.isTrue(startReviewStub.called);
-        }).then(() => {
-          startReviewStub.reset();
-          return element.send(true, false);
-        }).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
+        await element.send(true, true);
+        assert.isTrue(startReviewStub.called);
+
+        startReviewStub.reset();
+        await element.send(true, false);
+        assert.isFalse(startReviewStub.called);
       });
     });
 
@@ -833,7 +813,7 @@ limitations under the License.
       let sendStub;
 
       setup(() => {
-        sendStub = sandbox.stub(element, 'send', () => Promise.resolve());
+        sendStub = sandbox.stub(element, 'send', async () => undefined);
         element.canBeStarted = true;
         // Flush to make both Start/Save buttons appear in DOM.
         flushAsynchronousOperations();
@@ -852,7 +832,7 @@ limitations under the License.
       });
     });
 
-    test('buttons disabled until all API calls are resolved', () => {
+    test('buttons disabled until all API calls are resolved', async () => {
       stubSaveReview(review => {
         return {}; // old backend won't set ready: true
       });
@@ -866,9 +846,8 @@ limitations under the License.
               10);
         });
       });
-      return element.send(true, true).then(() => {
-        assert.isFalse(element.disabled);
-      });
+      await element.send(true, true);
+      assert.isFalse(element.disabled);
     });
 
     suite('error handling', () => {
@@ -889,51 +868,57 @@ limitations under the License.
         assert.isFalse(element.disabled);
       }
 
-      test('error occurs in _saveReview', () => {
+      test('error occurs in _saveReview', async () => {
         stubSaveReview(review => {
           throw expectedError;
         });
-        return element.send(true, true).catch(err => {
+        try {
+          await element.send(true, true);
+        } catch (err) {
           assert.strictEqual(expectedError, err);
           assertDialogOpenAndEnabled();
-        });
+          return;
+        }
+        assert.fail(null, null, 'expected an exception to be thrown');
       });
 
-      test('error occurs during startReview', () => {
+      test('error occurs during startReview', async () => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
         sandbox.stub(element.$.restAPI, 'startReview', () => {
           throw expectedError;
         });
-        return element.send(true, true).catch(err => {
+        try {
+          await element.send(true, true);
+        } catch(err) {
           assert.strictEqual(expectedError, err);
           assertDialogOpenAndEnabled();
-        });
+          return;
+        };
+        assert.fail(null, null, 'expected an exception to be thrown');
       });
 
-      test('non-ok response received by startReview', () => {
+      test('non-ok response received by startReview', async () => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
-        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
+        sandbox.stub(element.$.restAPI, 'startReview', async (c, b, f) => {
           f({status: 500});
         });
-        return element.send(true, true).then(() => {
-          assertDialogClosed();
-        });
+        await element.send(true, true);
+        assertDialogClosed();
       });
 
-      test('409 response received by startReview', () => {
+      test('409 response received by startReview', async () => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
-        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
+        sandbox.stub(element.$.restAPI, 'startReview', async (c, b, f) => {
           f({status: 409});
         });
-        return element.send(true, true).then(() => {
-          assertDialogClosed();
-        });
+        await element.send(true, true);
+        assertDialogClosed();
       });
     });
   });

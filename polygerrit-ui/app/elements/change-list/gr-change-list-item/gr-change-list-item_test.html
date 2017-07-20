@@ -45,20 +45,6 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('change status', () => {
-      const getStatusForChange = function(change) {
-        element.change = change;
-        return element.$$('.cell.status').textContent.trim();
-      };
-
-      assert.equal(getStatusForChange({mergeable: true}), '');
-      assert.equal(getStatusForChange({mergeable: false}), 'Merge Conflict');
-      assert.equal(getStatusForChange({status: 'NEW'}), '');
-      assert.equal(getStatusForChange({status: 'MERGED'}), 'Merged');
-      assert.equal(getStatusForChange({status: 'ABANDONED'}), 'Abandoned');
-      assert.equal(getStatusForChange({status: 'DRAFT'}), 'Draft');
-    });
-
     test('computed fields', () => {
       assert.equal(element._computeLabelClass({labels: {}}),
           'cell label u-gray-background');

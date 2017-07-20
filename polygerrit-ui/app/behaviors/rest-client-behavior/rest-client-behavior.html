@@ -116,35 +116,19 @@ limitations under the License.
           status === this.ChangeStatus.DRAFT;
     },
 
-    wipOrPrivateStatus(change) {
-      if (change.work_in_progress && change.is_private) {
-        return ' (Private) (WIP)';
-      } else if (change.work_in_progress) {
-        return ' (WIP)';
-      } else if (change.is_private) {
-        return ' (Private)';
-      }
-      return '';
-    },
-
     changeStatusString(change) {
-      // "Closed" states should take precedence over "open" ones.
+      const states = [];
       if (change.status === this.ChangeStatus.MERGED) {
-        return 'Merged' + this.wipOrPrivateStatus(change);
+        states.push('Merged');
+      } else if (change.status === this.ChangeStatus.ABANDONED) {
+        states.push('Abandoned');
+      } else if (!change.mergeable) {
+        states.push('Merge Conflict');
       }
-      if (change.status === this.ChangeStatus.ABANDONED) {
-        return 'Abandoned' + this.wipOrPrivateStatus(change);
-      }
-      if (change.mergeable === false) {
-        return 'Merge Conflict' + this.wipOrPrivateStatus(change);
-      }
-      if (change.status === this.ChangeStatus.DRAFT) {
-        return 'Draft' + this.wipOrPrivateStatus(change);
-      }
-      if (change.status === this.ChangeStatus.NEW) {
-        return this.wipOrPrivateStatus(change);
-      }
-      return '';
+      if (change.work_in_progress) { states.push('WIP'); }
+      if (change.is_private) { states.push('Private'); }
+      if (change.status === this.ChangeStatus.DRAFT) { states.push('Draft'); }
+      return states.join(', ');
     },
   };
 

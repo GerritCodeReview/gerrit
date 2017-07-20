@@ -36,7 +36,7 @@
        */
       detailType: String,
 
-      _editing: {
+      _isEditing: {
         type: Boolean,
         value: false,
       },

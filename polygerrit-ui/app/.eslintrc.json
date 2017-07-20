@@ -53,6 +53,7 @@
     "quote-props": ["error", "consistent-as-needed"],
     "require-jsdoc": "off",
     "semi": [2, "always"],
+    "space-before-function-paren": ["error", "never"],
     "template-curly-spacing": "error",
     "valid-jsdoc": "off"
   },

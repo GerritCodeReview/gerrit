@@ -81,11 +81,6 @@
         type: Boolean,
         value: false,
       },
-      lineWrapping: {
-        type: Boolean,
-        value: false,
-        observer: '_lineWrappingObserver',
-      },
       viewMode: {
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
@@ -435,10 +430,6 @@
     },
 
     _viewModeObserver() {
-      this._prefsChanged(this.prefs);
-    },
-
-    _lineWrappingObserver() {
       this._prefsChanged(this.prefs);
     },
 

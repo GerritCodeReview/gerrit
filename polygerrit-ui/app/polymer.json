@@ -1,0 +1,6 @@
+{
+  "lint": {
+    "rules": ["polymer-1"],
+    "ignoreWarnings": ["multiple-doc-comments"]
+  }
+}

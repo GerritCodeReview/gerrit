@@ -46,6 +46,30 @@
       "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a50550fc_c1b10d43",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T20:26:16Z",
+      "side": 1,
+      "message": "Ah sorry.\n\nWhat i meant was it useful for changes list to show weather the change is private or not regardless if it\u0027s merged or abandoned :)",
+      "parentUuid": "915d6698_ca9e0295",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

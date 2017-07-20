@@ -648,6 +648,14 @@ The user's preferences are stored in a `git config` style file named
 
 The following preferences can be configured:
 
+- [[language]]`Language`:
++
+This setting controls what language is displayed.
++
+This is a list of supported languages.
++
+** `English`
+
 - [[review-category]]`Display In Review Category`:
 +
 This setting controls how the values of the review labels in change

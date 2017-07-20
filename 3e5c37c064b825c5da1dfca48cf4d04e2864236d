@@ -16,6 +16,24 @@
       "revId": "3e5c37c064b825c5da1dfca48cf4d04e2864236d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72e65ec_c96a6fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1044102
+      },
+      "writtenOn": "2017-07-20T20:59:24Z",
+      "side": 1,
+      "message": "I did some variance of what you suggest, but the main idea is the same. Please take a look, thanks.",
+      "parentUuid": "268f500c_c48ed401",
+      "revId": "3e5c37c064b825c5da1dfca48cf4d04e2864236d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

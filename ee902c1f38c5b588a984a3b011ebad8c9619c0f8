@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "251eefbf_c9ddc143",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T12:10:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b70b38bb_67c6bdd6",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3fcb496_9b47ab52",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 17
@@ -295,6 +319,30 @@
       "side": 1,
       "message": "Ok thanks.\n\nMaybe a seperate change can do this. But i would like to try to prevent merge conflicts so we can do this after my change is merged.",
       "parentUuid": "a3fcb496_9b47ab52",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38597f3f_17842111",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T12:10:49Z",
+      "side": 1,
+      "message": "Actually may as well do it in this change.",
+      "parentUuid": "4bad8253_78c5a3dd",
       "range": {
         "startLine": 32,
         "startChar": 0,

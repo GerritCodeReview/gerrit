@@ -70,6 +70,30 @@
       "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f588e67_17ac12a6",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-20T20:30:32Z",
+      "side": 1,
+      "message": "Ah, I see what you mean.\n\nI don\u0027t believe it\u0027s possible for a change to be both private and merged. As for abandoned, I\u0027m skeptical at the utility of additional granularity in the status bits, but we can see what others say when this change exits WIP mode. I\u0027d personally rather not include more bits if possible, as it really clutters up the UI. Imagine a change status reading \"Abandoned, Merge Conflict, WIP, Private\"!",
+      "parentUuid": "a50550fc_c1b10d43",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

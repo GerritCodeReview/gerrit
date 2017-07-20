@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "4fad6477_2eee632e",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:30:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9a0541ef_628e360d",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 657,
+        "endChar": 28
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a4d02ad_5d2af4f6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:30:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1bb48b68_59d487b8",
+      "range": {
+        "startLine": 657,
+        "startChar": 22,
+        "endLine": 657,
+        "endChar": 28
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d3ad8cb_fe781933",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T11:30:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "317fe039_c70e094c",
+      "range": {
+        "startLine": 657,
+        "startChar": 14,
+        "endLine": 657,
+        "endChar": 21
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61b6d93b_adccf96f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 17

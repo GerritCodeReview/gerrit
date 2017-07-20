@@ -1,5 +1,9 @@
 = Gerrit Code Review for Git
 
+== Quickstarts
+
+. link:linux-quickstart.html[Quickstart for Installing Gerrit on Linux]
+
 == Tutorial
 . Getting started
 .. link:intro-quick.html[A Quick Introduction to Gerrit]

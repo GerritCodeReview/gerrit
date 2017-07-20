@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-account-list/gr-account-list.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -235,7 +236,6 @@ limitations under the License.
                   <gr-account-chip
                       account="[[label.account]]"
                       data-account-id$="[[label.account._account_id]]"
-                      label-name="[[labelName]]"
                       removable="[[_computeCanDeleteVote(label.account, mutable)]]"
                       transparent-background
                       on-remove="_onDeleteVote"></gr-account-chip>

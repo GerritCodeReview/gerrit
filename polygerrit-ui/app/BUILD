@@ -46,6 +46,7 @@ filegroup(
     name = "pg_code",
     srcs = glob(
         [
+            "**/*.css",
             "**/*.html",
             "**/*.js",
         ],
@@ -115,8 +116,9 @@ sh_test(
     size = "large",
     srcs = ["polylint_test.sh"],
     data = [
+        "polymer.json",
         ":pg_code",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
+        ":test_components.zip",
     ],
     # Should not run sandboxed.
     tags = [

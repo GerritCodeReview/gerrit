@@ -27,6 +27,7 @@
         type: String,
         computed: '_computeChangeURL(change._number)',
       },
+      showNumber: Boolean,
       showStar: {
         type: Boolean,
         value: false,

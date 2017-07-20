@@ -199,8 +199,9 @@
     },
 
     saveProjectConfig(project, config, opt_errFn, opt_ctx) {
-      return this.send('PUT', `/projects/${project}/config`, config, opt_errFn,
-          opt_ctx);
+      const encodeName = encodeURIComponent(project);
+      return this.send('PUT', `/projects/${encodeName}/config`, config,
+          opt_errFn, opt_ctx);
     },
 
     createProject(config, opt_errFn, opt_ctx) {

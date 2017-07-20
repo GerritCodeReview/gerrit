@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9788bceb_e9876f90",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T01:01:54Z",
+      "side": 1,
+      "message": "Shoulden\u0027t this be gr-admin-view?",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "3c2e121c9d6fae6a8d17866fd212d7ea9a315022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

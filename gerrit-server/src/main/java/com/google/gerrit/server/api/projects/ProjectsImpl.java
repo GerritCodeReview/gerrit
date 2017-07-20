@@ -22,14 +22,18 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.QueryProjects;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
 import java.util.SortedMap;
 
 @Singleton
@@ -37,15 +41,18 @@ class ProjectsImpl implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;
   private final Provider<ListProjects> listProvider;
+  private final Provider<QueryProjects> queryProvider;
 
   @Inject
   ProjectsImpl(
       ProjectsCollection projects,
       ProjectApiImpl.Factory api,
-      Provider<ListProjects> listProvider) {
+      Provider<ListProjects> listProvider,
+      Provider<QueryProjects> queryProvider) {
     this.projects = projects;
     this.api = api;
     this.listProvider = listProvider;
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -123,5 +130,33 @@ class ProjectsImpl implements Projects {
     lp.setFilterType(type);
 
     return lp.apply();
+  }
+
+  @Override
+  public QueryRequest query() {
+    return new QueryRequest() {
+      @Override
+      public List<ProjectInfo> get() throws RestApiException {
+        return ProjectsImpl.this.query(this);
+      }
+    };
+  }
+
+  @Override
+  public QueryRequest query(String query) {
+    return query().withQuery(query);
+  }
+
+  private List<ProjectInfo> query(QueryRequest r) throws RestApiException {
+    try {
+      QueryProjects myQueryProjects = queryProvider.get();
+      myQueryProjects.setQuery(r.getQuery());
+      myQueryProjects.setLimit(r.getLimit());
+      myQueryProjects.setStart(r.getStart());
+
+      return myQueryProjects.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot query projects", e);
+    }
   }
 }

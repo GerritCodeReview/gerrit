@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bb48b68_59d487b8",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 657,
+        "startChar": 22,
+        "endLine": 657,
+        "endChar": 28
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "317fe039_c70e094c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "English",
+      "range": {
+        "startLine": 657,
+        "startChar": 14,
+        "endLine": 657,
+        "endChar": 21
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0541ef_628e360d",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "Maybe remove this and just add a list of supported languages?",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 657,
+        "endChar": 28
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61b6d93b_adccf96f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "Do we want to be more specific here, for example to differentiate between en-US and en-GB [1]?\n\n[1] https://en.wikipedia.org/wiki/Language_localisation#Language_tags_and_codes",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 6
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9109bc87_c847a2ef",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "Use the ternary operator?\n\n return language !\u003d null ? language : Language.EN\n\nWe may also want to support site admin being able to specify a default language?",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 20
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b70b38bb_67c6bdd6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "This will need to be removed if we allow site admin to specify the default.",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3fcb496_9b47ab52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "[optional]\nTypically we don\u0027t explicitly import subtypes like this; instead only import the main class (done on the previous line) and then explicitly refer to it in code.\n\nI see it\u0027s already done like this for ReviewCategoryStrategy though, so maybe OK to leave it.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc855854_f86287c3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T02:56:54Z",
+      "side": 1,
+      "message": "This will be tedious to maintain if more languages are added.  It would be better to iterate over the enumerations.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 97
+      },
+      "revId": "ee902c1f38c5b588a984a3b011ebad8c9619c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

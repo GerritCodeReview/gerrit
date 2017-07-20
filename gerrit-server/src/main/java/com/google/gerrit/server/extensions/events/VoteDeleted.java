@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.extensions.events;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -111,11 +110,6 @@ public class VoteDeleted {
     @Override
     public Map<String, ApprovalInfo> getOldApprovals() {
       return oldApprovals;
-    }
-
-    @Override
-    public Map<String, ApprovalInfo> getRemoved() {
-      return Maps.difference(oldApprovals, approvals).entriesOnlyOnLeft();
     }
 
     @Override

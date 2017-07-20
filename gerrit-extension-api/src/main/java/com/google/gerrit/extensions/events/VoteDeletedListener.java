@@ -26,8 +26,6 @@ public interface VoteDeletedListener {
 
     Map<String, ApprovalInfo> getApprovals();
 
-    Map<String, ApprovalInfo> getRemoved();
-
     String getMessage();
   }
 

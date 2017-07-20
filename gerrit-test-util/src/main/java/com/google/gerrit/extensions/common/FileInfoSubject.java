@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
+import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
@@ -50,5 +51,11 @@ public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
     isNotNull();
     FileInfo fileInfo = actual();
     return Truth.assertThat(fileInfo.linesDeleted).named("linesDeleted");
+  }
+
+  public ComparableSubject<?, Character> status() {
+    isNotNull();
+    FileInfo fileInfo = actual();
+    return Truth.assertThat(fileInfo.status).named("status");
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.FileInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
@@ -26,11 +27,13 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.testutil.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,6 +47,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -51,6 +55,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RevisionDiffIT extends AbstractDaemonTest {
+  // @RunWith(Parameterized.class) can't be used as AbstractDaemonTest is annotated with another
+  // runner. Using different configs is a workaround to achieve the same.
+  private static final String TEST_PARAMETER_MARKER = "test_only_parameter";
+  private static final String CURRENT = "current";
   private static final String FILE_NAME = "some_file.txt";
   private static final String FILE_NAME2 = "another_file.txt";
   private static final String FILE_CONTENT =
@@ -59,12 +67,22 @@ public class RevisionDiffIT extends AbstractDaemonTest {
           .collect(Collectors.joining());
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
+  private boolean intraline;
   private ObjectId commit1;
   private String changeId;
   private String initialPatchSetId;
 
+  @ConfigSuite.Config
+  public static Config intralineConfig() {
+    Config config = new Config();
+    config.setBoolean(TEST_PARAMETER_MARKER, null, "intraline", true);
+    return config;
+  }
+
   @Before
   public void setUp() throws Exception {
+    intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
+
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     commit1 =
         addCommit(headCommit, ImmutableMap.of(FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2));
@@ -76,6 +94,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   @Test
   public void diff() throws Exception {
+    // The assertions assume that intraline is false.
+    assume().that(intraline).isFalse();
+
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
@@ -91,7 +112,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
 
-    DiffInfo diff = gApi.changes().id(changeId).current().file(FILE_NAME).diff();
+    DiffInfo diff = getDiffRequest(changeId, CURRENT, FILE_NAME).get();
     assertThat(diff.metaA.lines).isEqualTo(100);
     assertThat(diff.metaB).isNull();
   }
@@ -115,6 +136,20 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath);
+  }
+
+  @Test
+  public void copiedFileTreatedAsAddedFileInDiff() throws Exception {
+    String copyFilePath = "copy_of_some_file.txt";
+    gApi.changes().id(changeId).edit().modifyFile(copyFilePath, RawInputUtil.create(FILE_CONTENT));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, copyFilePath);
+    // If this ever changes, please add tests which cover copied files.
+    assertThat(changedFiles.get(copyFilePath)).status().isEqualTo('A');
+    assertThat(changedFiles.get(copyFilePath)).linesInserted().isEqualTo(100);
+    assertThat(changedFiles.get(copyFilePath)).linesDeleted().isNull();
   }
 
   @Test
@@ -150,21 +185,21 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diff;
 
     // automerge
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff();
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").get();
     assertThat(diff.metaA.lines).isEqualTo(5);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff();
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").get();
     assertThat(diff.metaA.lines).isEqualTo(5);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     // parent 1
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("bar").diff(1);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").withParent(1).get();
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     // parent 2
-    diff = gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).file("foo").diff(2);
+    diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(2).get();
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
   }
@@ -229,6 +264,61 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenModifiedDuringRebase()
+      throws Exception {
+    String renamedFilePath = "renamed_some_file.txt";
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, renamedFilePath);
+
+    rebaseChangeOn(changeId, commit3);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
+  public void fileRenamedDuringRebaseSameAsInPatchSetIsIgnored() throws Exception {
+    String renamedFileName = "renamed_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(renamedFileName, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 = addCommitRenamingFile(commit1, FILE_NAME, renamedFileName);
+    rebaseChangeOn(changeId, commit2);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
+  public void fileWithRebaseHunksRenamedDuringRebaseSameAsInPatchSetIsIgnored() throws Exception {
+    String renamedFileName = "renamed_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(renamedFileName, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 10\n", "Line ten\n"));
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, renamedFileName);
+    rebaseChangeOn(changeId, commit3);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG);
+  }
+
+  @Test
   public void filesNotTouchedByPatchSetsAndContainingOnlyRebaseHunksAreIgnored() throws Exception {
     String newFileContent = FILE_CONTENT.replace("Line 10\n", "Line ten\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
@@ -280,7 +370,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
@@ -314,7 +404,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(49);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line fifty");
@@ -349,7 +439,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
@@ -391,7 +481,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification2);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(previousPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(41);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line forty");
@@ -421,7 +511,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().isNull();
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line zero");
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
@@ -464,7 +554,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification2);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(previousPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(37);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line forty");
@@ -494,7 +584,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().isNull();
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
@@ -525,7 +615,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(39);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo)
@@ -557,7 +647,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(38);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 39", "Line 40");
     assertThat(diffInfo)
@@ -589,7 +679,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(40);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 41", "Line 42");
     assertThat(diffInfo)
@@ -619,7 +709,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(38);
     assertThat(diffInfo)
         .content()
@@ -657,7 +747,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(40);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 41", "Line 42");
     assertThat(diffInfo)
@@ -690,7 +780,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
@@ -738,80 +828,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
                 .replace("Line 60\n", "Line sixty\n"));
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(previousPatchSetId);
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(1);
-    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 2");
-    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line two");
-    assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(4);
-    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line seven");
-    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line 7");
-    assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(1);
-    assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 9");
-    assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line nine");
-    assertThat(diffInfo).content().element(5).isNotDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(8);
-    assertThat(diffInfo).content().element(7).linesOfA().containsExactly("Line 18", "Line 19");
-    assertThat(diffInfo)
-        .content()
-        .element(7)
-        .linesOfB()
-        .containsExactly("Line eighteen", "Line nineteen");
-    assertThat(diffInfo).content().element(7).isDueToRebase();
-    assertThat(diffInfo).content().element(8).commonLines().hasSize(29);
-    assertThat(diffInfo).content().element(9).linesOfA().containsExactly("Line 50");
-    assertThat(diffInfo).content().element(9).linesOfB().containsExactly("Line fifty");
-    assertThat(diffInfo).content().element(9).isDueToRebase();
-    assertThat(diffInfo).content().element(10).commonLines().hasSize(9);
-    assertThat(diffInfo).content().element(11).linesOfA().containsExactly("Line 60");
-    assertThat(diffInfo).content().element(11).linesOfB().containsExactly("Line sixty");
-    assertThat(diffInfo).content().element(11).isNotDueToRebase();
-    assertThat(diffInfo).content().element(12).commonLines().hasSize(40);
-
-    Map<String, FileInfo> changedFiles =
-        gApi.changes().id(changeId).current().files(previousPatchSetId);
-    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(3);
-    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(3);
-  }
-
-  @Test
-  public void multipleRebaseEditsMixedWithRegularEditsCanBeIdentified_WithIntraline()
-      throws Exception {
-    addModifiedPatchSet(
-        changeId,
-        FILE_NAME,
-        fileContent -> fileContent.replace("Line 7\n", "Line seven\n").replace("Line 24\n", ""));
-    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-
-    ObjectId commit2 =
-        addCommit(
-            commit1,
-            FILE_NAME,
-            FILE_CONTENT
-                .replace("Line 2\n", "Line two\n")
-                .replace("Line 18\nLine 19\n", "Line eighteen\nLine nineteen\n")
-                .replace("Line 50\n", "Line fifty\n"));
-
-    rebaseChangeOn(changeId, commit2);
-    addModifiedPatchSet(
-        changeId,
-        FILE_NAME,
-        fileContent ->
-            fileContent
-                .replace("Line seven\n", "Line 7\n")
-                .replace("Line 9\n", "Line nine\n")
-                .replace("Line 60\n", "Line sixty\n"));
-
-    DiffInfo diffInfo =
-        gApi.changes()
-            .id(changeId)
-            .current()
-            .file(FILE_NAME)
-            .diffRequest()
-            .withBase(previousPatchSetId)
-            .withIntraline(true)
-            .get();
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(1);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 2");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line two");
@@ -862,7 +879,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     rebaseChangeOn(changeId, commit2);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(previousPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).changeType().isEqualTo(ChangeType.DELETED);
     assertThat(diffInfo).content().element(0).linesOfA().hasSize(100);
     assertThat(diffInfo).content().element(0).linesOfB().isNull();
@@ -884,7 +901,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         changeId, newFilePath, fileContent -> fileContent.replace("1st line\n", "First line\n"));
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(newFilePath).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, newFilePath).withBase(initialPatchSetId).get();
     assertThat(diffInfo).changeType().isEqualTo(ChangeType.ADDED);
     assertThat(diffInfo).content().element(0).linesOfA().isNull();
     assertThat(diffInfo).content().element(0).linesOfB().hasSize(3);
@@ -909,7 +926,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, renamedFilePath, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(renamedFilePath).diff(initialPatchSetId);
+        getDiffRequest(changeId, CURRENT, renamedFilePath).withBase(initialPatchSetId).get();
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
@@ -947,7 +964,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, renamedFilePath, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(renamedFilePath).diff(previousPatchSetId);
+        getDiffRequest(changeId, CURRENT, renamedFilePath).withBase(previousPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
@@ -962,6 +979,115 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(renamedFilePath)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(renamedFilePath)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedBetweenPatchSets()
+      throws Exception {
+    String newFilePath1 = "renamed_some_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(newFilePath1, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+
+    rebaseChangeOn(changeId, commit2);
+    String newFilePath2 = "renamed_some_file_to_something_else.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath2);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath2);
+    assertThat(changedFiles.get(newFilePath2)).linesInserted().isNull();
+    assertThat(changedFiles.get(newFilePath2)).linesDeleted().isNull();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, newFilePath2).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+  }
+
+  @Test
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedForRebaseAndForPatchSets()
+      throws Exception {
+    String newFilePath1 = "renamed_some_file.txt";
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // Revert the renaming to be able to rebase.
+    gApi.changes().id(changeId).edit().renameFile(newFilePath1, FILE_NAME);
+    gApi.changes().id(changeId).edit().publish();
+
+    ObjectId commit2 =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 5\n", "Line five\n"));
+    String newFilePath2 = "renamed_some_file_during_rebase.txt";
+    ObjectId commit3 = addCommitRenamingFile(commit2, FILE_NAME, newFilePath2);
+
+    rebaseChangeOn(changeId, commit3);
+    String newFilePath3 = "renamed_some_file_to_something_else.txt";
+    gApi.changes().id(changeId).edit().renameFile(newFilePath2, newFilePath3);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath3);
+    assertThat(changedFiles.get(newFilePath3)).linesInserted().isNull();
+    assertThat(changedFiles.get(newFilePath3)).linesDeleted().isNull();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, newFilePath3).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+  }
+
+  @Test
+  public void copiedAndRenamedFilesWithOnlyRebaseHunksAreIdentified() throws Exception {
+    String newFileContent = FILE_CONTENT.replace("Line 5\n", "Line five\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
+
+    rebaseChangeOn(changeId, commit2);
+    // Copies are only identified by JGit when paired with renaming.
+    String copyFileName = "copy_of_some_file.txt";
+    String renamedFileName = "renamed_some_file.txt";
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(copyFileName, RawInputUtil.create(newFileContent));
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, copyFileName, renamedFileName);
+
+    DiffInfo renamedFileDiffInfo =
+        getDiffRequest(changeId, CURRENT, renamedFileName).withBase(initialPatchSetId).get();
+    assertThat(renamedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(renamedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(renamedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(renamedFileDiffInfo).content().element(1).isDueToRebase();
+    assertThat(renamedFileDiffInfo).content().element(2).commonLines().hasSize(95);
+
+    DiffInfo copiedFileDiffInfo =
+        getDiffRequest(changeId, CURRENT, copyFileName).withBase(initialPatchSetId).get();
+    assertThat(copiedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(copiedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
+    assertThat(copiedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
+    assertThat(copiedFileDiffInfo).content().element(1).isDueToRebase();
+    assertThat(copiedFileDiffInfo).content().element(2).commonLines().hasSize(95);
   }
 
   /*
@@ -991,7 +1117,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, contentModification);
 
     DiffInfo diffInfo =
-        gApi.changes().id(changeId).current().file(FILE_NAME).diff(previousPatchSetId);
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 5");
@@ -1062,11 +1188,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     String currentPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     DiffInfo diffInfo =
-        gApi.changes()
-            .id(changeId)
-            .revision(initialPatchSetId)
-            .file(FILE_NAME)
-            .diff(currentPatchSetId);
+        getDiffRequest(changeId, initialPatchSetId, FILE_NAME).withBase(currentPatchSetId).get();
     assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 5");
@@ -1211,5 +1333,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
     return byteArrayOutputStream.toByteArray();
+  }
+
+  private FileApi.DiffRequest getDiffRequest(String changeId, String revisionId, String fileName)
+      throws Exception {
+    return gApi.changes()
+        .id(changeId)
+        .revision(revisionId)
+        .file(fileName)
+        .diffRequest()
+        .withIntraline(intraline);
   }
 }

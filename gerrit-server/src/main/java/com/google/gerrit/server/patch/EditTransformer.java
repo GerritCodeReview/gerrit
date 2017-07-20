@@ -19,7 +19,6 @@ import static com.google.common.collect.Multimaps.toMultimap;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -29,6 +28,7 @@ import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -108,10 +108,8 @@ class EditTransformer {
   private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
     Map<String, List<ContextAwareEdit>> editsPerFilePath =
         edits.stream().collect(groupingBy(sideStrategy::getFilePath));
-    Map<String, PatchListEntry> transformingEntryPerPath =
-        transformingEntries
-            .stream()
-            .collect(toMap(EditTransformer::getOldFilePath, Function.identity()));
+    Map<String, List<PatchListEntry>> transEntriesPerPath =
+        transformingEntries.stream().collect(groupingBy(EditTransformer::getOldFilePath));
 
     edits =
         editsPerFilePath
@@ -119,10 +117,9 @@ class EditTransformer {
             .stream()
             .flatMap(
                 pathAndEdits -> {
-                  PatchListEntry transformingEntry =
-                      transformingEntryPerPath.get(pathAndEdits.getKey());
-                  return transformEdits(sideStrategy, pathAndEdits.getValue(), transformingEntry)
-                      .stream();
+                  List<PatchListEntry> transEntries =
+                      transEntriesPerPath.getOrDefault(pathAndEdits.getKey(), ImmutableList.of());
+                  return transformEdits(sideStrategy, pathAndEdits.getValue(), transEntries);
                 })
             .collect(toList());
   }
@@ -131,15 +128,22 @@ class EditTransformer {
     return MoreObjects.firstNonNull(patchListEntry.getOldName(), patchListEntry.getNewName());
   }
 
-  private static List<ContextAwareEdit> transformEdits(
+  private static Stream<ContextAwareEdit> transformEdits(
       SideStrategy sideStrategy,
       List<ContextAwareEdit> originalEdits,
-      PatchListEntry transformingEntry) {
-    if (transformingEntry == null) {
-      return originalEdits;
+      List<PatchListEntry> transformingEntries) {
+    if (transformingEntries.isEmpty()) {
+      return originalEdits.stream();
     }
-    return transformEdits(
-        sideStrategy, originalEdits, transformingEntry.getEdits(), transformingEntry.getNewName());
+
+    // TODO(aliceks): Find a way to prevent an explosion of the number of entries.
+    return transformingEntries
+        .stream()
+        .flatMap(
+            transEntry ->
+                transformEdits(
+                        sideStrategy, originalEdits, transEntry.getEdits(), transEntry.getNewName())
+                    .stream());
   }
 
   private static List<ContextAwareEdit> transformEdits(
@@ -186,18 +190,27 @@ class EditTransformer {
           edit.getBeginA(),
           edit.getEndA(),
           edit.getBeginB(),
-          edit.getEndB());
+          edit.getEndB(),
+          false);
     }
 
     static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
-      return create(patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1);
+      return create(
+          patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(
-        String oldFilePath, String newFilePath, int beginA, int endA, int beginB, int endB) {
+        String oldFilePath,
+        String newFilePath,
+        int beginA,
+        int endA,
+        int beginB,
+        int endB,
+        boolean filePathAdjusted) {
       String adjustedOldFilePath = MoreObjects.firstNonNull(oldFilePath, newFilePath);
+      boolean implicitRename = !Objects.equals(oldFilePath, newFilePath) && filePathAdjusted;
       return new AutoValue_EditTransformer_ContextAwareEdit(
-          adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB);
+          adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
     }
 
     public abstract String getOldFilePath();
@@ -211,6 +224,9 @@ class EditTransformer {
     public abstract int getBeginB();
 
     public abstract int getEndB();
+
+    // Used for equals(), for which this value is important.
+    public abstract boolean isImplicitRename();
 
     public Optional<Edit> toEdit() {
       if (getBeginA() < 0) {
@@ -258,7 +274,8 @@ class EditTransformer {
           edit.getBeginA() + shiftedAmount,
           edit.getEndA() + shiftedAmount,
           edit.getBeginB(),
-          edit.getEndB());
+          edit.getEndB(),
+          !Objects.equals(edit.getOldFilePath(), adjustedFilePath));
     }
   }
 
@@ -289,7 +306,8 @@ class EditTransformer {
           edit.getBeginA(),
           edit.getEndA(),
           edit.getBeginB() + shiftedAmount,
-          edit.getEndB() + shiftedAmount);
+          edit.getEndB() + shiftedAmount,
+          !Objects.equals(edit.getNewFilePath(), adjustedFilePath));
     }
   }
 }

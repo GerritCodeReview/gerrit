@@ -16,6 +16,24 @@
       "revId": "94b76cf24cc29e9730ad6db0f06a15ee10c9a730",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b96d4fb_ae6a24ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-20T07:36:21Z",
+      "side": 1,
+      "message": "Yes, tests would be good.  I didn\u0027t have time to do that today; I have tested manually.\n\nThe tests can probably go into one of the existing test modules, whichever one is testing removal of votes.  I don\u0027t think it necessarily needs to be in its own test module.",
+      "parentUuid": "eb3f1415_d568bb88",
+      "revId": "94b76cf24cc29e9730ad6db0f06a15ee10c9a730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

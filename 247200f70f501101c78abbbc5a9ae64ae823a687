@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "50a86a2a_f8022281",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-20T20:58:44Z",
+      "side": 1,
+      "message": "Yes it is possible for a change to be merged as a private.\n\nI filled a task about a bug when you tryed to change the change to public again it would not let you. Thats now fixed :).",
+      "parentUuid": "2f588e67_17ac12a6",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "247200f70f501101c78abbbc5a9ae64ae823a687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea1e1ddd_c585215f",
         "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
         "patchSetId": 1

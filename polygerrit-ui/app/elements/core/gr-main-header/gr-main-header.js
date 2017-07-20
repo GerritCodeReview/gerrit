@@ -14,51 +14,6 @@
 (function() {
   'use strict';
 
-  const DEFAULT_LINKS = [{
-    title: 'Changes',
-    links: [
-      {
-        url: '/q/status:open',
-        name: 'Open',
-      },
-      {
-        url: '/q/status:merged',
-        name: 'Merged',
-      },
-      {
-        url: '/q/status:abandoned',
-        name: 'Abandoned',
-      },
-    ],
-  }];
-
-  const DOCUMENTATION_LINKS = [
-    {
-      url: '/index.html',
-      name: 'Table of Contents',
-    },
-    {
-      url: '/user-search.html',
-      name: 'Searching',
-    },
-    {
-      url: '/user-upload.html',
-      name: 'Uploading',
-    },
-    {
-      url: '/access-control.html',
-      name: 'Access Control',
-    },
-    {
-      url: '/rest-api.html',
-      name: 'REST API',
-    },
-    {
-      url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
-    },
-  ];
-
   Polymer({
     is: 'gr-main-header',
 
@@ -67,6 +22,7 @@
     },
 
     properties: {
+      prefs: Object,
       searchQuery: {
         type: String,
         notify: true,
@@ -77,16 +33,12 @@
         type: Array,
         value() { return []; },
       },
-      _defaultLinks: {
-        type: Array,
-        value() {
-          return DEFAULT_LINKS;
-        },
-      },
+      _defaultLinks: Array,
       _docBaseUrl: {
         type: String,
         value: null,
       },
+      _documentationLinks: Array,
       _links: {
         type: Array,
         computed: '_computeLinks(_defaultLinks, _userLinks, _docBaseUrl)',
@@ -104,6 +56,7 @@
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.DocsUrlBehavior,
+      Gerrit.LocalisationBehavior,
     ],
 
     observers: [
@@ -111,6 +64,8 @@
     ],
 
     attached() {
+      this._loadPreference();
+      this._loadLinks();
       this._loadAccount();
       this._loadConfig();
       this.listen(window, 'location-change', '_handleLocationChange');
@@ -152,7 +107,7 @@
           links: userLinks,
         });
       }
-      const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
+      const docLinks = this._getDocLinks(docBaseUrl, this._documentationLinks);
       if (docLinks.length) {
         links.push({
           title: 'Documentation',
@@ -177,6 +132,62 @@
           name: link.name,
           target: '_blank',
         };
+      });
+    },
+
+    _loadPreference() {
+      return this.$.restAPI.getPreferences().then(prefs => {
+        return this.prefs = prefs;
+      });
+    },
+
+    _loadLinks() {
+      return this.$.restAPI.getPreferences().then(prefs => {
+        const pref = prefs ? prefs.language : 'EN_US';
+        this._documentationLinks = [
+          {
+            url: '/index.html',
+            name: this._computeLocalize('tableOfContents', pref),
+          },
+          {
+            url: '/user-search.html',
+            name: this._computeLocalize('searching', pref),
+          },
+          {
+            url: '/user-upload.html',
+            name: this._computeLocalize('uploading', pref),
+          },
+          {
+            url: '/access-control.html',
+            name: this._computeLocalize('accessControl', pref),
+          },
+          {
+            url: '/rest-api.html',
+            name: this._computeLocalize('restApi', pref),
+          },
+          {
+            url: '/intro-project-owner.html',
+            name: this._computeLocalize('projectOwnerGuide', pref),
+          },
+        ];
+
+        this._defaultLinks = [{
+          title: this._computeLocalize('changes', pref),
+          links: [
+            {
+              url: '/q/status:open',
+              name: this._computeLocalize('open', pref),
+            },
+            {
+              url: '/q/status:merged',
+              name: this._computeLocalize('merged', pref),
+            },
+            {
+              url: '/q/status:abandoned',
+              name: this._computeLocalize('abandoned', pref),
+            },
+          ],
+        }];
       });
     },
 

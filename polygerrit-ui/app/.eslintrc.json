@@ -17,8 +17,12 @@
     "test": false,
     "flushAsynchronousOperations": false
   },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "rules": {
     "arrow-parens": ["error", "as-needed"],
+    "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "camelcase": "off",
     "comma-dangle": ["error", "always-multiline"],
@@ -52,6 +56,11 @@
     "quote-props": ["error", "consistent-as-needed"],
     "require-jsdoc": "off",
     "semi": [2, "always"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
     "template-curly-spacing": "error",
     "valid-jsdoc": "off"
   },

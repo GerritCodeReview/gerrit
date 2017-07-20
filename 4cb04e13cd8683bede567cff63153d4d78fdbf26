@@ -22,6 +22,30 @@
       "revId": "4cb04e13cd8683bede567cff63153d4d78fdbf26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6958efaa_1d640fdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-20T18:08:41Z",
+      "side": 1,
+      "message": "My apologies, sounds like this was just a miscommunication.",
+      "parentUuid": "a7265d3c_0aa35c31",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 15,
+        "endChar": 51
+      },
+      "revId": "4cb04e13cd8683bede567cff63153d4d78fdbf26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

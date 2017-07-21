@@ -38,16 +38,22 @@ limitations under the License.
         font-style: italic;
       }
     </style>
-    <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
-      <gr-account-chip
-          account="[[account]]"
-          class$="[[_computeChipClass(account)]]"
-          data-account-id$="[[account._account_id]]"
-          removable="[[_computeRemovable(account)]]"
-          on-keydown="_handleChipKeydown"
-          tabindex="-1">
-      </gr-account-chip>
-    </template>
+    <!--
+      NOTE(Issue 6419): Nest the inner dom-repeat template in a div rather than
+      as a direct child of the dom-module's template.
+    -->
+    <div>
+      <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
+        <gr-account-chip
+            account="[[account]]"
+            class$="[[_computeChipClass(account)]]"
+            data-account-id$="[[account._account_id]]"
+            removable="[[_computeRemovable(account)]]"
+            on-keydown="_handleChipKeydown"
+            tabindex="-1">
+        </gr-account-chip>
+      </template>
+    </div>
     <gr-account-entry
         borderless
         hidden$="[[_computeEntryHidden(maxCount, accounts.*, readonly)]]"

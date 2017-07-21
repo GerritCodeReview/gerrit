@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "b0687dc6_6b17365a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:14:11Z",
+      "side": 1,
+      "message": "We should not have this twice, and owner should definitely default to false. Please try to figure out how to make it work with this.",
+      "parentUuid": "0708e521_435ff785",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fee6c4fd_66487df0",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 67

@@ -77,7 +77,18 @@ limitations under the License.
         assert.equal(url, '/admin/projects/q/filter:test');
         done();
       });
-      element._filterChanged('test');
+      element.filter = 'test';
+    });
+
+    test('_filterChanged not reload when swap between falsy values', () => {
+      sandbox.stub(element, '_debounceReload');
+      element.filter = null;
+      flushAsynchronousOperations();
+      element.filter = undefined;
+      flushAsynchronousOperations();
+      element.filter = '';
+      flushAsynchronousOperations();
+      assert.isFalse(element._debounceReload.called);
     });
 
     test('next button', done => {

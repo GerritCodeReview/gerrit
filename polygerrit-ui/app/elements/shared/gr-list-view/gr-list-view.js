@@ -46,7 +46,15 @@
       this.cancelDebouncer('reload');
     },
 
-    _filterChanged(filter) {
+    _filterChanged(newFilter, oldFilter) {
+      if (!newFilter && !oldFilter) {
+        return;
+      }
+
+      this._debounceReload(newFilter);
+    },
+
+    _debounceReload(filter) {
       this.debounce('reload', () => {
         if (filter) {
           return page.show(`${this.path}/q/filter:` +

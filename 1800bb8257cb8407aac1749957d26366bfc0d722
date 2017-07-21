@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9c33c8a_b1661b33",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T20:07:47Z",
+      "side": 1,
+      "message": "I forgot to denote this at the top of the file, so if you could include that in your next patch, it\u0027d be great.",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 72
+      },
+      "revId": "1800bb8257cb8407aac1749957d26366bfc0d722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29d6f20b_ab98e9de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 87
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:08:57Z",
+      "side": 1,
+      "message": "Add the event info here.",
+      "revId": "e644ab9a1993e95eb4d78c604cb65add72e7886f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9948b389_73c4ac69",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 87
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:08:57Z",
+      "side": 1,
+      "message": "We don\u0027t need this here, the admin view is already aware of the updated name.",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 59
+      },
+      "revId": "e644ab9a1993e95eb4d78c604cb65add72e7886f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

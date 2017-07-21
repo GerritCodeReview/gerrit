@@ -70,6 +70,30 @@
       "revId": "1800bb8257cb8407aac1749957d26366bfc0d722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "091c149b_f4846e75",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 85
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:08:57Z",
+      "side": 1,
+      "message": "We typically add jsdocs at the top if files when they fire events.\n\nEx in gr-change-list-view:\n\nPolymer({\n    is: \u0027gr-change-list-view\u0027,\n\n    /**\n     * Fired when the title of the page should change.\n     *\n     * @event title-change\n     */",
+      "parentUuid": "270e4f4c_132e87ba",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 72
+      },
+      "revId": "1800bb8257cb8407aac1749957d26366bfc0d722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

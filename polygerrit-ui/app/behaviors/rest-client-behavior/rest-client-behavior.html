@@ -122,7 +122,8 @@ limitations under the License.
         states.push('Merged');
       } else if (change.status === this.ChangeStatus.ABANDONED) {
         states.push('Abandoned');
-      } else if (!change.mergeable) {
+      } else if (change.mergeable === false) {
+        // 'mergeable' prop may not always exist (@see Issue 6819)
         states.push('Merge Conflict');
       }
       if (change.work_in_progress) { states.push('WIP'); }

@@ -34,6 +34,24 @@
       "revId": "386ff3d107f682ba6b135c2cb939a56d507f1eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8614bd_0a025571",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-21T20:33:15Z",
+      "side": 1,
+      "message": "Guess not really.\n\n(sorry for double post)",
+      "parentUuid": "637ba9ff_f6ce08d2",
+      "revId": "386ff3d107f682ba6b135c2cb939a56d507f1eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

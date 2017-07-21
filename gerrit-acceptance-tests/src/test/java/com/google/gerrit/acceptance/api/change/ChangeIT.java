@@ -3126,6 +3126,50 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
   }
 
+  @Test
+  public void submittableAfterLosingPermissions_MaxWithBlock() throws Exception {
+    configLabel("Label", "MaxWithBlock");
+    submittableAfterLosingPermissions("Label");
+  }
+
+  @Test
+  public void submittableAfterLosingPermissions_AnyWithBlock() throws Exception {
+    configLabel("Label", "AnyWithBlock");
+    submittableAfterLosingPermissions("Label");
+  }
+
+  public void submittableAfterLosingPermissions(String label) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg, Permission.forLabel(label), -1, +1, registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, registered, "refs/heads/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    assertThat(gApi.changes().id(changeId).get().submittable).isFalse();
+
+    setApiUser(user);
+    ReviewInput input = new ReviewInput();
+    input.label("Code-Review", 2);
+    input.label(label, 1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    // Remove user's permission for 'Label'.
+    Util.remove(cfg, Permission.forLabel(label), registered, "refs/heads/*");
+    // Update user's permitted range for 'Code-Review' to be -1...+1.
+    Util.allow(cfg, Permission.forLabel("Code-Review"), -1, +1, registered, "refs/heads/*");
+    saveProjectConfig(project, cfg);
+
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    setApiUser(admin);
+    gApi.changes().id(changeId).current().submit();
+  }
+
   private String getCommitMessage(String changeId) throws RestApiException, IOException {
     return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }

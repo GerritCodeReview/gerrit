@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f938e492_92980056",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-theme-api/gr-custom-plugin-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T21:20:31Z",
+      "side": 1,
+      "message": "I think we should have an optional link around the image too.. if a src is provided, it can be linked, otherwise not.  I also thin the image should be optional, if there isn\u0027t a logoUrl, it shouldn\u0027t display the image (it will look broken), unlike the title which would just not appear.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "3c572e30ba9921a6d7c1cee8e11b8b959b47a3d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

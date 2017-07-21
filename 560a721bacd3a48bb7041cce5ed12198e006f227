@@ -45,6 +45,30 @@
       "revId": "560a721bacd3a48bb7041cce5ed12198e006f227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27bf7a85_878637f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:12:58Z",
+      "side": 1,
+      "message": "Ok, I was using shadow DOM, it appears there is a difference between the two. With Shadow DOM, it tried to delete the branches/tags twice.. let me look a little more at this.",
+      "parentUuid": "70ebbdb5_8862cc4c",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "560a721bacd3a48bb7041cce5ed12198e006f227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

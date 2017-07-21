@@ -93,6 +93,30 @@
       "revId": "560a721bacd3a48bb7041cce5ed12198e006f227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ea560f3_f0c1187d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:21:41Z",
+      "side": 1,
+      "message": "Apparently shadow dom doesn\u0027t treat bubbling the same as shady dom:\nhttps://github.com/Polymer/polymer/issues/3226",
+      "parentUuid": "05bda082_9a5cd18d",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "560a721bacd3a48bb7041cce5ed12198e006f227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

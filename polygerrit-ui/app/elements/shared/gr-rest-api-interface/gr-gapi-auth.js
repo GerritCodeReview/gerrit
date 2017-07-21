@@ -95,7 +95,7 @@
     if (!token.access_token || !token.expires_at) { return false; }
 
     const expiration = new Date(parseInt(token.expires_at, 10) * 1000);
-    if (Date.now() >= expiration) { return false; }
+    if (Date.now() >= expiration.getTime()) { return false; }
 
     return true;
   };

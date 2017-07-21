@@ -279,12 +279,12 @@ max_with_block(Min, Max, Label, label(Label, S)) :-
   !,
   max_with_block(Label, Min, Max, S).
 max_with_block(Label, Min, Max, reject(Who)) :-
-  check_label_range_permission(Label, Min, ok(Who)),
+  commit_label(label(Label, Min), Who),
   !
   .
 max_with_block(Label, Min, Max, ok(Who)) :-
-  \+ check_label_range_permission(Label, Min, ok(_)),
-  check_label_range_permission(Label, Max, ok(Who)),
+  \+ commit_label(label(Label, Min), _),
+  commit_label(label(Label, Max), Who),
   !
   .
 max_with_block(Label, Min, Max, need(Max)) :-
@@ -306,7 +306,7 @@ max_with_block(Label, Min, Max, need(Max)) :-
 %%
 any_with_block(Label, Min, reject(Who)) :-
   Min < 0,
-  check_label_range_permission(Label, Min, ok(Who)),
+  commit_label(label(Label, Min), Who),
   !
   .
 any_with_block(Label, Min, may(_)).
@@ -321,7 +321,7 @@ max_no_block(Max, Label, label(Label, S)) :-
   !,
   max_no_block(Label, Max, S).
 max_no_block(Label, Max, ok(Who)) :-
-  check_label_range_permission(Label, Max, ok(Who)),
+  commit_label(label(Label, Max), Who),
   !
   .
 max_no_block(Label, Max, need(Max)) :-

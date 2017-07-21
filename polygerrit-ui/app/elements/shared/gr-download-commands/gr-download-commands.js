@@ -27,6 +27,12 @@
         type: String,
         notify: true,
       },
+      schemes: {
+        type: Array,
+        value() {
+          return [];
+        },
+      },
     },
 
     behaviors: [

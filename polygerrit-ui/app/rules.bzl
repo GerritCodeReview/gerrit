@@ -21,7 +21,7 @@ def polygerrit_bundle(name, srcs, outs, app):
       "--jscomp_off=duplicate",
       "--force_inject_library=es6_runtime",
     ],
-    language = "ECMASCRIPT5",
+    #language = "ECMASCRIPT_NEXT",
     deps = [name + "_closure_lib"],
   )
 

@@ -1069,8 +1069,8 @@ bower_archive(
 bower_archive(
     name = "iron-overlay-behavior",
     package = "polymerelements/iron-overlay-behavior",
-    sha1 = "83181085fda59446ce74fd0d5ca30c223f38ee4a",
-    version = "1.7.6",
+    sha1 = "11e9b198300eadc2bdfd01b4c51019d57a2a4d52",
+    version = "1.10.4",
 )
 
 bower_archive(

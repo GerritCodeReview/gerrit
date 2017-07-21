@@ -17,6 +17,7 @@
   Polymer({
     is: 'gr-label-scores',
     properties: {
+      account: Object,
       _labels: {
         type: Array,
         computed: '_computeLabels(change.labels.*, account)',

@@ -101,7 +101,7 @@ limitations under the License.
       eraseDraftCommentStub = sandbox.stub(element.$.storage,
           'eraseDraftComment');
 
-      sandbox.stub(element, 'fetchIsLatestKnown', async () => true);
+      sandbox.stub(element, 'fetchIsLatestKnown', async() => true);
 
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
@@ -383,11 +383,11 @@ limitations under the License.
       assert.equal(getActiveElement().id, 'input');
     }
 
-    test('cc confirmation', async () => {
+    test('cc confirmation', async() => {
       await testConfirmationDialog(true);
     });
 
-    test('reviewer confirmation', async () => {
+    test('reviewer confirmation', async() => {
       await testConfirmationDialog(false);
     });
 
@@ -428,8 +428,8 @@ limitations under the License.
       assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
 
-    test('400 converts to human-readable server-error', async () => {
-      sandbox.stub(window, 'fetch', async () => {
+    test('400 converts to human-readable server-error', async() => {
+      sandbox.stub(window, 'fetch', async() => {
         const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
         return {
@@ -631,7 +631,7 @@ limitations under the License.
       assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
     });
 
-    test('migrate reviewers between states', async () => {
+    test('migrate reviewers between states', async() => {
       element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
@@ -652,7 +652,7 @@ limitations under the License.
 
       stubSaveReview(review => mutations.push(...review.reviewers));
 
-      sandbox.stub(element, '_removeAccount', async (account, type) => {
+      sandbox.stub(element, '_removeAccount', async(account, type) => {
         mutations.push({state: 'REMOVED', account});
       });
 
@@ -715,7 +715,7 @@ limitations under the License.
           'Start review');
     });
 
-    test('_handle400Error reviewrs and CCs', async () => {
+    test('_handle400Error reviewrs and CCs', async() => {
       const error1 = 'error 1';
       const error2 = 'error 2';
       const error3 = 'error 3';
@@ -750,7 +750,7 @@ limitations under the License.
       assert.equal(text, [error1, error2, error3].join(', '));
     });
 
-    test('_handle400Error CCs only', async () => {
+    test('_handle400Error CCs only', async() => {
       const error1 = 'error 1';
       const response = {
         status: 400,
@@ -778,10 +778,10 @@ limitations under the License.
 
       setup(() => {
         startReviewStub = sandbox.stub(
-            element.$.restAPI, 'startReview', async () => undefined);
+            element.$.restAPI, 'startReview', async() => undefined);
       });
 
-      test('ready property in review input on start review', async () => {
+      test('ready property in review input on start review', async() => {
         stubSaveReview(review => {
           assert.isTrue(review.ready);
           return {ready: true};
@@ -790,7 +790,7 @@ limitations under the License.
         assert.isFalse(startReviewStub.called);
       });
 
-      test('no ready property in review input on save review', async () => {
+      test('no ready property in review input on save review', async() => {
         stubSaveReview(review => {
           assert.isUndefined(review.ready);
         });
@@ -798,7 +798,7 @@ limitations under the License.
         assert.isFalse(startReviewStub.called);
       });
 
-      test('fall back to start review against old backend', async () => {
+      test('fall back to start review against old backend', async() => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
@@ -816,7 +816,7 @@ limitations under the License.
       let sendStub;
 
       setup(() => {
-        sendStub = sandbox.stub(element, 'send', async () => undefined);
+        sendStub = sandbox.stub(element, 'send', async() => undefined);
         element.canBeStarted = true;
         // Flush to make both Start/Save buttons appear in DOM.
         flushAsynchronousOperations();
@@ -835,7 +835,7 @@ limitations under the License.
       });
     });
 
-    test('buttons disabled until all API calls are resolved', async () => {
+    test('buttons disabled until all API calls are resolved', async() => {
       stubSaveReview(review => {
         return {}; // old backend won't set ready: true
       });
@@ -871,7 +871,7 @@ limitations under the License.
         assert.isFalse(element.disabled);
       }
 
-      test('error occurs in _saveReview', async () => {
+      test('error occurs in _saveReview', async() => {
         stubSaveReview(review => {
           throw expectedError;
         });
@@ -885,7 +885,7 @@ limitations under the License.
         assert.fail(null, null, 'expected an exception to be thrown');
       });
 
-      test('error occurs during startReview', async () => {
+      test('error occurs during startReview', async() => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
@@ -902,22 +902,22 @@ limitations under the License.
         assert.fail(null, null, 'expected an exception to be thrown');
       });
 
-      test('non-ok response received by startReview', async () => {
+      test('non-ok response received by startReview', async() => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
-        sandbox.stub(element.$.restAPI, 'startReview', async (c, b, f) => {
+        sandbox.stub(element.$.restAPI, 'startReview', async(c, b, f) => {
           f({status: 500});
         });
         await element.send(true, true);
         assertDialogClosed();
       });
 
-      test('409 response received by startReview', async () => {
+      test('409 response received by startReview', async() => {
         stubSaveReview(review => {
           return {}; // old backend won't set ready: true
         });
-        sandbox.stub(element.$.restAPI, 'startReview', async (c, b, f) => {
+        sandbox.stub(element.$.restAPI, 'startReview', async(c, b, f) => {
           f({status: 409});
         });
         await element.send(true, true);

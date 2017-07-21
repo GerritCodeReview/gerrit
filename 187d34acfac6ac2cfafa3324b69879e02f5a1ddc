@@ -46,6 +46,30 @@
       "revId": "187d34acfac6ac2cfafa3324b69879e02f5a1ddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47d14536_ea05df82",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 65
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T21:57:47Z",
+      "side": 1,
+      "message": "There were a few things going on. 1) Due to some of the events being fired, deleting was getting triggered twice, and each time I got an error that the I was trying to delete something non-existant (because it was already gone). I removed the extra stuff, so not it\u0027s just calling it once.\n\nSecondly, the reason the getItems wasn\u0027t working is that the restAPI was caching the response. Instead, I changed _fetchSharedCacheURL to fetchJSON so that it provides a fresh response.",
+      "parentUuid": "b45ca027_f5006d71",
+      "range": {
+        "startLine": 212,
+        "startChar": 16,
+        "endLine": 212,
+        "endChar": 41
+      },
+      "revId": "187d34acfac6ac2cfafa3324b69879e02f5a1ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

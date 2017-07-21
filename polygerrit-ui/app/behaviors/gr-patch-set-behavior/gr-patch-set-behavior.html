@@ -121,12 +121,16 @@ limitations under the License.
      * available when this change was loaded.
      * @return {Promise} A promise that yields true if the latest patch has been
      *     loaded, and false if a newer patch has been uploaded in the meantime.
+     *     The promise is rejected on network error.
      */
     fetchIsLatestKnown(change, restAPI) {
       const knownLatest = this.computeLatestPatchNum(
           this.computeAllPatchSets(change));
       return restAPI.getChangeDetail(change._number)
           .then(detail => {
+            if (!detail) {
+              return Promise.reject('Unable to check for latest patchset.');
+            }
             const actualLatest = this.computeLatestPatchNum(
                 this.computeAllPatchSets(detail));
             return actualLatest <= knownLatest;

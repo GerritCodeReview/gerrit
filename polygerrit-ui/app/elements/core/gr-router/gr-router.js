@@ -301,12 +301,15 @@
       page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
     });
 
-    function normalizePatchRangeParams(params) {
-      if (params.basePatchNum && !params.patchNum) {
+    const normalizePatchRangeParams = params => {
+      if (params.basePatchNum && params.basePatchNum === params.patchNum) {
+        params.basePatchNum = null;
+        history.replaceState(null, null, generateUrl(params));
+      } else if (params.basePatchNum && !params.patchNum) {
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
       }
-    }
+    };
 
     // Matches
     // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
@@ -321,25 +324,12 @@
             basePatchNum: ctx.params[4],
             patchNum: ctx.params[6],
             path: ctx.params[8],
-            view: ctx.params[8] ? 'gr-diff-view' : 'gr-change-view',
+            view: ctx.params[8] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
           };
-          // TODO(kaspern): This should be generated via generateURL.
-          // Making that happen requires an unfortunate amount of refactoring,
-          // as the schema for app.params differs from the schema of the params
-          // object passed to generateUrl in several ways.
-          let url = `/c/${encodeURIComponent(params.changeNum)}/`;
-          if (params.basePatchNum) {
-            url += `${encodeURIComponent(params.basePatchNum)}`;
-            if (params.patchNum) {
-              url += `..${encodeURIComponent(params.patchNum)}`;
-            }
-            if (params.path) {
-              url += `/${encode(params.path, true)}`;
-            }
-          }
-          history.replaceState(null, null, url);
+
           normalizePatchRangeParams(params);
           app.params = params;
+          history.replaceState(null, null, generateUrl(params));
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
@@ -352,22 +342,20 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
-      // Don't allow diffing the same patch number against itself.
-      if (params.basePatchNum != null &&
-          params.basePatchNum === params.patchNum) {
-        page.redirect('/c/' +
-            encodeURIComponent(params.changeNum) +
-            '/' +
-            encodeURIComponent(params.patchNum) +
-            '/');
-        return;
-      }
       normalizePatchRangeParams(params);
       app.params = params;
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, ctx => {
+      // Check if path has an '@' which indicates it was using GWT style line
+      // numbers. Even if the filename had an '@' in it, it would have already
+      // been URI encoded. Redirect to hash version of path.
+      if (ctx.path.includes('@')) {
+        page.redirect(ctx.path.replace('@', '#'));
+        return;
+      }
+
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
@@ -377,27 +365,6 @@
         hash: ctx.hash,
         view: Gerrit.Nav.View.DIFF,
       };
-      // Don't allow diffing the same patch number against itself.
-      if (params.basePatchNum === params.patchNum) {
-        // TODO(kaspern): Utilize gr-url-encoding-behavior.html when the router
-        // is replaced with a Polymer counterpart.
-        // @see Issue 4255 regarding double-encoding.
-        page.redirect('/c/' +
-            encodeURIComponent(params.changeNum) +
-            '/' +
-            encodeURIComponent(params.patchNum) +
-            '/' +
-            encode(params.path, true));
-        return;
-      }
-
-      // Check if path has an '@' which indicates it was using GWT style line
-      // numbers. Even if the filename had an '@' in it, it would have already
-      // been URI encoded. Redirect to hash version of path.
-      if (ctx.path.includes('@')) {
-        page.redirect(ctx.path.replace('@', '#'));
-        return;
-      }
 
       normalizePatchRangeParams(params);
       app.params = params;

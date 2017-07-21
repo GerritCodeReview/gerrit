@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "077f705d_f1058a55",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-21T17:03:07Z",
+      "side": 1,
+      "message": "Yes. I suppose I could make this \"else-if\", if you\u0027d prefer, but there\u0027s no case in which they\u0027ll both evaluate to true.",
+      "parentUuid": "0d143511_1fd5e7da",
+      "revId": "e5bd8b77f54609cdd8794e566613ce01a36155e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2448ca18_f13d0373",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 3

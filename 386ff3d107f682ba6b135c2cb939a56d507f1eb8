@@ -16,6 +16,24 @@
       "revId": "386ff3d107f682ba6b135c2cb939a56d507f1eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "637ba9ff_f6ce08d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-21T20:25:56Z",
+      "side": 1,
+      "message": "I use it somewhat frequently.\n* I9c64fe15c12\n* I6e9b13e6dab\n* I1d2ea598d42\n* I102b6e3ccd3\n\nDoes this matter?",
+      "parentUuid": "d608245b_3ec5d155",
+      "revId": "386ff3d107f682ba6b135c2cb939a56d507f1eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

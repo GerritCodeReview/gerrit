@@ -93,6 +93,30 @@
       "revId": "98f82e21036494aaef68186352b8913e8c2ec017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "200a516b_edbf4f5c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 83
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T20:00:29Z",
+      "side": 1,
+      "message": "I have pushed a patch with a different way. We really don\u0027t want to use window.location.reload() because that has to reload the entire app, which is both a rougher experience and slower.  Please add tests for what I have added.",
+      "parentUuid": "81892408_fc397f9a",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 52
+      },
+      "revId": "98f82e21036494aaef68186352b8913e8c2ec017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

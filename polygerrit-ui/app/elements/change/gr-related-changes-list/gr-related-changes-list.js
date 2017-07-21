@@ -63,6 +63,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -246,7 +247,7 @@
       const connected = [];
       let changeRevision;
       for (const rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum) {
+        if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
           changeRevision = rev;
         }
       }

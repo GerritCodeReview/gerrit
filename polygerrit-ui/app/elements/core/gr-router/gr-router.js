@@ -38,6 +38,7 @@
   });
 
   const encode = window.Gerrit.URLEncodingBehavior.encodeURL;
+  const patchNumEquals = window.Gerrit.PatchSetBehavior.patchNumEquals;
 
   function startRouter(generateUrl) {
     const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
@@ -302,7 +303,8 @@
     });
 
     const normalizePatchRangeParams = params => {
-      if (params.basePatchNum && params.basePatchNum === params.patchNum) {
+      if (params.basePatchNum &&
+          patchNumEquals(params.basePatchNum, params.patchNum)) {
         params.basePatchNum = null;
         history.replaceState(null, null, generateUrl(params));
       } else if (params.basePatchNum && !params.patchNum) {
@@ -416,6 +418,7 @@
 
   Polymer({
     is: 'gr-router',
+    behaviors: [Gerrit.PatchSetBehavior],
     start() {
       if (!app) { return; }
       startRouter(this._generateUrl.bind(this));

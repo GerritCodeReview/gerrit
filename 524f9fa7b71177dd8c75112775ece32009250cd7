@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87721817_f4b101c5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "can this just be \n_computeItemName function for branches (and below for tags)",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 65
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e406b1_13ffa132",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "this should just be class",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e2ab888_cb55c581",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this ID is used, so it can be removed.",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 61
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aac4984_ea758f90",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "What is the difference between these two?",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee6c4fd_66487df0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "This should be a String.",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03859da3_745563c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-21T22:06:13Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like this is used?",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

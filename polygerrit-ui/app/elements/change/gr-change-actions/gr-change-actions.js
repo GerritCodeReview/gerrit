@@ -553,9 +553,8 @@
     },
 
     _getRevision(change, patchNum) {
-      const num = window.parseInt(patchNum, 10);
       for (const rev of Object.values(change.revisions)) {
-        if (rev._number === num) {
+        if (this.patchNumEquals(rev._number, patchNum)) {
           return rev;
         }
       }

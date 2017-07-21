@@ -305,7 +305,7 @@
 
     getCommentsForPath(comments, patchNum, path) {
       return (comments[path] || []).filter(c => {
-        return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
+        return this.patchNumEquals(c.patch_set, patchNum);
       });
     },
 

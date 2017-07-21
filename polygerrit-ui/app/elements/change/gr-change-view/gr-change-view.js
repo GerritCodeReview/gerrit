@@ -1255,6 +1255,8 @@
       this._updateCheckTimerHandle = this.async(() => {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
             .then(latest => {
+              // Latest is undefined on fetch error, ignore those.
+              if (latest === undefined) { return; }
               if (latest) {
                 this._startUpdateCheckTimer();
               } else {

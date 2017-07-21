@@ -127,6 +127,7 @@ limitations under the License.
           this.computeAllPatchSets(change));
       return restAPI.getChangeDetail(change._number)
           .then(detail => {
+            if (!detail) { return; }
             const actualLatest = this.computeLatestPatchNum(
                 this.computeAllPatchSets(detail));
             return actualLatest <= knownLatest;

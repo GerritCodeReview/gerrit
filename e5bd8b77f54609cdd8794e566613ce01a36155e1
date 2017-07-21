@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "986f99ac_308ead2a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-21T17:42:20Z",
+      "side": 1,
+      "message": "\u003e I suppose I could make this \"else-if\"\n\nWould it make code cleaner? That\u0027ll probably add some value.",
+      "parentUuid": "077f705d_f1058a55",
+      "revId": "e5bd8b77f54609cdd8794e566613ce01a36155e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2448ca18_f13d0373",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 3

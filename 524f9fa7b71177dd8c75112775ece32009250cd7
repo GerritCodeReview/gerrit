@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2782b3d_5a2c792a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-21T22:12:57Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "87721817_f4b101c5",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 65
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04e406b1_13ffa132",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 67
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "3deb2fbf_a6042f29",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-21T22:12:57Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0e2ab888_cb55c581",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 61
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8aac4984_ea758f90",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 67
@@ -82,6 +130,30 @@
       "writtenOn": "2017-07-21T22:06:13Z",
       "side": 1,
       "message": "What is the difference between these two?",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0708e521_435ff785",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-21T22:12:57Z",
+      "side": 1,
+      "message": "One of them has the default value as true and the other is false.\n\nIt makes this a little easier for me to implement the checking of _computeHideDeleteClass . (I found doing the opposite worked then trying to do it with a false value by default). Im not sure how to do it any other way.",
+      "parentUuid": "8aac4984_ea758f90",
       "range": {
         "startLine": 43,
         "startChar": 6,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "243c73c5_4070a021",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-21T22:12:57Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fee6c4fd_66487df0",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03859da3_745563c1",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 67
@@ -128,6 +224,30 @@
       "writtenOn": "2017-07-21T22:06:13Z",
       "side": 1,
       "message": "It doesn\u0027t look like this is used?",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c7cd4c8_eb20cd51",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 67
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-21T22:12:57Z",
+      "side": 1,
+      "message": "Nope, thanks, done.",
+      "parentUuid": "03859da3_745563c1",
       "range": {
         "startLine": 75,
         "startChar": 6,

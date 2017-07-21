@@ -171,7 +171,7 @@
       },
       _changeStatus: {
         type: String,
-        computed: '_computeChangeStatus(_change, _patchRange.patchNum)',
+        computed: 'changeStatusString(_change)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -621,17 +621,6 @@
 
     _computeChangeUrl(change) {
       return Gerrit.Nav.getUrlForChange(change);
-    },
-
-    _computeChangeStatus(change, patchNum) {
-      let statusString = this.changeStatusString(change);
-      if (change.status === this.ChangeStatus.NEW) {
-        const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-        if (rev && rev.draft === true) {
-          statusString = 'Draft';
-        }
-      }
-      return statusString;
     },
 
     _privateChanges(change) {

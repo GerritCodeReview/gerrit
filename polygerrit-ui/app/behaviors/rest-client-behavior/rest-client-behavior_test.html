@@ -85,9 +85,24 @@ limitations under the License.
         current_revision: 'rev1',
         status: 'NEW',
         labels: {},
+        mergeable: true,
       };
       const status = element.changeStatusString(change);
       assert.equal(status, '');
+    });
+
+    test('Merge conflict', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+      };
+      const status = element.changeStatusString(change);
+      assert.equal(status, 'Merge Conflict');
     });
 
     test('Merged status', () => {
@@ -129,25 +144,27 @@ limitations under the License.
         is_private: true,
         work_in_progress: true,
         labels: {},
+        mergeable: true,
       };
       const status = element.changeStatusString(change);
-      assert.equal(status, ' (Private) (WIP)');
+      assert.equal(status, 'WIP, Private');
     });
 
-    test('Abandoned status with private and wip', () => {
+    test('Merge conflict with private and wip', () => {
       const change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
           rev1: {_number: 1},
         },
         current_revision: 'rev1',
-        status: 'ABANDONED',
+        status: 'NEW',
         is_private: true,
         work_in_progress: true,
         labels: {},
+        mergeable: false,
       };
       const status = element.changeStatusString(change);
-      assert.equal(status, 'Abandoned (Private) (WIP)');
+      assert.equal(status, 'Merge Conflict, WIP, Private');
     });
   });
 </script>

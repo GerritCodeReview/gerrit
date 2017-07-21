@@ -426,14 +426,14 @@ limitations under the License.
       });
     });
 
-    test('auth failure with redirect', done => {
-      const fakeRedirect = {
+    test('auth failure', done => {
+      const fakeAuthResponse = {
         ok: false,
-        type: 'opaqueredirect',
-        headers: new Headers({'x-login': 'foo'}),
+        status: 403,
       };
-      window.fetch.onFirstCall().returns(Promise.reject('Failed to fetch'));
-      window.fetch.onSecondCall().returns(Promise.resolve(fakeRedirect));
+      window.fetch.onFirstCall().returns(
+          Promise.reject({message: 'Failed to fetch'}));
+      window.fetch.onSecondCall().returns(Promise.resolve(fakeAuthResponse));
       // Emulate logged in.
       element._cache['/accounts/self/detail'] = {};
       const serverErrorStub = sandbox.stub();

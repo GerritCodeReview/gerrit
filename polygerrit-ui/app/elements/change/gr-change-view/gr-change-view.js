@@ -1270,6 +1270,7 @@
       this._updateCheckTimerHandle = this.async(() => {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
             .then(latest => {
+              if (latest === undefined) { return; }
               if (latest) {
                 this._startUpdateCheckTimer();
               } else {

@@ -30,6 +30,17 @@ limitations under the License.
 
   /** @polymerBehavior Gerrit.PatchSetBehavior */
   const PatchSetBehavior = {
+
+    /**
+     * As patchNum can be either a string (e.g. 'edit', 'PARENT') OR a number,
+     * this function checks for patchNum equality.
+     *
+     * @param {string|number) a
+     * @param {string|number) b
+     */
+    patchNumEquals(a, b) {
+      return a + '' === b + '';
+    },
     /**
      * Given an object of revisions, get a particular revision based on patch
      * num.
@@ -39,11 +50,9 @@ limitations under the License.
      * @return {Object} The correspondent revision obj from {revisions}
      */
     getRevisionByPatchNum(revisions, patchNum) {
-      patchNum = parseInt(patchNum, 10);
-      for (const rev in revisions) {
-        if (revisions.hasOwnProperty(rev) &&
-            revisions[rev]._number === patchNum) {
-          return revisions[rev];
+      for (const rev of Object.values(revisions || {})) {
+        if (Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum)) {
+          return rev;
         }
       }
     },
@@ -75,7 +84,7 @@ limitations under the License.
         }
       }
       patchNums.sort((a, b) => { return a.num - b.num; });
-      return this._computeWipForPatchSets(change, patchNums);
+      return Gerrit.PatchSetBehavior._computeWipForPatchSets(change, patchNums);
     },
 
     /**
@@ -123,12 +132,12 @@ limitations under the License.
      *     loaded, and false if a newer patch has been uploaded in the meantime.
      */
     fetchIsLatestKnown(change, restAPI) {
-      const knownLatest = this.computeLatestPatchNum(
-          this.computeAllPatchSets(change));
+      const knownLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
+          Gerrit.PatchSetBehavior.computeAllPatchSets(change));
       return restAPI.getChangeDetail(change._number)
           .then(detail => {
-            const actualLatest = this.computeLatestPatchNum(
-                this.computeAllPatchSets(detail));
+            const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
+                Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
             return actualLatest <= knownLatest;
           });
     },

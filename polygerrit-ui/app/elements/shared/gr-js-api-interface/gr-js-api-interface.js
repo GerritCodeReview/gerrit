@@ -44,6 +44,8 @@
       },
     },
 
+    behaviors: [Gerrit.PatchSetBehavior],
+
     Element,
     EventType,
 
@@ -121,9 +123,9 @@
         const change = detail.change;
         const patchNum = detail.patchNum;
         let revision;
-        for (const rev in change.revisions) {
-          if (change.revisions[rev]._number == patchNum) {
-            revision = change.revisions[rev];
+        for (const rev of Object.values(change.revisions || {})) {
+          if (this.patchNumEquals(rev._number, patchNum)) {
+            revision = rev;
             break;
           }
         }

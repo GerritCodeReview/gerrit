@@ -42,6 +42,7 @@
     },
 
     behaviors: [
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -63,10 +64,10 @@
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
-      for (const rev in change.revisions) {
-        if (change.revisions[rev]._number === parseInt(patchNum, 10) &&
-            change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
-          commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
+      for (const rev of Object.values(change.revisions || {})) {
+        if (this.patchNumEquals(rev._number, patchNum) &&
+            rev.fetch.hasOwnProperty(_selectedScheme)) {
+          commandObj = rev.fetch[_selectedScheme].commands;
           break;
         }
       }
@@ -97,7 +98,7 @@
     _computeDownloadFilename(change, patchNum, zip) {
       let shortRev;
       for (const rev in change.revisions) {
-        if (change.revisions[rev]._number === parseInt(patchNum, 10)) {
+        if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
           shortRev = rev.substr(0, 7);
           break;
         }
@@ -112,7 +113,7 @@
 
     _computeSchemes(change, patchNum) {
       for (const rev of Object.values(change.revisions || {})) {
-        if (rev._number === parseInt(patchNum, 10)) {
+        if (this.patchNumEquals(rev._number, patchNum)) {
           const fetch = rev.fetch;
           if (fetch) {
             return Object.keys(fetch).sort();

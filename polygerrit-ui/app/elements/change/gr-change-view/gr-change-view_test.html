@@ -543,12 +543,12 @@ limitations under the License.
         numEvents++;
         if (numEvents == 1) {
           assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, 1, 'PARENT'));
+              element._change, '1', 'PARENT'));
           selectEl.nativeSelect.value = '3';
           element.fire('change', {}, {node: selectEl.nativeSelect});
         } else if (numEvents == 2) {
           assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, 3, 'PARENT'));
+              element._change, '3', 'PARENT'));
           done();
         }
       });
@@ -592,12 +592,12 @@ limitations under the License.
         numEvents++;
         if (numEvents == 1) {
           assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, 1, 'PARENT'));
+              element._change, '1', 'PARENT'));
           selectEl.nativeSelect.value = '3';
           element.fire('change', {}, {node: selectEl.nativeSelect});
         } else if (numEvents == 2) {
           assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, 3, 'PARENT'));
+              element._change, '3', 'PARENT'));
           done();
         }
       });

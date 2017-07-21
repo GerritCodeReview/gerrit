@@ -116,6 +116,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
+      Gerrit.PatchSetBehavior,
     ],
 
     observers: [
@@ -714,11 +715,10 @@
      * @return {Promise} A promise that yields a comment map object.
      */
     _loadCommentMap() {
-      const filterByRange = comment => {
-        const patchNum = comment.patch_set + '';
-        return patchNum === this._patchRange.patchNum ||
-            patchNum === this._patchRange.basePatchNum;
-      };
+      const filterByRange = comment =>
+          this.patchNumEquals(comment.patch_set, this._patchRange.patchNum) ||
+            this.patchNumEquals(comment.patch_set,
+                this._patchRange.basePatchNum);
 
       return Promise.all([
         this.$.restAPI.getDiffComments(this._changeNum),

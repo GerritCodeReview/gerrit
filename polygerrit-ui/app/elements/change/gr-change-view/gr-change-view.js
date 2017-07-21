@@ -360,7 +360,7 @@
     },
 
     _handlePatchChange(e) {
-      this._changePatchNum(parseInt(e.target.value, 10), true);
+      this._changePatchNum(e.target.value, true);
     },
 
     _handleReplyTap(e) {
@@ -595,7 +595,7 @@
 
     /**
      * Change active patch to the provided patch num.
-     * @param {number} patchNum the patchn number to be viewed.
+     * @param {number|string} patchNum the patchn number to be viewed.
      * @param {boolean} opt_forceParams When set to true, the resulting URL will
      *     always include the patch range, even if the requested patchNum is
      *     known to be the latest.
@@ -609,7 +609,7 @@
         } else {
           currentPatchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
-        if (patchNum === currentPatchNum &&
+        if (this.patchNumEquals(patchNum, currentPatchNum) &&
             this._patchRange.basePatchNum === 'PARENT') {
           Gerrit.Nav.navigateToChange(this._change);
           return;
@@ -678,8 +678,8 @@
     },
 
     _computePatchInfoClass(patchNum, allPatchSets) {
-      if (parseInt(patchNum, 10) ===
-          this.computeLatestPatchNum(allPatchSets)) {
+      const latestNum = this.computeLatestPatchNum(allPatchSets);
+      if (this.patchNumEquals(patchNum, latestNum)) {
         return '';
       }
       return 'patchInfo--oldPatchSet';
@@ -935,8 +935,9 @@
 
             this._change = change;
             if (!this._patchRange || !this._patchRange.patchNum ||
-                    this._patchRange.patchNum === currentRevision._number) {
-                  // CommitInfo.commit is optional, and may need patching.
+                this.patchNumEquals(this._patchRange.patchNum,
+                    currentRevision._number)) {
+              // CommitInfo.commit is optional, and may need patching.
               if (!currentRevision.commit.commit) {
                 currentRevision.commit.commit = latestRevisionSha;
               }

@@ -115,6 +115,7 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
@@ -3272,6 +3273,68 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("no ID was provided and change isn't a revert");
     gApi.changes().id(createChange().getChangeId()).pureRevert();
+  }
+
+  @Test
+  public void submittableAfterLosingPermissions_MaxWithBlock() throws Exception {
+    configLabel("Label", "MaxWithBlock");
+    submittableAfterLosingPermissions("Label");
+  }
+
+  @Test
+  public void submittableAfterLosingPermissions_AnyWithBlock() throws Exception {
+    configLabel("Label", "AnyWithBlock");
+    submittableAfterLosingPermissions("Label");
+  }
+
+  public void submittableAfterLosingPermissions(String label) throws Exception {
+    String codeReviewLabel = "Code-Review";
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    Util.allow(cfg, Permission.forLabel(label), -1, +1, registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(codeReviewLabel), -2, +2, registered, "refs/heads/*");
+    saveProjectConfig(cfg);
+
+    setApiUser(user);
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Verify user's permitted range.
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertPermitted(change, label, -1, 0, 1);
+    assertPermitted(change, codeReviewLabel, -2, -1, 0, 1, 2);
+
+    ReviewInput input = new ReviewInput();
+    input.label(codeReviewLabel, 2);
+    input.label(label, 1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().keySet())
+        .containsExactly(codeReviewLabel, label);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) 2, (short) 1);
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    setApiUser(admin);
+    // Remove user's permission for 'Label'.
+    Util.remove(cfg, Permission.forLabel(label), registered, "refs/heads/*");
+    // Update user's permitted range for 'Code-Review' to be -1...+1.
+    Util.remove(cfg, Permission.forLabel(codeReviewLabel), registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(codeReviewLabel), -1, +1, registered, "refs/heads/*");
+    saveProjectConfig(cfg);
+
+    // Verify user's new permitted range.
+    setApiUser(user);
+    change = gApi.changes().id(changeId).get();
+    assertPermitted(change, label);
+    assertPermitted(change, codeReviewLabel, -1, 0, 1);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) 2, (short) 1);
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    setApiUser(admin);
+    gApi.changes().id(changeId).current().submit();
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

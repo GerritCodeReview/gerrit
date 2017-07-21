@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d15c6966_a1100473",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-21T11:28:53Z",
+      "side": 1,
+      "message": "Please document this new field in rest-api-config.txt in the \"ServerInfo\" section.",
+      "range": {
+        "startLine": 31,
+        "startChar": 16,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "49f5e19f04f519f885201b6f76bc3cbb51c396f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c74cba_20aed54b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-21T11:28:53Z",
+      "side": 1,
+      "message": "nit: don\u0027t use final here",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 11
+      },
+      "revId": "49f5e19f04f519f885201b6f76bc3cbb51c396f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

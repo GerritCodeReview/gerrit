@@ -22,6 +22,30 @@
       "revId": "3c572e30ba9921a6d7c1cee8e11b8b959b47a3d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7f88a36_22afc380",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-theme-api/gr-custom-plugin-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-21T22:57:56Z",
+      "side": 1,
+      "message": "Good point on image src! Added a guard condition for empty ones.\nAs for the link, the whole header is wrapped in \u003ca\u003e\u003c/a\u003e in gr-main-header.",
+      "parentUuid": "f938e492_92980056",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "3c572e30ba9921a6d7c1cee8e11b8b959b47a3d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

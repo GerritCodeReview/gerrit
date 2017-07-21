@@ -22,6 +22,30 @@
       "revId": "66c5d9a071dc1fd275c50aacb24979ff37f7a19d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38169403_0c9c0757",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-21T20:48:21Z",
+      "side": 1,
+      "message": "Yes -- if you check the left side, that was also the prior behavior.",
+      "parentUuid": "5c7b51bd_f85d90a8",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "66c5d9a071dc1fd275c50aacb24979ff37f7a19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

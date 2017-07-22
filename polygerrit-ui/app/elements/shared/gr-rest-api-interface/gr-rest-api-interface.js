@@ -28,7 +28,6 @@
   };
 
   let auth = null;
-  const etags = new GrEtagDecorator();
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -68,6 +67,10 @@
       _pendingRequests: {
         type: Object,
         value: {}, // Intentional to share the object across instances.
+      },
+      _etags: {
+        type: Object,
+        value: new GrEtagDecorator(), // Share across instances.
       },
     },
 
@@ -507,20 +510,22 @@
     _getChangeDetail(changeNum, params, opt_errFn,
         opt_cancelCondition) {
       const url = this.getChangeActionURL(changeNum, null, '/detail');
+      const urlWithParams = this._urlWithParams(url, params);
       return this._fetchRawJSON(
           url,
           opt_errFn,
           opt_cancelCondition,
           {O: params},
-          etags.getOptions(url))
+          this._etags.getOptions(urlWithParams))
           .then(response => {
             if (response && response.status === 304) {
-              return Promise.resolve(etags.getCachedPayload(url));
+              return Promise.resolve(
+                  this._etags.getCachedPayload(urlWithParams));
             } else {
               const payloadPromise = response ?
                     this.getResponseObject(response) : Promise.resolve();
               payloadPromise.then(payload => {
-                etags.collect(url, response, payload);
+                this._etags.collect(urlWithParams, response, payload);
               });
               return payloadPromise;
             }

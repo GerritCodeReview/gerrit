@@ -68,6 +68,7 @@
       },
       _filter: String,
       _refName: String,
+      _hasNewItemName: Boolean,
     },
 
     behaviors: [
@@ -229,6 +230,19 @@
         return 'show';
       }
       return '';
+    },
+
+    _handleCreateItem() {
+      this.$.createNewModal.handleCreateItem();
+      this._handleCloseCreate();
+    },
+
+    _handleCloseCreate() {
+      this.$.createOverlay.close();
+    },
+
+    _handleCreateClicked() {
+      this.$.createOverlay.open();
     },
   });
 })();

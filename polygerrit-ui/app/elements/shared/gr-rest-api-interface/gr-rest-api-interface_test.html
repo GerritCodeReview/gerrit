@@ -759,5 +759,17 @@ limitations under the License.
         });
       });
     });
+
+    test('_getChangeDetail passes params to ETags decorator', () => {
+      const changeNum = 4321;
+      const params = {foo: 'bar'};
+      sandbox.stub(element._etags, 'getOptions');
+      return element._getChangeDetail(changeNum, params).then(() => {
+        assert.isTrue(element._etags.getOptions.calledWithExactly(
+            element._urlWithParams(
+                element.getChangeActionURL(changeNum, null, '/detail'),
+                params)));
+      });
+    });
   });
 </script>

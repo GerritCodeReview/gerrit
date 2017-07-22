@@ -74,24 +74,24 @@ limitations under the License.
       </table>
     </gr-list-view>
     <gr-overlay id="createOverlay" with-backdrop>
-        <gr-confirm-dialog
-            id="createDialog"
-            class="confirmDialog"
-            disabled="[[!_hasNewProjectName]]"
-            confirm-label="Create"
-            on-confirm="_handleCreateProject"
-            on-cancel="_handleCloseCreate">
-          <div class="header">
-            Create Project
-          </div>
-          <div class="main">
-            <gr-create-project-dialog
-                has-new-project-name="{{_hasNewProjectName}}"
-                params="[[params]]"
-                id="createNewModal"></gr-create-project-dialog>
-          </div>
-        </gr-confirm-dialog>
-      </gr-overlay>
+      <gr-confirm-dialog
+          id="createDialog"
+          class="confirmDialog"
+          disabled="[[!_hasNewProjectName]]"
+          confirm-label="Create"
+          on-confirm="_handleCreateProject"
+          on-cancel="_handleCloseCreate">
+        <div class="header">
+          Create Project
+        </div>
+        <div class="main">
+          <gr-create-project-dialog
+              has-new-project-name="{{_hasNewProjectName}}"
+              params="[[params]]"
+              id="createNewModal"></gr-create-project-dialog>
+        </div>
+      </gr-confirm-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-admin-project-list.js"></script>

@@ -20,6 +20,7 @@
  * @param canonicalPath
  * @param staticResourcePath
  * @param? versionInfo
+ * @param? versionString
  */
 {template .Index autoescape="strict" kind="html"}
   <!DOCTYPE html>{\n}
@@ -39,10 +40,10 @@
 
   // RobotoMono fonts are used in styles/fonts.css
   // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
-  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin>{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff" as="font" type="font/woff" crossorigin>{\n}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
+  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff2{if $versionString != ''}{$versionString}{/if}" as="font" type="font/woff2" crossorigin>{\n}
+  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff{if $versionString != ''}{$versionString}{/if}" as="font" type="font/woff" crossorigin>{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css{if $versionString != ''}{$versionString}{/if}">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css{if $versionString != ''}{$versionString}{/if}">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
@@ -50,8 +51,8 @@
   // CC them on any changes that load content before gr-app.html.
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
-  <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js{if $versionString != ''}{$versionString}{/if}" as="script" crossorigin="anonymous">{\n}
+  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html{if $versionString != ''}{$versionString}{/if}">{\n}
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}

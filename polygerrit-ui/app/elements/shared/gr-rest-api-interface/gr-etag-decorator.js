@@ -50,7 +50,7 @@
       this._etags.delete(url);
     } else {
       this._etags.set(url, etag);
-      this._trunkateCache();
+      this._truncateCache();
     }
   };
 
@@ -58,7 +58,7 @@
     return this._payloadCache.get(url);
   };
 
-  GrEtagDecorator.prototype._trunkateCache = function() {
+  GrEtagDecorator.prototype._truncateCache = function() {
     for (const url of this._etags.keys()) {
       if (this._etags.size <= MAX_CACHE_SIZE) {
         break;

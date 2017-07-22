@@ -171,7 +171,7 @@
       },
       _changeStatus: {
         type: String,
-        computed: 'changeStatusString(_change)',
+        computed: 'changeStatusString(_change, false)',
       },
       _commitCollapsed: {
         type: Boolean,

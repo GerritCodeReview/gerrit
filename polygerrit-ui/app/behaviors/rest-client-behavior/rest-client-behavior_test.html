@@ -87,7 +87,7 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, false);
       assert.equal(status, '');
     });
 
@@ -102,7 +102,7 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, false);
       assert.equal(status, 'Merge Conflict');
     });
 
@@ -116,7 +116,7 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, false);
       assert.equal(status, '');
     });
 
@@ -130,7 +130,7 @@ limitations under the License.
         status: 'MERGED',
         labels: {},
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, false);
       assert.equal(status, 'Merged');
     });
 
@@ -144,7 +144,7 @@ limitations under the License.
         status: 'ABANDONED',
         labels: {},
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, false);
       assert.equal(status, 'Abandoned');
     });
 
@@ -161,7 +161,7 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, true);
       assert.equal(status, 'WIP, Private');
     });
 
@@ -178,7 +178,7 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const status = element.changeStatusString(change);
+      const status = element.changeStatusString(change, true);
       assert.equal(status, 'Merge Conflict, WIP, Private');
     });
   });

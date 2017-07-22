@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-create-pointer-dialog/gr-create-pointer-dialog.html">
 <link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
 
 <dom-module id="gr-project-detail-list">
@@ -59,11 +60,13 @@ limitations under the License.
     </style>
     <style include="gr-table-styles"></style>
     <gr-list-view
+        create-new="[[_isOwner]]"
         filter="[[_filter]]"
         items-per-page="[[_itemsPerPage]]"
         items="[[_items]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
+        on-create-clicked="_handleCreateClicked"
         path="[[_getPath(_project, detailType)]]">
       <table id="list" class="genericList gr-form-styles">
         <tr class="headerRow">
@@ -141,6 +144,26 @@ limitations under the License.
             item-type="[[detailType]]"></gr-confirm-delete-item-dialog>
       </gr-overlay>
     </gr-list-view>
+    <gr-overlay id="createOverlay" with-backdrop>
+      <gr-confirm-dialog
+          id="createDialog"
+          disabled="[[!_hasNewItemName]]"
+          confirm-label="Create"
+          on-confirm="_handleCreateItem"
+          on-cancel="_handleCloseCreate">
+        <div class="header">
+          Create [[_computeItemName(detailType)]]
+        </div>
+        <div class="main">
+          <gr-create-pointer-dialog
+              id="createNewModal"
+              detail-type="[[_computeItemName(detailType)]]"
+              has-new-item-name="{{_hasNewItemName}}"
+              item-detail="[[detailType]]"
+              project-name="[[_project]]"></gr-create-pointer-dialog>
+        </div>
+      </gr-confirm-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-project-detail-list.js"></script>

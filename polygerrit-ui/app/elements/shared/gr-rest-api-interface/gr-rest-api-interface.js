@@ -240,6 +240,23 @@
           opt_errFn, opt_ctx);
     },
 
+    createProjectBranch(name, branch, revision, opt_errFn, opt_ctx) {
+      if (!name || !branch || !revision) { return ''; }
+      const encodeName = encodeURIComponent(name);
+      const encodeBranch = encodeURIComponent(branch);
+      return this.send('PUT',
+          `/projects/${encodeName}/branches/${encodeBranch}`,
+          revision, opt_errFn, opt_ctx);
+    },
+
+    createProjectTag(name, tag, revision, opt_errFn, opt_ctx) {
+      if (!name || !tag || !revision) { return ''; }
+      const encodeName = encodeURIComponent(name);
+      const encodeTag = encodeURIComponent(tag);
+      return this.send('PUT', `/projects/${encodeName}/tags/${encodeTag}`,
+          revision, opt_errFn, opt_ctx);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

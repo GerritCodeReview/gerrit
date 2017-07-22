@@ -393,5 +393,31 @@ limitations under the License.
         });
       });
     });
+
+    suite('create new', () => {
+      test('_handleCreateClicked called when create-click fired', () => {
+        sandbox.stub(element, '_handleCreateClicked');
+        element.$$('gr-list-view').fire('create-clicked');
+        assert.isTrue(element._handleCreateClicked.called);
+      });
+
+      test('_handleCreateClicked opens modal', () => {
+        const openStub = sandbox.stub(element.$.createOverlay, 'open');
+        element._handleCreateClicked();
+        assert.isTrue(openStub.called);
+      });
+
+      test('_handleCreateItem called when confirm fired', () => {
+        sandbox.stub(element, '_handleCreateItem');
+        element.$.createDialog.fire('confirm');
+        assert.isTrue(element._handleCreateItem.called);
+      });
+
+      test('_handleCloseCreate called when cancel fired', () => {
+        sandbox.stub(element, '_handleCloseCreate');
+        element.$.createDialog.fire('cancel');
+        assert.isTrue(element._handleCloseCreate.called);
+      });
+    });
   });
 </script>

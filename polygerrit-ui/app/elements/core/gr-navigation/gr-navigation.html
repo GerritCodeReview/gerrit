@@ -152,6 +152,18 @@ limitations under the License.
       },
 
       /**
+       * @param {string} hashtag The name of the hashtag.
+       * @return {string}
+       */
+      getUrlForHashtag(hashtag) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          hashtag,
+          statuses: ['open', 'merged'],
+        });
+      },
+
+      /**
        * @param {!Object} change The change object.
        * @param {number} opt_patchNum
        * @param {number|string} opt_basePatchNum The string 'PARENT' can be used

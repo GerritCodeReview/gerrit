@@ -1188,6 +1188,11 @@
           '/topic', {topic}).then(this.getResponseObject);
     },
 
+    setChangeHashtag(changeNum, hashtag) {
+      return this.send('POST', '/changes/' + encodeURIComponent(changeNum) +
+          '/hashtags', hashtag).then(this.getResponseObject);
+    },
+
     deleteAccountHttpPassword() {
       return this.send('DELETE', '/accounts/self/password.http');
     },

@@ -39,6 +39,7 @@
     'has:edit',
     'has:star',
     'has:stars',
+    'hashtag',
     'intopic',
     'is',
     'is:abandoned',

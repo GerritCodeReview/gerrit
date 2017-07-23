@@ -236,13 +236,7 @@
     },
 
     _authorOrAnon(author) {
-      if (author && author.name) {
-        return author.name;
-      } else if (author && author.email) {
-        return author.email;
-      }
-
-      return this.getAnonymousName(this.config);
+      return this.getUserName(this.config, author, true);
     },
 
     _projectNameChanged(name) {

@@ -25,6 +25,7 @@
     properties: {
       borderless: Boolean,
       change: Object,
+      config: Object,
       filter: Function,
       placeholder: String,
       /**
@@ -50,6 +51,16 @@
           return this._getReviewerSuggestions.bind(this);
         },
       },
+    },
+
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
+        this.config = cfg;
+      });
     },
 
     get focusStart() {
@@ -85,7 +96,9 @@
       };
       if (reviewer.account) {
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-        name = reviewer.account.name + ' <' + reviewer.account.email + '>' +
+        const reviewerName = reviewer.account.name ? reviewer.account.name :
+            this._accountOrAnon(reviewer.account);
+        name = reviewerName + ' <' + reviewer.account.email + '>' +
             generateStatusStr(reviewer.account);
         value = reviewer;
       } else if (reviewer.group) {
@@ -93,12 +106,22 @@
         name = reviewer.group.name + ' (group)';
         value = reviewer;
       } else if (reviewer._account_id) {
+        const reviewerName = reviewer.name ? reviewer.name :
+            this._accountOrAnon(reviewer);
         // Reviewer is an account suggestion from getSuggestedAccounts.
-        name = reviewer.name + ' <' + reviewer.email + '>' +
+        name = reviewerName + ' <' + reviewer.email + '>' +
             generateStatusStr(reviewer);
         value = {account: reviewer, count: 1};
       }
       return {name, value};
+    },
+
+    _accountOrAnon(reviewer) {
+      if (reviewer && reviewer.name) {
+        return reviewer.name;
+      }
+
+      return this.getAnonymousName(this.config);
     },
 
     _getReviewerSuggestions(input) {

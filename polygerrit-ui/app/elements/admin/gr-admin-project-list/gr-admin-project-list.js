@@ -115,7 +115,7 @@
     },
 
     _handleCreateProject() {
-      this.$.createNewModal.handleCreateProject();
+      this.$.createNewModal.handleCreateItem();
     },
 
     _handleCloseCreate() {

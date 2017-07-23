@@ -23,9 +23,17 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
 
   /** @polymerBehavior Gerrit.AnonymousNameBehavior */
-  Gerrit.AnonymousNameBehavior = {
-    getAnonymousName(config) {
-      if (config && config.user &&
+  const AnonymousNameBehavior = {
+    /**
+     * enableEmail when true enables to fallback to using email if
+     * the account name is not avilable.
+     */
+    getUserName(config, account, enableEmail) {
+      if (account && account.name) {
+        return account.name;
+      } else if (enableEmail && account && account.email) {
+        return account.email;
+      } else if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
         return config.user.anonymous_coward_name;
       }

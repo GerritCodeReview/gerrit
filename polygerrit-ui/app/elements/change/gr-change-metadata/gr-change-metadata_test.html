@@ -217,6 +217,70 @@ limitations under the License.
       });
     });
 
+    suite('Hashtag removal', () => {
+      let change;
+      setup(() => {
+        change = {
+          _number: 'the number',
+          actions: {
+            hashtags: {enabled: false},
+          },
+          change_id: 'the id',
+          hashtags: ['test-hashtag'],
+          status: 'NEW',
+          submit_type: 'CHERRY_PICK',
+          labels: {
+            test: {
+              all: [{_account_id: 1, name: 'bojack', value: 1}],
+              default_value: 0,
+              values: [],
+            },
+          },
+          removable_reviewers: [],
+        };
+      });
+
+      test('_computeHashtagReadOnly', () => {
+        element.serverConfig = {
+          note_db_enabled: true,
+        };
+        flushAsynchronousOperations();
+        let mutable = false;
+        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+        mutable = true;
+        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+        change.actions.hashtags.enabled = true;
+        assert.isFalse(element._computeHashtagReadOnly(mutable, change));
+        mutable = false;
+        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
+      });
+
+      test('hashtag read only hides delete button', () => {
+        element.serverConfig = {
+          note_db_enabled: true,
+        };
+        flushAsynchronousOperations();
+        element.mutable = false;
+        element.change = change;
+        flushAsynchronousOperations();
+        const button = element.$$('gr-linked-chip').$$('gr-button');
+        assert.isTrue(button.hasAttribute('hidden'));
+      });
+
+      test('hashtag not read only does not hide delete button', () => {
+        element.serverConfig = {
+          note_db_enabled: true,
+        };
+        flushAsynchronousOperations();
+        element.mutable = true;
+        change.actions.hashtags.enabled = true;
+        element.change = change;
+        flushAsynchronousOperations();
+        const button = element.$$('gr-linked-chip').$$('gr-button');
+        assert.isFalse(button.hasAttribute('hidden'));
+      });
+    });
+
     suite('remove reviewer votes', () => {
       setup(() => {
         sandbox.stub(element, '_computeValueTooltip').returns('');
@@ -313,6 +377,26 @@ limitations under the License.
             .then(() => {
               assert.equal(element.change.topic, '');
               assert.isTrue(topicChangedSpy.called);
+            });
+      });
+
+      test('changing hashtag', () => {
+        element.serverConfig = {
+          note_db_enabled: true,
+        };
+        flushAsynchronousOperations();
+        const newHashtag = ['new hashtag'];
+        sandbox.stub(element.$.restAPI, 'setChangeHashtag').returns(
+            Promise.resolve(newHashtag));
+        element._handleHashtagChanged({}, 'new hashtag');
+        const hashtagChangedSpy = sandbox.spy();
+        element.addEventListener('hashtag-changed', hashtagChangedSpy);
+        assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
+            'the number', {add: ['new hashtag']}));
+        return element.$.restAPI.setChangeHashtag.lastCall.returnValue
+            .then(() => {
+              assert.equal(element.change.hashtags, newHashtag);
+              assert.isTrue(hashtagChangedSpy.called);
             });
       });
 

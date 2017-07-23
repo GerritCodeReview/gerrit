@@ -268,6 +268,25 @@ limitations under the License.
           </span>
         </section>
       </template>
+      <template is="dom-if" if="[[serverConfig.note_db_enabled]]">
+        <section class="hashtag">
+          <span class="title">Hashtag</span>
+          <span class="value">
+            <template is="dom-repeat" items="[[change.hashtags]]">
+              <gr-linked-chip
+                  text="[[item]]"
+                  href="[[_computeHashtagURL(item)]]"
+                  removable="[[!_hashtagReadOnly]]"
+                  on-remove="_handleHashtagRemoved"></gr-linked-chip>
+            </template>
+            <gr-editable-label
+                value="[[change.hashtags]]"
+                placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
+                read-only="[[_hashtagReadOnly]]"
+                on-changed="_handleHashtagChanged"></gr-editable-label>
+          </span>
+        </section>
+      </template>
       <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
         <span class="title">Links</span>
         <span class="value">

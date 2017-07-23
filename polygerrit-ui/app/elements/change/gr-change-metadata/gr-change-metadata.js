@@ -40,6 +40,10 @@
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
       },
+      _hashtagReadOnly: {
+        type: Boolean,
+        computed: '_computeHashtagReadOnly(mutable, change)',
+      },
       _showReviewersByState: {
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
@@ -165,8 +169,27 @@
           });
     },
 
+    _handleHashtagChanged(e, hashtag) {
+      const lastHashtag = this.change.hashtag;
+      if (!hashtag.length) { hashtag = null; }
+      this.$.restAPI.setChangeHashtag(this.change._number, {add: [hashtag]})
+          .then(newHashtag => {
+            this.set(['change', 'hashtags'], newHashtag);
+            if (newHashtag !== lastHashtag) {
+              this.dispatchEvent(
+                  new CustomEvent('hashtag-changed', {bubbles: true}));
+            }
+          });
+    },
+
     _computeTopicReadOnly(mutable, change) {
       return !mutable || !change.actions.topic || !change.actions.topic.enabled;
+    },
+
+    _computeHashtagReadOnly(mutable, change) {
+      return !mutable ||
+          !change.actions.hashtags ||
+          !change.actions.hashtags.enabled;
     },
 
     _computeAssigneeReadOnly(mutable, change) {
@@ -177,6 +200,10 @@
 
     _computeTopicPlaceholder(_topicReadOnly) {
       return _topicReadOnly ? 'No Topic' : 'Click to add topic';
+    },
+
+    _computeHashtagPlaceholder(_hashtagReadOnly) {
+      return _hashtagReadOnly ? '' : 'Click to add hashtag';
     },
 
     _computeShowReviewersByState(serverConfig) {
@@ -277,12 +304,27 @@
       return Gerrit.Nav.getUrlForTopic(topic);
     },
 
+    _computeHashtagURL(hashtag) {
+      return Gerrit.Nav.getUrlForHashtag(hashtag);
+    },
+
     _handleTopicRemoved() {
       this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
         this.set(['change', 'topic'], '');
         this.dispatchEvent(
             new CustomEvent('topic-changed', {bubbles: true}));
       });
+    },
+
+    _handleHashtagRemoved(e) {
+      e.preventDefault();
+      const target = Polymer.dom(e).rootTarget.text;
+      this.$.restAPI.setChangeHashtag(this.change._number, {remove: [target]})
+          .then(newHashtag => {
+            this.set(['change', 'hashtags'], newHashtag);
+            this.dispatchEvent(
+                new CustomEvent('hashtag-changed', {bubbles: true}));
+          });
     },
 
     _computeIsWip(change) {

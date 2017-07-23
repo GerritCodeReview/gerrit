@@ -18,6 +18,7 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-pointer-dialog</title>
 
+<script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
@@ -35,6 +36,7 @@ limitations under the License.
   suite('gr-create-pointer-dialog tests', () => {
     let element;
     let sandbox;
+    const GROUP_NAME = 'test-group';
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -48,44 +50,142 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('branch created', () => {
-      sandbox.stub(element.$.restAPI, 'createProjectBranch', () => {
-        return Promise.resolve({});
+    suite('branch and tags create dialog', () => {
+      test('branch created', () => {
+        element.itemDetail = 'branches';
+
+        sandbox.stub(element.$.restAPI, 'createProjectBranch', () => {
+          return Promise.resolve({});
+        });
+
+        assert.isFalse(element.hasNewItemName);
+
+        element._itemConfig = {
+          name: 'test-branch',
+        };
+
+        element.$.itemNameInput.bindValue = 'test-branch2';
+        element.$.itemRevisionInput.bindValue = 'HEAD';
+
+        assert.isTrue(element.hasNewItemName);
+
+        assert.equal(element._itemConfig.name, 'test-branch2');
+
+        assert.equal(element._itemConfig.revision, 'HEAD');
       });
 
-      assert.isFalse(element.hasNewItemName);
+      test('tag created', () => {
+        element.itemDetail = 'tags';
 
-      element._itemName = 'test-branch';
-      element.itemDetail = 'branches';
+        sandbox.stub(element.$.restAPI, 'createProjectTag', () => {
+          return Promise.resolve({});
+        });
 
-      element.$.itemNameInput.bindValue = 'test-branch2';
-      element.$.itemRevisionInput.bindValue = 'HEAD';
+        assert.isFalse(element.hasNewItemName);
 
-      assert.isTrue(element.hasNewItemName);
+        element._itemConfig = {
+          name: 'test-tag',
+        };
 
-      assert.equal(element._itemName, 'test-branch2');
+        element.$.itemNameInput.bindValue = 'test-tag2';
+        element.$.itemRevisionInput.bindValue = 'HEAD';
 
-      assert.equal(element._itemRevision, 'HEAD');
+        assert.isTrue(element.hasNewItemName);
+
+        assert.equal(element._itemConfig.name, 'test-tag2');
+
+        assert.equal(element._itemConfig.revision, 'HEAD');
+      });
     });
 
-    test('tag created', () => {
-      sandbox.stub(element.$.restAPI, 'createProjectTag', () => {
-        return Promise.resolve({});
+    suite('groups create dialog', () => {
+      test('name is updated correctly', () => {
+        element.itemDetail = 'groups';
+
+        assert.isFalse(element.hasNewItemName);
+
+        element.$.itemNameInput.bindValue = GROUP_NAME;
+
+        assert.isTrue(element.hasNewItemName);
+        assert.deepEqual(element._itemConfig.name, GROUP_NAME);
       });
 
-      assert.isFalse(element.hasNewItemName);
+      test('test for redirecting to group on successful creation', done => {
+        element.itemDetail = 'groups';
 
-      element._itemName = 'test-tag';
-      element.itemDetail = 'tags';
+        sandbox.stub(element.$.restAPI, 'createGroup')
+            .returns(Promise.resolve({status: 201}));
 
-      element.$.itemNameInput.bindValue = 'test-tag2';
-      element.$.itemRevisionInput.bindValue = 'HEAD';
+        sandbox.stub(element.$.restAPI, 'getGroupConfig')
+            .returns(Promise.resolve({group_id: 551}));
 
-      assert.isTrue(element.hasNewItemName);
+        const showStub = sandbox.stub(page, 'show');
+        element.handleCreateItem()
+            .then(() => {
+              assert.isTrue(showStub.calledWith('/admin/groups/551'));
+              done();
+            });
+      });
 
-      assert.equal(element._itemName, 'test-tag2');
+      test('test for unsuccessful group creation', done => {
+        element.itemDetail = 'groups';
 
-      assert.equal(element._itemRevision, 'HEAD');
+        sandbox.stub(element.$.restAPI, 'createGroup')
+            .returns(Promise.resolve({status: 409}));
+
+        sandbox.stub(element.$.restAPI, 'getGroupConfig')
+            .returns(Promise.resolve({group_id: 551}));
+
+        const showStub = sandbox.stub(page, 'show');
+        element.handleCreateItem()
+            .then(() => {
+              assert.isFalse(showStub.called);
+              done();
+            });
+      });
+    });
+
+    suite('projects create dialog', () => {
+      test('project created', done => {
+        element.itemDetail = 'projects';
+
+        const configInputObj = {
+          name: 'test-project',
+          create_empty_commit: true,
+          parent: 'All-Project',
+          permissions_only: false,
+        };
+
+        const saveStub = sandbox.stub(element.$.restAPI,
+            'createProject', () => {
+              return Promise.resolve({});
+            });
+
+        assert.isFalse(element.hasNewItemName);
+
+        element._itemConfig = {
+          name: 'test-project',
+          create_empty_commit: true,
+          parent: 'All-Project',
+          permissions_only: false,
+        };
+
+        element.$.itemNameInput.bindValue = configInputObj.name;
+        element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
+        element.$.initalCommit.bindValue =
+            configInputObj.create_empty_commit;
+        element.$.parentProject.bindValue =
+            configInputObj.permissions_only;
+
+        assert.isTrue(element.hasNewItemName);
+
+        assert.deepEqual(element._itemConfig, configInputObj);
+
+        element.handleCreateItem().then(() => {
+          assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+          done();
+        });
+      });
     });
   });
 </script>

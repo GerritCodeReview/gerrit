@@ -23,17 +23,32 @@
         type: Number,
         value: 32,
       },
+      config: Object,
       showEmail: {
         type: Boolean,
         value: false,
       },
     },
 
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
+        this.config = cfg;
+      });
+    },
+
+    _accountOrAnon(account) {
+      return this.getAnonymousName(this.config, account);
+    },
+
     _computeAccountTitle(account) {
-      if (!account || (!account.name && !account.email)) { return; }
+      if (!account) { return; }
       let result = '';
-      if (account.name) {
-        result += account.name;
+      if (this._accountOrAnon(account)) {
+        result += this._accountOrAnon(account);
       }
       if (account.email) {
         result += ' <' + account.email + '>';

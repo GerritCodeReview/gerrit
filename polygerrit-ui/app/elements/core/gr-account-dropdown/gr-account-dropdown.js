@@ -93,13 +93,7 @@
     },
 
     _accountName(account) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.email) {
-        return account.email;
-      }
-
-      return this.getAnonymousName(this.config);
+      return this.getUserName(this.config, account, true);
     },
   });
 })();

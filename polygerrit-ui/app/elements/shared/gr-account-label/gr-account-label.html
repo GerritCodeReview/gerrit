@@ -14,9 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../gr-avatar/gr-avatar.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-avatar/gr-avatar.html">
 
 <dom-module id="gr-account-label">
   <template>
@@ -41,7 +43,7 @@ limitations under the License.
       <gr-avatar account="[[account]]"
           image-size="[[avatarImageSize]]"></gr-avatar>
       <span class="text">
-        <span>[[account.name]]</span>
+        <span>[[_accountOrAnon(account)]]</span>
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           [[_computeEmailStr(account)]]
         </span>
@@ -50,6 +52,7 @@ limitations under the License.
         </template>
       </span>
     </span>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="../../../scripts/util.js"></script>
   <script src="gr-account-label.js"></script>

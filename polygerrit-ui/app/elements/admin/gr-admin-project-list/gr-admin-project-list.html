@@ -23,8 +23,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
-
+<link rel="import" href="../gr-create-item-dialog/gr-create-item-dialog.html">
 
 <dom-module id="gr-admin-project-list">
   <template>
@@ -85,10 +84,10 @@ limitations under the License.
           Create Project
         </div>
         <div class="main">
-          <gr-create-project-dialog
-              has-new-project-name="{{_hasNewProjectName}}"
-              params="[[params]]"
-              id="createNewModal"></gr-create-project-dialog>
+          <gr-create-item-dialog
+              has-new-item-name="{{_hasNewProjectName}}"
+              item-detail="projects"
+              id="createNewModal"></gr-create-item-dialog>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

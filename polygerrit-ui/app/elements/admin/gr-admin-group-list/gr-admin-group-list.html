@@ -24,7 +24,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-create-group-dialog/gr-create-group-dialog.html">
+<link rel="import" href="../gr-create-item-dialog/gr-create-item-dialog.html">
 
 <dom-module id="gr-admin-group-list">
   <template>
@@ -73,10 +73,10 @@ limitations under the License.
           Create Group
         </div>
         <div class="main">
-          <gr-create-group-dialog
-              has-new-group-name="{{_hasNewGroupName}}"
-              params="[[params]]"
-              id="createNewModal"></gr-create-group-dialog>
+          <gr-create-item-dialog
+              has-new-item-name="{{_hasNewGroupName}}"
+              item-detail="groups"
+              id="createNewModal"></gr-create-item-dialog>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

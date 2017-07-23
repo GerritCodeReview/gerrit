@@ -22,4 +22,5 @@ bazel test \
       --test_env="DISPLAY=${DISPLAY}" \
       "$@" \
       //polygerrit-ui/app:embed_test \
-      //polygerrit-ui/app:wct_test
+      //polygerrit-ui/app:wct_test \
+      --test_verbose_timeout_warnings

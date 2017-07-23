@@ -80,7 +80,8 @@ genrule2(
 
 sh_test(
     name = "wct_test",
-    size = "large",
+    size = "enormous",
+    timeout="eternal"
     srcs = ["wct_test.sh"],
     data = [
         "test/common-test-setup.html",
@@ -155,7 +156,7 @@ filegroup(
 
 sh_test(
     name = "embed_test",
-    size = "large",
+    size = "medium",
     srcs = ["embed_test.sh"],
     data = [
         "embed/test.html",

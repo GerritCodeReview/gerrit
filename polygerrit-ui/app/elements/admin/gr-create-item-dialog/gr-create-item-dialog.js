@@ -30,6 +30,18 @@
         type: String,
         value: 'HEAD',
       },
+      _itemConfig: {
+        type: Object,
+        value: () => { return {}; },
+      },
+      _showCreateProject: Boolean,
+      _showCreateItem: Boolean,
+      _query: {
+        type: Function,
+        value() {
+          return this._getItemSuggestions.bind(this);
+        },
+      },
     },
 
     behaviors: [
@@ -38,20 +50,33 @@
     ],
 
     observers: [
-      '_updateItemName(_itemName)',
+      '_updateItemName(_itemConfig.name)',
+      '_paramsChanged(itemDetail)',
     ],
 
     _updateItemName(name) {
       this.hasNewItemName = !!name;
     },
 
-    _computeItemUrl(project) {
-      if (this.itemDetail === 'branches') {
+
+    _paramsChanged(params) {
+      this.set('_showCreateProject', params === 'projects');
+      this.set('_showCreateItem', params === 'branches' || params === 'tags');
+    },
+
+    _computeItemUrl(item, name) {
+      if (item === 'branches') {
         return this.getBaseUrl() + '/admin/projects/' +
-            this.encodeURL(this.projectName, true) + ',branches';
-      } else if (this.itemDetail === 'tags') {
+            this.encodeURL(name, true) + ',branches';
+      } else if (item === 'tags') {
         return this.getBaseUrl() + '/admin/projects/' +
-            this.encodeURL(this.projectName, true) + ',tags';
+            this.encodeURL(name, true) + ',tags';
+      } else if (item === 'projects') {
+        return this.getBaseUrl() + '/admin/projects/' +
+            this.encodeURL(name, true);
+      } else if (item === 'groups') {
+        return this.getBaseUrl() + '/admin/groups/' +
+            this.encodeURL(name, true);
       }
     },
 
@@ -60,25 +85,66 @@
         return 'Branch';
       } else if (detail === 'tags') {
         return 'Tag';
+      } else if (detail === 'projects') {
+        return 'Project';
+      } else if (detail === 'groups') {
+        return 'Group';
       }
     },
 
     handleCreateItem() {
       if (this.itemDetail === 'branches') {
         return this.$.restAPI.createProjectBranch(this.projectName,
-            this._itemName, {revision: this._itemRevision})
+            this._itemConfig.name, {revision: this._itemConfig.revision})
             .then(itemRegistered => {
               if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
+                page.show(
+                    this._computeItemUrl(this.itemDetail, this.projectName));
               }
             });
       } else if (this.itemDetail === 'tags') {
         return this.$.restAPI.createProjectTag(this.projectName,
-            this._itemName, {revision: this._itemRevision})
+            this._itemConfig.name, {revision: this._itemConfig.revision})
             .then(itemRegistered => {
               if (itemRegistered.status === 201) {
-                page.show(this._computeItemUrl(this.itemDetail));
+                page.show(
+                    this._computeItemUrl(this.itemDetail, this.projectName));
               }
+            });
+      } else if (this.itemDetail === 'projects') {
+        return this.$.restAPI.createProject(this._itemConfig)
+            .then(projectRegistered => {
+              if (projectRegistered.status === 201) {
+                page.show(this._computeItemUrl(
+                    this.itemDetail, this._itemConfig.name));
+              }
+            });
+      } else if (this.itemDetail === 'groups') {
+        return this.$.restAPI.createGroup({name: this._itemConfig.name})
+            .then(groupRegistered => {
+              if (groupRegistered.status !== 201) { return; }
+              return this.$.restAPI.getGroupConfig(this._itemConfig.name)
+                  .then(group => {
+                    page.show(
+                        this._computeItemUrl(this.itemDetail, group.group_id));
+                  });
+            });
+      }
+    },
+
+    _getItemSuggestions(input) {
+      if (this.itemDetail === 'projects') {
+        return this.$.restAPI.getSuggestedProjects(input)
+            .then(response => {
+              const projects = [];
+              for (const key in response) {
+                if (!response.hasOwnProperty(key)) { continue; }
+                projects.push({
+                  name: key,
+                  value: response[key],
+                });
+              }
+              return projects;
             });
       }
     },

@@ -79,17 +79,17 @@ genrule2(
 )
 
 sh_test(
-    name = "wct_test",
-    size = "large",
-    srcs = ["wct_test.sh"],
-    data = [
+    name    = "wct_test",
+    size    = "enormous",
+    srcs    = ["wct_test.sh"],
+    data    = [
         "test/common-test-setup.html",
         "test/index.html",
         ":pg_code.zip",
         ":test_components.zip",
     ],
     # Should not run sandboxed.
-    tags = [
+    tags    = [
         "local",
         "manual",
     ],
@@ -155,7 +155,7 @@ filegroup(
 
 sh_test(
     name = "embed_test",
-    size = "large",
+    size = "small",
     srcs = ["embed_test.sh"],
     data = [
         "embed/test.html",

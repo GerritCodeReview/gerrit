@@ -23,6 +23,7 @@
         type: Number,
         value: 32,
       },
+      _serverConfig: Object,
       showEmail: {
         type: Boolean,
         value: false,
@@ -41,10 +42,6 @@
         type: Boolean,
         value: false,
       },
-      showAnonymous: {
-        type: Boolean,
-        value: false,
-      },
       _serverConfig: {
         type: Object,
         value: null,
@@ -57,27 +54,15 @@
     ],
 
     ready() {
-      if (this.showAnonymous) {
-        this.$.restAPI.getConfig()
-            .then(config => { this._serverConfig = config; });
-      }
-    },
-
-    _computeName(account, config, showAnonymous) {
-      if (account && account.name) {
-        return account.name;
-      }
-      if (showAnonymous) {
-        return this.getAnonymousName(config);
-      }
-      return '';
+      this.$.restAPI.getConfig()
+          .then(config => { this._serverConfig = config; });
     },
 
     _computeAccountTitle(account) {
-      if (!account || (!account.name && !account.email)) { return; }
+      if (!account) { return; }
       let result = '';
-      if (account.name) {
-        result += account.name;
+      if (this._computeName(account, this._serverConfig)) {
+        result += this._computeName(account, this._serverConfig);
       }
       if (account.email) {
         result += ' <' + account.email + '>';

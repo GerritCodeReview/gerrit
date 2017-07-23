@@ -25,6 +25,7 @@
     properties: {
       borderless: Boolean,
       change: Object,
+      _config: Object,
       filter: Function,
       placeholder: String,
       /**
@@ -52,6 +53,16 @@
       },
     },
 
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+    ],
+
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
+        this._config = cfg;
+      });
+    },
+
     get focusStart() {
       return this.$.input.focusStart;
     },
@@ -77,6 +88,10 @@
       this.$.input.focus();
     },
 
+    _accountOrAnon(reviewer) {
+      return this.getUserName(this._config, reviewer, false);
+    },
+
     _makeSuggestion(reviewer) {
       let name;
       let value;
@@ -85,7 +100,8 @@
       };
       if (reviewer.account) {
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-        name = reviewer.account.name + ' <' + reviewer.account.email + '>' +
+        const reviewerName = this._accountOrAnon(reviewer.account);
+        name = reviewerName + ' <' + reviewer.account.email + '>' +
             generateStatusStr(reviewer.account);
         value = reviewer;
       } else if (reviewer.group) {
@@ -94,7 +110,8 @@
         value = reviewer;
       } else if (reviewer._account_id) {
         // Reviewer is an account suggestion from getSuggestedAccounts.
-        name = reviewer.name + ' <' + reviewer.email + '>' +
+        const reviewerName = this._accountOrAnon(reviewer);
+        name = reviewerName + ' <' + reviewer.email + '>' +
             generateStatusStr(reviewer);
         value = {account: reviewer, count: 1};
       }
@@ -110,7 +127,9 @@
 
       return xhr.then(reviewers => {
         if (!reviewers) { return []; }
-        if (!this.filter) { return reviewers.map(this._makeSuggestion); }
+        if (!this.filter) {
+          return reviewers.map(this._makeSuggestion.bind(this));
+        }
         return reviewers
             .filter(this.filter)
             .map(this._makeSuggestion.bind(this));

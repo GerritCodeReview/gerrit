@@ -114,7 +114,7 @@
     },
 
     _handleCreateGroup() {
-      this.$.createNewModal.handleCreateGroup();
+      this.$.createNewModal.handleCreateItem();
     },
 
     _handleCloseCreate() {

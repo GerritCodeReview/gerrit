@@ -43,6 +43,7 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('basic');
+      element._config = {};
     });
 
     test('null guard', () => {
@@ -66,6 +67,12 @@ limitations under the License.
       assert.equal(element._computeAccountTitle(
           {name: 'Andrew Bonventre'}),
           'Andrew Bonventre');
+
+      assert.equal(element._computeAccountTitle(
+          {
+            email: 'andybons+gerrit@gmail.com',
+          }),
+          'Anonymous <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeShowEmail(true,
           {

@@ -46,6 +46,15 @@ limitations under the License.
         status: opt_status,
       };
     };
+    let _nextAccountId2 = 0;
+    const makeAccount2 = function(opt_status) {
+      const accountId2 = ++_nextAccountId2;
+      return {
+        _account_id: accountId2,
+        email: 'email ' + accountId2,
+        status: opt_status,
+      };
+    };
 
     let owner;
     let existingReviewer1;
@@ -98,6 +107,7 @@ limitations under the License.
 
       test('_makeSuggestion formats account or group accordingly', () => {
         let account = makeAccount();
+        const account2 = makeAccount2();
         let suggestion = element._makeSuggestion({account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
@@ -116,6 +126,8 @@ limitations under the License.
           name: account.name + ' <' + account.email + '>',
           value: {account, count: 1},
         });
+
+        assert.deepEqual(element._accountOrAnon(account2, false), 'Anonymous');
 
         account = makeAccount('OOO');
 

@@ -22,8 +22,12 @@ limitations under the License.
 
   /** @polymerBehavior Gerrit.AnonymousNameBehavior */
   const AnonymousNameBehavior = {
-    getAnonymousName(config) {
-      if (config && config.user &&
+    getAnonymousName(config, account, disableEmail) {
+      if (account && account.name) {
+        return account.name;
+      } else if (disableEmail && account && account.email) {
+        return account.email;
+      } else if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
         return config.user.anonymous_coward_name;
       }

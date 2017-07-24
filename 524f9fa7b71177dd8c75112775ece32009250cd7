@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1e39a475_6e048204",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 67
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T17:28:58Z",
+      "side": 1,
+      "message": "Woops sorry, missed this one. Thanks, done.",
+      "parentUuid": "d95ad779_f52d82d1",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "524f9fa7b71177dd8c75112775ece32009250cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e2ab888_cb55c581",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 67

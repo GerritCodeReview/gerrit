@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "706265b4_f2e13fc9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T17:28:58Z",
+      "side": 1,
+      "message": "Looking at https://github.com/GerritCodeReview/gerrit/search?utf8\u003d%E2%9C%93\u0026q\u003d_handleConfirmTap\u0026type\u003d i see no other dialogs testing that. (not to say we doint have to do it here, i am looking at how to do that but as no other one is doing it i am unsure how to do it.)",
+      "parentUuid": "623d0553_9b7505d1",
+      "revId": "8f8d6ee6dfddd4583775c826920bdad33cd9ae41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5d311d5_c7fb39e2",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 76

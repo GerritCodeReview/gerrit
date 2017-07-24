@@ -70,6 +70,30 @@
       "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed16b7da_b4e5695e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T22:58:02Z",
+      "side": 0,
+      "message": "That should work just fine anyways, no? The very last part of the regex optionally matches a slash, so this route should work fine.\n\nHave you tested it and found this route to not match something with a slash at the end?",
+      "parentUuid": "381f0b1b_5dc7e008",
+      "range": {
+        "startLine": 318,
+        "startChar": 57,
+        "endLine": 318,
+        "endChar": 66
+      },
+      "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

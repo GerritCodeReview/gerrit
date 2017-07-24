@@ -315,7 +315,7 @@
     // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/)?(.+)?))?\/?$/,
         ctx => {
           // Parameter order is based on the regex group number matched.
           const params = {
@@ -323,8 +323,8 @@
             changeNum: ctx.params[1],
             basePatchNum: ctx.params[4],
             patchNum: ctx.params[6],
-            path: ctx.params[8],
-            view: ctx.params[8] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
+            path: ctx.params[9],
+            view: ctx.params[9] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
           };
 
           normalizePatchRangeParams(params);
@@ -332,8 +332,8 @@
           history.replaceState(null, null, generateUrl(params));
         });
 
-    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, ctx => {
+    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
+    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?(\/)?$/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

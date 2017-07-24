@@ -34,6 +34,24 @@
       "revId": "991b371cb176bc086f839d45be7b2d833caf6e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af7b178a_00864c79",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 101
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T21:16:41Z",
+      "side": 1,
+      "message": "Would doing something like\n\n    test(\u0027Nav is reloaded when group name changed\u0027, () \u003d\u003e {\n      element._groupId \u003d 1;\n      sandbox.stub(element.$.restAPI, \u0027getAccountCapabilities\u0027, () \u003d\u003e {\n        return Promise.resolve({\n          createGroup: true,\n          createProject: true,\n          viewPlugins: true,\n        });\n      });\n      sandbox.stub(element.$.restAPI, \u0027getAccount\u0027, () \u003d\u003e {\n        return Promise.resolve({_id: 1});\n      });\n      sandbox.stub(element, \u0027_computeGroupName\u0027, () \u003d\u003e {\n        return Promise.resolve({name: \u0027test-group2\u0027});\n      });\n      assert.equal(element._groupName, \u0027test-group2\u0027);\n    });\n\nwork?\n\nIt failed locally though with element._groupName being undefined.",
+      "parentUuid": "20a9f06f_37a72ab7",
+      "revId": "991b371cb176bc086f839d45be7b2d833caf6e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

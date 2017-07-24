@@ -43,10 +43,10 @@
 
     ready() {
       Gerrit.awaitPluginsLoaded().then(() => Promise.all(
-          Gerrit._getPluginsForEndpoint(this.name).map(
+          Gerrit._endpoints.getPlugins(this.name).map(
               pluginUrl => this._import(pluginUrl)))
       ).then(() => {
-        const modulesData = Gerrit._getEndpointDetails(this.name);
+        const modulesData = Gerrit._endpoints.getDetails(this.name);
         for (const {moduleName, plugin, type} of modulesData) {
           switch (type) {
             case 'decorate':

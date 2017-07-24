@@ -182,6 +182,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
+  private Map<String, GroupReference> groupsByName;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -402,12 +403,26 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public GroupReference resolve(GroupReference group) {
-    return groupList.resolve(group);
+    GroupReference groupRef = groupList.resolve(group);
+    if (groupRef != null
+        && groupRef.getUUID() != null
+        && !groupsByName.containsKey(groupRef.getName())) {
+      groupsByName.put(groupRef.getName(), groupRef);
+    }
+    return groupRef;
   }
 
   /** @return the group reference, if the group is used by at least one rule. */
   public GroupReference getGroup(AccountGroup.UUID uuid) {
     return groupList.byUUID(uuid);
+  }
+
+  /**
+   * @return the group reference corresponding to the specified group name if the group is used by
+   *     at least one rule or plugin value.
+   */
+  public GroupReference getGroup(String groupName) {
+    return groupsByName.get(groupName);
   }
 
   /** @return set of all groups used by this configuration. */
@@ -473,7 +488,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     readGroupList();
-    Map<String, GroupReference> groupsByName = mapGroupReferences();
+    groupsByName = mapGroupReferences();
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
@@ -515,11 +530,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
 
-    loadAccountsSection(rc, groupsByName);
-    loadContributorAgreements(rc, groupsByName);
-    loadAccessSections(rc, groupsByName);
+    loadAccountsSection(rc);
+    loadContributorAgreements(rc);
+    loadAccessSections(rc);
     loadBranchOrderSection(rc);
-    loadNotifySections(rc, groupsByName);
+    loadNotifySections(rc);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
@@ -528,13 +543,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadReceiveSection(rc);
   }
 
-  private void loadAccountsSection(Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadAccountsSection(Config rc) {
     accountsSection = new AccountsSection();
     accountsSection.setSameGroupVisibility(
         loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
   }
 
-  private void loadContributorAgreements(Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadContributorAgreements(Config rc) {
     contributorAgreements = new HashMap<>();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement ca = getContributorAgreement(name, true);
@@ -594,7 +609,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    *     type = submitted_changes
    * </pre>
    */
-  private void loadNotifySections(Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadNotifySections(Config rc) {
     notifySections = new HashMap<>();
     for (String sectionName : rc.getSubsections(NOTIFY)) {
       NotifyConfig n = new NotifyConfig();
@@ -607,8 +622,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, NotifyConfig.Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
-        if (dst.startsWith("group ")) {
-          String groupName = dst.substring(6).trim();
+        String groupName = GroupReference.extractGroupName(dst);
+        if (groupName != null) {
           GroupReference ref = groupsByName.get(groupName);
           if (ref == null) {
             ref = new GroupReference(null, groupName);
@@ -639,7 +654,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void loadAccessSections(Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadAccessSections(Config rc) {
     accessSections = new HashMap<>();
     sectionsWithUnknownPermissions = new HashSet<>();
     for (String refName : rc.getSubsections(ACCESS)) {
@@ -940,17 +955,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       pluginConfigs.put(plugin, pluginConfig);
       for (String name : rc.getNames(PLUGIN, plugin)) {
         String value = rc.getString(PLUGIN, plugin, name);
-        if (value.startsWith("Group[")) {
-          GroupReference refFromString = GroupReference.fromString(value);
-          GroupReference ref = groupList.byUUID(refFromString.getUUID());
+        String groupName = GroupReference.extractGroupName(value);
+        if (groupName != null) {
+          GroupReference ref = groupsByName.get(groupName);
           if (ref == null) {
-            ref = refFromString;
             error(
                 new ValidationError(
-                    PROJECT_CONFIG,
-                    "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+                    PROJECT_CONFIG, "group \"" + groupName + "\" not in " + GroupList.FILE_NAME));
           }
-          rc.setString(PLUGIN, plugin, name, ref.toString());
+          rc.setString(PLUGIN, plugin, name, value);
         }
         pluginConfig.setStringList(
             PLUGIN, plugin, name, Arrays.asList(rc.getStringList(PLUGIN, plugin, name)));
@@ -1354,11 +1367,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config pluginConfig = e.getValue();
       for (String name : pluginConfig.getNames(PLUGIN, plugin)) {
         String value = pluginConfig.getString(PLUGIN, plugin, name);
-        if (value.startsWith("Group[")) {
-          GroupReference ref = resolve(GroupReference.fromString(value));
-          if (ref.getUUID() != null) {
+        String groupName = GroupReference.extractGroupName(value);
+        if (groupName != null) {
+          GroupReference ref = groupsByName.get(groupName);
+          if (ref != null && ref.getUUID() != null) {
             keepGroups.add(ref.getUUID());
-            pluginConfig.setString(PLUGIN, plugin, name, ref.toString());
+            pluginConfig.setString(PLUGIN, plugin, name, "group " + ref.getName());
           }
         }
         rc.setStringList(

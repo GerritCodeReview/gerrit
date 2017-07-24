@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Arrays;
@@ -56,11 +57,16 @@ public class PluginConfig {
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
         if (!allNames.contains(name)) {
-          cfg.setStringList(
-              PLUGIN,
-              pluginName,
-              name,
-              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name)));
+          List<String> values =
+              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name));
+          for (String value : values) {
+            GroupReference groupRef =
+                parentPluginConfig.projectConfig.getGroup(GroupReference.extractGroupName(value));
+            if (groupRef != null) {
+              projectConfig.resolve(groupRef);
+            }
+          }
+          cfg.setStringList(PLUGIN, pluginName, name, values);
         }
       }
     }
@@ -151,5 +157,14 @@ public class PluginConfig {
 
   public Set<String> getNames() {
     return cfg.getNames(PLUGIN, pluginName, true);
+  }
+
+  public GroupReference getGroupReference(String name) {
+    return projectConfig.getGroup(GroupReference.extractGroupName(getString(name)));
+  }
+
+  public void setGroupReference(String name, GroupReference value) {
+    GroupReference groupRef = projectConfig.resolve(value);
+    setString(name, groupRef.toConfigValue());
   }
 }

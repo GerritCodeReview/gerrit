@@ -14,10 +14,14 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 /** Describes a group within a projects {@link AccessSection}s. */
 public class GroupReference implements Comparable<GroupReference> {
+
+  private static final String PREFIX = "group ";
+
   /** @return a new reference to the given group description. */
   public static GroupReference forGroup(AccountGroup group) {
     return new GroupReference(group.getGroupUUID(), group.getName());
@@ -27,10 +31,16 @@ public class GroupReference implements Comparable<GroupReference> {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
 
-  public static GroupReference fromString(String ref) {
-    String name = ref.substring(ref.indexOf("[") + 1, ref.lastIndexOf("/")).trim();
-    String uuid = ref.substring(ref.lastIndexOf("/") + 1, ref.lastIndexOf("]")).trim();
-    return new GroupReference(new AccountGroup.UUID(uuid), name);
+  public static boolean isGroupReference(String configValue) {
+    return configValue != null && configValue.startsWith(PREFIX);
+  }
+
+  @Nullable
+  public static String extractGroupName(String configValue) {
+    if (!isGroupReference(configValue)) {
+      return null;
+    }
+    return configValue.substring(PREFIX.length()).trim();
   }
 
   protected String uuid;
@@ -76,6 +86,10 @@ public class GroupReference implements Comparable<GroupReference> {
   @Override
   public boolean equals(Object o) {
     return o instanceof GroupReference && compareTo((GroupReference) o) == 0;
+  }
+
+  public String toConfigValue() {
+    return PREFIX + name;
   }
 
   @Override

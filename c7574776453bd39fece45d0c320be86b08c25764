@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6af48b0_537b28e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 106
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "If I try to rename my group with a space, for example ...\n\n \"foo bar\"\n\n... it drops everything after the first space.\n\n \"foo\"",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 19
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5037f01b_53264287",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 106
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "These functions are not wrapped correctly.",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 13
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0c037b_46e7815f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 106
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "Should this be the group ID? Should it be the group name? Please document.",
+      "range": {
+        "startLine": 251,
+        "startChar": 20,
+        "endLine": 251,
+        "endChar": 25
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97a8915_9f445db8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 106
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be encoded?",
+      "range": {
+        "startLine": 253,
+        "startChar": 32,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb23bd3_fb39f226",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 106
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "This function is used with four different values for the API parameter:\n* name\n* owner\n* description\n* options\n\nI\u0027d be more comfortable if each were a separate method with nicely named params.\n\nsaveGroupName(groupId, name) {\n  return this.send(\u0027PUT\u0027, `/groups/${encodeUriComponent(group)}/name`, name);\n},\n\nsaveGroupOwner(groupId, ownerId) {\n  return this.send(\u0027PUT\u0027, `/groups/${encodeUriComponent(group)}/owner`, ownerId);\n},\n\n... etc.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 23
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8274422f_467da8a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 106
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:11:32Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 257,
+        "startChar": 41,
+        "endLine": 257,
+        "endChar": 46
+      },
+      "revId": "c7574776453bd39fece45d0c320be86b08c25764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

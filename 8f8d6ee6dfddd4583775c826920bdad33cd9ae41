@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "623d0553_9b7505d1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:32:38Z",
+      "side": 1,
+      "message": "Maybe add tests here that when handleConfirm/handleCancel are called, they successfully fire the expected events?",
+      "revId": "8f8d6ee6dfddd4583775c826920bdad33cd9ae41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5d311d5_c7fb39e2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 76
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:32:38Z",
+      "side": 1,
+      "message": "Tests?",
+      "revId": "8f8d6ee6dfddd4583775c826920bdad33cd9ae41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

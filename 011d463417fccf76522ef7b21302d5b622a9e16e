@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "527d4ae7_15cba2ff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 80
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T20:38:46Z",
+      "side": 1,
+      "message": "Nit: can we remove this line?",
+      "revId": "011d463417fccf76522ef7b21302d5b622a9e16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fe9ef6c_10823010",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list_test.html",
+        "patchSetId": 80
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T20:38:46Z",
+      "side": 1,
+      "message": "Nit: can we remove this line?",
+      "revId": "011d463417fccf76522ef7b21302d5b622a9e16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

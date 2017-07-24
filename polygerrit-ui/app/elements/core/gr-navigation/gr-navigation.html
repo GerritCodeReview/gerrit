@@ -72,7 +72,16 @@ limitations under the License.
       /** @type {Function} */
       _generateUrl: uninitialized,
 
-      /** @type {Function} */
+      /**
+       * @type {Function}
+       *
+       * While resolving Issue 6708, the need for some way to upgrade obsolete
+       * URLs in-place without page reloads became evident
+       *
+       * Any external project that does not need to update any URLs (e.g.
+       * embedded instances of PolyGerrit) ought to just implement this function
+       * as a no-op (() => {}).
+       */
       _upgradeUrl: uninitialized,
 
       _checkPatchRange(patchNum, basePatchNum) {

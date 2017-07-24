@@ -52,6 +52,24 @@
       "revId": "af3080fe80413faab8f75676f92e756129e036ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e1f6eb_3ffa09f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 79
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T19:52:23Z",
+      "side": 1,
+      "message": "Yep sorry, i knew you said that it may not work. I was only saying it did not work just in case you thought it worked.",
+      "parentUuid": "2a595d8f_781767d1",
+      "revId": "af3080fe80413faab8f75676f92e756129e036ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

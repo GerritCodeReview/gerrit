@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "d3635102_5ba858e7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 104
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T21:59:53Z",
+      "side": 1,
+      "message": "Oh, does {{}} mean binding? I did not know that it meant the same as [[]]\n\nThanks, done.",
+      "parentUuid": "baa91497_128b09bc",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "ed374abd4586b13307c0d41f6e588db0a1e2dbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19b25dcb_38861c3c",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
         "patchSetId": 104

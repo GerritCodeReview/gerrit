@@ -45,7 +45,6 @@ def define_bower_components():
     deps = [
       ":iron-behaviors",
       ":iron-flex-layout",
-      ":iron-form-element-behavior",
       ":iron-validatable-behavior",
       ":polymer",
     ],
@@ -79,11 +78,6 @@ def define_bower_components():
   )
   bower_component(
     name = "iron-flex-layout",
-    license = "//lib:LICENSE-polymer",
-    deps = [ ":polymer" ],
-  )
-  bower_component(
-    name = "iron-form-element-behavior",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
   )
@@ -168,18 +162,18 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
-    name = "polymer",
-    license = "//lib:LICENSE-polymer",
-    deps = [ ":webcomponentsjs" ],
-    seed = True,
-  )
-  bower_component(
     name = "polymer-resin",
     license = "//lib:LICENSE-polymer",
     deps = [
       ":polymer",
       ":webcomponentsjs",
     ],
+    seed = True,
+  )
+  bower_component(
+    name = "polymer",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":webcomponentsjs" ],
     seed = True,
   )
   bower_component(

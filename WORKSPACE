@@ -1034,8 +1034,8 @@ npm_binary(
 bower_archive(
     name = "iron-autogrow-textarea",
     package = "polymerelements/iron-autogrow-textarea",
-    sha1 = "b9b6874c9a2b5be435557a827ff8bd6661672ee3",
-    version = "1.0.12",
+    sha1 = "68f0ece9b1e56ac26f8ce31d9938c504f6951bca",
+    version = "2.1.0",
 )
 
 bower_archive(

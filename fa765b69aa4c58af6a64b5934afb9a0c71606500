@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87262d89_dc9ee557",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "Explicitly returning undefined seems weird to me. Why not just return?",
+      "range": {
+        "startLine": 130,
+        "startChar": 12,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5a792b3_8a58d780",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "When will `latest` be a falsy value that isn\u0027t undefined? If this check needs to be explicitly for undefined, there should be a comment explaining why -- e.g. \"Param latest may be null when there is no latest patchset, so check only for undefined.\"",
+      "range": {
+        "startLine": 1273,
+        "startChar": 14,
+        "endLine": 1273,
+        "endChar": 51
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c18d634e_58e59835",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "Do you need this?",
+      "range": {
+        "startLine": 102,
+        "startChar": 27,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee9e3e4_54dc8e56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "Make this a constant.",
+      "range": {
+        "startLine": 103,
+        "startChar": 50,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd1a0d68_b32629c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "Make this a constant.",
+      "range": {
+        "startLine": 104,
+        "startChar": 39,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "757a3c01_05512b67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "SP.\n\n  CHECK_SIGN_IN_DEBOUNCE_MS",
+      "range": {
+        "startLine": 108,
+        "startChar": 14,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28817b08_0764b132",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T17:03:20Z",
+      "side": 1,
+      "message": "Will this not just return true/false?\n\nI think we expect the cached value to be the account object, but I could easily be wrong.",
+      "range": {
+        "startLine": 386,
+        "startChar": 17,
+        "endLine": 386,
+        "endChar": 61
+      },
+      "revId": "fa765b69aa4c58af6a64b5934afb9a0c71606500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

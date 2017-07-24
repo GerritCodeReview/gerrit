@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09c762e1_f7099555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T22:31:04Z",
+      "side": 1,
+      "message": "Wyatt and I discussed it offline, and basically came to the conclusion that \u0027upgrade\u0027 sounds more optional for people implementing the interface, whereas \u0027replace\u0027 sounds kind of scary and mandatory. Totally willing to discuss it further, though.",
+      "parentUuid": "e5256e02_f8600d99",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "de8d2ff679b3b41cbf0753741f200b3f38264a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e6e98fa_ed6bb9d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "de8d2ff679b3b41cbf0753741f200b3f38264a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43bbc8e1_c5443b32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T22:31:04Z",
+      "side": 1,
+      "message": "I\u0027ll definitely add JSDocs regarding this, in two places: \n\n- In gr-navigation, where the function is declared as a property, I\u0027ll add lines 14-15 of this commit message\n- In gr-router, where the function is implemented, I\u0027ll explain what it does and why, with a reference to the issue.\n\nConsider those things mental to-dos though. I\u0027ll do them in a descendant change, so as to not have to rebase my relation chain.",
+      "parentUuid": "0e6e98fa_ed6bb9d3",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 56
+      },
+      "revId": "de8d2ff679b3b41cbf0753741f200b3f38264a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

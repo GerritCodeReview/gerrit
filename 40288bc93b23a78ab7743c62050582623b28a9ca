@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "829f027f_96edacdc",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:44:49Z",
+      "side": 1,
+      "message": "I\u0027m not certain, but I believe the @type goes after the description.",
+      "revId": "40288bc93b23a78ab7743c62050582623b28a9ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77e86f42_292ed8bd",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:44:49Z",
+      "side": 1,
+      "message": "Sorry to nitpick wording, but calling out issue 6708 makes it sound like this can be removed when 6708 is resolved, but -- as I understand it -- this feature will be useful for any kind of legacy URL rewriting. Is that right?\n\nWhat about something like:\n\n/**\n * Handler for when a legacy URL can be upgraded. Router implementations\n * may implement as a no-op if route upgrades are not needed.\n */",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "40288bc93b23a78ab7743c62050582623b28a9ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

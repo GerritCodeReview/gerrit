@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
@@ -58,11 +57,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
@@ -70,7 +67,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +81,7 @@ public class CommitValidators {
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
+    private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
 
     @Inject
@@ -94,12 +91,14 @@ public class CommitValidators {
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
         AllUsersName allUsers,
-        ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
+        ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
+        AccountValidator accountValidator) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
+      this.accountValidator = accountValidator;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
     }
@@ -125,7 +124,7 @@ public class CommitValidators {
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountValidator(allUsers)));
+              new AccountCommitValidator(allUsers, accountValidator)));
     }
 
     public CommitValidators forGerritCommits(
@@ -141,7 +140,7 @@ public class CommitValidators {
               new ConfigValidator(refctl, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountValidator(allUsers)));
+              new AccountCommitValidator(allUsers, accountValidator)));
     }
 
     public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, RefControl refControl) {
@@ -686,11 +685,13 @@ public class CommitValidators {
   }
 
   /** Rejects updates to 'account.config' in user branches. */
-  public static class AccountValidator implements CommitValidationListener {
+  public static class AccountCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
+    private final AccountValidator accountValidator;
 
-    public AccountValidator(AllUsersName allUsers) {
+    public AccountCommitValidator(AllUsersName allUsers, AccountValidator accountValidator) {
       this.allUsers = allUsers;
+      this.accountValidator = accountValidator;
     }
 
     @Override
@@ -702,7 +703,7 @@ public class CommitValidators {
 
       if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
         // no validation on push for review, will be checked on submit by
-        // MergeValidators.AccountValidator
+        // MergeValidators.AccountMergeValidator
         return Collections.emptyList();
       }
 
@@ -712,15 +713,19 @@ public class CommitValidators {
       }
 
       try {
-        ObjectId newBlobId = getAccountConfigBlobId(receiveEvent.revWalk, receiveEvent.commit);
-
-        ObjectId oldId = receiveEvent.command.getOldId();
-        ObjectId oldBlobId =
-            !ObjectId.zeroId().equals(oldId)
-                ? getAccountConfigBlobId(receiveEvent.revWalk, oldId)
-                : null;
-        if (!Objects.equals(oldBlobId, newBlobId)) {
-          throw new CommitValidationException("account update not allowed");
+        List<String> errorMessages =
+            accountValidator.validate(
+                accountId,
+                receiveEvent.revWalk,
+                receiveEvent.command.getOldId(),
+                receiveEvent.commit);
+        if (!errorMessages.isEmpty()) {
+          throw new CommitValidationException(
+              "invalid account configuration",
+              errorMessages
+                  .stream()
+                  .map(m -> new CommitValidationMessage(m, true))
+                  .collect(toList()));
         }
       } catch (IOException e) {
         String m = String.format("Validating update for account %s failed", accountId.get());
@@ -728,14 +733,6 @@ public class CommitValidators {
         throw new CommitValidationException(m, e);
       }
       return Collections.emptyList();
-    }
-
-    private ObjectId getAccountConfigBlobId(RevWalk rw, ObjectId id) throws IOException {
-      RevCommit commit = rw.parseCommit(id);
-      try (TreeWalk tw =
-          TreeWalk.forPath(rw.getObjectReader(), AccountConfig.ACCOUNT_CONFIG, commit.getTree())) {
-        return tw != null ? tw.getObjectId(0) : null;
-      }
     }
   }
 

@@ -22,6 +22,30 @@
       "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e61b0621_298aa32a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T21:17:57Z",
+      "side": 0,
+      "message": "No it wasen\u0027t. for it to allow / it has to have a path. But now we allow it to / without needing a path.",
+      "parentUuid": "8dea1f1b_acf45c17",
+      "range": {
+        "startLine": 318,
+        "startChar": 57,
+        "endLine": 318,
+        "endChar": 66
+      },
+      "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7062f269_98ada74d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T17:55:01Z",
+      "side": 1,
+      "message": "Ah, thanks, done :)",
+      "parentUuid": "04ecd3f9_bb6b3cb3",
+      "revId": "8f8d6ee6dfddd4583775c826920bdad33cd9ae41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5d311d5_c7fb39e2",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 76

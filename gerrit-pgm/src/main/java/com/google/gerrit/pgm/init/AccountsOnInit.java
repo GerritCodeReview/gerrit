@@ -17,17 +17,14 @@ package com.google.gerrit.pgm.init;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -62,9 +59,7 @@ public class AccountsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  public void insert(ReviewDb db, Account account) throws OrmException, IOException {
-    db.accounts().insert(ImmutableSet.of(account));
-
+  public void insert(Account account) throws IOException {
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path);

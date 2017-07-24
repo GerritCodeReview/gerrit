@@ -19,11 +19,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,23 +29,20 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class SetInactiveFlag {
 
-  private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
 
   @Inject
-  SetInactiveFlag(Provider<ReviewDb> dbProvider, AccountsUpdate.Server accountsUpdate) {
-    this.dbProvider = dbProvider;
+  SetInactiveFlag(AccountsUpdate.Server accountsUpdate) {
     this.accountsUpdate = accountsUpdate;
   }
 
   public Response<?> deactivate(IdentifiedUser user)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     Account account =
         accountsUpdate
             .create()
             .update(
-                dbProvider.get(),
                 user.getAccountId(),
                 a -> {
                   if (!a.isActive()) {
@@ -67,13 +61,12 @@ public class SetInactiveFlag {
   }
 
   public Response<String> activate(IdentifiedUser user)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     Account account =
         accountsUpdate
             .create()
             .update(
-                dbProvider.get(),
                 user.getAccountId(),
                 a -> {
                   if (a.isActive()) {

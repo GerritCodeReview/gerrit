@@ -70,6 +70,24 @@
       "revId": "af3080fe80413faab8f75676f92e756129e036ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e5c4f4_3aec648f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 79
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T20:04:06Z",
+      "side": 1,
+      "message": "Thanks.\n\nAlso that would explain why i could not get it to work, i split the tests into 4 tests. I\u0027ve put them back to 2 per your example :)",
+      "parentUuid": "95e1f6eb_3ffa09f3",
+      "revId": "af3080fe80413faab8f75676f92e756129e036ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

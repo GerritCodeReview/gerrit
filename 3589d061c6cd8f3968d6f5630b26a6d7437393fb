@@ -47,6 +47,52 @@
       "revId": "3589d061c6cd8f3968d6f5630b26a6d7437393fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea10ef04_6684dc7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-24T17:03:47Z",
+      "side": 1,
+      "message": "Alternatively, you could use response.url here.",
+      "range": {
+        "startLine": 523,
+        "startChar": 66,
+        "endLine": 523,
+        "endChar": 69
+      },
+      "revId": "3589d061c6cd8f3968d6f5630b26a6d7437393fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e10ef9f9_d292768b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-24T17:03:47Z",
+      "side": 1,
+      "message": "Alternatively, you could use response.url here.",
+      "range": {
+        "startLine": 528,
+        "startChar": 36,
+        "endLine": 528,
+        "endChar": 39
+      },
+      "revId": "3589d061c6cd8f3968d6f5630b26a6d7437393fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

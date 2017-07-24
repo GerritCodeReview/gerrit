@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import java.util.Map;
 
@@ -26,9 +27,9 @@ public interface VoteDeletedListener {
 
     Map<String, ApprovalInfo> getApprovals();
 
-    Map<String, ApprovalInfo> getRemoved();
-
     String getMessage();
+
+    AccountInfo getReviewer();
   }
 
   void onVoteDeleted(Event event);

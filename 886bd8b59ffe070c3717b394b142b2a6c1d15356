@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cccabe_f4097b8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T22:55:07Z",
+      "side": 1,
+      "message": "I think this comment needs to be more specific.\n\nIt makes sense when latest would be undefined... What I need the comment to tell me is when latest is false, but not undefined. When will it be null, or an empty object, or whatever falsy value it attains? There must be some reason you check here for reference equality to undefined, as opposed to just checking if (!latest). That\u0027s the information this comment needs to contain.",
+      "range": {
+        "startLine": 1258,
+        "startChar": 14,
+        "endLine": 1259,
+        "endChar": 51
+      },
+      "revId": "886bd8b59ffe070c3717b394b142b2a6c1d15356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

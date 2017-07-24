@@ -75,6 +75,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountConfig;
@@ -783,14 +784,14 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmit() throws Exception {
-    String userRefName = RefNames.refsUsers(admin.id);
+  public void pushAccountConfigToUserBranchForReviewAndSubmit() throws Exception {
+    String userRef = RefNames.refsUsers(admin.id);
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    fetch(allUsersRepo, userRefName + ":userRef");
+    fetch(allUsersRepo, userRef + ":userRef");
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "OOO");
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "out-of-office");
 
     PushOneCommit.Result r =
         pushFactory
@@ -801,15 +802,198 @@ public class AccountIT extends AbstractDaemonTest {
                 "Update account config",
                 AccountConfig.ACCOUNT_CONFIG,
                 ac.toText())
-            .to(MagicBranch.NEW_CHANGE + userRefName);
+            .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
     accountIndexedCounter.assertNoReindex();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    accountIndexedCounter.assertReindexOf(admin);
+
+    AccountInfo info = gApi.accounts().self().get();
+    assertThat(info.email).isEqualTo(admin.email);
+    assertThat(info.name).isEqualTo(admin.fullName);
+    assertThat(info.status).isEqualTo("out-of-office");
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmitIfConfigIsInvalid()
+      throws Exception {
+    String userRef = RefNames.refsUsers(admin.id);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                "invalid config")
+            .to(MagicBranch.NEW_CHANGE + userRef);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
-        String.format("update of %s not allowed", AccountConfig.ACCOUNT_CONFIG));
+        String.format(
+            "invalid account configuration: commit '%s' has an invalid '%s' file for account '%s':"
+                + " Invalid config file %s in commit %s",
+            r.getCommit().name(),
+            AccountConfig.ACCOUNT_CONFIG,
+            admin.id,
+            AccountConfig.ACCOUNT_CONFIG,
+            r.getCommit().name()));
     gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmitIfPreferredEmailIsInvalid()
+      throws Exception {
+    String userRef = RefNames.refsUsers(admin.id);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String noEmail = "no.email";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, noEmail);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(MagicBranch.NEW_CHANGE + userRef);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format(
+            "invalid account configuration: invalid preferred email '%s' for account '%s';"
+                + " account '%s' has no external ID for its preferred email '%s'",
+            noEmail, admin.id, admin.id, noEmail));
+    gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchForReviewIsRejOnSubmitIfPrefEmailDoesNotExistAsExtId()
+      throws Exception {
+    String userRef = RefNames.refsUsers(admin.id);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String email = "some.email@example.com";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, email);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(MagicBranch.NEW_CHANGE + userRef);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format(
+            "invalid account configuration:"
+                + " account '%s' has no external ID for its preferred email '%s'",
+            admin.id, email));
+    gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmitIfOwnAccountIsDeactivated()
+      throws Exception {
+    String userRef = RefNames.refsUsers(admin.id);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(MagicBranch.NEW_CHANGE + userRef);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("invalid account configuration: cannot deactivate own account");
+    gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
+    TestAccount foo = accountCreator.create(name("foo"));
+    assertThat(gApi.accounts().id(foo.id.get()).getActive()).isTrue();
+    String userRef = RefNames.refsUsers(foo.id);
+    accountIndexedCounter.clear();
+
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+    grantLabel("Code-Review", -2, 2, allUsers, userRef, false, adminGroup.getGroupUUID(), false);
+    grant(allUsers, userRef, Permission.SUBMIT, false, adminGroup.getGroupUUID());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(MagicBranch.NEW_CHANGE + userRef);
+    r.assertOkStatus();
+    accountIndexedCounter.assertNoReindex();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(userRef);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    accountIndexedCounter.assertReindexOf(foo);
+
+    assertThat(gApi.accounts().id(foo.id.get()).getActive()).isFalse();
   }
 
   @Test
@@ -854,13 +1038,70 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushAccountConfigToUserBranchIsRejected() throws Exception {
+  public void pushAccountConfigToUserBranch() throws Exception {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "OOO");
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "out-of-office");
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Update account config",
+            AccountConfig.ACCOUNT_CONFIG,
+            ac.toText())
+        .to(RefNames.REFS_USERS_SELF)
+        .assertOkStatus();
+    accountIndexedCounter.assertReindexOf(admin);
+
+    AccountInfo info = gApi.accounts().self().get();
+    assertThat(info.email).isEqualTo(admin.email);
+    assertThat(info.name).isEqualTo(admin.fullName);
+    assertThat(info.status).isEqualTo("out-of-office");
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchIsRejectedIfConfigIsInvalid() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                "invalid config")
+            .to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("invalid account configuration");
+    r.assertMessage(
+        String.format(
+            "commit '%s' has an invalid '%s' file for account '%s':"
+                + " Invalid config file %s in commit %s",
+            r.getCommit().name(),
+            AccountConfig.ACCOUNT_CONFIG,
+            admin.id,
+            AccountConfig.ACCOUNT_CONFIG,
+            r.getCommit().name()));
+    accountIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchIsRejectedIfPreferredEmailIsInvalid() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String noEmail = "no.email";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, noEmail);
 
     PushOneCommit.Result r =
         pushFactory
@@ -872,7 +1113,174 @@ public class AccountIT extends AbstractDaemonTest {
                 AccountConfig.ACCOUNT_CONFIG,
                 ac.toText())
             .to(RefNames.REFS_USERS_SELF);
-    r.assertErrorStatus("account update not allowed");
+    r.assertErrorStatus("invalid account configuration");
+    r.assertMessage(
+        String.format("invalid preferred email '%s' for account '%s'", noEmail, admin.id));
+    r.assertMessage(
+        String.format(
+            "account '%s' has no external ID for its preferred email '%s'", admin.id, noEmail));
+    accountIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchInvalidPreferredEmailButNotChanged() throws Exception {
+    TestAccount foo = accountCreator.create(name("foo"));
+    String userRef = RefNames.refsUsers(foo.id);
+
+    String noEmail = "no.email";
+    accountsUpdate.create().update(foo.id, a -> a.setPreferredEmail(noEmail));
+    accountIndexedCounter.clear();
+
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String status = "in vacation";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, status);
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Update account config",
+            AccountConfig.ACCOUNT_CONFIG,
+            ac.toText())
+        .to(userRef)
+        .assertOkStatus();
+    accountIndexedCounter.assertReindexOf(foo);
+
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.email).isEqualTo(noEmail);
+    assertThat(info.name).isEqualTo(foo.fullName);
+    assertThat(info.status).isEqualTo(status);
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchIsRejectedIfPreferredEmailDoesNotExistAsExtId()
+      throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String email = "some.email@example.com";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, email);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("invalid account configuration");
+    r.assertMessage(
+        String.format(
+            "account '%s' has no external ID for its preferred email '%s'", admin.id, email));
+    accountIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchPreferredEmailDoesNotExistAsExtIdButNotChanged()
+      throws Exception {
+    TestAccount foo = accountCreator.create(name("foo"));
+    String userRef = RefNames.refsUsers(foo.id);
+
+    String email = "some.email@example.com";
+    accountsUpdate.create().update(foo.id, a -> a.setPreferredEmail(email));
+    accountIndexedCounter.clear();
+
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    String status = "in vacation";
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, status);
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Update account config",
+            AccountConfig.ACCOUNT_CONFIG,
+            ac.toText())
+        .to(userRef)
+        .assertOkStatus();
+    accountIndexedCounter.assertReindexOf(foo);
+
+    AccountInfo info = gApi.accounts().id(foo.id.get()).get();
+    assertThat(info.email).isEqualTo(email);
+    assertThat(info.name).isEqualTo(foo.fullName);
+    assertThat(info.status).isEqualTo(status);
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchIsRejectedIfOwnAccountIsDeactivated() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                allUsersRepo,
+                "Update account config",
+                AccountConfig.ACCOUNT_CONFIG,
+                ac.toText())
+            .to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("invalid account configuration");
+    r.assertMessage("cannot deactivate own account");
+    accountIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void pushAccountConfigToUserBranchDeactivateOtherAccount() throws Exception {
+    TestAccount foo = accountCreator.create(name("foo"));
+    assertThat(gApi.accounts().id(foo.id.get()).getActive()).isTrue();
+    String userRef = RefNames.refsUsers(foo.id);
+    accountIndexedCounter.clear();
+
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config ac = getAccountConfig(allUsersRepo);
+    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            allUsersRepo,
+            "Update account config",
+            AccountConfig.ACCOUNT_CONFIG,
+            ac.toText())
+        .to(userRef)
+        .assertOkStatus();
+    accountIndexedCounter.assertReindexOf(foo);
+
+    assertThat(gApi.accounts().id(foo.id.get()).getActive()).isFalse();
   }
 
   @Test

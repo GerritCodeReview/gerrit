@@ -45,10 +45,17 @@
       page.base(base);
     }
 
+    const replaceUrl = params => {
+      const url = generateUrl(params);
+      if (url !== window.location.pathname) {
+        history.replaceState(null, null, url);
+      }
+    };
+
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
 
-    Gerrit.Nav.setup(url => { page.show(url); }, generateUrl);
+    Gerrit.Nav.setup(url => { page.show(url); }, generateUrl, replaceUrl);
 
     // Middleware
     page((ctx, next) => {
@@ -304,7 +311,7 @@
     const normalizePatchRangeParams = params => {
       if (params.basePatchNum && params.basePatchNum === params.patchNum) {
         params.basePatchNum = null;
-        history.replaceState(null, null, generateUrl(params));
+        replaceUrl(params);
       } else if (params.basePatchNum && !params.patchNum) {
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
@@ -326,10 +333,9 @@
             path: ctx.params[8],
             view: ctx.params[8] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
           };
-
           normalizePatchRangeParams(params);
           app.params = params;
-          history.replaceState(null, null, generateUrl(params));
+          replaceUrl(params);
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].

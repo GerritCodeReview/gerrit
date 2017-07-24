@@ -16,6 +16,24 @@
       "revId": "af3080fe80413faab8f75676f92e756129e036ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a23d5c4a_fe9cce82",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 79
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T18:57:04Z",
+      "side": 1,
+      "message": "Thanks but dosen\u0027t seem to work. It just hangs.",
+      "parentUuid": "9750b751_eb08ca69",
+      "revId": "af3080fe80413faab8f75676f92e756129e036ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

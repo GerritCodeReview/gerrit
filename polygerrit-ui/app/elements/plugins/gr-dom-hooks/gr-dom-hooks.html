@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <!--
 Copyright (C) 2017 The Android Open Source Project
 
@@ -14,19 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dom-module id="my-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      const replyApi = plugin.changeReply();
-      replyApi.addReplyTextChangedCallback(text => {
-        const label = 'Code-Review';
-        const labelValue = replyApi.getLabelValue(label);
-        if (labelValue &&
-            labelValue === ' 0' &&
-            text.indexOf('LGTM') === 0) {
-          replyApi.setLabelValue(label, '+1');
-        }
-      });
-    }, '0.1', 'http://test.com/plugins/testplugin/static/test.js');
-  </script>
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+
+<dom-module id="gr-dom-hooks">
+  <script src="gr-dom-hooks.js"></script>
 </dom-module>

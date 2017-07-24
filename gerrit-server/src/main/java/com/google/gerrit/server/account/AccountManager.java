@@ -143,7 +143,7 @@ public class AccountManager {
         }
 
         // return the identity to the caller.
-        update(db, who, id);
+        update(who, id);
         return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
       }
     } catch (OrmException | ConfigInvalidException e) {
@@ -151,7 +151,7 @@ public class AccountManager {
     }
   }
 
-  private void update(ReviewDb db, AuthRequest who, ExternalId extId)
+  private void update(AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     List<Consumer<Account>> accountUpdates = new ArrayList<>();
@@ -187,8 +187,7 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      Account account =
-          accountsUpdateFactory.create().update(db, user.getAccountId(), accountUpdates);
+      Account account = accountsUpdateFactory.create().update(user.getAccountId(), accountUpdates);
       if (account == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
@@ -213,7 +212,6 @@ public class AccountManager {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
       account =
           accountsUpdate.insert(
-              db,
               newId,
               a -> {
                 a.setFullName(who.getDisplayName());
@@ -223,7 +221,7 @@ public class AccountManager {
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
-        accountsUpdate.delete(db, account);
+        accountsUpdate.delete(account);
         throw new AccountException(
             "Cannot assign external ID \""
                 + extId.key().get()
@@ -272,7 +270,7 @@ public class AccountManager {
                 + "\" to account "
                 + newId
                 + "; name already in use.";
-        handleSettingUserNameFailure(db, account, extId, message, e, false);
+        handleSettingUserNameFailure(account, extId, message, e, false);
       } catch (InvalidUserNameException e) {
         String message =
             "Cannot assign user name \""
@@ -280,10 +278,10 @@ public class AccountManager {
                 + "\" to account "
                 + newId
                 + "; name does not conform.";
-        handleSettingUserNameFailure(db, account, extId, message, e, false);
+        handleSettingUserNameFailure(account, extId, message, e, false);
       } catch (OrmException e) {
         String message = "Cannot assign user name";
-        handleSettingUserNameFailure(db, account, extId, message, e, true);
+        handleSettingUserNameFailure(account, extId, message, e, true);
       }
     }
 
@@ -297,7 +295,6 @@ public class AccountManager {
    * deletes the newly created account and throws an {@link AccountUserNameException}. In any case
    * the error message is logged.
    *
-   * @param db the database
    * @param account the newly created account
    * @param extId the newly created external id
    * @param errorMessage the error message
@@ -308,12 +305,7 @@ public class AccountManager {
    * @throws OrmException thrown if cleaning the database failed
    */
   private void handleSettingUserNameFailure(
-      ReviewDb db,
-      Account account,
-      ExternalId extId,
-      String errorMessage,
-      Exception e,
-      boolean logException)
+      Account account, ExternalId extId, String errorMessage, Exception e, boolean logException)
       throws AccountUserNameException, OrmException, IOException, ConfigInvalidException {
     if (logException) {
       log.error(errorMessage, e);
@@ -329,7 +321,7 @@ public class AccountManager {
       // such an account cannot be used for uploading changes,
       // this is why the best we can do here is to fail early and cleanup
       // the database
-      accountsUpdateFactory.create().delete(db, account);
+      accountsUpdateFactory.create().delete(account);
       externalIdsUpdateFactory.create().delete(extId);
       throw new AccountUserNameException(errorMessage, e);
     }
@@ -346,34 +338,31 @@ public class AccountManager {
    */
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
-    try (ReviewDb db = schema.open()) {
-      ExternalId extId = externalIds.get(who.getExternalIdKey());
-      if (extId != null) {
-        if (!extId.accountId().equals(to)) {
-          throw new AccountException("Identity in use by another account");
-        }
-        update(db, who, extId);
-      } else {
-        externalIdsUpdateFactory
-            .create()
-            .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-
-        if (who.getEmailAddress() != null) {
-          accountsUpdateFactory
-              .create()
-              .update(
-                  db,
-                  to,
-                  a -> {
-                    if (a.getPreferredEmail() == null) {
-                      a.setPreferredEmail(who.getEmailAddress());
-                    }
-                  });
-        }
+    ExternalId extId = externalIds.get(who.getExternalIdKey());
+    if (extId != null) {
+      if (!extId.accountId().equals(to)) {
+        throw new AccountException("Identity in use by another account");
       }
+      update(who, extId);
+    } else {
+      externalIdsUpdateFactory
+          .create()
+          .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
-      return new AuthResult(to, who.getExternalIdKey(), false);
+      if (who.getEmailAddress() != null) {
+        accountsUpdateFactory
+            .create()
+            .update(
+                to,
+                a -> {
+                  if (a.getPreferredEmail() == null) {
+                    a.setPreferredEmail(who.getEmailAddress());
+                  }
+                });
+      }
     }
+
+    return new AuthResult(to, who.getExternalIdKey(), false);
   }
 
   /**
@@ -433,40 +422,36 @@ public class AccountManager {
       return;
     }
 
-    try (ReviewDb db = schema.open()) {
-      List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
-      for (ExternalId.Key extIdKey : extIdKeys) {
-        ExternalId extId = externalIds.get(extIdKey);
-        if (extId != null) {
-          if (!extId.accountId().equals(from)) {
-            throw new AccountException(
-                "Identity '" + extIdKey.get() + "' in use by another account");
-          }
-          extIds.add(extId);
-        } else {
-          throw new AccountException("Identity '" + extIdKey.get() + "' not found");
+    List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
+    for (ExternalId.Key extIdKey : extIdKeys) {
+      ExternalId extId = externalIds.get(extIdKey);
+      if (extId != null) {
+        if (!extId.accountId().equals(from)) {
+          throw new AccountException("Identity '" + extIdKey.get() + "' in use by another account");
         }
+        extIds.add(extId);
+      } else {
+        throw new AccountException("Identity '" + extIdKey.get() + "' not found");
       }
+    }
 
-      externalIdsUpdateFactory.create().delete(extIds);
+    externalIdsUpdateFactory.create().delete(extIds);
 
-      if (extIds.stream().anyMatch(e -> e.email() != null)) {
-        accountsUpdateFactory
-            .create()
-            .update(
-                db,
-                from,
-                a -> {
-                  if (a.getPreferredEmail() != null) {
-                    for (ExternalId extId : extIds) {
-                      if (a.getPreferredEmail().equals(extId.email())) {
-                        a.setPreferredEmail(null);
-                        break;
-                      }
+    if (extIds.stream().anyMatch(e -> e.email() != null)) {
+      accountsUpdateFactory
+          .create()
+          .update(
+              from,
+              a -> {
+                if (a.getPreferredEmail() != null) {
+                  for (ExternalId extId : extIds) {
+                    if (a.getPreferredEmail().equals(extId.email())) {
+                      a.setPreferredEmail(null);
+                      break;
                     }
                   }
-                });
-      }
+                }
+              });
     }
   }
 }

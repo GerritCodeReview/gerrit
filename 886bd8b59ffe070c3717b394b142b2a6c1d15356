@@ -22,6 +22,30 @@
       "revId": "886bd8b59ffe070c3717b394b142b2a6c1d15356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ecfffb_810c812a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-24T23:25:24Z",
+      "side": 1,
+      "message": "Looks like you\u0027re trying to solve a general problem here.\n\nFirst of all, this isn\u0027t the right place for a comment like this.\nSuch comment should be on fetchIsLatestKnown definition, so I\u0027ve added one there.\n\nSecondly, the promise should only resolve with true or false, and undefined check shouldn\u0027t be here at all. So I\u0027ve moved handling there as well.\n\nLet me know if this looks better.",
+      "parentUuid": "76cccabe_f4097b8f",
+      "range": {
+        "startLine": 1258,
+        "startChar": 14,
+        "endLine": 1259,
+        "endChar": 51
+      },
+      "revId": "886bd8b59ffe070c3717b394b142b2a6c1d15356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

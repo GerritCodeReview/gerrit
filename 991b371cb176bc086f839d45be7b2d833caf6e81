@@ -16,6 +16,24 @@
       "revId": "991b371cb176bc086f839d45be7b2d833caf6e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a9f06f_37a72ab7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 101
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T20:59:10Z",
+      "side": 1,
+      "message": "Hmm right. Sorry about that. It dosen\u0027t look possible as the function works because it\u0027s being observed but a propertie is not a function.",
+      "parentUuid": "68a1f8a0_15ed9c64",
+      "revId": "991b371cb176bc086f839d45be7b2d833caf6e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

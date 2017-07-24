@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.extensions.events;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -50,6 +49,7 @@ public class VoteDeleted {
   public void fire(
       Change change,
       PatchSet ps,
+      Account reviewer,
       Map<String, Short> approvals,
       Map<String, Short> oldApprovals,
       NotifyHandling notify,
@@ -64,6 +64,7 @@ public class VoteDeleted {
           new Event(
               util.changeInfo(change),
               util.revisionInfo(change.getProject(), ps),
+              util.accountInfo(reviewer),
               util.approvals(remover, approvals, when),
               util.approvals(remover, oldApprovals, when),
               notify,
@@ -83,7 +84,7 @@ public class VoteDeleted {
   }
 
   private static class Event extends AbstractRevisionEvent implements VoteDeletedListener.Event {
-
+    private final AccountInfo reviewer;
     private final Map<String, ApprovalInfo> approvals;
     private final Map<String, ApprovalInfo> oldApprovals;
     private final String message;
@@ -91,6 +92,7 @@ public class VoteDeleted {
     Event(
         ChangeInfo change,
         RevisionInfo revision,
+        AccountInfo reviewer,
         Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals,
         NotifyHandling notify,
@@ -98,6 +100,7 @@ public class VoteDeleted {
         AccountInfo remover,
         Timestamp when) {
       super(change, revision, remover, when, notify);
+      this.reviewer = reviewer;
       this.approvals = approvals;
       this.oldApprovals = oldApprovals;
       this.message = message;
@@ -114,13 +117,13 @@ public class VoteDeleted {
     }
 
     @Override
-    public Map<String, ApprovalInfo> getRemoved() {
-      return Maps.difference(oldApprovals, approvals).entriesOnlyOnLeft();
+    public String getMessage() {
+      return message;
     }
 
     @Override
-    public String getMessage() {
-      return message;
+    public AccountInfo getReviewer() {
+      return reviewer;
     }
   }
 }

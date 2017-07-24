@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "84423357_31ff9bae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T17:49:58Z",
+      "side": 1,
+      "message": "Fixed and added test case. Let me know what you think.",
+      "parentUuid": "969b0f91_cc812d64",
+      "range": {
+        "startLine": 523,
+        "startChar": 66,
+        "endLine": 523,
+        "endChar": 69
+      },
+      "revId": "3589d061c6cd8f3968d6f5630b26a6d7437393fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e10ef9f9_d292768b",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3

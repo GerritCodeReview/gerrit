@@ -34,6 +34,24 @@
       "revId": "af3080fe80413faab8f75676f92e756129e036ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a595d8f_781767d1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 79
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T19:26:17Z",
+      "side": 1,
+      "message": "I told you it might not work and that you might have to take a quick look and tweak it.\n\n    test(\u0027_handleConfirmTap\u0027, () \u003d\u003e {\n      const confirmHandler \u003d sandbox.stub();\n      element.addEventListener(\u0027confirm\u0027, confirmHandler);\n      sandbox.stub(element, \u0027_handleConfirmTap\u0027);\n      element.$$(\u0027gr-confirm-dialog\u0027).fire(\u0027confirm\u0027);\n\n      assert.isTrue(confirmHandler.called);\n      assert.isTrue(element._handleConfirmTap.called);\n    });\n\n    test(\u0027_handleCancelTap\u0027, () \u003d\u003e {\n      const cancelHandler \u003d sandbox.stub();\n      element.addEventListener(\u0027cancel\u0027, cancelHandler);\n      sandbox.stub(element, \u0027_handleCancelTap\u0027);\n      element.$$(\u0027gr-confirm-dialog\u0027).fire(\u0027cancel\u0027);\n      assert.isTrue(cancelHandler.called);\n      assert.isTrue(element._handleCancelTap.called);\n    });",
+      "parentUuid": "a23d5c4a_fe9cce82",
+      "revId": "af3080fe80413faab8f75676f92e756129e036ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -116,7 +116,6 @@ public class AccountCreator {
       accountsUpdate
           .create()
           .insert(
-              db,
               id,
               a -> {
                 a.setFullName(fullName);

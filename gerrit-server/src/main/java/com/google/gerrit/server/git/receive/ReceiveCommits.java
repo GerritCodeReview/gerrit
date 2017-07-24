@@ -2724,7 +2724,6 @@ class ReceiveCommits {
                 accountsUpdate
                     .create()
                     .update(
-                        db,
                         user.getAccountId(),
                         a -> {
                           if (Strings.isNullOrEmpty(a.getFullName())) {
@@ -2734,7 +2733,7 @@ class ReceiveCommits {
             if (account != null && Strings.isNullOrEmpty(account.getFullName())) {
               user.getAccount().setFullName(account.getFullName());
             }
-          } catch (OrmException | IOException | ConfigInvalidException e) {
+          } catch (IOException | ConfigInvalidException e) {
             logWarn("Cannot default full_name", e);
           } finally {
             defaultName = false;

@@ -114,7 +114,7 @@ public class InitAdminUser implements InitStep {
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);
           a.setPreferredEmail(email);
-          accounts.insert(db, a);
+          accounts.insert(a);
 
           AccountGroup adminGroup =
               groupsOnInit.getExistingGroup(db, new AccountGroup.NameKey("Administrators"));

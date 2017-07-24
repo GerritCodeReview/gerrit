@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
@@ -53,6 +52,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -339,19 +339,19 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     logDebug("Add approval for " + id);
     ChangeUpdate origPsUpdate = ctx.getUpdate(oldPsId);
     origPsUpdate.putReviewer(user.getAccountId(), REVIEWER);
-    LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
+    Collection<PatchSetApproval> approvals = approve(ctx, origPsUpdate);
 
     ChangeUpdate newPsUpdate = ctx.getUpdate(newPsId);
     newPsUpdate.merge(args.submissionId, records);
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
-      saveApprovals(normalized, ctx, newPsUpdate, true);
+      saveApprovals(approvals, ctx, newPsUpdate, true);
       submitter = convertPatchSet(newPsId).apply(submitter);
     }
   }
 
-  private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
+  private Collection<PatchSetApproval> approve(ChangeContext ctx, ChangeUpdate update)
       throws OrmException, IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
@@ -365,37 +365,23 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     byKey.put(submitter.getKey(), submitter);
 
-    // Flatten out existing approvals for this patch set based upon the current
-    // permissions. Once the change is closed the approvals are not updated at
-    // presentation view time, except for zero votes used to indicate a reviewer
-    // was added. So we need to make sure votes are accurate now. This way if
-    // permissions get modified in the future, historical records stay accurate.
-    LabelNormalizer.Result normalized =
-        args.labelNormalizer.normalize(ctx.getControl(), byKey.values());
     update.putApproval(submitter.getLabel(), submitter.getValue());
-    saveApprovals(normalized, ctx, update, false);
-    return normalized;
+    saveApprovals(byKey.values(), ctx, update, false);
+    return byKey.values();
   }
 
   private void saveApprovals(
-      LabelNormalizer.Result normalized,
+      Collection<PatchSetApproval> approvals,
       ChangeContext ctx,
       ChangeUpdate update,
       boolean includeUnchanged)
       throws OrmException {
     PatchSet.Id psId = update.getPatchSetId();
-    ctx.getDb().patchSetApprovals().upsert(convertPatchSet(normalized.getNormalized(), psId));
-    ctx.getDb().patchSetApprovals().upsert(zero(convertPatchSet(normalized.deleted(), psId)));
-    for (PatchSetApproval psa : normalized.updated()) {
-      update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
-    }
-    for (PatchSetApproval psa : normalized.deleted()) {
-      update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
-    }
+    ctx.getDb().patchSetApprovals().upsert(convertPatchSet(approvals, psId));
 
     // TODO(dborowitz): Don't use a label in NoteDb; just check when status
     // change happened.
-    for (PatchSetApproval psa : normalized.unchanged()) {
+    for (PatchSetApproval psa : approvals) {
       if (includeUnchanged || psa.isLegacySubmit()) {
         logDebug("Adding submit label " + psa);
         update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());

@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
@@ -111,7 +110,6 @@ public abstract class SubmitStrategy {
     final ChangeMessagesUtil cmUtil;
     final EmailMerge.Factory mergedSenderFactory;
     final GitRepositoryManager repoManager;
-    final LabelNormalizer labelNormalizer;
     final PatchSetInfoFactory patchSetInfoFactory;
     final PatchSetUtil psUtil;
     final ProjectCache projectCache;
@@ -150,7 +148,6 @@ public abstract class SubmitStrategy {
         ChangeMessagesUtil cmUtil,
         EmailMerge.Factory mergedSenderFactory,
         GitRepositoryManager repoManager,
-        LabelNormalizer labelNormalizer,
         MergeUtil.Factory mergeUtilFactory,
         PatchSetInfoFactory patchSetInfoFactory,
         PatchSetUtil psUtil,
@@ -182,7 +179,6 @@ public abstract class SubmitStrategy {
       this.mergedSenderFactory = mergedSenderFactory;
       this.repoManager = repoManager;
       this.cmUtil = cmUtil;
-      this.labelNormalizer = labelNormalizer;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.psUtil = psUtil;
       this.projectCache = projectCache;

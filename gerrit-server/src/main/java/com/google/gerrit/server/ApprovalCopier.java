@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -56,7 +55,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ApprovalCopier {
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
-  private final LabelNormalizer labelNormalizer;
   private final ChangeData.Factory changeDataFactory;
   private final PatchSetUtil psUtil;
 
@@ -64,12 +62,10 @@ public class ApprovalCopier {
   ApprovalCopier(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
-      LabelNormalizer labelNormalizer,
       ChangeData.Factory changeDataFactory,
       PatchSetUtil psUtil) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
-    this.labelNormalizer = labelNormalizer;
     this.changeDataFactory = changeDataFactory;
     this.psUtil = psUtil;
   }
@@ -203,7 +199,7 @@ public class ApprovalCopier {
           byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
         }
       }
-      return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
+      return byUser.values();
     } catch (IOException e) {
       throw new OrmException(e);
     }

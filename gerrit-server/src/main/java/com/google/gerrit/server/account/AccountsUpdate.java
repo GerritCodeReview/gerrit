@@ -17,12 +17,10 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
@@ -32,7 +30,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -50,7 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * Updates accounts.
  *
- * <p>The account updates are written to both ReviewDb and NoteDb.
+ * <p>The account updates are written to NoteDb.
  *
  * <p>In NoteDb accounts are represented as user branches in the All-Users repository. Optionally a
  * user branch can contain a 'account.config' file that stores account properties, such as full
@@ -189,23 +186,18 @@ public class AccountsUpdate {
   /**
    * Inserts a new account.
    *
-   * @param db ReviewDb
    * @param accountId ID of the new account
    * @param init consumer to populate the new account
    * @return the newly created account
-   * @throws OrmException if updating the database fails
    * @throws OrmDuplicateKeyException if the account already exists
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(ReviewDb db, Account.Id accountId, Consumer<Account> init)
-      throws OrmException, IOException, ConfigInvalidException {
+  public Account insert(Account.Id accountId, Consumer<Account> init)
+      throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
     AccountConfig accountConfig = read(accountId);
     Account account = accountConfig.getNewAccount();
     init.accept(account);
-
-    // Create in ReviewDb
-    db.accounts().insert(ImmutableSet.of(account));
 
     // Create in NoteDb
     commitNew(accountConfig);
@@ -217,17 +209,15 @@ public class AccountsUpdate {
    *
    * <p>Changing the registration date of an account is not supported.
    *
-   * @param db ReviewDb
    * @param accountId ID of the account
    * @param consumer consumer to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(ReviewDb db, Account.Id accountId, Consumer<Account> consumer)
-      throws OrmException, IOException, ConfigInvalidException {
-    return update(db, accountId, ImmutableList.of(consumer));
+  public Account update(Account.Id accountId, Consumer<Account> consumer)
+      throws IOException, ConfigInvalidException {
+    return update(accountId, ImmutableList.of(consumer));
   }
 
   /**
@@ -235,43 +225,26 @@ public class AccountsUpdate {
    *
    * <p>Changing the registration date of an account is not supported.
    *
-   * @param db ReviewDb
    * @param accountId ID of the account
    * @param consumers consumers to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(ReviewDb db, Account.Id accountId, List<Consumer<Account>> consumers)
-      throws OrmException, IOException, ConfigInvalidException {
+  public Account update(Account.Id accountId, List<Consumer<Account>> consumers)
+      throws IOException, ConfigInvalidException {
     if (consumers.isEmpty()) {
       return null;
     }
 
-    // Update in ReviewDb
-    Account reviewDbAccount =
-        db.accounts()
-            .atomicUpdate(
-                accountId,
-                a -> {
-                  consumers.stream().forEach(c -> c.accept(a));
-                  return a;
-                });
-
-    // Update in NoteDb
     AccountConfig accountConfig = read(accountId);
     Account account = accountConfig.getAccount();
     if (account != null) {
       consumers.stream().forEach(c -> c.accept(account));
       commit(accountConfig);
-    } else if (reviewDbAccount != null) {
-      // user branch doesn't exist yet
-      accountConfig.setAccount(reviewDbAccount);
-      commitNew(accountConfig);
     }
 
-    return reviewDbAccount;
+    return account;
   }
 
   /**
@@ -280,25 +253,18 @@ public class AccountsUpdate {
    * <p>The existing account with the same account ID is overwritten by the given account. Choosing
    * to overwrite an account means that any updates that were done to the account by a racing
    * request after the account was read are lost. Updates are also lost if the account was read from
-   * a stale account index. This is why using {@link #update(ReviewDb,
-   * com.google.gerrit.reviewdb.client.Account.Id, Consumer)} to do an atomic update is always
-   * preferred.
+   * a stale account index. This is why using {@link
+   * #update(com.google.gerrit.reviewdb.client.Account.Id, Consumer)} to do an atomic update is
+   * always preferred.
    *
    * <p>Changing the registration date of an account is not supported.
    *
-   * @param db ReviewDb
    * @param account the new account
-   * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
-   * @see #update(ReviewDb, com.google.gerrit.reviewdb.client.Account.Id, Consumer)
+   * @see #update(com.google.gerrit.reviewdb.client.Account.Id, Consumer)
    */
-  public void replace(ReviewDb db, Account account)
-      throws OrmException, IOException, ConfigInvalidException {
-    // Update in ReviewDb
-    db.accounts().update(ImmutableSet.of(account));
-
-    // Update in NoteDb
+  public void replace(Account account) throws IOException, ConfigInvalidException {
     AccountConfig accountConfig = read(account.getId());
     accountConfig.setAccount(account);
     commit(accountConfig);
@@ -307,32 +273,20 @@ public class AccountsUpdate {
   /**
    * Deletes the account.
    *
-   * @param db ReviewDb
    * @param account the account that should be deleted
-   * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    */
-  public void delete(ReviewDb db, Account account) throws OrmException, IOException {
-    // Delete in ReviewDb
-    db.accounts().delete(ImmutableSet.of(account));
-
-    // Delete in NoteDb
-    deleteUserBranch(account.getId());
+  public void delete(Account account) throws IOException {
+    deleteByKey(account.getId());
   }
 
   /**
    * Deletes the account.
    *
-   * @param db ReviewDb
    * @param accountId the ID of the account that should be deleted
-   * @throws OrmException if updating the database fails
    * @throws IOException if updating the user branch fails
    */
-  public void deleteByKey(ReviewDb db, Account.Id accountId) throws OrmException, IOException {
-    // Delete in ReviewDb
-    db.accounts().deleteKeys(ImmutableSet.of(accountId));
-
-    // Delete in NoteDb
+  public void deleteByKey(Account.Id accountId) throws IOException {
     deleteUserBranch(accountId);
   }
 

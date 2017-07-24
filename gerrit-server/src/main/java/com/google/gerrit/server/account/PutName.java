@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
@@ -46,7 +45,6 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
 
   @Inject
@@ -54,12 +52,10 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       Provider<CurrentUser> self,
       Realm realm,
       PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider,
       AccountsUpdate.Server accountsUpdate) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
     this.accountsUpdate = accountsUpdate;
   }
 
@@ -74,7 +70,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws MethodNotAllowedException, ResourceNotFoundException, OrmException, IOException,
+      throws MethodNotAllowedException, ResourceNotFoundException, IOException,
           ConfigInvalidException {
     if (input == null) {
       input = new Input();
@@ -86,9 +82,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
 
     String newName = input.name;
     Account account =
-        accountsUpdate
-            .create()
-            .update(dbProvider.get(), user.getAccountId(), a -> a.setFullName(newName));
+        accountsUpdate.create().update(user.getAccountId(), a -> a.setFullName(newName));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

@@ -322,7 +322,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       accountsUpdate
           .create()
           .update(
-              db,
               id,
               a -> {
                 a.setFullName(fullName);

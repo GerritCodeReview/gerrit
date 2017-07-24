@@ -85,7 +85,6 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
@@ -250,30 +249,9 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
     Account account =
-        accountsUpdate.create().update(db, nonExistingAccountId, a -> consumerCalled.set(true));
+        accountsUpdate.create().update(nonExistingAccountId, a -> consumerCalled.set(true));
     assertThat(account).isNull();
     assertThat(consumerCalled.get()).isFalse();
-  }
-
-  @Test
-  public void updateAccountThatIsMissingInNoteDb() throws Exception {
-    String name = "bar";
-    TestAccount bar = accountCreator.create(name);
-    assertUserBranch(bar.getId(), name, null);
-
-    // delete user branch
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      AccountsUpdate.deleteUserBranch(
-          repo, allUsers, GitReferenceUpdated.DISABLED, null, serverIdent.get(), bar.getId());
-      assertThat(repo.exactRef(RefNames.refsUsers(bar.getId()))).isNull();
-    }
-
-    String status = "OOO";
-    Account account = accountsUpdate.create().update(db, bar.getId(), a -> a.setStatus(status));
-    assertThat(account).isNotNull();
-    assertThat(account.getFullName()).isEqualTo(name);
-    assertThat(account.getStatus()).isEqualTo(status);
-    assertUserBranch(bar.getId(), name, status);
   }
 
   @Test
@@ -283,7 +261,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String status = "OOO";
     Account account =
-        accountsUpdate.create().update(db, anonymousCoward.getId(), a -> a.setStatus(status));
+        accountsUpdate.create().update(anonymousCoward.getId(), a -> a.setStatus(status));
     assertThat(account).isNotNull();
     assertThat(account.getFullName()).isNull();
     assertThat(account.getStatus()).isEqualTo(status);

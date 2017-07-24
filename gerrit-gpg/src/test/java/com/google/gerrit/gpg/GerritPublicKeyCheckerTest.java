@@ -116,7 +116,7 @@ public class GerritPublicKeyCheckerTest {
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
-    accountsUpdate.create().update(db, userId, a -> a.setPreferredEmail("user@example.com"));
+    accountsUpdate.create().update(userId, a -> a.setPreferredEmail("user@example.com"));
     user = reloadUser();
 
     requestContext.setContext(

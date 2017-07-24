@@ -16,11 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,22 +25,19 @@ import java.util.List;
 
 @Singleton
 public class AccountsConsistencyChecker {
-  private final Provider<ReviewDb> dbProvider;
   private final Accounts accounts;
   private final ExternalIds externalIds;
 
   @Inject
-  AccountsConsistencyChecker(
-      Provider<ReviewDb> dbProvider, Accounts accounts, ExternalIds externalIds) {
-    this.dbProvider = dbProvider;
+  AccountsConsistencyChecker(Accounts accounts, ExternalIds externalIds) {
     this.accounts = accounts;
     this.externalIds = externalIds;
   }
 
-  public List<ConsistencyProblemInfo> check() throws OrmException, IOException {
+  public List<ConsistencyProblemInfo> check() throws IOException {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
-    for (Account account : accounts.all(dbProvider.get())) {
+    for (Account account : accounts.all()) {
       if (account.getPreferredEmail() != null) {
         if (!externalIds
             .byAccount(account.getId())

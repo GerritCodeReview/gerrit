@@ -47,8 +47,7 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 4)
 
-  @Relation(id = 6)
-  AccountAccess accounts();
+  // Deleted @Relation(id = 6)
 
   // Deleted @Relation(id = 7)
 

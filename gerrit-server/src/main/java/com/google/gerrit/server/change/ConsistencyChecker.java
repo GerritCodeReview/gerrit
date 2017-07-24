@@ -224,10 +224,10 @@ public class ConsistencyChecker {
 
   private void checkOwner() {
     try {
-      if (accounts.get(db.get(), change().getOwner()) == null) {
+      if (accounts.get(change().getOwner()) == null) {
         problem("Missing change owner: " + change().getOwner());
       }
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       error("Failed to look up owner", e);
     }
   }

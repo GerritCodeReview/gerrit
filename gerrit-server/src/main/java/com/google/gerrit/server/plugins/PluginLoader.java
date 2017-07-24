@@ -462,7 +462,9 @@ public class PluginLoader implements LifecycleListener {
                   loadedPlugin.getVersion()));
         }
       } catch (PluginInstallException e) {
-        log.warn(String.format("Cannot load plugin %s", name), e.getCause());
+        Throwable cause = e.getCause();
+        String reason = cause != null ? cause.getMessage() : "unknown reason";
+        log.warn(String.format("Cannot load plugin %s: %s", name, reason));
       }
     }
 

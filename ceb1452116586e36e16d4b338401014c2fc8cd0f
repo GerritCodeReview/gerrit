@@ -94,6 +94,30 @@
       "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "358998e8_7363ffee",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T22:59:10Z",
+      "side": 0,
+      "message": "Nope i havent tested this specific one, i\u0027ve tested the one below though.",
+      "parentUuid": "ed16b7da_b4e5695e",
+      "range": {
+        "startLine": 318,
+        "startChar": 57,
+        "endLine": 318,
+        "endChar": 66
+      },
+      "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

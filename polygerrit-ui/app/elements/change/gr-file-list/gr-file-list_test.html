@@ -385,6 +385,21 @@ limitations under the License.
         }
       });
 
+      test('r key toggles reviewed flag', () => {
+        flushAsynchronousOperations();
+
+        // Default state should be unreviewed.
+        assert.equal(element._reviewed.length, 0);
+
+        // Press the review key to toggle it (set the flag).
+        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        assert.equal(element._reviewed.length, 1);
+
+        // Press the review key to toggle it (clear the flag).
+        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        assert.equal(element._reviewed.length, 0);
+      });
+
       suite('_handleOKey', () => {
         let interact;
 

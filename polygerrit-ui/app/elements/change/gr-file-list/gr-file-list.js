@@ -136,6 +136,7 @@
       'o': '_handleOKey',
       'n': '_handleNKey',
       'p': '_handlePKey',
+      'r': '_handleRKey',
       'shift+a': '_handleCapitalAKey',
       'esc': '_handleEscKey',
     },
@@ -579,6 +580,17 @@
       } else {
         this.$.diffCursor.moveToPreviousChunk();
       }
+    },
+
+    _handleRKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+        return;
+      }
+
+      e.preventDefault();
+      if (!this._files[this.$.fileCursor.index]) { return; }
+      this._reviewFile(this._files[this.$.fileCursor.index].__path);
     },
 
     _handleCapitalAKey(e) {

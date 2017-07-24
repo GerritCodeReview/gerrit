@@ -818,6 +818,7 @@ limitations under the License.
 
     test('topic is coalesced to null', done => {
       sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element, '_upgradeUrl');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
         return Promise.resolve({
           id: '123456789',
@@ -835,6 +836,7 @@ limitations under the License.
 
     test('commit sha is populated from getChangeDetail', done => {
       sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element, '_upgradeUrl');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
         return Promise.resolve({
           id: '123456789',
@@ -1235,6 +1237,32 @@ limitations under the License.
       sandbox.stub(element.$.relatedChanges, 'reload');
       element.dispatchEvent(new CustomEvent('topic-changed'));
       assert.isTrue(element.$.relatedChanges.reload.calledOnce);
+    });
+
+    suite('_upgradeUrl calls', () => {
+      let upgradeStub;
+      const mockChange = {project: 'test'};
+
+      setup(() => {
+        upgradeStub = sandbox.stub(window.Gerrit.Nav, 'upgradeUrl');
+      });
+
+      test('app.params.project undefined', () => {
+        element._upgradeUrl(mockChange, {});
+        assert.isTrue(upgradeStub.called);
+        assert.deepEqual(upgradeStub.lastCall.args[0], mockChange);
+      });
+
+      test('app.params.project differs from change.project', () => {
+        element._upgradeUrl(mockChange, {project: 'demo'});
+        assert.isTrue(upgradeStub.called);
+        assert.deepEqual(upgradeStub.lastCall.args[0], mockChange);
+      });
+
+      test('app.params.project === change.project', () => {
+        element._upgradeUrl(mockChange, {project: 'test'});
+        assert.isFalse(upgradeStub.called);
+      });
     });
   });
 </script>

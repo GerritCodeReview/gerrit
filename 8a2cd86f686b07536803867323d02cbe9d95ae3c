@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56f50c55_6c2ae96d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T21:35:25Z",
+      "side": 0,
+      "message": "Im wondering is this an internal thing?",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 42
+      },
+      "revId": "8a2cd86f686b07536803867323d02cbe9d95ae3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

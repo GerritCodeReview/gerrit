@@ -142,6 +142,30 @@
       "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfde2c5f_e886590f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T23:02:53Z",
+      "side": 0,
+      "message": "...that isn\u0027t a valid url, though. It should look like \".../c/project-name/+/14/\".",
+      "parentUuid": "fdda3a1a_e97762c6",
+      "range": {
+        "startLine": 318,
+        "startChar": 57,
+        "endLine": 318,
+        "endChar": 66
+      },
+      "revId": "ceb1452116586e36e16d4b338401014c2fc8cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

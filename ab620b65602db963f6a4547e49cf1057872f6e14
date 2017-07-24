@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b840191_c8c9f996",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T17:05:02Z",
+      "side": 1,
+      "message": "Im not sure how to get this to work im getting this error\n\nStarting Selenium server for local browsers\nSelenium server running on port 51556\nsafari 10.1.2            Beginning tests via http://localhost:8000/components/tmp.GZ4N8nkf/generated-index.html?cli_browser_id\u003d1\nchrome 59                Beginning tests via http://localhost:8000/components/tmp.GZ4N8nkf/generated-index.html?cli_browser_id\u003d0\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » Hashtag removal » hashtag read only hides delete button\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:265:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » Hashtag removal » hashtag not read only does not hide delete button\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:277:0",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 10
+      },
+      "revId": "ab620b65602db963f6a4547e49cf1057872f6e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e023cb3_16afe0c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-24T17:05:02Z",
+      "side": 1,
+      "message": "Same here, not sure how to get this to work as it is failing with\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » remove reviewer votes » changing hashtag\n\n  expected false to be true\n    \u003cunknown\u003e at   Function.assert.isTrue at /components/chai/chai.js:2483:0\n    \u003cunknown\u003e at             Context.test at gr-change-metadata_test.html:375:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » remove reviewer votes » hashtag removal\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:406:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » Hashtag removal » hashtag read only hides delete button\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:265:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » Hashtag removal » hashtag not read only does not hide delete button\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:277:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » remove reviewer votes » changing hashtag\n\n  expected false to be true\n    \u003cunknown\u003e at   Function.assert.isTrue at /components/chai/chai.js:2483:0\n    \u003cunknown\u003e at             Context.test at gr-change-metadata_test.html:375:0\n\nchrome 59                ✖ elements/change/gr-change-metadata/gr-change-metadata_test.html » gr-change-metadata tests » remove reviewer votes » hashtag removal\n\n  element.$.$$ is not a function\n    \u003cunknown\u003e at   Context.test at gr-change-metadata_test.html:406:0",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 12
+      },
+      "revId": "ab620b65602db963f6a4547e49cf1057872f6e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

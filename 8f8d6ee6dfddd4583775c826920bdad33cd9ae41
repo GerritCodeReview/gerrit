@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "04ecd3f9_bb6b3cb3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T17:36:23Z",
+      "side": 1,
+      "message": "It would be something like https://github.com/GerritCodeReview/gerrit/blob/46457b7aa666f18dcd82f1e438f7e842744b6e4f/polygerrit-ui/app/elements/admin/gr-admin-project-list/gr-admin-project-list_test.html#L144",
+      "parentUuid": "706265b4_f2e13fc9",
+      "revId": "8f8d6ee6dfddd4583775c826920bdad33cd9ae41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5d311d5_c7fb39e2",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
         "patchSetId": 76

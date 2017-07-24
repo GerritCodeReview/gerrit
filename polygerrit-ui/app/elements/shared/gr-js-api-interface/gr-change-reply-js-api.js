@@ -47,28 +47,9 @@
     Object.create(GrChangeReplyInterfaceOld.prototype);
   GrChangeReplyInterface.prototype.constructor = GrChangeReplyInterface;
 
-  GrChangeReplyInterface.prototype.getDomHook = function() {
-    if (!this._hookPromise) {
-      this._hookPromise = new Promise((resolve, reject) => {
-        this._hookClass = Polymer({
-          is: this._hookName,
-          properties: {
-            plugin: Object,
-            content: Object,
-          },
-          attached() {
-            resolve(this);
-          },
-        });
-        this.plugin.registerCustomComponent('reply-text', this._hookName);
-      });
-    }
-    return this._hookPromise;
-  };
-
   GrChangeReplyInterface.prototype.addReplyTextChangedCallback =
     function(handler) {
-      this.getDomHook().then(el => {
+      this.plugin.getDomHook('reply-text').onAttached(el => {
         if (!el.content) { return; }
         el.content.addEventListener('value-changed', e => {
           handler(e.detail.value);

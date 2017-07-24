@@ -238,9 +238,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     } catch (NumberFormatException nfe) {
       return null;
     }
-    try (ReviewDb db = schema.open()) {
-      return auth(accounts.get(db, id));
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    try {
+      return auth(accounts.get(id));
+    } catch (IOException | ConfigInvalidException e) {
       getServletContext().log("cannot query database", e);
       return null;
     }

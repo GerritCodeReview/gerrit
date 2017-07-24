@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
@@ -397,14 +396,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void reindex() throws Exception {
     AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
 
-    // update account in ReviewDb without reindex so that account index is stale
-    String newName = "Test User";
+    // update account without reindex so that account index is stale
     Account.Id accountId = new Account.Id(user1._accountId);
-    Account account = accounts.get(db, accountId);
-    account.setFullName(newName);
-    db.accounts().update(ImmutableSet.of(account));
-
-    // update account in NoteDb without reindex so that account index is stale
+    String newName = "Test User";
     try (Repository repo = repoManager.openRepository(allUsers)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
       PersonIdent ident = serverIdent.get();
@@ -499,7 +493,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       accountsUpdate
           .create()
           .update(
-              db,
               id,
               a -> {
                 a.setFullName(fullName);

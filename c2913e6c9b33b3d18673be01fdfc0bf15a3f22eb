@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74c9df6e_6cb94777",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-24T20:18:05Z",
+      "side": 1,
+      "message": "Please move the slash outside of the patchNum capture group.",
+      "range": {
+        "startLine": 336,
+        "startChar": 36,
+        "endLine": 336,
+        "endChar": 46
+      },
+      "revId": "c2913e6c9b33b3d18673be01fdfc0bf15a3f22eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

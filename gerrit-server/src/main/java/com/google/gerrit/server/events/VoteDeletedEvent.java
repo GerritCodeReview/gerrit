@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 
-public class ReviewerDeletedEvent extends PatchSetEvent {
-  public static final String TYPE = "reviewer-deleted";
+public class VoteDeletedEvent extends PatchSetEvent {
+  static final String TYPE = "vote-deleted";
   public Supplier<AccountAttribute> reviewer;
   public Supplier<AccountAttribute> remover;
   public Supplier<ApprovalAttribute[]> approvals;
   public String comment;
 
-  public ReviewerDeletedEvent(Change change) {
+  public VoteDeletedEvent(Change change) {
     super(TYPE, change);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9750b751_eb08ca69",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html",
+        "patchSetId": 79
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T18:29:15Z",
+      "side": 1,
+      "message": "This could go one step further:\n\nconst confirmHandler \u003d sandbox.stub();\nelement.addEventListener(\u0027confirm, confirmHandler);\nassert.isTrue(confirmHandler.called);\n\nYou are already testing that it handles the incoming event correctly. This is testing that the outgoing event is also fired correctly.\n\nI have not tested this yet, and may need a little tweaking but should work similarly to this.",
+      "revId": "af3080fe80413faab8f75676f92e756129e036ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

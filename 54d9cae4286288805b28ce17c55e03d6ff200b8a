@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f0b0743_94a36409",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 99
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:24:50Z",
+      "side": 1,
+      "message": "Should say \"Fired when the group name changes.\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 54
+      },
+      "revId": "54d9cae4286288805b28ce17c55e03d6ff200b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12dc9076_c852d224",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 99
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:24:50Z",
+      "side": 1,
+      "message": "Group names should just be strings, shouldn\u0027t they be?",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 8
+      },
+      "revId": "54d9cae4286288805b28ce17c55e03d6ff200b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52d13be5_b42f15e2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 99
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:24:50Z",
+      "side": 1,
+      "message": "Since there are multiple buttons, the selector should be more specific to the button you actually want, in case they end up re-arranged at some point.",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 74
+      },
+      "revId": "54d9cae4286288805b28ce17c55e03d6ff200b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfe3b4c6_b2e9d84d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 99
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-24T16:24:50Z",
+      "side": 1,
+      "message": "There should be a (separate) test on gr-admin-view as well, that shows the name is updated when the event is fired. It is a complementary test to this one.",
+      "revId": "54d9cae4286288805b28ce17c55e03d6ff200b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

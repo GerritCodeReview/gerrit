@@ -316,25 +316,30 @@ limitations under the License.
         assert.equal(element._suggestions.length, 0);
       });
 
-      test('tab in input does not call focus', () => {
-        element._suggestions = ['sugar bombs'];
+      test('tab in input, tabComplete = true', () => {
         focusSpy = sandbox.spy(element, 'focus');
-
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-        flushAsynchronousOperations();
-
-        assert.isFalse(commitSpy.called);
-        assert.isFalse(focusSpy.called);
-        assert.equal(element._suggestions.length, 1);
-
+        const commitHandler = sandbox.stub();
+        element.addEventListener('commit', commitHandler);
         element.tabComplete = true;
         element._suggestions = ['tunnel snakes drool'];
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
         flushAsynchronousOperations();
 
         assert.isTrue(commitSpy.called);
-        assert.isFalse(focusSpy.called);
+        assert.isTrue(focusSpy.called);
+        assert.isFalse(commitHandler.called);
         assert.equal(element._suggestions.length, 0);
+      });
+
+      test('tab in input, tabComplete = false', () => {
+        element._suggestions = ['sugar bombs'];
+        focusSpy = sandbox.spy(element, 'focus');
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+        flushAsynchronousOperations();
+
+        assert.isFalse(commitSpy.called);
+        assert.isFalse(focusSpy.called);
+        assert.equal(element._suggestions.length, 1);
       });
 
       test('tab on suggestion, tabComplete = false', () => {

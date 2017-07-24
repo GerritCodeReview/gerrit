@@ -245,6 +245,7 @@
           if (this._suggestions.length > 0 && this.tabComplete) {
             e.preventDefault();
             this._handleInputCommit(true);
+            this.focus();
           } else {
             this._focused = false;
           }

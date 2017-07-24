@@ -45,6 +45,13 @@
       page.base(base);
     }
 
+    /**
+     * While resolving Issue 6708, the need for some way to upgrade obsolete
+     * URLs in-place without page reloads became evident.
+     *
+     * This function aims to update the app params and the URL when the URL is
+     * found to be obsolete.
+     */
     const upgradeUrl = params => {
       const url = generateUrl(params);
       if (url !== window.location.pathname) {

@@ -178,7 +178,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     accountsUpdate
         .create()
         .insert(
-            db,
             id,
             a -> {
               a.setFullName(input.name);

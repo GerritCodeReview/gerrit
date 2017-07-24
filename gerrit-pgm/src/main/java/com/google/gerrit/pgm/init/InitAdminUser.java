@@ -113,7 +113,7 @@ public class InitAdminUser implements InitStep {
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);
           a.setPreferredEmail(email);
-          accounts.insert(db, a);
+          accounts.insert(a);
 
           AccountGroupName adminGroupName =
               db.accountGroupNames().get(new AccountGroup.NameKey("Administrators"));

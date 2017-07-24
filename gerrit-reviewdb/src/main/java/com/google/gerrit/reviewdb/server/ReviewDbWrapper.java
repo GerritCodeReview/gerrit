@@ -77,11 +77,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountAccess accounts() {
-    return delegate.accounts();
-  }
-
-  @Override
   public AccountGroupAccess accountGroups() {
     return delegate.accountGroups();
   }

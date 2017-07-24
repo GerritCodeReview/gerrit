@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteActive.Input;
 import com.google.gwtorm.server.OrmException;
@@ -38,16 +37,11 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class DeleteActive implements RestModifyView<AccountResource, Input> {
   public static class Input {}
 
-  private final Provider<ReviewDb> dbProvider;
   private final AccountsUpdate.Server accountsUpdate;
   private final Provider<IdentifiedUser> self;
 
   @Inject
-  DeleteActive(
-      Provider<ReviewDb> dbProvider,
-      AccountsUpdate.Server accountsUpdate,
-      Provider<IdentifiedUser> self) {
-    this.dbProvider = dbProvider;
+  DeleteActive(AccountsUpdate.Server accountsUpdate, Provider<IdentifiedUser> self) {
     this.accountsUpdate = accountsUpdate;
     this.self = self;
   }
@@ -64,7 +58,6 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
         accountsUpdate
             .create()
             .update(
-                dbProvider.get(),
                 rsrc.getUser().getAccountId(),
                 a -> {
                   if (!a.isActive()) {

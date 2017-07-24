@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9075995_520dfbbf",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "Is this meant to be the complete list of string values that are accepted? Based on the use of parseInt, it appears to also accept strings-of-numbers.\n\nWhat about also accepting \u0027PARENT\u0027 to mean PS 0, as is used in many places?",
+      "range": {
+        "startLine": 34,
+        "startChar": 42,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a569ff8_b58c76fa",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "Nit: Remove extra star.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41aa9801_13f88770",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "The JSDoc should contain @param lines for the union types.\n\n @param {string|number) a\n @param {string|number) b",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 24
+      },
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab25c77_c17d3f5e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "Optional: to avoid some of the complexity of these different cases, consider just appending empty strings before comparing.\n\n return a + \u0027\u0027 \u003d\u003d\u003d b + \u0027\u0027;",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec475a6d_c839f758",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "This should include a test for \u0027edit\u0027 and any other special string values that are accepted.",
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2285113_85e02dce",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-24T23:23:29Z",
+      "side": 1,
+      "message": "Why are there tests for the letters \u0027a\u0027 and \u0027b\u0027? What kinds of patches do these represent?",
+      "range": {
+        "startLine": 167,
+        "startChar": 28,
+        "endLine": 167,
+        "endChar": 36
+      },
+      "revId": "952b0a8bff9597ba2c5059df23de38e524488922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

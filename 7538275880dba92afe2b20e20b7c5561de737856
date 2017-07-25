@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2439fe9_c9e588c0",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-25T14:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f79b3c7e_5644f8ca",
+      "range": {
+        "startLine": 53,
+        "startChar": 18,
+        "endLine": 53,
+        "endChar": 25
+      },
+      "revId": "7538275880dba92afe2b20e20b7c5561de737856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34fb5747_7d98b3ba",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-07-25T05:06:22Z",
       "side": 1,
       "message": "It might be worth mentioning that on a new installation, the installer automatically opens a browser to the new site.",
+      "revId": "7538275880dba92afe2b20e20b7c5561de737856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a08f002b_91996fa1",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-25T14:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34fb5747_7d98b3ba",
       "revId": "7538275880dba92afe2b20e20b7c5561de737856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fdc09c33_bd246d4f",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-25T14:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db19a867_aa49c6e5",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 29
+      },
+      "revId": "7538275880dba92afe2b20e20b7c5561de737856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc382836_ba980e4e",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2017-07-25T05:06:22Z",
       "side": 1,
       "message": "~gerrit_testsite",
+      "range": {
+        "startLine": 78,
+        "startChar": 18,
+        "endLine": 78,
+        "endChar": 29
+      },
+      "revId": "7538275880dba92afe2b20e20b7c5561de737856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90d6416f_30d07694",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-25T14:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc382836_ba980e4e",
       "range": {
         "startLine": 78,
         "startChar": 18,

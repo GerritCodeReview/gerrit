@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ac34b32_b4234763",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T16:34:12Z",
+      "side": 1,
+      "message": "Overall, we should be migrating off behaviors rather than adding more, since they are supported in Polymer 2.0 legacy components only.",
+      "revId": "adf21badc7f83f96807e15020f0adb6865cff58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a45d998_73bb755e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T16:34:12Z",
+      "side": 1,
+      "message": "Isn\u0027t PatchSetBehavior sufficient?",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "adf21badc7f83f96807e15020f0adb6865cff58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92063b4e_7c900652",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T16:34:12Z",
+      "side": 1,
+      "message": "Please move it to be first.",
+      "revId": "adf21badc7f83f96807e15020f0adb6865cff58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db0f4c2_dd5dfd90",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T16:34:12Z",
+      "side": 1,
+      "message": "Please move it to be first.",
+      "revId": "adf21badc7f83f96807e15020f0adb6865cff58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a738ebc5_f97b7c83",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T16:34:12Z",
+      "side": 1,
+      "message": "Sort alphabetically.",
+      "revId": "adf21badc7f83f96807e15020f0adb6865cff58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

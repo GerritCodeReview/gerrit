@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
 import java.util.Collection;
@@ -21,7 +23,12 @@ import java.util.Collections;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Caches external IDs of all accounts */
+/**
+ * Caches external IDs of all accounts.
+ *
+ * <p>On each cache access the SHA1 of the refs/meta/external-ids branch is read to verify that the
+ * cache is up to date.
+ */
 interface ExternalIdCache {
   void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
       throws IOException;
@@ -75,7 +82,11 @@ interface ExternalIdCache {
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
-  Set<ExternalId> byEmail(String email) throws IOException;
+  ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
+
+  default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
+    return byEmails(email).get(email);
+  }
 
   default void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
       throws IOException {

@@ -38,6 +38,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
@@ -694,6 +695,33 @@ public class AccountIT extends AbstractDaemonTest {
 
     // non-existing doesn't match
     assertThat(byEmailCache.get("non-existing@example.com")).isEmpty();
+  }
+
+  @Test
+  public void lookUpByEmail() throws Exception {
+    // exact match with scheme "mailto:"
+    assertEmail(accounts.byEmail(admin.email), admin);
+
+    // exact match with other scheme
+    String email = "foo.bar@example.com";
+    externalIdsUpdateFactory
+        .create()
+        .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
+    assertEmail(accounts.byEmail(email), admin);
+
+    // wrong case doesn't match
+    assertThat(accounts.byEmail(admin.email.toUpperCase(Locale.US))).isEmpty();
+
+    // prefix doesn't match
+    assertThat(accounts.byEmail(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
+
+    // non-existing doesn't match
+    assertThat(accounts.byEmail("non-existing@example.com")).isEmpty();
+
+    // lookup several accounts by email at once
+    ImmutableSetMultimap<String, Account.Id> byEmails = accounts.byEmails(admin.email, user.email);
+    assertEmail(byEmails.get(admin.email), admin);
+    assertEmail(byEmails.get(user.email), user);
   }
 
   @Test

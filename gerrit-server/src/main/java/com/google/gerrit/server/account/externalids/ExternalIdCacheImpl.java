@@ -226,9 +226,14 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byEmail(String email) throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     try {
-      return extIdsByAccount.get(externalIdReader.readRevision()).byEmail().get(email);
+      AllExternalIds allExternalIds = extIdsByAccount.get(externalIdReader.readRevision());
+      ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
+      for (String email : emails) {
+        byEmails.putAll(email, allExternalIds.byEmail().get(email));
+      }
+      return byEmails.build();
     } catch (ExecutionException e) {
       throw new IOException("Cannot list external ids by email", e);
     }

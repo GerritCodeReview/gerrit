@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30c9fb90_5d0af6f5",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-25T19:30:24Z",
+      "side": 1,
+      "message": "Should be LICENSE-polymer as this is a polymer dep and under polymer.",
+      "range": {
+        "startLine": 181,
+        "startChar": 21,
+        "endLine": 181,
+        "endChar": 48
+      },
+      "revId": "632eaad8172ea49e0e76d73a1be61b1d01230ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

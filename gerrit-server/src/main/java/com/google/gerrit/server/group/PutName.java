@@ -15,8 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -28,7 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
@@ -36,7 +34,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.Future;
@@ -50,7 +47,6 @@ public class PutName implements RestModifyView<GroupResource, Input> {
 
   private final Provider<ReviewDb> db;
   private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   private final Provider<IdentifiedUser> currentUser;
 
@@ -58,12 +54,10 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   PutName(
       Provider<ReviewDb> db,
       GroupCache groupCache,
-      GroupDetailFactory.Factory groupDetailFactory,
       RenameGroupOp.Factory renameGroupOpFactory,
       Provider<IdentifiedUser> currentUser) {
     this.db = db;
     this.groupCache = groupCache;
-    this.groupDetailFactory = groupDetailFactory;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.currentUser = currentUser;
   }
@@ -71,7 +65,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   @Override
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-          ResourceConflictException, OrmException, NoSuchGroupException, IOException {
+          ResourceConflictException, OrmException, IOException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
@@ -88,25 +82,25 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       return newName;
     }
 
-    return renameGroup(rsrc.toAccountGroup(), newName).group.getName();
+    return renameGroup(rsrc.toAccountGroup(), newName);
   }
 
-  private GroupDetail renameGroup(AccountGroup group, String newName)
-      throws ResourceConflictException, OrmException, NoSuchGroupException, IOException {
+  private String renameGroup(AccountGroup group, String newName)
+      throws ResourceConflictException, OrmException, IOException {
     AccountGroup.Id groupId = group.getId();
     AccountGroup.NameKey old = group.getNameKey();
     AccountGroup.NameKey key = new AccountGroup.NameKey(newName);
 
     try {
       AccountGroupName id = new AccountGroupName(key, groupId);
-      db.get().accountGroupNames().insert(Collections.singleton(id));
+      db.get().accountGroupNames().insert(ImmutableList.of(id));
     } catch (OrmException e) {
       AccountGroupName other = db.get().accountGroupNames().get(key);
       if (other != null) {
         // If we are using this identity, don't report the exception.
         //
         if (other.getId().equals(groupId)) {
-          return groupDetailFactory.create(groupId).call();
+          return newName;
         }
 
         // Otherwise, someone else has this identity.
@@ -117,12 +111,9 @@ public class PutName implements RestModifyView<GroupResource, Input> {
     }
 
     group.setNameKey(key);
-    db.get().accountGroups().update(Collections.singleton(group));
+    db.get().accountGroups().update(ImmutableList.of(group));
 
-    AccountGroupName priorName = db.get().accountGroupNames().get(old);
-    if (priorName != null) {
-      db.get().accountGroupNames().delete(Collections.singleton(priorName));
-    }
+    db.get().accountGroupNames().deleteKeys(ImmutableList.of(old));
 
     groupCache.evict(group);
     groupCache.evictAfterRename(old, key);
@@ -136,6 +127,6 @@ public class PutName implements RestModifyView<GroupResource, Input> {
                 newName)
             .start(0, TimeUnit.MILLISECONDS);
 
-    return groupDetailFactory.create(groupId).call();
+    return newName;
   }
 }

@@ -16,13 +16,11 @@ package com.google.gerrit.server.api.groups;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
@@ -144,8 +142,6 @@ class GroupApiImpl implements GroupApi {
     in.name = name;
     try {
       putName.apply(rsrc, in);
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(name, e);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group name", e);
     }

@@ -22,6 +22,30 @@
       "revId": "9b7b0032aa18eada4ba26788738c27fd02aae35e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d6586ad_206df341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-07-25T15:10:45Z",
+      "side": 1,
+      "message": "I am not comfortable with the idea of clearing -2 votes.\n\nIn the past you discussed removing squashing by keeping track of the original vote and then restoring it when possible.\n\nAnother approach may be to simply not squash negative votes on moves, only squash positive votes.  In other words, I think it would be not much of a problem if a user who had the right to vote -2 on one branch is able to move their -2 to a branch that they do not have the ability to vote -2 on?  As long as they can not move positive votes to branches where they don\u0027t have them, I think it would be fine.  So I suggest \"squashing\" positive votes, but not negative votes.",
+      "parentUuid": "e6fc2ecd_f757ed8a",
+      "range": {
+        "startLine": 19,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "9b7b0032aa18eada4ba26788738c27fd02aae35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

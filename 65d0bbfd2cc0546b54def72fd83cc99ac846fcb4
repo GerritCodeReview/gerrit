@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "363ec49d_5948c1a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-25T22:56:01Z",
+      "side": 1,
+      "message": "Let\u0027s rename this to _handleSend.",
+      "range": {
+        "startLine": 170,
+        "startChar": 32,
+        "endLine": 170,
+        "endChar": 47
+      },
+      "revId": "65d0bbfd2cc0546b54def72fd83cc99ac846fcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

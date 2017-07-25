@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51a72142_1366d764",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T14:54:19Z",
+      "side": 1,
+      "message": "Weren\u0027t these also added in a different change in this topic? That is another reason to structure this as a series instead of independent changes.",
+      "revId": "ea15ce11c66696233c46a5e1da666dad42a971bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

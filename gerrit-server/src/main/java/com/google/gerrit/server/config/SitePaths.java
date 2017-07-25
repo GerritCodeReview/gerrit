@@ -34,7 +34,6 @@ public final class SitePaths {
   public final Path site_path;
   public final Path bin_dir;
   public final Path etc_dir;
-  public final Path git_dir;
   public final Path lib_dir;
   public final Path tmp_dir;
   public final Path logs_dir;
@@ -82,7 +81,6 @@ public final class SitePaths {
 
     bin_dir = p.resolve("bin");
     etc_dir = p.resolve("etc");
-    git_dir = p.resolve("git");
     lib_dir = p.resolve("lib");
     tmp_dir = p.resolve("tmp");
     plugins_dir = p.resolve("plugins");

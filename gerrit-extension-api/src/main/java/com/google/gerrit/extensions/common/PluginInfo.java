@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.PluginInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+public class PluginInfo {
+  public final String id;
+  public final String version;
+  public final String indexUrl;
+  public final Boolean disabled;
 
-@Singleton
-class GetStatus implements RestReadView<PluginResource> {
-  @Override
-  public PluginInfo apply(PluginResource resource) {
-    return ListPlugins.toPluginInfo(resource.getPlugin());
+  public PluginInfo(String id, String version, String indexUrl, Boolean disabled) {
+    this.id = id;
+    this.version = version;
+    this.indexUrl = indexUrl;
+    this.disabled = disabled;
   }
 }

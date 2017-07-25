@@ -16,13 +16,13 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Option;
 
@@ -69,8 +70,8 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     return display(null);
   }
 
-  public JsonElement display(PrintWriter stdout) {
-    Map<String, PluginInfo> output = new TreeMap<>();
+  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) {
+    SortedMap<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(
         plugins,
@@ -102,9 +103,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
 
     if (stdout == null) {
-      return OutputFormat.JSON
-          .newGson()
-          .toJsonTree(output, new TypeToken<Map<String, Object>>() {}.getType());
+      return output;
     } else if (format.isJson()) {
       format
           .newGson()

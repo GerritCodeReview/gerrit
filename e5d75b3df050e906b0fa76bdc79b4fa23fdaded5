@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7354d2ae_4126636f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-25T18:00:06Z",
+      "side": 1,
+      "message": "Nit: capitalize \"Document\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "e5d75b3df050e906b0fa76bdc79b4fa23fdaded5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9cde776_16fc5aec",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-25T18:00:06Z",
+      "side": 1,
+      "message": "Does this key work in the dashboard? I can\u0027t get it to star changes in my change list.",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 204,
+        "endChar": 15
+      },
+      "revId": "e5d75b3df050e906b0fa76bdc79b4fa23fdaded5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

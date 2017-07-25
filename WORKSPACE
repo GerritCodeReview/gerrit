@@ -1022,7 +1022,6 @@ npm_binary(
 
 npm_binary(
     name = "vulcanize",
-    repository = GERRIT,
 )
 
 npm_binary(

@@ -5,7 +5,7 @@ GERRIT = "GERRIT:"
 NPM_VERSIONS = {
     "bower": "1.8.0",
     "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
+    "vulcanize": "1.16.0",
 }
 
 NPM_SHA1S = {

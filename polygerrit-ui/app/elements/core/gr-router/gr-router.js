@@ -332,8 +332,8 @@
           history.replaceState(null, null, generateUrl(params));
         });
 
-    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, ctx => {
+    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
+    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?\/?$/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

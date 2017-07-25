@@ -1327,6 +1327,9 @@ public class PostReview
       if (!msg.isEmpty()) {
         buf.append("\n\n").append(msg);
       }
+      if (in.ready) {
+        buf.append("\n\nThis change is ready for review.");
+      }
       if (buf.length() == 0) {
         return false;
       }

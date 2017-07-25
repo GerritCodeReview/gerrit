@@ -863,6 +863,21 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender).notSent();
   }
 
+  @Test
+  public void addReviewerOnWipChangeAndStartReview() throws Exception {
+    StagedChange sc = stageWipChange();
+    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer, other)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).notSent();
+  }
+
   private void review(TestAccount account, String changeId, EmailStrategy strategy)
       throws Exception {
     review(account, changeId, strategy, null);

@@ -14,18 +14,18 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.ImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.group.Groups;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 public class GroupDetailFactory implements Callable<GroupDetail> {
@@ -35,15 +35,20 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
+  private final Groups groups;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
 
   @Inject
   GroupDetailFactory(
-      ReviewDb db, GroupControl.Factory groupControl, @Assisted AccountGroup.Id groupId) {
+      ReviewDb db,
+      GroupControl.Factory groupControl,
+      Groups groups,
+      @Assisted AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
+    this.groups = groups;
 
     this.groupId = groupId;
   }
@@ -51,30 +56,20 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    List<AccountGroupMember> members = loadMembers();
-    List<AccountGroupById> includes = loadIncludes();
+    ImmutableSet<Account.Id> members = loadMembers();
+    ImmutableSet<AccountGroup.UUID> includes = loadIncludes();
     return new GroupDetail(members, includes);
   }
 
-  private List<AccountGroupMember> loadMembers() throws OrmException {
-    List<AccountGroupMember> members = new ArrayList<>();
-    for (AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
-      if (control.canSeeMember(m.getAccountId())) {
-        members.add(m);
-      }
-    }
-    return members;
+  private ImmutableSet<Account.Id> loadMembers() throws OrmException {
+    return groups.getMembers(db, groupId).filter(control::canSeeMember).collect(toImmutableSet());
   }
 
-  private List<AccountGroupById> loadIncludes() throws OrmException {
+  private ImmutableSet<AccountGroup.UUID> loadIncludes() throws OrmException {
     if (!control.canSeeGroup()) {
-      return ImmutableList.of();
+      return ImmutableSet.of();
     }
 
-    List<AccountGroupById> groups = new ArrayList<>();
-    for (AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
-      groups.add(m);
-    }
-    return groups;
+    return groups.getIncludes(db, groupId).collect(toImmutableSet());
   }
 }

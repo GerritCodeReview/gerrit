@@ -22,8 +22,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
@@ -102,16 +100,16 @@ public class ListMembers implements RestReadView<GroupResource> {
       return Collections.emptyMap();
     }
 
-    for (AccountGroupMember m : groupDetail.getMembers()) {
-      if (!members.containsKey(m.getAccountId())) {
-        members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
+    for (Account.Id member : groupDetail.getMembers()) {
+      if (!members.containsKey(member)) {
+        members.put(member, accountLoader.get(member));
       }
     }
 
     if (recursive) {
-      for (AccountGroupById includedGroup : groupDetail.getIncludes()) {
-        if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
-          members.putAll(getMembers(includedGroup.getIncludeUUID(), seenGroups));
+      for (AccountGroup.UUID includedGroupUuid : groupDetail.getIncludes()) {
+        if (!seenGroups.contains(includedGroupUuid)) {
+          members.putAll(getMembers(includedGroupUuid, seenGroups));
         }
       }
     }

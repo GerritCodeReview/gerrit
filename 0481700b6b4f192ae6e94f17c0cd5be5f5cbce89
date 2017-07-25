@@ -1,0 +1,392 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e52aeda4_9bdd00dd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 5738,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Maybe this field should be kept for backwards compatibility?",
+      "range": {
+        "startLine": 5737,
+        "startChar": 0,
+        "endLine": 5738,
+        "endChar": 64
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b24590b2_a1f0ecef",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "When a new change is created it is initially empty. Empty changes are meaningless to reviewers and hence should not show up for them and should not trigger email notification. This was the reason why new changes were created as draft. If the drafts feature is removed now, maybe new changes should be created as private now so that we keep the old behavior of not informing reviewers about empty changes. I think it would be good to implement this as a separate change that is a predecessor of this change.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8522c3a8_a2126732",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Should this test be kept for now? We still have existing drafts that users can try to abandon.",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eff00a2a_c6d369ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "These tests should be kept for now. It should still be possible to publish and delete existing draft changes.",
+      "range": {
+        "startLine": 756,
+        "startChar": 2,
+        "endLine": 771,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71d01217_4cb1464b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This test should be kept. It should still be possible to delete existing draft patch sets.",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 311,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fca388b_af8578e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This test should be kept. It should still be possible to publish existing draft changes by pushing a non-draft patch set.",
+      "range": {
+        "startLine": 479,
+        "startChar": 2,
+        "endLine": 490,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b2c83f_1a29c885",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This test should be kept. We still want to verify the visibility of existing draft patch sets.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db55ae7_6196fc18",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This test should be kept since we still have existing draft patch sets.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf104b6_0d6f2cd2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "same here",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "243231b5_a3413be4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Test should be kept for now.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66bd2509_67e416ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Test should be kept for now since we still have existing draft changes.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd019c2f_22b04204",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "As commented in the commit message, I think that we should keep this field for backwards compatibility. If we keep it we should have tests for\n- in.status \u003d NEW -\u003e works\n- in.status not set -\u003e works\n- in.status \u003d DRAFT -\u003e fails with proper error message saying that drafts cannot be created anymore",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3832baf1_992a11ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This test should be kept. It should still be possible to delete existing draft patch sets.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7fc7899_70868d5d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DraftChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "At least some of those tests should be kept. E.g. it should still be possible to delete existing draft changes.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a118b20_517b3ef9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "We should keep this test as this scenario is still possible as we still of existing draft changes.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c9a9b62_d2b97cd7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "I guess those tests should be kept as well?",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3a33875_26dce5f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Should this be kept too?",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8515239_0c3cb826",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Should be kept.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f8d71d2_c0ea8953",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "Should new change be created as private instead?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41eb009d_960ebc6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 0,
+      "message": "This should be kept for servers that have allowsDrafts \u003d true configured so that the behavior for existing draft changes stays the same.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

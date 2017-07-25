@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "735876bb_b3101e2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "creation of",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2af8e2_df2b5700",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "Is it okay to remove this field? Sounds like this can break existing clients. Maybe we should keep this field, but fail if it is set to anything else but NEW?",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23d72c9_b97dfef4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "Can we add more details to the commit message about what happens with existing drafts changes and patch sets and what users can still do with them? E.g. they should still be able to delete and publish existing drafts, right? I think that this works should be verified by tests. Actually I guess most of the draft tests should be kept until existing draft changes and draft patch sets were migrated to something new (not done by this change).\n\nPlease also clearly document this in the \"Working with Drafts\" section in the user-guide (intro-user.txt). I think this documentation should also be updated to say that creation of drafts is not possible anymore.",
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfaf71b7_5b4880c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "Please also describe the further migration plan for drafts. This change only prevents the creation of new draft changes / patch sets and existing draft changes / patch sets are not migrated. At least mention that follow-up changes must deal with this migration.",
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d907ab7a_e81e15a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "Why? Change owners should still be able to delete existing draft changes.\n\nI agree that this is true for servers that had allowDrafts \u003d false configured and this behavior should be preserved for those servers, but this means we can\u0027t remove the allowDrafts config option yet.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20ee436_9673cb5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56388d0f_9de3292b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T08:46:39Z",
+      "side": 1,
+      "message": "This description should say that this option is deprecated and creation of draft changes is no longer possible.",
+      "range": {
+        "startLine": 1225,
+        "startChar": 39,
+        "endLine": 1225,
+        "endChar": 72
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6616eeb0_1288b5e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-07-25T21:52:22Z",
+      "side": 1,
+      "message": "Why? Is stack trace identical in all such cases?",
+      "revId": "4f6473f1c83b3dbe17239c7eef40ed82d99c9365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aede7a8_af40c3b6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T14:51:24Z",
+      "side": 0,
+      "message": "I think we\u0027re going to want to leave this in for a while, and just ignore it. There may be automation that is sending this field, and we don\u0027t want to fail to parse the input. We should give users time to migrate their code before removing the field.",
+      "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

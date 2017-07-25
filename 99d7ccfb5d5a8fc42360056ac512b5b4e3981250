@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74dba5e0_558c6d33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T14:51:24Z",
+      "side": 1,
+      "message": "High level comment on organization: this kind of \"Topic-Name-#\" format for a commit message is unusual. I would prefer if this summary is a little more specific to what is actually happening in this change.\n\nAlso, please make all the changes in the topic depend on one another using git parent-child relationships. Submitting a multi-change topic where the commits are otherwise unrelated will result in an unnecessarily large number of merge commits.\n\nPutting this together with my comments from the following paragraph, perhaps:\n\n PostReview: Remove support for strictLabels option",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "99d7ccfb5d5a8fc42360056ac512b5b4e3981250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f08070_63bd9c55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T14:51:24Z",
+      "side": 1,
+      "message": "Please clarify that this is about the strictLabels field in ReviewInput. If we are just talking about \"labels\", it makes me think of LabelType, and in that context there is no such thing as strict/non-strict.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "99d7ccfb5d5a8fc42360056ac512b5b4e3981250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -36,7 +36,7 @@
      */
 
     properties: {
-      item: String,
+      itemRef: Array,
       itemType: String,
     },
 

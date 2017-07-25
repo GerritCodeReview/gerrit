@@ -51,6 +51,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    MOVE: 'move',
     MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
@@ -75,6 +76,7 @@
     abandon: 'Abandoning...',
     cherrypick: 'Cherry-Picking...',
     delete: 'Deleting...',
+    move: 'Moving..',
     publish: 'Publishing...',
     rebase: 'Rebasing...',
     restore: 'Restoring...',
@@ -109,6 +111,7 @@
   const DOWNLOAD_ACTION = {
     enabled: true,
     label: 'Download patch',
+    method: 'POST',
     title: 'Open download dialog',
     __key: 'download',
     __primary: false,
@@ -215,6 +218,10 @@
             {
               type: ActionType.REVISION,
               key: RevisionActions.CHERRYPICK,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.MOVE,
             },
             {
               type: ActionType.REVISION,
@@ -413,6 +420,12 @@
               additionalActions.length === 0;
       this._actionLoadingMessage = null;
       this._disabledMenuActions = [];
+
+      /*const changeActions = actionsChangeRecord.base || {};
+      if (Object.keys(changeActions).length !== 0 &&
+          !changeActions.move) {
+        this.set('actions.move', MOVE_CHANGE_ACTION);
+      }*/
 
       const revisionActions = revisionActionsChangeRecord.base || {};
       if (Object.keys(revisionActions).length !== 0 &&
@@ -624,6 +637,9 @@
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
+        case ChangeActions.MOVE:
+          this._handleMoveTap();
+          break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -713,6 +729,24 @@
           {
             destination: el.branch,
             message: el.message,
+          }
+      );
+    },
+
+    _handleMoveConfirm() {
+      const el = this.$.confirmMove;
+      if (!el.branch) {
+        this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = true;
+      this._fireAction(
+          '/move',
+          this.actions.move,
+          false,
+          {
+            destination_branch: el.branch,
           }
       );
     },
@@ -868,6 +902,11 @@
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
       this._showActionDialog(this.$.confirmCherrypick);
+    },
+
+    _handleMoveTap() {
+      this.$.confirmMove.branch = '';
+      this._showActionDialog(this.$.confirmMove);
     },
 
     _handleDownloadTap() {

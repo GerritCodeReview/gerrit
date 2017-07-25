@@ -167,6 +167,7 @@
 
     keyBindings: {
       esc: '_handleEscKey',
+      'ctrl+enter meta+enter': '_handleEnterKey',
     },
 
     observers: [
@@ -227,6 +228,10 @@
 
     _handleEscKey(e) {
       this.cancel();
+    },
+
+    _handleEnterKey(e) {
+      this._submit();
     },
 
     _ccsChanged(splices) {
@@ -622,6 +627,10 @@
 
     _sendTapHandler(e) {
       e.preventDefault();
+      this._submit();
+    },
+
+    _submit() {
       if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
         // Do not proceed with the send if there is an invalid email entry in
         // the text field of the CC entry.

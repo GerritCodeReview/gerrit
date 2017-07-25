@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-page-nav-styles.html">
@@ -44,6 +45,12 @@ limitations under the License.
       #email {
         margin-bottom: 1em;
       }
+      .filters p {
+        margin-bottom: 1em;
+      }
+      .queryExample em {
+        color: violet;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <style include="gr-menu-page-styles"></style>
@@ -69,6 +76,7 @@ limitations under the License.
               <a href="#Agreements">Agreements</a>
             </li>
           </template>
+          <li><a href="#MailFilters">Mail Filters</a></li>
         </ul>
       </gr-page-nav>
       <main class="gr-form-styles">
@@ -383,6 +391,76 @@ limitations under the License.
             <gr-agreements-list id="agreementsList"></gr-agreements-list>
           </fieldset>
         </template>
+        <h2 id="MailFilters">Mail Filters</h2>
+        <fieldset class="filters">
+          <p>
+            Gerrit emails include metadata about the change to support
+            writing mail filters.
+          </p>
+          <p>
+            Here are some example Gmail queries that can be used for filters or
+            for searching through archived messages. View the
+            <a href$="[[_getFilterDocsLink(_docsBaseUrl)]]"
+                target="_blank"
+                rel="nofollow">Gerrit documentation</a>
+            for the complete set of footers.
+          </p>
+          <table>
+            <tbody>
+              <tr><th>Name</th><th>Query</th></tr>
+              <tr>
+                <td>Changes requesting my review</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Reviewer: <em>Your Name</em>
+                    &lt;<em>your.email@example.com</em>&gt;"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes from a specific owner</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Owner: <em>Owner name</em>
+                    &lt;<em>owner.email@example.com</em>&gt;"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes targeting a specific branch</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Branch: <em>branch-name</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Changes in a specific project</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Project: <em>project-name</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Messages related to a specific Change ID</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Change-Id: <em>Change ID</em>"
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td>Messages related to a specific change number</td>
+                <td>
+                  <code class="queryExample">
+                    "Gerrit-Change-Number: <em>change number</em>"
+                  </code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
       </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

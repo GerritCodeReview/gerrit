@@ -25,6 +25,10 @@
     'email_format',
   ];
 
+  const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
+      'Documentation';
+  const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -103,6 +107,7 @@
         value: null,
       },
       _serverConfig: Object,
+      _docsBaseUrl: String,
 
       /**
        * For testing purposes.
@@ -111,6 +116,7 @@
     },
 
     behaviors: [
+      Gerrit.DocsUrlBehavior,
       Gerrit.ChangeTableBehavior,
     ],
 
@@ -144,9 +150,17 @@
 
       promises.push(this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
+        const configPromises = [];
+
         if (this._serverConfig.sshd) {
-          return this.$.sshEditor.loadData();
+          configPromises.push(this.$.sshEditor.loadData());
         }
+
+        configPromises.push(
+            this.getDocsBaseUrl(config, this.$.restAPI)
+                .then(baseUrl => { this._docsBaseUrl = baseUrl; }));
+
+        return Promise.all(configPromises);
       }));
 
       if (this.params.emailToken) {
@@ -338,6 +352,14 @@
         this._lastSentVerificationEmail = this._newEmail;
         this._newEmail = '';
       });
+    },
+
+    _getFilterDocsLink(docsBaseUrl) {
+      let base = docsBaseUrl;
+      if (!base || !base.startsWith('http')) {
+        base = GERRIT_DOCS_BASE_URL;
+      }
+      return base + GERRIT_DOCS_FILTER_PATH;
     },
   });
 })();

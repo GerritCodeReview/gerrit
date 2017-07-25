@@ -357,7 +357,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
         cd.setPendingReviewers(
             ChangeField.parseReviewerFieldValues(
-                FluentIterable.from(source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
+                FluentIterable.from(
+                        source.get(ChangeField.PENDING_REVIEWER.getName()).getAsJsonArray())
                     .transform(JsonElement::getAsString)));
       } else if (fields.contains(ChangeField.PENDING_REVIEWER.getName())) {
         cd.setPendingReviewers(ReviewerSet.empty());

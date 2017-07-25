@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -48,6 +49,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -514,6 +516,89 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     gApi.changes().id(change1.getChangeId()).setWorkInProgress();
     assertQuery("is:started", change1);
+  }
+
+  private void assertReviewers(Collection<AccountInfo> reviewers, Object... expected)
+      throws Exception {
+    if (expected.length == 0) {
+      assertThat(reviewers).isNull();
+      return;
+    }
+
+    // Convert AccountInfos to strings, either account ID or email.
+    List<String> reviewerIds =
+        reviewers
+            .stream()
+            .map(
+                ai -> {
+                  if (ai._accountId != null) {
+                    return ai._accountId.toString();
+                  }
+                  return ai.email;
+                })
+            .collect(toList());
+    assertThat(reviewerIds).containsExactly(expected);
+  }
+
+  @Test
+  public void restorePendingReviewers() throws Exception {
+    assume().that(getSchemaVersion()).isAtLeast(44);
+
+    Project.NameKey project = new Project.NameKey("repo");
+    TestRepository<Repo> repo = createProject(project.get());
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+    Change change1 = insert(repo, newChangeWorkInProgress(repo));
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+    String email1 = "email1@example.com";
+    String email2 = "email2@example.com";
+
+    ReviewInput in =
+        ReviewInput.noScore()
+            .reviewer(user1.toString())
+            .reviewer(user2.toString(), ReviewerState.CC, false)
+            .reviewer(email1)
+            .reviewer(email2, ReviewerState.CC, false);
+    gApi.changes().id(change1.getId().get()).revision("current").review(in);
+
+    List<ChangeInfo> changeInfos =
+        assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
+    assertThat(changeInfos).isNotEmpty();
+
+    Map<ReviewerState, Collection<AccountInfo>> pendingReviewers =
+        changeInfos.get(0).pendingReviewers;
+    assertThat(pendingReviewers).isNotNull();
+
+    assertReviewers(
+        pendingReviewers.get(ReviewerState.REVIEWER), userId.toString(), user1.toString(), email1);
+    assertReviewers(pendingReviewers.get(ReviewerState.CC), user2.toString(), email2);
+    assertReviewers(pendingReviewers.get(ReviewerState.REMOVED));
+
+    // Pending reviewers may also be presented in the REMOVED state. Toggle the
+    // change to ready and then back to WIP and remove reviewers to produce.
+    assertThat(pendingReviewers.get(ReviewerState.REMOVED)).isNull();
+    gApi.changes().id(change1.getId().get()).setReadyForReview();
+    gApi.changes().id(change1.getId().get()).setWorkInProgress();
+    gApi.changes().id(change1.getId().get()).reviewer(user1.toString()).remove();
+    gApi.changes().id(change1.getId().get()).reviewer(user2.toString()).remove();
+    gApi.changes().id(change1.getId().get()).reviewer(email1).remove();
+    gApi.changes().id(change1.getId().get()).reviewer(email2).remove();
+
+    changeInfos = assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
+    assertThat(changeInfos).isNotEmpty();
+
+    pendingReviewers = changeInfos.get(0).pendingReviewers;
+    assertThat(pendingReviewers).isNotNull();
+    assertReviewers(pendingReviewers.get(ReviewerState.REVIEWER));
+    assertReviewers(pendingReviewers.get(ReviewerState.CC));
+    assertReviewers(
+        pendingReviewers.get(ReviewerState.REMOVED),
+        user1.toString(),
+        user2.toString(),
+        email1,
+        email2);
   }
 
   @Test

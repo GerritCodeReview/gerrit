@@ -398,6 +398,43 @@ limitations under the License.
       });
     });
 
+    suite('move change', () => {
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        sandbox.stub(window, 'alert');
+      });
+
+      test('works', () => {
+        element._handleMoveTap();
+        const action = {
+          __key: 'move',
+          __type: 'change',
+          __primary: false,
+          enabled: true,
+          label: 'Move Change',
+          method: 'POST',
+          title: 'Move change to a different branch',
+        };
+
+        element._handleMoveConfirm();
+        assert.equal(fireActionStub.callCount, 0);
+
+        element.$.confirmMove.branch = 'master';
+        element._handleMoveConfirm();
+        assert.equal(fireActionStub.callCount, 1);
+      });
+
+      test('branch name cleared when re-open move', () => {
+        const emptyBranchName = '';
+        element.$.confirmMove.branch = 'master';
+
+        element._handleMoveTap();
+        assert.equal(element.$.confirmMove.branch, emptyBranchName);
+      });
+    });
+
     test('custom actions', done => {
       // Add a button with the same key as a server-based one to ensure
       // collisions are taken care of.

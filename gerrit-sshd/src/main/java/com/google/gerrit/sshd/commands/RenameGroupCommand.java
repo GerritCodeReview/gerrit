@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -52,7 +51,7 @@ public class RenameGroupCommand extends SshCommand {
       PutName.Input input = new PutName.Input();
       input.name = newGroupName;
       putName.apply(rsrc, input);
-    } catch (RestApiException | OrmException | IOException | NoSuchGroupException e) {
+    } catch (RestApiException | OrmException | IOException e) {
       throw die(e);
     }
   }

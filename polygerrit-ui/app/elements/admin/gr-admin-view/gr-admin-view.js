@@ -31,7 +31,7 @@
     capability: 'viewPlugins',
     section: 'Plugins',
     url: '/admin/plugins',
-    view: 'gr-admin-plugin-list',
+    view: 'gr-plugin-list',
   }];
 
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
@@ -133,7 +133,7 @@
           params.adminView === 'gr-admin-project-list');
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
-      this.set('_showPluginList', params.adminView === 'gr-admin-plugin-list');
+      this.set('_showPluginList', params.adminView === 'gr-plugin-list');
       if (params.project !== this._project) {
         this._project = params.project || '';
         // Reloads the admin menu.

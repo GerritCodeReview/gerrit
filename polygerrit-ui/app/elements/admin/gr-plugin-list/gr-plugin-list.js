@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-plugin-list',
+    is: 'gr-plugin-list',
 
     properties: {
       _plugins: Array,

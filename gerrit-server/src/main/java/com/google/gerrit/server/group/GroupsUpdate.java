@@ -93,6 +93,11 @@ public class GroupsUpdate {
     addGroupMembers(db, group, ImmutableSet.of(accountId));
   }
 
+  public void addGroupMember(ReviewDb db, AccountGroup.Id groupId, Account.Id accountId)
+      throws OrmException, IOException {
+    addGroupMembers(db, groupId, ImmutableSet.of(accountId));
+  }
+
   public void addGroupMembers(ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> accountIds)
       throws OrmException, IOException {
     Optional<AccountGroup> foundGroup = groups.get(db, groupId);

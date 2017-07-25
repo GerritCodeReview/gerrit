@@ -70,6 +70,30 @@
       "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "622b6dde_5d077758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-25T17:58:57Z",
+      "side": 1,
+      "message": "\u003e I wonder if we should take into account tab complete *without* multi- perhaps that should work like enter\n\nI really like that. I can file a bug to do that and take ownership -- I\u0027d rather it doesn\u0027t block this change, because it is *technically* out of scope of the OP, and ranks pretty low in priority compared to other things.\n\n\u003e I think this approach is ok for the time being\n\nI definitely agree it isn\u0027t perfect, but it\u0027s also the most similar to what users are already used to.\nMoreover, tab is the only mechanism that exists right now to construct a multi-term query without committing it at every step.",
+      "parentUuid": "75175d77_1d7e86bb",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

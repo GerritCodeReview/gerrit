@@ -138,6 +138,8 @@ public class PostReview
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
+  public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
+
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
@@ -1326,6 +1328,10 @@ public class PostReview
       }
       if (!msg.isEmpty()) {
         buf.append("\n\n").append(msg);
+      }
+      // TODO(logan): Remove msg.contains check once PolyGerrit workaround is rolled back.
+      if (in.ready && !msg.contains(START_REVIEW_MESSAGE)) {
+        buf.append("\n\n" + START_REVIEW_MESSAGE);
       }
       if (buf.length() == 0) {
         return false;

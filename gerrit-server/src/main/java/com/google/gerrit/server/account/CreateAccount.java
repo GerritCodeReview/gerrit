@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
@@ -33,7 +32,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
@@ -42,6 +40,8 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -51,7 +51,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +64,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
   private final ReviewDb db;
   private final Sequences seq;
-  private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
@@ -74,9 +72,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
-  private final AuditService auditService;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
+  private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
   private final String username;
 
@@ -93,14 +91,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      AuditService auditService,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
     this.seq = seq;
-    this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
@@ -109,9 +106,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
-    this.auditService = auditService;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.groupsUpdate = groupsUpdate;
     this.validator = validator;
     this.username = username;
   }
@@ -189,10 +186,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
             });
 
     for (AccountGroup.Id groupId : groups) {
-      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
-      auditService.dispatchAddAccountsToGroup(
-          currentUser.get().getAccountId(), Collections.singleton(m));
-      db.accountGroupMembers().insert(Collections.singleton(m));
+      groupsUpdate.get().addGroupMember(db, groupId, id);
     }
 
     if (input.sshKey != null) {

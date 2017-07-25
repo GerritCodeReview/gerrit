@@ -207,6 +207,7 @@
       'x': '_handleXKey',
       'z': '_handleZKey',
       ',': '_handleCommaKey',
+      'ctrl+enter meta+enter': '_handleReplySent',
     },
 
     attached() {

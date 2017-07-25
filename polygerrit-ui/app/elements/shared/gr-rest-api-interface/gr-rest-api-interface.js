@@ -22,6 +22,9 @@
   const MAX_PROJECT_RESULTS = 25;
   const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   const PARENT_PATCH_NUM = 'PARENT';
+  const CHECK_SIGN_IN_DEBOUNCE_MS = 3 * 1000;
+  const CHECK_SIGN_IN_DEBOUNCER_NAME = 'checkCredentials';
+  const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
   const Requests = {
     SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -101,12 +104,21 @@
         }
         return response;
       }).catch(err => {
+        const isLoggedIn = !!this._cache['/accounts/self/detail'];
+        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
+          if (!this.isDebouncerActive(CHECK_SIGN_IN_DEBOUNCER_NAME)) {
+            this.checkCredentials();
+          }
+          this.debounce(CHECK_SIGN_IN_DEBOUNCER_NAME, this.checkCredentials,
+              CHECK_SIGN_IN_DEBOUNCE_MS);
+          return;
+        }
         if (opt_errFn) {
           opt_errFn.call(null, null, err);
-          throw err;
         } else {
-          this._checkAuthRedirect();
+          this.fire('network-error', {error: err});
         }
+        throw err;
       });
     },
 
@@ -137,26 +149,6 @@
             }
             return response && this.getResponseObject(response);
           });
-    },
-
-    _checkAuthRedirect() {
-      const loggedIn = !!this._cache['/accounts/self/detail'];
-      if (!loggedIn) {
-        return Promise.resolve(false);
-      }
-      return this.fetchJSON('/accounts/self/detail', (response, error) => {
-        if (error) {
-          return;
-        }
-        if (response.type === 'opaqueredirect' &&
-            response.headers.has('x-login') &&
-            loggedIn) {
-          this._cache['/accounts/self/detail'] = null;
-          this.fire('auth-error');
-        } else {
-          this.fire('server-error', {response});
-        }
-      }, null, null, {redirect: 'manual'});
     },
 
     _urlWithParams(url, opt_params) {
@@ -413,7 +405,20 @@
 
     checkCredentials() {
       // Skip the REST response cache.
-      return this.fetchJSON('/accounts/self/detail');
+      return this._fetchRawJSON('/accounts/self/detail').then(response => {
+        if (!response) { return; }
+        if (response.status === 403) {
+          this.fire('auth-error');
+          this._cache['/accounts/self/detail'] = null;
+        } else if (response.ok) {
+          return this.getResponseObject(response);
+        }
+      }).then(response => {
+        if (response) {
+          this._cache['/accounts/self/detail'] = response;
+        }
+        return response;
+      });
     },
 
     getPreferences() {

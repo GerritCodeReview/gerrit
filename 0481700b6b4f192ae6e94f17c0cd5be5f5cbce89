@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "78380fed_af152da6",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T14:36:19Z",
+      "side": 0,
+      "message": "I would prefer to fix private changes first.\n\nIt\u0027s better if we can migrate create new change directly from draft change to private change, instead of from draft change to public change and then to private change. The latter would cause more confusion I think.",
+      "parentUuid": "5d9853db_17073540",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8522c3a8_a2126732",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
         "patchSetId": 26
@@ -107,6 +131,30 @@
       "side": 0,
       "message": "You mentioned we need some tricks this morning. Now I understand, we want to disallow users to create new drafts. But we still want to be able to create drafts in some our tests to make sure existing drafts can still work before we migrate them.",
       "parentUuid": "8522c3a8_a2126732",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a42dc68c_9ae3a4da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-25T14:36:19Z",
+      "side": 0,
+      "message": "Exactly :)",
+      "parentUuid": "cd3a3066_b89d63b9",
       "range": {
         "startLine": 110,
         "startChar": 1,

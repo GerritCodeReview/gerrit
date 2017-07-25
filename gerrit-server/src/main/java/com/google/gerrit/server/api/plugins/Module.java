@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.server.api.plugins;
 
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.api.plugins.Plugins;
+import com.google.inject.AbstractModule;
 
-@Singleton
-public class ServerInformationImpl implements ServerInformation {
-  volatile State state = State.STARTUP;
-
+public class Module extends AbstractModule {
   @Override
-  public State getState() {
-    return state;
+  protected void configure() {
+    bind(Plugins.class).to(PluginsImpl.class);
   }
 }

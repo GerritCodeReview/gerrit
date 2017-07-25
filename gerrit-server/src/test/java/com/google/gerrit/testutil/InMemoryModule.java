@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
+import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
@@ -240,6 +242,8 @@ public class InMemoryModule extends FactoryModule {
           throw new ProvisionException("index type unsupported in tests: " + indexType);
       }
     }
+    bind(ServerInformationImpl.class);
+    bind(ServerInformation.class).to(ServerInformationImpl.class);
   }
 
   @Provides

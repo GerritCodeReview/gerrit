@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.acceptance.api.plugin;
 
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.inject.Singleton;
+import static com.google.common.truth.Truth.assertThat;
 
-@Singleton
-public class ServerInformationImpl implements ServerInformation {
-  volatile State state = State.STARTUP;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
+import org.junit.Test;
 
-  @Override
-  public State getState() {
-    return state;
+@NoHttpd
+public class PluginIT extends AbstractDaemonTest {
+  @Test
+  public void noPlugins() throws Exception {
+    assertThat(gApi.plugins().list().get()).isEmpty();
   }
 }

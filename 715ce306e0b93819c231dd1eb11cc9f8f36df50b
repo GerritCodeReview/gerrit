@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be62d1e0_20749b77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-25T18:27:07Z",
+      "side": 1,
+      "message": "Since PolyGerrit will be including this in the message it provides in the request, need to figure out a way to avoid repeating it twice.",
+      "revId": "715ce306e0b93819c231dd1eb11cc9f8f36df50b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

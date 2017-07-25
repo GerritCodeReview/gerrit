@@ -75,6 +75,11 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     return display(null);
   }
 
+  public SortedMap<String, PluginInfo> apply() {
+    format = OutputFormat.JSON;
+    return display(null);
+  }
+
   public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) {
     SortedMap<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));

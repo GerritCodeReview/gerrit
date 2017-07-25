@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1500908099 +0200\nnonce AB2F6yB8OGiR6MRh2jfmv9KjB8vmd7z2X5SVK1aAKR+aMMR4JnF68hz0FjZ9xg4cw7M2+W0oRi7T\n\n0000000000000000000000000000000000000000 28aff3a2c10fff40627a6d690aa5245899df6a2b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZdgpDAAoJEFG1/Zeg0O9RgXgH/iKHzNUCNMYvqkviOxahGWH6\ntNM2hKuoMopt3Wwtv0fr3BgJFtCHcxdYF/eNnyNCfmxt95p+VDcoARgOh284DraZ\noYgU04mekRKn2+ndTCBsZeL0YiNA44M4+Wf6VeUFiaukU4e5M/gSlPbfUakw3XJT\nBcLXv//bDHRRzFtCzgHDhW4AVfEzW2LsTdAZDMV5sec2xXof/dr0YSEiZe0WuH/0\nDqQmI8HsqOri5ku7al7pBwl7dl+t1l4tkMspWt9cGaHtx7OADtGzCEmE1CLJAwCK\n0FdApSwhaGBBLkJLK9oIVprLHdCqHCOurbTUZdhK9W0HKYXIPoWPQR9dtGj/BnY\u003d\n\u003dS2hY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1106dfb5_1660ecf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-25T07:28:04Z",
+      "side": 1,
+      "message": "nit: the commas are not necessary",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "28aff3a2c10fff40627a6d690aa5245899df6a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

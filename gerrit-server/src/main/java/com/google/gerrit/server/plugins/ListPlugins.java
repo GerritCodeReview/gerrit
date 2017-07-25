@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.PluginInfo;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
@@ -74,7 +74,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     return display(null);
   }
 
-  public JsonElement display(PrintWriter stdout) {
+  public Map<String, PluginInfo> display(@Nullable PrintWriter stdout) {
     Map<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(
@@ -107,9 +107,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
 
     if (stdout == null) {
-      return OutputFormat.JSON
-          .newGson()
-          .toJsonTree(output, new TypeToken<Map<String, Object>>() {}.getType());
+      return output;
     } else if (format.isJson()) {
       format
           .newGson()

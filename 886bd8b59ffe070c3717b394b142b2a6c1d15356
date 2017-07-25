@@ -46,6 +46,30 @@
       "revId": "886bd8b59ffe070c3717b394b142b2a6c1d15356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf337795_2824c475",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-25T16:03:24Z",
+      "side": 1,
+      "message": "This works.\n\nI don\u0027t personally like things like this going undocumented, because when someone inevitably comes around and refactors this in some way, they might think that this check for reference equality to undefined is too aggressive and just check for falsiness instead. It isn\u0027t immediately clear in this code why this check must be specifically for undefined -- IMO, situations like these are what comments are for.",
+      "parentUuid": "94ecfffb_810c812a",
+      "range": {
+        "startLine": 1258,
+        "startChar": 14,
+        "endLine": 1259,
+        "endChar": 51
+      },
+      "revId": "886bd8b59ffe070c3717b394b142b2a6c1d15356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

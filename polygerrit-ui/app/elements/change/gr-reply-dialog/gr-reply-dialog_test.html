@@ -844,5 +844,13 @@ limitations under the License.
         assert.isTrue(sendStub.calledWith(true, false));
       });
     });
+
+    test('dummy message to force email on start review', () => {
+      stubSaveReview(review => {
+        assert.equal(review.message, element.START_REVIEW_MESSAGE);
+        return {ready: true};
+      });
+      return element.send(true, true);
+    });
   });
 </script>

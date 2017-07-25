@@ -118,7 +118,7 @@
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
       }).then(changes => {
-        if (this._query && changes.length === 1) {
+        if (this._query && changes && changes.length === 1) {
           for (const query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {

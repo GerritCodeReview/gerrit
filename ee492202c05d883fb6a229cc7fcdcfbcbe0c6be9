@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36022e1d_d9c5724b",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-07-25T13:10:41Z",
+      "side": 1,
+      "message": "Do I have to check library compliance for the versions changed in this file, too?",
+      "revId": "ee492202c05d883fb6a229cc7fcdcfbcbe0c6be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

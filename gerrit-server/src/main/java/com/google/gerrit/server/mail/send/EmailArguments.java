@@ -31,6 +31,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -55,6 +56,7 @@ public class EmailArguments {
   final PermissionBackend permissionBackend;
   final GroupBackend groupBackend;
   final GroupIncludeCache groupIncludes;
+  final Groups groups;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
   final ApprovalsUtil approvalsUtil;
@@ -100,6 +102,7 @@ public class EmailArguments {
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       GerritPersonIdentProvider gerritPersonIdentProvider,
+      Groups groups,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
@@ -130,6 +133,7 @@ public class EmailArguments {
     this.anonymousUser = anonymousUser;
     this.anonymousCowardName = anonymousCowardName;
     this.gerritPersonIdent = gerritPersonIdentProvider.get();
+    this.groups = groups;
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;

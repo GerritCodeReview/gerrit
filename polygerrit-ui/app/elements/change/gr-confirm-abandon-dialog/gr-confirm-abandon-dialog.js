@@ -33,12 +33,28 @@
       message: String,
     },
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
+    keyBindings: {
+      'ctrl+enter meta+enter': '_handleEnterKey',
+    },
+
     resetFocus() {
       this.$.messageInput.textarea.focus();
     },
 
+    _handleEnterKey(e) {
+      this._confirm();
+    },
+
     _handleConfirmTap(e) {
       e.preventDefault();
+      this._confirm();
+    },
+
+    _confirm() {
       this.fire('confirm', {reason: this.message}, {bubbles: false});
     },
 

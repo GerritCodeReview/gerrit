@@ -270,7 +270,7 @@
         if (loggedIn) {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-admin-plugin-list',
+            adminView: 'gr-plugin-list',
           };
         } else {
           page.redirect('/login/' + encodeURIComponent(data.canonicalPath));

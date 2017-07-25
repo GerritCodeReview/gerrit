@@ -39,6 +39,8 @@ import org.kohsuke.args4j.Option;
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
+  private boolean all;
+
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format = OutputFormat.TEXT;
@@ -48,7 +50,9 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     aliases = {"-a"},
     usage = "List all plugins, including disabled plugins"
   )
-  private boolean all;
+  public void setAll(boolean all) {
+    this.all = all;
+  }
 
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {

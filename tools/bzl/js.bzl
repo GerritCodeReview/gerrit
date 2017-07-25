@@ -5,13 +5,13 @@ GERRIT = "GERRIT:"
 NPM_VERSIONS = {
     "bower": "1.8.0",
     "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
+    "vulcanize": "1.16.0",
 }
 
 NPM_SHA1S = {
     "bower": "55dbebef0ad9155382d9e9d3e497c1372345b44a",
     "crisper": "7183c58cea33632fb036c91cefd1b43e390d22a2",
-    "vulcanize": "679107f251c19ab7539529b1e3fdd40829e6fc63",
+    "vulcanize": "b0ce3b0044d194ad4908ae4f1a6c6110a6e4d5e6",
 }
 
 def _npm_tarball(name):

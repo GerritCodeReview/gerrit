@@ -16,6 +16,24 @@
       "revId": "ee492202c05d883fb6a229cc7fcdcfbcbe0c6be9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d8ae00_5aee7b03",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-25T13:12:49Z",
+      "side": 1,
+      "message": "Nope, this update was done in https://gerrit-review.googlesource.com/#/c/114871/ though iron-autogrow-textarea was not updated in that change and is updated in this change.",
+      "parentUuid": "36022e1d_d9c5724b",
+      "revId": "ee492202c05d883fb6a229cc7fcdcfbcbe0c6be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

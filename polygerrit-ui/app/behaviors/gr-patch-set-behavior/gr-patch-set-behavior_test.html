@@ -161,5 +161,17 @@ limitations under the License.
           .assertWip(5, false) // PS5 was marked ready for review
           .assertWip(6, true); // PS6 was uploaded with WIP option
     });
+
+    test('patchNumEquals', () => {
+      const equals = Gerrit.PatchSetBehavior.patchNumEquals;
+      assert.isFalse(equals('edit', 'PARENT'));
+      assert.isFalse(equals('edit', NaN));
+      assert.isFalse(equals(1, '2'));
+
+      assert.isTrue(equals(1, '1'));
+      assert.isTrue(equals(1, 1));
+      assert.isTrue(equals('edit', 'edit'));
+      assert.isTrue(equals('PARENT', 'PARENT'));
+    });
   });
 </script>

@@ -232,8 +232,8 @@
       }
       const encodeName = encodeURIComponent(project);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/branches/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/branches:delete`, encodeRef,
           opt_errFn, opt_ctx);
     },
 
@@ -243,8 +243,8 @@
       }
       const encodeName = encodeURIComponent(project);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/tags/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/tags:delete`, encodeRef,
           opt_errFn, opt_ctx);
     },
 

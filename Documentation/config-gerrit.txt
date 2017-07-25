@@ -2086,6 +2086,16 @@ By default false.
 +
 Path prefix for PolyGerrit's static resources if using a CDN.
 
+[[gerrit.polyGerritStaticVersion]]gerrit.polyGerritStaticVersion::
++
+This option will allow you to version the html imports.
++
+Benefits of doing this is it will invalidate the cache for everyone.
++
+You enter a number from 1 or higher.
++
+Defaults to not being set thus no version string.
+
 [[gerrit.ui]]gerrit.ui::
 +
 Default UI when the user does not request a different preference via argument

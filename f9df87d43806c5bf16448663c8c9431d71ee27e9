@@ -93,6 +93,30 @@
       "revId": "f9df87d43806c5bf16448663c8c9431d71ee27e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33221381_a114d7a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-25T22:59:36Z",
+      "side": 1,
+      "message": "Proper documentation for this is needed, I agree.\nI\u0027m trying to find right balance between short and long term goals, and so documentation gets delayed a bit.\nI\u0027m working on related changes for this part now, and will add docs with it.",
+      "parentUuid": "60c47c73_1f1a4767",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "f9df87d43806c5bf16448663c8c9431d71ee27e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

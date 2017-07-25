@@ -71,7 +71,7 @@
         value: true,
       },
       _filter: String,
-      _refName: String,
+      _refName: Object,
       _hasNewItemName: Boolean,
       _isEditing: Boolean,
       _revisedRef: String,
@@ -90,6 +90,10 @@
 
     _paramsChanged(params) {
       if (!params || !params.project) { return; }
+
+      this._refName = {
+        item: [],
+      };
 
       this._project = params.project;
 
@@ -192,7 +196,24 @@
       }
     },
 
+    _handleTargetTap(e) {
+      let checkbox = Polymer.dom(e.target).querySelector('input');
+      if (checkbox) {
+        checkbox.click();
+      } else {
+        // The target is the checkbox itself.
+        checkbox = Polymer.dom(e).rootTarget;
+      }
+      const stripRef = this._stripRefs(checkbox.name, this.detailType);
+      if (checkbox.checked) {
+        this._refName.item.push(stripRef);
+      } else {
+        this._refName.item.splice(this._refName.item.indexOf(stripRef), 1);
+      }
+    },
+
     _handleDeleteItemConfirm() {
+      if (!this._refName || !this._refName.item.length) { return; }
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.deleteProjectBranches(this._project,
@@ -222,9 +243,6 @@
     },
 
     _handleDeleteItem(e) {
-      const name = this._stripRefs(e.model.get('item.ref'), this.detailType);
-      if (!name) { return; }
-      this._refName = name;
       this.$.overlay.open();
     },
 
@@ -246,6 +264,15 @@
 
     _handleCreateClicked() {
       this.$.createOverlay.open();
+    },
+
+    _deleteButtonCheckArrayLength(name) {
+
+      if (name.item.length) {
+        return true;
+      }
+
+      return false;
     },
   });
 })();

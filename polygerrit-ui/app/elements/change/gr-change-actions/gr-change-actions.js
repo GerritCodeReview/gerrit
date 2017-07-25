@@ -51,6 +51,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     IGNORE: 'ignore',
+    MOVE: 'move',
     MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
@@ -75,6 +76,7 @@
     abandon: 'Abandoning...',
     cherrypick: 'Cherry-Picking...',
     delete: 'Deleting...',
+    move: 'Moving..',
     publish: 'Publishing...',
     rebase: 'Rebasing...',
     restore: 'Restoring...',
@@ -215,6 +217,10 @@
             {
               type: ActionType.REVISION,
               key: RevisionActions.CHERRYPICK,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.MOVE,
             },
             {
               type: ActionType.REVISION,
@@ -624,6 +630,9 @@
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
+        case ChangeActions.MOVE:
+          this._handleMoveTap();
+          break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -712,6 +721,25 @@
           true,
           {
             destination: el.branch,
+            message: el.message,
+          }
+      );
+    },
+
+    _handleMoveConfirm() {
+      const el = this.$.confirmMove;
+      if (!el.branch) {
+        this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = true;
+      this._fireAction(
+          '/move',
+          this.actions.move,
+          false,
+          {
+            destination_branch: el.branch,
             message: el.message,
           }
       );
@@ -868,6 +896,11 @@
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
       this._showActionDialog(this.$.confirmCherrypick);
+    },
+
+    _handleMoveTap() {
+      this.$.confirmMove.branch = '';
+      this._showActionDialog(this.$.confirmMove);
     },
 
     _handleDownloadTap() {

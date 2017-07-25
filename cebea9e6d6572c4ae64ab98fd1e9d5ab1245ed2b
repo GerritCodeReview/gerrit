@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68fc6644_69a94645",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-25T00:04:05Z",
+      "side": 1,
+      "message": "I wonder, should this be...\n\n Promise.reject(\u0027non-latest\u0027);\n\n...? Depends on how it\u0027s used I supposed.",
+      "range": {
+        "startLine": 333,
+        "startChar": 23,
+        "endLine": 333,
+        "endChar": 30
+      },
+      "revId": "cebea9e6d6572c4ae64ab98fd1e9d5ab1245ed2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edac255c_1e5d3038",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-25T00:04:05Z",
+      "side": 1,
+      "message": "I believe you don\u0027t need to new this promise because of the inner one. You might do something like...\n\nreturn this.$.restAPI.startReview(\n    this.change._number, null, response \u003d\u003e {\n      // If we see a 409 [...]\n      if (response.status \u003d\u003d\u003d 409) {\n        return Promise.resolve(true);\n      }\n      this.fire(\u0027server-error\u0027, {response});\n      // Resolve to success [...]\n      return Promise.resolve(true);\n    });",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 435,
+        "endChar": 17
+      },
+      "revId": "cebea9e6d6572c4ae64ab98fd1e9d5ab1245ed2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

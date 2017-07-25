@@ -46,6 +46,30 @@
       "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75175d77_1d7e86bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-25T01:54:51Z",
+      "side": 1,
+      "message": "I vaguely remember the chat. I myself have really been missing tab-completion, and continually try to do it!\n\nI understand what you\u0027re saying in the case of our search bar where we have multi and tab-complete. I wonder if we should take into account tab complete *without* multi- perhaps that should work like enter? \n\nIn the case of multi * tabs, I\u0027m a little torn. I see your point about the search bar and feeling weird if they press enter and doesn\u0027t search, but just a counter-example is gmail and adding contacts- tabbing/entering on the autocomplete do the same thing. I do think that the expectation is different though, with the primary action being \"send\". I think this approach is ok for the time being.",
+      "parentUuid": "835f1f8c_cf1f13c2",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321687d7_16c90163",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-25T01:25:07Z",
+      "side": 1,
+      "message": "Is this really based on the whether enter/tab are used, and not whether the autocomplete allows multi? Should enter behave the same way?",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

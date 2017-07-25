@@ -45,13 +45,8 @@ def load_bower_archives():
   bower_archive(
     name = "iron-flex-layout",
     package = "iron-flex-layout",
-    version = "1.3.7",
-    sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
-  bower_archive(
-    name = "iron-form-element-behavior",
-    package = "iron-form-element-behavior",
-    version = "1.0.7",
-    sha1 = "7b5a79e02cc32f0918725dd26925d0df1e03ed12")
+    version = "2.0.0",
+    sha1 = "feae42cc5d2d948a50074f430cfb8ab28cb6dc9e")
   bower_archive(
     name = "iron-meta",
     package = "iron-meta",

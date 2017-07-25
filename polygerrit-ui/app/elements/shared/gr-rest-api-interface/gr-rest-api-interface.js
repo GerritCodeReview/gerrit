@@ -326,8 +326,8 @@
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/branches/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/branches:delete`, {branches: encodeRef},
           opt_errFn, opt_ctx);
     },
 
@@ -343,8 +343,8 @@
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/tags/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/tags:delete`, {tags: encodeRef},
           opt_errFn, opt_ctx);
     },
 

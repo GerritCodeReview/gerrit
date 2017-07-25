@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -50,10 +51,9 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    GroupDetail detail = new GroupDetail();
-    detail.setMembers(loadMembers());
-    detail.setIncludes(loadIncludes());
-    return detail;
+    List<AccountGroupMember> members = loadMembers();
+    List<AccountGroupById> includes = loadIncludes();
+    return new GroupDetail(members, includes);
   }
 
   private List<AccountGroupMember> loadMembers() throws OrmException {
@@ -67,14 +67,14 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   }
 
   private List<AccountGroupById> loadIncludes() throws OrmException {
-    List<AccountGroupById> groups = new ArrayList<>();
-
-    for (AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
-      if (control.canSeeGroup()) {
-        groups.add(m);
-      }
+    if (!control.canSeeGroup()) {
+      return ImmutableList.of();
     }
 
+    List<AccountGroupById> groups = new ArrayList<>();
+    for (AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
+      groups.add(m);
+    }
     return groups;
   }
 }

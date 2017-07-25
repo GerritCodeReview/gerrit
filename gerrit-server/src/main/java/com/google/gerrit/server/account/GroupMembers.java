@@ -104,17 +104,13 @@ public class GroupMembers {
     final GroupDetail groupDetail = groupDetailFactory.create(group.getId()).call();
 
     final Set<Account> members = new HashSet<>();
-    if (groupDetail.members != null) {
-      for (AccountGroupMember member : groupDetail.members) {
-        members.add(accountCache.get(member.getAccountId()).getAccount());
-      }
+    for (AccountGroupMember member : groupDetail.getMembers()) {
+      members.add(accountCache.get(member.getAccountId()).getAccount());
     }
-    if (groupDetail.includes != null) {
-      for (AccountGroupById groupInclude : groupDetail.includes) {
-        final AccountGroup includedGroup = groupCache.get(groupInclude.getIncludeUUID());
-        if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
-          members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
-        }
+    for (AccountGroupById groupInclude : groupDetail.getIncludes()) {
+      final AccountGroup includedGroup = groupCache.get(groupInclude.getIncludeUUID());
+      if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
+        members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
       }
     }
     return members;

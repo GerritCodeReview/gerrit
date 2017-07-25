@@ -28,4 +28,5 @@ public class ServerInfo {
   public Map<String, String> urlAliases;
   public UserConfigInfo user;
   public ReceiveInfo receive;
+  public String defaultTheme;
 }

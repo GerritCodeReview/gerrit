@@ -22,6 +22,30 @@
       "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835f1f8c_cf1f13c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-25T01:34:15Z",
+      "side": 1,
+      "message": "I think people would be furious if enter only completed and didn\u0027t search immediately in the search bar. My reference point is the Chrome omnibar and google.com. Tab-to-complete is actually not a thing generally in web UIs -- we\u0027ve had at least one discussion in our Hangouts chat about this very point. It\u0027s been supported in our search bar for a while now, though, so I\u0027d feel a bit weird about removing it.\n\nTo be fair, both the \u0027multi\u0027 and the \u0027tab-complete\u0027 properties exist right now only for the search bar, but I could foresee cases in which they would be useful separately.\n\nIf you think I should rethink this change, I\u0027d be down to, but as of right now this seems to make the most sense.",
+      "parentUuid": "321687d7_16c90163",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "62bae3e056a2f8cd5646a740abc7ccd5a6e2f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

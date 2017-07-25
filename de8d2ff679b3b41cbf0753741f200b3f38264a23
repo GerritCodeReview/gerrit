@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b1e80f0a_722cdcb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-25T22:03:40Z",
+      "side": 1,
+      "message": "The idea is that calling the function may or may not perform a `replaceState`. If the interface function were named for what it does, then why include it in the interface? Why not just do the thing?\n\nMore abstractly, this will be called at opportunities to upgrade the URL to a canonical form. The implementer may decide whether to take advantage of the opportunity -- possibly by `replaceState`ing.\n\nIf this seems to you like a premature generalization, that\u0027s fine with me. Naming methods is hard.",
+      "parentUuid": "09c762e1_f7099555",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "de8d2ff679b3b41cbf0753741f200b3f38264a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6e98fa_ed6bb9d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -24,7 +23,6 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
@@ -32,6 +30,8 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -42,7 +42,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -68,10 +67,10 @@ public class AccountManager {
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
-  private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
   AccountManager(
@@ -86,10 +85,10 @@ public class AccountManager {
       IdentifiedUser.GenericFactory userFactory,
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
-      AuditService auditService,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory) {
+      ExternalIdsUpdate.Server externalIdsUpdateFactory,
+      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.schema = schema;
     this.sequences = sequences;
     this.accounts = accounts;
@@ -102,10 +101,10 @@ public class AccountManager {
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck =
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
-    this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   /** @return user identified by this external identity string */
@@ -247,6 +246,8 @@ public class AccountManager {
       awaitsFirstAccountCheck.set(isFirstAccount);
     }
 
+    IdentifiedUser user = userFactory.create(newId);
+
     if (isFirstAccount) {
       // This is the first user account on our site. Assume this user
       // is going to be the site's administrator and just make them that
@@ -260,17 +261,15 @@ public class AccountManager {
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
-      AccountGroup g = db.accountGroups().byUUID(uuid).iterator().next();
-      AccountGroup.Id adminId = g.getId();
-      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
-      auditService.dispatchAddAccountsToGroup(newId, Collections.singleton(m));
-      db.accountGroupMembers().insert(Collections.singleton(m));
+      GroupsUpdate groupsUpdate = groupsUpdateProvider.get();
+      // The user initiated this request by logging in. -> Attribute all modifications to that user.
+      groupsUpdate.setCurrentUser(user);
+      groupsUpdate.addGroupMember(db, uuid, newId);
     }
 
     if (who.getUserName() != null) {
       // Only set if the name hasn't been used yet, but was given to us.
       //
-      IdentifiedUser user = userFactory.create(newId);
       try {
         changeUserNameFactory.create(user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {

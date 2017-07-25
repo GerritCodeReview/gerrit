@@ -20,7 +20,6 @@
  * @param commentFiles
  * @param commentCount
  * @param email
- * @param fromName
  * @param labels
  * @param patchSet
  * @param patchSetCommentBlocks
@@ -73,9 +72,30 @@
     background-color: #ddd;
   {/let}
 
-  <p>
-    {$fromName} <strong>posted comments</strong> on this change.
-  </p>
+  {if $patchSetCommentBlocks}
+    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
+  {/if}
+
+  {if length($labels) > 0}
+    <p>
+      Patch set {$patchSet.patchSetId}:
+      {foreach $label in $labels}
+        {if $label.value > 0}
+          <span style="{$positiveVoteStyle}">
+            {$label.label}{sp}+{$label.value}
+          </span>
+        {elseif $label.value < 0}
+          <span style="{$negativeVoteStyle}">
+            {$label.label}{sp}{$label.value}
+          </span>
+        {else}
+          <span style="{$neutralVoteStyle}">
+            -{$label.label}
+          </span>
+        {/if}
+      {/foreach}
+    </p>
+  {/if}
 
   {if $email.changeUrl}
     <p>
@@ -83,33 +103,10 @@
     </p>
   {/if}
 
-  <p>
-    Patch set {$patchSet.patchSetId}:
-    {foreach $label in $labels}
-      {if $label.value > 0}
-        <span style="{$positiveVoteStyle}">
-          {$label.label}{sp}+{$label.value}
-        </span>
-      {elseif $label.value < 0}
-        <span style="{$negativeVoteStyle}">
-          {$label.label}{sp}{$label.value}
-        </span>
-      {else}
-        <span style="{$neutralVoteStyle}">
-          -{$label.label}
-        </span>
-      {/if}
-    {/foreach}
-  </p>
-
-  {if $patchSetCommentBlocks}
-    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
-  {/if}
-
   {if $commentCount == 1}
-    <p>(1 comment)</p>
+    <p>1 comment:</p>
   {elseif $commentCount > 1}
-    <p>({$commentCount} comments)</p>
+    <p>{$commentCount} comments:</p>
   {/if}
 
   <ul style="{$ulStyle}">

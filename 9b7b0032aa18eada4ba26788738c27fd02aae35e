@@ -46,6 +46,30 @@
       "revId": "9b7b0032aa18eada4ba26788738c27fd02aae35e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8b94288_3e4c6036",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T15:18:51Z",
+      "side": 1,
+      "message": "\u003e I am not comfortable with the idea of clearing -2 votes.\n\nThanks for your perspective :)\n\n\u003e In the past you discussed removing squashing by keeping track of the original vote and then restoring it when possible.\n\nGood point. Changcheng, can we make this change just squash votes on moving, rather than clearing them? It means we can\u0027t remove LabelNormalizer, but that\u0027s fine.",
+      "parentUuid": "0d6586ad_206df341",
+      "range": {
+        "startLine": 19,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "9b7b0032aa18eada4ba26788738c27fd02aae35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

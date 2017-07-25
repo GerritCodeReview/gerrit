@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5d9853db_17073540",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-25T14:28:06Z",
+      "side": 0,
+      "message": "IIUC, private changes will also send out \u0027RevisionCreatedEvent\u0027, plugins which are listening \u0027RevisionCreatedEvent\u0027 haven\u0027t considered about private changes. I feel they might not work for private changes. I guess there is no complain about this because private changes are not widely used yet. \n\nI agree it\u0027s better to create \u0027Private\u0027 change in \u0027Create Change\u0027 REST API. But we can work on this later since we need to consider more about how to make private changes work with stream events. For example, if even listeners filter out events from \u0027private changes\u0027 because they can\u0027t see those private changes. What should they do if they get an even about the change is public?\n\nI think currently we can create \u0027New\u0027 changes here so that we can continue removing drafts. How do you think?",
+      "parentUuid": "b24590b2_a1f0ecef",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8522c3a8_a2126732",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
         "patchSetId": 26
@@ -59,6 +83,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "Should this test be kept for now? We still have existing drafts that users can try to abandon.",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd3a3066_b89d63b9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-25T14:28:06Z",
+      "side": 0,
+      "message": "You mentioned we need some tricks this morning. Now I understand, we want to disallow users to create new drafts. But we still want to be able to create drafts in some our tests to make sure existing drafts can still work before we migrate them.",
+      "parentUuid": "8522c3a8_a2126732",
       "range": {
         "startLine": 110,
         "startChar": 1,

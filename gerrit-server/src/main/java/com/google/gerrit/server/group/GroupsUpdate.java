@@ -69,6 +69,18 @@ public class GroupsUpdate {
     this.currentUser = currentUser;
   }
 
+  public void addGroupMember(ReviewDb db, AccountGroup.NameKey groupName, Account.Id accountId)
+      throws OrmException, IOException {
+    Optional<AccountGroup> foundGroup = groups.get(db, groupName);
+    if (!foundGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return;
+    }
+
+    AccountGroup group = foundGroup.get();
+    addGroupMembers(db, group, ImmutableSet.of(accountId));
+  }
+
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, IOException {
     Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);

@@ -14,26 +14,26 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -41,7 +41,6 @@ import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class AccountCreator {
   private final Sequences sequences;
   private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
-  private final GroupCache groupCache;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
@@ -67,7 +66,7 @@ public class AccountCreator {
       Sequences sequences,
       AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
-      GroupCache groupCache,
+      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
@@ -78,7 +77,7 @@ public class AccountCreator {
     this.sequences = sequences;
     this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
-    this.groupCache = groupCache;
+    this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
@@ -125,11 +124,7 @@ public class AccountCreator {
       if (groups != null) {
         for (String n : groups) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          AccountGroup g = groupCache.get(k);
-          checkArgument(g != null, "group not found: %s", n);
-          AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
-          db.accountGroupMembers().insert(Collections.singleton(m));
-          accountCache.evict(id);
+          groupsUpdateProvider.get().addGroupMember(db, k, id);
         }
       }
 

@@ -34,20 +34,15 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
-  private final GroupCache groupCache;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
 
   @Inject
   GroupDetailFactory(
-      ReviewDb db,
-      GroupControl.Factory groupControl,
-      GroupCache groupCache,
-      @Assisted AccountGroup.Id groupId) {
+      ReviewDb db, GroupControl.Factory groupControl, @Assisted AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
-    this.groupCache = groupCache;
 
     this.groupId = groupId;
   }
@@ -55,9 +50,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    AccountGroup group = groupCache.get(groupId);
     GroupDetail detail = new GroupDetail();
-    detail.setGroup(group);
     detail.setMembers(loadMembers());
     detail.setIncludes(loadIncludes());
     return detail;

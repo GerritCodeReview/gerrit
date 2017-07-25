@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4188dccb_f279b09a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-theme-api/gr-custom-plugin-header.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-25T01:30:04Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this\n1) be really small,\n2) disrupt the natural aspect ratio of the image that\u0027s being added?",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "f9df87d43806c5bf16448663c8c9431d71ee27e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

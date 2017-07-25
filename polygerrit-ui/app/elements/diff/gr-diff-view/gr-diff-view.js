@@ -461,8 +461,10 @@
       };
       this._path = value.path;
 
-      this.fire('title-change',
-          {title: this._computeTruncatedFileDisplayName(this._path)});
+      this.async(() => {
+        this.fire('title-change',
+            {title: this._computeTruncatedFileDisplayName(this._path)});
+      });
 
       // When navigating away from the page, there is a possibility that the
       // patch number is no longer a part of the URL (say when navigating to

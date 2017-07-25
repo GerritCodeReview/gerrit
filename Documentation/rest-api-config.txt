@@ -1327,7 +1327,7 @@ an access check.
 200 means success, 403 means denied and 404 means the project does not
 exist.
 |`message`|optional|A clarifying message if `status` is not 200.
-=========================================
+|=========================================
 
 [[access-check-input]]
 === AccessCheckInput
@@ -1340,7 +1340,7 @@ The `AccessCheckInput` entity is a tuple of (account, project)  or
 |`account`||The account for which to check access
 |`project`||The project for which to check access
 |`ref`|optional|The refname for which to check access
-=========================================
+|=========================================
 
 
 [[auth-info]]

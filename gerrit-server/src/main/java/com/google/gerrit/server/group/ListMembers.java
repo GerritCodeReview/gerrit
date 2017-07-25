@@ -102,20 +102,16 @@ public class ListMembers implements RestReadView<GroupResource> {
       return Collections.emptyMap();
     }
 
-    if (groupDetail.members != null) {
-      for (AccountGroupMember m : groupDetail.members) {
-        if (!members.containsKey(m.getAccountId())) {
-          members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
-        }
+    for (AccountGroupMember m : groupDetail.getMembers()) {
+      if (!members.containsKey(m.getAccountId())) {
+        members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
       }
     }
 
     if (recursive) {
-      if (groupDetail.includes != null) {
-        for (AccountGroupById includedGroup : groupDetail.includes) {
-          if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
-            members.putAll(getMembers(includedGroup.getIncludeUUID(), seenGroups));
-          }
+      for (AccountGroupById includedGroup : groupDetail.getIncludes()) {
+        if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
+          members.putAll(getMembers(includedGroup.getIncludeUUID(), seenGroups));
         }
       }
     }

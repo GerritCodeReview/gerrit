@@ -14,21 +14,26 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import java.util.List;
 
 public class GroupDetail {
-  public List<AccountGroupMember> members;
-  public List<AccountGroupById> includes;
+  private List<AccountGroupMember> members;
+  private List<AccountGroupById> includes;
 
-  public GroupDetail() {}
-
-  public void setMembers(List<AccountGroupMember> m) {
-    members = m;
+  public GroupDetail(List<AccountGroupMember> members, List<AccountGroupById> includes) {
+    this.members = checkNotNull(members);
+    this.includes = checkNotNull(includes);
   }
 
-  public void setIncludes(List<AccountGroupById> i) {
-    includes = i;
+  public List<AccountGroupMember> getMembers() {
+    return members;
+  }
+
+  public List<AccountGroupById> getIncludes() {
+    return includes;
   }
 }

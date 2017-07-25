@@ -232,6 +232,9 @@ public class RefControlTest {
           public void remove(Project p) {}
 
           @Override
+          public void remove(Project.NameKey p) {}
+
+          @Override
           public Iterable<Project.NameKey> all() {
             return Collections.emptySet();
           }

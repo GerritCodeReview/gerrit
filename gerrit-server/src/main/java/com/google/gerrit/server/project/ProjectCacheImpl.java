@@ -167,10 +167,15 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public void remove(final Project p) {
+    remove(p.getNameKey());
+  }
+
+  @Override
+  public void remove(Project.NameKey p) {
     listLock.lock();
     try {
       SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.remove(p.getNameKey());
+      n.remove(p);
       list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);

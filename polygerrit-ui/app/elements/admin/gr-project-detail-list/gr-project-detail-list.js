@@ -67,7 +67,7 @@
         value: true,
       },
       _filter: String,
-      _refName: String,
+      _refName: Object,
     },
 
     behaviors: [
@@ -85,6 +85,10 @@
 
     _paramsChanged(params) {
       if (!params || !params.project) { return; }
+
+      this._refName = {
+        item: [],
+      };
 
       this._project = params.project;
       this.detailType = params.detailType;
@@ -188,11 +192,23 @@
       }
     },
 
+    _handleTargetTap(e) {
+      let checkbox = Polymer.dom(e.target).querySelector('input');
+      if (checkbox) {
+        checkbox.click();
+      } else {
+        // The target is the checkbox itself.
+        checkbox = Polymer.dom(e).rootTarget;
+      }
+      const stripRef = this._stripRefs(checkbox.name, this.detailType);
+      this._refName.item.push(stripRef);
+    },
+
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.deleteProjectBranches(this._project,
-            this._refName)
+            this._refName.item)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
@@ -202,7 +218,7 @@
             });
       } else if (this.detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.deleteProjectTags(this._project,
-            this._refName)
+            this._refName.item)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
@@ -218,9 +234,6 @@
     },
 
     _handleDeleteItem(e) {
-      const name = this._stripRefs(e.model.get('item.ref'), this.detailType);
-      if (!name) { return; }
-      this._refName = name;
       this.$.overlay.open();
     },
 

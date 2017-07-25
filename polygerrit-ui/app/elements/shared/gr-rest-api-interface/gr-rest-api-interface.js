@@ -231,9 +231,8 @@
         return '';
       }
       const encodeName = encodeURIComponent(project);
-      const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/branches/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/branches:delete`, {branches: ref},
           opt_errFn, opt_ctx);
     },
 
@@ -242,9 +241,8 @@
         return '';
       }
       const encodeName = encodeURIComponent(project);
-      const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/tags/${encodeRef}`, '',
+      return this.send('POST',
+          `/projects/${encodeName}/tags:delete`, {tags: ref},
           opt_errFn, opt_ctx);
     },
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin.Input;
-import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +59,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     try {
       try (InputStream in = openStream(input)) {
         String pluginName = loader.installPluginFromStream(name, in);
-        ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(pluginName));
+        PluginInfo info = ListPlugins.toPluginInfo(loader.get(pluginName));
         return created ? Response.created(info) : Response.ok(info);
       }
     } catch (PluginInstallException e) {

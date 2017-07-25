@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -88,7 +89,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
 
     for (Plugin p : plugins) {
-      PluginInfo info = new PluginInfo(p);
+      PluginInfo info = toPluginInfo(p);
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
@@ -115,20 +116,17 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     return null;
   }
 
-  static class PluginInfo {
+  public static PluginInfo toPluginInfo(Plugin p) {
     String id;
     String version;
     String indexUrl;
     Boolean disabled;
 
-    PluginInfo(Plugin p) {
-      id = Url.encode(p.getName());
-      version = p.getVersion();
-      disabled = p.isDisabled() ? true : null;
+    id = Url.encode(p.getName());
+    version = p.getVersion();
+    disabled = p.isDisabled() ? true : null;
+    indexUrl = p.getSrcFile() != null ? String.format("plugins/%s/", p.getName()) : null;
 
-      if (p.getSrcFile() != null) {
-        indexUrl = String.format("plugins/%s/", p.getName());
-      }
-    }
+    return new PluginInfo(id, version, indexUrl, disabled);
   }
 }

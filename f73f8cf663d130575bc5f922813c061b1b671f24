@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1194d6b_e2e09404",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-25T14:58:31Z",
+      "side": 0,
+      "message": "Removing the retroactive vote squashing feature is primarily about permissions changes, i.e. applyRightFloor. Arguably, we would want to keep this class, and in particular continue calling applyTypeFloor to squash labels based on the label config.\n\nOn the other hand, removing this entire class is tempting, so I would be open to an argument that we should eliminate applyTypeFloor as well. If you think that\u0027s the way we should go, please make that argument in the commit message.\n\nIf we do remove applyTypeFloor, I think we need to have some tests that the submit rules work properly when the label config changes, something like:\n\n* Vote Code-Review+2 (assuming MaxWithBlock), check change is submittable.\n* Change config so +1 is the maximum value of Code-Review.\n* Ensure the change is submittable.",
+      "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

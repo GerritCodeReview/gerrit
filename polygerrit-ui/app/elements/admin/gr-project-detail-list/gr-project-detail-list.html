@@ -53,6 +53,9 @@ limitations under the License.
         display: flex;
         line-height: 1em;
       }
+      .deleteBranchesCheckBox:not(.show) {
+        display: none;
+      }
       .deleteButton:not(.show) {
         display: none;
       }
@@ -123,23 +126,28 @@ limitations under the License.
                   </a>
                 </template>
               </td>
-              <td class="delete">
-                <gr-button
-                    class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
-                    on-tap="_handleDeleteItem">
-                  Delete
-                </gr-button>
+              <td class="delete" on-tap="_handleTargetTap">
+                <input
+                    class$="deleteItemCheckBox [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
+                    id="deleteItemCheckBox"
+                    type="checkbox"
+                    name="[[item.ref]]">
               </td>
             </tr>
           </template>
         </tbody>
       </table>
+      <gr-button
+          on-tap="_handleDeleteItem"
+          class$="deleteButton [[_computeHideDeleteClass(_isOwner)]]">
+        Delete
+      </gr-button>
       <gr-overlay id="overlay" with-backdrop>
         <gr-confirm-delete-item-dialog
             class="confirmDialog"
             on-confirm="_handleDeleteItemConfirm"
             on-cancel="_handleConfirmDialogCancel"
-            item="[[_refName]]"
+            item-ref="[[_refName]]"
             item-type="[[detailType]]"></gr-confirm-delete-item-dialog>
       </gr-overlay>
     </gr-list-view>

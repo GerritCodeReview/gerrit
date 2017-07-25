@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -178,9 +177,7 @@ public class ProjectWatch {
         continue;
       }
 
-      for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
-        matching.accounts.add(m.getAccountId());
-      }
+      args.groups.getMembers(db, ig.getId()).forEach(matching.accounts::add);
       for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
         if (seen.add(m)) {
           q.add(m);

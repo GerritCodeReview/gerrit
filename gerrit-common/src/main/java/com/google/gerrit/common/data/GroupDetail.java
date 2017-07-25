@@ -16,24 +16,24 @@ package com.google.gerrit.common.data;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import java.util.List;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupDetail {
-  private List<AccountGroupMember> members;
-  private List<AccountGroupById> includes;
+  private ImmutableSet<Account.Id> members;
+  private ImmutableSet<AccountGroup.UUID> includes;
 
-  public GroupDetail(List<AccountGroupMember> members, List<AccountGroupById> includes) {
+  public GroupDetail(ImmutableSet<Account.Id> members, ImmutableSet<AccountGroup.UUID> includes) {
     this.members = checkNotNull(members);
     this.includes = checkNotNull(includes);
   }
 
-  public List<AccountGroupMember> getMembers() {
+  public ImmutableSet<Account.Id> getMembers() {
     return members;
   }
 
-  public List<AccountGroupById> getIncludes() {
+  public ImmutableSet<AccountGroup.UUID> getIncludes() {
     return includes;
   }
 }

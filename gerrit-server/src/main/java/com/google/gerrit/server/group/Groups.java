@@ -16,16 +16,20 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Singleton
 public class Groups {
@@ -64,5 +68,16 @@ public class Groups {
       throws OrmException {
     AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, group.getId());
     return db.accountGroupMembers().get(key) != null;
+  }
+
+  public Stream<Account.Id> getMembers(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
+    ResultSet<AccountGroupMember> accountGroupMembers = db.accountGroupMembers().byGroup(groupId);
+    return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
+  }
+
+  public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.Id groupId)
+      throws OrmException {
+    ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
+    return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
   }
 }

@@ -369,6 +369,13 @@
 
       this.disabled = true;
 
+      if (obj.ready && !obj.message) {
+        // TODO(logan): The server currently doesn't send email in this case.
+        // Insert a dummy message to force an email to be sent. Remove this
+        // once the fix for issue 6841 is stable on googlesource.com.
+        obj.message = 'This change is ready for review.';
+      }
+
       const errFn = this._handle400Error.bind(this);
       return this._saveReview(obj, errFn).then(response => {
         if (!response || !response.ok) {

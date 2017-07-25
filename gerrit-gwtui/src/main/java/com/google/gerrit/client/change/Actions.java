@@ -43,6 +43,7 @@ class Actions extends Composite {
     "description",
     "followup",
     "hashtags",
+    "move",
     "publish",
     "rebase",
     "restore",
@@ -58,6 +59,7 @@ class Actions extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
+  @UiField Button move;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
@@ -153,6 +155,7 @@ class Actions extends Composite {
     submit.setVisible(canSubmit);
 
     a2b(actions, "cherrypick", cherrypick);
+    a2b(actions, "move", move);
     a2b(actions, "rebase", rebase);
 
     // The rebase button on change screen is always enabled.
@@ -234,6 +237,11 @@ class Actions extends Composite {
   @UiHandler("cherrypick")
   void onCherryPick(@SuppressWarnings("unused") ClickEvent e) {
     CherryPickAction.call(cherrypick, changeInfo, revision, project, message);
+  }
+
+  @UiHandler("move")
+  void onMove(@SuppressWarnings("unused") ClickEvent e) {
+    MoveAction.call(move, changeInfo, revision, project);
   }
 
   @UiHandler("revert")

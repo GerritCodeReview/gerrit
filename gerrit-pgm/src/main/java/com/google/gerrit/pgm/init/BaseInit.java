@@ -36,11 +36,9 @@ import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
-import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.SchemaUpdater;
@@ -455,7 +453,6 @@ public class BaseInit extends SiteProgram {
               bind(InitFlags.class).toInstance(init.flags);
             }
           });
-      modules.add(new GitRepositoryManagerModule(new RepositoryConfig(init.flags.cfg)));
       Injector dbInjector = createDbInjector(SINGLE_USER);
       switch (IndexModule.getIndexType(dbInjector)) {
         case LUCENE:

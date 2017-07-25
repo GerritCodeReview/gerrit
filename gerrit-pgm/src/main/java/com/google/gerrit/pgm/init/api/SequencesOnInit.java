@@ -29,7 +29,7 @@ public class SequencesOnInit {
   private final AllUsersNameOnInitProvider allUsersName;
 
   @Inject
-  SequencesOnInit(GitRepositoryManager repoManager, AllUsersNameOnInitProvider allUsersName) {
+  SequencesOnInit(GitRepositoryManagerOnInit repoManager, AllUsersNameOnInitProvider allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
   }

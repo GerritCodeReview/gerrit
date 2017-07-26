@@ -120,4 +120,35 @@ public class GroupsUpdate {
       accountCache.evict(newMember.getAccountId());
     }
   }
+
+  public void removeGroupMembers(
+      ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
+      throws OrmException, IOException {
+    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return;
+    }
+
+    AccountGroup group = foundGroup.get();
+    AccountGroup.Id groupId = group.getId();
+    Set<Account.Id> existingMembers =
+        groups.getMembers(db, group.getId()).collect(toImmutableSet());
+    ImmutableList<AccountGroupMember> membersToRemove =
+        accountIds
+            .stream()
+            .distinct()
+            .filter(existingMembers::contains)
+            .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
+            .map(AccountGroupMember::new)
+            .collect(toImmutableList());
+
+    if (currentUser != null) {
+      auditService.dispatchDeleteAccountsFromGroup(currentUser.getAccountId(), membersToRemove);
+    }
+    db.accountGroupMembers().delete(membersToRemove);
+    for (AccountGroupMember member : membersToRemove) {
+      accountCache.evict(member.getAccountId());
+    }
+  }
 }

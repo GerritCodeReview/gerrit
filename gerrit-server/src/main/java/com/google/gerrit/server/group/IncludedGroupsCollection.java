@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
 import com.google.gwtorm.server.OrmException;
@@ -40,6 +39,7 @@ public class IncludedGroupsCollection
   private final ListIncludedGroups list;
   private final GroupsCollection groupsCollection;
   private final Provider<ReviewDb> dbProvider;
+  private final Groups groups;
   private final AddIncludedGroups put;
 
   @Inject
@@ -48,11 +48,13 @@ public class IncludedGroupsCollection
       ListIncludedGroups list,
       GroupsCollection groupsCollection,
       Provider<ReviewDb> dbProvider,
+      Groups groups,
       AddIncludedGroups put) {
     this.views = views;
     this.list = list;
     this.groupsCollection = groupsCollection;
     this.dbProvider = dbProvider;
+    this.groups = groups;
     this.put = put;
   }
 
@@ -78,11 +80,7 @@ public class IncludedGroupsCollection
   }
 
   private boolean isMember(AccountGroup parent, GroupDescription.Basic member) throws OrmException {
-    return dbProvider
-            .get()
-            .accountGroupById()
-            .get(new AccountGroupById.Key(parent.getId(), member.getGroupUUID()))
-        != null;
+    return groups.isIncluded(dbProvider.get(), parent.getId(), member.getGroupUUID());
   }
 
   @SuppressWarnings("unchecked")

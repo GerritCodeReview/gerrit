@@ -69,6 +69,12 @@ public class Groups {
     return db.accountGroupMembers().get(key) != null;
   }
 
+  public boolean isIncluded(ReviewDb db, AccountGroup.Id parentId, AccountGroup.UUID childGroupUuid)
+      throws OrmException {
+    AccountGroupById.Key key = new AccountGroupById.Key(parentId, childGroupUuid);
+    return db.accountGroupById().get(key) != null;
+  }
+
   public Stream<Account.Id> getMembers(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
     ResultSet<AccountGroupMember> accountGroupMembers = db.accountGroupMembers().byGroup(groupId);
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);

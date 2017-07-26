@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -60,7 +62,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo> {
+public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo>
+    implements UiAction<ChangeResource> {
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
@@ -208,5 +211,18 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
       return true;
     }
+  }
+
+  @Override
+  public UiAction.Description getDescription(ChangeResource rsrc) {
+    IdentifiedUser caller = rsrc.getUser();
+    return new UiAction.Description()
+        .setLabel("Move Change")
+        .setTitle("Move change to a different branch")
+        .setVisible(
+            permissionBackend
+                .user(caller)
+                .project(rsrc.getProject())
+                .testOrFalse(ProjectPermission.CREATE_CHANGE));
   }
 }

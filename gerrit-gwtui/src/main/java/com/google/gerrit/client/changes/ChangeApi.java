@@ -228,6 +228,14 @@ public class ChangeApi {
     call(project, id, commit, "cherrypick").post(cherryPickInput, cb);
   }
 
+  /** Move Change * */
+  public static void move(
+      @Nullable String project, int id, String destination, AsyncCallback<ChangeInfo> cb) {
+    MoveInput moveInput = MoveInput.create();
+    moveInput.setDestinationBranch(destination);
+    change(project, id).view("move").post(moveInput, cb);
+  }
+
   /** Edit commit message for specific revision of a change. */
   public static void message(
       @Nullable String project,
@@ -354,6 +362,16 @@ public class ChangeApi {
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
     protected CherryPickInput() {}
+  }
+
+  private static class MoveInput extends JavaScriptObject {
+    static MoveInput create() {
+      return (MoveInput) createObject();
+    }
+
+    final native void setDestinationBranch(String d) /*-{ this.destination_branch = d; }-*/;
+
+    protected MoveInput() {}
   }
 
   private static class PrivateInput extends JavaScriptObject {

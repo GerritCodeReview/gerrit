@@ -273,7 +273,6 @@ public class ChangeScreen extends Screen {
     add(uiBinder.createAndBindUi(this));
   }
 
-  @SuppressWarnings("null")
   public Project.NameKey getProject() {
     return project;
   }

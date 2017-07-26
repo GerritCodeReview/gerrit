@@ -23,14 +23,14 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutDescription.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
@@ -38,13 +38,14 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
     @DefaultInput public String description;
   }
 
-  private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutDescription(GroupCache groupCache, Provider<ReviewDb> db) {
-    this.groupCache = groupCache;
+  PutDescription(
+      Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.db = db;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
@@ -55,20 +56,24 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       input = new Input(); // Delete would set description to null.
     }
 
-    if (resource.toAccountGroup() == null) {
+    AccountGroup accountGroup = resource.toAccountGroup();
+    if (accountGroup == null) {
       throw new MethodNotAllowedException();
     } else if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
-    if (group == null) {
-      throw new ResourceNotFoundException();
+    String newDescription = Strings.emptyToNull(input.description);
+    if (!Objects.equals(accountGroup.getDescription(), newDescription)) {
+      Optional<AccountGroup> updatedGroup =
+          groupsUpdateProvider
+              .get()
+              .updateGroup(
+                  db.get(), resource.getGroupUUID(), group -> group.setDescription(newDescription));
+      if (!updatedGroup.isPresent()) {
+        throw new ResourceNotFoundException();
+      }
     }
-
-    group.setDescription(Strings.emptyToNull(input.description));
-    db.get().accountGroups().update(Collections.singleton(group));
-    groupCache.evict(group);
 
     return Strings.isNullOrEmpty(input.description)
         ? Response.<String>none()

@@ -239,9 +239,6 @@ public class RefControlTest {
           public void evict(Project p) {}
 
           @Override
-          public void remove(Project p) {}
-
-          @Override
           public Iterable<Project.NameKey> all() {
             return Collections.emptySet();
           }

@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "cf2a31e9_e5cb0acb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T23:32:13Z",
+      "side": 0,
+      "message": "Right. That what DavidP suggested in comment on \"Jun 8 7:44 AM\": \"Create a change (non draft) and then directly set its state to \"draft\" bypassing the API?\".\n\nDone the preparation in: [1] and added a new test that this approach works.\n\n* [1] https://gerrit-review.googlesource.com/115930",
+      "parentUuid": "bf0c542d_681ce6ec",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eff00a2a_c6d369ef",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26

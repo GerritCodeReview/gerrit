@@ -26,14 +26,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutOwner.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Optional;
 
 @Singleton
 public class PutOwner implements RestModifyView<GroupResource, Input> {
@@ -42,18 +41,18 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   }
 
   private final GroupsCollection groupsCollection;
-  private final GroupCache groupCache;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final Provider<ReviewDb> db;
   private final GroupJson json;
 
   @Inject
   PutOwner(
       GroupsCollection groupsCollection,
-      GroupCache groupCache,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       Provider<ReviewDb> db,
       GroupJson json) {
     this.groupsCollection = groupsCollection;
-    this.groupCache = groupCache;
+    this.groupsUpdateProvider = groupsUpdateProvider;
     this.db = db;
     this.json = json;
   }
@@ -62,8 +61,8 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   public GroupInfo apply(GroupResource resource, Input input)
       throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
           BadRequestException, UnprocessableEntityException, OrmException, IOException {
-    AccountGroup group = resource.toAccountGroup();
-    if (group == null) {
+    AccountGroup accountGroup = resource.toAccountGroup();
+    if (accountGroup == null) {
       throw new MethodNotAllowedException();
     } else if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
@@ -73,16 +72,18 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("owner is required");
     }
 
-    group = db.get().accountGroups().get(group.getId());
-    if (group == null) {
-      throw new ResourceNotFoundException();
-    }
-
     GroupDescription.Basic owner = groupsCollection.parse(input.owner);
-    if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
-      group.setOwnerGroupUUID(owner.getGroupUUID());
-      db.get().accountGroups().update(Collections.singleton(group));
-      groupCache.evict(group);
+    if (!accountGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
+      Optional<AccountGroup> updatedGroup =
+          groupsUpdateProvider
+              .get()
+              .updateGroup(
+                  db.get(),
+                  resource.getGroupUUID(),
+                  group -> group.setOwnerGroupUUID(owner.getGroupUUID()));
+      if (!updatedGroup.isPresent()) {
+        throw new ResourceNotFoundException();
+      }
     }
     return json.format(owner);
   }

@@ -34,6 +34,24 @@
       "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41a1157b_530d720b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-26T12:51:20Z",
+      "side": 0,
+      "message": "No, don\u0027t throw an exception, you should silently ignore it. The whole point of leaving it in is to not break callers before we have given them a chance to migrate their code. Once we have given them a chance to migrate, then it\u0027s ok to remove it, which will start throwing an exception.",
+      "parentUuid": "3790f180_95650f2e",
+      "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

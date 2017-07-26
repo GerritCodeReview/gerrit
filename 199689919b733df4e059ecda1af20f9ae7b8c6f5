@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6fe46110_2c16092e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d20557ae_ebd1c4fc",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cae1a11_841821f6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "602b5550_aa292dcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7cae1a11_841821f6",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82c421b4_984f20f2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2017-07-26T21:28:49Z",
       "side": 1,
       "message": "Also reference: Bug: Issue 117. 117 is still not closed/done, because this feature is still wasn\u0027t exposed on the UI. See my last comment there, I marked it with the starter project label.",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd235342_7cd65bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "82c421b4_984f20f2",
       "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +153,54 @@
     },
     {
       "key": {
+        "uuid": "1d5b0666_3d7a03df",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dee6ba1c_ee630226",
+      "range": {
+        "startLine": 231,
+        "startChar": 18,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f723fb6_7ecf0bfe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "22268162_7f75631a",
+      "range": {
+        "startLine": 231,
+        "startChar": 11,
+        "endLine": 231,
+        "endChar": 17
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1da7e59a_32560393",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 6
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "b9a80ff4_4687c5ee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Uh, did not realise it supported that, only showed destination_branch on the rest api doc.\n\nI\u0027ve added the support now.",
+      "parentUuid": "1da7e59a_32560393",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2246a20c_e1eebdd3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
         "patchSetId": 6
@@ -127,6 +247,30 @@
       "writtenOn": "2017-07-26T21:28:49Z",
       "side": 1,
       "message": "Why not to derive it from TextAreaActionDialog, like RevertAction, CherryPickDialog and CreateChangeDialog to offer enter a message?",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 62
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58315005_ba52ac05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T21:56:58Z",
+      "side": 1,
+      "message": "Yep will do that now. Thanks, done.",
+      "parentUuid": "2246a20c_e1eebdd3",
       "range": {
         "startLine": 33,
         "startChar": 41,

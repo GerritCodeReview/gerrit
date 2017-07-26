@@ -15,29 +15,23 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {
@@ -46,26 +40,18 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   }
 
   private final Provider<ReviewDb> db;
-  private final GroupCache groupCache;
-  private final RenameGroupOp.Factory renameGroupOpFactory;
-  private final Provider<IdentifiedUser> currentUser;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutName(
-      Provider<ReviewDb> db,
-      GroupCache groupCache,
-      RenameGroupOp.Factory renameGroupOpFactory,
-      Provider<IdentifiedUser> currentUser) {
+  PutName(Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.db = db;
-    this.groupCache = groupCache;
-    this.renameGroupOpFactory = renameGroupOpFactory;
-    this.currentUser = currentUser;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-          ResourceConflictException, OrmException, IOException {
+          ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
@@ -86,47 +72,17 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   }
 
   private String renameGroup(AccountGroup group, String newName)
-      throws ResourceConflictException, OrmException, IOException {
-    AccountGroup.Id groupId = group.getId();
-    AccountGroup.NameKey old = group.getNameKey();
-    AccountGroup.NameKey key = new AccountGroup.NameKey(newName);
-
+      throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
     try {
-      AccountGroupName id = new AccountGroupName(key, groupId);
-      db.get().accountGroupNames().insert(ImmutableList.of(id));
-    } catch (OrmException e) {
-      AccountGroupName other = db.get().accountGroupNames().get(key);
-      if (other != null) {
-        // If we are using this identity, don't report the exception.
-        //
-        if (other.getId().equals(groupId)) {
-          return newName;
-        }
-
-        // Otherwise, someone else has this identity.
-        //
-        throw new ResourceConflictException("group with name " + newName + "already exists");
-      }
-      throw e;
+      Optional<AccountGroup> renamedGroup =
+          groupsUpdateProvider
+              .get()
+              .renameGroup(db.get(), group.getId(), new AccountGroup.NameKey(newName));
+      return renamedGroup
+          .map(AccountGroup::getName)
+          .orElseThrow(() -> new ResourceNotFoundException("Group not found"));
+    } catch (NameAlreadyUsedException e) {
+      throw new ResourceConflictException("group with name " + newName + " already exists");
     }
-
-    group.setNameKey(key);
-    db.get().accountGroups().update(ImmutableList.of(group));
-
-    db.get().accountGroupNames().deleteKeys(ImmutableList.of(old));
-
-    groupCache.evict(group);
-    groupCache.evictAfterRename(old, key);
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        renameGroupOpFactory
-            .create(
-                currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
-                group.getGroupUUID(),
-                old.get(),
-                newName)
-            .start(0, TimeUnit.MILLISECONDS);
-
-    return newName;
   }
 }

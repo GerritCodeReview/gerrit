@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
@@ -60,8 +59,8 @@ public class Groups {
     return Optional.ofNullable(db.accountGroups().get(groupId));
   }
 
-  public ImmutableList<AccountGroup> getAll(ReviewDb db) throws OrmException {
-    return ImmutableList.copyOf(db.accountGroups().all());
+  public Stream<AccountGroup> getAll(ReviewDb db) throws OrmException {
+    return Streams.stream(db.accountGroups().all());
   }
 
   public boolean isMember(ReviewDb db, AccountGroup group, Account.Id accountId)

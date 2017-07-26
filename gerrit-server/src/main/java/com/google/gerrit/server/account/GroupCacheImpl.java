@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
@@ -154,7 +156,7 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public ImmutableList<AccountGroup> all() {
     try (ReviewDb db = schema.open()) {
-      return groups.getAll(db);
+      return groups.getAll(db).collect(toImmutableList());
     } catch (OrmException e) {
       log.warn("Cannot list internal groups", e);
       return ImmutableList.of();

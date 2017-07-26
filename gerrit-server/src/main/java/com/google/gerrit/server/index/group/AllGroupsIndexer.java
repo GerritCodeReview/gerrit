@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.group;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
@@ -23,6 +24,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gwtorm.server.OrmException;
@@ -47,15 +49,18 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGrou
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
   private final GroupCache groupCache;
+  private final Groups groups;
 
   @Inject
   AllGroupsIndexer(
       SchemaFactory<ReviewDb> schemaFactory,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
-      GroupCache groupCache) {
+      GroupCache groupCache,
+      Groups groups) {
     this.schemaFactory = schemaFactory;
     this.executor = executor;
     this.groupCache = groupCache;
+    this.groups = groups;
   }
 
   @Override
@@ -117,13 +122,10 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGrou
 
   private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress) throws OrmException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
-    List<AccountGroup.UUID> uuids = new ArrayList<>();
     try (ReviewDb db = schemaFactory.open()) {
-      for (AccountGroup group : db.accountGroups().all()) {
-        uuids.add(group.getGroupUUID());
-      }
+      return groups.getAll(db).map(AccountGroup::getGroupUUID).collect(toImmutableList());
+    } finally {
+      progress.endTask();
     }
-    progress.endTask();
-    return uuids;
   }
 }

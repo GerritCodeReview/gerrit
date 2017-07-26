@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "59d4a2cb_2aafd061",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T04:19:15Z",
+      "side": 0,
+      "message": "One way to do the (\"non - mentioned\") trick, that I thought of is to use Dave\u0027s StandaloneSiteTest.java in combination of yet another config option (changes.startRemovingDraftWorkflow or similar). See for example: ReindexIT.reindexFromScratch().\n\nSo the idea is to create some draft changes, then shutdown gerrit, then manipulate gerrit config and set changes.startRemovingDraftWorkflow \u003d true, start gerrit again and execute all draft related tests.\n\nBut there is a huge disadvantage of this approach: current draft changes tests spread across different tests and this would be non-trivially to move all them in one single DraftAllTests.\n\nAnother option would be to guard (with some weird condition) creating of new drafts in receive commits, and temporarily fulfill the condition from the tests (like activating a system property or some such).\n\nI\u0027m, open for other \"weird\" suggestions ;-)",
+      "parentUuid": "a42dc68c_9ae3a4da",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eff00a2a_c6d369ef",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26
@@ -474,6 +498,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "This should be kept for servers that have allowsDrafts \u003d true configured so that the behavior for existing draft changes stays the same.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26d3a99b_ac0b93a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T04:19:15Z",
+      "side": 0,
+      "message": "You probably mean \"This should be kept for servers that have \n allowsDrafts \u003d false configured...\", for those who abuse draft status for WIP changes, using wip plugin?\n\nThe reason I assumed it is not needed, is that the next change in the series removes draft workflow entirely, and 99% of production sites never upgrade to intermediate gerrit version, but wait for the official release.\n\nSo again to better understand your comments: are we going to release new gerrit version from this commit?",
+      "parentUuid": "41eb009d_960ebc6f",
       "range": {
         "startLine": 35,
         "startChar": 4,

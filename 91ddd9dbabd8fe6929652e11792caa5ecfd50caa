@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a6360604_8dbb41be",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe98783_f2af4735",
+      "range": {
+        "startLine": 395,
+        "startChar": 6,
+        "endLine": 400,
+        "endChar": 7
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f2bf778_121d13ed",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2017-07-14T09:08:09Z",
       "side": 1,
       "message": "Please document the new operator in user-search.txt",
+      "range": {
+        "startLine": 157,
+        "startChar": 21,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d48c4a5_10c336b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f2bf778_121d13ed",
       "range": {
         "startLine": 157,
         "startChar": 21,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "07cf1ffc_c7552335",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38cbe6dd_c95f5388",
+      "range": {
+        "startLine": 487,
+        "startChar": 4,
+        "endLine": 489,
+        "endChar": 5
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8b8e1dd_cc92be83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "f625573e_4141a980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8b8e1dd_cc92be83",
+      "range": {
+        "startLine": 213,
+        "startChar": 19,
+        "endLine": 213,
+        "endChar": 0
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b92dd2e4_7ff1b8cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -128,6 +224,30 @@
       "writtenOn": "2017-07-14T09:08:09Z",
       "side": 1,
       "message": "Not needed, since this field is part of the Change object.",
+      "range": {
+        "startLine": 1348,
+        "startChar": 2,
+        "endLine": 1357,
+        "endChar": 3
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92c19ea1_b265f900",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92dd2e4_7ff1b8cc",
       "range": {
         "startLine": 1348,
         "startChar": 2,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "bd7e50c4_a083d09f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92aad03c_a71a3365",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bbb4291_ebe1d40d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
         "patchSetId": 2
@@ -180,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "9b56e0b6_a77696aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bbb4291_ebe1d40d",
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbb0ca0d_841eeee5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
         "patchSetId": 2
@@ -194,6 +356,24 @@
       "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4eedf4_809a4625",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbb0ca0d_841eeee5",
+      "revId": "91ddd9dbabd8fe6929652e11792caa5ecfd50caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

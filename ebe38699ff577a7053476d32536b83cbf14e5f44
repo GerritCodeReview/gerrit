@@ -22,6 +22,30 @@
       "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "424308e7_c77b66fb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:30Z",
+      "side": 0,
+      "message": "Done. Now we need it anyway since we do an additional index lookup.",
+      "parentUuid": "b077b78b_ff5f095d",
+      "range": {
+        "startLine": 5733,
+        "startChar": 62,
+        "endLine": 5734,
+        "endChar": 65
+      },
+      "revId": "ebe38699ff577a7053476d32536b83cbf14e5f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

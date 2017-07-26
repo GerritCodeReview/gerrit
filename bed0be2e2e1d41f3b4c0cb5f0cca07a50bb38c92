@@ -16,6 +16,24 @@
       "revId": "bed0be2e2e1d41f3b4c0cb5f0cca07a50bb38c92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53aefedd_87eecc4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-26T17:26:28Z",
+      "side": 1,
+      "message": "Well, obviously the async itself makes no such guarantee.\n\nWe\u0027ve commonly used async to execute something after the queued DOM operations. Are you saying that may be an anti-pattern? Or perhaps that this is an exceptional case?",
+      "parentUuid": "ed65c222_ebc9990e",
+      "revId": "bed0be2e2e1d41f3b4c0cb5f0cca07a50bb38c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

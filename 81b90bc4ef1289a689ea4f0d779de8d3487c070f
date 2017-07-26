@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "439227a1_75dc002a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T20:18:20Z",
+      "side": 1,
+      "message": "This test in particular seems like it could pass erroneously, as WCT thinks it\u0027s a synchronous test. The send may fire after the function returns, as you mentioned above.",
+      "parentUuid": "c304d923_5345c69e",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

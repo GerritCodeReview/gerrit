@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d7938e2_40d20b72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-26T16:05:59Z",
+      "side": 1,
+      "message": "Seems like the dominant style in the rest of the code is \"GET\".equals(req.getMethod())",
+      "range": {
+        "startLine": 498,
+        "startChar": 10,
+        "endLine": 498,
+        "endChar": 39
+      },
+      "revId": "702e8ce84f0fbac1ec24737382b8148bca0ced88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a26e5b91_9f0bb3fe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-26T16:05:59Z",
+      "side": 1,
+      "message": "Rather than nesting the bulk of this method inside an if, move this condition up and immediately return false:\n\n    if (!options.enableGwtUi() || !\"GET\".equals(req.getMethod())) {\n      return false;\n    }\n\nThat makes the logic more readable.",
+      "revId": "702e8ce84f0fbac1ec24737382b8148bca0ced88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

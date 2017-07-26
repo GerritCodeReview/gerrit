@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed65c222_ebc9990e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-26T17:21:07Z",
+      "side": 1,
+      "message": "Does this.async guarantee element is attached?",
+      "revId": "bed0be2e2e1d41f3b4c0cb5f0cca07a50bb38c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

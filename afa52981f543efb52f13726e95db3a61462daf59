@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da40e979_e63cf667",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T23:25:56Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "afa52981f543efb52f13726e95db3a61462daf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "65d0bbfd2cc0546b54def72fd83cc99ac846fcb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc545c42_9bd5ee98",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T18:17:55Z",
+      "side": 1,
+      "message": "You\u0027re correct in the general case, but it does certainly seem improper to call this function \u0027handleEnterKey\u0027 when that isn\u0027t what it actually does.\n\nHere\u0027s another example in which the keybindings don\u0027t map well to a function name.\nhttps://gerrit-review.googlesource.com/c/110593/3/polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js#124",
+      "parentUuid": "ac194d4f_f0351c96",
+      "range": {
+        "startLine": 170,
+        "startChar": 32,
+        "endLine": 170,
+        "endChar": 47
+      },
+      "revId": "65d0bbfd2cc0546b54def72fd83cc99ac846fcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a77fb735_e27cf4d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T18:17:55Z",
+      "side": 1,
+      "message": "It seems to me like this test can be rewritten in a more obvious/legible way.\n\n    test(\u0027should not send on enter key\u0027, () \u003d\u003e {\n      const sendHandler \u003d sandbox.stub();\n      element.addEventListener(\u0027send\u0027, sendHandler);\n      MockInteractions.pressAndReleaseKeyOn(element, 13, null, \u0027enter\u0027);\n      flushAsynchronousOperations();\n\n      assert.isFalse(sendHandler.called);\n    });\n\nThis is far more consistent with the rest of the tests, both in this file and elsewhere in the codebase, but as your approach also works adopting this is optional.",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdb1876a_a4e8af79",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T18:17:55Z",
+      "side": 1,
+      "message": "It seems to me like this test can be rewritten in a more obvious/legible way.\n\n    test(\u0027emit send on ctrl+enter key\u0027, () \u003d\u003e {\n      const sendHandler \u003d sandbox.stub();\n      element.addEventListener(\u0027send\u0027, sendHandler);\n      MockInteractions.pressAndReleaseKeyOn(element, 13, null, \u0027enter\u0027);\n      flushAsynchronousOperations();\n\n      assert.isTrue(sendHandler.called);\n    });\n\nThis is far more consistent with the rest of the tests, both in this file and elsewhere in the codebase, but as your approach also works adopting this is optional.",
+      "range": {
+        "startLine": 710,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

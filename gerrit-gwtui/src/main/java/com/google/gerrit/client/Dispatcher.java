@@ -40,7 +40,6 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
-import static com.google.gerrit.common.PageLinks.toChangeQuery;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
@@ -77,6 +76,7 @@ import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
+import com.google.gerrit.client.change.ProjectChangeId;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.ProjectDashboardScreen;
@@ -93,6 +93,7 @@ import com.google.gerrit.client.info.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -108,53 +109,65 @@ import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  public static String toPatch(DiffObject diffBase, PatchSet.Id revision, String fileName) {
-    return toPatch("", diffBase, revision, fileName, null, 0);
+  public static String toPatch(
+      @Nullable Project.NameKey project,
+      DiffObject diffBase,
+      PatchSet.Id revision,
+      String fileName) {
+    return toPatch("", project, diffBase, revision, fileName, null, 0);
   }
 
   public static String toPatch(
-      DiffObject diffBase, PatchSet.Id revision, String fileName, DisplaySide side, int line) {
-    return toPatch("", diffBase, revision, fileName, side, line);
+      @Nullable Project.NameKey project,
+      DiffObject diffBase,
+      PatchSet.Id revision,
+      String fileName,
+      DisplaySide side,
+      int line) {
+    return toPatch("", project, diffBase, revision, fileName, side, line);
   }
 
-  public static String toSideBySide(DiffObject diffBase, Patch.Key id) {
-    return toPatch("sidebyside", diffBase, id);
+  public static String toSideBySide(
+      @Nullable Project.NameKey project,
+      DiffObject diffBase,
+      PatchSet.Id revision,
+      String fileName) {
+    return toPatch("sidebyside", project, diffBase, revision, fileName, null, 0);
   }
 
-  public static String toSideBySide(DiffObject diffBase, PatchSet.Id revision, String fileName) {
-    return toPatch("sidebyside", diffBase, revision, fileName, null, 0);
+  public static String toUnified(
+      @Nullable Project.NameKey project,
+      DiffObject diffBase,
+      PatchSet.Id revision,
+      String fileName) {
+    return toPatch("unified", project, diffBase, revision, fileName, null, 0);
   }
 
-  public static String toUnified(DiffObject diffBase, PatchSet.Id revision, String fileName) {
-    return toPatch("unified", diffBase, revision, fileName, null, 0);
+  public static String toPatch(
+      @Nullable Project.NameKey project, String type, DiffObject diffBase, Patch.Key id) {
+    return toPatch(type, project, diffBase, id.getParentKey(), id.get(), null, 0);
   }
 
-  public static String toUnified(DiffObject diffBase, Patch.Key id) {
-    return toPatch("unified", diffBase, id);
+  public static String toEditScreen(
+      @Nullable Project.NameKey project, PatchSet.Id revision, String fileName) {
+    return toEditScreen(project, revision, fileName, 0);
   }
 
-  public static String toPatch(String type, DiffObject diffBase, Patch.Key id) {
-    return toPatch(type, diffBase, id.getParentKey(), id.get(), null, 0);
-  }
-
-  public static String toEditScreen(PatchSet.Id revision, String fileName) {
-    return toEditScreen(revision, fileName, 0);
-  }
-
-  public static String toEditScreen(PatchSet.Id revision, String fileName, int line) {
-    return toPatch("edit", DiffObject.base(), revision, fileName, null, line);
+  public static String toEditScreen(
+      @Nullable Project.NameKey project, PatchSet.Id revision, String fileName, int line) {
+    return toPatch("edit", project, DiffObject.base(), revision, fileName, null, line);
   }
 
   private static String toPatch(
       String type,
+      @Nullable Project.NameKey project,
       DiffObject diffBase,
       PatchSet.Id revision,
       String fileName,
       DisplaySide side,
       int line) {
     Change.Id c = revision.getParentKey();
-    StringBuilder p = new StringBuilder();
-    p.append("/c/").append(c).append("/");
+    StringBuilder p = new StringBuilder(PageLinks.toChange(project, c));
     if (diffBase != null && diffBase.asString() != null) {
       p.append(diffBase.asString()).append("..");
     }
@@ -343,7 +356,8 @@ public class Dispatcher {
               public void onFailure(Throwable caught) {
                 if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
                   Gerrit.display(
-                      toChangeQuery(PageLinks.projectQuery(new Project.NameKey(project))));
+                      PageLinks.toChangeQuery(
+                          PageLinks.projectQuery(new Project.NameKey(project))));
                 } else {
                   super.onFailure(caught);
                 }
@@ -380,15 +394,8 @@ public class Dispatcher {
       }
     }
 
-    Change.Id id;
-    int s = rest.indexOf('/');
-    if (0 <= s) {
-      id = Change.Id.parse(rest.substring(0, s));
-      rest = rest.substring(s + 1);
-    } else {
-      id = Change.Id.parse(rest);
-      rest = "";
-    }
+    ProjectChangeId id = ProjectChangeId.create(rest);
+    rest = rest.length() > id.identifierLength() ? rest.substring(id.identifierLength() + 1) : "";
 
     if (rest.isEmpty()) {
       FileTable.Mode mode = FileTable.Mode.REVIEW;
@@ -399,13 +406,14 @@ public class Dispatcher {
       Gerrit.display(
           token,
           panel == null
-              ? new ChangeScreen(id, DiffObject.base(), null, false, mode)
+              ? new ChangeScreen(
+                  id.getProject(), id.getChangeId(), DiffObject.base(), null, false, mode)
               : new NotFoundScreen());
       return;
     }
 
     String psIdStr;
-    s = rest.indexOf('/');
+    int s = rest.indexOf('/');
     if (0 <= s) {
       psIdStr = rest.substring(0, s);
       rest = rest.substring(s + 1);
@@ -418,13 +426,13 @@ public class Dispatcher {
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
-      base = DiffObject.parse(id, psIdStr.substring(0, dotdot));
+      base = DiffObject.parse(id.getChangeId(), psIdStr.substring(0, dotdot));
       if (base == null) {
         Gerrit.display(token, new NotFoundScreen());
       }
       psIdStr = psIdStr.substring(dotdot + 2);
     }
-    ps = toPsId(id, psIdStr);
+    ps = toPsId(id.getChangeId(), psIdStr);
 
     if (!rest.isEmpty()) {
       DisplaySide side = DisplaySide.B;
@@ -440,12 +448,18 @@ public class Dispatcher {
         rest = rest.substring(0, at);
       }
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, side, line, panel);
+      patch(token, id.getProject(), base, p, side, line, panel);
     } else {
       if (panel == null) {
         Gerrit.display(
             token,
-            new ChangeScreen(id, base, String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
+            new ChangeScreen(
+                id.getProject(),
+                id.getChangeId(),
+                base,
+                String.valueOf(ps.get()),
+                false,
+                FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -466,7 +480,13 @@ public class Dispatcher {
   }
 
   private static void patch(
-      String token, DiffObject base, Patch.Key id, DisplaySide side, int line, String panelType) {
+      String token,
+      @Nullable Project.NameKey project,
+      DiffObject base,
+      Patch.Key id,
+      DisplaySide side,
+      int line,
+      String panelType) {
     String panel = panelType;
     if (panel == null) {
       int c = token.lastIndexOf(',');
@@ -475,17 +495,17 @@ public class Dispatcher {
 
     if ("".equals(panel) || /* DEPRECATED URL */ "cm".equals(panel)) {
       if (preferUnified()) {
-        unified(token, base, id, side, line);
+        unified(token, project, base, id, side, line);
       } else {
-        codemirror(token, base, id, side, line);
+        codemirror(token, base, project, id, side, line);
       }
     } else if ("sidebyside".equals(panel)) {
-      codemirror(token, base, id, side, line);
+      codemirror(token, base, project, id, side, line);
     } else if ("unified".equals(panel)) {
-      unified(token, base, id, side, line);
+      unified(token, project, base, id, side, line);
     } else if ("edit".equals(panel)) {
       if (!Patch.isMagic(id.get()) || Patch.COMMIT_MSG.equals(id.get())) {
-        codemirrorForEdit(token, id, line);
+        codemirrorForEdit(token, project, id, line);
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -501,6 +521,7 @@ public class Dispatcher {
 
   private static void unified(
       final String token,
+      final Project.NameKey project,
       final DiffObject base,
       final Patch.Key id,
       final DisplaySide side,
@@ -511,7 +532,8 @@ public class Dispatcher {
           public void onSuccess() {
             Gerrit.display(
                 token,
-                new Unified(base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
+                new Unified(
+                    project, base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
           }
         });
   }
@@ -519,6 +541,7 @@ public class Dispatcher {
   private static void codemirror(
       final String token,
       final DiffObject base,
+      @Nullable final Project.NameKey project,
       final Patch.Key id,
       final DisplaySide side,
       final int line) {
@@ -528,17 +551,22 @@ public class Dispatcher {
           public void onSuccess() {
             Gerrit.display(
                 token,
-                new SideBySide(base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
+                new SideBySide(
+                    project, base, DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
           }
         });
   }
 
-  private static void codemirrorForEdit(String token, Patch.Key id, int line) {
+  private static void codemirrorForEdit(
+      final String token,
+      @Nullable final Project.NameKey project,
+      final Patch.Key id,
+      final int line) {
     GWT.runAsync(
         new AsyncSplit(token) {
           @Override
           public void onSuccess() {
-            Gerrit.display(token, new EditScreen(id, line));
+            Gerrit.display(token, new EditScreen(project, id, line));
           }
         });
   }

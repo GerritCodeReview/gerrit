@@ -136,7 +136,8 @@ class SearchPanel extends Composite {
     } else {
       // changes
       if (query.matches("^[1-9][0-9]*$")) {
-        Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
+        // Query is a change number. Project can't be supplied.
+        Gerrit.display(PageLinks.toChange(null, Change.Id.parse(query)));
       } else {
         Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
       }

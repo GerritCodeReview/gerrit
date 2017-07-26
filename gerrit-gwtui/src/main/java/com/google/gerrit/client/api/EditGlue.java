@@ -25,7 +25,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class EditGlue {
   public static void onAction(
       ChangeInfo change, EditInfo edit, ActionInfo action, ActionButton button) {
-    RestApi api = ChangeApi.edit(change.legacyId().get()).view(action.id());
+    RestApi api = ChangeApi.edit(change.project(), change.legacyId().get()).view(action.id());
 
     JavaScriptObject f = get(action.id());
     if (f != null) {

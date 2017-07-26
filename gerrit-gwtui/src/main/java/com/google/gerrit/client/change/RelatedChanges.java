@@ -203,7 +203,7 @@ public class RelatedChanges extends TabPanel {
       setForOpenChange(info, revision);
     }
 
-    ChangeApi.revision(info.legacyId().get(), revision)
+    ChangeApi.revision(info.project(), info.legacyId().get(), revision)
         .view("related")
         .get(
             new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
@@ -224,7 +224,7 @@ public class RelatedChanges extends TabPanel {
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
     if (info.currentRevision() != null && info.currentRevision().equals(revision)) {
-      ChangeApi.change(info.legacyId().get())
+      ChangeApi.change(info.project(), info.legacyId().get())
           .view("submitted_together")
           .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
     }

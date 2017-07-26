@@ -122,7 +122,8 @@ public class ConfigInfoCache {
       getImpl(name, cb);
       return;
     }
-    ChangeApi.change(id)
+    // TODO(hiesel) Make a preflight request to get project before we deprecate the numeric changeId
+    ChangeApi.change(null, id)
         .get(
             new AsyncCallback<ChangeInfo>() {
               @Override

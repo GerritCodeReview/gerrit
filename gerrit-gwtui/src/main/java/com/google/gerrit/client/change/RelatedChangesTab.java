@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -332,7 +333,7 @@ class RelatedChangesTab implements IsWidget {
 
     private String url() {
       if (info.hasChangeNumber() && info.hasRevisionNumber()) {
-        return "#" + PageLinks.toChange(info.patchSetId());
+        return "#" + PageLinks.toChange(new Project.NameKey(info.project()), info.patchSetId());
       }
       return null;
     }

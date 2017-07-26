@@ -24,8 +24,10 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -68,8 +70,13 @@ public class SideBySide extends DiffScreen {
   private SideBySideCommentManager commentManager;
 
   public SideBySide(
-      DiffObject base, DiffObject revision, String path, DisplaySide startSide, int startLine) {
-    super(base, revision, path, startSide, startLine, DiffView.SIDE_BY_SIDE);
+      @Nullable Project.NameKey project,
+      DiffObject base,
+      DiffObject revision,
+      String path,
+      DisplaySide startSide,
+      int startLine) {
+    super(project, base, revision, path, startSide, startLine, DiffView.SIDE_BY_SIDE);
 
     diffTable = new SideBySideTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
@@ -85,6 +92,7 @@ public class SideBySide extends DiffScreen {
         commentManager =
             new SideBySideCommentManager(
                 SideBySide.this,
+                getProject(),
                 base,
                 revision,
                 path,
@@ -231,7 +239,8 @@ public class SideBySide extends DiffScreen {
   private List<InlineHyperlink> getUnifiedDiffLink() {
     InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
     toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
-    toUnifiedDiffLink.setTargetHistoryToken(Dispatcher.toUnified(base, revision, path));
+    toUnifiedDiffLink.setTargetHistoryToken(
+        Dispatcher.toUnified(getProject(), base, revision, path));
     toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
     return Collections.singletonList(toUnifiedDiffLink);
   }

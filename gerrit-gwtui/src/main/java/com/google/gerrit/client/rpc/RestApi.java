@@ -179,7 +179,7 @@ public class RestApi {
               }
             };
 
-        // Defer handling the response if the parse took a while.
+        // Defer handling the response if the create took a while.
         if ((System.currentTimeMillis() - start) > 75) {
           Scheduler.get().scheduleDeferred(cmd);
         } else {
@@ -256,6 +256,10 @@ public class RestApi {
 
   public RestApi id(String id) {
     return idRaw(URL.encodePathSegment(id));
+  }
+
+  public RestApi id(String project, int id) {
+    return idRaw(URL.encodePathSegment(project) + "~" + id);
   }
 
   public RestApi id(int id) {

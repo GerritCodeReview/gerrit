@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75fc8db4_6a70e3e7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-26T17:13:02Z",
+      "side": 1,
+      "message": "Why? What do labels have to do with revert_of?",
+      "range": {
+        "startLine": 5734,
+        "startChar": 0,
+        "endLine": 5734,
+        "endChar": 65
+      },
+      "revId": "bdd0060ff9501826a722cb734562cf012bc8e52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5f80fa_3f7e3db6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-26T17:13:02Z",
+      "side": 1,
+      "message": "Ugh. This is really not ok, we cannot issue 1 index query per search result, our index backend cannot handle it.\n\nI think this is a strong reason that we should make the output format in ChangeInfo match what we store in Change. That means if we want to output a triplet, we have to store a triplet in Change.\n\nBut honestly, at this point I would lean back towards returning a number in ChangeInfo.",
+      "revId": "bdd0060ff9501826a722cb734562cf012bc8e52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

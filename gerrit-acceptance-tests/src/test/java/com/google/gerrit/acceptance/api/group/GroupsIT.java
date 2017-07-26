@@ -21,7 +21,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -47,7 +46,11 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +61,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
+  @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
+
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
     exception.expect(ResourceNotFoundException.class);
@@ -238,7 +243,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void createdOnFieldDefaultsToAuditCreationInstantBeforeSchemaUpgrade() throws Exception {
     String newGroupName = name("newGroup");
     GroupInfo newGroup = gApi.groups().create(newGroupName).get();
-    setCreatedOnToNull(new AccountGroup.Id(newGroup.groupId));
+    setCreatedOnToNull(new AccountGroup.UUID(newGroup.id));
 
     GroupInfo updatedGroup = gApi.groups().id(newGroup.id).get();
     assertThat(updatedGroup.createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
@@ -682,11 +687,8 @@ public class GroupsIT extends AbstractDaemonTest {
     return name;
   }
 
-  private void setCreatedOnToNull(AccountGroup.Id groupId) throws Exception {
-    AccountGroup group = db.accountGroups().get(groupId);
-    group.setCreatedOn(null);
-    db.accountGroups().update(ImmutableList.of(group));
-    groupCache.evict(group);
+  private void setCreatedOnToNull(AccountGroup.UUID groupUuid) throws Exception {
+    groupsUpdateProvider.get().updateGroup(db, groupUuid, group -> group.setCreatedOn(null));
   }
 
   private void assertBadRequest(Groups.ListRequest req) throws Exception {

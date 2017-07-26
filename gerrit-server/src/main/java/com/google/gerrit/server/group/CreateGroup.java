@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -68,6 +67,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final Provider<IdentifiedUser> self;
   private final PersonIdent serverIdent;
   private final ReviewDb db;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupCache groupCache;
   private final GroupsCollection groups;
   private final GroupJson json;
@@ -82,6 +82,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       Provider<IdentifiedUser> self,
       @GerritPersonIdent PersonIdent serverIdent,
       ReviewDb db,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupCache groupCache,
       GroupsCollection groups,
       GroupJson json,
@@ -93,6 +94,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.self = self;
     this.serverIdent = serverIdent;
     this.db = db;
+    this.groupsUpdateProvider = groupsUpdateProvider;
     this.groupCache = groupCache;
     this.groups = groups;
     this.json = json;
@@ -202,16 +204,12 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     if (createGroupArgs.groupDescription != null) {
       group.setDescription(createGroupArgs.groupDescription);
     }
-    AccountGroupName gn = new AccountGroupName(group);
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
     try {
-      db.accountGroupNames().insert(Collections.singleton(gn));
+      groupsUpdateProvider.get().addGroup(db, group);
     } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
-    db.accountGroups().insert(Collections.singleton(group));
 
     addMembers.addMembers(groupId, createGroupArgs.initialMembers);
 

@@ -60,6 +60,12 @@ limitations under the License.
       stub('gr-diff', {
         reload() { return Promise.resolve(); },
       });
+      stub('gr-comment-api', {
+        loadAll() { return Promise.resolve(); },
+        getPaths() { return {}; },
+        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
+      });
+
       element = fixture('basic');
       element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
@@ -965,7 +971,7 @@ limitations under the License.
     const setupDiff = function(diff) {
       const mock = document.createElement('mock-diff-response');
       diff._diff = mock.diffResponse;
-      diff._comments = {
+      diff.comments = {
         left: [],
         right: [],
       };
@@ -1012,6 +1018,11 @@ limitations under the License.
       });
       stub('gr-diff', {
         reload() { return Promise.resolve(); },
+      });
+      stub('gr-comment-api', {
+        loadAll() { return Promise.resolve(); },
+        getPaths() { return {}; },
+        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
       });
       element = fixture('basic');
       element.numFilesShown = 75;

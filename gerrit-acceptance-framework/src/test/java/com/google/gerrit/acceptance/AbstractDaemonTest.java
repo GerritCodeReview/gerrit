@@ -21,6 +21,8 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -38,6 +40,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -1349,5 +1353,19 @@ public abstract class AbstractDaemonTest {
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
+
+  protected void configLabel(String label, String func) throws Exception {
+    configLabel(
+        project, label, func, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+  }
+
+  protected void configLabel(
+      Project.NameKey project, String label, String func, LabelValue... value) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType labelType = category(label, value);
+    labelType.setFunctionName(func);
+    cfg.getLabelSections().put(labelType.getName(), labelType);
+    saveProjectConfig(project, cfg);
   }
 }

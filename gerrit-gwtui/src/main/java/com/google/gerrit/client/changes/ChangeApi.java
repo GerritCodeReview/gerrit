@@ -387,9 +387,8 @@ public class ChangeApi {
   public static RestApi change(@Nullable String project, int id) {
     if (project == null) {
       return new RestApi("/changes/").id(String.valueOf(id));
-    } else {
-      return new RestApi("/changes/").id(project, id);
     }
+    return new RestApi("/changes/").id(project, id);
   }
 
   public static String emptyToNull(String str) {

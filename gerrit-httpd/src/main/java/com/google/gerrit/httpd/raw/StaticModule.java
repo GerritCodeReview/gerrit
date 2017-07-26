@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
@@ -22,10 +23,13 @@ import static java.nio.file.Files.isReadable;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritOptions;
@@ -33,6 +37,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -252,10 +257,27 @@ public class StaticModule extends ServletModule {
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
     HttpServlet getPolyGerritUiIndexServlet(
-        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
+        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg, Provider<CurrentUser> user)
         throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
-      return new IndexServlet(canonicalUrl, cdnPath);
+      Boolean mobileDesktopSite;
+      try {
+        IdentifiedUser me = user.get().asIdentifiedUser();
+        GeneralPreferencesInfo prefs = me.getAccount().getGeneralPreferencesInfo();
+        /*Boolean defaultPublishComments =
+            prefs != null
+                ? firstNonNull(
+                    me.getAccount().getGeneralPreferencesInfo().polyGerritDesktopSiteOnMobile, false)
+                : false;*/
+        if (Boolean.TRUE.equals(prefs.polyGerritDesktopSiteOnMobile)) {
+          mobileDesktopSite = true;
+        } else {
+          mobileDesktopSite = false;
+        }
+      } catch (Exception e) {
+        mobileDesktopSite = false;
+      }
+      return new IndexServlet(canonicalUrl, cdnPath, mobileDesktopSite);
     }
 
     @Provides

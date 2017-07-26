@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "bf0c542d_681ce6ec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-26T06:07:48Z",
+      "side": 0,
+      "message": "I thought we could just create a normal change and then update the change status directly in ReviewDb/NoteDb.",
+      "parentUuid": "59d4a2cb_2aafd061",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eff00a2a_c6d369ef",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26
@@ -522,6 +546,30 @@
       "side": 0,
       "message": "You probably mean \"This should be kept for servers that have \n allowsDrafts \u003d false configured...\", for those who abuse draft status for WIP changes, using wip plugin?\n\nThe reason I assumed it is not needed, is that the next change in the series removes draft workflow entirely, and 99% of production sites never upgrade to intermediate gerrit version, but wait for the official release.\n\nSo again to better understand your comments: are we going to release new gerrit version from this commit?",
       "parentUuid": "41eb009d_960ebc6f",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e145c1c1_7ade7d0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-26T06:07:48Z",
+      "side": 0,
+      "message": "Yes, it would be easier to remove all draft support in a single change. We are not planning any release with a Gerrit version from this commit (but it may just happen). Splitting this into two changes is mainly important for us at Google so that we have a migration path for our systems:\n\n1. Disallow creation of new draft changes/patch sets\n2. Run internal migration to convert existing draft changes/patch sets to private changes\n3. Remove support for draft changes/patch sets entirely\n\nSo within Google we will run the version of this change a while before we can get step 2 done.",
+      "parentUuid": "26d3a99b_ac0b93a3",
       "range": {
         "startLine": 35,
         "startChar": 4,

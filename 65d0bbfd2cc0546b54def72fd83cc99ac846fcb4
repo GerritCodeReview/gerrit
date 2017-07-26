@@ -22,6 +22,30 @@
       "revId": "65d0bbfd2cc0546b54def72fd83cc99ac846fcb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac194d4f_f0351c96",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2017-07-26T02:45:36Z",
+      "side": 1,
+      "message": "the style in the code base seems to be _handle\u003ckeyname\u003eKey rather than _handle\u003cfunction\u003eKey",
+      "parentUuid": "363ec49d_5948c1a5",
+      "range": {
+        "startLine": 170,
+        "startChar": 32,
+        "endLine": 170,
+        "endChar": 47
+      },
+      "revId": "65d0bbfd2cc0546b54def72fd83cc99ac846fcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

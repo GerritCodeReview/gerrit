@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "062035a4_4c058fb7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T22:09:29Z",
+      "side": 1,
+      "message": "What should this message be about? I think it was used in Cherry-Pick Dialog to initialize the commit message from the original change. You don\u0027t need it for Move action.",
+      "range": {
+        "startLine": 244,
+        "startChar": 57,
+        "endLine": 244,
+        "endChar": 64
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6426d_c88bdf6c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/MoveAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T22:09:29Z",
+      "side": 1,
+      "message": "Unused. See my other comment in Actions.java.",
+      "range": {
+        "startLine": 30,
+        "startChar": 85,
+        "endLine": 30,
+        "endChar": 105
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a535fde_5cee0133",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T22:09:29Z",
+      "side": 1,
+      "message": "May be remove this now, as you do it in place below?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 43
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

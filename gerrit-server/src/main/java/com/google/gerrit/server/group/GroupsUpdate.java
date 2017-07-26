@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -67,6 +69,14 @@ public class GroupsUpdate {
    */
   public void setCurrentUser(@Nullable IdentifiedUser currentUser) {
     this.currentUser = currentUser;
+  }
+
+  public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
+    AccountGroupName gn = new AccountGroupName(group);
+    // first insert the group name to validate that the group name hasn't
+    // already been used to create another group
+    db.accountGroupNames().insert(ImmutableList.of(gn));
+    db.accountGroups().insert(ImmutableList.of(group));
   }
 
   public void addGroupMember(ReviewDb db, AccountGroup.NameKey groupName, Account.Id accountId)

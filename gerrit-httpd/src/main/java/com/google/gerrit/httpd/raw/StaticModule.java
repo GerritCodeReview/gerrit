@@ -495,13 +495,15 @@ public class StaticModule extends ServletModule {
         return false;
       }
       boolean redirect = false;
-      String param = req.getParameter("polygerrit");
-      if ("1".equals(param)) {
-        setPolyGerritCookie(req, res, UiType.POLYGERRIT);
-        redirect = true;
-      } else if ("0".equals(param)) {
-        setPolyGerritCookie(req, res, UiType.GWT);
-        redirect = true;
+      if (req.getMethod().equals("GET")) {
+        String param = req.getParameter("polygerrit");
+        if ("1".equals(param)) {
+          setPolyGerritCookie(req, res, UiType.POLYGERRIT);
+          redirect = true;
+        } else if ("0".equals(param)) {
+          setPolyGerritCookie(req, res, UiType.GWT);
+          redirect = true;
+        }
       }
       if (redirect) {
         // Strip polygerrit param from URL. This actually strips all params,

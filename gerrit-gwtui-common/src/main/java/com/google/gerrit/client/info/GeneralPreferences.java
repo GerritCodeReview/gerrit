@@ -40,6 +40,7 @@ public class GeneralPreferences extends JavaScriptObject {
   public static GeneralPreferences createDefault() {
     GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
     GeneralPreferences p = createObject().cast();
+    p.polyGerritDesktopSiteOnMobile(d.polyGerritDesktopSiteOnMobile);
     p.changesPerPage(d.changesPerPage);
     p.showSiteHeader(d.showSiteHeader);
     p.useFlashClipboard(d.useFlashClipboard);
@@ -60,6 +61,8 @@ public class GeneralPreferences extends JavaScriptObject {
     p.defaultBaseForMerges(d.defaultBaseForMerges);
     return p;
   }
+
+  public final native boolean polyGerritDesktopSiteOnMobile() /*-{ return this.polygerrit_desktop_site_on_mobile || false }-*/;
 
   public final int changesPerPage() {
     int changesPerPage = get("changes_per_page", GeneralPreferencesInfo.DEFAULT_PAGESIZE);
@@ -152,6 +155,8 @@ public class GeneralPreferences extends JavaScriptObject {
       publishCommentsOnPush() /*-{ return this.publish_comments_on_push || false }-*/;
 
   public final native JsArray<TopMenuItem> my() /*-{ return this.my; }-*/;
+
+  public final native void polyGerritDesktopSiteOnMobile(boolean s) /*-{ this.polygerrit_desktop_site_on_mobile = s }-*/;
 
   public final native void changesPerPage(int n) /*-{ this.changes_per_page = n }-*/;
 

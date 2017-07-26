@@ -22,6 +22,7 @@ import static java.nio.file.Files.isReadable;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
@@ -255,7 +256,12 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
         throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
-      return new IndexServlet(canonicalUrl, cdnPath);
+      if (Gerrit.getUserPreferences().polyGerritDesktopSiteOnMobile()) {
+        Boolean mobileDesktopSite = true;
+      } else {
+        Boolean mobileDesktopSite = false;
+      }
+      return new IndexServlet(canonicalUrl, cdnPath, mobileDesktopSite);
     }
 
     @Provides

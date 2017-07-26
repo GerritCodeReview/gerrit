@@ -15,12 +15,14 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
@@ -39,13 +41,18 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
   private final GroupControl.Factory controlFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final Groups groups;
   private final GroupJson json;
 
   @Inject
   ListIncludedGroups(
-      GroupControl.Factory controlFactory, Provider<ReviewDb> dbProvider, GroupJson json) {
+      GroupControl.Factory controlFactory,
+      Provider<ReviewDb> dbProvider,
+      Groups groups,
+      GroupJson json) {
     this.controlFactory = controlFactory;
     this.dbProvider = dbProvider;
+    this.groups = groups;
     this.json = json;
   }
 
@@ -57,10 +64,13 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
-    for (AccountGroupById u :
-        dbProvider.get().accountGroupById().byGroup(rsrc.toAccountGroup().getId())) {
+    ImmutableList<AccountGroup.UUID> includedGroupUuids =
+        groups
+            .getIncludes(dbProvider.get(), rsrc.toAccountGroup().getId())
+            .collect(toImmutableList());
+    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
       try {
-        GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
+        GroupControl i = controlFactory.controlFor(includedGroupUuid);
         if (ownerOfParent || i.isVisible()) {
           included.add(json.format(i.getGroup()));
         }
@@ -68,7 +78,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         log.warn(
             String.format(
                 "Group %s no longer available, included into %s",
-                u.getIncludeUUID(), rsrc.getGroup().getName()));
+                includedGroupUuid, rsrc.getGroup().getName()));
         continue;
       }
     }

@@ -16,15 +16,13 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.InstallPluginInfo;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.plugins.InstallPlugin.Input;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,12 +32,7 @@ import java.net.URL;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
-  static class Input {
-    @DefaultInput String url;
-    RawInput raw;
-  }
-
+class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInfo> {
   private final PluginLoader loader;
   private final String name;
   private final boolean created;
@@ -51,7 +44,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Response<PluginInfo> apply(TopLevelResource resource, Input input)
+  public Response<PluginInfo> apply(TopLevelResource resource, InstallPluginInfo input)
       throws BadRequestException, MethodNotAllowedException, IOException {
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote installation is disabled");
@@ -78,7 +71,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
   }
 
-  private InputStream openStream(Input input) throws IOException, BadRequestException {
+  private InputStream openStream(InstallPluginInfo input) throws IOException, BadRequestException {
     if (input.raw != null) {
       return input.raw.getInputStream();
     }
@@ -90,7 +83,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-  static class Overwrite implements RestModifyView<PluginResource, Input> {
+  static class Overwrite implements RestModifyView<PluginResource, InstallPluginInfo> {
     private final PluginLoader loader;
 
     @Inject
@@ -99,7 +92,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
 
     @Override
-    public Response<PluginInfo> apply(PluginResource resource, Input input)
+    public Response<PluginInfo> apply(PluginResource resource, InstallPluginInfo input)
         throws BadRequestException, MethodNotAllowedException, IOException {
       return new InstallPlugin(loader, resource.getName(), false)
           .apply(TopLevelResource.INSTANCE, input);

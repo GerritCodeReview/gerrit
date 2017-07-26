@@ -34,7 +34,9 @@ import com.google.common.collect.Sets;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
@@ -49,6 +51,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
@@ -58,17 +61,21 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeFinder;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
@@ -96,13 +103,18 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
+import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -587,6 +599,118 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result createDraftChange() throws Exception {
     return pushTo("refs/drafts/master");
+  }
+
+  protected PushOneCommit.Result forceDraftChange() throws Exception {
+    Result pushTo = pushTo("refs/for/master");
+    markChangeAsDraft(pushTo.getChange().change().getId());
+    setDraftStatusOfPatchSetsOfChange(pushTo.getChange().change().getId(), true);
+    return pushTo;
+  }
+
+  protected void markChangeAsDraft(Change.Id id) throws Exception {
+    try (BatchUpdate batchUpdate =
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+      batchUpdate.addOp(id, new MarkChangeAsDraftUpdateOp());
+      batchUpdate.execute();
+    }
+
+    ChangeStatus changeStatus = gApi.changes().id(id.get()).get().status;
+    assertThat(changeStatus).isEqualTo(ChangeStatus.DRAFT);
+  }
+
+  protected void setDraftStatusOfPatchSetsOfChange(Change.Id id, boolean draftStatus)
+      throws Exception {
+    try (BatchUpdate batchUpdate =
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+      batchUpdate.addOp(id, new DraftStatusOfPatchSetsUpdateOp(draftStatus));
+      batchUpdate.execute();
+    }
+
+    Boolean expectedDraftStatus = draftStatus ? Boolean.TRUE : null;
+    List<Boolean> patchSetDraftStatuses = getPatchSetDraftStatuses(id);
+    patchSetDraftStatuses.forEach(status -> assertThat(status).isEqualTo(expectedDraftStatus));
+  }
+
+  private List<Boolean> getPatchSetDraftStatuses(Change.Id id) throws Exception {
+    Collection<RevisionInfo> revisionInfos =
+        gApi.changes()
+            .id(id.get())
+            .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
+            .revisions
+            .values();
+    return revisionInfos.stream().map(revisionInfo -> revisionInfo.draft).collect(toList());
+  }
+
+  private static class MarkChangeAsDraftUpdateOp implements BatchUpdateOp {
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      Change change = ctx.getChange();
+
+      // Change status in database.
+      change.setStatus(Change.Status.DRAFT);
+
+      // Change status in NoteDb.
+      PatchSet.Id currentPatchSetId = change.currentPatchSetId();
+      ctx.getUpdate(currentPatchSetId).setStatus(Change.Status.DRAFT);
+
+      return true;
+    }
+  }
+
+  private class DraftStatusOfPatchSetsUpdateOp implements BatchUpdateOp {
+    private final boolean draftStatus;
+
+    DraftStatusOfPatchSetsUpdateOp(boolean draftStatus) {
+      this.draftStatus = draftStatus;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      Collection<PatchSet> patchSets = psUtil.byChange(db, ctx.getNotes());
+
+      // Change status in database.
+      patchSets.forEach(patchSet -> patchSet.setDraft(draftStatus));
+      db.patchSets().update(patchSets);
+
+      // Change status in NoteDb.
+      PatchSetState patchSetState = draftStatus ? PatchSetState.DRAFT : PatchSetState.PUBLISHED;
+      patchSets
+          .stream()
+          .map(PatchSet::getId)
+          .map(ctx::getUpdate)
+          .forEach(changeUpdate -> changeUpdate.setPatchSetState(patchSetState));
+
+      return true;
+    }
+  }
+
+  protected void forceDraft(Change change, PatchSet.Id psId, TestAccount testUser)
+      throws OrmException, UpdateException, RestApiException, IOException {
+    db.changes().beginTransaction(change.getId());
+    CurrentUser user = identifiedUserFactory.create(testUser.getId());
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(db, change.getProject(), user, TimeUtil.nowTs())) {
+      bu.addOp(
+          change.getId(),
+          new BatchUpdateOp() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) {
+              Change change = ctx.getChange();
+              ChangeUpdate update = ctx.getUpdate(psId);
+              change.setStatus(Change.Status.DRAFT);
+              update.setStatus(change.getStatus());
+              return true;
+            }
+          });
+      bu.execute();
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+
+    change.setStatus(Status.DRAFT);
+    indexer.index(db, change);
   }
 
   protected PushOneCommit.Result createWorkInProgressChange() throws Exception {

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "a3baadc7_fd61ae3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2017-07-26T20:24:15Z",
+      "side": 1,
+      "message": "if it fires after the fact, the test harness still catches it and fails appropriately.  the test harness needs to do this anyways to catch bad/unknown exceptions being thrown.",
+      "parentUuid": "439227a1_75dc002a",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

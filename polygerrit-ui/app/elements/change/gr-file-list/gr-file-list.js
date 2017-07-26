@@ -161,6 +161,9 @@
         });
       }));
 
+      // Load all comments for the change.
+      promises.push(this.$.commentAPI.loadAll(this.changeNum));
+
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
@@ -879,6 +882,8 @@
       console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
           initialCount, ':', paths[0]);
       const diffElem = this._findDiffByPath(paths[0], diffElements);
+      diffElem.comments = this._getCommentsForPath(paths[0]);
+
       const promises = [diffElem.reload()];
       if (this._isLoggedIn) {
         promises.push(this._reviewFile(paths[0]));
@@ -886,6 +891,20 @@
       return Promise.all(promises).then(() => {
         return this._renderInOrder(paths.slice(1), diffElements, initialCount);
       });
+    },
+
+    /**
+     * Adds appropriate change number and project config metadata to the
+     * comment-API's getCommentsForPath result.
+     * @param {string} path The path for which to get comments.
+     * @return {object} the comments object, with populated metadata.
+     */
+    _getCommentsForPath(path) {
+      const comments = this.$.commentAPI.getCommentsForPath(path,
+          this.patchRange);
+      comments.meta.changeNum = this.changeNum;
+      comments.meta.projectConfig = this.projectConfig;
+      return comments;
     },
 
     /**

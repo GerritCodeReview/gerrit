@@ -16,6 +16,24 @@
       "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3790f180_95650f2e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-26T11:44:21Z",
+      "side": 0,
+      "message": "OK. Let\u0027s leave it here. We may throw out an exception in the REST endpoint if we get \u0027strictLabels\u0027 to be false?",
+      "parentUuid": "2aede7a8_af40c3b6",
+      "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

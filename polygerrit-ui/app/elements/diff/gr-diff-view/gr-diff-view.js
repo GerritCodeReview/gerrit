@@ -461,6 +461,9 @@
       };
       this._path = value.path;
 
+      // NOTE: This may be called before attachment (e.g. while parentElement is
+      // null). Fire title-change in an async so the component will have
+      // attached and the event can bubble up to the handler in gr-app.
       this.async(() => {
         this.fire('title-change',
             {title: this._computeTruncatedFileDisplayName(this._path)});

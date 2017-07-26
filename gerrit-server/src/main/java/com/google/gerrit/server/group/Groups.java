@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
@@ -79,5 +82,17 @@ public class Groups {
       throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
+  }
+
+  public Stream<AccountGroup.UUID> getGroups(ReviewDb db, Account.Id accountId)
+      throws OrmException {
+    ResultSet<AccountGroupMember> accountGroupMembers =
+        db.accountGroupMembers().byAccount(accountId);
+    ImmutableSet<AccountGroup.Id> foundGroupIds =
+        Streams.stream(accountGroupMembers)
+            .map(AccountGroupMember::getAccountGroupId)
+            .collect(toImmutableSet());
+    ResultSet<AccountGroup> existingGroups = db.accountGroups().get(foundGroupIds);
+    return Streams.stream(existingGroups).map(AccountGroup::getGroupUUID);
   }
 }

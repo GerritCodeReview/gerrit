@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3c7523d_da9dd985",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6241ea17_7c04f2f6",
+      "range": {
+        "startLine": 741,
+        "startChar": 26,
+        "endLine": 741,
+        "endChar": 35
+      },
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ad33d62_5ca48f20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-07-14T13:53:03Z",
       "side": 1,
       "message": "Optional: you could just make the type of revertOf a Change.Id, then you could avoid this ternary.",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3222d2d8_8fa4035c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ad33d62_5ca48f20",
       "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d2484681_e7ec4d7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0ee11e9_a6646242",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbcf84e4_10d73f5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e98cb9e0_89913b22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbcf84e4_10d73f5e",
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c449a288_bd841862",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-26T14:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e80a5418_5b030f36",
+      "range": {
+        "startLine": 519,
+        "startChar": 67,
+        "endLine": 519,
+        "endChar": 68
+      },
+      "revId": "294b662ca8e22e2352bd3dc0e45e3fc3049f5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

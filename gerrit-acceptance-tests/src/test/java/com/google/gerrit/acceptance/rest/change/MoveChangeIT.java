@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -225,6 +226,59 @@ public class MoveChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
+  }
+
+  @Test
+  public void moveChangeOnlyKeepVetoVotes() throws Exception {
+    // A vote for a label will be kept after moving if the label's function is *WithBlock and the
+    // vote holds the minimum value.
+    createBranch(new Branch.NameKey(project, "foo"));
+
+    String codeReviewLabel = "Code-Review"; // 'Code-Review' uses 'MaxWithBlock' function.
+    String testLabelA = "Label-A";
+    String testLabelB = "Label-B";
+    String testLabelC = "Label-C";
+    configLabel(testLabelA, "AnyWithBlock");
+    configLabel(testLabelB, "MaxNoBlock");
+    configLabel(testLabelC, "NoBlock");
+
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg, Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(testLabelB), -1, +1, registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(testLabelC), -1, +1, registered, "refs/heads/*");
+    saveProjectConfig(cfg);
+
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).current().review(ReviewInput.reject());
+
+    amendChange(changeId);
+
+    ReviewInput input = new ReviewInput();
+    input.label(testLabelA, -1);
+    input.label(testLabelB, -1);
+    input.label(testLabelC, -1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly(codeReviewLabel, testLabelA, testLabelB, testLabelC);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) -1, (short) -1, (short) -1);
+
+    // Move the change to the 'foo' branch.
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
+    move(changeId, "foo");
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
+
+    // 'Code-Review -2' and 'Label-A -1' will be kept.
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
+
+    // Move the change back to 'master'.
+    move(changeId, "master");
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

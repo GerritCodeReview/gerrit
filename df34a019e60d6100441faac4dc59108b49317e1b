@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82dccee2_d0cbe3c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T22:22:39Z",
+      "side": 1,
+      "message": "Ah i see, yeh not needed we can remove this. Thanks, done.",
+      "parentUuid": "062035a4_4c058fb7",
+      "range": {
+        "startLine": 244,
+        "startChar": 57,
+        "endLine": 244,
+        "endChar": 64
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6426d_c88bdf6c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/MoveAction.java",
         "patchSetId": 8
@@ -59,6 +83,30 @@
       "writtenOn": "2017-07-26T22:09:29Z",
       "side": 1,
       "message": "May be remove this now, as you do it in place below?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 43
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16a03ab2_884387ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T22:22:39Z",
+      "side": 1,
+      "message": "Woops, forgot to remove that after updating, thanks, done.",
+      "parentUuid": "3a535fde_5cee0133",
       "range": {
         "startLine": 218,
         "startChar": 4,

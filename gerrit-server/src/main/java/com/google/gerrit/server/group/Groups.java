@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
@@ -29,6 +30,7 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Singleton
@@ -79,5 +81,19 @@ public class Groups {
       throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
+  }
+
+  public Set<AccountGroup.UUID> getGroups(ReviewDb db, Account.Id accountId) throws OrmException {
+    ResultSet<AccountGroupMember> accountGroupMembers =
+        db.accountGroupMembers().byAccount(accountId);
+    ImmutableSet.Builder<AccountGroup.UUID> groupUuids = ImmutableSet.builder();
+    for (AccountGroupMember accountGroupMember : accountGroupMembers) {
+      AccountGroup.Id groupId = accountGroupMember.getAccountGroupId();
+      AccountGroup group = db.accountGroups().get(groupId);
+      if (group != null) {
+        groupUuids.add(group.getGroupUUID());
+      }
+    }
+    return groupUuids.build();
   }
 }

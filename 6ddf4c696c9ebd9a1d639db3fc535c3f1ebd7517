@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ac68591_41cd381c",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-07-26T16:11:53Z",
+      "side": 1,
+      "message": "this can be removed if you pass --dev option to the init commad.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 51
+      },
+      "revId": "6ddf4c696c9ebd9a1d639db3fc535c3f1ebd7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

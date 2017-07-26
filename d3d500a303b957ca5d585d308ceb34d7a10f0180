@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37dde49d_f4b2c077",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-26T18:22:53Z",
+      "side": 1,
+      "message": "Where is base defined?",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 27
+      },
+      "revId": "d3d500a303b957ca5d585d308ceb34d7a10f0180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -80,4 +80,11 @@ public class Groups {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
   }
+
+  public Stream<AccountGroup.Id> getGroupsWithMember(ReviewDb db, Account.Id accountId)
+      throws OrmException {
+    ResultSet<AccountGroupMember> accountGroupMembers =
+        db.accountGroupMembers().byAccount(accountId);
+    return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);
+  }
 }

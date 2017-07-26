@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.cache.CacheLoader;
@@ -24,12 +25,12 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -43,7 +44,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -153,6 +154,7 @@ public class AccountCacheImpl implements AccountCache {
     private final SchemaFactory<ReviewDb> schema;
     private final Accounts accounts;
     private final GroupCache groupCache;
+    private final Groups groups;
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
     private final Provider<WatchConfig.Accessor> watchConfig;
@@ -163,6 +165,7 @@ public class AccountCacheImpl implements AccountCache {
         SchemaFactory<ReviewDb> sf,
         Accounts accounts,
         GroupCache groupCache,
+        Groups groups,
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
         Provider<WatchConfig.Accessor> watchConfig,
@@ -170,6 +173,7 @@ public class AccountCacheImpl implements AccountCache {
       this.accounts = accounts;
       this.schema = sf;
       this.groupCache = groupCache;
+      this.groups = groups;
       this.loader = loader;
       this.byName = byUsername;
       this.watchConfig = watchConfig;
@@ -198,15 +202,13 @@ public class AccountCacheImpl implements AccountCache {
         return Optional.empty();
       }
 
-      Set<AccountGroup.UUID> internalGroups = new HashSet<>();
-      for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
-        final AccountGroup.Id groupId = g.getAccountGroupId();
-        final AccountGroup group = groupCache.get(groupId);
-        if (group != null && group.getGroupUUID() != null) {
-          internalGroups.add(group.getGroupUUID());
-        }
-      }
-      internalGroups = Collections.unmodifiableSet(internalGroups);
+      Set<AccountGroup.UUID> internalGroups =
+          groups
+              .getGroupsWithMember(db, who)
+              .map(groupCache::get)
+              .map(AccountGroup::getGroupUUID)
+              .filter(Objects::nonNull)
+              .collect(toImmutableSet());
 
       try {
         account.setGeneralPreferences(loader.load(who));

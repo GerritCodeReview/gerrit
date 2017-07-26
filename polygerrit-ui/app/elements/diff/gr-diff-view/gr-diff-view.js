@@ -21,6 +21,8 @@
 
   const COMMENT_SAVE = 'Try again when all comments have saved.';
 
+  const PARENT = 'PARENT';
+
   const DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -98,6 +100,8 @@
        * or drafts or robot comments.
        */
       _commentMap: Object,
+
+      _commentsForDiff: Object,
 
       /**
        * Object to contain the path of the next and previous file in the current
@@ -464,7 +468,7 @@
       this._changeNum = value.changeNum;
       this._patchRange = {
         patchNum: value.patchNum,
-        basePatchNum: value.basePatchNum || 'PARENT',
+        basePatchNum: value.basePatchNum || PARENT,
       };
       this._path = value.path;
 
@@ -493,13 +497,12 @@
 
       promises.push(this._getChangeDetail(this._changeNum));
 
+      promises.push(this._loadComments());
+
       Promise.all(promises).then(() => {
         this._loading = false;
+        this.$.diff.comments = this._commentsForDiff;
         this.$.diff.reload();
-      });
-
-      this._loadCommentMap().then(commentMap => {
-        this._commentMap = commentMap;
       });
     },
 
@@ -557,7 +560,7 @@
     _patchRangeStr(patchRange) {
       let patchStr = patchRange.patchNum;
       if (patchRange.basePatchNum != null &&
-          patchRange.basePatchNum != 'PARENT') {
+          patchRange.basePatchNum != PARENT) {
         patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
       }
       return patchStr;
@@ -584,7 +587,7 @@
       for (const rev of Object.values(revisions || {})) {
         latestPatchNum = Math.max(latestPatchNum, rev._number);
       }
-      if (patchRange.basePatchNum !== 'PARENT' ||
+      if (patchRange.basePatchNum !== PARENT ||
           parseInt(patchRange.patchNum, 10) !== latestPatchNum) {
         patchNum = patchRange.patchNum;
         basePatchNum = patchRange.basePatchNum;
@@ -717,33 +720,12 @@
       return url;
     },
 
-    /**
-     * Request all comments (and drafts and robot comments) for the current
-     * change and construct the map of file paths that have comments for the
-     * current patch range.
-     * @return {Promise} A promise that yields a comment map object.
-     */
-    _loadCommentMap() {
-      const filterByRange = comment =>
-          this.patchNumEquals(comment.patch_set, this._patchRange.patchNum) ||
-            this.patchNumEquals(comment.patch_set,
-                this._patchRange.basePatchNum);
+    _loadComments() {
+      return this.$.commentAPI.loadAll(this._changeNum).then(() => {
+        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
 
-      return Promise.all([
-        this.$.restAPI.getDiffComments(this._changeNum),
-        this._getDiffDrafts(),
-        this.$.restAPI.getDiffRobotComments(this._changeNum),
-      ]).then(results => {
-        const commentMap = {};
-        for (const response of results) {
-          for (const path in response) {
-            if (response.hasOwnProperty(path) &&
-                response[path].filter(filterByRange).length) {
-              commentMap[path] = true;
-            }
-          }
-        }
-        return commentMap;
+        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
+            this._patchRange, this._projectConfig);
       });
     },
 

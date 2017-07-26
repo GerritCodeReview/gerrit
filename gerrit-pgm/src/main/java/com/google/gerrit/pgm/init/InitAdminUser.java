@@ -25,8 +25,6 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
@@ -52,6 +50,7 @@ public class InitAdminUser implements InitStep {
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private final ExternalIdsOnInit externalIds;
   private final SequencesOnInit sequencesOnInit;
+  private final GroupsOnInit groupsOnInit;
   private SchemaFactory<ReviewDb> dbFactory;
   private AccountIndexCollection indexCollection;
 
@@ -62,13 +61,15 @@ public class InitAdminUser implements InitStep {
       AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
       ExternalIdsOnInit externalIds,
-      SequencesOnInit sequencesOnInit) {
+      SequencesOnInit sequencesOnInit,
+      GroupsOnInit groupsOnInit) {
     this.flags = flags;
     this.ui = ui;
     this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
     this.externalIds = externalIds;
     this.sequencesOnInit = sequencesOnInit;
+    this.groupsOnInit = groupsOnInit;
   }
 
   @Override
@@ -115,11 +116,9 @@ public class InitAdminUser implements InitStep {
           a.setPreferredEmail(email);
           accounts.insert(db, a);
 
-          AccountGroupName adminGroupName =
-              db.accountGroupNames().get(new AccountGroup.NameKey("Administrators"));
-          AccountGroupMember m =
-              new AccountGroupMember(new AccountGroupMember.Key(id, adminGroupName.getId()));
-          db.accountGroupMembers().insert(Collections.singleton(m));
+          AccountGroup adminGroup =
+              groupsOnInit.getExistingGroup(db, new AccountGroup.NameKey("Administrators"));
+          groupsOnInit.addGroupMember(db, adminGroup.getGroupUUID(), id);
 
           if (sshKey != null) {
             VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
@@ -127,7 +126,6 @@ public class InitAdminUser implements InitStep {
             authorizedKeys.save("Add SSH key for initial admin user\n");
           }
 
-          AccountGroup adminGroup = db.accountGroups().get(adminGroupName.getId());
           AccountState as =
               new AccountState(
                   a, Collections.singleton(adminGroup.getGroupUUID()), extIds, new HashMap<>());

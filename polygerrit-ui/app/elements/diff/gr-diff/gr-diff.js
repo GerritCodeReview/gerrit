@@ -77,6 +77,7 @@
         reflectToAttribute: true,
       },
       noRenderOnPrefsChange: Boolean,
+      comments: Object,
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -101,7 +102,6 @@
         type: String,
         value: '',
       },
-      _comments: Object,
       _baseImage: Object,
       _revisionImage: Object,
 
@@ -150,10 +150,6 @@
       promises.push(this._getDiff().then(diff => {
         this._diff = diff;
         return this._loadDiffAssets();
-      }));
-
-      promises.push(this._getDiffCommentsAndDrafts().then(comments => {
-        this._comments = comments;
       }));
 
       return Promise.all(promises).then(() => {
@@ -373,7 +369,7 @@
       const comment = e.detail.comment;
       const side = e.detail.comment.__commentSide;
       const idx = this._findDraftIndex(comment, side);
-      this.set(['_comments', side, idx], comment);
+      this.set(['comments', side, idx], comment);
     },
 
     _handleCommentUpdate(e) {
@@ -384,9 +380,9 @@
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) { // Update draft or comment.
-        this.set(['_comments', side, idx], comment);
+        this.set(['comments', side, idx], comment);
       } else { // Create new draft.
-        this.push(['_comments', side], comment);
+        this.push(['comments', side], comment);
       }
     },
 
@@ -396,24 +392,24 @@
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) {
-        this.splice('_comments.' + side, idx, 1);
+        this.splice('comments.' + side, idx, 1);
       }
     },
 
     _findCommentIndex(comment, side) {
-      if (!comment.id || !this._comments[side]) {
+      if (!comment.id || !this.comments[side]) {
         return -1;
       }
-      return this._comments[side].findIndex(item => {
+      return this.comments[side].findIndex(item => {
         return item.id === comment.id;
       });
     },
 
     _findDraftIndex(comment, side) {
-      if (!comment.__draftID || !this._comments[side]) {
+      if (!comment.__draftID || !this.comments[side]) {
         return -1;
       }
-      return this._comments[side].findIndex(item => {
+      return this.comments[side].findIndex(item => {
         return item.__draftID === comment.__draftID;
       });
     },
@@ -463,7 +459,7 @@
 
       this.updateStyles(stylesToUpdate);
 
-      if (this._diff && this._comments && !this.noRenderOnPrefsChange) {
+      if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();
       }
     },
@@ -477,7 +473,7 @@
       }
 
       this._showWarning = false;
-      return this.$.diffBuilder.render(this._comments, this._getBypassPrefs());
+      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
     },
 
     /**
@@ -517,73 +513,6 @@
             };
             return diff;
           });
-    },
-
-    _getDiffComments() {
-      return this.$.restAPI.getDiffComments(
-          this.changeNum,
-          this.patchRange.basePatchNum,
-          this.patchRange.patchNum,
-          this.path);
-    },
-
-    _getDiffDrafts() {
-      return this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          return Promise.resolve({baseComments: [], comments: []});
-        }
-        return this.$.restAPI.getDiffDrafts(
-            this.changeNum,
-            this.patchRange.basePatchNum,
-            this.patchRange.patchNum,
-            this.path);
-      });
-    },
-
-    _getDiffRobotComments() {
-      return this.$.restAPI.getDiffRobotComments(
-          this.changeNum,
-          this.patchRange.basePatchNum,
-          this.patchRange.patchNum,
-          this.path);
-    },
-
-    _getDiffCommentsAndDrafts() {
-      const promises = [];
-      promises.push(this._getDiffComments());
-      promises.push(this._getDiffDrafts());
-      promises.push(this._getDiffRobotComments());
-      return Promise.all(promises).then(results => {
-        return Promise.resolve({
-          comments: results[0],
-          drafts: results[1],
-          robotComments: results[2],
-        });
-      }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
-    },
-
-    _normalizeDiffCommentsAndDrafts(results) {
-      function markAsDraft(d) {
-        d.__draft = true;
-        return d;
-      }
-      const baseDrafts = results.drafts.baseComments.map(markAsDraft);
-      const drafts = results.drafts.comments.map(markAsDraft);
-
-      const baseRobotComments = results.robotComments.baseComments;
-      const robotComments = results.robotComments.comments;
-      return Promise.resolve({
-        meta: {
-          path: this.path,
-          changeNum: this.changeNum,
-          patchRange: this.patchRange,
-          projectConfig: this.projectConfig,
-        },
-        left: results.comments.baseComments.concat(baseDrafts)
-            .concat(baseRobotComments),
-        right: results.comments.comments.concat(drafts)
-            .concat(robotComments),
-      });
     },
 
     _getLoggedIn() {

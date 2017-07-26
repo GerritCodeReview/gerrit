@@ -56,7 +56,7 @@ limitations under the License.
         getDiffChangeDetail() { return Promise.resolve(null); },
         getChangeFiles() { return Promise.resolve({}); },
         saveFileReviewed() { return Promise.resolve(); },
-        getDiffRobotComments() { return Promise.resolve(); },
+        getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve(); },
       });
       element = fixture('basic');
@@ -637,54 +637,38 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
-    suite('_loadCommentMap', () => {
+    suite('_loadComments', () => {
       test('empty', done => {
-        stub('gr-rest-api-interface', {
-          getDiffComments() { return Promise.resolve({}); },
+        stub('gr-comment-api', {
+          loadAll() { return Promise.resolve(); },
+          getPaths() { return {}; },
+          getCommentsForPath() { return {meta: {}}; },
         });
-        element._loadCommentMap().then(map => {
-          assert.equal(Object.keys(map).length, 0);
+        element._loadComments().then(() => {
+          assert.equal(Object.keys(element._commentMap).length, 0);
           done();
         });
       });
 
-      test('paths in patch range', done => {
-        stub('gr-rest-api-interface', {
-          getDiffComments() {
-            return Promise.resolve({
+      test('has paths', done => {
+        stub('gr-comment-api', {
+          loadAll() { return Promise.resolve(); },
+          getPaths() {
+            return {
               'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
               'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
-            });
+            };
           },
+          getCommentsForPath() { return {meta: {}}; },
         });
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '3',
           patchNum: '5',
         };
-        element._loadCommentMap().then(map => {
-          assert.deepEqual(Object.keys(map),
+        element._loadComments().then(() => {
+          assert.deepEqual(Object.keys(element._commentMap),
               ['path/to/file/one.cpp', 'path-to/file/two.py']);
-          done();
-        });
-      });
-
-      test('empty for paths outside patch range', done => {
-        stub('gr-rest-api-interface', {
-          getDiffComments() {
-            return Promise.resolve({
-              'path/to/file/one.cpp': [{patch_set: PARENT, message: 'lorem'}],
-              'path-to/file/two.py': [{patch_set: 2, message: 'ipsum'}],
-            });
-          },
-        });
-        element._changeNum = '42';
-        element._patchRange = {
-          basePatchNum: '3',
-          patchNum: '5',
-        };
-        element._loadCommentMap().then(map => {
-          assert.equal(Object.keys(map).length, 0);
           done();
         });
       });

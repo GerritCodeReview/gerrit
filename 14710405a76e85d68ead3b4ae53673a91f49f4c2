@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a298a1f4_ddd4ded9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T22:51:45Z",
+      "side": 1,
+      "message": "Thanks, done. Also i did check CherryPickAction which is where i based MoveAction.java on.",
+      "parentUuid": "31c84925_07db5525",
+      "range": {
+        "startLine": 244,
+        "startChar": 38,
+        "endLine": 244,
+        "endChar": 46
+      },
+      "revId": "14710405a76e85d68ead3b4ae53673a91f49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dffd6738_6fc0a3c6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-26T22:47:35Z",
       "side": 1,
       "message": "another: sorry, it was a typo on my side ;)",
+      "range": {
+        "startLine": 231,
+        "startChar": 21,
+        "endLine": 231,
+        "endChar": 27
+      },
+      "revId": "14710405a76e85d68ead3b4ae53673a91f49f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "759e5d1d_3dcf9373",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T22:51:45Z",
+      "side": 1,
+      "message": "Woops should have noticed. Thanks, done.",
+      "parentUuid": "dffd6738_6fc0a3c6",
       "range": {
         "startLine": 231,
         "startChar": 21,

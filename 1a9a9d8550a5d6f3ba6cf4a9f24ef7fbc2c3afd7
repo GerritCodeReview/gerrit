@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e081dac_fab49549",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T23:38:17Z",
+      "side": 1,
+      "message": "In what scenario is changes null?",
+      "revId": "1a9a9d8550a5d6f3ba6cf4a9f24ef7fbc2c3afd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -145,6 +145,12 @@ public interface ChangeConstants extends Constants {
 
   String cherryPickTitle();
 
+  String buttonMoveChangeSend();
+
+  String headingMoveBranch();
+
+  String moveTitle();
+
   String buttonRebaseChangeSend();
 
   String rebaseConfirmMessage();

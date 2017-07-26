@@ -22,6 +22,30 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc56c056_b66317b0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/plugins/Plugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-26T13:03:51Z",
+      "side": 1,
+      "message": "This was copied from the Projects implementation, where it is explicitly done like this because of some glitch in the way the names are mapped.\n\nI\u0027m not sure if it\u0027s needed here but left it like this to make it easier to adapt later if necessary.",
+      "parentUuid": "3307bcf1_ae7ca010",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

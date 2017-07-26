@@ -19,14 +19,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -34,7 +37,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class GroupsUpdate {
   public interface Factory {
@@ -45,8 +51,11 @@ public class GroupsUpdate {
   private final GroupCache groupCache;
   private final AuditService auditService;
   private final AccountCache accountCache;
+  private final RenameGroupOp.Factory renameGroupOpFactory;
+  private final PersonIdent serverIdent;
 
   @Nullable private IdentifiedUser currentUser;
+  private PersonIdent committerIdent;
 
   @Inject
   GroupsUpdate(
@@ -54,12 +63,17 @@ public class GroupsUpdate {
       GroupCache groupCache,
       AuditService auditService,
       AccountCache accountCache,
+      RenameGroupOp.Factory renameGroupOpFactory,
+      @GerritPersonIdent PersonIdent serverIdent,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.groups = groups;
     this.groupCache = groupCache;
     this.auditService = auditService;
     this.accountCache = accountCache;
-    this.currentUser = currentUser;
+    this.renameGroupOpFactory = renameGroupOpFactory;
+    this.serverIdent = serverIdent;
+
+    setCurrentUser(currentUser);
   }
 
   /**
@@ -75,6 +89,19 @@ public class GroupsUpdate {
    */
   public void setCurrentUser(@Nullable IdentifiedUser currentUser) {
     this.currentUser = currentUser;
+    setCommitterIdent(currentUser);
+  }
+
+  private void setCommitterIdent(@Nullable IdentifiedUser currentUser) {
+    if (currentUser != null) {
+      committerIdent = createPersonIdent(serverIdent, currentUser);
+    } else {
+      committerIdent = serverIdent;
+    }
+  }
+
+  private static PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
+    return user.newCommitterIdent(ident.getWhen(), ident.getTimeZone());
   }
 
   public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
@@ -111,6 +138,50 @@ public class GroupsUpdate {
     AccountGroup group = foundGroup.get();
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
+    return Optional.of(group);
+  }
+
+  public Optional<AccountGroup> renameGroup(
+      ReviewDb db, AccountGroup.Id groupId, AccountGroup.NameKey newName)
+      throws OrmException, IOException, NameAlreadyUsedException {
+    Optional<AccountGroup> foundGroup = groups.get(db, groupId);
+    if (!foundGroup.isPresent()) {
+      return Optional.empty();
+    }
+
+    AccountGroup group = foundGroup.get();
+    AccountGroup.NameKey oldName = group.getNameKey();
+
+    try {
+      AccountGroupName id = new AccountGroupName(newName, groupId);
+      db.accountGroupNames().insert(ImmutableList.of(id));
+    } catch (OrmException e) {
+      AccountGroupName other = db.accountGroupNames().get(newName);
+      if (other != null) {
+        // If we are using this identity, don't report the exception.
+        if (other.getId().equals(groupId)) {
+          return Optional.of(group);
+        }
+
+        // Otherwise, someone else has this identity.
+        throw new NameAlreadyUsedException("group with name " + newName + " already exists");
+      }
+      throw e;
+    }
+
+    group.setNameKey(newName);
+    db.accountGroups().update(ImmutableList.of(group));
+
+    db.accountGroupNames().deleteKeys(ImmutableList.of(oldName));
+
+    groupCache.evict(group);
+    groupCache.evictAfterRename(oldName, newName);
+
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        renameGroupOpFactory
+            .create(committerIdent, group.getGroupUUID(), oldName.get(), newName.get())
+            .start(0, TimeUnit.MILLISECONDS);
     return Optional.of(group);
   }
 

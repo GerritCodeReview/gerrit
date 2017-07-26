@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Optional;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
@@ -40,11 +40,16 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
 
   private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutDescription(GroupCache groupCache, Provider<ReviewDb> db) {
+  PutDescription(
+      GroupCache groupCache,
+      Provider<ReviewDb> db,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.groupCache = groupCache;
     this.db = db;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
@@ -61,14 +66,17 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
-    if (group == null) {
+    String newDescription = Strings.emptyToNull(input.description);
+    Optional<AccountGroup> updatedGroup =
+        groupsUpdateProvider
+            .get()
+            .updateGroup(
+                db.get(), resource.getGroupUUID(), group -> group.setDescription(newDescription));
+    if (!updatedGroup.isPresent()) {
       throw new ResourceNotFoundException();
     }
 
-    group.setDescription(Strings.emptyToNull(input.description));
-    db.get().accountGroups().update(Collections.singleton(group));
-    groupCache.evict(group);
+    groupCache.evict(updatedGroup.get());
 
     return Strings.isNullOrEmpty(input.description)
         ? Response.<String>none()

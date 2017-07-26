@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f3119526_644eba43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/MoveAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-26T22:22:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "24f6426d_c88bdf6c",
+      "range": {
+        "startLine": 30,
+        "startChar": 85,
+        "endLine": 30,
+        "endChar": 105
+      },
+      "revId": "df34a019e60d6100441faac4dc59108b49317e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a535fde_5cee0133",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 8

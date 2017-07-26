@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c304d923_5345c69e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2017-07-26T20:10:47Z",
+      "side": 1,
+      "message": "hooking just \u0027send\u0027 seemed to be cleaner (and the current version here is simpler, and it\u0027s how other tests hook \u0027send\u0027), but i don\u0027t feel strongly.  if you want me to try that way, i can see if the tests still pass.",
+      "parentUuid": "615fca71_e449964f",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

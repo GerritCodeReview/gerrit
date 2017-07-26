@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "5919f6b0_3c900bf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T21:09:20Z",
+      "side": 1,
+      "message": "Hmm. I\u0027ve encountered multiple scenarios where exceptions thrown after termination of a test (e.g. in a then clause within a synchronous test) caused tests to improperly pass.",
+      "parentUuid": "a3baadc7_fd61ae3f",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

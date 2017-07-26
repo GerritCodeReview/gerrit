@@ -23,8 +23,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -32,6 +34,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class GroupsUpdate {
   public interface Factory {
@@ -39,6 +43,7 @@ public class GroupsUpdate {
   }
 
   private final Groups groups;
+  private final GroupCache groupCache;
   private final AuditService auditService;
   private final AccountCache accountCache;
   @Nullable private final IdentifiedUser currentUser;
@@ -46,10 +51,13 @@ public class GroupsUpdate {
   @Inject
   GroupsUpdate(
       Groups groups,
+      GroupCache groupCache,
       AuditService auditService,
       AccountCache accountCache,
+      @GerritPersonIdent PersonIdent serverIdent,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.groups = groups;
+    this.groupCache = groupCache;
     this.auditService = auditService;
     this.accountCache = accountCache;
     this.currentUser = currentUser;
@@ -65,6 +73,22 @@ public class GroupsUpdate {
     // already been used to create another group
     db.accountGroupNames().insert(ImmutableList.of(gn));
     db.accountGroups().insert(ImmutableList.of(group));
+  }
+
+  public Optional<AccountGroup> updateGroup(
+      ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
+      throws OrmException, IOException {
+    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      return Optional.empty();
+    }
+
+    AccountGroup group = foundGroup.get();
+    // TODO(aliceks): Only update the group if modifications are made.
+    groupConsumer.accept(group);
+    db.accountGroups().update(ImmutableList.of(group));
+    groupCache.evict(group);
+    return Optional.of(group);
   }
 
   public void addGroupMember(ReviewDb db, AccountGroup.NameKey groupName, Account.Id accountId)

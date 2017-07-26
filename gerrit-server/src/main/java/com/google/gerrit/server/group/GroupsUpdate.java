@@ -24,6 +24,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -31,6 +32,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,6 +56,14 @@ public class GroupsUpdate {
     this.auditService = auditService;
     this.accountCache = accountCache;
     this.currentUser = currentUser;
+  }
+
+  public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
+    AccountGroupName gn = new AccountGroupName(group);
+    // first insert the group name to validate that the group name hasn't
+    // already been used to create another group
+    db.accountGroupNames().insert(Collections.singleton(gn));
+    db.accountGroups().insert(Collections.singleton(group));
   }
 
   public void addGroupMember(ReviewDb db, AccountGroup.NameKey groupName, Account.Id accountId)

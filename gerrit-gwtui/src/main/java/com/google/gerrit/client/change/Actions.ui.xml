@@ -63,6 +63,9 @@ limitations under the License.
     <g:Button ui:field='cherrypick' styleName='' visible='false'>
       <div><ui:msg>Cherry Pick</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='move' styleName='' visible='false'>
+      <div><ui:msg>Move Change</ui:msg></div>
+    </g:Button>
     <g:Button ui:field='rebase' styleName='' visible='false'>
       <div><ui:msg>Rebase</ui:msg></div>
     </g:Button>

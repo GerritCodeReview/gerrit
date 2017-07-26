@@ -161,6 +161,9 @@
         });
       }));
 
+      // Load all comments for the change.
+      promises.push(this.$.comments.loadAll(this.changeNum));
+
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
@@ -879,6 +882,9 @@
       console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
           initialCount, ':', paths[0]);
       const diffElem = this._findDiffByPath(paths[0], diffElements);
+      diffElem.comments = this.$.comments.getCommentsForPath(paths[0],
+          this.patchRange);
+
       const promises = [diffElem.reload()];
       if (this._isLoggedIn) {
         promises.push(this._reviewFile(paths[0]));

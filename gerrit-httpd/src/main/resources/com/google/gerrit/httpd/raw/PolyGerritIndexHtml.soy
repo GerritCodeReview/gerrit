@@ -20,13 +20,18 @@
  * @param canonicalPath
  * @param staticResourcePath
  * @param? versionInfo
+ * @param mobileDesktopSite
  */
 {template .Index autoescape="strict" kind="html"}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
   <meta name="description" content="Gerrit Code Review">{\n}
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
+  {if $mobileDesktopSite}
+    <meta name="viewport">{\n}
+  {else}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
+  {/if}
 
   {if $canonicalPath != '' or $versionInfo}
     <script>

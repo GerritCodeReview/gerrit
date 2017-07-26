@@ -72,6 +72,10 @@ public class GroupsUpdate {
   }
 
   public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
+    addNewGroup(db, group);
+  }
+
+  public static void addNewGroup(ReviewDb db, AccountGroup group) throws OrmException {
     AccountGroupName gn = new AccountGroupName(group);
     // first insert the group name to validate that the group name hasn't
     // already been used to create another group

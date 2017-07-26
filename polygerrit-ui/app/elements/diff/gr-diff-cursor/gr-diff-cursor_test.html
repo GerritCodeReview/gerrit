@@ -59,6 +59,7 @@ limitations under the License.
       // Register the diff with the cursor.
       cursorElement.push('diffs', diffElement);
 
+      diffElement.comments = {left: [], right: []};
       diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
       });
@@ -67,19 +68,8 @@ limitations under the License.
         return Promise.resolve(mockDiffResponse.diffResponse);
       });
 
-      sandbox.stub(diffElement, '_getDiffComments', () => {
-        return Promise.resolve({baseComments: [], comments: []});
-      });
-
-      sandbox.stub(diffElement, '_getDiffDrafts', () => {
-        return Promise.resolve({baseComments: [], comments: []});
-      });
-
-      sandbox.stub(diffElement, '_getDiffRobotComments', () => {
-        return Promise.resolve({baseComments: [], comments: []});
-      });
-
       const setupDone = () => {
+        cursorElement._updateStops();
         cursorElement.moveToFirstChunk();
         diffElement.removeEventListener('render', setupDone);
         done();
@@ -218,12 +208,13 @@ limitations under the License.
       const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
       const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
-      diffElement.addEventListener('render', () => {
+      function renderHandler() {
+        diffElement.removeEventListener('render', renderHandler);
         assert.isFalse(moveToNumStub.called);
         assert.isTrue(moveToChunkStub.called);
         done();
-      });
-
+      }
+      diffElement.addEventListener('render', renderHandler);
       diffElement.reload();
     });
 
@@ -231,13 +222,15 @@ limitations under the License.
       const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
       const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
 
-      diffElement.addEventListener('render', () => {
+      function renderHandler() {
+        diffElement.removeEventListener('render', renderHandler);
         assert.isFalse(moveToChunkStub.called);
         assert.isTrue(moveToNumStub.called);
         assert.equal(moveToNumStub.lastCall.args[0], 10);
         assert.equal(moveToNumStub.lastCall.args[1], 'right');
         done();
-      });
+      }
+      diffElement.addEventListener('render', renderHandler);
 
       cursorElement.initialLineNumber = 10;
       cursorElement.side = 'right';

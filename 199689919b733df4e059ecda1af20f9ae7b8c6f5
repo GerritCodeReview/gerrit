@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d20557ae_ebd1c4fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "This change only adding moving changes to the GWT UI. Say this explicitly, e.g.:\n\n  GWT UI: Support moving changes to another branch",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cae1a11_841821f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this promise needs to be a part of the commit message.",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82c421b4_984f20f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Also reference: Bug: Issue 117. 117 is still not closed/done, because this feature is still wasn\u0027t exposed on the UI. See my last comment there, I marked it with the starter project label.",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dee6ba1c_ee630226",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Unneeded. May be better to say: Move change to anther branch.",
+      "range": {
+        "startLine": 231,
+        "startChar": 18,
+        "endLine": 231,
+        "endChar": 20
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22268162_7f75631a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "lower case.",
+      "range": {
+        "startLine": 231,
+        "startChar": 11,
+        "endLine": 231,
+        "endChar": 17
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7e59a_32560393",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Move REST API supports message, like restore or abandon. See for example the unit test for move change feature:\n\n  @Test\n  public void moveChangeWithMessage() throws Exception {\n    // Provide a message using --message flag\n    [...]\n    String moveMessage \u003d \"Moving for the move test\";\n    move(r.getChangeId(), newBranch.get(), moveMessage);\n    [...]\n\nHave you considered to support provide a message?",
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2246a20c_e1eebdd3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Why not to derive it from TextAreaActionDialog, like RevertAction, CherryPickDialog and CreateChangeDialog to offer enter a message?",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 62
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c628d0ab_2460beef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "No final in new code.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 9
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e33da96_03165fae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 11
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71e9b640_6fbeb9fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-26T21:28:49Z",
+      "side": 1,
+      "message": "Can be done in place, like src.getProject() the next line.",
+      "range": {
+        "startLine": 224,
+        "startChar": 22,
+        "endLine": 224,
+        "endChar": 28
+      },
+      "revId": "199689919b733df4e059ecda1af20f9ae7b8c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

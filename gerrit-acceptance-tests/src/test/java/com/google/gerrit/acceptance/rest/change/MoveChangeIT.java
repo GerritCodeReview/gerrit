@@ -227,6 +227,59 @@ public class MoveChangeIT extends AbstractDaemonTest {
     move(r.getChangeId(), newBranch.get());
   }
 
+  @Test
+  public void moveChangeWillClearNonLowestVotes() throws Exception {
+    String verifiedLabel = "Verified";
+    String codeReviewLabel = "Code-Review";
+    configLabel(verifiedLabel, "MaxWithBlock");
+    AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    grantLabel(verifiedLabel, -1, 1, project, "refs/heads/*", false, registered, false);
+
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+
+    // 'admin' adds -2 for 'Code-Review' (sticky) on patch set 1.
+    setApiUser(admin);
+    gApi.changes().id(changeId).current().review(ReviewInput.reject());
+
+    amendChange(changeId);
+
+    // 'admin' adds +1 for 'Verified' on patch set 2.
+    ReviewInput input = new ReviewInput();
+    input.label(verifiedLabel, 1);
+    gApi.changes().id(changeId).current().review(input);
+
+    // 'user' adds +1 for 'Code-Review' and -1 for 'Verified' on patch set 2.
+    setApiUser(user);
+    input.label(verifiedLabel, -1);
+    input.label(codeReviewLabel, -1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly(codeReviewLabel, verifiedLabel);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) 1);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().keySet())
+        .containsExactly(codeReviewLabel, verifiedLabel);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) -1, (short) -1);
+
+    setApiUser(admin);
+    createBranch(new Branch.NameKey(project, "foo"));
+
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
+
+    // Move the change to the 'foo' branch, which should result in all votes are cleared explicitly.
+    move(changeId, "foo");
+
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) 0);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) 0, (short) -1);
+  }
+
   private void move(int changeNum, String destination) throws RestApiException {
     gApi.changes().id(changeNum).move(destination);
   }

@@ -468,6 +468,9 @@
       };
       this._path = value.path;
 
+      // NOTE: This may be called before attachment (e.g. while parentElement is
+      // null). Fire title-change in an async so that, if attachment to the DOM
+      // has been queued, the event can bubble up to the handler in gr-app.
       this.async(() => {
         this.fire('title-change',
             {title: this._computeTruncatedFileDisplayName(this._path)});

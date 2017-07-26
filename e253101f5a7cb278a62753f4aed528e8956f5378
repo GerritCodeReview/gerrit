@@ -46,6 +46,30 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afaf02cd_a6e01691",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/plugins/Plugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-26T13:16:21Z",
+      "side": 1,
+      "message": "OK, I\u0027m fine with either way.",
+      "parentUuid": "fc56c056_b66317b0",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "615fca71_e449964f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T19:57:35Z",
+      "side": 1,
+      "message": "How about we then just spy on the submit function?\n\n    test(\u0027emit send on ctrl+enter key\u0027, () \u003d\u003e {\n      const submitStub \u003d sandbox.stub(element, \u0027_submit\u0027);\n      MockInteractions.pressAndReleaseKeyOn(element, 13, null, \u0027enter\u0027);\n      flushAsynchronousOperations();\n\n      assert.isFalse(submitStub.called);\n    });",
+      "parentUuid": "6e04a4d7_a9bd5285",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "that doesn\u0027t work -- see above",
       "parentUuid": "cdb1876a_a4e8af79",
+      "range": {
+        "startLine": 710,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3debe1dd_78262b0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-26T19:57:35Z",
+      "side": 1,
+      "message": "How about we then just spy on the submit function?\n\n    test(\u0027emit send on ctrl+enter key\u0027, () \u003d\u003e {\n      const submitStub \u003d sandbox.stub(element, \u0027_submit\u0027);\n      MockInteractions.pressAndReleaseKeyOn(element, 13, \u0027ctrl\u0027, \u0027enter\u0027);\n      flushAsynchronousOperations();\n\n      assert.isTrue(submitStub.called);\n    });",
+      "parentUuid": "66467fdc_2b564ba8",
       "range": {
         "startLine": 710,
         "startChar": 0,

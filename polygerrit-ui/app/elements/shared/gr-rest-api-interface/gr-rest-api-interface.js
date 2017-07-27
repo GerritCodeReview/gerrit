@@ -230,8 +230,12 @@
       return JSON.parse(source.substring(JSON_PREFIX.length));
     },
 
-    getConfig() {
-      return this._fetchSharedCacheURL('/config/server/info');
+    getConfig(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/config/server/info');
+      }
+
+      return this.fetchJSON('/config/server/info');
     },
 
     getRepo(repo) {
@@ -635,11 +639,15 @@
     },
 
     getAccountGroups() {
-      return this._fetchSharedCacheURL('/accounts/self/groups');
+      return this.fetchJSON('/accounts/self/groups');
     },
 
     getAccountAgreements() {
       return this._fetchSharedCacheURL('/accounts/self/agreements');
+    },
+
+    saveAccountAgreement(name) {
+      return this.send('PUT', '/accounts/self/agreements', name);
     },
 
     /**

@@ -377,7 +377,18 @@
       app.params = params;
     });
 
-    page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
+    page(/^\/settings\/agreements/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          data.params.view = Gerrit.Nav.View.AGREEMENTS;
+          app.params = data.params;
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
+    page(/^\/settings\/new-agreement(\/)?/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = Gerrit.Nav.View.AGREEMENTS;

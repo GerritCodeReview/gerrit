@@ -48,6 +48,7 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
+      _showSettingsAggreement: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _viewState: Object,
@@ -129,8 +130,8 @@
       this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
       this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
       this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
+      this.set('_showSettingsAggreement', view === Gerrit.Nav.View.AGREEMENTS);
       this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
-      this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       if (this.params.justRegistered) {
         this.$.registration.open();
       }

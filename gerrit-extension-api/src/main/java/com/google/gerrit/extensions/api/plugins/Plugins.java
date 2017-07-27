@@ -35,6 +35,9 @@ public interface Plugins {
     private boolean all;
     private int limit;
     private int start;
+    private String substring;
+    private String prefix;
+    private String regex;
 
     public List<PluginInfo> get() throws RestApiException {
       Map<String, PluginInfo> map = getAsMap();
@@ -72,6 +75,33 @@ public interface Plugins {
 
     public int getStart() {
       return start;
+    }
+
+    public ListRequest substring(String substring) {
+      this.substring = substring;
+      return this;
+    }
+
+    public String getSubstring() {
+      return substring;
+    }
+
+    public ListRequest prefix(String prefix) {
+      this.prefix = prefix;
+      return this;
+    }
+
+    public String getPrefix() {
+      return prefix;
+    }
+
+    public ListRequest regex(String regex) {
+      this.regex = regex;
+      return this;
+    }
+
+    public String getRegex() {
+      return regex;
     }
   }
 

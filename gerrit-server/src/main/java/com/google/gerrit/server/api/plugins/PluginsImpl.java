@@ -63,6 +63,9 @@ public class PluginsImpl implements Plugins {
         list.setAll(this.getAll());
         list.setStart(this.getStart());
         list.setLimit(this.getLimit());
+        list.setMatchPrefix(this.getPrefix());
+        list.setMatchSubstring(this.getSubstring());
+        list.setMatchRegex(this.getRegex());
         return list.apply();
       }
     };

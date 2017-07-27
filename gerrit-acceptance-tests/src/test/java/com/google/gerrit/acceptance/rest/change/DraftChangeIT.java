@@ -29,6 +29,8 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.EditInfoSubject;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -38,6 +40,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
 import java.util.Collection;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -49,7 +52,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   @Test
   public void forceCreateAndPublishDraftChangeWhenAllowDraftsDisabled() throws Exception {
-    PushOneCommit.Result result = forceDraftChange();
+    PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
     String triplet = project.get() + "~master~" + changeId;
@@ -105,7 +108,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
-    setDraftStatusOfPatchSetsOfChange(id, true);
+    setDraftStatusOfPatchSets(id, true);
 
     String changeId = changeResult.getChangeId();
     exception.expect(MethodNotAllowedException.class);
@@ -125,7 +128,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
-    setDraftStatusOfPatchSetsOfChange(id, true);
+    setDraftStatusOfPatchSets(id, true);
 
     String changeId = changeResult.getChangeId();
 
@@ -151,7 +154,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
     PushOneCommit.Result changeResult = createDraftChange();
     Change.Id id = changeResult.getChange().getId();
-    setDraftStatusOfPatchSetsOfChange(id, false);
+    setDraftStatusOfPatchSets(id, false);
 
     String changeId = changeResult.getChangeId();
     exception.expect(ResourceConflictException.class);
@@ -194,8 +197,8 @@ public class DraftChangeIT extends AbstractDaemonTest {
   @Test
   public void createDraftChangeWhenDraftsNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
-    PushOneCommit.Result r = createDraftChange();
-    r.assertErrorStatus("draft workflow is disabled");
+    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    r.assertErrorStatus();
   }
 
   @Test
@@ -226,6 +229,53 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all).hasSize(1);
     assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
     assertThat(label.all.get(0).value).isEqualTo(1);
+  }
+
+  @Test
+  public void pushWithDraftOptionGetsPrivateChange() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    PushOneCommit.Result result = createChange("refs/drafts/master");
+    String changeId = result.getChangeId();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+
+    assertThat(changeInfo.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(changeInfo.isPrivate).isEqualTo(true);
+    assertThat(changeInfo.revisions).hasSize(1);
+    assertThat(Iterables.getOnlyElement(changeInfo.revisions.values()).draft).isNull();
+  }
+
+  @Test
+  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    pushWithDraftOptionToExistingChangeGetsChangeEdit(createChange().getChangeId());
+  }
+
+  @Test
+  public void pushWithDraftOptionToExistingDraftChangeGetsChangeEdit() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    pushWithDraftOptionToExistingChangeGetsChangeEdit(createDraftChange().getChangeId());
+  }
+
+  private void pushWithDraftOptionToExistingChangeGetsChangeEdit(String changeId) throws Exception {
+    Optional<EditInfo> edit = getEdit(changeId);
+    EditInfoSubject.assertThat(edit).isAbsent();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    ChangeStatus originalChangeStatus = changeInfo.status;
+    Boolean originalPatchSetStatus = Iterables.getOnlyElement(changeInfo.revisions.values()).draft;
+
+    PushOneCommit.Result result = amendChange(changeId, "refs/drafts/master");
+    result.assertOkStatus();
+
+    changeInfo = gApi.changes().id(changeId).get();
+    assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
+    assertThat(changeInfo.isPrivate).isNull();
+    assertThat(changeInfo.revisions).hasSize(1);
+    assertThat(Iterables.getOnlyElement(changeInfo.revisions.values()).draft)
+        .isEqualTo(originalPatchSetStatus);
+
+    edit = getEdit(changeId);
+    EditInfoSubject.assertThat(edit).isPresent();
   }
 
   private static RestResponse deleteChange(String changeId, RestSession s) throws Exception {

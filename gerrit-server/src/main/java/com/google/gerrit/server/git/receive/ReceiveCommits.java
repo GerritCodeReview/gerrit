@@ -622,7 +622,7 @@ class ReceiveCommits {
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
-      boolean edit = magicBranch != null && magicBranch.edit;
+      boolean edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
       Boolean isPrivate = null;
       Boolean wip = null;
       if (magicBranch != null) {
@@ -1159,7 +1159,12 @@ class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(name = "--draft", usage = "mark new/updated changes as draft")
+    @Option(
+      name = "--draft",
+      usage =
+          "Will be removed. Before that, this option will be mapped to '--private'"
+              + "for new changes and '--edit' for existing changes"
+    )
     boolean draft;
 
     @Option(name = "--private", usage = "mark new/updated change as private")
@@ -1463,6 +1468,7 @@ class ReceiveCommits {
     }
 
     if (magicBranch.draft) {
+      // TODO(xchangcheng): reject all after repo-tool supports private and wip changes.
       if (!receiveConfig.allowDrafts) {
         errors.put(ReceiveError.CODE_REVIEW, ref);
         reject(cmd, "draft workflow is disabled");
@@ -2115,14 +2121,15 @@ class ReceiveCommits {
           changeInserterFactory
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
-              .setPrivate(magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate))
+              .setPrivate(
+                  magicBranch.draft
+                      || magicBranch.isPrivate
+                      || (privateByDefault && !magicBranch.removePrivate))
               .setWorkInProgress(magicBranch.workInProgress)
               // Changes already validated in validateNewCommits.
               .setValidate(false);
 
-      if (magicBranch.draft) {
-        ins.setDraft(magicBranch.draft);
-      } else if (magicBranch.merged) {
+      if (magicBranch.merged) {
         ins.setStatus(Change.Status.MERGED);
       }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit, ins.getPatchSetId().toRefName());
@@ -2144,8 +2151,7 @@ class ReceiveCommits {
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        recipients.add(
-            getRecipientsFromFooters(db, accountResolver, magicBranch.draft, footerLines));
+        recipients.add(getRecipientsFromFooters(db, accountResolver, false, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(
@@ -2429,7 +2435,7 @@ class ReceiveCommits {
         return false;
       }
 
-      if (magicBranch != null && magicBranch.edit) {
+      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
         return newEdit();
       }
 
@@ -2485,7 +2491,7 @@ class ReceiveCommits {
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
-      if (magicBranch != null && magicBranch.edit) {
+      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
         bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
         if (prev != null) {
           bu.addRepoOnlyOp(new UpdateOneRefOp(prev));

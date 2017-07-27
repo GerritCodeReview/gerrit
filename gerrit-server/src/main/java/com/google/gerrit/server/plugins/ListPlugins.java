@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.plugins;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -27,12 +30,11 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
 /** List the installed plugins. */
@@ -41,6 +43,8 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
   private boolean all;
+  private int limit;
+  private int start;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -53,6 +57,26 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   )
   public void setAll(boolean all) {
     this.all = all;
+  }
+
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of plugins to list"
+  )
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(
+    name = "--start",
+    aliases = {"-s"},
+    metaVar = "CNT",
+    usage = "number of plugins to skip"
+  )
+  public void setStart(int start) {
+    this.start = start;
   }
 
   @Inject
@@ -82,15 +106,15 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
 
   public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) {
     SortedMap<String, PluginInfo> output = new TreeMap<>();
-    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
-    Collections.sort(
-        plugins,
-        new Comparator<Plugin>() {
-          @Override
-          public int compare(Plugin a, Plugin b) {
-            return a.getName().compareTo(b.getName());
-          }
-        });
+    Stream<Plugin> s =
+        Streams.stream(pluginLoader.getPlugins(all)).sorted(comparing(Plugin::getName));
+    if (start > 0) {
+      s = s.skip(start);
+    }
+    if (limit > 0) {
+      s = s.limit(limit);
+    }
+    List<Plugin> plugins = s.collect(toList());
 
     if (!format.isJson()) {
       stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");

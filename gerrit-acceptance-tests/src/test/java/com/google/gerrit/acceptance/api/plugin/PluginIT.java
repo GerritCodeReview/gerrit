@@ -62,6 +62,9 @@ public class PluginIT extends AbstractDaemonTest {
     }
     assertPlugins(list().get(), PLUGINS);
 
+    // With pagination
+    assertPlugins(list().start(1).limit(2).get(), PLUGINS.subList(1, PLUGINS.size() - 1));
+
     // Disable
     test = gApi.plugins().name("plugin-a");
     test.disable();

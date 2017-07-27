@@ -67,6 +67,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -592,14 +593,17 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
-  protected PushOneCommit.Result createDraftChange() throws Exception {
+  protected PushOneCommit.Result tryPushToDraftsMastere() throws Exception {
     return pushTo("refs/drafts/master");
   }
 
-  protected PushOneCommit.Result forceDraftChange() throws Exception {
+  protected PushOneCommit.Result createDraftChange() throws Exception {
     PushOneCommit.Result pushTo = pushTo("refs/for/master");
-    markChangeAsDraft(pushTo.getChange().change().getId());
-    setDraftStatusOfPatchSetsOfChange(pushTo.getChange().change().getId(), true);
+    Change.Id changeId = pushTo.getChange().change().getId();
+    markChangeAsDraft(changeId);
+    setDraftStatusOfPatchSetsOfChange(changeId, true);
+    ChangeData cd = Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(pushTo.getChangeId()));
+    assertThat(cd.change().getStatus()).isEqualTo(Status.DRAFT);
     return pushTo;
   }
 
@@ -612,6 +616,21 @@ public abstract class AbstractDaemonTest {
 
     ChangeStatus changeStatus = gApi.changes().id(id.get()).get().status;
     assertThat(changeStatus).isEqualTo(ChangeStatus.DRAFT);
+  }
+
+  protected void setDraftStatusOfCurrentPatchSetOfChange(Change.Id id, boolean draftStatus)
+      throws Exception {
+    try (BatchUpdate batchUpdate =
+        batchUpdateFactory.create(db, project, atrScope.get().getUser(), TimeUtil.nowTs())) {
+      batchUpdate.addOp(id, new DraftStatusOfCurrentPatchSetUpdateOp(draftStatus));
+      batchUpdate.execute();
+    }
+
+    Boolean expectedDraftStatus = draftStatus ? Boolean.TRUE : null;
+    ChangeInfo changeInfo =
+        gApi.changes().id(id.get()).get(EnumSet.of(ListChangesOption.ALL_REVISIONS));
+    RevisionInfo revisionInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revisionInfo.draft).isEqualTo(expectedDraftStatus);
   }
 
   protected void setDraftStatusOfPatchSetsOfChange(Change.Id id, boolean draftStatus)
@@ -649,6 +668,28 @@ public abstract class AbstractDaemonTest {
       PatchSet.Id currentPatchSetId = change.currentPatchSetId();
       ctx.getUpdate(currentPatchSetId).setStatus(Change.Status.DRAFT);
 
+      return true;
+    }
+  }
+
+  private class DraftStatusOfCurrentPatchSetUpdateOp implements BatchUpdateOp {
+    private final boolean draftStatus;
+
+    DraftStatusOfCurrentPatchSetUpdateOp(boolean draftStatus) {
+      this.draftStatus = draftStatus;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      PatchSet currentPatchSet = psUtil.current(db, ctx.getNotes());
+
+      // Change status in database.
+      currentPatchSet.setDraft(draftStatus);
+      db.patchSets().update(Collections.singleton(currentPatchSet));
+
+      // Change status in NoteDb.
+      PatchSetState patchSetState = draftStatus ? PatchSetState.DRAFT : PatchSetState.PUBLISHED;
+      ctx.getUpdate(currentPatchSet.getId()).setPatchSetState(patchSetState);
       return true;
     }
   }
@@ -773,8 +814,19 @@ public abstract class AbstractDaemonTest {
     revision(r).submit();
   }
 
-  protected PushOneCommit.Result amendChangeAsDraft(String changeId) throws Exception {
-    return amendChange(changeId, "refs/drafts/master");
+  protected PushOneCommit.Result amendChangeAndMarkPatchSetAsDraft(String changeId)
+      throws Exception {
+    PushOneCommit.Result r = amendChange(changeId, "refs/for/master");
+    setDraftStatusOfCurrentPatchSetOfChange(r.getChange().getId(), true);
+    return r;
+  }
+
+  protected PushOneCommit.Result amendChangeAndMarkChangeAndPatchSetsAsDraft(String changeId)
+      throws Exception {
+    PushOneCommit.Result r = amendChange(changeId, "refs/for/master");
+    markChangeAsDraft(r.getChange().getId());
+    setDraftStatusOfCurrentPatchSetOfChange(r.getChange().change().getId(), true);
+    return r;
   }
 
   protected ChangeInfo info(String id) throws RestApiException {
@@ -1440,5 +1492,11 @@ public abstract class AbstractDaemonTest {
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
+
+  protected String createDraftChangeWith2PS() throws Exception {
+    PushOneCommit.Result r = createDraftChange();
+    amendChangeAndMarkChangeAndPatchSetsAsDraft(r.getChangeId());
+    return r.getChangeId();
   }
 }

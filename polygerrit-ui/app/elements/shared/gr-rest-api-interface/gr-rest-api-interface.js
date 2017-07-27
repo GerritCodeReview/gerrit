@@ -565,6 +565,20 @@
       return this._fetchSharedCacheURL('/accounts/self/agreements');
     },
 
+    getAgreementsFromHtml(url) {
+      return this.send('GET', url, '', null, null, 'text/html')
+          .then(response => {
+            return response.text().then(responseHtml => {
+              return responseHtml;
+            });
+          });
+    },
+
+    saveAccountAgreement(name) {
+      return this.send('PUT', '/accounts/self/agreements', name,
+          null, null);
+    },
+
     /**
      * @param {string=} opt_params
      */
@@ -1267,7 +1281,9 @@
      * @param {?=} opt_ctx
      * @param {?string=} opt_contentType
      */
-    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+    send(
+        method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+      let urls;
       const options = {method};
       if (opt_body) {
         options.headers = new Headers();
@@ -1278,7 +1294,12 @@
         }
         options.body = opt_body;
       }
-      return this._auth.fetch(this.getBaseUrl() + url, options)
+      if (url.startsWith('http:') || url.startsWith('https:')) {
+        urls = url;
+      } else {
+        urls = this.getBaseUrl() + url;
+      }
+      return this._auth.fetch(urls, options)
           .then(response => {
             if (!response.ok) {
               if (opt_errFn) {

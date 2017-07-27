@@ -45,6 +45,29 @@
       "revId": "b46e3d56a0fcbc960637a50d01dfc337bac4c4b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fd81c49_e178c4a2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-27T07:07:00Z",
+      "side": 1,
+      "message": "I wonder if setting the draft status on all patch sets of a change at once is always what we want, or if we need to be able to set the draft status on certain patch sets too. Probably nothing we need to be worried about now. It should be easy to adapt later if needed.",
+      "range": {
+        "startLine": 618,
+        "startChar": 2,
+        "endLine": 619,
+        "endChar": 24
+      },
+      "revId": "b46e3d56a0fcbc960637a50d01dfc337bac4c4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

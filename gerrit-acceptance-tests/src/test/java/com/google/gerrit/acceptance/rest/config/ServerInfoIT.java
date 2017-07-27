@@ -136,7 +136,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void serverConfigWithPlugin() throws Exception {
     Path plugins = sitePaths.plugins_dir;
-    Files.createDirectory(plugins);
     Path jsplugin = plugins.resolve("js-plugin-1.js");
     Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
     adminSshSession.exec("gerrit plugin reload");

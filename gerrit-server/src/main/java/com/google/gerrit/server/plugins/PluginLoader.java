@@ -309,7 +309,16 @@ public class PluginLoader implements LifecycleListener {
   @Override
   public synchronized void start() {
     removeStalePluginFiles();
-    log.info("Loading plugins from " + pluginsDir.toAbsolutePath());
+    Path absolutePath = pluginsDir.toAbsolutePath();
+    if (!Files.exists(absolutePath)) {
+      log.info(absolutePath + " does not exist; creating");
+      try {
+        Files.createDirectories(absolutePath);
+      } catch (IOException e) {
+        log.error(String.format("Failed to create %s: %s", absolutePath, e.getMessage()));
+      }
+    }
+    log.info("Loading plugins from " + absolutePath);
     srvInfoImpl.state = ServerInformation.State.STARTUP;
     rescan();
     srvInfoImpl.state = ServerInformation.State.RUNNING;

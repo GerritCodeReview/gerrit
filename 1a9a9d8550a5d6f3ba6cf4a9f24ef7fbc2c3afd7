@@ -52,6 +52,24 @@
       "revId": "1a9a9d8550a5d6f3ba6cf4a9f24ef7fbc2c3afd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a021db6b_5ee1da68",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-27T19:18:49Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nThe server is returning 500 since it seems gerrit-review carn\u0027t handle large querys. I\u0027ve noticed that it only affects gerrit-review. WMF gerrit is fine. I\u0027ve also tested on a local install too.",
+      "parentUuid": "e24d6600_39e380cf",
+      "revId": "1a9a9d8550a5d6f3ba6cf4a9f24ef7fbc2c3afd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

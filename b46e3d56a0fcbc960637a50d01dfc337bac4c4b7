@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7b731a7_1b7384a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-27T13:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bda1849_60bf0464",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "b46e3d56a0fcbc960637a50d01dfc337bac4c4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7785a1_a71884b3",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7377cbd6_c57f3934",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-27T13:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7785a1_a71884b3",
+      "range": {
+        "startLine": 37,
+        "startChar": 36,
+        "endLine": 37,
+        "endChar": 56
+      },
+      "revId": "b46e3d56a0fcbc960637a50d01dfc337bac4c4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fd81c49_e178c4a2",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-27T07:07:00Z",
       "side": 1,
       "message": "I wonder if setting the draft status on all patch sets of a change at once is always what we want, or if we need to be able to set the draft status on certain patch sets too. Probably nothing we need to be worried about now. It should be easy to adapt later if needed.",
+      "range": {
+        "startLine": 618,
+        "startChar": 2,
+        "endLine": 619,
+        "endChar": 24
+      },
+      "revId": "b46e3d56a0fcbc960637a50d01dfc337bac4c4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f5be819_4671bf50",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-27T13:42:22Z",
+      "side": 1,
+      "message": "+1. We can do this later if necessary.",
+      "parentUuid": "4fd81c49_e178c4a2",
       "range": {
         "startLine": 618,
         "startChar": 2,

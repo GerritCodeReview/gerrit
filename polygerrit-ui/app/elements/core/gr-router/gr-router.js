@@ -518,7 +518,17 @@
       normalizeLegacyRouteParams(params);
     });
 
-    page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
+    page(/^\/settings\/agreements(\/)?/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          page.redirect('/settings/#Agreements');
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
+    page(/^\/settings\/new-agreement(\/)?/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           data.params.view = Gerrit.Nav.View.AGREEMENTS;

@@ -701,6 +701,18 @@ limitations under the License.
       assert.isTrue(cancelHandler.called);
     });
 
+    test('should not send on enter key', () => {
+      element.addEventListener('send', () => assert.fail('wrongly called'));
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+      flushAsynchronousOperations();
+    });
+
+    test('emit send on ctrl+enter key', done => {
+      element.addEventListener('send', () => done());
+      MockInteractions.pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
+      flushAsynchronousOperations();
+    });
+
     test('_computeMessagePlaceholder', () => {
       assert.equal(
           element._computeMessagePlaceholder(false),

@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1b6b6bc1_b44ba5e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T20:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f23d72c9_b97dfef4",
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfaf71b7_5b4880c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 26
@@ -124,6 +142,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 1,
       "message": "Please also describe the further migration plan for drafts. This change only prevents the creation of new draft changes / patch sets and existing draft changes / patch sets are not migrated. At least mention that follow-up changes must deal with this migration.",
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "612bcb49_c58dec4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T20:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfaf71b7_5b4880c4",
       "revId": "8df4b2e6f6b021616895f378907066103afe521e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

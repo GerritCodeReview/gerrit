@@ -125,6 +125,7 @@ limitations under the License.
       const shouldRequireAutoAuth = [
         '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
+        '_handleNewAgreementsRoute',
         '_handleGroupAuditLogRoute',
         '_handleGroupInfoRoute',
         '_handleGroupListFilterOffsetRoute',
@@ -398,7 +399,14 @@ limitations under the License.
       });
 
       test('_handleAgreementsRoute', () => {
-        element._handleAgreementsRoute({params: {}});
+        const data = {params: {}};
+        element._handleAgreementsRoute(data);
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/settings#Agreements');
+      });
+
+      test('_handleNewAgreementsRoute', () => {
+        element._handleNewAgreementsRoute({params: {}});
         assert.isTrue(setParamsStub.calledOnce);
         assert.equal(setParamsStub.lastCall.args[0].view,
             Gerrit.Nav.View.AGREEMENTS);

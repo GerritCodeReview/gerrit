@@ -303,7 +303,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void deleteDraft() throws Exception {
-    PushOneCommit.Result r = createDraft();
+    PushOneCommit.Result r = createDraftChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).delete();
   }
 
@@ -1303,11 +1303,6 @@ public class RevisionIT extends AbstractDaemonTest {
         pushFactory.create(
             db, admin.getIdent(), testRepo, "test commit", "a.txt", content, r.getChangeId());
     return push.to("refs/for/master");
-  }
-
-  private PushOneCommit.Result createDraft() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    return push.to("refs/drafts/master");
   }
 
   private RevisionApi current(PushOneCommit.Result r) throws Exception {

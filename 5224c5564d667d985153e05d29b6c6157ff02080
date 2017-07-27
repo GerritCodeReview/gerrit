@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37c0d5e2_3e2c85a5",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "This paragraph is confusing to me. Didn\u0027t Max write the commit message when he committed the change on line 35?\n\nTypically the Change-Id is inserted automatically using a commit-msg hook (see https://www.kernel.org/pub/software/scm/git/docs/githooks.html). It is tempting to set that up as part of the clone step. E.g. maybe Max could copy/paste a clone command from http://gerrithost:8080/admin/projects/RecipeBook where it says \"Clone with commit-msg hook\" (see https://gerrit-review.googlesource.com/admin/projects/gerrit). Or this walkthrough can include the commands directly:\n\n ---\n $ git clone ssh://gerrithost:29418/RecipeBook.git RecipeBook\n Cloning into RecipeBook...\n $ scp -p -P 29418 gerrithost:hooks/commit-msg RecipeBook/.git/hooks/\n $ chmod u+x .git/hooks/commit-msg\n ---\n\nAlternatively, if this walkthrough wants to introduce the hook later then the time to manually include the Change-Id would be at commit time.",
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5a0115d_e762d839",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "What is a symbolic branch? My first thought is to think of symbolic refs (which are so named because they are like symlinks: see https://www.kernel.org/pub/software/scm/git/docs/git-symbolic-ref.html, https://jwiegley.github.io/git-from-the-bottom-up/, and the description of HEAD in http://eagain.net/articles/git-for-computer-scientists/), which I think is the wrong association.",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 70,
+        "endChar": 49
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f166ae0c_666e7c89",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "nit: explaining the change is what the commit message is for.\n\nMaybe \"to ask reviewers for advice on particular aspects of the change\"",
+      "range": {
+        "startLine": 88,
+        "startChar": 51,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f0dcf3_5533745f",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "Technically picking Changes-\u003eOpen is a case of search, but for some reason I don\u0027t think of it that way.\n\nWould it be worth calling out the Changes menu and dashboards here, e.g. as another bullet point?",
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c469019c_c7b517b6",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "This is configurable. I wonder if we should change the default to -1..1 to make this walkthrough simpler.",
+      "range": {
+        "startLine": 156,
+        "startChar": 19,
+        "endLine": 156,
+        "endChar": 68
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59d22c64_7fa0a8dd",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "Publish Comments",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 19
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62dbe7a2_b5b212ea",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "I\u0027m confused --- how is the commit-msg hook involved in this action?\n\nThe commit message already has a Change-Id, so it remains there when Max amends it.",
+      "range": {
+        "startLine": 180,
+        "startChar": 69,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121b6be6_16490507",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-07-27T22:11:17Z",
+      "side": 1,
+      "message": "master branch?",
+      "range": {
+        "startLine": 269,
+        "startChar": 47,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

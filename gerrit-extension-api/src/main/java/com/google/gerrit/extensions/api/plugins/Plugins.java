@@ -33,6 +33,8 @@ public interface Plugins {
 
   abstract class ListRequest {
     private boolean all;
+    private int limit;
+    private int start;
 
     public List<PluginInfo> get() throws RestApiException {
       Map<String, PluginInfo> map = getAsMap();
@@ -52,6 +54,24 @@ public interface Plugins {
 
     public boolean getAll() {
       return all;
+    }
+
+    public ListRequest limit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public ListRequest start(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public int getStart() {
+      return start;
     }
   }
 

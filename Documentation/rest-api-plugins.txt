@@ -23,6 +23,10 @@ namespace.
 Lists the plugins installed on the Gerrit server. Only the enabled
 plugins are returned unless the `all` option is specified.
 
+The `limit` (`n`) option can be specified to limit the number of
+plugins returned, and the `start` (`s`) option can be specified to
+skip the given number of plugins from the beginning of the list.
+
 To be allowed to see the installed plugins, a user must be a member of
 a group that is granted the 'View Plugins' capability or the
 'Administrate Server' capability.

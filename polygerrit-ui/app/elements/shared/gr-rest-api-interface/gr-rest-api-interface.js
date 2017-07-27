@@ -197,8 +197,13 @@
       });
     },
 
-    getConfig() {
-      return this._fetchSharedCacheURL('/config/server/info');
+    getConfig(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/config/server/info');
+      }
+
+      return this.send('GET', '/config/server/info')
+          .then(response => this.getResponseObject(response));
     },
 
     getProjectConfig(project) {
@@ -557,12 +562,31 @@
           });
     },
 
-    getAccountGroups() {
-      return this._fetchSharedCacheURL('/accounts/self/groups');
+    getAccountGroups(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/accounts/self/groups');
+      }
+
+      return this.send('GET', '/accounts/self/groups')
+          .then(response => this.getResponseObject(response));
     },
 
     getAccountAgreements() {
       return this._fetchSharedCacheURL('/accounts/self/agreements');
+    },
+
+    getAgreementsFromHtml(url) {
+      return this.send('GET', url, '', null, null, 'text/html')
+          .then(response => {
+            return response.text().then(responseHtml => {
+              return responseHtml;
+            });
+          });
+    },
+
+    saveAccountAgreement(name) {
+      return this.send('PUT', '/accounts/self/agreements', name,
+          null, null);
     },
 
     /**
@@ -1278,7 +1302,13 @@
         }
         options.body = opt_body;
       }
-      return this._auth.fetch(this.getBaseUrl() + url, options)
+      let urls;
+      if (url.startsWith('http:') || url.startsWith('https:')) {
+        urls = url;
+      } else {
+        urls = this.getBaseUrl() + url;
+      }
+      return this._auth.fetch(urls, options)
           .then(response => {
             if (!response.ok) {
               if (opt_errFn) {

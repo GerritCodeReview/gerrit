@@ -1,0 +1,152 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-new-agreements">
+  <template>
+    <style include="shared-styles">
+      .agreementsUrl {
+        margin-bottom: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 5px 5px 5px 5px;
+        border: 1px solid #b0bdcc;
+      }
+      .smallHeading {
+        margin-top: 5px;
+        font-weight: bold;
+      }
+      .agreements {
+        margin: 1em;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .claNewAgreements2 {
+        display: none;
+      }
+      .claNewAgreements2.show {
+        display: block;
+      }
+      .verticalTop {
+        vertical-align: top;
+      }
+      .contributorAgreementButton {
+        font-weight: bold;
+      }
+      .table {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 2em;
+      }
+      .title {
+        text-align: center;
+        flex: 1;
+        white-space: nowrap;
+        font-size: 16pt;
+        margin: 3px 0.3em 8px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .contributorAgreementAlreadySubmitted {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 5px 5px 5px 5px;
+        color: red;
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+    <header>
+      <span class="title">
+        New Contributor Agreement
+      </span>
+    </header>
+    <div class="table">
+      <form>
+        <div>
+          <table cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td align="left" class="verticalTop">
+                  <div class="smallHeading">
+                    Select an agreement type:
+                  </div>
+                </td>
+              </tr>
+              <template is="dom-repeat"
+                        items="[[_serverConfig.auth.contributor_agreements]]">
+                <tr>
+                  <td align="left" class="verticalTop">
+                    <span class="contributorAgreementButton">
+                      <input id$="claNewAgreementsInput[[item.name]]"
+                          name="claNewAgreementsRadio"
+                          type="radio"
+                          data-name$="[[item.name]]"
+                          data-url$="[[item.url]]"
+                          on-tap="_handleAgreements"
+                          disabled$="[[_disableAggreements(item, _groups)]]">
+                      <label id="claNewAgreementsLabel" class="bold">[[item.name]]</label>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" class="verticalTop">
+                    <div>
+                      <div class="contributorAgreementAlreadySubmitted"
+                           hidden$="{{!_disableAggreements(item, _groups)}}">
+                        Agreement already submitted.
+                      </div>
+                    </div>
+                    <div class="agreementsUrl">
+                      [[item.description]]
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div id="claNewAgreements2" class$="claNewAgreements2 [[_showAgreements]]">
+            <div class="smallHeading">Review the agreement:</div>
+            <div id="agreementsUrl" class="agreementsUrl"></div>
+            <div class="agreementsTextBox"
+                 hidden$="[[_disableAgreementsTextBox(_agreementName, _serverConfig.auth.contributor_agreements)]]">
+              <div class="smallHeading">Complete the agreement:</div>
+              <input
+                  id="input-agreements"
+                  is="iron-input"
+                  bind-value="{{_agreementsText}}"
+                  placeholder="enter I AGREE in the box"/>
+              <gr-button
+                  on-tap="_handleSaveAgreements"
+                  disabled="[[_disableAgreementsText(_agreementsText)]]">
+                Save changes
+              </gr-button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-new-agreements.js"></script>
+</dom-module>

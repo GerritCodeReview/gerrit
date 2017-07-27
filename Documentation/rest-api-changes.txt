@@ -5746,7 +5746,7 @@ The `refs/heads/` prefix is omitted.
 The subject of the change (header line of the commit message).
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
-The status of the change (only `NEW` and `DRAFT` accepted here).
+The status of the change (only `NEW` accepted here).
 |`is_private`         |optional, default to `false`|
 Whether the new change should be marked as private.
 |`work_in_progress`   |optional, default to `false`|

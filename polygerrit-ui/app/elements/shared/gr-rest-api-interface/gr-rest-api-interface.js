@@ -374,6 +374,13 @@
       return this._fetchSharedCacheURL('/accounts/self/agreements');
     },
 
+    getAgreementsFromHtml(url) {
+      return this.send('GET', url, opt_body, opt_errFn, opt_ctx, 'text/html')
+          .then(text => {
+            return text.text();
+          });
+    },
+
     getAccountCapabilities(opt_params) {
       let queryString = '';
       if (opt_params) {

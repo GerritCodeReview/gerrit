@@ -491,7 +491,7 @@ public class StaticModule extends ServletModule {
 
     private boolean handlePolyGerritParam(HttpServletRequest req, HttpServletResponse res)
         throws IOException {
-      if (!options.enableGwtUi()) {
+      if (!options.enableGwtUi() || !"GET".equals(req.getMethod())) {
         return false;
       }
       boolean redirect = false;

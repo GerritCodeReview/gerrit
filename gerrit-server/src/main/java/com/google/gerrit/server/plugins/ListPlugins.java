@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -31,9 +32,11 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
@@ -45,6 +48,9 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private boolean all;
   private int limit;
   private int start;
+  private String matchPrefix;
+  private String matchSubstring;
+  private String matchRegex;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -79,6 +85,31 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     this.start = start;
   }
 
+  @Option(
+    name = "--prefix",
+    aliases = {"-p"},
+    metaVar = "PREFIX",
+    usage = "match plugin prefix"
+  )
+  public void setMatchPrefix(String matchPrefix) {
+    this.matchPrefix = matchPrefix;
+  }
+
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match plugin substring"
+  )
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
+
+  @Option(name = "-r", metaVar = "REGEX", usage = "match plugin regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
@@ -94,17 +125,18 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) {
+  public Object apply(TopLevelResource resource) throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public SortedMap<String, PluginInfo> apply() {
+  public SortedMap<String, PluginInfo> apply() throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout) {
+  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout)
+      throws BadRequestException {
     SortedMap<String, PluginInfo> output = new TreeMap<>();
     Stream<Plugin> s =
         Streams.stream(pluginLoader.getPlugins(all)).sorted(comparing(Plugin::getName));
@@ -113,6 +145,19 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
     if (limit > 0) {
       s = s.limit(limit);
+    }
+    if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null && matchRegex == null);
+      String prefix = matchPrefix.toLowerCase(Locale.US);
+      s = s.filter(p -> p.getName().toLowerCase(Locale.US).startsWith(prefix));
+    } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null && matchRegex == null);
+      String substring = matchSubstring.toLowerCase(Locale.US);
+      s = s.filter(p -> p.getName().toLowerCase(Locale.US).contains(substring));
+    } else if (matchRegex != null) {
+      checkMatchOptions(matchPrefix == null && matchSubstring == null);
+      Pattern pattern = Pattern.compile(matchRegex);
+      s = s.filter(p -> pattern.matcher(p.getName()).matches());
     }
     List<Plugin> plugins = s.collect(toList());
 
@@ -146,6 +191,12 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
     stdout.flush();
     return null;
+  }
+
+  private void checkMatchOptions(boolean cond) throws BadRequestException {
+    if (!cond) {
+      throw new BadRequestException("specify exactly one of p/m/r");
+    }
   }
 
   public static PluginInfo toPluginInfo(Plugin p) {

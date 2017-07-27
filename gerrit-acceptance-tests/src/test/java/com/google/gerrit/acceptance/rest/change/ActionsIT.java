@@ -457,7 +457,9 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createDraftWithTopic() throws Exception {
-    return createCommitAndPush(
-        testRepo, "refs/drafts/master/" + name("foo2"), "a message", "a.txt", "content\n");
+    PushOneCommit.Result r = createChangeWithTopic();
+    markChangeAsDraft(r.getChange().change().getId());
+    setDraftStatusOfPatchSetsOfChange(r.getChange().change().getId(), true);
+    return r;
   }
 }

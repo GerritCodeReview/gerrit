@@ -53,7 +53,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -1226,7 +1225,10 @@ public class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(name = "--draft", usage = "mark new/updated changes as draft")
+    @Option(
+      name = "--draft",
+      usage = "Currently disabled, will be removed: " + "mark new/updated changes as draft"
+    )
     boolean draft;
 
     @Option(name = "--private", usage = "mark new/updated change as private")
@@ -1530,17 +1532,9 @@ public class ReceiveCommits {
     }
 
     if (magicBranch.draft) {
-      if (!receiveConfig.allowDrafts) {
-        errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "draft workflow is disabled");
-        return;
-      } else if (projectControl
-          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
-          .isBlocked(Permission.PUSH)) {
-        errors.put(Error.CODE_REVIEW, ref);
-        reject(cmd, "cannot upload drafts");
-        return;
-      }
+      errors.put(Error.CODE_REVIEW, ref);
+      reject(cmd, "Creation of draft refs is not allowed");
+      return;
     }
 
     try {

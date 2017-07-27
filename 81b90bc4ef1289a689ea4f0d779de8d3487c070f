@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "ed820f8b_25fa5e56",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2017-07-27T03:20:33Z",
+      "side": 1,
+      "message": "sounds like a problem in the test harness that should be fixed.  the other JS ones i\u0027ve used explicitly catch spurious exceptions and die.\n\ni had checked both of these tests to make sure that they failed in the opposite case -- if this one sends ctrl+enter, the tests fail, and if the one below sends enter, the tests fail.\n\ni can change the format here if you prefer.  i don\u0027t have experience with the shortcomings of the gerrit tests.  i still think this one is \"better\", but we\u0027re talking 3 lines vs 4 lines.",
+      "parentUuid": "5919f6b0_3c900bf0",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 7
+      },
+      "revId": "81b90bc4ef1289a689ea4f0d779de8d3487c070f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1876a_a4e8af79",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2

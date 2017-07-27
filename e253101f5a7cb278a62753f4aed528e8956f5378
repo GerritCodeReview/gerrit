@@ -87,6 +87,24 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aff9ca8_2360bcbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-27T07:59:03Z",
+      "side": 1,
+      "message": "I\u0027m OK with reverting it, but would it be just as easy to add a follow-up change that adds a new module?",
+      "parentUuid": "239d40ad_fe9e525b",
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

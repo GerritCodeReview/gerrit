@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "60c2539e_069dcf05",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:38:30Z",
+      "side": 1,
+      "message": "What the function is doing/why things getting multiplied by 2.",
+      "parentUuid": "4713777c_1292a7e4",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 36
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40593e42_0a42d7c9",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 7
@@ -272,6 +296,30 @@
       "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1196d32_9d7c75be",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:38:30Z",
+      "side": 1,
+      "message": "Oh ok, I\u0027ll leave it to Wyatt then",
+      "parentUuid": "4edc8872_b4aa8c67",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -70,6 +70,23 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239d40ad_fe9e525b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-27T07:53:33Z",
+      "side": 1,
+      "message": "We have a problem with this change, as we can\u0027t support the plugin API internally. For the REST API we have a special module (PluginRestApiModule) that binds the plugin REST endpoints separately and internally we don\u0027t install that module. I\u0027m afraid we need a similar mechanism that allows us to not install the plugin API support. I would prefer to revert this change and then reimplement it with this requirement in mind. Would you be okay with that?",
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

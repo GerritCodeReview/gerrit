@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.audit.AuditService;
@@ -91,6 +92,17 @@ public class GroupsUpdate {
   public Optional<AccountGroup> updateGroup(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
       throws OrmException, IOException {
+    Optional<AccountGroup> updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
+    if (updatedGroup.isPresent()) {
+      groupCache.evict(updatedGroup.get());
+    }
+    return updatedGroup;
+  }
+
+  @VisibleForTesting
+  public Optional<AccountGroup> updateGroupInDb(
+      ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
+      throws OrmException, IOException {
     Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
     if (!foundGroup.isPresent()) {
       return Optional.empty();
@@ -99,7 +111,6 @@ public class GroupsUpdate {
     AccountGroup group = foundGroup.get();
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
-    groupCache.evict(group);
     return Optional.of(group);
   }
 

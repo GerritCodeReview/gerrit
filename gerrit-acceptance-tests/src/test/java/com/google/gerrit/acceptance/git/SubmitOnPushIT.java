@@ -172,7 +172,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushingDraft_Error() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%draft,submit");
-    r.assertErrorStatus("cannot submit draft");
+    r.assertErrorStatus("Creation of draft refs is not allowed");
   }
 
   @Test

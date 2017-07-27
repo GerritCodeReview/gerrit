@@ -50,8 +50,11 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JarScanner implements PluginContentScanner, AutoCloseable {
+  private static final Logger log = LoggerFactory.getLogger(JarScanner.class);
   private static final int SKIP_ALL =
       ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final JarFile jarFile;
@@ -88,7 +91,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       } catch (IOException err) {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
-        PluginLoader.log.warn(
+        log.warn(
             String.format(
                 "Plugin %s has invalid class file %s inside of %s",
                 pluginName, entry.getName(), jarFile.getName()),
@@ -100,7 +103,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
         if (def.isConcrete()) {
           rawMap.put(def.annotationName, def);
         } else {
-          PluginLoader.log.warn(
+          log.warn(
               String.format(
                   "Plugin %s tries to @%s(\"%s\") abstract class %s",
                   pluginName, def.annotationName, def.annotationValue, def.className));
@@ -148,7 +151,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       try {
         new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
       } catch (RuntimeException err) {
-        PluginLoader.log.warn(
+        log.warn(
             String.format("Jar %s has invalid class file %s", jarFile.getName(), entry.getName()),
             err);
         continue;

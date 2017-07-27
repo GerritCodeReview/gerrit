@@ -32,8 +32,12 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServerPlugin extends Plugin {
+  private static final Logger log = LoggerFactory.getLogger(ServerPlugin.class);
+
   private final Manifest manifest;
   private final PluginContentScanner scanner;
   private final Path dataDir;
@@ -174,7 +178,7 @@ public class ServerPlugin extends Plugin {
     } else if ("restart".equalsIgnoreCase(v)) {
       return false;
     } else {
-      PluginLoader.log.warn(
+      log.warn(
           String.format(
               "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v));
       return false;

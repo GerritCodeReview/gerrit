@@ -18,8 +18,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.jar.JarFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class CleanupHandle {
+  private static final Logger log = LoggerFactory.getLogger(CleanupHandle.class);
+
   private final Path tmp;
   private final JarFile jarFile;
 
@@ -32,13 +36,13 @@ class CleanupHandle {
     try {
       jarFile.close();
     } catch (IOException err) {
-      PluginLoader.log.error("Cannot close " + jarFile.getName(), err);
+      log.error("Cannot close " + jarFile.getName(), err);
     }
     try {
       Files.deleteIfExists(tmp);
-      PluginLoader.log.info("Cleaned plugin " + tmp.getFileName());
+      log.info("Cleaned plugin " + tmp.getFileName());
     } catch (IOException e) {
-      PluginLoader.log.warn(
+      log.warn(
           "Cannot delete "
               + tmp.toAbsolutePath()
               + ", retrying to delete it on termination of the virtual machine",

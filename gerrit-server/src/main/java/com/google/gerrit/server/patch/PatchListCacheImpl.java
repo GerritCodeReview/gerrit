@@ -18,6 +18,7 @@ package com.google.gerrit.server.patch;
 import static com.google.gerrit.server.patch.DiffSummaryLoader.toDiffSummary;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
@@ -194,5 +196,14 @@ public class PatchListCacheImpl implements PatchListCache {
     private static final long serialVersionUID = 1L;
 
     private LargeObjectTombstone() {}
+
+    @Override
+    /**
+     * Return an empty list so that {@link PatchListWeigher} rely on {@code patches} being set in
+     * {@link PatchList}
+     */
+    public List<PatchListEntry> getPatches() {
+      return ImmutableList.of();
+    }
   }
 }

@@ -18,26 +18,33 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffArgs;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -52,6 +59,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   private static String FILE_D = "d.txt";
 
   @Inject private PatchListCache patchListCache;
+  @Inject private GitRepositoryManager repositoryManager;
 
   @Test
   public void listPatchesAgainstBase() throws Exception {
@@ -202,6 +210,30 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     Edit originalEdit = new Edit(0, 2, 0, 2);
     assertThat(diffArgs.edits()).containsExactly(originalEdit);
     assertThat(intraLineDiff.getEdits()).containsExactly(originalEdit);
+  }
+
+  @Test
+  @UseLocalDisk
+  public void largeObjectExceptionIsCached() throws Exception {
+    try (Repository repository = repositoryManager.openRepository(project)) {
+      StoredConfig cfg = repository.getConfig();
+      cfg.load();
+      cfg.setString("core", null, "bigfilethreshold", "1");
+      cfg.setString("core", "dfs", "streamFileThreshold", "1");
+      cfg.save();
+    }
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+    try {
+      getCurrentPatches(r.getChangeId());
+      fail("Expected PatchListNotAvailableException");
+    } catch (PatchListNotAvailableException e) {
+      assertThat(e.getMessage())
+          .contains("LargeObjectException: unknown object exceeds size limit");
+    }
+
+    // Check that it was cached
+    exception.expect(PatchListNotAvailableException.class);
+    exception.expectMessage("Previous attempt failed with LargeObjectException");
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

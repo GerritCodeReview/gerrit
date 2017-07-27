@@ -664,7 +664,11 @@
         this._normalizeLegacyRouteParams(params);
       });
 
-      page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
+      page(/^\/settings\/agreements(\/)?/, loadUser, data => {
+        this._redirect('/settings#Agreements');
+      });
+
+      page(/^\/settings\/new-agreement(\/)?/, loadUser, data => {
         this._restAPI.getLoggedIn().then(loggedIn => {
           if (loggedIn) {
             data.params.view = Gerrit.Nav.View.AGREEMENTS;

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e4c6b00f_d55d4d1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-27T02:33:36Z",
+      "side": 1,
+      "message": "For the sake of unblocking this task, could we ignore this point and revisit it later if necessary?",
+      "parentUuid": "b1e80f0a_722cdcb2",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "de8d2ff679b3b41cbf0753741f200b3f38264a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6e98fa_ed6bb9d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

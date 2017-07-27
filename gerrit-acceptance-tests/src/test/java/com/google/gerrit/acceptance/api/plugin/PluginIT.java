@@ -15,16 +15,89 @@
 package com.google.gerrit.acceptance.api.plugin;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.extensions.api.plugins.PluginApi;
+import com.google.gerrit.extensions.api.plugins.Plugins.ListRequest;
+import com.google.gerrit.extensions.common.InstallPluginInput;
+import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
 public class PluginIT extends AbstractDaemonTest {
+  private static final byte[] JS_PLUGIN_CONTENT =
+      "Gerrit.install(function(self){});\n".getBytes(UTF_8);
+  private static final List<String> PLUGINS =
+      ImmutableList.of("plugin-a", "plugin-b", "plugin-c", "plugin-d");
+
   @Test
-  public void list() throws Exception {
-    assertThat(gApi.plugins().list().get()).isEmpty();
-    assertThat(gApi.plugins().list().all().get()).isEmpty();
+  @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
+  public void pluginManagement() throws Exception {
+    // No plugins are loaded
+    assertThat(list().get()).isEmpty();
+    assertThat(list().all().get()).isEmpty();
+
+    PluginApi test;
+    PluginInfo info;
+
+    // Install all the plugins
+    InstallPluginInput input = new InstallPluginInput();
+    input.raw = RawInputUtil.create(JS_PLUGIN_CONTENT);
+    for (String plugin : PLUGINS) {
+      test = gApi.plugins().install(plugin + ".js", input);
+      assertThat(test).isNotNull();
+      info = test.get();
+      assertThat(info.id).isEqualTo(plugin);
+      assertThat(info.disabled).isNull();
+    }
+    assertPlugins(list().get(), PLUGINS);
+
+    // Disable
+    test = gApi.plugins().name("plugin-a");
+    test.disable();
+    test = gApi.plugins().name("plugin-a");
+    info = test.get();
+    assertThat(info.disabled).isTrue();
+    assertPlugins(list().get(), PLUGINS.subList(1, PLUGINS.size()));
+    assertPlugins(list().all().get(), PLUGINS);
+
+    // Enable
+    test.enable();
+    test = gApi.plugins().name("plugin-a");
+    info = test.get();
+    assertThat(info.disabled).isNull();
+    assertPlugins(list().get(), PLUGINS);
+  }
+
+  @Test
+  public void installNotAllowed() throws Exception {
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("remote installation is disabled");
+    gApi.plugins().install("test.js", new InstallPluginInput());
+  }
+
+  @Test
+  public void getNonExistingThrowsNotFound() throws Exception {
+    exception.expect(ResourceNotFoundException.class);
+    gApi.plugins().name("does-not-exist");
+  }
+
+  private ListRequest list() throws RestApiException {
+    return gApi.plugins().list();
+  }
+
+  private void assertPlugins(List<PluginInfo> actual, List<String> expected) {
+    List<String> _actual = actual.stream().map(p -> p.id).collect(toList());
+    assertThat(_actual).containsExactlyElementsIn(expected);
   }
 }

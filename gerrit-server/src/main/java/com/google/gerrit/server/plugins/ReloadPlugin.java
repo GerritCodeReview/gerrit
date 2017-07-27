@@ -28,8 +28,8 @@ import java.io.StringWriter;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-class ReloadPlugin implements RestModifyView<PluginResource, Input> {
-  static class Input {}
+public class ReloadPlugin implements RestModifyView<PluginResource, Input> {
+  public static class Input {}
 
   private final PluginLoader loader;
 

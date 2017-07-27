@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.plugins;
 
+import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,7 +25,11 @@ import java.util.SortedMap;
 
 public interface Plugins {
 
-  ListRequest list();
+  ListRequest list() throws RestApiException;
+
+  PluginApi name(String name) throws RestApiException;
+
+  PluginApi install(String name, InstallPluginInput input) throws RestApiException;
 
   abstract class ListRequest {
     private boolean all;
@@ -57,6 +62,16 @@ public interface Plugins {
   class NotImplemented implements Plugins {
     @Override
     public ListRequest list() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public PluginApi name(String name) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public PluginApi install(String name, InstallPluginInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

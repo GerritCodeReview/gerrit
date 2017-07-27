@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetStatus implements RestReadView<PluginResource> {
+public class GetStatus implements RestReadView<PluginResource> {
   @Override
   public PluginInfo apply(PluginResource resource) {
     return ListPlugins.toPluginInfo(resource.getPlugin());

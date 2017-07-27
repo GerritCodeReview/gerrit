@@ -14,22 +14,44 @@
 
 package com.google.gerrit.server.api.plugins;
 
+import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins;
+import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.plugins.InstallPlugin;
 import com.google.gerrit.server.plugins.ListPlugins;
+import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.SortedMap;
 
 @Singleton
 public class PluginsImpl implements Plugins {
+  private final PluginsCollection plugins;
   private final Provider<ListPlugins> listProvider;
+  private final Provider<InstallPlugin> installProvider;
+  private final PluginApiImpl.Factory pluginApi;
 
   @Inject
-  PluginsImpl(Provider<ListPlugins> listProvider) {
+  PluginsImpl(
+      PluginsCollection plugins,
+      Provider<ListPlugins> listProvider,
+      Provider<InstallPlugin> installProvider,
+      PluginApiImpl.Factory pluginApi) {
+    this.plugins = plugins;
     this.listProvider = listProvider;
+    this.installProvider = installProvider;
+    this.pluginApi = pluginApi;
+  }
+
+  @Override
+  public PluginApi name(String name) throws RestApiException {
+    return pluginApi.create(plugins.parse(name));
   }
 
   @Override
@@ -42,5 +64,16 @@ public class PluginsImpl implements Plugins {
         return list.apply();
       }
     };
+  }
+
+  @Override
+  public PluginApi install(String name, InstallPluginInput input) throws RestApiException {
+    try {
+      Response<PluginInfo> created =
+          installProvider.get().setName(name).apply(TopLevelResource.INSTANCE, input);
+      return pluginApi.create(plugins.parse(created.value().id));
+    } catch (IOException e) {
+      throw new RestApiException("could not install plugin", e);
+    }
   }
 }

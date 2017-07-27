@@ -18,7 +18,7 @@
     ROOT: '/',
     DASHBOARD: '/dashboard/(.*)',
     ADMIN_PLACEHOLDER: '/admin/(.*)',
-    AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
+    AGREEMENTS: /^\/settings\/agreements(\/)?/,
     REGISTER: /^\/register(\/.*)?/,
 
     // Matches /admin/groups/<group>
@@ -38,6 +38,8 @@
     GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
     GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
     GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
+
+    NEW_AGREEMENTS: /^\/settings\/new-agreement(\/)?/,
 
     // Matches /admin/projects/<project>
     PROJECT: /^\/admin\/projects\/([^,]+)$/,
@@ -483,6 +485,8 @@
 
       this._mapRoute(RoutePattern.AGREEMENTS, '_handleAgreementsRoute', true);
 
+      this._mapRoute(RoutePattern.NEW_AGREEMENTS, '_handleNewAgreementsRoute', true);
+
       this._mapRoute(RoutePattern.SETTINGS_LEGACY,
           '_handleSettingsLegacyRoute', true);
 
@@ -847,6 +851,10 @@
     },
 
     _handleAgreementsRoute(data) {
+      this._redirect('/settings#Agreements');
+    },
+
+    _handleNewAgreementsRoute(data) {
       data.params.view = Gerrit.Nav.View.AGREEMENTS;
       this._setParams(data.params);
     },

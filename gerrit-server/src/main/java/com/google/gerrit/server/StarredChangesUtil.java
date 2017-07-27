@@ -412,6 +412,7 @@ public class StarredChangesUtil {
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:
         case RENAMED:
+        default:
           throw new OrmException(
               String.format("Update star labels on ref %s failed: %s", refName, result.name()));
       }
@@ -438,6 +439,7 @@ public class StarredChangesUtil {
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:
       case RENAMED:
+      default:
         throw new OrmException(
             String.format("Delete star ref %s failed: %s", refName, result.name()));
     }

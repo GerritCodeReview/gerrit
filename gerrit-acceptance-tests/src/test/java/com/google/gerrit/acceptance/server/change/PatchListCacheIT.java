@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -29,11 +30,14 @@ import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffArgs;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
+import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
@@ -52,6 +56,10 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   private static String FILE_D = "d.txt";
 
   @Inject private PatchListCache patchListCache;
+
+  @Inject
+  @Named("diff")
+  private Cache<PatchListKey, PatchList> abstractPatchListCache;
 
   @Test
   public void listPatchesAgainstBase() throws Exception {
@@ -202,6 +210,15 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     Edit originalEdit = new Edit(0, 2, 0, 2);
     assertThat(diffArgs.edits()).containsExactly(originalEdit);
     assertThat(intraLineDiff.getEdits()).containsExactly(originalEdit);
+  }
+
+  @Test
+  public void largeObjectTombstoneGetsCached() {
+    PatchListKey key = PatchListKey.againstDefaultBase(ObjectId.zeroId(), Whitespace.IGNORE_ALL);
+    PatchListCacheImpl.LargeObjectTombstone tombstone =
+        new PatchListCacheImpl.LargeObjectTombstone();
+    abstractPatchListCache.put(key, tombstone);
+    assertThat(abstractPatchListCache.getIfPresent(key)).isSameAs(tombstone);
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

@@ -514,22 +514,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterAsDraft() throws Exception {
-    // create draft by pushing to 'refs/drafts/'
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-
-    // create draft by using 'draft' option
-    r = pushTo("refs/for/master%draft");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-  }
-
-  @Test
   public void publishDraftChangeByPushingNonDraftPatchSet() throws Exception {
-    // create draft change
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    PushOneCommit.Result r = createDraftChange();
     r.assertOkStatus();
     r.assertChange(Change.Status.DRAFT, null);
 

@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -485,23 +486,23 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // TODO(dborowitz): Re-enable these assertions once we fix auto-rebuilding
     // in the BatchUpdate path.
-    //// As an implementation detail, change wasn't actually rebuilt inside the
-    //// BatchUpdate transaction, but it was rebuilt during read for the
-    //// subsequent reindex. Thus it's impossible to actually observe an
-    //// out-of-date state in the caller.
-    //assertChangeUpToDate(true, id);
+    // // As an implementation detail, change wasn't actually rebuilt inside the
+    // // BatchUpdate transaction, but it was rebuilt during read for the
+    // // subsequent reindex. Thus it's impossible to actually observe an
+    // // out-of-date state in the caller.
+    // assertChangeUpToDate(true, id);
 
-    //// Check that the bundles are equal.
-    //ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
-    //ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
-    //ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
-    //assertThat(actual.differencesFrom(expected)).isEmpty();
-    //assertThat(
+    // // Check that the bundles are equal.
+    // ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    // ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
+    // ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
+    // assertThat(actual.differencesFrom(expected)).isEmpty();
+    // assertThat(
     //        Iterables.transform(
     //            notes.getChangeMessages(),
     //            ChangeMessage::getMessage))
     //    .contains(msg);
-    //assertThat(actual.getChange().getTopic()).isEqualTo(topic);
+    // assertThat(actual.getChange().getTopic()).isEqualTo(topic);
   }
 
   @Test
@@ -817,28 +818,16 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Test
   public void deleteDraftPS1WithNoOtherEntities() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    PushOneCommit.Result r = push.to("refs/drafts/master");
-    push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT,
-            "b.txt",
-            "4711",
-            r.getChangeId());
-    r = push.to("refs/drafts/master");
-    PatchSet.Id psId = r.getPatchSetId();
-    Change.Id id = psId.getParentKey();
+    String r = createDraftChangeWith2PS();
+    gApi.changes().id(r).revision(1).delete();
+    ChangeInfo changeInfo = get(r);
 
-    gApi.changes().id(r.getChangeId()).revision(1).delete();
-
+    Change.Id id = new Change.Id(changeInfo._number);
     checker.rebuildAndCheckChanges(id);
 
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getPatchSets().keySet()).containsExactly(psId);
+    assertThat(notes.getPatchSets().keySet()).hasSize(1);
   }
 
   @Test

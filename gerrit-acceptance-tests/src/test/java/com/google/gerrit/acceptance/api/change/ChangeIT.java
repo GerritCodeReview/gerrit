@@ -827,7 +827,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void publish() throws Exception {
-    PushOneCommit.Result r = createChange("refs/drafts/master");
+    PushOneCommit.Result r = createDraftChange();
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
     gApi.changes().id(r.getChangeId()).publish();
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
@@ -835,7 +835,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteDraftChange() throws Exception {
-    PushOneCommit.Result r = createChange("refs/drafts/master");
+    PushOneCommit.Result r = createDraftChange();
     assertThat(query(r.getChangeId())).hasSize(1);
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
     gApi.changes().id(r.getChangeId()).delete();
@@ -2475,8 +2475,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Amend draft as admin
     PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", admin, adminTestRepo);
+        amendChange(r1.getChangeId(), "refs/for/master", admin, adminTestRepo);
     r2.assertOkStatus();
+    setCurrentPatchSetAsDraft(r2.getChange().getId());
 
     // Add user as reviewer to make this patch set visible
     AddReviewerInput in = new AddReviewerInput();
@@ -2488,9 +2489,9 @@ public class ChangeIT extends AbstractDaemonTest {
     userTestRepo.reset("ps");
 
     // Amend change as user
-    PushOneCommit.Result r3 =
-        amendChange(r2.getChangeId(), "refs/drafts/master", user, userTestRepo);
+    PushOneCommit.Result r3 = amendChange(r2.getChangeId(), "refs/for/master", user, userTestRepo);
     r3.assertOkStatus();
+    setCurrentPatchSetAsDraft(r3.getChange().getId());
   }
 
   @Test
@@ -2506,8 +2507,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Amend draft as admin
     PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", admin, adminTestRepo);
+        amendChange(r1.getChangeId(), "refs/for/master", admin, adminTestRepo);
     r2.assertOkStatus();
+    setCurrentPatchSetAsDraft(r2.getChange().getId());
 
     // Fetch change
     GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
@@ -2597,7 +2599,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    markChangeAsDraft(r1.getChange().getId());
     r1.assertOkStatus();
 
     // Add user as reviewer
@@ -2627,7 +2630,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Create change as admin
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    markChangeAsDraft(p, r1.getChange().getId());
     r1.assertOkStatus();
 
     // Add user as reviewer
@@ -2640,8 +2644,7 @@ public class ChangeIT extends AbstractDaemonTest {
     userTestRepo.reset("ps");
 
     // Amend change as user
-    PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
     r2.assertErrorStatus("cannot add patch set to " + r1.getChange().getId().id + ".");
   }
 

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.ConfigSuite;
 import java.util.EnumSet;
@@ -156,14 +157,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void hiddenDraftInTopic() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id1 = getChangeId(a);
-
-    testRepo.reset(initialHead);
-    commitBuilder().add("b", "2").message("invisible change").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+    String id1 = createChange("subject", "a", "1", "topic").getChangeId();
+    createDraftChange("topic");
 
     setApiUser(user);
     SubmittedTogetherInfo result =
@@ -181,14 +176,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void hiddenDraftInTopicOldApi() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id1 = getChangeId(a);
-
-    testRepo.reset(initialHead);
-    commitBuilder().add("b", "2").message("invisible change").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+    String id1 = createChange("subject", "a", "1", "topic").getChangeId();
+    createDraftChange("topic");
 
     setApiUser(user);
     if (isSubmitWholeTopicEnabled()) {
@@ -209,18 +198,16 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id1 = getChangeId(a1);
 
     testRepo.reset(initialHead);
-    RevCommit parent = commitBuilder().message("parent").create();
-    pushHead(testRepo, "refs/for/master", false);
-    String parentId = getChangeId(parent);
+    String parentId = createChange().getChangeId();
 
-    // TODO(jrn): use insertChangeId(id1) once jgit TestRepository accepts
-    // the leading "I".
+    // TODO(jrn): use insertChangeId(id1) once jgit TestRepository accepts the leading "I".
     commitBuilder()
         .insertChangeId(id1.substring(1))
         .add("a", "2")
         .message("draft patch set on change 1")
         .create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    setCurrentPatchSetAsDraft(new Change.Id(gApi.changes().id(id1).get()._number));
 
     testRepo.reset(initialHead);
     RevCommit b = commitBuilder().message("change with same topic").create();
@@ -243,16 +230,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @Test
   public void doNotRevealVisibleAncestorOfHiddenDraft() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    commitBuilder().message("parent").create();
-    pushHead(testRepo, "refs/for/master", false);
+    createChange().getChangeId();
 
-    commitBuilder().message("draft").create();
-    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+    createDraftChange("topic");
 
     testRepo.reset(initialHead);
-    RevCommit change = commitBuilder().message("same topic").create();
-    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
-    String id = getChangeId(change);
+    String id = createChange("subject", "b", "1", "topic").getChangeId();
 
     setApiUser(user);
     SubmittedTogetherInfo result =

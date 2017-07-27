@@ -21,7 +21,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -42,8 +41,6 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -150,7 +147,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String etag1 = getETag(change);
 
     setApiUser(admin);
-    String draft = createDraftWithTopic().getChangeId();
+    String draft = createDraftChange("topic").getChangeId();
     approve(draft);
 
     setApiUser(user);
@@ -224,7 +221,7 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // create another change with the same topic
     String changeId2 =
-        createChangeWithTopic(testRepo, "foo2", "touching b", "b.txt", "real content")
+        createChangeWithTopic(testRepo, "topic", "touching b", "b.txt", "real content")
             .getChangeId();
     int changeNum2 = gApi.changes().id(changeId2).info()._number;
     approve(changeId2);
@@ -475,36 +472,5 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("submit");
     assertThat(actions).containsKey("description");
     assertThat(actions).containsKey("rebase");
-  }
-
-  private PushOneCommit.Result createCommitAndPush(
-      TestRepository<InMemoryRepository> repo,
-      String ref,
-      String commitMsg,
-      String fileName,
-      String content)
-      throws Exception {
-    return pushFactory.create(db, admin.getIdent(), repo, commitMsg, fileName, content).to(ref);
-  }
-
-  private PushOneCommit.Result createChangeWithTopic(
-      TestRepository<InMemoryRepository> repo,
-      String topic,
-      String commitMsg,
-      String fileName,
-      String content)
-      throws Exception {
-    assertThat(topic).isNotEmpty();
-    return createCommitAndPush(
-        repo, "refs/for/master/" + name(topic), commitMsg, fileName, content);
-  }
-
-  private PushOneCommit.Result createChangeWithTopic() throws Exception {
-    return createChangeWithTopic(testRepo, "foo2", "a message", "a.txt", "content\n");
-  }
-
-  private PushOneCommit.Result createDraftWithTopic() throws Exception {
-    return createCommitAndPush(
-        testRepo, "refs/drafts/master/" + name("foo2"), "a message", "a.txt", "content\n");
   }
 }

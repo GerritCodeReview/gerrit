@@ -57,7 +57,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -1150,7 +1149,10 @@ class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(name = "--draft", usage = "mark new/updated changes as draft")
+    @Option(
+      name = "--draft",
+      usage = "Currently disabled, will be removed: mark new/updated changes as draft"
+    )
     boolean draft;
 
     @Option(name = "--private", usage = "mark new/updated change as private")
@@ -1454,17 +1456,16 @@ class ReceiveCommits {
     }
 
     if (magicBranch.draft) {
-      if (!receiveConfig.allowDrafts) {
-        errors.put(ReceiveError.CODE_REVIEW, ref);
-        reject(cmd, "draft workflow is disabled");
-        return;
-      } else if (projectControl
-          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
-          .isBlocked(Permission.PUSH)) {
-        errors.put(ReceiveError.CODE_REVIEW, ref);
-        reject(cmd, "cannot upload drafts");
-        return;
-      }
+      errors.put(ReceiveError.CODE_REVIEW, ref);
+      reject(
+          cmd,
+          "Creation of drafts is disabled. \n"
+              + "Consider using:\n"
+              + "  1. private changes, e.g. git push origin HEAD:refs/for/master%private\n"
+              + "     https://gerrit-review.googlesource.com/Documentation/intro-user.html#private-changes\n"
+              + "  2. work-in-progress changes, e.g. git push origin HEAD:refs/for/master%wip\n"
+              + "     https://gerrit-review.googlesource.com/Documentation/user-upload.html#wip\n");
+      return;
     }
 
     try {

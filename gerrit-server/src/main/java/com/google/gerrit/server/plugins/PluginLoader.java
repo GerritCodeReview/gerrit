@@ -71,7 +71,7 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
-  static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   public String getPluginName(Path srcPath) {
     return MoreObjects.firstNonNull(getGerritPluginName(srcPath), nameOf(srcPath));

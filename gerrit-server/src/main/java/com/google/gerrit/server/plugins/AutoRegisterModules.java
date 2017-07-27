@@ -155,7 +155,7 @@ class AutoRegisterModules {
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
-      PluginLoader.log.warn(
+      log.warn(
           String.format(
               "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
               pluginName, clazz.getName(), def.annotationValue));
@@ -192,7 +192,7 @@ class AutoRegisterModules {
     if (listen != null) {
       listen(clazz, clazz);
     } else {
-      PluginLoader.log.warn(
+      log.warn(
           String.format(
               "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName()));
     }

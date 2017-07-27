@@ -23,7 +23,8 @@ import org.junit.Test;
 @NoHttpd
 public class PluginIT extends AbstractDaemonTest {
   @Test
-  public void noPlugins() throws Exception {
+  public void list() throws Exception {
     assertThat(gApi.plugins().list().get()).isEmpty();
+    assertThat(gApi.plugins().list().all().get()).isEmpty();
   }
 }

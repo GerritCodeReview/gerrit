@@ -40,8 +40,8 @@ public interface Plugins {
 
     public abstract SortedMap<String, PluginInfo> getAsMap() throws RestApiException;
 
-    public ListRequest all(boolean all) {
-      this.all = all;
+    public ListRequest all() {
+      this.all = true;
       return this;
     }
 

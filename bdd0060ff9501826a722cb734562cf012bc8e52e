@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c24bf86e_b89ab90f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-27T14:31:07Z",
+      "side": 1,
+      "message": "Done (not needed anymore since we don\u0027t need an additional index lookup)",
+      "parentUuid": "75fc8db4_6a70e3e7",
+      "range": {
+        "startLine": 5734,
+        "startChar": 0,
+        "endLine": 5734,
+        "endChar": 65
+      },
+      "revId": "bdd0060ff9501826a722cb734562cf012bc8e52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5f80fa_3f7e3db6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "bdd0060ff9501826a722cb734562cf012bc8e52e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3320d3_fc9c952b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-07-27T14:31:07Z",
+      "side": 1,
+      "message": "Done. This is why where was change number in the first place :)",
+      "parentUuid": "1c5f80fa_3f7e3db6",
+      "revId": "bdd0060ff9501826a722cb734562cf012bc8e52e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

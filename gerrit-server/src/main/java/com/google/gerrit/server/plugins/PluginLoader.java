@@ -17,21 +17,16 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -44,7 +39,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,7 +68,7 @@ public class PluginLoader implements LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   public String getPluginName(Path srcPath) {
-    return MoreObjects.firstNonNull(getGerritPluginName(srcPath), nameOf(srcPath));
+    return MoreObjects.firstNonNull(getGerritPluginName(srcPath), PluginUtil.nameOf(srcPath));
   }
 
   private final Path pluginsDir;
@@ -139,32 +133,6 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public static List<Path> listPlugins(Path pluginsDir, String suffix) throws IOException {
-    if (pluginsDir == null || !Files.exists(pluginsDir)) {
-      return ImmutableList.of();
-    }
-    DirectoryStream.Filter<Path> filter =
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException {
-            String n = entry.getFileName().toString();
-            boolean accept =
-                !n.startsWith(".last_") && !n.startsWith(".next_") && Files.isRegularFile(entry);
-            if (!Strings.isNullOrEmpty(suffix)) {
-              accept &= n.endsWith(suffix);
-            }
-            return accept;
-          }
-        };
-    try (DirectoryStream<Path> files = Files.newDirectoryStream(pluginsDir, filter)) {
-      return Ordering.natural().sortedCopy(files);
-    }
-  }
-
-  public static List<Path> listPlugins(Path pluginsDir) throws IOException {
-    return listPlugins(pluginsDir, null);
-  }
-
   public boolean isRemoteAdminEnabled() {
     return remoteAdmin;
   }
@@ -191,8 +159,8 @@ public class PluginLoader implements LifecycleListener {
     checkRemoteInstall();
 
     String fileName = originalName;
-    Path tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
-    String name = MoreObjects.firstNonNull(getGerritPluginName(tmp), nameOf(fileName));
+    Path tmp = PluginUtil.asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
+    String name = MoreObjects.firstNonNull(getGerritPluginName(tmp), PluginUtil.nameOf(fileName));
     if (!originalName.equals(name)) {
       log.warn(
           String.format(
@@ -228,20 +196,6 @@ public class PluginLoader implements LifecycleListener {
     }
 
     return name;
-  }
-
-  static Path asTemp(InputStream in, String prefix, String suffix, Path dir) throws IOException {
-    Path tmp = Files.createTempFile(dir, prefix, suffix);
-    boolean keep = false;
-    try (OutputStream out = Files.newOutputStream(tmp)) {
-      ByteStreams.copy(in, out);
-      keep = true;
-      return tmp;
-    } finally {
-      if (!keep) {
-        Files.delete(tmp);
-      }
-    }
   }
 
   private synchronized void unloadPlugin(Plugin plugin) {
@@ -594,19 +548,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public static String nameOf(Path plugin) {
-    return nameOf(plugin.getFileName().toString());
-  }
-
-  private static String nameOf(String name) {
-    if (name.endsWith(".disabled")) {
-      name = name.substring(0, name.lastIndexOf('.'));
-    }
-    int ext = name.lastIndexOf('.');
-    return 0 < ext ? name.substring(0, ext) : name;
-  }
-
-  private static String getExtension(String name) {
+  private String getExtension(String name) {
     int ext = name.lastIndexOf('.');
     return 0 < ext ? name.substring(ext) : "";
   }
@@ -651,22 +593,9 @@ public class PluginLoader implements LifecycleListener {
             getPluginDataDir(name)));
   }
 
-  static ClassLoader parentFor(Plugin.ApiType type) throws InvalidPluginException {
-    switch (type) {
-      case EXTENSION:
-        return PluginName.class.getClassLoader();
-      case PLUGIN:
-        return PluginLoader.class.getClassLoader();
-      case JS:
-        return JavaScriptPlugin.class.getClassLoader();
-      default:
-        throw new InvalidPluginException("Unsupported ApiType " + type);
-    }
-  }
-
   // Only one active plugin per plugin name can exist for each plugin name.
   // Filter out disabled plugins and transform the multimap to a map
-  private static Map<String, Path> filterDisabled(SetMultimap<String, Path> pluginPaths) {
+  private Map<String, Path> filterDisabled(SetMultimap<String, Path> pluginPaths) {
     Map<String, Path> activePlugins = Maps.newHashMapWithExpectedSize(pluginPaths.keys().size());
     for (String name : pluginPaths.keys()) {
       for (Path pluginPath : pluginPaths.asMap().get(name)) {
@@ -733,14 +662,14 @@ public class PluginLoader implements LifecycleListener {
 
   private List<Path> scanPathsInPluginsDirectory(Path pluginsDir) {
     try {
-      return listPlugins(pluginsDir);
+      return PluginUtil.listPlugins(pluginsDir);
     } catch (IOException e) {
       log.error("Cannot list " + pluginsDir.toAbsolutePath(), e);
       return ImmutableList.of();
     }
   }
 
-  private static Iterable<Path> filterDisabledPlugins(Collection<Path> paths) {
+  private Iterable<Path> filterDisabledPlugins(Collection<Path> paths) {
     return Iterables.filter(paths, p -> !p.getFileName().toString().endsWith(".disabled"));
   }
 
@@ -763,11 +692,11 @@ public class PluginLoader implements LifecycleListener {
     return map;
   }
 
-  private static boolean isUiPlugin(String name) {
+  private boolean isUiPlugin(String name) {
     return isPlugin(name, "js") || isPlugin(name, "html");
   }
 
-  private static boolean isPlugin(String fileName, String ext) {
+  private boolean isPlugin(String fileName, String ext) {
     String fullExt = "." + ext;
     return fileName.endsWith(fullExt) || fileName.endsWith(fullExt + ".disabled");
   }

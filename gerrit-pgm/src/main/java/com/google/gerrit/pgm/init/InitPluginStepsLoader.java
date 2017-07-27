@@ -21,7 +21,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
-import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.plugins.PluginUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -100,7 +100,7 @@ public class InitPluginStepsLoader {
   private Injector getPluginInjector(Path jarPath) throws IOException {
     final String pluginName =
         MoreObjects.firstNonNull(
-            JarPluginProvider.getJarPluginName(jarPath), PluginLoader.nameOf(jarPath));
+            JarPluginProvider.getJarPluginName(jarPath), PluginUtil.nameOf(jarPath));
     return initInjector.createChildInjector(
         new AbstractModule() {
           @Override
@@ -112,7 +112,7 @@ public class InitPluginStepsLoader {
 
   private List<Path> scanJarsInPluginsDirectory() {
     try {
-      return PluginLoader.listPlugins(pluginsDir, ".jar");
+      return PluginUtil.listPlugins(pluginsDir, ".jar");
     } catch (IOException e) {
       ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(), e.getMessage());
       return ImmutableList.of();

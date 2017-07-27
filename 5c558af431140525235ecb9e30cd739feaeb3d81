@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "4713777c_1292a7e4",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-27T22:28:30Z",
+      "side": 1,
+      "message": "What more would you write, aside from the main JSDoc?",
+      "parentUuid": "d1a5c499_cdd96f7e",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 36
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40593e42_0a42d7c9",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 7
@@ -85,6 +109,30 @@
       "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a54bb4_3a17a4be",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-27T22:28:30Z",
+      "side": 1,
+      "message": "That is true, as far as I can tell from using GWT\u0027s edit functionality.",
+      "parentUuid": "41e578fd_bfdd28fd",
+      "range": {
+        "startLine": 177,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 7
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -191,6 +239,30 @@
       "writtenOn": "2017-07-27T22:18:17Z",
       "side": 1,
       "message": "Is this used to parse the integer as a String? could we use\nparams.basePatchNum.toString() to make it a little more clear?",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4edc8872_b4aa8c67",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-27T22:28:30Z",
+      "side": 1,
+      "message": "This is the way Wyatt told me to convert something that may be a string and may be a number to a number in [1]. Do you think I should change it?\n\nhttps://gerrit-review.googlesource.com/c/114862/1/polygerrit-ui%252Fapp%252Fbehaviors%252Fgr-patch-set-behavior%252Fgr-patch-set-behavior.html#41",
+      "parentUuid": "a05686fd_f2529fc1",
       "range": {
         "startLine": 315,
         "startChar": 10,

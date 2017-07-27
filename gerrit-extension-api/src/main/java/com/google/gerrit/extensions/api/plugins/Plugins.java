@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.plugins;
 
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,17 @@ public interface Plugins {
 
     public boolean getAll() {
       return all;
+    }
+  }
+
+  /**
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
+  class NotImplemented implements Plugins {
+    @Override
+    public ListRequest list() {
+      throw new NotImplementedException();
     }
   }
 }

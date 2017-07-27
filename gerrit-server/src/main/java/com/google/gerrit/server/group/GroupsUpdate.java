@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -49,6 +51,7 @@ public class GroupsUpdate {
 
   private final Groups groups;
   private final GroupCache groupCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
   private final AccountCache accountCache;
   private final RenameGroupOp.Factory renameGroupOpFactory;
@@ -61,6 +64,7 @@ public class GroupsUpdate {
   GroupsUpdate(
       Groups groups,
       GroupCache groupCache,
+      GroupIncludeCache groupIncludeCache,
       AuditService auditService,
       AccountCache accountCache,
       RenameGroupOp.Factory renameGroupOpFactory,
@@ -68,6 +72,7 @@ public class GroupsUpdate {
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.groups = groups;
     this.groupCache = groupCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
     this.accountCache = accountCache;
     this.renameGroupOpFactory = renameGroupOpFactory;
@@ -282,5 +287,39 @@ public class GroupsUpdate {
     for (AccountGroupMember member : membersToRemove) {
       accountCache.evict(member.getAccountId());
     }
+  }
+
+  public void addIncludedGroups(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
+      throws OrmException {
+    Optional<AccountGroup> foundParentGroup = groups.get(db, parentGroupUuid);
+    if (!foundParentGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return;
+    }
+
+    AccountGroup parentGroup = foundParentGroup.get();
+    AccountGroup.Id parentGroupId = parentGroup.getId();
+    Set<AccountGroupById> newIncludedGroups = new HashSet<>();
+    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
+      boolean isIncluded = groups.isIncluded(db, parentGroupId, includedGroupUuid);
+      if (!isIncluded) {
+        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
+        newIncludedGroups.add(new AccountGroupById(key));
+      }
+    }
+
+    if (newIncludedGroups.isEmpty()) {
+      return;
+    }
+
+    if (currentUser != null) {
+      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newIncludedGroups);
+    }
+    db.accountGroupById().insert(newIncludedGroups);
+    for (AccountGroupById newIncludedGroup : newIncludedGroups) {
+      groupIncludeCache.evictParentGroupsOf(newIncludedGroup.getIncludeUUID());
+    }
+    groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
   }
 }

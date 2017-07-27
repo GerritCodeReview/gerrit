@@ -43,7 +43,6 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -51,13 +50,11 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -69,11 +66,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config allowDraftsDisabled() {
-    return allowDraftsDisabledConfig();
-  }
-
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -135,8 +127,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
     setSignedOffByFooter();
+
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
     assertThat(message)
@@ -147,15 +139,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewDraftChange() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
-    assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
-  }
-
-  @Test
-  public void createNewDraftChangeNotAllowed() throws Exception {
-    assume().that(isAllowDrafts()).isFalse();
     ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
-    assertCreateFails(ci, MethodNotAllowedException.class, "draft workflow is disabled");
+    assertCreateFails(ci, BadRequestException.class, "unsupported change status");
   }
 
   @Test

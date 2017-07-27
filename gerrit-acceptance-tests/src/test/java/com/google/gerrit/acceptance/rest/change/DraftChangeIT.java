@@ -49,7 +49,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   @Test
   public void forceCreateAndPublishDraftChangeWhenAllowDraftsDisabled() throws Exception {
-    PushOneCommit.Result result = forceDraftChange();
+    PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
     String triplet = project.get() + "~master~" + changeId;
@@ -194,8 +194,8 @@ public class DraftChangeIT extends AbstractDaemonTest {
   @Test
   public void createDraftChangeWhenDraftsNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
-    PushOneCommit.Result r = createDraftChange();
-    r.assertErrorStatus("draft workflow is disabled");
+    PushOneCommit.Result r = tryPushToDraftsMastere();
+    r.assertErrorStatus("Creation of draft refs is not allowed");
   }
 
   @Test

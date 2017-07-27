@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
@@ -82,10 +84,21 @@ public class Groups {
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
   }
 
+  public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException {
+    Optional<AccountGroup> foundGroup = get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      return Stream.empty();
+    }
+
+    AccountGroup group = foundGroup.get();
+    return getIncludes(db, group.getId());
+  }
+
   public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.Id groupId)
       throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
-    return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
+    return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
   }
 
   public Set<AccountGroup.UUID> getGroups(ReviewDb db, Account.Id accountId) throws OrmException {
@@ -100,5 +113,24 @@ public class Groups {
       }
     }
     return groupUuids.build();
+  }
+
+  public Stream<AccountGroup.UUID> getParentGroups(ReviewDb db, AccountGroup.UUID childGroupUuid)
+      throws OrmException {
+    ResultSet<AccountGroupById> accountGroupByIds =
+        db.accountGroupById().byIncludeUUID(childGroupUuid);
+    ImmutableSet<AccountGroup.Id> foundParentGroupIds =
+        Streams.stream(accountGroupByIds)
+            .map(AccountGroupById::getGroupId)
+            .collect(toImmutableSet());
+    ResultSet<AccountGroup> existingParentGroups = db.accountGroups().get(foundParentGroupIds);
+    return Streams.stream(existingParentGroups).map(AccountGroup::getGroupUUID);
+  }
+
+  public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db) throws OrmException {
+    return Streams.stream(db.accountGroupById().all())
+        .map(AccountGroupById::getIncludeUUID)
+        .distinct()
+        .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
   }
 }

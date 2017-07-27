@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9cbb503_a36a6085",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 5738,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e52aeda4_9bdd00dd",
+      "range": {
+        "startLine": 5737,
+        "startChar": 0,
+        "endLine": 5738,
+        "endChar": 64
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b24590b2_a1f0ecef",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 26
@@ -84,6 +108,30 @@
       "side": 0,
       "message": "I would prefer to fix private changes first.\n\nIt\u0027s better if we can migrate create new change directly from draft change to private change, instead of from draft change to public change and then to private change. The latter would cause more confusion I think.",
       "parentUuid": "5d9853db_17073540",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7be49e2b_3944efa5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b24590b2_a1f0ecef",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -239,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "08d3fa2f_f39a5825",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/AbandonIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "8522c3a8_a2126732",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eff00a2a_c6d369ef",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26
@@ -250,6 +322,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "These tests should be kept for now. It should still be possible to publish and delete existing draft changes.",
+      "range": {
+        "startLine": 756,
+        "startChar": 2,
+        "endLine": 771,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed088e47_63d4f171",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "eff00a2a_c6d369ef",
       "range": {
         "startLine": 756,
         "startChar": 2,
@@ -285,6 +381,30 @@
     },
     {
       "key": {
+        "uuid": "4098de23_9f06266c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "71d01217_4cb1464b",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 311,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fca388b_af8578e1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 26
@@ -296,6 +416,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "This test should be kept. It should still be possible to publish existing draft changes by pushing a non-draft patch set.",
+      "range": {
+        "startLine": 479,
+        "startChar": 2,
+        "endLine": 490,
+        "endChar": 3
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92797ffe_14f99e37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6fca388b_af8578e1",
       "range": {
         "startLine": 479,
         "startChar": 2,
@@ -325,6 +469,24 @@
     },
     {
       "key": {
+        "uuid": "28746158_0c6fec04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f5b2c83f_1a29c885",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3db55ae7_6196fc18",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 26
@@ -336,6 +498,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "This test should be kept since we still have existing draft patch sets.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff2b002c_e247ada0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3db55ae7_6196fc18",
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -359,6 +539,24 @@
     },
     {
       "key": {
+        "uuid": "6e70f2a0_2b9de634",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "caf104b6_0d6f2cd2",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "243231b5_a3413be4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
         "patchSetId": 26
@@ -370,6 +568,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "Test should be kept for now.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e421d37_45cb4ac6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "243231b5_a3413be4",
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -393,6 +609,24 @@
     },
     {
       "key": {
+        "uuid": "563e48ee_97f60b64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "66bd2509_67e416ab",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd019c2f_22b04204",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 26
@@ -404,6 +638,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "As commented in the commit message, I think that we should keep this field for backwards compatibility. If we keep it we should have tests for\n- in.status \u003d NEW -\u003e works\n- in.status not set -\u003e works\n- in.status \u003d DRAFT -\u003e fails with proper error message saying that drafts cannot be created anymore",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2710c656_0a8d7f8b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "cd019c2f_22b04204",
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -427,6 +679,24 @@
     },
     {
       "key": {
+        "uuid": "d43f227f_33f91e85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3832baf1_992a11ca",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7fc7899_70868d5d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DraftChangeIT.java",
         "patchSetId": 26
@@ -438,6 +708,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "At least some of those tests should be kept. E.g. it should still be possible to delete existing draft changes.",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "547bb5d7_13851e2e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DraftChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d7fc7899_70868d5d",
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -461,6 +749,24 @@
     },
     {
       "key": {
+        "uuid": "66e4c1a1_abaee8c4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2a118b20_517b3ef9",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c9a9b62_d2b97cd7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 26
@@ -472,6 +778,24 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "I guess those tests should be kept as well?",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8ea2d5c_251c2f3f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Removed for now.",
+      "parentUuid": "2c9a9b62_d2b97cd7",
       "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -495,6 +819,24 @@
     },
     {
       "key": {
+        "uuid": "78cabaa7_fddfb08f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e3a33875_26dce5f6",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8515239_0c3cb826",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
         "patchSetId": 26
@@ -512,6 +854,24 @@
     },
     {
       "key": {
+        "uuid": "980a3e70_26cee199",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b8515239_0c3cb826",
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f8d71d2_c0ea8953",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 26
@@ -523,6 +883,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 0,
       "message": "Should new change be created as private instead?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e08df7ae_6543ab99",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "This is done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/115312/",
+      "parentUuid": "7f8d71d2_c0ea8953",
       "range": {
         "startLine": 61,
         "startChar": 4,
@@ -594,6 +978,30 @@
       "side": 0,
       "message": "Yes, it would be easier to remove all draft support in a single change. We are not planning any release with a Gerrit version from this commit (but it may just happen). Splitting this into two changes is mainly important for us at Google so that we have a migration path for our systems:\n\n1. Disallow creation of new draft changes/patch sets\n2. Run internal migration to convert existing draft changes/patch sets to private changes\n3. Remove support for draft changes/patch sets entirely\n\nSo within Google we will run the version of this change a while before we can get step 2 done.",
       "parentUuid": "26d3a99b_ac0b93a3",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "0481700b6b4f192ae6e94f17c0cd5be5f5cbce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6fdbfd1_792904c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "41eb009d_960ebc6f",
       "range": {
         "startLine": 35,
         "startChar": 4,

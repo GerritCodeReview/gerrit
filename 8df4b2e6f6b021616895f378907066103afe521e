@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "243fd191_8e66ba61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "735876bb_b3101e2d",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f2af8e2_df2b5700",
         "filename": "/COMMIT_MSG",
         "patchSetId": 26
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 1,
       "message": "Is it okay to remove this field? Sounds like this can break existing clients. Maybe we should keep this field, but fail if it is set to anything else but NEW?",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4319826_c2c9bcac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2af8e2_df2b5700",
       "range": {
         "startLine": 9,
         "startChar": 61,
@@ -105,6 +153,30 @@
     },
     {
       "key": {
+        "uuid": "c943782b_58925f3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d907ab7a_e81e15a3",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e20ee436_9673cb5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
         "patchSetId": 26
@@ -133,6 +205,30 @@
       "writtenOn": "2017-07-25T08:46:39Z",
       "side": 1,
       "message": "This description should say that this option is deprecated and creation of draft changes is no longer possible.",
+      "range": {
+        "startLine": 1225,
+        "startChar": 39,
+        "endLine": 1225,
+        "endChar": 72
+      },
+      "revId": "8df4b2e6f6b021616895f378907066103afe521e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8c7e605_f4159ab6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-27T06:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56388d0f_9de3292b",
       "range": {
         "startLine": 1225,
         "startChar": 39,

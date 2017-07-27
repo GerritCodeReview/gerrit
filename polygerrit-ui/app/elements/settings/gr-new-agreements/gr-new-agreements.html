@@ -20,7 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
-<dom-module id="gr-agreements-list">
+<dom-module id="gr-new-agreements">
   <template>
     <style include="shared-styles">
       #agreements .nameColumn {
@@ -30,30 +30,39 @@ limitations under the License.
       #agreements .descriptionColumn {
         width: auto;
       }
+      .agreementsUrl {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 5px 5px 5px 5px;
+        border: 1px solid #b0bdcc;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
-      <table id="agreements">
-        <thead>
-          <tr>
-            <th class="nameColumn">Name</th>
-            <th class="descriptionColumn">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template is="dom-repeat" items="[[_agreements]]">
-            <tr>
-              <td class="nameColumn">
-                <a href$="[[getUrlBase(item.url)]]">[[item.name]]</a>
-              </td>
-              <td class="descriptionColumn">[[item.description]]</td>
-            </tr>
+      Select an agreement type:
+        <div>
+          <template is="dom-repeat" items="[[_serverConfig.auth.contributor_agreements]]">
+            <div id="claNewAgreements">
+              <input id$="claNewAgreementsInput[[item.name]]"
+                  name="claNewAgreementsRadio"
+                  type="radio"
+                  data-name$="[[item.name]]"
+                  data-url$="[[item.url]]"
+                  on-click="_handleAgreements">
+              <label id$="claNewAgreementsLabel">
+                [[item.name]]
+              </label>
+              <div>[[item.description]]</div>
+              <div id="claNewAgreements2[[item.name]]" class$="claNewAgreements2[[item.name]]" style="display: none;">
+                Review the agreement:
+                <!--[[_getAgreementsUrl(item.url)]]-->
+                <div id="agreementsUrl[[item.name]]" class="agreementsUrl"></div>
+              </div>
+            </div>
           </template>
-        </tbody>
-      </table>
-      <a href$="[[getUrl()]]">New Contributor Agreement</a>
+        </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-agreements-list.js"></script>
+  <script src="gr-new-agreements.js"></script>
 </dom-module>

@@ -123,6 +123,24 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c28444_020521a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-27T08:05:59Z",
+      "side": 1,
+      "message": "I already did it locally; about to test it and will then push a new change.",
+      "parentUuid": "5f595bf5_887c828f",
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

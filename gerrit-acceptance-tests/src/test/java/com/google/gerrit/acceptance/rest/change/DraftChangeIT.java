@@ -49,7 +49,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
   @Test
   public void forceCreateAndPublishDraftChangeWhenAllowDraftsDisabled() throws Exception {
-    PushOneCommit.Result result = forceDraftChange();
+    PushOneCommit.Result result = createDraftChange();
     result.assertOkStatus();
     String changeId = result.getChangeId();
     String triplet = project.get() + "~master~" + changeId;
@@ -105,7 +105,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
-    setDraftStatusOfPatchSetsOfChange(id, true);
+    setDraftStatusOfPatchSets(id, true);
 
     String changeId = changeResult.getChangeId();
     exception.expect(MethodNotAllowedException.class);
@@ -125,7 +125,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     Change.Id id = changeResult.getChange().getId();
     markChangeAsDraft(id);
-    setDraftStatusOfPatchSetsOfChange(id, true);
+    setDraftStatusOfPatchSets(id, true);
 
     String changeId = changeResult.getChangeId();
 
@@ -151,7 +151,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
 
     PushOneCommit.Result changeResult = createDraftChange();
     Change.Id id = changeResult.getChange().getId();
-    setDraftStatusOfPatchSetsOfChange(id, false);
+    setDraftStatusOfPatchSets(id, false);
 
     String changeId = changeResult.getChangeId();
     exception.expect(ResourceConflictException.class);
@@ -194,8 +194,8 @@ public class DraftChangeIT extends AbstractDaemonTest {
   @Test
   public void createDraftChangeWhenDraftsNotAllowed() throws Exception {
     assume().that(isAllowDrafts()).isFalse();
-    PushOneCommit.Result r = createDraftChange();
-    r.assertErrorStatus("draft workflow is disabled");
+    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    r.assertErrorStatus();
   }
 
   @Test

@@ -413,19 +413,9 @@ and patch sets.
 
 ==== refs/drafts/*
 
-Push to `+refs/drafts/*+` creates a change like push to `+refs/for/*+`, except the
-resulting change remains hidden from public review.  You then have the option
-of adding individual reviewers before making the change public to all.  The
-change page will have a 'Publish' button which allows you to convert individual
-draft patch sets of a change into public patch sets for review.
-
-To block push permission to `+refs/drafts/*+` the following permission rule can
-be configured:
-
-----
-  [access "refs/drafts/*"]
-    push = block group Anonymous Users
-----
+Draft workflow is slated for removal. Push to `+refs/drafts/*+` is disabled.
+Consider using link:intro-user.html#private-changes[private changes] or
+link:user-upload.html#wip[work-in-progress changes] instead.
 
 
 [[access_categories]]

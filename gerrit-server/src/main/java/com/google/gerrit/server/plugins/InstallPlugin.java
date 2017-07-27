@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -34,13 +35,23 @@ import java.util.zip.ZipException;
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {
   private final PluginLoader loader;
-  private final String name;
-  private final boolean created;
 
-  InstallPlugin(PluginLoader loader, String name, boolean created) {
+  private String name;
+  private boolean created;
+
+  @Inject
+  InstallPlugin(PluginLoader loader) {
     this.loader = loader;
+  }
+
+  public InstallPlugin setName(String name) {
     this.name = name;
+    return this;
+  }
+
+  public InstallPlugin setCreated(boolean created) {
     this.created = created;
+    return this;
   }
 
   @Override
@@ -84,18 +95,17 @@ class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInp
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
   static class Overwrite implements RestModifyView<PluginResource, InstallPluginInput> {
-    private final PluginLoader loader;
+    private final Provider<InstallPlugin> install;
 
     @Inject
-    Overwrite(PluginLoader loader) {
-      this.loader = loader;
+    Overwrite(Provider<InstallPlugin> install) {
+      this.install = install;
     }
 
     @Override
     public Response<PluginInfo> apply(PluginResource resource, InstallPluginInput input)
         throws BadRequestException, MethodNotAllowedException, IOException {
-      return new InstallPlugin(loader, resource.getName(), false)
-          .apply(TopLevelResource.INSTANCE, input);
+      return install.get().setName(resource.getName()).apply(TopLevelResource.INSTANCE, input);
     }
   }
 }

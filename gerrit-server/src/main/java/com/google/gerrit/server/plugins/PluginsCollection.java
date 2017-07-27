@@ -33,13 +33,18 @@ public class PluginsCollection
   private final DynamicMap<RestView<PluginResource>> views;
   private final PluginLoader loader;
   private final Provider<ListPlugins> list;
+  private final Provider<InstallPlugin> install;
 
   @Inject
   PluginsCollection(
-      DynamicMap<RestView<PluginResource>> views, PluginLoader loader, Provider<ListPlugins> list) {
+      DynamicMap<RestView<PluginResource>> views,
+      PluginLoader loader,
+      Provider<ListPlugins> list,
+      Provider<InstallPlugin> install) {
     this.views = views;
     this.loader = loader;
     this.list = list;
+    this.install = install;
   }
 
   @Override
@@ -64,7 +69,7 @@ public class PluginsCollection
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote installation is disabled");
     }
-    return new InstallPlugin(loader, id.get(), true /* created */);
+    return install.get().setName(id.get()).setCreated(true);
   }
 
   @Override

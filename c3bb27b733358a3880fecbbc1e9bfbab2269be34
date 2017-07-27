@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac0f790f_b8f084da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-27T16:40:38Z",
+      "side": 1,
+      "message": "Should also test that the plugins are returned in expected order.",
+      "revId": "c3bb27b733358a3880fecbbc1e9bfbab2269be34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

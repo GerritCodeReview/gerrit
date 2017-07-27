@@ -214,8 +214,13 @@
       return JSON.parse(source.substring(JSON_PREFIX.length));
     },
 
-    getConfig() {
-      return this._fetchSharedCacheURL('/config/server/info');
+    getConfig(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/config/server/info');
+      }
+
+      return this.send('GET', '/config/server/info')
+          .then(response => this.getResponseObject(response));
     },
 
     getProject(project) {
@@ -579,12 +584,22 @@
           });
     },
 
-    getAccountGroups() {
-      return this._fetchSharedCacheURL('/accounts/self/groups');
+    getAccountGroups(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/accounts/self/groups');
+      }
+
+      return this.send('GET', '/accounts/self/groups')
+          .then(response => this.getResponseObject(response));
     },
 
     getAccountAgreements() {
       return this._fetchSharedCacheURL('/accounts/self/agreements');
+    },
+
+    saveAccountAgreement(name) {
+      return this.send('PUT', '/accounts/self/agreements', name,
+          null, null);
     },
 
     /**

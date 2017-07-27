@@ -61,6 +61,8 @@ public class PluginsImpl implements Plugins {
       public SortedMap<String, PluginInfo> getAsMap() throws RestApiException {
         ListPlugins list = listProvider.get();
         list.setAll(this.getAll());
+        list.setStart(this.getStart());
+        list.setLimit(this.getLimit());
         return list.apply();
       }
     };

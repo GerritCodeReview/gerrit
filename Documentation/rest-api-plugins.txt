@@ -84,6 +84,61 @@ List all plugins including those that are disabled.
   }
 ----
 
+Limit(n)::
+Limit the number of plugins to be included in the results.
++
+Query the first plugin in the plugin list:
++
+.Request
+----
+  GET /plugins/?n=1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete-project": {
+      "id": "delete-project",
+      "index_url": "plugins/delete-project/",
+      "version": "2.9-SNAPSHOT"
+    }
+  }
+----
+
+
+Skip(S)::
+Skip the given number of plugins from the beginning of the list.
++
+Query the second plugin in the plugin list:
++
+.Request
+----
+  GET /plugins/?all&n=1&S=1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "reviewers-by-blame": {
+      "id": "reviewers-by-blame",
+      "index_url": "plugins/reviewers-by-blame/",
+      "version": "2.9-SNAPSHOT",
+      "disabled": true
+    }
+  }
+----
+
+
 [[install-plugin]]
 === Install Plugin
 --

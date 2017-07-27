@@ -47,35 +47,34 @@ public class PluginIT extends AbstractDaemonTest {
     assertThat(list().get()).isEmpty();
     assertThat(list().all().get()).isEmpty();
 
-    PluginApi test;
-    PluginInfo info;
-
+    PluginApi api;
     // Install all the plugins
     InstallPluginInput input = new InstallPluginInput();
     input.raw = RawInputUtil.create(JS_PLUGIN_CONTENT);
     for (String plugin : PLUGINS) {
-      test = gApi.plugins().install(plugin + ".js", input);
-      assertThat(test).isNotNull();
-      info = test.get();
+      api = gApi.plugins().install(plugin + ".js", input);
+      assertThat(api).isNotNull();
+      PluginInfo info = api.get();
       assertThat(info.id).isEqualTo(plugin);
       assertThat(info.disabled).isNull();
     }
     assertPlugins(list().get(), PLUGINS);
 
+    // With pagination
+    assertPlugins(list().start(1).limit(2).get(), PLUGINS.subList(1, 3));
+
     // Disable
-    test = gApi.plugins().name("plugin-a");
-    test.disable();
-    test = gApi.plugins().name("plugin-a");
-    info = test.get();
-    assertThat(info.disabled).isTrue();
+    api = gApi.plugins().name("plugin-a");
+    api.disable();
+    api = gApi.plugins().name("plugin-a");
+    assertThat(api.get().disabled).isTrue();
     assertPlugins(list().get(), PLUGINS.subList(1, PLUGINS.size()));
     assertPlugins(list().all().get(), PLUGINS);
 
     // Enable
-    test.enable();
-    test = gApi.plugins().name("plugin-a");
-    info = test.get();
-    assertThat(info.disabled).isNull();
+    api.enable();
+    api = gApi.plugins().name("plugin-a");
+    assertThat(api.get().disabled).isNull();
     assertPlugins(list().get(), PLUGINS);
   }
 

@@ -365,6 +365,7 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private Integer unresolvedCommentCount;
+  private Change.Id revertOf;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;

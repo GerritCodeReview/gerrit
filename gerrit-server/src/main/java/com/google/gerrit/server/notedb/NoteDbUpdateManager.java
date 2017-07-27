@@ -688,6 +688,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       ObjectId curr = old;
       for (U u : updates) {
+        if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
+          throw new OrmException("Given ChangeUpdate is only allowed on initial commit");
+        }
         ObjectId next = u.apply(or.rw, or.tempIns, curr);
         if (next == null) {
           continue;

@@ -623,6 +623,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.isWorkInProgress();
   }
 
+  public Change.Id getRevertOf() {
+    return state.revertOf();
+  }
+
   public boolean hasReviewStarted() {
     return state.hasReviewStarted();
   }

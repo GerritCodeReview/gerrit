@@ -78,7 +78,8 @@ public abstract class ChangeNotesState {
         null,
         null,
         null,
-        true);
+        true,
+        null);
   }
 
   static ChangeNotesState create(
@@ -113,7 +114,8 @@ public abstract class ChangeNotesState {
       @Nullable Timestamp readOnlyUntil,
       @Nullable Boolean isPrivate,
       @Nullable Boolean workInProgress,
-      boolean hasReviewStarted) {
+      boolean hasReviewStarted,
+      @Nullable Change.Id revertOf) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -135,7 +137,8 @@ public abstract class ChangeNotesState {
             status,
             isPrivate,
             workInProgress,
-            hasReviewStarted),
+            hasReviewStarted,
+            revertOf),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
@@ -153,7 +156,8 @@ public abstract class ChangeNotesState {
         readOnlyUntil,
         isPrivate,
         workInProgress,
-        hasReviewStarted);
+        hasReviewStarted,
+        revertOf);
   }
 
   /**
@@ -205,6 +209,9 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Boolean hasReviewStarted();
+
+    @Nullable
+    abstract Change.Id revertOf();
   }
 
   // Only null if NoteDb is disabled.
@@ -257,6 +264,9 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Boolean hasReviewStarted();
+
+  @Nullable
+  abstract Change.Id revertOf();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -318,6 +328,7 @@ public abstract class ChangeNotesState {
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
     change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
     change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
+    change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

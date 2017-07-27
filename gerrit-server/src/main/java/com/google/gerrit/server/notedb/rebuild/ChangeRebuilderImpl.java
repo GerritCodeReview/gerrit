@@ -618,6 +618,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     update.setChangeId(change.getKey().get());
     update.setBranch(change.getDest().get());
     update.setSubject(change.getOriginalSubject());
+    if (change.getRevertOf() != null) {
+      update.setRevertOf(change.getRevertOf().get());
+    }
   }
 
   @Override

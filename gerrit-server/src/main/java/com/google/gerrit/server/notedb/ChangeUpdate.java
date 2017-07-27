@@ -32,6 +32,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -156,6 +157,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private Integer revertOf;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -512,6 +514,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.groups = groups;
   }
 
+  public void setRevertOf(int revertOf) {
+    int ownId = getChange().getId().get();
+    checkArgument(ownId != revertOf, "A change cannot revert itself");
+    this.revertOf = revertOf;
+    rootOnly = true;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, OrmException, IOException {
@@ -755,6 +764,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
     }
 
+    if (revertOf != null) {
+      addFooter(msg, FOOTER_REVERT_OF, revertOf);
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -804,7 +817,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && readOnlyUntil == null
         && isPrivate == null
-        && workInProgress == null;
+        && workInProgress == null
+        && revertOf == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

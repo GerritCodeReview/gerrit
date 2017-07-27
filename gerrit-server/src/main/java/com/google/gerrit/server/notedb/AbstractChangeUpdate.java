@@ -57,6 +57,7 @@ public abstract class AbstractChangeUpdate {
 
   protected PatchSet.Id psId;
   private ObjectId result;
+  protected boolean rootOnly;
 
   protected AbstractChangeUpdate(
       Config cfg,
@@ -189,6 +190,11 @@ public abstract class AbstractChangeUpdate {
 
   /** Whether no updates have been done. */
   public abstract boolean isEmpty();
+
+  /** Wether this update can only be a root commit. */
+  public boolean isRootOnly() {
+    return rootOnly;
+  }
 
   /**
    * @return the NameKey for the project where the update will be stored, which is not necessarily

@@ -154,6 +154,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
 
     suggestions.add("unresolved:");
 
+    suggestions.add("revertof:");
+
     if (Gerrit.isNoteDbEnabled()) {
       suggestions.add("cc:");
       suggestions.add("hashtag:");

@@ -21,7 +21,8 @@
     CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
     PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
 
-    AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
+    AGREEMENTS: /^\/settings\/agreements\/?/,
+    NEW_AGREEMENTS: /^\/settings\/new-agreement\/?/,
     REGISTER: /^\/register(\/.*)?$/,
 
     // Pattern for login and logout URLs intended to be passed-through. May
@@ -656,6 +657,9 @@
 
       this._mapRoute(RoutePattern.AGREEMENTS, '_handleAgreementsRoute', true);
 
+      this._mapRoute(RoutePattern.NEW_AGREEMENTS, '_handleNewAgreementsRoute',
+          true);
+
       this._mapRoute(RoutePattern.SETTINGS_LEGACY,
           '_handleSettingsLegacyRoute', true);
 
@@ -1150,7 +1154,13 @@
       }
     },
 
+    // TODO fix this so it properly redirects
+    // to /settings#Agreements (Scrolls down)
     _handleAgreementsRoute(data) {
+      this._redirect('/settings/#Agreements');
+    },
+
+    _handleNewAgreementsRoute(data) {
       data.params.view = Gerrit.Nav.View.AGREEMENTS;
       this._setParams(data.params);
     },

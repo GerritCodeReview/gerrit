@@ -168,12 +168,12 @@ limitations under the License.
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
       </template>
+      <template is="dom-if" if="[[_showCLAView]]" restamp="true">
+        <gr-cla-view></gr-cla-view>
+      </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"
             params=[[params]]></gr-admin-view>
-      </template>
-      <template is="dom-if" if="[[_showCLAView]]" restamp="true">
-        <gr-cla-view path="[[_path]]"></gr-cla-view>
       </template>
       <div id="errorView" class="errorView">
         <div class="errorEmoji">[[_lastError.emoji]]</div>

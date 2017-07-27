@@ -99,15 +99,16 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     input = Input.init(input);
 
     GroupControl control = resource.getControl();
+    if (!control.canAddGroup()) {
+      throw new AuthException(String.format("Cannot add groups to group %s", group.getName()));
+    }
+
     Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = new HashMap<>();
     List<GroupInfo> result = new ArrayList<>();
     Account.Id me = control.getUser().getAccountId();
 
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-      if (!control.canAddGroup()) {
-        throw new AuthException(String.format("Cannot add group: %s", d.getName()));
-      }
 
       if (!newIncludedGroups.containsKey(d.getGroupUUID())) {
         AccountGroupById.Key agiKey = new AccountGroupById.Key(group.getId(), d.getGroupUUID());

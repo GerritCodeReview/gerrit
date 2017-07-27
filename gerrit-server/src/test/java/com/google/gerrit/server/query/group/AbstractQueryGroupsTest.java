@@ -38,6 +38,8 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -52,7 +54,6 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -98,6 +99,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected AllProjectsName allProjects;
 
   @Inject protected GroupCache groupCache;
+
+  @Inject @ServerInitiated protected Provider<GroupsUpdate> groupsUpdateProvider;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -300,9 +303,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     // update group in the database so that group index is stale
     String newDescription = "barY";
-    AccountGroup group = db.accountGroups().get(new AccountGroup.Id(group1.groupId));
-    group.setDescription(newDescription);
-    db.accountGroups().update(Collections.singleton(group));
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID(group1.id);
+    groupsUpdateProvider
+        .get()
+        .updateGroupInDb(db, groupUuid, group -> group.setDescription(newDescription));
 
     assertQuery("description:" + group1.description, group1);
     assertQuery("description:" + newDescription);

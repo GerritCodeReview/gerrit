@@ -323,8 +323,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackDraftRefs() throws Exception {
     allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
 
-    PushOneCommit.Result br =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
+    PushOneCommit.Result br = createDraftChange();
     br.assertOkStatus();
     Change.Id c5 = br.getChange().getId();
     String r5 = changeRefPrefix(c5);

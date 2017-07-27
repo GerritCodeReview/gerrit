@@ -551,7 +551,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitDraftPatchSet() throws Exception {
     PushOneCommit.Result change = createChange();
-    PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());
+    PushOneCommit.Result draft = amendChangeAndMarkPatchSetAsDraft(change.getChangeId());
     Change.Id num = draft.getChange().getId();
 
     submitWithConflict(

@@ -21,7 +21,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -40,8 +39,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.HashMap;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -189,14 +186,9 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
   @Test
   public void deleteCurrentDraftPatchSetWhenPreviousPatchSetDoesNotExist() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    String changeId = push.to("refs/for/master").getChangeId();
-    pushFactory
-        .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "foo", changeId)
-        .to("refs/drafts/master");
-    pushFactory
-        .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "bar", changeId)
-        .to("refs/drafts/master");
+    String changeId = createChange().getChangeId();
+    amendChangeAndMarkPatchSetAsDraft(changeId);
+    amendChangeAndMarkPatchSetAsDraft(changeId);
 
     deletePatchSet(changeId, 2);
     deletePatchSet(changeId, 3);
@@ -209,20 +201,13 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
   @Test
   public void deleteDraftPatchSetAndPushNewDraftPatchSet() throws Exception {
-    String ref = "refs/drafts/master";
-
-    // Clone repository
-    TestRepository<InMemoryRepository> testRepo = cloneProject(project, admin);
-
     // Create change
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    PushOneCommit.Result r1 = push.to(ref);
-    r1.assertOkStatus();
+    PushOneCommit.Result r1 = createDraftChange();
+    String changeId = r1.getChangeId();
     String revPs1 = r1.getChange().currentPatchSet().getRevision().get();
 
     // Push draft patch set
-    PushOneCommit.Result r2 = amendChange(r1.getChangeId(), ref, admin, testRepo);
-    r2.assertOkStatus();
+    PushOneCommit.Result r2 = amendChangeAndMarkPatchSetAsDraft(changeId);
     String revPs2 = r2.getChange().currentPatchSet().getRevision().get();
 
     assertThat(gApi.changes().id(r1.getChange().getId().get()).get().currentRevision)
@@ -235,8 +220,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
         .isEqualTo(revPs1);
 
     // Push new draft patch set
-    PushOneCommit.Result r3 = amendChange(r1.getChangeId(), ref, admin, testRepo);
-    r3.assertOkStatus();
+    amendChangeAndMarkPatchSetAsDraft(changeId);
     String revPs3 = r2.getChange().currentPatchSet().getRevision().get();
 
     assertThat(gApi.changes().id(r1.getChange().getId().get()).get().currentRevision)
@@ -257,21 +241,6 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       return repo.exactRef(RefNames.changeMetaRef(changeId));
     }
-  }
-
-  private String createDraftChangeWith2PS() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    Result result = push.to("refs/drafts/master");
-    push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT,
-            "b.txt",
-            "4711",
-            result.getChangeId());
-    return push.to("refs/drafts/master").getChangeId();
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws Exception {

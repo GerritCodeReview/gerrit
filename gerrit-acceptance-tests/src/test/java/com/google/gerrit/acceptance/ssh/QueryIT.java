@@ -292,7 +292,7 @@ public class QueryIT extends AbstractDaemonTest {
   @Test
   public void queryWithNonVisibleCurrentPatchSet() throws Exception {
     String changeId = createChange().getChangeId();
-    amendChangeAsDraft(changeId);
+    amendChangeAndMarkPatchSetAsDraft(changeId);
     String query = "--current-patch-set --patch-sets " + changeId;
     List<ChangeAttribute> changes = executeSuccessfulQuery(query);
     assertThat(changes.size()).isEqualTo(1);

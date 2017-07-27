@@ -134,6 +134,7 @@ limitations under the License.
         '_handleGroupListOffsetRoute',
         '_handleGroupMembersRoute',
         '_handleGroupRoute',
+        '_handleNewAgreementsRoute',
         '_handlePluginListFilterOffsetRoute',
         '_handlePluginListFilterRoute',
         '_handlePluginListOffsetRoute',
@@ -526,7 +527,14 @@ limitations under the License.
       });
 
       test('_handleAgreementsRoute', () => {
-        element._handleAgreementsRoute({params: {}});
+        const data = {params: {}};
+        element._handleAgreementsRoute(data);
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/settings/#Agreements');
+      });
+
+      test('_handleNewAgreementsRoute', () => {
+        element._handleNewAgreementsRoute({params: {}});
         assert.isTrue(setParamsStub.calledOnce);
         assert.equal(setParamsStub.lastCall.args[0].view,
             Gerrit.Nav.View.AGREEMENTS);

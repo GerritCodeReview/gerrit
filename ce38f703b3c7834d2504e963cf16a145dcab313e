@@ -51,6 +51,24 @@
       "revId": "ce38f703b3c7834d2504e963cf16a145dcab313e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb82ead7_1505899f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-27T16:46:46Z",
+      "side": 1,
+      "message": "I will take care of this in separate changes.",
+      "parentUuid": "18f5e40c_bcd8f08e",
+      "revId": "ce38f703b3c7834d2504e963cf16a145dcab313e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -80,10 +80,21 @@ public class Groups {
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
   }
 
+  public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException {
+    Optional<AccountGroup> foundGroup = get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      return Stream.empty();
+    }
+
+    AccountGroup group = foundGroup.get();
+    return getIncludes(db, group.getId());
+  }
+
   public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.Id groupId)
       throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
-    return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID);
+    return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
   }
 
   public Stream<AccountGroup.Id> getGroupsWithMember(ReviewDb db, Account.Id accountId)
@@ -91,5 +102,19 @@ public class Groups {
     ResultSet<AccountGroupMember> accountGroupMembers =
         db.accountGroupMembers().byAccount(accountId);
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);
+  }
+
+  public Stream<AccountGroup.Id> getParentGroups(ReviewDb db, AccountGroup.UUID includedGroupUuid)
+      throws OrmException {
+    ResultSet<AccountGroupById> accountGroupByIds =
+        db.accountGroupById().byIncludeUUID(includedGroupUuid);
+    return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);
+  }
+
+  public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db) throws OrmException {
+    return Streams.stream(db.accountGroupById().all())
+        .map(AccountGroupById::getIncludeUUID)
+        .distinct()
+        .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
   }
 }

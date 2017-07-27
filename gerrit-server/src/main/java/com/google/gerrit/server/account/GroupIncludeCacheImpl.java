@@ -14,13 +14,15 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.group.Groups;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -30,9 +32,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,25 +137,18 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   static class SubgroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final Groups groups;
 
     @Inject
-    SubgroupsLoader(SchemaFactory<ReviewDb> sf) {
+    SubgroupsLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
       schema = sf;
+      this.groups = groups;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
       try (ReviewDb db = schema.open()) {
-        List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
-        if (group.size() != 1) {
-          return ImmutableList.of();
-        }
-
-        Set<AccountGroup.UUID> ids = new HashSet<>();
-        for (AccountGroupById agi : db.accountGroupById().byGroup(group.get(0).getId())) {
-          ids.add(agi.getIncludeUUID());
-        }
-        return ImmutableList.copyOf(ids);
+        return groups.getIncludes(db, key).collect(toImmutableList());
       }
     }
   }
@@ -163,47 +156,43 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   static class ParentGroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final GroupCache groupCache;
+    private final Groups groups;
 
     @Inject
-    ParentGroupsLoader(SchemaFactory<ReviewDb> sf) {
+    ParentGroupsLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache, Groups groups) {
       schema = sf;
+      this.groupCache = groupCache;
+      this.groups = groups;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
       try (ReviewDb db = schema.open()) {
-        Set<AccountGroup.Id> ids = new HashSet<>();
-        for (AccountGroupById agi : db.accountGroupById().byIncludeUUID(key)) {
-          ids.add(agi.getGroupId());
-        }
-
-        Set<AccountGroup.UUID> groupArray = new HashSet<>();
-        for (AccountGroup g : db.accountGroups().get(ids)) {
-          groupArray.add(g.getGroupUUID());
-        }
-        return ImmutableList.copyOf(groupArray);
+        return groups
+            .getParentGroups(db, key)
+            .map(groupCache::get)
+            .map(AccountGroup::getGroupUUID)
+            .filter(Objects::nonNull)
+            .collect(toImmutableList());
       }
     }
   }
 
   static class AllExternalLoader extends CacheLoader<String, ImmutableList<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final Groups groups;
 
     @Inject
-    AllExternalLoader(SchemaFactory<ReviewDb> sf) {
+    AllExternalLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
       schema = sf;
+      this.groups = groups;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Set<AccountGroup.UUID> ids = new HashSet<>();
-        for (AccountGroupById agi : db.accountGroupById().all()) {
-          if (!AccountGroup.isInternalGroup(agi.getIncludeUUID())) {
-            ids.add(agi.getIncludeUUID());
-          }
-        }
-        return ImmutableList.copyOf(ids);
+        return groups.getExternalGroups(db).collect(toImmutableList());
       }
     }
   }

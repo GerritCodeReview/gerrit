@@ -105,6 +105,24 @@
       "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f595bf5_887c828f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-27T08:04:51Z",
+      "side": 1,
+      "message": "Thanks, I\u0027m looking at this right now.",
+      "parentUuid": "8aff9ca8_2360bcbd",
+      "revId": "e253101f5a7cb278a62753f4aed528e8956f5378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

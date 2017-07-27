@@ -322,4 +322,39 @@ public class GroupsUpdate {
     }
     groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
   }
+
+  public void deleteIncludedGroups(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
+      throws OrmException {
+    Optional<AccountGroup> foundParentGroup = groups.get(db, parentGroupUuid);
+    if (!foundParentGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return;
+    }
+
+    AccountGroup parentGroup = foundParentGroup.get();
+    AccountGroup.Id parentGroupId = parentGroup.getId();
+    Set<AccountGroupById> includedGroupsToRemove = new HashSet<>();
+    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
+      boolean isIncluded = groups.isIncluded(db, parentGroupId, includedGroupUuid);
+      if (isIncluded) {
+        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
+        includedGroupsToRemove.add(new AccountGroupById(key));
+      }
+    }
+
+    if (includedGroupsToRemove.isEmpty()) {
+      return;
+    }
+
+    if (currentUser != null) {
+      auditService.dispatchDeleteGroupsFromGroup(
+          currentUser.getAccountId(), includedGroupsToRemove);
+    }
+    db.accountGroupById().delete(includedGroupsToRemove);
+    for (AccountGroupById groupToRemove : includedGroupsToRemove) {
+      groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
+    }
+    groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
+  }
 }

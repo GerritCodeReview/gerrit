@@ -183,6 +183,10 @@
       },
       _updateCheckTimerHandle: Number,
       _sortedRevisions: Array,
+      _editLoaded: {
+        type: Boolean,
+        computed: '_computeEditLoaded(_patchRange.*)',
+      },
     },
 
     behaviors: [
@@ -927,7 +931,7 @@
         }
         if (edit) {
           change.revisions[edit.commit.commit] = {
-            _number: 'edit',
+            _number: this.EDIT_NAME,
             basePatchNum: edit.base_patch_set_number,
             commit: edit.commit,
             fetch: edit.fetch,
@@ -1322,6 +1326,11 @@
 
     _computeHeaderClass(change) {
       return change.work_in_progress ? 'header wip' : 'header';
+    },
+
+    _computeEditLoaded(patchRangeRecord) {
+      const patchRange = patchRangeRecord.base || {};
+      return patchRange.patchNum === this.EDIT_NAME;
     },
   });
 })();

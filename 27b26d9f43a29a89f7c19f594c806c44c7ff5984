@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0e88d49_f792699b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-27T19:17:36Z",
+      "side": 1,
+      "message": "Just use Comparators.comparing(Plugin::getName)",
+      "revId": "27b26d9f43a29a89f7c19f594c806c44c7ff5984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db6757c5_829d37e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-27T19:17:36Z",
+      "side": 1,
+      "message": "I don\u0027t feel especially strongly, but these days I generally recommend using Streams over FluentIterable in new code:\n\n Stream\u003cPlugin\u003e s \u003d Streams.of(pluginLoader.getPlugins(all)).sorted(comparing(Plugin::getName));\n if (start \u003e 0) {\n   s \u003d s.skip(start);\n }\n if (limit \u003e 0) {\n   s \u003d s.limit(limit);\n }\n List\u003cPlugin\u003e plugins \u003d s.collect(toList());",
+      "revId": "27b26d9f43a29a89f7c19f594c806c44c7ff5984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -58,6 +58,24 @@ by plugin ID.
   }
 ----
 
+[[plugin-limit]]
+==== Plugin Limit
+The `/plugins/` URL also accepts a limit integer in the `n` parameter.
+This limits the results to show `n` plugins.
+
+Query the first 10 plugins in group list.
+----
+  GET /plugins/?n=10 HTTP/1.0
+----
+
+The `/plugins/` URL also accepts a start integer in the `S` parameter.
+The results will skip `S` plugins from the plugins list.
+
+Query 10 plugins starting from index 15.
+----
+  GET /plugins/?n=10&S=15 HTTP/1.0
+----
+
 [[install-plugin]]
 === Install Plugin
 --

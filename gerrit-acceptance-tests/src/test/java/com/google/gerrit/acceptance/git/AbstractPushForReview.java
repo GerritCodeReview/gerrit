@@ -622,21 +622,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterAsDraft() throws Exception {
-    // create draft by pushing to 'refs/drafts/'
+    // create draft by pushing to 'refs/drafts/' will get a private change.
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    r.assertChange(Change.Status.NEW, null);
 
-    // create draft by using 'draft' option
+    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isTrue();
+
+    // create draft by using 'draft' option will get a private change, too.
     r = pushTo("refs/for/master%draft");
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    r.assertChange(Change.Status.NEW, null);
+    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isTrue();
   }
 
   @Test
   public void publishDraftChangeByPushingNonDraftPatchSet() throws Exception {
-    // create draft change
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    PushOneCommit.Result r = createDraftChange();
     r.assertOkStatus();
     r.assertChange(Change.Status.DRAFT, null);
 

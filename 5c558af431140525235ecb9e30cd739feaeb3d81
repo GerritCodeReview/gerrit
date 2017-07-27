@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74b7125b_52f0cc87",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Thank you for the great documentation!",
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a5c499_cdd96f7e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "This could use a comment to describe what\u0027s being done.",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 36
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40593e42_0a42d7c9",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "typo, believe should be \u0027patchset an\u0027",
+      "range": {
+        "startLine": 130,
+        "startChar": 45,
+        "endLine": 130,
+        "endChar": 55
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e578fd_bfdd28fd",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Want to verify there can only be one edit at a time right?",
+      "range": {
+        "startLine": 177,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 7
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a9eaff0_775ce217",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Could we just pass _sortedRevisions here? So then we don\u0027t have to sort it multiple places?",
+      "range": {
+        "startLine": 515,
+        "startChar": 12,
+        "endLine": 515,
+        "endChar": 45
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e36277_c85474e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "I think this could use a description.",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 6
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c39fd1_5c0ccd53",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Should be \u003d\u003d\u003d",
+      "range": {
+        "startLine": 704,
+        "startChar": 23,
+        "endLine": 704,
+        "endChar": 25
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6190a42f_b8fb7c01",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "It looks like this is included both here and in the change view. Would it make sense to include it in the behavior?",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 6
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a05686fd_f2529fc1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Is this used to parse the integer as a String? could we use\nparams.basePatchNum.toString() to make it a little more clear?",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce68104_9ef61195",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-27T22:18:17Z",
+      "side": 1,
+      "message": "Same comment here, about .toString()",
+      "range": {
+        "startLine": 64,
+        "startChar": 29,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

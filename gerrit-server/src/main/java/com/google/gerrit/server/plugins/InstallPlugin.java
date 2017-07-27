@@ -16,7 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.InstallPluginInfo;
+import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInfo> {
+class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {
   private final PluginLoader loader;
   private final String name;
   private final boolean created;
@@ -44,7 +44,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInf
   }
 
   @Override
-  public Response<PluginInfo> apply(TopLevelResource resource, InstallPluginInfo input)
+  public Response<PluginInfo> apply(TopLevelResource resource, InstallPluginInput input)
       throws BadRequestException, MethodNotAllowedException, IOException {
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote installation is disabled");
@@ -71,7 +71,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInf
     }
   }
 
-  private InputStream openStream(InstallPluginInfo input) throws IOException, BadRequestException {
+  private InputStream openStream(InstallPluginInput input) throws IOException, BadRequestException {
     if (input.raw != null) {
       return input.raw.getInputStream();
     }
@@ -83,7 +83,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInf
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-  static class Overwrite implements RestModifyView<PluginResource, InstallPluginInfo> {
+  static class Overwrite implements RestModifyView<PluginResource, InstallPluginInput> {
     private final PluginLoader loader;
 
     @Inject
@@ -92,7 +92,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInf
     }
 
     @Override
-    public Response<PluginInfo> apply(PluginResource resource, InstallPluginInfo input)
+    public Response<PluginInfo> apply(PluginResource resource, InstallPluginInput input)
         throws BadRequestException, MethodNotAllowedException, IOException {
       return new InstallPlugin(loader, resource.getName(), false)
           .apply(TopLevelResource.INSTANCE, input);

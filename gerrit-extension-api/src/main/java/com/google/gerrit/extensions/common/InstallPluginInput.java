@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RawInput;
 
-public class InstallPluginInfo {
+public class InstallPluginInput {
   public @DefaultInput String url;
   public RawInput raw;
 }

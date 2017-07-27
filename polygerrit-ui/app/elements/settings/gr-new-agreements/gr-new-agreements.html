@@ -1,0 +1,90 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-new-agreements">
+  <template>
+    <style include="shared-styles">
+      .agreementsUrl {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 5px 5px 5px 5px;
+        border: 1px solid #b0bdcc;
+      }
+      .smallHeading {
+        margin-top: 5px;
+        font-weight: bold;
+      }
+      .agreements {
+        margin: 1em;
+      }
+      .bold {
+        font-weight: bold;
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+    <div class="gr-form-styles agreements">
+      <div class="smallHeading">Select an agreement type:</div>
+        <div>
+          <template is="dom-repeat" items="[[_serverConfig.auth.contributor_agreements]]">
+            <div id="claNewAgreements">
+              <span>
+                <input id$="claNewAgreementsInput[[item.name]]"
+                    name="claNewAgreementsRadio"
+                    type="radio"
+                    data-name$="[[item.name]]"
+                    data-url$="[[item.url]]"
+                    on-tap="_handleAgreements"
+                    disabled$="[[disableFunc(item, _groups)]]">
+                <label id="claNewAgreementsLabel" class="bold">[[item.name]]</label>
+              </span>
+              <div class="agreementsUrl">[[item.description]]</div>
+              <div id$="claNewAgreements2[[item.name]]"
+                   class$="claNewAgreements2[[item.name]]" style="display: none;">
+                <div class="smallHeading">Review the agreement:</div>
+                <div id$="agreementsUrl[[item.name]]" class="agreementsUrl"></div>
+                <div class="agreementsTextBox">
+                  <div class="smallHeading">Complete the agreement:</div>
+                  <input
+                      id="input-[[item.name]]"
+                      is="iron-input"
+                      disabled$="[[disabled]]"
+                      bind-value="{{_agreementsText}}"
+                      placeholder="enter I AGREE in the box"
+                      autocomplete="off"/>
+                  <gr-button
+                      data-name$="[[item.name]]"
+                      on-tap="_handleSaveAgreements"
+                      disabled$="[[!_agreementsText]]">
+                    Save changes
+                  </gr-button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-new-agreements.js"></script>
+</dom-module>

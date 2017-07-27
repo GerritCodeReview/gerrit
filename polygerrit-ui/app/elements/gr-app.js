@@ -129,8 +129,8 @@
       this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
       this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
       this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
-      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
+      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
       if (this.params.justRegistered) {
         this.$.registration.open();
       }

@@ -26,8 +26,8 @@ import com.google.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-class DisablePlugin implements RestModifyView<PluginResource, Input> {
-  static class Input {}
+public class DisablePlugin implements RestModifyView<PluginResource, Input> {
+  public static class Input {}
 
   private final PluginLoader loader;
 

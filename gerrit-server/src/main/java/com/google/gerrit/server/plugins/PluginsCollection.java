@@ -55,7 +55,11 @@ public class PluginsCollection
   @Override
   public PluginResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
-    Plugin p = loader.get(id.get());
+    return parse(id.get());
+  }
+
+  public PluginResource parse(String id) throws ResourceNotFoundException {
+    Plugin p = loader.get(id);
     if (p == null) {
       throw new ResourceNotFoundException(id);
     }

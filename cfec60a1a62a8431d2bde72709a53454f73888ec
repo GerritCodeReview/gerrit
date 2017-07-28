@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62089c7e_fd824899",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-28T18:31:34Z",
+      "side": 1,
+      "message": "Is this route still used?  Isn\u0027t it included in the first new one?",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 7
+      },
+      "revId": "cfec60a1a62a8431d2bde72709a53454f73888ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f348ac49_36b78a35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-07-28T18:31:34Z",
+      "side": 1,
+      "message": "It looks like this should be lower case \u0027s\u0027 to be consistent with everything else, but it looks like the backend was implemented with an uppercase S. That should be changed for consistency.",
+      "range": {
+        "startLine": 682,
+        "startChar": 49,
+        "endLine": 682,
+        "endChar": 50
+      },
+      "revId": "cfec60a1a62a8431d2bde72709a53454f73888ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

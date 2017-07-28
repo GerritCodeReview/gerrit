@@ -1127,6 +1127,30 @@
       "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11f0c7e3_76ce2553",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T18:51:45Z",
+      "side": 1,
+      "message": "I got a little confused by the different editing urls in gwtui. It seems that it is correct here :)",
+      "parentUuid": "58114942_4faa598a",
+      "range": {
+        "startLine": 329,
+        "startChar": 44,
+        "endLine": 329,
+        "endChar": 49
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

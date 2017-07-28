@@ -16,6 +16,24 @@
       "revId": "c1738e61f1168d8a80da4204d45165d6f2971276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce08470_2269808e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T23:10:39Z",
+      "side": 1,
+      "message": "Is this still reproducible? Please reopen if so.",
+      "parentUuid": "0fe619f3_aa4e986a",
+      "revId": "c1738e61f1168d8a80da4204d45165d6f2971276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

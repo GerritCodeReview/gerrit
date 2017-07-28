@@ -46,6 +46,30 @@
       "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b534152_8edf9aea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T18:32:25Z",
+      "side": 1,
+      "message": "The commit message doesn\u0027t offer much context on how this will be used. Maybe this change should wait until the first use is ready?",
+      "parentUuid": "3bf02a6e_cfec57af",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

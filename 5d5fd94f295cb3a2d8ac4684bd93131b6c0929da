@@ -22,6 +22,30 @@
       "revId": "5d5fd94f295cb3a2d8ac4684bd93131b6c0929da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc7681aa_e8c10170",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T11:08:33Z",
+      "side": 1,
+      "message": "Woops that was a mistake, i was following the private method since the cherrypick one was for revisions and i needed the one for changes. I will remove this. Thanks, done.",
+      "parentUuid": "106da163_e7f9272d",
+      "range": {
+        "startLine": 233,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 16
+      },
+      "revId": "5d5fd94f295cb3a2d8ac4684bd93131b6c0929da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

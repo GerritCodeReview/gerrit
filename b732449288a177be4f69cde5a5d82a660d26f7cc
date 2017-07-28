@@ -22,6 +22,30 @@
       "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf02a6e_cfec57af",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-28T17:19:18Z",
+      "side": 1,
+      "message": "Yup! Detailed in the commit message -- let me know if you\u0027d like more info.",
+      "parentUuid": "0ad3d94f_523e38df",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

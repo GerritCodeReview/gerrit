@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4c2daf0_9971d43d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T18:37:27Z",
+      "side": 1,
+      "message": "Yep mistake will fix it. Thanks, done.",
+      "parentUuid": "517d40d9_1dba24bc",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "af6a138617ad26907da347adaf79b5405d47c35a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ad4ceb2_1bd76084",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 22

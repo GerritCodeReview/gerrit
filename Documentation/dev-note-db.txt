@@ -27,9 +27,7 @@ same repository as code changes.
   servers behind `googlesource.com`. In other words, if you use
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
   using NoteDb. +
-- Storing some account data, e.g. user preferences, is implemented in releases
-  back to 2.13.
-- Storing the rest of account data is a work in progress.
+- Storing link:config-accounts.html[account data] is fully implemented.
 - Storing group data is a work in progress.
 
 To use a configuration similar to the current state of `googlesource.com`, paste

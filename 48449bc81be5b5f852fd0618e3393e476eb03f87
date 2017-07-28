@@ -17,6 +17,24 @@
       "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97fb0a9c_28e617ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-28T17:20:05Z",
+      "side": 1,
+      "message": "It doesn\u0027t hurt to check the parent change before asking.",
+      "parentUuid": "34816c1a_c4970012",
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

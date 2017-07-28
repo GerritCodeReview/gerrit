@@ -94,14 +94,6 @@ public class GroupControl {
       return new GroupControl(user.get(), group, permissionBackend, groupBackend);
     }
 
-    public GroupControl validateFor(AccountGroup.Id groupId) throws NoSuchGroupException {
-      final GroupControl c = controlFor(groupId);
-      if (!c.isVisible()) {
-        throw new NoSuchGroupException(groupId);
-      }
-      return c;
-    }
-
     public GroupControl validateFor(AccountGroup.UUID groupUUID) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupUUID);
       if (!c.isVisible()) {

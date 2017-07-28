@@ -15,21 +15,19 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -40,19 +38,14 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
   private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListIncludedGroups.class);
 
   private final GroupControl.Factory controlFactory;
-  private final Provider<ReviewDb> dbProvider;
-  private final Groups groups;
+  private final GroupIncludeCache groupIncludeCache;
   private final GroupJson json;
 
   @Inject
   ListIncludedGroups(
-      GroupControl.Factory controlFactory,
-      Provider<ReviewDb> dbProvider,
-      Groups groups,
-      GroupJson json) {
+      GroupControl.Factory controlFactory, GroupIncludeCache groupIncludeCache, GroupJson json) {
     this.controlFactory = controlFactory;
-    this.dbProvider = dbProvider;
-    this.groups = groups;
+    this.groupIncludeCache = groupIncludeCache;
     this.json = json;
   }
 
@@ -64,10 +57,8 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
-    ImmutableList<AccountGroup.UUID> includedGroupUuids =
-        groups
-            .getIncludes(dbProvider.get(), rsrc.toAccountGroup().getGroupUUID())
-            .collect(toImmutableList());
+    Collection<AccountGroup.UUID> includedGroupUuids =
+        groupIncludeCache.subgroupsOf(rsrc.toAccountGroup().getGroupUUID());
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
       try {
         GroupControl i = controlFactory.controlFor(includedGroupUuid);

@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
+import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
@@ -419,7 +419,7 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     boolean rebuilt = false;
-    while (state.compareTo(NOTE_DB_UNFUSED) < 0) {
+    while (state.compareTo(NOTE_DB) < 0) {
       if (state.equals(stopAtState)) {
         return;
       }
@@ -458,18 +458,15 @@ public class NoteDbMigrator implements AutoCloseable {
           break;
         case READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY:
           // The only way we can get here is if there was a failure on a previous run of
-          // setNoteDbPrimary, since that method moves to NOTE_DB_UNFUSED if it completes
+          // setNoteDbPrimary, since that method moves to NOTE_DB if it completes
           // successfully. Assume that not all changes were converted and re-run the step.
           // migrateToNoteDbPrimary is a relatively fast no-op for already-migrated changes, so this
           // isn't actually repeating work.
           state = setNoteDbPrimary(state);
           break;
-        case NOTE_DB_UNFUSED:
+        case NOTE_DB:
           // Done!
           break;
-        case NOTE_DB:
-          // TODO(dborowitz): Allow this state once FileRepository supports fused updates.
-          // Until then, fallthrough and throw.
         default:
           throw new MigrationException(
               "Migration out of the following state is not supported:\n" + state.toText());
@@ -561,7 +558,7 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {
-    return saveState(prev, NOTE_DB_UNFUSED, c -> setAutoMigrate(c, false));
+    return saveState(prev, NOTE_DB, c -> setAutoMigrate(c, false));
   }
 
   private Optional<NotesMigrationState> loadState() throws IOException {

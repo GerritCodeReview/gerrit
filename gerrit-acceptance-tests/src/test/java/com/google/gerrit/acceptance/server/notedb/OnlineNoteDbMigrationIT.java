@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB_UNFUSED;
+import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
@@ -313,7 +313,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id2 = r2.getChange().getId();
 
     migrate(b -> b.setThreads(threads));
-    assertNotesMigrationState(NOTE_DB_UNFUSED);
+    assertNotesMigrationState(NOTE_DB);
 
     assertThat(sequences.nextChangeId()).isEqualTo(503);
 
@@ -372,7 +372,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isTrue();
 
     migrate(b -> b);
-    assertNotesMigrationState(NOTE_DB_UNFUSED);
+    assertNotesMigrationState(NOTE_DB);
     assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isFalse();
   }
 

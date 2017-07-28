@@ -95,8 +95,7 @@ public abstract class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(ReviewDbBatchUpdate.AssistedFactory.class);
-        factory(FusedNoteDbBatchUpdate.AssistedFactory.class);
-        factory(UnfusedNoteDbBatchUpdate.AssistedFactory.class);
+        factory(NoteDbBatchUpdate.AssistedFactory.class);
       }
     };
   }
@@ -105,29 +104,23 @@ public abstract class BatchUpdate implements AutoCloseable {
   public static class Factory {
     private final NotesMigration migration;
     private final ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory;
-    private final FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory;
-    private final UnfusedNoteDbBatchUpdate.AssistedFactory unfusedNoteDbBatchUpdateFactory;
+    private final NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory;
 
     // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
     @Inject
     Factory(
         NotesMigration migration,
         ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
-        FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory,
-        UnfusedNoteDbBatchUpdate.AssistedFactory unfusedNoteDbBatchUpdateFactory) {
+        NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
       this.migration = migration;
       this.reviewDbBatchUpdateFactory = reviewDbBatchUpdateFactory;
-      this.fusedNoteDbBatchUpdateFactory = fusedNoteDbBatchUpdateFactory;
-      this.unfusedNoteDbBatchUpdateFactory = unfusedNoteDbBatchUpdateFactory;
+      this.noteDbBatchUpdateFactory = noteDbBatchUpdateFactory;
     }
 
     public BatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
       if (migration.disableChangeReviewDb()) {
-        if (migration.fuseUpdates()) {
-          return fusedNoteDbBatchUpdateFactory.create(db, project, user, when);
-        }
-        return unfusedNoteDbBatchUpdateFactory.create(db, project, user, when);
+        return noteDbBatchUpdateFactory.create(db, project, user, when);
       }
       return reviewDbBatchUpdateFactory.create(db, project, user, when);
     }
@@ -147,15 +140,9 @@ public abstract class BatchUpdate implements AutoCloseable {
       // copy them into an ImmutableList so there is no chance the callee can pollute the input
       // collection.
       if (migration.disableChangeReviewDb()) {
-        if (migration.fuseUpdates()) {
-          ImmutableList<FusedNoteDbBatchUpdate> noteDbUpdates =
-              (ImmutableList) ImmutableList.copyOf(updates);
-          FusedNoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
-        } else {
-          ImmutableList<UnfusedNoteDbBatchUpdate> noteDbUpdates =
-              (ImmutableList) ImmutableList.copyOf(updates);
-          UnfusedNoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
-        }
+        ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
+            (ImmutableList) ImmutableList.copyOf(updates);
+        NoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
       } else {
         ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
             (ImmutableList) ImmutableList.copyOf(updates);

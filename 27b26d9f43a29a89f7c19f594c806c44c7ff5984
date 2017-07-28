@@ -69,6 +69,24 @@
       "revId": "27b26d9f43a29a89f7c19f594c806c44c7ff5984",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db52ad38_3fd766ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T13:59:11Z",
+      "side": 1,
+      "message": "Looks like you figured it out, com.google.common.collect.Streams !\u003d java.util.stream.Stream :)",
+      "parentUuid": "a35bb0fe_92ce6f44",
+      "revId": "27b26d9f43a29a89f7c19f594c806c44c7ff5984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -220,6 +220,7 @@ shortest possible pattern expansion must be a valid ref name:
 thus `^refs/heads/.*/name` will fail because `refs/heads//name`
 is not a valid reference, but `^refs/heads/.+/name` will work.
 
+[[sharded-user-id]]
 References can have the user name or the sharded account ID of the
 current user automatically included, creating dynamic access controls
 that change to match the currently logged in user.  For example to

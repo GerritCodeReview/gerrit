@@ -290,6 +290,7 @@ public class RepoSequence {
     if (oldId != null) {
       ru.setExpectedOldObjectId(oldId);
     }
+    ru.disableRefLog();
     ru.setNewObjectId(newId);
     ru.setForceUpdate(true); // Required for non-commitish updates.
     RefUpdate.Result result = ru.update(rw);

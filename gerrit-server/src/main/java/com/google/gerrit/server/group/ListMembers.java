@@ -94,7 +94,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
     final GroupDetail groupDetail;
     try {
-      groupDetail = groupDetailFactory.create(group.getId()).call();
+      groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
     } catch (NoSuchGroupException e) {
       // the included group is not visible
       return Collections.emptyMap();

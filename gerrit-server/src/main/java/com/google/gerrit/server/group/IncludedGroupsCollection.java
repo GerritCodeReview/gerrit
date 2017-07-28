@@ -80,7 +80,7 @@ public class IncludedGroupsCollection
   }
 
   private boolean isMember(AccountGroup parent, GroupDescription.Basic member) throws OrmException {
-    return groups.isIncluded(dbProvider.get(), parent.getId(), member.getGroupUUID());
+    return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
   }
 
   @SuppressWarnings("unchecked")

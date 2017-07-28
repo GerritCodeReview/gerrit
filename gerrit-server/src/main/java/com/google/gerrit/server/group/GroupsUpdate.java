@@ -207,7 +207,7 @@ public class GroupsUpdate {
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> newMembers = new HashSet<>();
     for (Account.Id accountId : accountIds) {
-      boolean isMember = groups.isMember(db, group, accountId);
+      boolean isMember = groups.isMember(db, groupUuid, accountId);
       if (!isMember) {
         AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, groupId);
         newMembers.add(new AccountGroupMember(key));
@@ -240,7 +240,7 @@ public class GroupsUpdate {
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> membersToRemove = new HashSet<>();
     for (Account.Id accountId : accountIds) {
-      boolean isMember = groups.isMember(db, group, accountId);
+      boolean isMember = groups.isMember(db, groupUuid, accountId);
       if (isMember) {
         AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, groupId);
         membersToRemove.add(new AccountGroupMember(key));
@@ -273,7 +273,7 @@ public class GroupsUpdate {
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> newIncludedGroups = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
-      boolean isIncluded = groups.isIncluded(db, parentGroupId, includedGroupUuid);
+      boolean isIncluded = groups.isIncluded(db, parentGroupUuid, includedGroupUuid);
       if (!isIncluded) {
         AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
         newIncludedGroups.add(new AccountGroupById(key));
@@ -307,7 +307,7 @@ public class GroupsUpdate {
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> includedGroupsToRemove = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
-      boolean isIncluded = groups.isIncluded(db, parentGroupId, includedGroupUuid);
+      boolean isIncluded = groups.isIncluded(db, parentGroupUuid, includedGroupUuid);
       if (isIncluded) {
         AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
         includedGroupsToRemove.add(new AccountGroupById(key));

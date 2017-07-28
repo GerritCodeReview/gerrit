@@ -66,7 +66,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
     List<GroupInfo> included = new ArrayList<>();
     ImmutableList<AccountGroup.UUID> includedGroupUuids =
         groups
-            .getIncludes(dbProvider.get(), rsrc.toAccountGroup().getId())
+            .getIncludes(dbProvider.get(), rsrc.toAccountGroup().getGroupUUID())
             .collect(toImmutableList());
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
       try {

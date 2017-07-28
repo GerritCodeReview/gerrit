@@ -63,20 +63,44 @@ public class Groups {
     return Streams.stream(db.accountGroups().all());
   }
 
-  public boolean isMember(ReviewDb db, AccountGroup group, Account.Id accountId)
+  public boolean isMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException {
+    Optional<AccountGroup> foundGroup = get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return false;
+    }
+
+    AccountGroup group = foundGroup.get();
     AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, group.getId());
     return db.accountGroupMembers().get(key) != null;
   }
 
-  public boolean isIncluded(ReviewDb db, AccountGroup.Id parentId, AccountGroup.UUID childGroupUuid)
+  public boolean isIncluded(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, AccountGroup.UUID includedGroupUuid)
       throws OrmException {
-    AccountGroupById.Key key = new AccountGroupById.Key(parentId, childGroupUuid);
+    Optional<AccountGroup> foundParentGroup = get(db, parentGroupUuid);
+    if (!foundParentGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return false;
+    }
+
+    AccountGroup parentGroup = foundParentGroup.get();
+    AccountGroupById.Key key = new AccountGroupById.Key(parentGroup.getId(), includedGroupUuid);
     return db.accountGroupById().get(key) != null;
   }
 
-  public Stream<Account.Id> getMembers(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
-    ResultSet<AccountGroupMember> accountGroupMembers = db.accountGroupMembers().byGroup(groupId);
+  public Stream<Account.Id> getMembers(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException {
+    Optional<AccountGroup> foundGroup = get(db, groupUuid);
+    if (!foundGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
+      return Stream.empty();
+    }
+
+    AccountGroup group = foundGroup.get();
+    ResultSet<AccountGroupMember> accountGroupMembers =
+        db.accountGroupMembers().byGroup(group.getId());
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
   }
 
@@ -84,16 +108,12 @@ public class Groups {
       throws OrmException {
     Optional<AccountGroup> foundGroup = get(db, groupUuid);
     if (!foundGroup.isPresent()) {
+      // TODO(aliceks): Throw an exception?
       return Stream.empty();
     }
 
     AccountGroup group = foundGroup.get();
-    return getIncludes(db, group.getId());
-  }
-
-  public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.Id groupId)
-      throws OrmException {
-    ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
+    ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(group.getId());
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
   }
 

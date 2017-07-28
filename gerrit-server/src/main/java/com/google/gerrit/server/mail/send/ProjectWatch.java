@@ -177,7 +177,7 @@ public class ProjectWatch {
         continue;
       }
 
-      args.groups.getMembers(db, ig.getId()).forEach(matching.accounts::add);
+      args.groups.getMembers(db, ig.getGroupUUID()).forEach(matching.accounts::add);
       for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
         if (seen.add(m)) {
           q.add(m);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9df5fa2_6c14c1c6",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T14:02:44Z",
+      "side": 1,
+      "message": "insensitive?",
+      "range": {
+        "startLine": 117,
+        "startChar": 18,
+        "endLine": 117,
+        "endChar": 27
+      },
+      "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

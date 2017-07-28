@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09f87e25_77805160",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T18:46:10Z",
+      "side": 1,
+      "message": "The first one is an offset. So if there is no offset then that one wont be used. It\u0027s like branches, tags, projects and groups.",
+      "parentUuid": "62089c7e_fd824899",
+      "range": {
+        "startLine": 312,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 7
+      },
+      "revId": "cfec60a1a62a8431d2bde72709a53454f73888ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f348ac49_36b78a35",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-28T18:31:34Z",
       "side": 1,
       "message": "It looks like this should be lower case \u0027s\u0027 to be consistent with everything else, but it looks like the backend was implemented with an uppercase S. That should be changed for consistency.",
+      "range": {
+        "startLine": 682,
+        "startChar": 49,
+        "endLine": 682,
+        "endChar": 50
+      },
+      "revId": "cfec60a1a62a8431d2bde72709a53454f73888ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930e2997_a0ed66a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T18:46:10Z",
+      "side": 1,
+      "message": "It\u0027s being fixed by David so this can stay as S :)",
+      "parentUuid": "f348ac49_36b78a35",
       "range": {
         "startLine": 682,
         "startChar": 49,

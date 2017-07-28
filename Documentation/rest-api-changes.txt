@@ -3564,6 +3564,7 @@ describing the related changes.
           },
           "subject": "Remove Solr"
         },
+        "project": "gerrit",
         "_change_number": 58478,
         "_revision_number": 2,
         "_current_revision_number": 2
@@ -3586,6 +3587,7 @@ describing the related changes.
           },
           "subject": "Add support for secondary index with Elasticsearch"
         },
+        "project": "gerrit",
         "_change_number": 58081,
         "_revision_number": 10,
         "_current_revision_number": 10
@@ -6577,6 +6579,7 @@ a related change and commit.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name                ||Description
+|`project`                 ||The project if the change or commit.
 |`change_id`               |optional|The Change-Id of the change.
 |`commit`                  ||The commit as a
 link:#commit-info[CommitInfo] entity.

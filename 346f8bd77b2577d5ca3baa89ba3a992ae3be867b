@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2477a9b_10156cd0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T17:53:17Z",
+      "side": 1,
+      "message": "Nit: This indentation is odd. It could be...\n\nsetTimeout(() \u003d\u003e {\n  assert.isTrue(element.disabled);\n  resolve();\n}, 10);\n\nThis one doesn\u0027t look too problematic, but timeouts in tests are a minor smell. Is the timeout needed? (Otherwise the test is perhaps 10ms slower than it needs to be.)",
+      "range": {
+        "startLine": 886,
+        "startChar": 10,
+        "endLine": 891,
+        "endChar": 18
+      },
+      "revId": "346f8bd77b2577d5ca3baa89ba3a992ae3be867b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

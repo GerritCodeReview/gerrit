@@ -72,10 +72,6 @@ public class MutableNotesMigration extends NotesMigration {
     return set(b -> b.setDisableChangeReviewDb(disableChangeReviewDb));
   }
 
-  public MutableNotesMigration setFuseUpdates(boolean fuseUpdates) {
-    return set(b -> b.setFuseUpdates(fuseUpdates));
-  }
-
   public MutableNotesMigration setFailOnLoadForTest(boolean failOnLoadForTest) {
     return set(b -> b.setFailOnLoadForTest(failOnLoadForTest));
   }

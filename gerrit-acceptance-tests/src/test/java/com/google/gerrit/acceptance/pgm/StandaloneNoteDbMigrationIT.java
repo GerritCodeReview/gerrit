@@ -105,7 +105,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     setUpOneChange();
 
     migrate("--trial", "false");
-    assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+    assertNotesMigrationState(NotesMigrationState.NOTE_DB);
 
     try (ServerContext ctx = startServer()) {
       GitRepositoryManager repoManager = ctx.getInjector().getInstance(GitRepositoryManager.class);
@@ -143,7 +143,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     assertServerStartupFails();
 
     migrate("--trial", "false");
-    assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+    assertNotesMigrationState(NotesMigrationState.NOTE_DB);
 
     status = new GerritIndexStatus(sitePaths);
     assertThat(status.getReady(ChangeSchemaDefinitions.NAME, version)).isTrue();
@@ -175,7 +175,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
       u.runUpgrades();
 
       assertThat(indexes.getSearchIndex().getSchema().getVersion()).isEqualTo(currVersion);
-      assertNotesMigrationState(NotesMigrationState.NOTE_DB_UNFUSED);
+      assertNotesMigrationState(NotesMigrationState.NOTE_DB);
     }
   }
 

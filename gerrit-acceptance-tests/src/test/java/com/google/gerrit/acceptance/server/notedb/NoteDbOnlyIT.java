@@ -28,7 +28,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
@@ -77,7 +76,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
 
   @Test
   public void updateChangeFailureRollsBackRefUpdate() throws Exception {
-    assume().that(notesMigration.fuseUpdates()).isTrue();
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
 
@@ -149,7 +148,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailureWithAtomicUpdates() throws Exception {
-    assume().that(notesMigration.fuseUpdates()).isTrue();
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
     String master = "refs/heads/master";
@@ -192,52 +191,6 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           .containsExactly(
               ConcurrentWritingListener.MSG_PREFIX + "1", UpdateRefAndAddMessageOp.COMMIT_MESSAGE)
           .inOrder();
-    }
-  }
-
-  @Test
-  public void noRetryOnLockFailureWithoutAtomicUpdates() throws Exception {
-    assume().that(notesMigration.fuseUpdates()).isFalse();
-
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-    String master = "refs/heads/master";
-    ObjectId initial;
-    try (Repository repo = repoManager.openRepository(project)) {
-      initial = repo.exactRef(master).getObjectId();
-    }
-
-    AtomicInteger updateRepoCalledCount = new AtomicInteger();
-    AtomicInteger updateChangeCalledCount = new AtomicInteger();
-    AtomicInteger afterUpdateReposCalledCount = new AtomicInteger();
-
-    try {
-      retryHelper.execute(
-          batchUpdateFactory -> {
-            try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
-              bu.addOp(
-                  id, new UpdateRefAndAddMessageOp(updateRepoCalledCount, updateChangeCalledCount));
-              bu.execute(new ConcurrentWritingListener(afterUpdateReposCalledCount));
-            }
-            return null;
-          });
-      assert_().fail("expected RestApiException");
-    } catch (RestApiException e) {
-      // Expected.
-    }
-
-    assertThat(updateRepoCalledCount.get()).isEqualTo(1);
-    assertThat(afterUpdateReposCalledCount.get()).isEqualTo(1);
-    assertThat(updateChangeCalledCount.get()).isEqualTo(0);
-
-    // updateChange was never called, so no message was ever added.
-    assertThat(getMessages(id)).doesNotContain(UpdateRefAndAddMessageOp.CHANGE_MESSAGE);
-
-    try (Repository repo = repoManager.openRepository(project)) {
-      // Op lost the race, so the other writer's commit happened first. Op didn't retry, because the
-      // ref updates weren't atomic, so it didn't throw LockFailureException on failure.
-      assertThat(commitMessages(repo, initial, repo.exactRef(master).getObjectId()))
-          .containsExactly(ConcurrentWritingListener.MSG_PREFIX + "1");
     }
   }
 

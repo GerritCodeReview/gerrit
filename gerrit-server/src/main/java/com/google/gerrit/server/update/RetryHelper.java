@@ -51,15 +51,11 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       NotesMigration migration,
       ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
-      FusedNoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory,
-      UnfusedNoteDbBatchUpdate.AssistedFactory unfusedNoteDbBatchUpdateFactory) {
+      NoteDbBatchUpdate.AssistedFactory fusedNoteDbBatchUpdateFactory) {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(
-            migration,
-            reviewDbBatchUpdateFactory,
-            fusedNoteDbBatchUpdateFactory,
-            unfusedNoteDbBatchUpdateFactory);
+            migration, reviewDbBatchUpdateFactory, fusedNoteDbBatchUpdateFactory);
     this.stopStrategy =
         StopStrategies.stopAfterDelay(
             cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(5), MILLISECONDS),
@@ -80,7 +76,7 @@ public class RetryHelper {
       throws RestApiException, UpdateException {
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
-      if (migration.disableChangeReviewDb() && migration.fuseUpdates()) {
+      if (migration.disableChangeReviewDb()) {
         builder
             .withStopStrategy(stopStrategy)
             .withWaitStrategy(waitStrategy)

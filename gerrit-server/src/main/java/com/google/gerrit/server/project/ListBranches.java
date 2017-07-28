@@ -62,7 +62,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   @Option(
     name = "--start",
-    aliases = {"-s"},
+    aliases = {"-S"},
     metaVar = "CNT",
     usage = "number of branches to skip"
   )

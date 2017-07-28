@@ -66,6 +66,7 @@
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
+. link:config-accounts.html[Accounts]
 
 == Developer
 . Getting Started

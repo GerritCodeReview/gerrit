@@ -270,6 +270,45 @@
       };
     });
 
+    // Matches /admin/plugins[,<offset>][/].
+    page(/^\/admin\/plugins(,(\d+))?(\/)?$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            offset: data.params[1] || 0,
+            filter: null,
+          };
+        }
+      });
+    });
+
+    page('/admin/plugins/q/filter::filter,:offset', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            offset: data.params.offset,
+            filter: data.params.filter,
+          };
+        }
+      });
+    });
+
+    page('/admin/plugins/q/filter::filter', loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            filter: data.params.filter || null,
+          };
+        }
+      });
+    });
+
     page(/^\/admin\/plugins(\/)?$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b0d689d_7c76840e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T18:28:07Z",
+      "side": 0,
+      "message": "Why remove these from the cherry pick dialog?",
+      "range": {
+        "startLine": 120,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 36
+      },
+      "revId": "b59511019e28687a36037d3edcad4e146ed6162a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

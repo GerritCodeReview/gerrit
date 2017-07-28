@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "517d40d9_1dba24bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T18:28:07Z",
+      "side": 1,
+      "message": "These properties are not declared or used by the confirm-move-dialog. It looks as though they have been mistakenly moved here from the confirm-cherry-pick-dialog.",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "af6a138617ad26907da347adaf79b5405d47c35a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad4ceb2_1bd76084",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T18:28:07Z",
+      "side": 1,
+      "message": "It looks to me like the message should be set to an empty string here also.",
+      "range": {
+        "startLine": 902,
+        "startChar": 6,
+        "endLine": 902,
+        "endChar": 37
+      },
+      "revId": "af6a138617ad26907da347adaf79b5405d47c35a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

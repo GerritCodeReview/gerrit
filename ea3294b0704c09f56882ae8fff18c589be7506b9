@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08d42019_71cf40ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-28T07:25:10Z",
+      "side": 1,
+      "message": "Should this better be 3 so that the test continues to work if more plugins are added to PLUGINS?",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 66,
+        "endChar": 87
+      },
+      "revId": "ea3294b0704c09f56882ae8fff18c589be7506b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

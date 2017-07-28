@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1501261542 -0400\nnonce AB2F6yCW13XnIT/QgIYi9EZXqjgVgfn9COj6Y2kMdADaJi2Oq35zN5ePPt6oz2F0jog28U4Oan4C\n\n0000000000000000000000000000000000000000 48449bc81be5b5f852fd0618e3393e476eb03f87 refs/for/master%r\u003dekempin,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZe27mAAoJEF/XxZqaEoiMf+MQAMn5pP9FmudKMdfPjRvNl/pU\n1Ab0uUWYEP46sN7FkjwRYB7/31DsGAgvu7u0kvyOqMpvGBVqQOe14YHyIbotbIf/\nD5b3oarVn6v67jQ2hb/lbxbouFHYLOawnRekUiTYZVUwu2Hf4Zl80n5WMXwPc5AB\nph881QpPXv6Ij7QlYJhCUSBudb1c2/PfJBMk1VQ5+zeovP/wFRmSmnU+yhr3oUlp\n1myS0b9TKkMNYraVr1WWxuqdFUZzd4ir6uR6YuUd0bdMqw9xIbfs5Qo3WVEbXYEn\na0cfNrfU3SmFpdYc6ZHUZh9+jkC1/4DIB844EJsMntHICdnat8Q88JVBy/+5aOjy\nwLn57HYOR8uy2iXluBqo0Y9m9MvTmIUKvNDGKWp40/Zt2EGmAvKT2h67aB2WJgIq\nF2YIRiJgtYegFwYv4QODc3QkXqUfvqoe5mtXw2rWhdOxhnyW1B1UNq9ZEMDnqLPi\nEd/JVoRUCJJmPpTYq5aQMa+J6wcLeFXNBvQtWHHqYu5+b4joLMYA3CF+NAanaq/8\nnOB4P3eK8Kz8KwkoAh207oHYz8T5YmZZw8eEF8EMD3ogmHg509uMe8WANSnhS6Dr\nuJlQdM4nJHW/6NxDCIj0mAbqScCUVAaA6mGmJLfi8uYbp9GKrqXvylQdsAbyshSo\n9WiqXMMp05GbPFKhxpEd\n\u003dic6w\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34816c1a_c4970012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-28T17:19:10Z",
+      "side": 1,
+      "message": "Atomic batch ref updates [1] and reflog support for that: [2] wasn\u0027t upgraded in gerrit yet?\n\n* [1] https://git.eclipse.org/r/100771\n* [2] https://git.eclipse.org/r/#/q/topic:batch-ref-update-reflog",
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

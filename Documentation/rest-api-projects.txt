@@ -1182,12 +1182,12 @@ Limit the number of branches to be included in the results.
   ]
 ----
 
-Skip(s)::
+Skip(S)::
 Skip the given number of branches from the beginning of the list.
 +
 .Request
 ----
-  GET /projects/testproject/branches?n=1&s=0 HTTP/1.0
+  GET /projects/testproject/branches?n=1&S=0 HTTP/1.0
 ----
 +
 .Response
@@ -1860,12 +1860,12 @@ Limit the number of tags to be included in the results.
   ]
 ----
 
-Skip(s)::
+Skip(S)::
 Skip the given number of tags from the beginning of the list.
 +
 .Request
 ----
-  GET /projects/work%2Fmy-project/tags?n=2&s=1 HTTP/1.0
+  GET /projects/work%2Fmy-project/tags?n=2&S=1 HTTP/1.0
 ----
 +
 .Response

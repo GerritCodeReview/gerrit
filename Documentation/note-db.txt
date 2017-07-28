@@ -26,9 +26,9 @@ same repository as code changes.
 - Storing change metadata is fully implemented in the 2.15 release. Admins may
   use an link:#offline-migration[offline] or link:#online-migration[online] tool
   to migrate change data from ReviewDb.
-- Storing account data is fully implemented in the 2.15 release. Account data is
-  migrated automatically during the upgrade process by running `gerrit.war
-  init`.
+- Storing link:config-accounts.html[account data] is fully implemented in the
+  2.15 release. Account data is migrated automatically during the upgrade
+  process by running `gerrit.war init`.
 - Account and change metadata on the servers behind `googlesource.com` is fully
   migrated to NoteDb. In other words, if you use
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already

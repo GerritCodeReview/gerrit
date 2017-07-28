@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -29,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Optional;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
@@ -62,13 +62,14 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
     }
 
     String newDescription = Strings.emptyToNull(input.description);
-    Optional<AccountGroup> updatedGroup =
-        groupsUpdateProvider
-            .get()
-            .updateGroup(
-                db.get(), resource.getGroupUUID(), group -> group.setDescription(newDescription));
-    if (!updatedGroup.isPresent()) {
-      throw new ResourceNotFoundException();
+
+    AccountGroup.UUID groupUuid = resource.getGroupUUID();
+    try {
+      groupsUpdateProvider
+          .get()
+          .updateGroup(db.get(), groupUuid, group -> group.setDescription(newDescription));
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
 
     return Strings.isNullOrEmpty(input.description)

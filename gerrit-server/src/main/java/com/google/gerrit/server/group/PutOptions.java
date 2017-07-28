@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -27,7 +28,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Optional;
 
 @Singleton
 public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInfo> {
@@ -58,19 +58,17 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
       input.visibleToAll = false;
     }
 
-    Optional<AccountGroup> updatedGroup =
-        groupsUpdateProvider
-            .get()
-            .updateGroup(
-                db.get(),
-                accountGroup.getGroupUUID(),
-                group -> group.setVisibleToAll(input.visibleToAll));
-    if (!updatedGroup.isPresent()) {
-      throw new ResourceNotFoundException();
+    AccountGroup.UUID groupUuid = accountGroup.getGroupUUID();
+    try {
+      groupsUpdateProvider
+          .get()
+          .updateGroup(db.get(), groupUuid, group -> group.setVisibleToAll(input.visibleToAll));
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
 
     GroupOptionsInfo options = new GroupOptionsInfo();
-    if (updatedGroup.get().isVisibleToAll()) {
+    if (input.visibleToAll) {
       options.visibleToAll = true;
     }
     return options;

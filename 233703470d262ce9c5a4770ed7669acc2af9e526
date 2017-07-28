@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fadb7da_40efc033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T11:34:10Z",
+      "side": 1,
+      "message": "Why can\u0027t you just change this to not short-circuit in the case you\u0027re interested in here?",
+      "revId": "233703470d262ce9c5a4770ed7669acc2af9e526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

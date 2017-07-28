@@ -46,6 +46,30 @@
       "revId": "7f577a908c86cf574508e968ab94279ecd1a5774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f9f7e16_c91a143f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T15:03:24Z",
+      "side": 1,
+      "message": "It\u0027s upper case in both projects and groups.  Also for changes.\n\nFor groups the lower case \"-s\" is for the suggest option.  There is no \"-s\" for projects.\n\nLower case -s exists for branches and tags.  That should probably be changed to upper case for consistency.",
+      "parentUuid": "5ad47156_89541350",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 18
+      },
+      "revId": "7f577a908c86cf574508e968ab94279ecd1a5774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

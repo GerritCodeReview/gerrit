@@ -19,6 +19,7 @@ import static com.google.gerrit.server.plugins.PluginResource.PLUGIN_KIND;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.api.plugins.PluginApiImpl;
 import com.google.gerrit.server.api.plugins.PluginsImpl;
 
 public class PluginRestApiModule extends RestApiModule {
@@ -33,5 +34,6 @@ public class PluginRestApiModule extends RestApiModule {
     post(PLUGIN_KIND, "enable").to(EnablePlugin.class);
     post(PLUGIN_KIND, "reload").to(ReloadPlugin.class);
     bind(Plugins.class).to(PluginsImpl.class);
+    factory(PluginApiImpl.Factory.class);
   }
 }

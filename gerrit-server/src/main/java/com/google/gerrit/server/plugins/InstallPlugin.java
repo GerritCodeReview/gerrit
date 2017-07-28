@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {
+public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {
   private final PluginLoader loader;
 
   private String name;

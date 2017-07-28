@@ -30,14 +30,14 @@ import java.util.concurrent.Callable;
 
 public class GroupDetailFactory implements Callable<GroupDetail> {
   public interface Factory {
-    GroupDetailFactory create(AccountGroup.Id groupId);
+    GroupDetailFactory create(AccountGroup.UUID groupUuid);
   }
 
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
   private final Groups groups;
 
-  private final AccountGroup.Id groupId;
+  private final AccountGroup.UUID groupUuid;
   private GroupControl control;
 
   @Inject
@@ -45,24 +45,24 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       ReviewDb db,
       GroupControl.Factory groupControl,
       Groups groups,
-      @Assisted AccountGroup.Id groupId) {
+      @Assisted AccountGroup.UUID groupUuid) {
     this.db = db;
     this.groupControl = groupControl;
     this.groups = groups;
 
-    this.groupId = groupId;
+    this.groupUuid = groupUuid;
   }
 
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
-    control = groupControl.validateFor(groupId);
+    control = groupControl.validateFor(groupUuid);
     ImmutableSet<Account.Id> members = loadMembers();
     ImmutableSet<AccountGroup.UUID> includes = loadIncludes();
     return new GroupDetail(members, includes);
   }
 
   private ImmutableSet<Account.Id> loadMembers() throws OrmException {
-    return groups.getMembers(db, groupId).filter(control::canSeeMember).collect(toImmutableSet());
+    return groups.getMembers(db, groupUuid).filter(control::canSeeMember).collect(toImmutableSet());
   }
 
   private ImmutableSet<AccountGroup.UUID> loadIncludes() throws OrmException {
@@ -70,6 +70,6 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       return ImmutableSet.of();
     }
 
-    return groups.getIncludes(db, groupId).collect(toImmutableSet());
+    return groups.getIncludes(db, groupUuid).collect(toImmutableSet());
   }
 }

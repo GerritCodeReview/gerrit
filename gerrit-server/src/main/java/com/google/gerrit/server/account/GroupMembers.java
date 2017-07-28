@@ -99,7 +99,7 @@ public class GroupMembers {
       final AccountGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
-    final GroupDetail groupDetail = groupDetailFactory.create(group.getId()).call();
+    final GroupDetail groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
 
     final Set<Account> members = new HashSet<>();
     for (Account.Id memberId : groupDetail.getMembers()) {

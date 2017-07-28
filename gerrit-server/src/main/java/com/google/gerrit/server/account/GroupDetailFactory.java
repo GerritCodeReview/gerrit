@@ -36,6 +36,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
   private final Groups groups;
+  private final GroupIncludeCache groupIncludeCache;
 
   private final AccountGroup.UUID groupUuid;
   private GroupControl control;
@@ -45,10 +46,12 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       ReviewDb db,
       GroupControl.Factory groupControl,
       Groups groups,
+      GroupIncludeCache groupIncludeCache,
       @Assisted AccountGroup.UUID groupUuid) {
     this.db = db;
     this.groupControl = groupControl;
     this.groups = groups;
+    this.groupIncludeCache = groupIncludeCache;
 
     this.groupUuid = groupUuid;
   }
@@ -65,11 +68,11 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     return groups.getMembers(db, groupUuid).filter(control::canSeeMember).collect(toImmutableSet());
   }
 
-  private ImmutableSet<AccountGroup.UUID> loadIncludes() throws OrmException {
+  private ImmutableSet<AccountGroup.UUID> loadIncludes() {
     if (!control.canSeeGroup()) {
       return ImmutableSet.of();
     }
 
-    return groups.getIncludes(db, groupUuid).collect(toImmutableSet());
+    return ImmutableSet.copyOf(groupIncludeCache.subgroupsOf(groupUuid));
   }
 }

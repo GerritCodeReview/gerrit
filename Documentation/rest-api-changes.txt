@@ -3548,6 +3548,7 @@ describing the related changes.
   {
     "changes": [
       {
+        "project": "gerrit",
         "change_id": "Ic62ae3103fca2214904dbf2faf4c861b5f0ae9b5",
         "commit": {
           "commit": "78847477532e386f5a2185a4e8c90b2509e354e3",
@@ -3570,6 +3571,7 @@ describing the related changes.
         "status": "NEW"
       },
       {
+        "project": "gerrit",
         "change_id": "I5e4fc08ce34d33c090c9e0bf320de1b17309f774",
         "commit": {
           "commit": "b1cb4caa6be46d12b94c25aa68aebabcbb3f53fe",
@@ -6577,6 +6579,7 @@ a related change and commit.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name                ||Description
+|`project`                 ||The project of the change or commit.
 |`change_id`               |optional|The Change-Id of the change.
 |`commit`                  ||The commit as a
 link:#commit-info[CommitInfo] entity.

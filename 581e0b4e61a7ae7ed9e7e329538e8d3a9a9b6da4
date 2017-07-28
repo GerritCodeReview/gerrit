@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "cb472d26_651245fd",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Better: {!Array\u003cTheItemTypeGoesHere\u003e}",
+      "range": {
+        "startLine": 63,
+        "startChar": 15,
+        "endLine": 63,
+        "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d011eaa_0e03ecf9",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "{Object} type declaration explicitly says it can be null, so this looks like a repetition.",
+      "range": {
+        "startLine": 64,
+        "startChar": 52,
+        "endLine": 64,
+        "endChar": 59
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34a78c87_27407e7c",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 8
@@ -19,6 +65,207 @@
         "endLine": 71,
         "endChar": 30
       },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf53f88_07fa13ff",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Better: {!Array\u003cTheItemTypeGoesHere\u003e}",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "391d10a5_fd85611d",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "number, if we\u0027re using Google Closure\u0027s type system",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 22
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea12812_f4883092",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Better: {!Array\u003cTheItemTypeGoesHere\u003e}",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3425dc4d_8dd598d1",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Better: {!Array\u003cTheItemTypeGoesHere\u003e}",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 21
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92b5b492_e0e9ac4f",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be a guard for two patchsets present?",
+      "range": {
+        "startLine": 182,
+        "startChar": 28,
+        "endLine": 182,
+        "endChar": 51
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa966a2_7d950f5e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 210,
+        "startChar": 15,
+        "endLine": 210,
+        "endChar": 21
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63758941_00d8f55c",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "string",
+      "range": {
+        "startLine": 210,
+        "startChar": 22,
+        "endLine": 210,
+        "endChar": 28
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5455af_07c6f34b",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Better: {!Array\u003cItemTypeGoesHere\u003e}",
+      "range": {
+        "startLine": 211,
+        "startChar": 15,
+        "endLine": 211,
+        "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83bd6ccb_aad464c8",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "number",
       "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -48,6 +295,161 @@
     },
     {
       "key": {
+        "uuid": "2bba94b8_8d9005a6",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Please move the constant to the top of the class",
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b58a4d54_35a416f4",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "strictEqual",
+      "range": {
+        "startLine": 184,
+        "startChar": 13,
+        "endLine": 184,
+        "endChar": 18
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a00d326_172a7160",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "strictEqual",
+      "range": {
+        "startLine": 187,
+        "startChar": 13,
+        "endLine": 187,
+        "endChar": 18
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdd9b815_d831332e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 694,
+        "startChar": 15,
+        "endLine": 694,
+        "endChar": 21
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d63a0728_a4e3cdde",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "string",
+      "range": {
+        "startLine": 695,
+        "startChar": 22,
+        "endLine": 695,
+        "endChar": 28
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644214b6_31cc26ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 695,
+        "startChar": 15,
+        "endLine": 695,
+        "endChar": 21
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aebdafa_64fd129e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "boolean",
+      "range": {
+        "startLine": 696,
+        "startChar": 16,
+        "endLine": 696,
+        "endChar": 23
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84cb9df2_fce4dd89",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8
@@ -64,6 +466,52 @@
         "startChar": 4,
         "endLine": 918,
         "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0e00e96_7dc6e421",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "you can use destructuring assignment here:\n([change, edit]) \u003d\u003e {",
+      "range": {
+        "startLine": 923,
+        "startChar": 64,
+        "endLine": 923,
+        "endChar": 65
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a72b4ca_3f47a12c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-28T17:38:30Z",
+      "side": 1,
+      "message": "Looks like getChangeEdit always depends on logged in. Should it be added to rest api method directly?",
+      "range": {
+        "startLine": 979,
+        "startChar": 30,
+        "endLine": 979,
+        "endChar": 43
       },
       "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -70,6 +70,30 @@
       "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b330ab61_8e3f547d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-28T18:36:40Z",
+      "side": 1,
+      "message": "Whatever you think... But a wise tech lead once told me to avoid commit messages with the word \"also\" in them, and I think waiting will lead to that :P\n\nTo me, what you really want is more specificity in the commit message. I\u0027m going to make that change, and we can go from there?",
+      "parentUuid": "3b534152_8edf9aea",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 17
+      },
+      "revId": "b732449288a177be4f69cde5a5d82a660d26f7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -116,6 +116,30 @@
       "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c1ee246_7deebc92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T20:01:51Z",
+      "side": 1,
+      "message": "Yep will do that  now.",
+      "parentUuid": "9c1bf899_c851f5d6",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

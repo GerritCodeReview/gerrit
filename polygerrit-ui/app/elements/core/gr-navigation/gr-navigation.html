@@ -72,6 +72,9 @@ limitations under the License.
       /** @type {Function} */
       _generateUrl: uninitialized,
 
+      /** @type {Function} */
+      _upgradeUrl: uninitialized,
+
       _checkPatchRange(patchNum, basePatchNum) {
         if (basePatchNum && !patchNum) {
           throw new Error('Cannot use base patch number without patch number.');
@@ -80,17 +83,20 @@ limitations under the License.
 
       /**
        * Setup router implementation.
-       * @param {Function} handleNavigate
+       * @param {Function} navigate
        * @param {Function} generateUrl
+       * @param {Function} upgradeUrl
        */
-      setup(navigate, generateUrl) {
+      setup(navigate, generateUrl, upgradeUrl) {
         this._navigate = navigate;
         this._generateUrl = generateUrl;
+        this._upgradeUrl = upgradeUrl;
       },
 
       destroy() {
         this._navigate = uninitialized;
         this._generateUrl = uninitialized;
+        this._upgradeUrl = uninitialized;
       },
 
       /**
@@ -228,6 +234,10 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
+      },
+
+      upgradeUrl(params) {
+        this._upgradeUrl(params);
       },
     };
   })(window);

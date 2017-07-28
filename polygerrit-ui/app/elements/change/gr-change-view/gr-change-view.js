@@ -908,11 +908,11 @@
 
     _getChangeDetail() {
       return this.$.restAPI.getChangeDetail(this._changeNum,
-          this._handleGetChangeDetailError.bind(this)).then(
-          change => {
+          this._handleGetChangeDetailError.bind(this)).then(change => {
             if (!change) {
               return '';
             }
+            this._upgradeUrl(change, this.params);
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }
             if (!change.reviewer_updates) {
@@ -943,6 +943,13 @@
                   // TODO: Fetch and process files.
             }
           });
+    },
+
+    _upgradeUrl(change, params) {
+      const project = change.project;
+      if (!params.project || project !== params.project) {
+        Gerrit.Nav.upgradeUrl(Object.assign({}, params, {project}));
+      }
     },
 
     _getComments() {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "683212f5_d31ab508",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T14:24:11Z",
+      "side": 1,
+      "message": "No, this is correct.  The code is wrong.",
+      "parentUuid": "e9df5fa2_6c14c1c6",
+      "range": {
+        "startLine": 117,
+        "startChar": 18,
+        "endLine": 117,
+        "endChar": 27
+      },
+      "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "030efb2d_b15ad789",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
         "patchSetId": 2
@@ -39,6 +63,47 @@
       "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35f9cb75_f96afb94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T14:24:11Z",
+      "side": 1,
+      "message": "\u003e I think you want these filters to apply before the start and limit, right? And you probably want a test for this case :)\n\nDone.\n\n\u003e Also it could probably go before the sort, since sorting elements you\u0027re going to discard is a waste (though as an optimization this is certainly premature).\n\nDone.",
+      "parentUuid": "030efb2d_b15ad789",
+      "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f6bfe8_bd6b8a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T14:24:11Z",
+      "side": 1,
+      "message": "Prefix search should be case sensitive.\n\nDone.",
+      "range": {
+        "startLine": 154,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 80
+      },
+      "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

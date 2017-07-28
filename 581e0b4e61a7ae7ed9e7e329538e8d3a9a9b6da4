@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a78c87_27407e7c",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T01:12:30Z",
+      "side": 1,
+      "message": "Nit: If the JSDoc says it returns null in this case, this should be\n\n return null;\n\nOtherwise it would return undefined.",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff44db49_4354d5ef",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T01:12:30Z",
+      "side": 1,
+      "message": "Why is this parameter optional? If revisions is optional, it should be named\n\n opt_revisions",
+      "range": {
+        "startLine": 216,
+        "startChar": 6,
+        "endLine": 216,
+        "endChar": 34
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cb9df2_fce4dd89",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T01:12:30Z",
+      "side": 1,
+      "message": "What all does this function do at this point? OPTIONAL: Maybe it can be decomposed into little helpers for legibility. Otherwise maybe we can add some more comments.",
+      "range": {
+        "startLine": 918,
+        "startChar": 4,
+        "endLine": 918,
+        "endChar": 20
+      },
+      "revId": "581e0b4e61a7ae7ed9e7e329538e8d3a9a9b6da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

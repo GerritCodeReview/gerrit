@@ -492,6 +492,30 @@
     },
     {
       "key": {
+        "uuid": "4dc1d2cb_c65acf56",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-28T01:12:30Z",
+      "side": 1,
+      "message": "Concatenating an empty string has been a reliable way for me to compare dynamic types, but I also see how it might be less readable.\n\nIn a perfect world, IMO, we wouldn\u0027t have to worry about the type in code like this and could just use something like ...\n\n PatchSetBehavior.patchNumEquals(params.basePatchNum, 0);\n\n... but I don\u0027t know if that\u0027s feasible in gr-router.js right now.",
+      "parentUuid": "e1196d32_9d7c75be",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bce68104_9ef61195",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 7

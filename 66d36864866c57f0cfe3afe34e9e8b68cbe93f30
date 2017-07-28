@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0ced68e_798ba063",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T19:54:07Z",
+      "side": 1,
+      "message": "The tests fail when i do that for unexplained reasons.\n\nthis\n\n      test(\u0027_getReviewerSuggestions excludes owner+reviewers\u0027, done \u003d\u003e {\n        element._getReviewerSuggestions().then(reviewers \u003d\u003e {\n          // Default is no filtering.\n          assert.equal(reviewers.length, 6);\n\n          // Set up filter that only accepts suggestion1.\n          const accountId \u003d suggestion1.account._account_id;\n          element.filter \u003d function(suggestion) {\n            return suggestion.account \u0026\u0026\n                suggestion.account._account_id \u003d\u003d\u003d accountId;\n          };\n\n          element._getReviewerSuggestions().then(reviewers \u003d\u003e {\n            assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);\n          }).then(done);\n        });\n      });\n    });\n\none fails when i do that.",
+      "parentUuid": "371b97d9_73498555",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 50
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c9c8011_41ff0698",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-28T19:52:22Z",
       "side": 1,
       "message": "const reviewerName \u003d this._accountOrAnon(reviewer.account);",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebd1a30a_84bc1e1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T19:54:07Z",
+      "side": 1,
+      "message": "The tests fail when i do that for unexplained reasons.\n\nthis\n\n      test(\u0027_getReviewerSuggestions excludes owner+reviewers\u0027, done \u003d\u003e {\n        element._getReviewerSuggestions().then(reviewers \u003d\u003e {\n          // Default is no filtering.\n          assert.equal(reviewers.length, 6);\n\n          // Set up filter that only accepts suggestion1.\n          const accountId \u003d suggestion1.account._account_id;\n          element.filter \u003d function(suggestion) {\n            return suggestion.account \u0026\u0026\n                suggestion.account._account_id \u003d\u003d\u003d accountId;\n          };\n\n          element._getReviewerSuggestions().then(reviewers \u003d\u003e {\n            assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);\n          }).then(done);\n        });\n      });\n    });\n\none fails when i do that.",
+      "parentUuid": "0c9c8011_41ff0698",
       "range": {
         "startLine": 109,
         "startChar": 8,

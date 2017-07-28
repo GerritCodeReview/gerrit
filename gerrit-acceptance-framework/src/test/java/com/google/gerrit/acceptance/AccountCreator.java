@@ -130,7 +130,7 @@ public class AccountCreator {
       if (groupNames != null) {
         for (String n : groupNames) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          Optional<AccountGroup> group = groups.get(db, k);
+          Optional<AccountGroup> group = groups.getGroup(db, k);
           if (!group.isPresent()) {
             throw new NoSuchGroupException(n);
           }

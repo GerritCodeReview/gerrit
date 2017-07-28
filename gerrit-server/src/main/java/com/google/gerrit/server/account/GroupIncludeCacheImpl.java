@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
@@ -146,7 +147,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
+    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key)
+        throws OrmException, NoSuchGroupException {
       try (ReviewDb db = schema.open()) {
         return groups.getIncludes(db, key).collect(toImmutableList());
       }

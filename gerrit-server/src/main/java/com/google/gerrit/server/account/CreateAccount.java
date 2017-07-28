@@ -20,6 +20,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -186,7 +187,11 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
             });
 
     for (AccountGroup.UUID groupUuid : groups) {
-      groupsUpdate.get().addGroupMember(db, groupUuid, id);
+      try {
+        groupsUpdate.get().addGroupMember(db, groupUuid, id);
+      } catch (NoSuchGroupException e) {
+        throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
+      }
     }
 
     if (input.sshKey != null) {

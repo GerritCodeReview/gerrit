@@ -187,7 +187,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(AccountGroup.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        return groups.get(db, key);
+        return groups.getGroup(db, key);
       }
     }
   }
@@ -205,7 +205,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(String name) throws Exception {
       try (ReviewDb db = schema.open()) {
-        return groups.get(db, new AccountGroup.NameKey(name));
+        return groups.getGroup(db, new AccountGroup.NameKey(name));
       }
     }
   }
@@ -223,7 +223,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<AccountGroup> load(String uuid) throws Exception {
       try (ReviewDb db = schema.open()) {
-        return groups.get(db, new AccountGroup.UUID(uuid));
+        return groups.getGroup(db, new AccountGroup.UUID(uuid));
       }
     }
   }

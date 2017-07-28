@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -125,7 +126,8 @@ public class AccountManager {
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, or is inactive.
+   *     cannot be located, or is inactive, or cannot be added to the admin group (only for the
+   *     first account).
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
     who = realm.authenticate(who);
@@ -264,7 +266,11 @@ public class AccountManager {
       GroupsUpdate groupsUpdate = groupsUpdateProvider.get();
       // The user initiated this request by logging in. -> Attribute all modifications to that user.
       groupsUpdate.setCurrentUser(user);
-      groupsUpdate.addGroupMember(db, uuid, newId);
+      try {
+        groupsUpdate.addGroupMember(db, uuid, newId);
+      } catch (NoSuchGroupException e) {
+        throw new AccountException(String.format("Group %s not found", uuid));
+      }
     }
 
     if (who.getUserName() != null) {

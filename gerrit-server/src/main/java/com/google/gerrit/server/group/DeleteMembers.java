@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -53,7 +55,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          IOException, ConfigInvalidException {
+          IOException, ConfigInvalidException, ResourceNotFoundException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -70,9 +72,12 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
       Account a = accounts.parse(nameOrEmail).getAccount();
       membersToRemove.add(a.getId());
     }
-    groupsUpdateProvider
-        .get()
-        .removeGroupMembers(db.get(), internalGroup.getGroupUUID(), membersToRemove);
+    AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
+    try {
+      groupsUpdateProvider.get().removeGroupMembers(db.get(), groupUuid, membersToRemove);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+    }
 
     return Response.none();
   }
@@ -91,7 +96,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-            IOException, ConfigInvalidException {
+            IOException, ConfigInvalidException, ResourceNotFoundException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -31,7 +32,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Optional;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {
@@ -68,19 +68,19 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       return newName;
     }
 
-    return renameGroup(rsrc.toAccountGroup(), newName);
+    renameGroup(rsrc.toAccountGroup(), newName);
+    return newName;
   }
 
-  private String renameGroup(AccountGroup group, String newName)
+  private void renameGroup(AccountGroup group, String newName)
       throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
+    AccountGroup.UUID groupUuid = group.getGroupUUID();
     try {
-      Optional<AccountGroup> renamedGroup =
-          groupsUpdateProvider
-              .get()
-              .renameGroup(db.get(), group.getGroupUUID(), new AccountGroup.NameKey(newName));
-      return renamedGroup
-          .map(AccountGroup::getName)
-          .orElseThrow(() -> new ResourceNotFoundException("Group not found"));
+      groupsUpdateProvider
+          .get()
+          .renameGroup(db.get(), groupUuid, new AccountGroup.NameKey(newName));
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     } catch (NameAlreadyUsedException e) {
       throw new ResourceConflictException("group with name " + newName + " already exists");
     }

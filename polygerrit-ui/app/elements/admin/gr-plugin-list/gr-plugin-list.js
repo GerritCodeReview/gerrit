@@ -18,23 +18,48 @@
     is: 'gr-plugin-list',
 
     properties: {
+      /**
+       * URL params passed from the router.
+       */
+      params: {
+        type: Object,
+        observer: '_paramsChanged',
+      },
+      /**
+       * Offset of currently visible query results.
+       */
+      _offset: Number,
+      _path: {
+        type: String,
+        readOnly: true,
+        value: '/admin/plugins',
+      },
       _plugins: Array,
+      _pluginsPerPage: {
+        type: Number,
+        value: 25,
+      },
       _loading: {
         type: Boolean,
         value: true,
       },
+      _filter: String,
     },
 
     behaviors: [
       Gerrit.ListViewBehavior,
     ],
 
-    ready() {
-      this._getPlugins();
+    _paramsChanged(params) {
+      this._loading = true;
+      this._filter = this.getFilterValue(params);
+      this._offset = this.getOffsetValue(params);
+
+      return this._getPlugins();
     },
 
-    _getPlugins() {
-      return this.$.restAPI.getPlugins()
+    _getPlugins(filter, pluginsPerPage, offset) {
+      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset)
           .then(plugins => {
             if (!plugins) {
               this._plugins = [];

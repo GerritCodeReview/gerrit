@@ -20,6 +20,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -118,7 +120,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-          ResourceConflictException, OrmException, IOException, ConfigInvalidException {
+          ResourceConflictException, OrmException, IOException, ConfigInvalidException,
+          ResourceNotFoundException {
     if (input == null) {
       input = new GroupInput();
     }
@@ -170,7 +173,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException, IOException {
+      throws OrmException, ResourceConflictException, IOException, ResourceNotFoundException {
 
     // Do not allow creating groups with the same name as system groups
     for (String name : systemGroupBackend.getNames()) {
@@ -211,7 +214,11 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
 
-    addMembers.addMembers(uuid, createGroupArgs.initialMembers);
+    try {
+      addMembers.addMembers(uuid, createGroupArgs.initialMembers);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", uuid));
+    }
 
     groupCache.onCreateGroup(createGroupArgs.getGroup());
 

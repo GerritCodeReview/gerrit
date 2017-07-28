@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -84,7 +85,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException {
+      throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
+          ResourceNotFoundException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -104,9 +106,12 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
       result.add(json.format(d));
     }
 
-    groupsUpdateProvider
-        .get()
-        .addIncludedGroups(db.get(), group.getGroupUUID(), includedGroupUuids);
+    AccountGroup.UUID groupUuid = group.getGroupUUID();
+    try {
+      groupsUpdateProvider.get().addIncludedGroups(db.get(), groupUuid, includedGroupUuids);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+    }
     return result;
   }
 

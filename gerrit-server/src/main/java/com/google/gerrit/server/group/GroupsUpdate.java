@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
@@ -37,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -121,40 +121,26 @@ public class GroupsUpdate {
     db.accountGroups().insert(ImmutableList.of(group));
   }
 
-  public Optional<AccountGroup> updateGroup(
+  public void updateGroup(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
-      throws OrmException, IOException {
-    Optional<AccountGroup> updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
-    if (updatedGroup.isPresent()) {
-      groupCache.evict(updatedGroup.get());
-    }
-    return updatedGroup;
+      throws OrmException, IOException, NoSuchGroupException {
+    AccountGroup updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
+    groupCache.evict(updatedGroup);
   }
 
   @VisibleForTesting
-  public Optional<AccountGroup> updateGroupInDb(
+  public AccountGroup updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
-      throws OrmException, IOException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
-    if (!foundGroup.isPresent()) {
-      return Optional.empty();
-    }
-
-    AccountGroup group = foundGroup.get();
+      throws OrmException, IOException, NoSuchGroupException {
+    AccountGroup group = groups.getExistingGroup(db, groupUuid);
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
-    return Optional.of(group);
+    return group;
   }
 
-  public Optional<AccountGroup> renameGroup(
-      ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
-      throws OrmException, IOException, NameAlreadyUsedException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
-    if (!foundGroup.isPresent()) {
-      return Optional.empty();
-    }
-
-    AccountGroup group = foundGroup.get();
+  public void renameGroup(ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
+      throws OrmException, IOException, NameAlreadyUsedException, NoSuchGroupException {
+    AccountGroup group = groups.getExistingGroup(db, groupUuid);
     AccountGroup.NameKey oldName = group.getNameKey();
 
     try {
@@ -165,7 +151,7 @@ public class GroupsUpdate {
       if (other != null) {
         // If we are using this identity, don't report the exception.
         if (other.getId().equals(group.getId())) {
-          return Optional.of(group);
+          return;
         }
 
         // Otherwise, someone else has this identity.
@@ -187,23 +173,16 @@ public class GroupsUpdate {
         renameGroupOpFactory
             .create(committerIdent, groupUuid, oldName.get(), newName.get())
             .start(0, TimeUnit.MILLISECONDS);
-    return Optional.of(group);
   }
 
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
-      throws OrmException, IOException {
+      throws OrmException, IOException, NoSuchGroupException {
     addGroupMembers(db, groupUuid, ImmutableSet.of(accountId));
   }
 
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
-      throws OrmException, IOException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
-    if (!foundGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup group = foundGroup.get();
+      throws OrmException, IOException, NoSuchGroupException {
+    AccountGroup group = groups.getExistingGroup(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> newMembers = new HashSet<>();
     for (Account.Id accountId : accountIds) {
@@ -229,14 +208,8 @@ public class GroupsUpdate {
 
   public void removeGroupMembers(
       ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
-      throws OrmException, IOException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
-    if (!foundGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup group = foundGroup.get();
+      throws OrmException, IOException, NoSuchGroupException {
+    AccountGroup group = groups.getExistingGroup(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> membersToRemove = new HashSet<>();
     for (Account.Id accountId : accountIds) {
@@ -262,14 +235,8 @@ public class GroupsUpdate {
 
   public void addIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
-      throws OrmException {
-    Optional<AccountGroup> foundParentGroup = groups.get(db, parentGroupUuid);
-    if (!foundParentGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup parentGroup = foundParentGroup.get();
+      throws OrmException, NoSuchGroupException {
+    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> newIncludedGroups = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
@@ -296,14 +263,8 @@ public class GroupsUpdate {
 
   public void deleteIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
-      throws OrmException {
-    Optional<AccountGroup> foundParentGroup = groups.get(db, parentGroupUuid);
-    if (!foundParentGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup parentGroup = foundParentGroup.get();
+      throws OrmException, NoSuchGroupException {
+    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> includedGroupsToRemove = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {

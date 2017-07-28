@@ -16,8 +16,10 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -50,7 +52,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException {
+      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+          ResourceNotFoundException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -69,9 +72,12 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
       internalGroupsToRemove.add(d.getGroupUUID());
     }
 
-    groupsUpdateProvider
-        .get()
-        .deleteIncludedGroups(db.get(), internalGroup.getGroupUUID(), internalGroupsToRemove);
+    AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
+    try {
+      groupsUpdateProvider.get().deleteIncludedGroups(db.get(), groupUuid, internalGroupsToRemove);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+    }
 
     return Response.none();
   }
@@ -90,8 +96,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
     @Override
     public Response<?> apply(IncludedGroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-            OrmException {
+        throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+            ResourceNotFoundException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

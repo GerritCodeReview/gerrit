@@ -16,6 +16,24 @@
       "revId": "f1606a56847705e6a1c94a443d20b162e70c7bed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dfb1020_bbea4abf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T11:39:17Z",
+      "side": 1,
+      "message": "(Disclaimer: I don\u0027t know how it\u0027s actually supposed to work.)\n\nSearching for bigFileTreshold and getBigFileThreshold in JGit/Gerrit, it looks like this is only used by the packer to determine whether to delta compress objects, it doesn\u0027t appear to be used elsewhere.\n\nI do see in ResolveMerger#getRawText where it\u0027s calling ObjectLoader#getCachedBytes(). Maybe that needs to be changed to use #getCachedBytes(int) and respect some configuration option? (Either core.bigFileThreshold or something else.)",
+      "parentUuid": "b223204d_33c74374",
+      "revId": "f1606a56847705e6a1c94a443d20b162e70c7bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

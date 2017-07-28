@@ -563,9 +563,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 
-  private static ChangeAndCommit changeAndCommit(
+  private ChangeAndCommit changeAndCommit(
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
     ChangeAndCommit result = new ChangeAndCommit();
+    result.project = project.get();
     result._changeNumber = psId.getParentKey().get();
     result.commit = new CommitInfo();
     result.commit.commit = commitId.name();
@@ -599,6 +600,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       String name = "index " + i + " related to " + psId;
       ChangeAndCommit a = actual.get(i);
       ChangeAndCommit e = expected[i];
+      assertThat(a.project).named("project of " + name).isEqualTo(e.project);
       assertThat(a._changeNumber).named("change ID of " + name).isEqualTo(e._changeNumber);
       // Don't bother checking changeId; assume _changeNumber is sufficient.
       assertThat(a._revisionNumber).named("revision of " + name).isEqualTo(e._revisionNumber);

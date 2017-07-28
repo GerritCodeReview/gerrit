@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
@@ -102,7 +103,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       } else {
         commit = d.commit();
       }
-      result.add(new ChangeAndCommit(d.data().change(), ps, commit));
+      result.add(new ChangeAndCommit(rsrc.getProject(), d.data().change(), ps, commit));
     }
 
     if (result.size() == 1) {
@@ -137,6 +138,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   public static class ChangeAndCommit {
+    public String project;
     public String changeId;
     public CommitInfo commit;
     public Integer _changeNumber;
@@ -146,7 +148,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     public ChangeAndCommit() {}
 
-    ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+    ChangeAndCommit(
+        Project.NameKey project, @Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+      this.project = project.get();
+
       if (change != null) {
         changeId = change.getKey().get();
         _changeNumber = change.getChangeId();
@@ -171,6 +176,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     @Override
     public String toString() {
       return MoreObjects.toStringHelper(this)
+          .add("project", project)
           .add("changeId", changeId)
           .add("commit", toString(commit))
           .add("_changeNumber", _changeNumber)

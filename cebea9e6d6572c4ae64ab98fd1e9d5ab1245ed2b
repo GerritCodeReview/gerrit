@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "622360db_cc17af3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-28T17:03:52Z",
+      "side": 1,
+      "message": "The return value of send is supposed to resolve to accountAdditions, I believe only used by tests to verify side effects.",
+      "parentUuid": "68fc6644_69a94645",
+      "range": {
+        "startLine": 333,
+        "startChar": 23,
+        "endLine": 333,
+        "endChar": 30
+      },
+      "revId": "cebea9e6d6572c4ae64ab98fd1e9d5ab1245ed2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edac255c_1e5d3038",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "cebea9e6d6572c4ae64ab98fd1e9d5ab1245ed2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c78939f6_ad2617b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-28T17:03:52Z",
+      "side": 1,
+      "message": "What you posted won\u0027t work (but it actually turns out I don\u0027t need it to).\n\nThis arrow function is passed as the value for the opt_errFn argument. The way this is used, the return value is ignored and there is no waiting for any asynchronous resolution. As soon as the error is handled, the promise returned by this.$.restAPI.startReview is going to resolve to undefined. The way I had the code organized, I had to return a specific value.\n\nI have an experimental change (to migrate to async functions) where I refactored out the use of a promise here. It turns out I don\u0027t really need to return anything. If we get to the point where we\u0027re explicitly setting ready, then we\u0027ve already posted a review. All we can do is update the view of the change and leave it to the user to manually start review if this API call failed. So all the error handler needs to do is selectively fire server-error.\n\n(Can\u0027t wait for Promise.finally)",
+      "parentUuid": "edac255c_1e5d3038",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 435,
+        "endChar": 17
+      },
+      "revId": "cebea9e6d6572c4ae64ab98fd1e9d5ab1245ed2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -76,7 +76,7 @@ public class MembersCollection
     }
 
     IdentifiedUser user = accounts.parse(TopLevelResource.INSTANCE, id).getUser();
-    if (groups.isMember(db.get(), group, user.getAccountId())
+    if (groups.isMember(db.get(), group.getGroupUUID(), user.getAccountId())
         && parent.getControl().canSeeMember(user.getAccountId())) {
       return new MemberResource(parent, user);
     }

@@ -675,8 +675,13 @@
       );
     },
 
-    getPlugins() {
-      return this._fetchSharedCacheURL('/plugins/?all');
+    getPlugins(filter, pluginsPerPage, opt_offset) {
+      const offset = opt_offset || 0;
+
+      return this.fetchJSON(
+          `/plugins/?all&n=${pluginsPerPage + 1}&s=${offset}` +
+          this._computeFilter(filter)
+      );
     },
 
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -44,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class AccountCreator {
@@ -53,6 +56,7 @@ public class AccountCreator {
   private final Sequences sequences;
   private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+  private final Groups groups;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
@@ -66,6 +70,7 @@ public class AccountCreator {
       Sequences sequences,
       AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
+      Groups groups,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
@@ -77,6 +82,7 @@ public class AccountCreator {
     this.sequences = sequences;
     this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
+    this.groups = groups;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
@@ -89,7 +95,7 @@ public class AccountCreator {
       @Nullable String username,
       @Nullable String email,
       @Nullable String fullName,
-      String... groups)
+      String... groupNames)
       throws Exception {
 
     TestAccount account = accounts.get(username);
@@ -121,10 +127,14 @@ public class AccountCreator {
                 a.setPreferredEmail(email);
               });
 
-      if (groups != null) {
-        for (String n : groups) {
+      if (groupNames != null) {
+        for (String n : groupNames) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          groupsUpdateProvider.get().addGroupMember(db, k, id);
+          Optional<AccountGroup> group = groups.get(db, k);
+          if (!group.isPresent()) {
+            throw new NoSuchGroupException(n);
+          }
+          groupsUpdateProvider.get().addGroupMember(db, group.get().getGroupUUID(), id);
         }
       }
 

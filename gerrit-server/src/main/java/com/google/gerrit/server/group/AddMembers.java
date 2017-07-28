@@ -131,7 +131,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       newMemberIds.add(a.getId());
     }
 
-    addMembers(internalGroup.getId(), newMemberIds);
+    addMembers(internalGroup.getGroupUUID(), newMemberIds);
     return toAccountInfoList(newMemberIds);
   }
 
@@ -168,11 +168,11 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  public void addMembers(AccountGroup.Id groupId, Collection<? extends Account.Id> newMemberIds)
+  public void addMembers(AccountGroup.UUID groupUuid, Collection<? extends Account.Id> newMemberIds)
       throws OrmException, IOException {
     groupsUpdateProvider
         .get()
-        .addGroupMembers(db.get(), groupId, ImmutableSet.copyOf(newMemberIds));
+        .addGroupMembers(db.get(), groupUuid, ImmutableSet.copyOf(newMemberIds));
   }
 
   private Account createAccountByLdap(String user) throws IOException {

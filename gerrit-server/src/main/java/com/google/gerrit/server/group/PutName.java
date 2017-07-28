@@ -77,7 +77,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       Optional<AccountGroup> renamedGroup =
           groupsUpdateProvider
               .get()
-              .renameGroup(db.get(), group.getId(), new AccountGroup.NameKey(newName));
+              .renameGroup(db.get(), group.getGroupUUID(), new AccountGroup.NameKey(newName));
       return renamedGroup
           .map(AccountGroup::getName)
           .orElseThrow(() -> new ResourceNotFoundException("Group not found"));

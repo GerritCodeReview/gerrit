@@ -98,7 +98,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
     }
 
     Account account = self.get().getAccount();
-    addMembers.addMembers(group.getId(), ImmutableList.of(account.getId()));
+    addMembers.addMembers(group.getGroupUUID(), ImmutableList.of(account.getId()));
     agreementSignup.fire(account, agreementName);
 
     return Response.ok(agreementName);

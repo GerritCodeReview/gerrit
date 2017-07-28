@@ -132,7 +132,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
           "Username '" + username + "' must contain only letters, numbers, _, - or .");
     }
 
-    Set<AccountGroup.Id> groups = parseGroups(input.groups);
+    Set<AccountGroup.UUID> groups = parseGroups(input.groups);
 
     Account.Id id = new Account.Id(seq.nextAccountId());
 
@@ -185,8 +185,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
               a.setPreferredEmail(input.email);
             });
 
-    for (AccountGroup.Id groupId : groups) {
-      groupsUpdate.get().addGroupMember(db, groupId, id);
+    for (AccountGroup.UUID groupUuid : groups) {
+      groupsUpdate.get().addGroupMember(db, groupUuid, id);
     }
 
     if (input.sshKey != null) {
@@ -207,14 +207,15 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     return Response.created(info);
   }
 
-  private Set<AccountGroup.Id> parseGroups(List<String> groups)
+  private Set<AccountGroup.UUID> parseGroups(List<String> groups)
       throws UnprocessableEntityException {
-    Set<AccountGroup.Id> groupIds = new HashSet<>();
+    Set<AccountGroup.UUID> groupUuids = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        groupIds.add(GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g)).getId());
+        AccountGroup group = GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g));
+        groupUuids.add(group.getGroupUUID());
       }
     }
-    return groupIds;
+    return groupUuids;
   }
 }

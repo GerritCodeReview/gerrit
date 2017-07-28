@@ -147,9 +147,9 @@ public class GroupsUpdate {
   }
 
   public Optional<AccountGroup> renameGroup(
-      ReviewDb db, AccountGroup.Id groupId, AccountGroup.NameKey newName)
+      ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
       throws OrmException, IOException, NameAlreadyUsedException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupId);
+    Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
     if (!foundGroup.isPresent()) {
       return Optional.empty();
     }
@@ -158,13 +158,13 @@ public class GroupsUpdate {
     AccountGroup.NameKey oldName = group.getNameKey();
 
     try {
-      AccountGroupName id = new AccountGroupName(newName, groupId);
+      AccountGroupName id = new AccountGroupName(newName, group.getId());
       db.accountGroupNames().insert(ImmutableList.of(id));
     } catch (OrmException e) {
       AccountGroupName other = db.accountGroupNames().get(newName);
       if (other != null) {
         // If we are using this identity, don't report the exception.
-        if (other.getId().equals(groupId)) {
+        if (other.getId().equals(group.getId())) {
           return Optional.of(group);
         }
 
@@ -185,24 +185,17 @@ public class GroupsUpdate {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         renameGroupOpFactory
-            .create(committerIdent, group.getGroupUUID(), oldName.get(), newName.get())
+            .create(committerIdent, groupUuid, oldName.get(), newName.get())
             .start(0, TimeUnit.MILLISECONDS);
     return Optional.of(group);
   }
 
-  public void addGroupMember(ReviewDb db, AccountGroup.NameKey groupName, Account.Id accountId)
+  public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, IOException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupName);
-    if (!foundGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup group = foundGroup.get();
-    addGroupMembers(db, group, ImmutableSet.of(accountId));
+    addGroupMembers(db, groupUuid, ImmutableSet.of(accountId));
   }
 
-  public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
+  public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException {
     Optional<AccountGroup> foundGroup = groups.get(db, groupUuid);
     if (!foundGroup.isPresent()) {
@@ -211,28 +204,6 @@ public class GroupsUpdate {
     }
 
     AccountGroup group = foundGroup.get();
-    addGroupMembers(db, group, ImmutableSet.of(accountId));
-  }
-
-  public void addGroupMember(ReviewDb db, AccountGroup.Id groupId, Account.Id accountId)
-      throws OrmException, IOException {
-    addGroupMembers(db, groupId, ImmutableSet.of(accountId));
-  }
-
-  public void addGroupMembers(ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> accountIds)
-      throws OrmException, IOException {
-    Optional<AccountGroup> foundGroup = groups.get(db, groupId);
-    if (!foundGroup.isPresent()) {
-      // TODO(aliceks): Throw an exception?
-      return;
-    }
-
-    AccountGroup group = foundGroup.get();
-    addGroupMembers(db, group, accountIds);
-  }
-
-  private void addGroupMembers(ReviewDb db, AccountGroup group, Set<Account.Id> accountIds)
-      throws OrmException, IOException {
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> newMembers = new HashSet<>();
     for (Account.Id accountId : accountIds) {

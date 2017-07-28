@@ -22,6 +22,30 @@
       "revId": "346f8bd77b2577d5ca3baa89ba3a992ae3be867b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "463e1f0b_3d52c834",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-28T21:02:16Z",
+      "side": 1,
+      "message": "I wrote this test before refactoring to force the startReview API call to not resolve for a non-trivial span of time. Now I can test this in more of a whitebox fashion.",
+      "parentUuid": "c2477a9b_10156cd0",
+      "range": {
+        "startLine": 886,
+        "startChar": 10,
+        "endLine": 891,
+        "endChar": 18
+      },
+      "revId": "346f8bd77b2577d5ca3baa89ba3a992ae3be867b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

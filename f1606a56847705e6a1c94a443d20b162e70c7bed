@@ -34,6 +34,24 @@
       "revId": "f1606a56847705e6a1c94a443d20b162e70c7bed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea2730e4_4d55a866",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T11:42:58Z",
+      "side": 1,
+      "message": "git-config(1) says:\n\n core.bigFileThreshold\n     Files larger than this size are stored deflated, without attempting delta\n     compression. Storing large files without delta compression avoids excessive\n     memory usage, at the slight expense of increased disk usage. Additionally files\n     larger than this size are always treated as binary.\n\nSo if the goal is for Gerrit to always treat large objects as binary, and to never attempt to merge their contents, then respecting this config option seems reasonable.\n\nOTOH, since JGit currently will happily content-merge large binary files as long as you have the RAM for it, this would technically be a regression. Perhaps this needs to be controlled in code with an option to ResolveMerger.",
+      "parentUuid": "6dfb1020_bbea4abf",
+      "revId": "f1606a56847705e6a1c94a443d20b162e70c7bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

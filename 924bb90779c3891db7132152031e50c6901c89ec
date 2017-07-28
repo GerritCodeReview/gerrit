@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b0632ba_11821b15",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T21:42:26Z",
+      "side": 1,
+      "message": "Remove extra line please.",
+      "revId": "924bb90779c3891db7132152031e50c6901c89ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

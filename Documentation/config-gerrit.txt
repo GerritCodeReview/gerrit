@@ -3291,8 +3291,8 @@ to learn more, see the link:dev-note-db.html[developer documentation].
 
 [[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
 +
-The current account sequence number is stored as UTF-8 text in a blob
-pointed to by the `refs/sequences/accounts` ref in the `All-Users`
+The next available account sequence number is stored as UTF-8 text in a
+blob pointed to by the `refs/sequences/accounts` ref in the `All-Users`
 repository. Multiple processes share the same sequence by incrementing
 the counter using normal git ref updates. To amortize the cost of these
 ref updates, processes increment the counter by a larger number and

@@ -33,6 +33,32 @@ by plugin ID.
 
 .Request
 ----
+  GET /plugins/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete-project": {
+      "id": "delete-project",
+      "index_url": "plugins/delete-project/",
+      "version": "2.9-SNAPSHOT"
+    }
+  }
+----
+
+[[plugin-options]]
+==== Plugin Options
+All(a)::
+List all plugins including those that are disabled.
+
+.Request
+----
   GET /plugins/?all HTTP/1.0
 ----
 

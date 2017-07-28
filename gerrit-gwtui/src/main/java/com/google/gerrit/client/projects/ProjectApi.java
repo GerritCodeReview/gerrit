@@ -49,7 +49,7 @@ public class ProjectApi {
       Project.NameKey name, String viewName, int limit, int start, String match) {
     RestApi call = project(name).view(viewName);
     call.addParameter("n", limit);
-    call.addParameter("s", start);
+    call.addParameter("S", start);
     if (match != null) {
       if (match.startsWith("^")) {
         call.addParameter("r", match);

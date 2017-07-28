@@ -22,6 +22,23 @@
       "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "030efb2d_b15ad789",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-07-28T14:05:26Z",
+      "side": 1,
+      "message": "I think you want these filters to apply before the start and limit, right? And you probably want a test for this case :)\n\nAlso it could probably go before the sort, since sorting elements you\u0027re going to discard is a waste (though as an optimization this is certainly premature).",
+      "revId": "6b9a71b369dc5d70ccc6b17d6267054bc8f7a7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

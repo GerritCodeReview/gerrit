@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "030f18a3_795cb46e",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "I agree. I started this rewrite while I was still learning the Gerrit workflow. (I\u0027m still learning, in fact!) I have updated this section to include information about adding the hook. Let me know what you think.",
+      "parentUuid": "37c0d5e2_3e2c85a5",
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5a0115d_e762d839",
         "filename": "Documentation/intro-gerrit-walkthrough.txt",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0288ed6_7a039809",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "I think we inherited this phrase from the original text? I rewrote this to remove that reference.",
+      "parentUuid": "c5a0115d_e762d839",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 70,
+        "endChar": 49
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6c62a225_5bf02007",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f166ae0c_666e7c89",
+      "range": {
+        "startLine": 88,
+        "startChar": 51,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9f0dcf3_5533745f",
         "filename": "Documentation/intro-gerrit-walkthrough.txt",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6815bb_d2077c85",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "I agree. Done.",
+      "parentUuid": "c9f0dcf3_5533745f",
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "dfa4996e_840ce78d",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "I think staying with the defaults makes sense. It makes things line up easier when we add other walkthroughs or tutorials.\n\nI did rewrite this so it is more clear that these are default values, and provided a link to where they can learn about customizing those values.",
+      "parentUuid": "c469019c_c7b517b6",
+      "range": {
+        "startLine": 156,
+        "startChar": 19,
+        "endLine": 156,
+        "endChar": 68
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59d22c64_7fa0a8dd",
         "filename": "Documentation/intro-gerrit-walkthrough.txt",
         "patchSetId": 3
@@ -125,6 +233,30 @@
       "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "476e6bd5_6fb25cf4",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59d22c64_7fa0a8dd",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 19
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "ab385292_ef5f16e1",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "Good point. I was trying to emphasize that reworking the change didn\u0027t require any additional effort on Max\u0027s part. I rewrote this to try to make that clear.",
+      "parentUuid": "62dbe7a2_b5b212ea",
+      "range": {
+        "startLine": 180,
+        "startChar": 69,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "121b6be6_16490507",
         "filename": "Documentation/intro-gerrit-walkthrough.txt",
         "patchSetId": 3
@@ -171,6 +327,30 @@
       "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "014430ec_e8cbbc46",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-07-28T20:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "121b6be6_16490507",
+      "range": {
+        "startLine": 269,
+        "startChar": 47,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "5224c5564d667d985153e05d29b6c6157ff02080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

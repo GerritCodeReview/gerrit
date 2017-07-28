@@ -94,6 +94,11 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
+        if (data.hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
+          // Path decodes all '+' to ' ' -- this breaks project-based URLs.
+          // See Issue 6888.
+          data.hash = data.hash.replace('/ /', '/+/');
+        }
         const hash = data.hash;
         let newUrl = base + hash;
         if (hash.startsWith('/VE/')) {

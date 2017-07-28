@@ -103,6 +103,7 @@
       'o enter': '_handleEnterKey',
       'p [': '_handlePKey',
       'shift+r': '_handleRKey',
+      's': '_handleSKey',
     },
 
     attached() {
@@ -258,6 +259,27 @@
 
       e.preventDefault();
       window.location.reload();
+    },
+
+    _handleSKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      this._toggleStarForIndex(this.selectedIndex);
+    },
+
+    _toggleStarForIndex(index) {
+      const changeEls = this._getListItems();
+      if (index >= changeEls.length || !changeEls[index]) {
+        return;
+      }
+
+      const changeEl = changeEls[index];
+      const change = changeEl.change;
+      const newVal = !change.starred;
+      changeEl.set('change.starred', newVal);
+      this.$.restAPI.saveChangeStarred(change._number, newVal);
     },
 
     _changeURLForIndex(index) {

@@ -211,7 +211,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
 
-    addMembers.addMembers(groupId, createGroupArgs.initialMembers);
+    addMembers.addMembers(uuid, createGroupArgs.initialMembers);
 
     groupCache.onCreateGroup(createGroupArgs.getGroup());
 

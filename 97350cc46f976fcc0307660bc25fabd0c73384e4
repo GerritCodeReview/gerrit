@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fda9a14b_5e5ac143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-28T06:38:55Z",
+      "side": 1,
+      "message": "This lined should be removed.",
+      "range": {
+        "startLine": 254,
+        "startChar": 6,
+        "endLine": 254,
+        "endChar": 55
+      },
+      "revId": "97350cc46f976fcc0307660bc25fabd0c73384e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

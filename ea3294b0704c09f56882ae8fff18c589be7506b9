@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d1ec7c10_0f9d87ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aae60dd4_e57cd945",
+      "revId": "ea3294b0704c09f56882ae8fff18c589be7506b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08d42019_71cf40ae",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
         "patchSetId": 3
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "Yes, I\u0027ll fix this.",
       "parentUuid": "08d42019_71cf40ae",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 66,
+        "endChar": 87
+      },
+      "revId": "ea3294b0704c09f56882ae8fff18c589be7506b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1a83809_2ea915fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-28T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27dcd8e4_212f6cb6",
       "range": {
         "startLine": 66,
         "startChar": 69,

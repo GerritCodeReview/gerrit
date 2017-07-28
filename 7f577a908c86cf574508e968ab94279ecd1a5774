@@ -22,6 +22,30 @@
       "revId": "7f577a908c86cf574508e968ab94279ecd1a5774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "320b4f84_22748b8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T15:00:13Z",
+      "side": 1,
+      "message": "Woops, it\u0027s project branches and tags not groups and projects. Should we allow the lowercase one too here and for the other too?",
+      "parentUuid": "5ad47156_89541350",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 18
+      },
+      "revId": "7f577a908c86cf574508e968ab94279ecd1a5774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

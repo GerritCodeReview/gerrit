@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a842647_f0c2f886",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-07-28T16:06:01Z",
+      "side": 1,
+      "message": "At the moment I just replicated the current behavior of the OAuth authentication: getting the canonical url.\n\nA check would be useful for sure, possibly with a meaningful message that is not NPE :-)\n\nIt is currently a bug in the current master, will do a separate build for fixing it.",
+      "parentUuid": "116a7a21_4ad210a7",
+      "range": {
+        "startLine": 63,
+        "startChar": 47,
+        "endLine": 63,
+        "endChar": 76
+      },
+      "revId": "e0ccff362cbdd52554fd6f242dd2bf62be7489a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf17d3df_65d55422",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3c4fe8d3_9c57c9b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-07-28T16:06:01Z",
+      "side": 1,
+      "message": "Nope, just raises a NPE :-(",
+      "parentUuid": "cf17d3df_65d55422",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 5
+      },
+      "revId": "e0ccff362cbdd52554fd6f242dd2bf62be7489a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ae6d58c_700fb00e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-16T06:55:30Z",
       "side": 1,
       "message": "Just\n\n  return \"/plugins/\" + name;\n\n?\n\nIf the string is empty there\u0027s no point trying to strip trailing slashes (L639)",
+      "range": {
+        "startLine": 634,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 27
+      },
+      "revId": "e0ccff362cbdd52554fd6f242dd2bf62be7489a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20786dbe_7d26247b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-07-28T16:06:01Z",
+      "side": 1,
+      "message": "True, that would make it more evident and readable.",
+      "parentUuid": "5ae6d58c_700fb00e",
       "range": {
         "startLine": 634,
         "startChar": 6,

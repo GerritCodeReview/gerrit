@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fe619f3_aa4e986a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-28T23:03:50Z",
+      "side": 1,
+      "message": "My findings at https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6413\u0026can\u003d4\u0026q\u003d\u0026colspec\u003dID%20Type%20Stars%20Milestone%20Status%20Priority%20Owner%20Summary lead to this being the cause for the undefined warnning when building gerrit (though the problem does not start with this change it would be good to get it fixed)",
+      "revId": "c1738e61f1168d8a80da4204d45165d6f2971276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

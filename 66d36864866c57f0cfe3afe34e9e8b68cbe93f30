@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "371b97d9_73498555",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-28T19:52:22Z",
+      "side": 1,
+      "message": "const reviewerName \u003d this._accountOrAnon(reviewer.account);",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 50
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9c8011_41ff0698",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-28T19:52:22Z",
+      "side": 1,
+      "message": "const reviewerName \u003d this._accountOrAnon(reviewer.account);",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c1bf899_c851f5d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-07-28T19:52:22Z",
+      "side": 1,
+      "message": "Maybe this function should be in the behavior too.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "66d36864866c57f0cfe3afe34e9e8b68cbe93f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

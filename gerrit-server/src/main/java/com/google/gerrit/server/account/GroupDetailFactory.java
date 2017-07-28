@@ -64,7 +64,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     return new GroupDetail(members, includes);
   }
 
-  private ImmutableSet<Account.Id> loadMembers() throws OrmException {
+  private ImmutableSet<Account.Id> loadMembers() throws OrmException, NoSuchGroupException {
     return groups.getMembers(db, groupUuid).filter(control::canSeeMember).collect(toImmutableSet());
   }
 

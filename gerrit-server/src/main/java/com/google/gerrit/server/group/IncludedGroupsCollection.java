@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -73,14 +74,20 @@ public class IncludedGroupsCollection
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
-    if (isMember(parent, member) && resource.getControl().canSeeGroup()) {
+    if (resource.getControl().canSeeGroup() && isMember(parent, member)) {
       return new IncludedGroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(AccountGroup parent, GroupDescription.Basic member) throws OrmException {
-    return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
+  private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
+      throws OrmException, ResourceNotFoundException {
+    try {
+      return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(
+          String.format("Group %s not found", parent.getGroupUUID()));
+    }
   }
 
   @SuppressWarnings("unchecked")

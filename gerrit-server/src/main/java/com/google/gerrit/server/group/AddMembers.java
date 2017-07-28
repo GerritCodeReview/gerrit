@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -109,7 +110,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          IOException, ConfigInvalidException {
+          IOException, ConfigInvalidException, ResourceNotFoundException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -131,7 +132,12 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       newMemberIds.add(a.getId());
     }
 
-    addMembers(internalGroup.getGroupUUID(), newMemberIds);
+    AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
+    try {
+      addMembers(groupUuid, newMemberIds);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+    }
     return toAccountInfoList(newMemberIds);
   }
 
@@ -169,7 +175,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   public void addMembers(AccountGroup.UUID groupUuid, Collection<? extends Account.Id> newMemberIds)
-      throws OrmException, IOException {
+      throws OrmException, IOException, NoSuchGroupException {
     groupsUpdateProvider
         .get()
         .addGroupMembers(db.get(), groupUuid, ImmutableSet.copyOf(newMemberIds));

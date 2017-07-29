@@ -1,7 +1,6 @@
 workspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
-load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
@@ -104,61 +103,6 @@ maven_jar(
     name = "servlet_api_3_1",
     artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
-)
-
-GWT_VERS = "2.8.2"
-
-maven_jar(
-    name = "user",
-    artifact = "com.google.gwt:gwt-user:" + GWT_VERS,
-    sha1 = "a2b9be2c996a658c4e009ba652a9c6a81c88a797",
-)
-
-maven_jar(
-    name = "dev",
-    artifact = "com.google.gwt:gwt-dev:" + GWT_VERS,
-    sha1 = "7a87e060bbf129386b7ae772459fb9f87297c332",
-)
-
-maven_jar(
-    name = "javax_validation",
-    artifact = "javax.validation:validation-api:1.0.0.GA",
-    sha1 = "b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e",
-    src_sha1 = "7a561191db2203550fbfa40d534d4997624cd369",
-)
-
-maven_jar(
-    name = "jsinterop_annotations",
-    artifact = "com.google.jsinterop:jsinterop-annotations:1.0.2",
-    sha1 = "abd7319f53d018e11108a88f599bd16492448dd2",
-    src_sha1 = "33716f8aef043f2f02b78ab4a1acda6cd90a7602",
-)
-
-maven_jar(
-    name = "ant",
-    artifact = "ant:ant:1.6.5",
-    attach_source = False,
-    sha1 = "7d18faf23df1a5c3a43613952e0e8a182664564b",
-)
-
-maven_jar(
-    name = "colt",
-    artifact = "colt:colt:1.2.0",
-    attach_source = False,
-    sha1 = "0abc984f3adc760684d49e0f11ddf167ba516d4f",
-)
-
-maven_jar(
-    name = "tapestry",
-    artifact = "tapestry:tapestry:4.0.2",
-    attach_source = False,
-    sha1 = "e855a807425d522e958cbce8697f21e9d679b1f7",
-)
-
-maven_jar(
-    name = "w3c_css_sac",
-    artifact = "org.w3c.css:sac:1.3",
-    sha1 = "cdb2dcb4e22b83d6b32b93095f644c3462739e82",
 )
 
 load("//lib/jgit:jgit.bzl", "jgit_repos")
@@ -864,25 +808,6 @@ maven_jar(
     name = "postgresql",
     artifact = "org.postgresql:postgresql:9.4.1211",
     sha1 = "721e3017fab68db9f0b08537ec91b8d757973ca8",
-)
-
-maven_jar(
-    name = "codemirror_minified",
-    artifact = "org.webjars.npm:codemirror-minified:" + CM_VERSION,
-    sha1 = "f84c178b11a188f416b4380bfb2b24f126453d28",
-)
-
-maven_jar(
-    name = "codemirror_original",
-    artifact = "org.webjars.npm:codemirror:" + CM_VERSION,
-    sha1 = "5a1f6c10d5aef0b9d2ce513dcc1e2657e4af730d",
-)
-
-maven_jar(
-    name = "diff_match_patch",
-    artifact = "org.webjars:google-diff-match-patch:" + DIFF_MATCH_PATCH_VERSION,
-    attach_source = False,
-    sha1 = "0cf1782dbcb8359d95070da9176059a5a9d37709",
 )
 
 maven_jar(

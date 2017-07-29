@@ -6,20 +6,6 @@ SERVER_TEST_SRCS = [
 ]
 
 junit_tests(
-    name = "client_tests",
-    srcs = glob(
-        ["**/*.java"],
-        exclude = SERVER_TEST_SRCS,
-    ),
-    deps = [
-        "//java/com/google/gerrit/common:client",
-        "//lib:guava",
-        "//lib:junit",
-        "//lib:truth",
-    ],
-)
-
-junit_tests(
     name = "server_tests",
     srcs = SERVER_TEST_SRCS,
     tags = ["no_windows"],

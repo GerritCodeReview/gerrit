@@ -1,11 +1,9 @@
 = Gerrit Code Review - Eclipse Setup
 
 This document is about configuring Gerrit Code Review into an
-Eclipse workspace for development and debugging with GWT.
+Eclipse workspace for development.
 
-Java 6 or later SDK is also required to run GWT's compiler and
-runtime debugging environment.
-
+Java 8 or later SDK is required.
 
 [[setup]]
 == Project Setup
@@ -90,61 +88,6 @@ Duplicate the existing launch configuration:
 * Switch to Common tab.
 * Change Save as to be Local file.
 * Close the Debug Configurations dialog and save the changes when prompted.
-
-
-=== Running GWT Debug Mode
-
-The `gerrit_gwt_debug` launch configuration uses GWT's
-link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
-
-* Make a local copy of the `gerrit_gwt_debug` configuration, using the
-process described for `gerrit_daemon` above.
-* Launch the local copy of `gerrit_gwt_debug` from the Eclipse debug menu.
-* If debugging GWT for the first time:
-
-** Open the link:http://localhost:9876/[codeserver URL] and add the `Dev Mode On`
-and `Dev Mode Off` bookmarklet to your bookmark bar.
-
-** Activate the source maps feature in your browser. Refer to the
-link:https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[
-Chrome] and
-link:https://developer.mozilla.org/en-US/docs/Tools/Debugger#Use_a_source_map[
-Firefox] developer documentation.
-
-* Load the link:http://localhost:8080[Gerrit page].
-* Open the source tab in developer tools.
-* Click the `Dev Mode On` bookmark to incrementally recompile changed files.
-* Select the `gerrit_ui` module to compile (the `Compile` button can also be used
-as a bookmarklet).
-* In the developer tools source tab, open a file and set a breakpoint.
-* Navigate to the UI and confirm that the breakpoint is hit.
-* To end the debugging session, click the `Dev Mode Off` bookmark.
-
-.After changing the client side code:
-
-* Hitting `F5` in the browser only reloads the last compile output, without
-recompiling.
-* To reflect your changes in the debug session, click `Dev Mode On` then `Compile`.
-
-
-=== Running GWT Debug Mode for Gerrit plugins
-
-A Gerrit plugin can expose GWT module and its implementation can be inspected
-in the SDM debug session.
-
-`codeserver` needs two additional inputs to expose the plugin module in the SDM
-debug session: the module name and the source folder location. For example the
-module name and source folder of `cookbook-plugin` should be added in the local
-copy of the `gerrit_gwt_debug` configuration:
-
-----
-  com.googlesource.gerrit.plugins.cookbook.HelloForm \
-  -src ${resource_loc:/gerrit}/plugins/cookbook-plugin/src/main/java \
-  -- --console-log [...]
-----
-
-After doing that, both the Gerrit core and plugin GWT modules can be activated
-during SDM (debug session)[http://imgur.com/HFXZ5No].
 
 GERRIT
 ------

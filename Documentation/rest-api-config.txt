@@ -126,10 +126,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
     "gerrit": {
       "all_projects": "All-Projects",
       "all_users": "All-Users"
-      "doc_search": true,
-      "web_uis": [
-        "gwt"
-      ]
+      "doc_search": true
     },
     "sshd": {},
     "suggest": {
@@ -1716,9 +1713,6 @@ link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`report_bug_text`   |optional, not set if default|
 link:config-gerrit.html#gerrit.reportBugText[Display text for report
 bugs link].
-|`web_uis`           ||
-List of web UIs supported by the HTTP server. Possible values are `GWT`
-and `POLYGERRIT`.
 |=================================
 
 [[hit-ration-info]]

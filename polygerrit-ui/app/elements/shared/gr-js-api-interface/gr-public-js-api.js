@@ -54,6 +54,9 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+  const baseUrl = base + '/';
+
   function Plugin(opt_url) {
     this._generatedHookNames = [];
     this._hooks = [];
@@ -65,7 +68,7 @@
     }
 
     this._url = new URL(opt_url);
-    if (!this._url.pathname.startsWith('/plugins')) {
+    if (!this._url.pathname.startsWith(baseUrl + 'plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;

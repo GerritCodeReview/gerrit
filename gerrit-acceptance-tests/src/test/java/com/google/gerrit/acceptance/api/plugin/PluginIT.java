@@ -58,6 +58,7 @@ public class PluginIT extends AbstractDaemonTest {
       assertThat(api).isNotNull();
       PluginInfo info = api.get();
       assertThat(info.id).isEqualTo(plugin);
+      assertThat(info.indexUrl).isEqualTo(String.format("plugins/%s/", plugin));
       assertThat(info.disabled).isNull();
     }
     assertPlugins(list().get(), PLUGINS);

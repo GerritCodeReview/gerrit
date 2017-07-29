@@ -15,14 +15,12 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -51,7 +49,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -96,11 +93,8 @@ public class StaticModule extends ServletModule {
 
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
-  private static final String GWT_UI_SERVLET = "GwtUiServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
-
-  private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
   private final GerritOptions options;
   private Paths paths;
@@ -135,12 +129,7 @@ public class StaticModule extends ServletModule {
     if (!options.headless()) {
       install(new CoreStaticModule());
     }
-    if (options.enablePolyGerrit()) {
-      install(new PolyGerritModule());
-    }
-    if (options.enableGwtUi()) {
-      install(new GwtUiModule());
-    }
+    install(new PolyGerritModule());
   }
 
   @Provides
@@ -210,29 +199,6 @@ public class StaticModule extends ServletModule {
         return p.unpackedWar.resolve(name);
       }
       return p.sourceRoot.resolve("webapp/" + name);
-    }
-  }
-
-  private class GwtUiModule extends ServletModule {
-    @Override
-    public void configureServlets() {
-      serveRegex("^/gerrit_ui/(?!rpc/)(.*)$")
-          .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
-      Paths p = getPaths();
-      if (p.isDev()) {
-        filter("/").through(new RecompileGwtUiFilter(p.builder, p.unpackedWar));
-      }
-    }
-
-    @Provides
-    @Singleton
-    @Named(GWT_UI_SERVLET)
-    HttpServlet getGwtUiServlet(@Named(CACHE) Cache<Path, Resource> cache) throws IOException {
-      Paths p = getPaths();
-      if (p.warFs != null) {
-        return new WarGwtUiServlet(cache, p.warFs);
-      }
-      return new DirectoryGwtUiServlet(cache, p.unpackedWar, p.isDev());
     }
   }
 
@@ -410,7 +376,6 @@ public class StaticModule extends ServletModule {
 
   @Singleton
   private static class PolyGerritFilter implements Filter {
-    private final GerritOptions options;
     private final Paths paths;
     private final HttpServlet polyGerritIndex;
     private final PolyGerritUiServlet polygerritUI;
@@ -419,20 +384,16 @@ public class StaticModule extends ServletModule {
 
     @Inject
     PolyGerritFilter(
-        GerritOptions options,
         Paths paths,
         @Named(POLYGERRIT_INDEX_SERVLET) HttpServlet polyGerritIndex,
         PolyGerritUiServlet polygerritUI,
         @Nullable BowerComponentsDevServlet bowerComponentServlet,
         @Nullable FontsDevServlet fontServlet) {
       this.paths = paths;
-      this.options = options;
       this.polyGerritIndex = polyGerritIndex;
       this.polygerritUI = polygerritUI;
       this.bowerComponentServlet = bowerComponentServlet;
       this.fontServlet = fontServlet;
-      checkState(
-          options.enablePolyGerrit(), "can't install PolyGerritFilter when PolyGerrit is disabled");
     }
 
     @Override
@@ -446,13 +407,6 @@ public class StaticModule extends ServletModule {
         throws IOException, ServletException {
       HttpServletRequest req = (HttpServletRequest) request;
       HttpServletResponse res = (HttpServletResponse) response;
-      if (handlePolyGerritParam(req, res)) {
-        return;
-      }
-      if (!isPolyGerritEnabled(req)) {
-        chain.doFilter(req, res);
-        return;
-      }
 
       GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
       String path = pathInfo(req);
@@ -489,71 +443,6 @@ public class StaticModule extends ServletModule {
       String uri = req.getRequestURI();
       String ctx = req.getContextPath();
       return uri.startsWith(ctx) ? uri.substring(ctx.length()) : uri;
-    }
-
-    private boolean handlePolyGerritParam(HttpServletRequest req, HttpServletResponse res)
-        throws IOException {
-      if (!options.enableGwtUi() || !"GET".equals(req.getMethod())) {
-        return false;
-      }
-      boolean redirect = false;
-      String param = req.getParameter("polygerrit");
-      if ("1".equals(param)) {
-        setPolyGerritCookie(req, res, UiType.POLYGERRIT);
-        redirect = true;
-      } else if ("0".equals(param)) {
-        setPolyGerritCookie(req, res, UiType.GWT);
-        redirect = true;
-      }
-      if (redirect) {
-        // Strip polygerrit param from URL. This actually strips all params,
-        // which is a similar behavior to the JS PolyGerrit redirector code.
-        // Stripping just one param is frustratingly difficult without the use
-        // of Apache httpclient, which is a dep we don't want here:
-        // https://gerrit-review.googlesource.com/#/c/57570/57/gerrit-httpd/BUCK@32
-        res.sendRedirect(req.getRequestURL().toString());
-      }
-      return redirect;
-    }
-
-    private boolean isPolyGerritEnabled(HttpServletRequest req) {
-      return !options.enableGwtUi() || isPolyGerritCookie(req);
-    }
-
-    private boolean isPolyGerritCookie(HttpServletRequest req) {
-      UiType type = options.defaultUi();
-      Cookie[] all = req.getCookies();
-      if (all != null) {
-        for (Cookie c : all) {
-          if (GERRIT_UI_COOKIE.equals(c.getName())) {
-            UiType t = UiType.parse(c.getValue());
-            if (t != null) {
-              type = t;
-              break;
-            }
-          }
-        }
-      }
-      return type == UiType.POLYGERRIT;
-    }
-
-    private void setPolyGerritCookie(HttpServletRequest req, HttpServletResponse res, UiType pref) {
-      // Only actually set a cookie if both UIs are enabled in the server;
-      // otherwise clear it.
-      Cookie cookie = new Cookie(GERRIT_UI_COOKIE, pref.name());
-      if (options.enablePolyGerrit() && options.enableGwtUi()) {
-        cookie.setPath("/");
-        cookie.setSecure(isSecure(req));
-        cookie.setMaxAge(GERRIT_UI_COOKIE_MAX_AGE);
-      } else {
-        cookie.setValue("");
-        cookie.setMaxAge(0);
-      }
-      res.addCookie(cookie);
-    }
-
-    private static boolean isSecure(HttpServletRequest req) {
-      return req.isSecure() || "https".equals(req.getScheme());
     }
 
     private static boolean isPolyGerritAsset(String path) {

@@ -1,15 +1,5 @@
 load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
-load("//tools/bzl:gwt.bzl", "gwt_module")
-
-EXT_API_SRCS = glob(["client/*.java"])
-
-gwt_module(
-    name = "client",
-    srcs = EXT_API_SRCS,
-    gwt_xml = "Extensions.gwt.xml",
-    visibility = ["//visibility:public"],
-)
 
 java_binary(
     name = "extension-api",

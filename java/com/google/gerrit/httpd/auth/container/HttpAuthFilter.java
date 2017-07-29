@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -49,10 +48,10 @@ import javax.servlet.http.HttpServletResponse;
  * Watches request for the host page and requires login if not yet signed in.
  *
  * <p>If HTTP authentication has been enabled on this server this filter is bound in front of the
- * {@link HostPageServlet} and redirects users who are not yet signed in to visit {@code /login/},
- * so the web container can force login. This redirect is performed with JavaScript, such that any
- * existing anchor token in the URL can be rewritten and preserved through the authentication
- * process of any enterprise single sign-on solutions.
+ * Gerrit and redirects users who are not yet signed in to visit {@code /login/}, so the web
+ * container can force login. This redirect is performed with JavaScript, such that any existing
+ * anchor token in the URL can be rewritten and preserved through the authentication process of any
+ * enterprise single sign-on solutions.
  */
 @Singleton
 class HttpAuthFilter implements Filter {

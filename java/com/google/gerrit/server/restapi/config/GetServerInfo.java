@@ -52,7 +52,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
@@ -97,7 +96,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final NotesMigration migration;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
-  private final GerritOptions gerritOptions;
   private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
 
@@ -121,7 +119,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       NotesMigration migration,
       ProjectCache projectCache,
       AgreementJson agreementJson,
-      GerritOptions gerritOptions,
       ChangeIndexCollection indexes,
       SitePaths sitePaths) {
     this.config = config;
@@ -142,7 +139,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.migration = migration;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
-    this.gerritOptions = gerritOptions;
     this.indexes = indexes;
     this.sitePaths = sitePaths;
   }
@@ -314,12 +310,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editGpgKeys =
         toBoolean(enableSignedPush && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     info.webUis = EnumSet.noneOf(UiType.class);
-    if (gerritOptions.enableGwtUi()) {
-      info.webUis.add(UiType.GWT);
-    }
-    if (gerritOptions.enablePolyGerrit()) {
-      info.webUis.add(UiType.POLYGERRIT);
-    }
     return info;
   }
 

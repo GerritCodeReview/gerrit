@@ -1,25 +1,4 @@
-load("//tools/bzl:gwt.bzl", "gwt_module")
-
 SRC = "src/main/java/com/google/gerrit/prettify/"
-
-gwt_module(
-    name = "client",
-    srcs = glob([
-        SRC + "common/**/*.java",
-    ]),
-    exported_deps = [
-        "//gerrit-extension-api:client",
-        "//gerrit-gwtexpui:SafeHtml",
-        "//gerrit-patch-jgit:Edit",
-        "//gerrit-patch-jgit:client",
-        "//gerrit-reviewdb:client",
-        "//lib:gwtjsonrpc",
-        "//lib:gwtjsonrpc_src",
-    ],
-    gwt_xml = SRC + "PrettyFormatter.gwt.xml",
-    visibility = ["//visibility:public"],
-    deps = ["//lib/gwt:user-neverlink"],
-)
 
 java_library(
     name = "server",

@@ -54,6 +54,9 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+  const baseUrl = base + '/';
+
   function Plugin(opt_url) {
     this._generatedHookNames = [];
     this._hooks = [];
@@ -65,7 +68,8 @@
     }
 
     this._url = new URL(opt_url);
-    if (!this._url.pathname.startsWith('/plugins')) {
+    console.log(this._url.pathname);
+    if (!this._url.pathname.startsWith(baseUrl + 'plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
@@ -217,6 +221,9 @@
   };
 
   Gerrit.install = function(callback, opt_version, opt_src) {
+    if (!opt_version) {
+      opt_version = '0.1';
+    }
     if (opt_version && opt_version !== API_VERSION) {
       console.warn('Only version ' + API_VERSION +
           ' is supported in PolyGerrit. ' + opt_version + ' was given.');

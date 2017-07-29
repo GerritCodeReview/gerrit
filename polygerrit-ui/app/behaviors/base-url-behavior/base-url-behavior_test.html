@@ -65,12 +65,5 @@ limitations under the License.
     test('getBaseUrl', () => {
       assert.deepEqual(element.getBaseUrl(), '/r');
     });
-
-    test('computeGwtUrl', () => {
-      assert.deepEqual(
-          element.computeGwtUrl('/r/c/1/'),
-          '/r/?polygerrit=0#/c/1/'
-      );
-    });
   });
 </script>

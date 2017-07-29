@@ -101,7 +101,6 @@ java_library(
     deps = JETTY_DEPS + BASE_JETTY_DEPS + [
         # We want all these deps to be provided_deps
         "//gerrit-launcher:launcher",
-        "//gerrit-reviewdb:client",
         "//lib:servlet-api-3_1",
     ],
 )

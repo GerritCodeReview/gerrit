@@ -56,37 +56,7 @@ PLUGIN_DEPS_NEVERLINK = [
     "//gerrit-plugin-api:lib-neverlink",
 ]
 
-GWT_PLUGIN_DEPS_NEVERLINK = [
-    "//gerrit-plugin-gwtui:gwtui-api-lib-neverlink",
-    "//lib/gwt:user-neverlink",
-]
-
-GWT_PLUGIN_DEPS = [
-    "//gerrit-plugin-gwtui:gwtui-api-lib",
-]
-
-GWT_TRANSITIVE_DEPS = [
-    "//lib/gwt:ant",
-    "//lib/gwt:colt",
-    "//lib/gwt:javax-validation",
-    "//lib/gwt:javax-validation_src",
-    "//lib/gwt:jsinterop-annotations",
-    "//lib/gwt:jsinterop-annotations_src",
-    "//lib/gwt:tapestry",
-    "//lib/gwt:w3c-css-sac",
-    "//lib/ow2:ow2-asm",
-    "//lib/ow2:ow2-asm-analysis",
-    "//lib/ow2:ow2-asm-commons",
-    "//lib/ow2:ow2-asm-tree",
-    "//lib/ow2:ow2-asm-util",
-]
-
-DEPS = GWT_TRANSITIVE_DEPS + [
-    "//gerrit-gwtexpui:CSS",
-    "//lib:gwtjsonrpc",
-    "//lib/gwt:dev",
-    "//lib/jgit/org.eclipse.jgit:jgit-source",
-]
+DEPS = []
 
 USER_AGENT_XML = """<module rename-to='gerrit_ui'>
 <inherits name='%s'/>
@@ -272,25 +242,6 @@ def gwt_genrule(suffix = ""):
     deps = DEPS,
     compiler_args = GWT_COMPILER_ARGS,
     jvm_args = GWT_JVM_ARGS,
-  )
-
-def gen_ui_module(name, suffix = ""):
-  gwt_module(
-    name = name + suffix,
-    srcs = native.glob(['src/main/java/**/*.java']),
-    gwt_xml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
-    resources = native.glob(
-        ['src/main/java/**/*'],
-        exclude = ['src/main/java/**/*.java'] +
-        ['src/main/java/%s.gwt.xml' % MODULE.replace('.', '/')]),
-    deps = [
-      '//gerrit-gwtui-common:diffy_logo',
-      '//gerrit-gwtui-common:client',
-      '//gerrit-gwtexpui:CSS',
-      '//lib/codemirror:codemirror' + suffix,
-      '//lib/gwt:user',
-    ],
-    visibility = ['//visibility:public'],
   )
 
 def gwt_user_agent_permutations():

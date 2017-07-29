@@ -55,7 +55,7 @@ public class WebModule extends LifecycleModule {
 
     installAuthModule();
     if (options.enableMasterFeatures()) {
-      install(new UrlModule(options, authConfig));
+      install(new UrlModule(authConfig));
       install(new UiRpcModule());
     }
     install(new GerritRequestModule());

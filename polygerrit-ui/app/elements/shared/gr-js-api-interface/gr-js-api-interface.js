@@ -44,7 +44,10 @@
       },
     },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.PatchSetBehavior,
+    ],
 
     Element,
     EventType,

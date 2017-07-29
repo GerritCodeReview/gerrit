@@ -21,7 +21,6 @@ import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitwebModule;
-import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
@@ -55,8 +54,7 @@ public class WebModule extends LifecycleModule {
 
     installAuthModule();
     if (options.enableMasterFeatures()) {
-      install(new UrlModule(options, authConfig));
-      install(new UiRpcModule());
+      install(new UrlModule(authConfig));
     }
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));

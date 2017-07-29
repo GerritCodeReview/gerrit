@@ -50,7 +50,6 @@ limitations under the License.
         getAccountCapabilities() { return Promise.resolve({}); },
         getConfig() {
           return Promise.resolve({
-            gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
             plugin: {},
           });
         },
@@ -71,35 +70,6 @@ limitations under the License.
 
     test('reporting', () => {
       assert.isTrue(element.$.reporting.appStarted.calledOnce);
-    });
-
-    test('location change updates gwt footer', done => {
-      element._path = '/test/path';
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
-        assert.equal(gwtLink.href, 'http://' + location.host +
-            element.getBaseUrl() + '/?polygerrit=0#/test/path');
-        done();
-      });
-    });
-
-    test('_handleLocationChange handles hashes', done => {
-      const curLocation = {
-        pathname: '/c/1/1/testfile.txt',
-        hash: '#2',
-        host: location.host,
-      };
-      element._handleLocationChange({detail: curLocation});
-
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
-        assert.equal(
-            gwtLink.href,
-            'http://' + location.host + element.getBaseUrl() +
-            '/?polygerrit=0#/c/1/1/testfile.txt@2'
-        );
-        done();
-      });
     });
 
     test('passes config to gr-plugin-host', () => {

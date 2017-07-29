@@ -54,6 +54,8 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+
   function Plugin(opt_url) {
     this._generatedHookNames = [];
     this._hooks = [];
@@ -65,12 +67,18 @@
     }
 
     this._url = new URL(opt_url);
-    if (!this._url.pathname.startsWith('/plugins')) {
+    if (!this._url.pathname.startsWith(base + '/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
     }
-    this._name = this._url.pathname.split('/')[2];
+    let num;
+    if (base != '') {
+      num = 3;
+    } else {
+      num = 2;
+    }
+    this._name = this._url.pathname.split('/')[num];
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -115,7 +123,7 @@
   };
 
   Plugin.prototype.url = function(opt_path) {
-    return this._url.origin + '/plugins/' + this._name + (opt_path || '/');
+    return this._url.origin + base + '/plugins/' + this._name + (opt_path || '/');
   };
 
   Plugin.prototype._send = function(method, url, opt_callback, opt_payload) {

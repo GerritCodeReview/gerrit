@@ -71,7 +71,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // gerrit
   @GerritConfig(name = "gerrit.allProjects", value = "Root")
   @GerritConfig(name = "gerrit.allUsers", value = "Users")
-  @GerritConfig(name = "gerrit.enableGwtUi", value = "true")
   @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG")
   @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report")
 
@@ -115,9 +114,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo("Users");
     assertThat(i.gerrit.reportBugUrl).isEqualTo("https://example.com/report");
     assertThat(i.gerrit.reportBugText).isEqualTo("REPORT BUG");
-
-    // Acceptance tests force --headless even when UIs are specified in config.
-    assertThat(i.gerrit.webUis).isEmpty();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();

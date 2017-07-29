@@ -1043,7 +1043,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         KEY_MAX_OBJECT_SIZE_LIMIT,
         validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
+    set(rc, SUBMIT, null, KEY_ACTION, p.getConfiguredSubmitType(), DEFAULT_SUBMIT_ACTION);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 

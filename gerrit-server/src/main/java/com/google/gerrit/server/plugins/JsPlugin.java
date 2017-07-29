@@ -39,8 +39,12 @@ class JsPlugin extends Plugin {
   public String getVersion() {
     String fileName = getSrcFile().getFileName().toString();
     int firstDash = fileName.indexOf("-");
-    if (firstDash > 0) {
-      return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
+    try {
+      if (firstDash > 0) {
+        return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
+      }
+    } catch (Exception e) {
+      // returns a string
     }
     return "";
   }

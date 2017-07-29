@@ -317,5 +317,22 @@ limitations under the License.
         assert.isTrue(console.warn.calledOnce);
       }
     });
+
+    suite('test plugin with base url', () => {
+      setup(() => {
+        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
+
+        Gerrit._setPluginsCount(1);
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/r/plugins/testplugin/static/test.js');
+      });
+
+      test('url', () => {
+        assert.notEqual(plugin.url(), 'http://test.com/plugins/testplugin/');
+        assert.equal(plugin.url(), 'http://test.com/r/plugins/testplugin/');
+        assert.equal(plugin.url('/static/test.js'),
+            'http://test.com/r/plugins/testplugin/static/test.js');
+      });
+    });
   });
 </script>

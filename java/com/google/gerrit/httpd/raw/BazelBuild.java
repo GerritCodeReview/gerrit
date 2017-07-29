@@ -146,11 +146,6 @@ public class BazelBuild {
     return sourceRoot.resolve("bazel-bin").resolve(l.pkg).resolve(l.name);
   }
 
-  /** Label for the agent specific GWT zip. */
-  public Label gwtZipLabel(String agent) {
-    return new Label("gerrit-gwtui", "ui_" + agent + ".zip");
-  }
-
   /** Label for the polygerrit component zip. */
   public Label polygerritComponents() {
     return new Label("polygerrit-ui", "polygerrit_components.bower_components.zip");

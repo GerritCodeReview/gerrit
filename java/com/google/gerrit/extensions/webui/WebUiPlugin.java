@@ -34,15 +34,10 @@ import com.google.inject.Inject;
  * }
  * </pre>
  *
- * @see GwtPlugin
  * @see JavaScriptPlugin
  */
 @ExtensionPoint
 public abstract class WebUiPlugin {
-  public static final GwtPlugin gwt(String moduleName) {
-    return new GwtPlugin(moduleName);
-  }
-
   public static final JavaScriptPlugin js(String scriptName) {
     return new JavaScriptPlugin(scriptName);
   }

@@ -121,9 +121,9 @@ to be the author of the change.
 
 End-user web browsers make HTTP requests directly to Gerrit's
 HTTP server.  As nearly all of the user interface is implemented
-through Google Web Toolkit (GWT), the majority of these requests
-are transmitting compressed JSON payloads, with all HTML being
-generated within the browser.  Most responses are under 1 KB.
+through PolyGerrit, the majority of these requests are transmitting
+compressed JSON payloads, with all HTML being generated within the
+browser.  Most responses are under 1 KB.
 
 Gerrit's HTTP server side component is implemented as a standard
 Java servlet, and thus runs within any J2EE servlet container.
@@ -166,7 +166,6 @@ User authentication is handled by OpenID, and therefore Gerrit
 requires that the OpenID provider selected by a user must be
 online and operating in order to authenticate that user.
 
-* link:http://www.gwtproject.org/[Google Web Toolkit (GWT)]
 * link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format]
 * link:http://www.postgresql.org/about/[About PostgreSQL]
 * link:http://openid.net/developers/specs/[OpenID Specifications]
@@ -200,11 +199,6 @@ The majority of Gerrit's users will be writing change descriptions
 and comments in English, and therefore an English user interface
 is usable by the target user base.
 
-Gerrit uses GWT's i18n support to externalize all constant strings
-and messages shown to the user, so that in the future someone who
-really needed a translated version of the UI could contribute new
-string files for their locale(s).
-
 Right-to-left (RTL) support is only barely considered within the
 Gerrit code base.  Some portions of the code have tried to take
 RTL into consideration, while others probably need to be modified
@@ -235,20 +229,11 @@ provide hints to screen readers.
 
 Supporting non-JavaScript enabled browsers is a non-goal for Gerrit.
 
-As Gerrit is a pure-GWT application with no server side rendering
-fallbacks, the browser must support modern JavaScript semantics in
-order to access the Gerrit web application.  Dumb clients such as
-`lynx`, `wget`, `curl`, or even many search engine spiders are not
-able to access Gerrit content.
-
-As Google Web Toolkit (GWT) is used to generate the browser
-specific versions of the client-side JavaScript code, Gerrit works
-on any JavaScript enabled browser which GWT can produce code for.
-This covers the majority of the popular browsers.
-
-The Gerrit project does not have the development resources necessary
-to support two parallel UI implementations (GWT based JavaScript
-and server-side rendering).  Consequently only one is implemented.
+As Gerrit is a pure JavaScript application on the client side, with
+no server side rendering fallbacks, the browser must support modern
+JavaScript semantics in order to access the Gerrit web application.
+Dumb clients such as `lynx`, `wget`, `curl`, or even many search engine
+spiders are not able to access Gerrit content.
 
 There are number of web browsers available with full JavaScript
 support, and nearly every operating system (including any PDA-like
@@ -323,7 +308,7 @@ services other than those listed above.
 Gerrit uses an XSRF protected variant of JSON-RPC 1.1 to communicate
 between the browser client and the server.
 
-As the protocol is not the GWT-RPC protocol, but is instead a
+As the protocol is not the proprietry protocol, but is instead a
 self-describing standard JSON format it is easily implemented by
 any 3rd party client application, provided the client has a JSON
 parser and HTTP client library available.

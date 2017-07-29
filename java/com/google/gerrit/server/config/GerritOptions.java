@@ -14,27 +14,19 @@
 
 package com.google.gerrit.server.config;
 
-import org.eclipse.jgit.lib.Config;
-
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
-  private final boolean enableGwtUi;
   private final boolean forcePolyGerritDev;
 
-  public GerritOptions(Config cfg, boolean headless, boolean slave, boolean forcePolyGerritDev) {
-    this.slave = slave;
-    this.enableGwtUi = cfg.getBoolean("gerrit", null, "enableGwtUi", true);
-    this.forcePolyGerritDev = forcePolyGerritDev;
+  public GerritOptions(boolean headless, boolean slave, boolean forcePolyGerritDev) {
     this.headless = headless;
+    this.slave = slave;
+    this.forcePolyGerritDev = forcePolyGerritDev;
   }
 
   public boolean headless() {
     return headless;
-  }
-
-  public boolean enableGwtUi() {
-    return !headless && enableGwtUi;
   }
 
   public boolean enableMasterFeatures() {

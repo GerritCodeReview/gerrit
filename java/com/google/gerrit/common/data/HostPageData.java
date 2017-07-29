@@ -14,11 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import java.util.Date;
-import java.util.List;
-
-/** Data sent as part of the host page, to bootstrap the UI. */
+/** XSRF Constants. */
 public class HostPageData {
   /**
    * Name of the cookie in which the XSRF token is sent from the server to the client during host
@@ -31,30 +27,4 @@ public class HostPageData {
    * request.
    */
   public static final String XSRF_HEADER_NAME = "X-Gerrit-Auth";
-
-  public String version;
-  public DiffPreferencesInfo accountDiffPref;
-  public Theme theme;
-  public List<String> plugins;
-  public List<Message> messages;
-  public Integer pluginsLoadTimeout;
-  public boolean isNoteDbEnabled;
-  public boolean canLoadInIFrame;
-
-  public static class Theme {
-    public String backgroundColor;
-    public String topMenuColor;
-    public String textColor;
-    public String trimColor;
-    public String selectionColor;
-    public String changeTableOutdatedColor;
-    public String tableOddRowColor;
-    public String tableEvenRowColor;
-  }
-
-  public static class Message {
-    public String id;
-    public Date redisplay;
-    public String html;
-  }
 }

@@ -47,7 +47,6 @@ license_map(
     name = "licenses",
     opts = ["--asciidoctor"],
     targets = [
-        "//gerrit-gwtui:ui_module",
         "//polygerrit-ui/app:polygerrit_ui",
         "//java/com/google/gerrit/pgm",
     ],
@@ -57,7 +56,6 @@ license_map(
 license_map(
     name = "js_licenses",
     targets = [
-        "//gerrit-gwtui:ui_module",
         "//polygerrit-ui/app:polygerrit_ui",
     ],
     visibility = ["//visibility:public"],

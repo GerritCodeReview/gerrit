@@ -23,12 +23,6 @@ limitations under the License.
     getBaseUrl() {
       return window.CANONICAL_PATH || '';
     },
-
-    computeGwtUrl(path) {
-      const base = this.getBaseUrl();
-      const clientPath = path.substring(base.length);
-      return base + '/?polygerrit=0#' + clientPath;
-    },
   };
 
   window.Gerrit = window.Gerrit || {};

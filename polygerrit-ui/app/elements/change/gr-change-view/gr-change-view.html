@@ -70,14 +70,11 @@ limitations under the License.
         transition: box-shadow 250ms linear;
         width: 100%;
       }
-      .header.wip {
-        background-color: #fcfad6;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: .5em;
-      }
       .header-title {
         flex: 1;
         font-size: 1.2em;
+      }
+      .header-title .changeSubject {
         font-weight: bold;
       }
       .prefsButton {
@@ -91,8 +88,17 @@ limitations under the License.
         width: 50em;
       }
       .changeStatus {
-        text-transform: capitalize;
+        display: inline-block;
+        background: #eee;
+        border-radius: 4px;
+        padding: 2px 6px;
       }
+      .changeStatus.statusMerged { background: #d4ffd4; }
+      .changeStatus.statusAbandoned { background: #b5e1fb; }
+      .changeStatus.statusPrivate,
+      .changeStatus.statusDraft  { background: #ffd4d4; }
+      .changeStatus.statusWIP { background: #ffcf6e; }
+      .changeStatus.statusMergeConflict { background: #ffc6f7; }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
@@ -317,31 +323,30 @@ limitations under the License.
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
-      <div class$="[[_computeHeaderClass(_change)]]">
+      <div class="header">
         <span class="header-title">
           <gr-change-star
               id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
           <a
               aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
-       --><template is="dom-if" if="[[_changeStatus]]"><!--
-         --> (<!--
-         --><span
-                aria-label$="Change status: [[_changeStatus]]"
-                tabindex="0">[[_changeStatus]]</span><!--
-         --><template
-                is="dom-if"
-                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
-              as
-              <gr-commit-info
-                  change="[[_change]]"
-                  commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                  server-config="[[_serverConfig]]"></gr-commit-info><!--
-         --></template><!--
-         -->)<!--
-       --></template><!--
-       -->: [[_change.subject]]
+              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
+
+          <template is="dom-repeat" items="[[changeStatuses(_change)]]" as="status">
+            <span class$="changeStatus [[_computeStatusClass(status)]]">
+              [[_computeStatusName(status)]]
+              <template
+                  is="dom-if"
+                  if="[[_computeShowCommitInfo(status, _change.current_revision)]]">
+                as
+                <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                    server-config="[[_serverConfig]]"></gr-commit-info><!--
+           --></template>
+            </span>
+          </template>
+          <span class="changeSubject">[[_change.subject]]</span>
         </span>
       </div>
       <section class="changeInfo">

@@ -1291,8 +1291,13 @@
       this.$.relatedChanges.reload();
     },
 
-    _computeHeaderClass(change) {
-      return change.work_in_progress ? 'header wip' : 'header';
+    _computeStatusClass(status) {
+      return 'status' + status.replace(' ', '');
+    },
+
+    _computeStatusName(status) {
+      if (status === 'WIP') { return 'Work in Progress'; }
+      return status;
     },
   });
 })();

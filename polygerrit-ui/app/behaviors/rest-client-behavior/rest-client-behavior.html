@@ -116,7 +116,7 @@ limitations under the License.
           status === this.ChangeStatus.DRAFT;
     },
 
-    changeStatusString(change) {
+    changeStatuses(change) {
       const states = [];
       if (change.status === this.ChangeStatus.MERGED) {
         states.push('Merged');
@@ -129,7 +129,17 @@ limitations under the License.
       if (change.work_in_progress) { states.push('WIP'); }
       if (change.is_private) { states.push('Private'); }
       if (change.status === this.ChangeStatus.DRAFT) { states.push('Draft'); }
-      return states.join(', ');
+      return states;
+    },
+
+    changeStatusString(change) {
+      return this.changeStatuses(change).join(', ');
+    },
+
+    getStatusDisplayName(status) {
+      if (status === 'WIP') { return 'Work in Progress'; }
+      if (status === 'MergeConflict') { return 'Merge Conflict'; }
+      return status;
     },
   };
 

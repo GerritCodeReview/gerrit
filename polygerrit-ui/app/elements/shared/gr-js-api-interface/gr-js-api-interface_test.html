@@ -59,9 +59,6 @@ limitations under the License.
       });
       element = fixture('basic');
       errorStub = sandbox.stub(console, 'error');
-      Gerrit._setPluginsCount(1);
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
     });
 
     teardown(() => {
@@ -70,252 +67,286 @@ limitations under the License.
       plugin = null;
     });
 
-    test('url', () => {
-      assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
-      assert.equal(plugin.url('/static/test.js'),
-          'http://test.com/plugins/testplugin/static/test.js');
-    });
-
-    test('_send on failure rejects with response text', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve('text'); }}));
-      return plugin._send().catch(r => {
-        assert.equal(r, 'text');
+    suite('tests without base url', () => {
+      setup(() => {
+        Gerrit._setPluginsCount(1);
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
       });
-    });
 
-    test('_send on failure without text rejects with code', () => {
-      sendStub.returns(Promise.resolve(
-          {status: 400, text() { return Promise.resolve(null); }}));
-      return plugin._send().catch(r => {
-        assert.equal(r, '400');
+      teardown(() => {
+        sandbox.restore();
+        element._removeEventCallbacks();
+        plugin = null;
       });
-    });
 
-    test('get', () => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.get('/url', r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
-        assert.strictEqual(r, response);
+      test('url', () => {
+        assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
+        assert.equal(plugin.url('/static/test.js'),
+            'http://test.com/plugins/testplugin/static/test.js');
       });
-    });
 
-    test('get using Promise', () => {
-      const response = {foo: 'foo'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.get('/url', r => 'rubbish').then(r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
-        assert.strictEqual(r, response);
+      test('_send on failure rejects with response text', () => {
+        sendStub.returns(Promise.resolve(
+            {status: 400, text() { return Promise.resolve('text'); }}));
+        return plugin._send().catch(r => {
+          assert.equal(r, 'text');
+        });
       });
-    });
 
-    test('post', () => {
-      const payload = {foo: 'foo'};
-      const response = {bar: 'bar'};
-      getResponseObjectStub.returns(Promise.resolve(response));
-      return plugin.post('/url', payload, r => {
-        assert.isTrue(sendStub.calledWith('POST', '/url', payload));
-        assert.strictEqual(r, response);
+      test('_send on failure without text rejects with code', () => {
+        sendStub.returns(Promise.resolve(
+            {status: 400, text() { return Promise.resolve(null); }}));
+        return plugin._send().catch(r => {
+          assert.equal(r, '400');
+        });
       });
-    });
 
-    test('history event', done => {
-      plugin.on(element.EventType.HISTORY, throwErrFn);
-      plugin.on(element.EventType.HISTORY, path => {
-        assert.equal(path, '/path/to/awesomesauce');
-        assert.isTrue(errorStub.calledOnce);
-        done();
+      test('get', () => {
+        const response = {foo: 'foo'};
+        getResponseObjectStub.returns(Promise.resolve(response));
+        return plugin.get('/url', r => {
+          assert.isTrue(sendStub.calledWith('GET', '/url'));
+          assert.strictEqual(r, response);
+        });
       });
-      element.handleEvent(element.EventType.HISTORY,
-          {path: '/path/to/awesomesauce'});
-    });
 
-    test('showchange event', done => {
-      const testChange = {
-        _number: 42,
-        revisions: {def: {_number: 2}, abc: {_number: 1}},
-      };
-      plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SHOW_CHANGE, (change, revision) => {
-        assert.deepEqual(change, testChange);
-        assert.deepEqual(revision, testChange.revisions.abc);
-        assert.isTrue(errorStub.calledOnce);
-        done();
+      test('get using Promise', () => {
+        const response = {foo: 'foo'};
+        getResponseObjectStub.returns(Promise.resolve(response));
+        return plugin.get('/url', r => 'rubbish').then(r => {
+          assert.isTrue(sendStub.calledWith('GET', '/url'));
+          assert.strictEqual(r, response);
+        });
       });
-      element.handleEvent(element.EventType.SHOW_CHANGE,
-          {change: testChange, patchNum: 1});
-    });
 
-    test('handleEvent awaits plugins load', done => {
-      const testChange = {
-        _number: 42,
-        revisions: {def: {_number: 2}, abc: {_number: 1}},
-      };
-      const spy = sandbox.spy();
-      Gerrit._setPluginsCount(1);
-      plugin.on(element.EventType.SHOW_CHANGE, spy);
-      element.handleEvent(element.EventType.SHOW_CHANGE,
-          {change: testChange, patchNum: 1});
-      assert.isFalse(spy.called);
-      Gerrit._setPluginsCount(0);
-      flush(() => {
-        assert.isTrue(spy.called);
-        done();
+      test('post', () => {
+        const payload = {foo: 'foo'};
+        const response = {bar: 'bar'};
+        getResponseObjectStub.returns(Promise.resolve(response));
+        return plugin.post('/url', payload, r => {
+          assert.isTrue(sendStub.calledWith('POST', '/url', payload));
+          assert.strictEqual(r, response);
+        });
       });
-    });
 
-    test('comment event', done => {
-      const testCommentNode = {foo: 'bar'};
-      plugin.on(element.EventType.COMMENT, throwErrFn);
-      plugin.on(element.EventType.COMMENT, commentNode => {
-        assert.deepEqual(commentNode, testCommentNode);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
-    });
-
-    test('revert event', () => {
-      function appendToRevertMsg(c, revertMsg, originalMsg) {
-        return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
-      }
-
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
-      assert.equal(errorStub.callCount, 0);
-
-      plugin.on(element.EventType.REVERT, throwErrFn);
-      plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-          'test\n> origTest\ninfo');
-      assert.isTrue(errorStub.calledOnce);
-
-      plugin.on(element.EventType.REVERT, appendToRevertMsg);
-      assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
-          'test\n> origTest\ninfo\n> origTest\ninfo');
-      assert.isTrue(errorStub.calledTwice);
-    });
-
-    test('postrevert event', () => {
-      function getLabels(c) {
-        return {'Code-Review': 1};
-      }
-
-      assert.deepEqual(element.getLabelValuesPostRevert(null), {});
-      assert.equal(errorStub.callCount, 0);
-
-      plugin.on(element.EventType.POST_REVERT, throwErrFn);
-      plugin.on(element.EventType.POST_REVERT, getLabels);
-      assert.deepEqual(
-          element.getLabelValuesPostRevert(null), {'Code-Review': 1});
-      assert.isTrue(errorStub.calledOnce);
-    });
-
-    test('commitmsgedit event', done => {
-      const testMsg = 'Test CL commit message';
-      plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
-      plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
-        assert.deepEqual(msg, testMsg);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleCommitMessage(null, testMsg);
-    });
-
-    test('labelchange event', done => {
-      const testChange = {_number: 42};
-      plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
-      plugin.on(element.EventType.LABEL_CHANGE, change => {
-        assert.deepEqual(change, testChange);
-        assert.isTrue(errorStub.calledOnce);
-        done();
-      });
-      element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
-    });
-
-    test('submitchange', () => {
-      plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
-      assert.isTrue(element.canSubmitChange());
-      assert.isTrue(errorStub.calledOnce);
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return false; });
-      plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
-      assert.isFalse(element.canSubmitChange());
-      assert.isTrue(errorStub.calledTwice);
-    });
-
-    test('versioning', () => {
-      const callback = sandbox.spy();
-      Gerrit.install(callback, '0.0pre-alpha');
-      assert(callback.notCalled);
-    });
-
-    test('getAccount', done => {
-      Gerrit.getLoggedIn().then(loggedIn => {
-        assert.isTrue(loggedIn);
-        done();
-      });
-    });
-
-    test('_setPluginsCount', done => {
-      stub('gr-reporting', {
-        pluginsLoaded() {
-          assert.equal(Gerrit._pluginsPending, 0);
+      test('history event', done => {
+        plugin.on(element.EventType.HISTORY, throwErrFn);
+        plugin.on(element.EventType.HISTORY, path => {
+          assert.equal(path, '/path/to/awesomesauce');
+          assert.isTrue(errorStub.calledOnce);
           done();
-        },
+        });
+        element.handleEvent(element.EventType.HISTORY,
+            {path: '/path/to/awesomesauce'});
       });
-      Gerrit._setPluginsCount(0);
-    });
 
-    test('_arePluginsLoaded', () => {
-      assert.isTrue(Gerrit._arePluginsLoaded());
-      Gerrit._setPluginsCount(1);
-      assert.isFalse(Gerrit._arePluginsLoaded());
-      Gerrit._setPluginsCount(0);
-      assert.isTrue(Gerrit._arePluginsLoaded());
-    });
-
-    test('_pluginInstalled', done => {
-      stub('gr-reporting', {
-        pluginsLoaded() {
-          assert.equal(Gerrit._pluginsPending, 0);
+      test('showchange event', done => {
+        const testChange = {
+          _number: 42,
+          revisions: {def: {_number: 2}, abc: {_number: 1}},
+        };
+        plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
+        plugin.on(element.EventType.SHOW_CHANGE, (change, revision) => {
+          assert.deepEqual(change, testChange);
+          assert.deepEqual(revision, testChange.revisions.abc);
+          assert.isTrue(errorStub.calledOnce);
           done();
-        },
+        });
+        element.handleEvent(element.EventType.SHOW_CHANGE,
+            {change: testChange, patchNum: 1});
       });
-      Gerrit._setPluginsCount(2);
-      Gerrit._pluginInstalled();
-      assert.equal(Gerrit._pluginsPending, 1);
-      Gerrit._pluginInstalled();
+
+      test('handleEvent awaits plugins load', done => {
+        const testChange = {
+          _number: 42,
+          revisions: {def: {_number: 2}, abc: {_number: 1}},
+        };
+        const spy = sandbox.spy();
+        Gerrit._setPluginsCount(1);
+        plugin.on(element.EventType.SHOW_CHANGE, spy);
+        element.handleEvent(element.EventType.SHOW_CHANGE,
+            {change: testChange, patchNum: 1});
+        assert.isFalse(spy.called);
+        Gerrit._setPluginsCount(0);
+        flush(() => {
+          assert.isTrue(spy.called);
+          done();
+        });
+      });
+
+      test('comment event', done => {
+        const testCommentNode = {foo: 'bar'};
+        plugin.on(element.EventType.COMMENT, throwErrFn);
+        plugin.on(element.EventType.COMMENT, commentNode => {
+          assert.deepEqual(commentNode, testCommentNode);
+          assert.isTrue(errorStub.calledOnce);
+          done();
+        });
+        element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
+      });
+
+      test('revert event', () => {
+        function appendToRevertMsg(c, revertMsg, originalMsg) {
+          return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
+        }
+
+        assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
+        assert.equal(errorStub.callCount, 0);
+
+        plugin.on(element.EventType.REVERT, throwErrFn);
+        plugin.on(element.EventType.REVERT, appendToRevertMsg);
+        assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+            'test\n> origTest\ninfo');
+        assert.isTrue(errorStub.calledOnce);
+
+        plugin.on(element.EventType.REVERT, appendToRevertMsg);
+        assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
+            'test\n> origTest\ninfo\n> origTest\ninfo');
+        assert.isTrue(errorStub.calledTwice);
+      });
+
+      test('postrevert event', () => {
+        function getLabels(c) {
+          return {'Code-Review': 1};
+        }
+
+        assert.deepEqual(element.getLabelValuesPostRevert(null), {});
+        assert.equal(errorStub.callCount, 0);
+
+        plugin.on(element.EventType.POST_REVERT, throwErrFn);
+        plugin.on(element.EventType.POST_REVERT, getLabels);
+        assert.deepEqual(
+            element.getLabelValuesPostRevert(null), {'Code-Review': 1});
+        assert.isTrue(errorStub.calledOnce);
+      });
+
+      test('commitmsgedit event', done => {
+        const testMsg = 'Test CL commit message';
+        plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
+        plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
+          assert.deepEqual(msg, testMsg);
+          assert.isTrue(errorStub.calledOnce);
+          done();
+        });
+        element.handleCommitMessage(null, testMsg);
+      });
+
+      test('labelchange event', done => {
+        const testChange = {_number: 42};
+        plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
+        plugin.on(element.EventType.LABEL_CHANGE, change => {
+          assert.deepEqual(change, testChange);
+          assert.isTrue(errorStub.calledOnce);
+          done();
+        });
+        element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
+      });
+
+      test('submitchange', () => {
+        plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
+        plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
+        assert.isTrue(element.canSubmitChange());
+        assert.isTrue(errorStub.calledOnce);
+        plugin.on(element.EventType.SUBMIT_CHANGE, () => { return false; });
+        plugin.on(element.EventType.SUBMIT_CHANGE, () => { return true; });
+        assert.isFalse(element.canSubmitChange());
+        assert.isTrue(errorStub.calledTwice);
+      });
+
+      test('versioning', () => {
+        const callback = sandbox.spy();
+        Gerrit.install(callback, '0.0pre-alpha');
+        assert(callback.notCalled);
+      });
+
+      test('getAccount', done => {
+        Gerrit.getLoggedIn().then(loggedIn => {
+          assert.isTrue(loggedIn);
+          done();
+        });
+      });
+
+      test('_setPluginsCount', done => {
+        stub('gr-reporting', {
+          pluginsLoaded() {
+            assert.equal(Gerrit._pluginsPending, 0);
+            done();
+          },
+        });
+        Gerrit._setPluginsCount(0);
+      });
+
+      test('_arePluginsLoaded', () => {
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        Gerrit._setPluginsCount(1);
+        assert.isFalse(Gerrit._arePluginsLoaded());
+        Gerrit._setPluginsCount(0);
+        assert.isTrue(Gerrit._arePluginsLoaded());
+      });
+
+      test('_pluginInstalled', done => {
+        stub('gr-reporting', {
+          pluginsLoaded() {
+            assert.equal(Gerrit._pluginsPending, 0);
+            done();
+          },
+        });
+        Gerrit._setPluginsCount(2);
+        Gerrit._pluginInstalled();
+        assert.equal(Gerrit._pluginsPending, 1);
+        Gerrit._pluginInstalled();
+      });
+
+      test('install calls _pluginInstalled', () => {
+        sandbox.stub(Gerrit, '_pluginInstalled');
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
+        assert.isTrue(Gerrit._pluginInstalled.calledOnce);
+      });
+
+      test('install calls _pluginInstalled on error', () => {
+        sandbox.stub(Gerrit, '_pluginInstalled');
+        Gerrit.install(() => {}, '0.0pre-alpha');
+        assert.isTrue(Gerrit._pluginInstalled.calledOnce);
+      });
+
+      test('installGwt calls _pluginInstalled', () => {
+        sandbox.stub(Gerrit, '_pluginInstalled');
+        Gerrit.installGwt();
+        assert.isTrue(Gerrit._pluginInstalled.calledOnce);
+      });
+
+      test('installGwt returns a stub object', () => {
+        const plugin = Gerrit.installGwt();
+        sandbox.stub(console, 'warn');
+        assert.isAbove(Object.keys(plugin).length, 0);
+        for (const name of Object.keys(plugin)) {
+          console.warn.reset();
+          plugin[name]();
+          assert.isTrue(console.warn.calledOnce);
+        }
+      });
     });
 
-    test('install calls _pluginInstalled', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
-    });
+    suite('tests with base url', () => {
+      setup(() => {
+        Gerrit._setPluginsCount(1);
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/r/plugins/testplugin/static/test.js');
+      });
 
-    test('install calls _pluginInstalled on error', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.install(() => {}, '0.0pre-alpha');
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
-    });
+      teardown(() => {
+        sandbox.restore();
+        element._removeEventCallbacks();
+        plugin = null;
+      });
 
-    test('installGwt calls _pluginInstalled', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.installGwt();
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
-    });
-
-    test('installGwt returns a stub object', () => {
-      const plugin = Gerrit.installGwt();
-      sandbox.stub(console, 'warn');
-      assert.isAbove(Object.keys(plugin).length, 0);
-      for (const name of Object.keys(plugin)) {
-        console.warn.reset();
-        plugin[name]();
-        assert.isTrue(console.warn.calledOnce);
-      }
+      test('url', () => {
+        assert.equal(plugin.url(), 'http://test.com/r/plugins/testplugin/');
+        assert.equal(plugin.url('/static/test.js'),
+            'http://test.com/r/plugins/testplugin/static/test.js');
+      });
     });
   });
 </script>

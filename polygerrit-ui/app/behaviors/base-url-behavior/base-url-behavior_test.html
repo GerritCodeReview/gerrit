@@ -65,24 +65,5 @@ limitations under the License.
     test('getBaseUrl', () => {
       assert.deepEqual(element.getBaseUrl(), '/r');
     });
-
-    test('computeGwtUrl', () => {
-      assert.deepEqual(
-          element.computeGwtUrl('/r/c/1/'),
-          '/r/?polygerrit=0#/c/1/'
-      );
-    });
-
-    test('computeGwtUrl for project dashboard', () => {
-      assert.deepEqual(
-          element.computeGwtUrl('/r/p/gerrit/proj/+/dashboard/main:default'),
-          '/r/?polygerrit=0#/projects/gerrit/proj,dashboards/main:default');
-    });
-
-    test('computeGwtUrl for project access', () => {
-      assert.deepEqual(
-          element.computeGwtUrl('/r/admin/repos/demo-project,access'),
-          '/r/?polygerrit=0#/admin/projects/demo-project,access');
-    });
   });
 </script>

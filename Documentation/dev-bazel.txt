@@ -15,8 +15,7 @@ To build Gerrit from source, you need:
 
 === Gerrit Development WAR File
 
-To build the Gerrit web application that includes the GWT UI and the
-PolyGerrit UI:
+To build the Gerrit web application:
 
 ----
   bazel build gerrit
@@ -35,8 +34,8 @@ The output executable WAR will be placed in:
 [[release]]
 === Gerrit Release WAR File
 
-To build the Gerrit web application that includes the GWT UI, the
-PolyGerrit UI, core plugins and documentation:
+To build the Gerrit web application that includes the PolyGerrit UI,
+core plugins and documentation:
 
 ----
   bazel build release
@@ -50,7 +49,7 @@ The output executable WAR will be placed in:
 
 === Headless Mode
 
-To build Gerrit in headless mode, i.e. without the GWT Web UI:
+To build Gerrit in headless mode, i.e. without the PolyGerrit UI:
 
 ----
   bazel build headless
@@ -64,7 +63,7 @@ The output executable WAR will be placed in:
 
 === Extension and Plugin API JAR Files
 
-To build the extension, plugin and GWT API JAR files:
+To build the extension, plugin and acceptance-framework JAR files:
 
 ----
   bazel build api
@@ -77,7 +76,8 @@ Java docs will be placed in:
   bazel-genfiles/api.zip
 ----
 
-Install {extension,plugin,gwt}-api to the local maven repository:
+Install {extension,plugin,acceptance-framework}-api to the local
+maven repository:
 
 ----
   tools/maven/api.sh install

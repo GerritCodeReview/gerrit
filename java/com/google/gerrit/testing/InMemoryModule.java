@@ -175,7 +175,7 @@ public class InMemoryModule extends FactoryModule {
     // Configs, only FileBasedConfig.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
-    bind(GerritOptions.class).toInstance(new GerritOptions(cfg, false, false, false));
+    bind(GerritOptions.class).toInstance(new GerritOptions(false, false, false));
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);

@@ -273,7 +273,6 @@ when coding:
     people from submitting actions more than once when operating
     on slow links.  If the action buttons are disabled, they cannot
     be resubmitted and the user can see that Gerrit is still busy.
-  * GWT EventBus is the new way forward.
   * ...and so is Guava (previously known as Google Collections).
 
 
@@ -332,21 +331,6 @@ patchsets to these branches, even if no new release is planned.
 Fixes that are known to be needed for a particular release should be pushed
 for review on that release's stable branch.  It will then be included in
 the master branch when the stable branch is merged back.
-
-=== Updating to new version of GWT
-
-When updating to a new version of GWT, there are several things that also need
-to be updated or at least checked.
-
-* Update common and plugin dependencies in `tools/gwt-constants.defs`.
-* Update to the same GWT version in the cookbook plugin and optionally in other
-plugins that have a dependency on GWT.
-* Update the GWT version in the archetype metadata in the
-`gerrit-plugin-gwt-archetype`.
-* Update the version of `gwt-maven-plugin` in the example pom.xml file in
-link:dev-plugins.html[dev-plugins].
-* Update to the same GWT version in the `gwtjsonrpc` project, and release a
-new version.
 
 === Finding starter projects to work on
 

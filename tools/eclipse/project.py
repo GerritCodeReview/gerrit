@@ -28,7 +28,6 @@ import re
 import sys
 
 MAIN = '//tools/eclipse:classpath'
-GWT = '//gerrit-gwtui:ui_module'
 AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
   'org.eclipse.jdt.launching.JRE_CONTAINER',
@@ -38,7 +37,6 @@ JRE = '/'.join([
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
   AUTO: '//tools/eclipse:autovalue_classpath_collect',
-  GWT: '//tools/eclipse:gwt_classpath_collect',
   MAIN: '//tools/eclipse:main_classpath_collect',
 }
 
@@ -168,11 +166,6 @@ def gen_classpath(ext):
         p = path.join(ext, p)
       lib.add(p)
 
-  for p in _query_classpath(GWT):
-    m = java_library.match(p)
-    if m:
-      gwt_src.add(m.group(1))
-
   for s in sorted(src):
     out = None
 
@@ -268,13 +261,8 @@ try:
   gen_factorypath(ext_location)
   gen_bazel_path()
 
-  # TODO(davido): Remove this when GWT gone
-  gwt_working_dir = ".gwt_work_dir"
-  if not path.isdir(gwt_working_dir):
-    makedirs(path.join(ROOT, gwt_working_dir))
-
   try:
-    check_call(['bazel', 'build', MAIN, GWT, '//gerrit-patch-jgit:libEdit-src.jar'])
+    check_call(['bazel', 'build', MAIN])
   except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:

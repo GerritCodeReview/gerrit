@@ -36,7 +36,7 @@ pkg_war(
     name = "release",
     context = ["//plugins:core"],
     doc = True,
-    ui = "ui_optdbg_r",
+    ui = "polygerrit",
 )
 
 pkg_war(
@@ -54,9 +54,6 @@ API_DEPS = [
     "//gerrit-plugin-api:plugin-api_deploy.jar",
     "//gerrit-plugin-api:plugin-api-sources_deploy.jar",
     "//gerrit-plugin-api:plugin-api-javadoc",
-    "//gerrit-plugin-gwtui:gwtui-api_deploy.jar",
-    "//gerrit-plugin-gwtui:gwtui-api-source_deploy.jar",
-    "//gerrit-plugin-gwtui:gwtui-api-javadoc",
 ]
 
 genrule2(

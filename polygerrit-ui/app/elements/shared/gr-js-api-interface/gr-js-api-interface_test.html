@@ -18,6 +18,10 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-api-interface</title>
 
+<script>
+  window.CANONICAL_PATH = '/r';
+</script>
+
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
@@ -61,7 +65,7 @@ limitations under the License.
       errorStub = sandbox.stub(console, 'error');
       Gerrit._setPluginsCount(1);
       Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+          'http://test.com/r/plugins/testplugin/static/test.js');
     });
 
     teardown(() => {
@@ -71,9 +75,9 @@ limitations under the License.
     });
 
     test('url', () => {
-      assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
+      assert.equal(plugin.url(), 'http://test.com/r/plugins/testplugin/');
       assert.equal(plugin.url('/static/test.js'),
-          'http://test.com/plugins/testplugin/static/test.js');
+          'http://test.com/r/plugins/testplugin/static/test.js');
     });
 
     test('_send on failure rejects with response text', () => {
@@ -291,7 +295,7 @@ limitations under the License.
     test('install calls _pluginInstalled', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+          'http://test.com/r/plugins/testplugin/static/test.js');
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 

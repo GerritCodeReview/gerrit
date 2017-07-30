@@ -28,13 +28,14 @@ BROWSERS = [
     "ie8",
     "ie9",
     "ie10",
+    "ie11",
     "edge",
 ]
 
 ALIASES = {
     "chrome": "safari",
     "firefox": "gecko1_8",
-    "msie": "ie10",
+    "msie": "ie11",
     "edge": "gecko1_8",
 }
 

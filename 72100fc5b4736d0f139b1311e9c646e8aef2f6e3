@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fee7890b_1e69e976",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-30T17:48:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e6a020e4_e5931f3e",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 46
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8987e36d_3f7ca667",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
         "patchSetId": 19
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3e4dca7c_6dbd5eca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-30T17:48:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8987e36d_3f7ca667",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b946d7e_b6b88e9b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
         "patchSetId": 19
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-30T17:23:21Z",
       "side": 1,
       "message": "moveChangeMessage(), this has nothing to do with commit message.",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1638808b_703de1b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-30T17:48:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0b946d7e_b6b88e9b",
       "range": {
         "startLine": 38,
         "startChar": 30,

@@ -53,6 +53,75 @@
       "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c814ab7_4c99d05d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T08:30:03Z",
+      "side": 1,
+      "message": "Just noteDbBatchUpdateFactory.",
+      "range": {
+        "startLine": 107,
+        "startChar": 52,
+        "endLine": 107,
+        "endChar": 81
+      },
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8626ebed_a6d35c13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T08:30:03Z",
+      "side": 1,
+      "message": "This should be called just noteDbBatchUpdateFactory. Fused/unfused belongs to the past. Now it is always fused, as it was set unconditionally with setPerformsAtomicTransactions(true) in all code paths.",
+      "range": {
+        "startLine": 54,
+        "startChar": 40,
+        "endLine": 54,
+        "endChar": 69
+      },
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ace408fb_1b5d5547",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T08:30:03Z",
+      "side": 1,
+      "message": "There is still one place left in GerritServer.init() in place:\n\n  assume()\n        .withMessage(\"FUSED mode not yet supported for on-disk sites\")\n        .that(NoteDbMode.get())\n        .isNotEqualTo(NoteDbMode.FUSED);\n\nhat effectively disables all test ran with: --test_env\u003dGERRIT_NOTEDB\u003dFUSED.\n\nI think this is Bazel UI-bug, that the assumption violation isn\u0027t reflected on the Bazel-UI. IIRC, Buck was reporting something like \"with ASSUMPTION violation\": [1].\n\nAt least the explanation is not valid any more and should be adjusted. This raises the question whether or not we can already now run all tests with local disk enabled and the notedb mode FUSED.\n\nI tried it here by removing the assumption in GerritServer.init() mentioned above and hard coding the return value in GerritServer.forceLocalDisk():\n\n  private static boolean forceLocalDisk() {\n    return true;\n  }\n\nAnd hard coding NoteDbMode.get() to be:\n\n  public static NoteDbMode get() {\n    //String value \u003d System.getenv(ENV_VAR);\n    String value \u003d \"FUSED\";\n    [...]\n\nNow, surprisingly, the ChangeEditIT tests (ran from eclipse) were failing with: [1]. This failures looks to me like connection pool was exhausted. Checking, reveals, that the formula was producing:\n\n  int defaultDatabasePoolLimit \u003d sshdThreads + httpdMaxThreads + 2;\n\nconnection pool equals to 28. I tweaked it to be:\n\n  int defaultDatabasePoolLimit \u003d sshdThreads + httpdMaxThreads + 256;\n\nan now the tests were successful.\n\n* [1] http://paste.openstack.org/show/616938\n* [2] http://paste.openstack.org/show/616937",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

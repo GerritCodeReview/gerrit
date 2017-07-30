@@ -6,11 +6,11 @@ load(
     "GWT_PLUGIN_DEPS",
     "GWT_PLUGIN_DEPS_NEVERLINK",
     "GWT_TRANSITIVE_DEPS",
-    "PLUGIN_DEPS_NEVERLINK",
     "gwt_binary",
 )
 
 PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
+PLUGIN_DEPS_NEVERLINK = ["//gerrit-plugin-api:lib-neverlink"]
 
 PLUGIN_TEST_DEPS = [
     "//gerrit-acceptance-framework:lib",

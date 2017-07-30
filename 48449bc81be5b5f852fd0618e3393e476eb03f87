@@ -122,6 +122,30 @@
       "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca7fb781_be4e69c9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T09:32:28Z",
+      "side": 1,
+      "message": "\u003e There is still one place left in GerritServer.init() in place:\n \u003e \n \u003e assume()\n \u003e .withMessage(\"FUSED mode not yet supported for on-disk sites\")\n \u003e .that(NoteDbMode.get())\n \u003e .isNotEqualTo(NoteDbMode.FUSED);\n \u003e \n \u003e hat effectively disables all test ran with: --test_env\u003dGERRIT_NOTEDB\u003dFUSED.\n \u003e \n \u003e I think this is Bazel UI-bug, that the assumption violation isn\u0027t\n \u003e reflected on the Bazel-UI. IIRC, Buck was reporting something like\n \u003e \"with ASSUMPTION violation\": [1].\n\nI just reported this issue upstream: [3].\n\n* [3] https://github.com/bazelbuild/bazel/issues/3476",
+      "parentUuid": "ace408fb_1b5d5547",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "48449bc81be5b5f852fd0618e3393e476eb03f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

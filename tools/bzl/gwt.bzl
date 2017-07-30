@@ -52,10 +52,6 @@ GWT_COMPILER_ARGS_RELEASE_MODE = GWT_COMPILER_ARGS + [
     "-XdisableCastChecking",
 ]
 
-PLUGIN_DEPS_NEVERLINK = [
-    "//gerrit-plugin-api:lib-neverlink",
-]
-
 GWT_PLUGIN_DEPS_NEVERLINK = [
     "//gerrit-plugin-gwtui:gwtui-api-lib-neverlink",
     "//lib/gwt:user-neverlink",

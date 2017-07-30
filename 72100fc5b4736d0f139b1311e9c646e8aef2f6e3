@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6a020e4_e5931f3e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T17:23:21Z",
+      "side": 1,
+      "message": "Why you called it commit message? It\u0027s not. It\u0027s an optional change message, where the user can explain, why it\u0027s moved. The commit message is not changed (at least for now).",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 46
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8987e36d_3f7ca667",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T17:23:21Z",
+      "side": 1,
+      "message": "You missed to rename the send button. It\u0027s called \"Submit\", but should be called: \"Move Change\".\n\nJust define yet another constant, and init it here, like it\u0027s done in CherryPick Dialog:\n\n  class MoveAction {\n  static void call(Button b, ChangeInfo info, Project.NameKey project) {\n    b.setEnabled(false);\n    new MoveDialog(project) {\n      {\n      \n sendButton.setText(Util.C.moveChangeSend());\n      }\n\n      @Override\n      public void onSend() {\n      [...]",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b946d7e_b6b88e9b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/MoveDialog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-30T17:23:21Z",
+      "side": 1,
+      "message": "moveChangeMessage(), this has nothing to do with commit message.",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "72100fc5b4736d0f139b1311e9c646e8aef2f6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

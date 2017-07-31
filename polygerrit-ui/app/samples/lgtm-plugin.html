@@ -1,7 +1,14 @@
 <dom-module id="lgtm-plugin">
   <script>
     Gerrit.install(plugin => {
-      const replyApi = plugin.changeReply();
+        plugin.getDomHook('reply-text').onAttached(element => {
+            if (!element.content) { return; }
+            plugin.attributeHelper(element.content)
+                  .get('change')
+                  .then(change => {
+                  });
+        });
+        const replyApi = plugin.changeReply();
       replyApi.addReplyTextChangedCallback(text => {
         const label = 'Code-Review';
         const labelValue = replyApi.getLabelValue(label);

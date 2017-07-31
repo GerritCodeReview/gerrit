@@ -154,6 +154,10 @@
     return new GrThemeApi(this);
   };
 
+  Plugin.prototype.attributeHelper = function(element) {
+    return new GrAttributeHelper(element);
+  };
+
   Plugin.prototype.getDomHook = function(endpointName, opt_options) {
     const hook = this._domHooks.getDomHook(endpointName);
     const moduleName = hook.getModuleName();

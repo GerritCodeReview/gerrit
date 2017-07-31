@@ -1182,7 +1182,7 @@ Limit the number of branches to be included in the results.
   ]
 ----
 
-Skip(s)::
+Skip(S)::
 Skip the given number of branches from the beginning of the list.
 +
 .Request
@@ -1860,7 +1860,7 @@ Limit the number of tags to be included in the results.
   ]
 ----
 
-Skip(s)::
+Skip(S)::
 Skip the given number of tags from the beginning of the list.
 +
 .Request

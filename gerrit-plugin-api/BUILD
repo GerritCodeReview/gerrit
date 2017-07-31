@@ -20,6 +20,7 @@ EXPORTS = [
     "//gerrit-gwtexpui:server",
     "//gerrit-reviewdb:server",
     "//gerrit-server:prolog-common",
+    "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",
     "//lib/dropwizard:dropwizard-core",

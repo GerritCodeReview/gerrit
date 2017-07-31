@@ -133,7 +133,7 @@
       'c': '_handleCKey',
       '[': '_handleLeftBracketKey',
       ']': '_handleRightBracketKey',
-      'o': '_handleOKey',
+      'o enter': '_handleOKey',
       'n': '_handleNKey',
       'p': '_handlePKey',
       'r': '_handleRKey',

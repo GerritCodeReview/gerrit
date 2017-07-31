@@ -660,7 +660,7 @@
 
       return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/branches` +
-          `?n=${projectsBranchesPerPage + 1}&s=${offset}` +
+          `?n=${projectsBranchesPerPage + 1}&S=${offset}` +
           this._computeFilter(filter)
       );
     },
@@ -670,7 +670,7 @@
 
       return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/tags` +
-          `?n=${projectsTagsPerPage + 1}&s=${offset}` +
+          `?n=${projectsTagsPerPage + 1}&S=${offset}` +
           this._computeFilter(filter)
       );
     },

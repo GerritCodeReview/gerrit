@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba587397_8cd56d47",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:48:05Z",
+      "side": 1,
+      "message": "After I publish an edit, it seems like I cannot diff-against the patch set it\u0027s based on.",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 64
+      },
+      "revId": "184bb2309c8af90e42cfb62b63d24739d7eff116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

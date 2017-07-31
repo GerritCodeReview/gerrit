@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "917ae432_994c627b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-31T20:47:02Z",
+      "side": 1,
+      "message": "Please add tests.",
+      "revId": "7cbce938b4739dcb4aa7516ca448af112f0d8cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

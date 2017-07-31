@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4999f396_4a78ec5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-07-31T17:41:24Z",
+      "side": 1,
+      "message": "This assumption was made without respect for CANONICAL_PATH.",
+      "revId": "b3a9bdede602cbffa85a4ebf79595fcf482232d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

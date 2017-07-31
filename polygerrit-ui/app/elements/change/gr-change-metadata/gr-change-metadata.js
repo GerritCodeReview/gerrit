@@ -288,5 +288,30 @@
     _computeIsWip(change) {
       return !!change.work_in_progress;
     },
+
+    _changeRevisionUploader(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision]) {
+        return false;
+      }
+      const rev = change.revisions[change.current_revision];
+      if (!rev || !rev.uploader) {
+        return false;
+      }
+      if (change.owner.name === rev.uploader.name) {
+        return false;
+      }
+      return true;
+    },
+
+    _computeUploader(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision]) {
+        return false;
+      }
+      const rev = change.revisions[change.current_revision];
+      if (!rev || !rev.uploader) { return ''; }
+      return rev.uploader;
+    },
   });
 })();

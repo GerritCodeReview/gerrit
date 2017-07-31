@@ -30,10 +30,11 @@
 
   const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
+    this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
 
@@ -336,14 +337,14 @@
   };
 
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, projectConfig, range) {
+      patchNum, path, isOnParent, range) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
-    threadGroupEl.projectConfig = projectConfig;
+    threadGroupEl.projectName = this._projectName;
     threadGroupEl.range = range;
     return threadGroupEl;
   };
@@ -370,8 +371,7 @@
         this._comments.meta.changeNum,
         patchNum,
         this._comments.meta.path,
-        isOnParent,
-        this._comments.meta.projectConfig);
+        isOnParent);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);

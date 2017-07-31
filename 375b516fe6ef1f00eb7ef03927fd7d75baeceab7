@@ -46,6 +46,30 @@
       "revId": "375b516fe6ef1f00eb7ef03927fd7d75baeceab7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbb40d0a_355d7696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-07-31T07:25:59Z",
+      "side": 1,
+      "message": "Don\u0027t know if there is any other client using this API. Maybe it\u0027s okay to change this. Should it be mentioned in the commit message that that it may break existing clients and why we think it\u0027s still okay to change?",
+      "parentUuid": "7d7a6888_7eac9fb8",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "375b516fe6ef1f00eb7ef03927fd7d75baeceab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

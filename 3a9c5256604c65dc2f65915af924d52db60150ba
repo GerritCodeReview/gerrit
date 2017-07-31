@@ -16,6 +16,24 @@
       "revId": "3a9c5256604c65dc2f65915af924d52db60150ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "501b99af_7adb8db1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T21:39:12Z",
+      "side": 1,
+      "message": "I only moved the changes by 2 more spaces to be able to do prefixed and non prefixed urls.",
+      "parentUuid": "f1841bb4_1796e1b7",
+      "revId": "3a9c5256604c65dc2f65915af924d52db60150ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

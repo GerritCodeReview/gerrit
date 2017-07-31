@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
@@ -37,10 +38,15 @@ import org.junit.Test;
 
 @NoHttpd
 public class PluginIT extends AbstractDaemonTest {
-  private static final byte[] JS_PLUGIN_CONTENT =
-      "Gerrit.install(function(self){});\n".getBytes(UTF_8);
+  private static final String JS_PLUGIN = "Gerrit.install(function(self){});\n";
+  private static final String HTML_PLUGIN =
+      String.format("<dom-module id=\"test\"><script>%s</script></dom-module>", JS_PLUGIN);
+  private static final RawInput JS_PLUGIN_CONTENT = RawInputUtil.create(JS_PLUGIN.getBytes(UTF_8));
+  private static final RawInput HTML_PLUGIN_CONTENT =
+      RawInputUtil.create(HTML_PLUGIN.getBytes(UTF_8));
+
   private static final List<String> PLUGINS =
-      ImmutableList.of("plugin-a", "plugin-b", "plugin-c", "plugin-d");
+      ImmutableList.of("plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html");
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
@@ -52,13 +58,14 @@ public class PluginIT extends AbstractDaemonTest {
     PluginApi api;
     // Install all the plugins
     InstallPluginInput input = new InstallPluginInput();
-    input.raw = RawInputUtil.create(JS_PLUGIN_CONTENT);
     for (String plugin : PLUGINS) {
-      api = gApi.plugins().install(plugin + ".js", input);
+      input.raw = plugin.endsWith(".js") ? JS_PLUGIN_CONTENT : HTML_PLUGIN_CONTENT;
+      api = gApi.plugins().install(plugin, input);
       assertThat(api).isNotNull();
       PluginInfo info = api.get();
-      assertThat(info.id).isEqualTo(plugin);
-      assertThat(info.indexUrl).isEqualTo(String.format("plugins/%s/", plugin));
+      String name = pluginName(plugin);
+      assertThat(info.id).isEqualTo(name);
+      assertThat(info.indexUrl).isEqualTo(String.format("plugins/%s/", name));
       assertThat(info.disabled).isNull();
     }
     assertPlugins(list().get(), PLUGINS);
@@ -67,7 +74,7 @@ public class PluginIT extends AbstractDaemonTest {
     assertPlugins(list().start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // With prefix
-    assertPlugins(list().prefix("plugin-b").get(), ImmutableList.of("plugin-b"));
+    assertPlugins(list().prefix("plugin-b").get(), ImmutableList.of("plugin-b.html"));
     assertPlugins(list().prefix("PLUGIN-").get(), ImmutableList.of());
 
     // With substring
@@ -75,7 +82,7 @@ public class PluginIT extends AbstractDaemonTest {
     assertPlugins(list().substring("lugin-").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // With regex
-    assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b"));
+    assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b.html"));
     assertPlugins(list().regex("plugin-.*").get(), PLUGINS);
     assertPlugins(list().regex("plugin-.*").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
@@ -118,7 +125,14 @@ public class PluginIT extends AbstractDaemonTest {
 
   private void assertPlugins(List<PluginInfo> actual, List<String> expected) {
     List<String> _actual = actual.stream().map(p -> p.id).collect(toList());
-    assertThat(_actual).containsExactlyElementsIn(expected);
+    List<String> _expected = expected.stream().map(p -> pluginName(p)).collect(toList());
+    assertThat(_actual).containsExactlyElementsIn(_expected);
+  }
+
+  private String pluginName(String plugin) {
+    int dot = plugin.indexOf(".");
+    assertThat(dot).isGreaterThan(0);
+    return plugin.substring(0, dot);
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

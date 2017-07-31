@@ -539,9 +539,6 @@ public class ChangeJson {
     }
 
     out.labels = labelsFor(perm, ctl, cd, has(LABELS), has(DETAILED_LABELS));
-    out.submitted = getSubmittedOn(cd);
-    out.plugins =
-        pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
@@ -558,6 +555,10 @@ public class ChangeJson {
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(ctl, out);
     }
+
+    out.submitted = getSubmittedOn(cd);
+    out.plugins =
+        pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);
@@ -652,13 +653,13 @@ public class ChangeJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
-        cd.change().getStatus().isOpen()
-            ? labelsForOpenChange(perm, cd, labelTypes, standard, detailed)
-            : labelsForClosedChange(perm, cd, labelTypes, standard, detailed);
+        cd.change().getStatus() == Change.Status.MERGED
+            ? labelsForUnsubmittedChange(perm, cd, labelTypes, standard, detailed)
+            : labelsForSubmittedChange(perm, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
-  private Map<String, LabelWithStatus> labelsForOpenChange(
+  private Map<String, LabelWithStatus> labelsForUnsubmittedChange(
       PermissionBackend.ForChange perm,
       ChangeData cd,
       LabelTypes labelTypes,
@@ -854,7 +855,7 @@ public class ChangeJson {
     return s.isPresent() ? s.get().getGranted() : null;
   }
 
-  private Map<String, LabelWithStatus> labelsForClosedChange(
+  private Map<String, LabelWithStatus> labelsForSubmittedChange(
       PermissionBackend.ForChange basePerm,
       ChangeData cd,
       LabelTypes labelTypes,
@@ -886,32 +887,22 @@ public class ChangeJson {
       }
     }
 
+    // Since voting on merged changes is allowed all labels which apply to
+    // the change must be returned. All applying labels can be retrieved from
+    // the submit records, which is what initLabels does.
+    // It's not possible to only compute the labels based on the approvals
+    // since merged changes may not have approvals for all labels (e.g. if not
+    // all labels are required for submit or if the change was auto-closed due
+    // to direct push or if new labels were defined after the change was
+    // merged).
     Map<String, LabelWithStatus> labels;
-    if (cd.change().getStatus() == Change.Status.MERGED) {
-      // Since voting on merged changes is allowed all labels which apply to
-      // the change must be returned. All applying labels can be retrieved from
-      // the submit records, which is what initLabels does.
-      // It's not possible to only compute the labels based on the approvals
-      // since merged changes may not have approvals for all labels (e.g. if not
-      // all labels are required for submit or if the change was auto-closed due
-      // to direct push or if new labels were defined after the change was
-      // merged).
-      labels = initLabels(cd, labelTypes, standard);
+    labels = initLabels(cd, labelTypes, standard);
 
-      // Also include all labels for which approvals exists. E.g. there can be
-      // approvals for labels that are ignored by a Prolog submit rule and hence
-      // it wouldn't be included in the submit records.
-      for (String name : labelNames) {
-        if (!labels.containsKey(name)) {
-          labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
-        }
-      }
-    } else {
-      // For abandoned changes return only labels for which approvals exist.
-      // Other labels are not needed since voting on abandoned changes is not
-      // allowed.
-      labels = new TreeMap<>(labelTypes.nameComparator());
-      for (String name : labelNames) {
+    // Also include all labels for which approvals exists. E.g. there can be
+    // approvals for labels that are ignored by a Prolog submit rule and hence
+    // it wouldn't be included in the submit records.
+    for (String name : labelNames) {
+      if (!labels.containsKey(name)) {
         labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
       }
     }

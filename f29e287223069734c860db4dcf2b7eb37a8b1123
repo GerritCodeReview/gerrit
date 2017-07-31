@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "123a13be_57bc9b69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-31T04:04:53Z",
+      "side": 1,
+      "message": "You already saying this in the prefix: \"PolyGerrit\". So no, reason to repeat it, check this commit message: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/115311/",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "f29e287223069734c860db4dcf2b7eb37a8b1123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9692a6b_62993d37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-31T04:04:53Z",
+      "side": 1,
+      "message": "hashtag",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "f29e287223069734c860db4dcf2b7eb37a8b1123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

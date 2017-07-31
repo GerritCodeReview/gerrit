@@ -757,6 +757,8 @@ public class ExternalIdsUpdate {
       case NOT_ATTEMPTED:
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
       default:
         throw new IOException("Updating external IDs failed with " + res);
     }

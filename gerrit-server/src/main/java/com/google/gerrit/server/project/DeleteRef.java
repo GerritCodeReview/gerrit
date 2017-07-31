@@ -169,6 +169,8 @@ public class DeleteRef {
       case NOT_ATTEMPTED:
       case REJECTED:
       case RENAMED:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
       default:
         log.error("Cannot delete " + ref + ": " + result.name());
         throw new ResourceConflictException("cannot delete: " + result.name());

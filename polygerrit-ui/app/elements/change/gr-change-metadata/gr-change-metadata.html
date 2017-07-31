@@ -30,6 +30,9 @@ limitations under the License.
 <dom-module id="gr-change-metadata">
   <template>
     <style include="shared-styles">
+      .hideDisplay {
+        display: none;
+      }
       section:not(:first-of-type) {
         margin-top: 1em;
       }
@@ -135,6 +138,13 @@ limitations under the License.
         <span class="title">Owner</span>
         <span class="value">
           <gr-account-link account="[[change.owner]]"></gr-account-link>
+        </span>
+      </section>
+      <section class$="[[_computeShowUploaderHide(change)]]">
+        <span class="title">Uploader</span>
+        <span class="value">
+          <gr-account-link
+              account="[[_computeShowUploader(change)]]"></gr-account-link>
         </span>
       </section>
       <section class="assignee">

@@ -332,5 +332,37 @@
     _computeIsWip(change) {
       return !!change.work_in_progress;
     },
+
+    _computeShowUploaderHide(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision]) {
+        return 'hideDisplay';
+      }
+
+      const rev = change.revisions[change.current_revision];
+
+      if (!rev || !rev.uploader ||
+         change.owner._account_id === rev.uploader._account_id) {
+        return 'hideDisplay';
+      }
+
+      return '';
+    },
+
+    _computeShowUploader(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision]) {
+        return '';
+      }
+
+      const rev = change.revisions[change.current_revision];
+
+      if (!rev || !rev.uploader ||
+         change.owner._account_id === rev.uploader._account_id) {
+        return '';
+      }
+
+      return rev.uploader;
+    },
   });
 })();

@@ -94,6 +94,7 @@ limitations under the License.
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
+          projectName: String,
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -219,9 +220,9 @@ limitations under the License.
         },
 
         createCommentThreadGroup(changeNum, patchNum, path,
-            isOnParent, commentSide, projectConfig) {
+            isOnParent, commentSide) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, isOnParent, commentSide, projectConfig);
+              path, isOnParent, commentSide);
         },
 
         emitGroup(group, sectionEl) {
@@ -252,13 +253,14 @@ limitations under the License.
         _getDiffBuilder(diff, comments, prefs) {
           if (this.isImageDiff) {
             return new GrDiffBuilderImage(diff, comments, prefs,
-            this.diffElement, this.baseImage, this.revisionImage);
+                this.projectName, this.diffElement, this.baseImage,
+                this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            return new GrDiffBuilderSideBySide(
-            diff, comments, prefs, this.diffElement, this._layers);
+            return new GrDiffBuilderSideBySide(diff, comments, prefs,
+                this.projectName, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            return new GrDiffBuilderUnified(
-            diff, comments, prefs, this.diffElement, this._layers);
+            return new GrDiffBuilderUnified(diff, comments, prefs,
+                this.projectName, this.diffElement, this._layers);
           }
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },

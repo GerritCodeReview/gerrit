@@ -19,9 +19,10 @@
 
   const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
 
-  function GrDiffBuilderImage(diff, comments, prefs, outputEl, baseImage,
-      revisionImage) {
-    GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl, []);
+  function GrDiffBuilderImage(
+      diff, comments, prefs, projectName, outputEl, baseImage, revisionImage) {
+    GrDiffBuilderSideBySide.call(
+        this, diff, comments, prefs, projectName, outputEl, []);
     this._baseImage = baseImage;
     this._revisionImage = revisionImage;
   }

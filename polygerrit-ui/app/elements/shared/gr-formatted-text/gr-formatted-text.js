@@ -60,7 +60,7 @@
       // request for it still being in flight), set the content anyway to
       // prevent waiting on the config to display the text.
       if (this.config) { return; }
-      this.$.container.textContent = content;
+      this._contentOrConfigChanged(content);
     },
 
     /**

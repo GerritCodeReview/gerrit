@@ -58,6 +58,7 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
+      projectName: String,
       displayLine: {
         type: Boolean,
         value: false,
@@ -309,8 +310,7 @@
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent,
-            this.projectConfig);
+            this.changeNum, patchNum, this.path, isOnParent);
         contentEl.appendChild(threadGroupEl);
       }
 

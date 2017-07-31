@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7293baa4_e20dea1f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T17:55:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "77fffe52_a2c2ae40",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 44
+      },
+      "revId": "af88595cdfe6b01cb3f5fae8dcbb9ab7ae60ad63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55433e75_8a44699e",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0e8dfba1_e6990ea3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T17:55:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "55433e75_8a44699e",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "af88595cdfe6b01cb3f5fae8dcbb9ab7ae60ad63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7189b5cc_fd73a26d",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-31T17:35:31Z",
       "side": 1,
       "message": "We should redirect to login if not logged in in these cases.",
+      "range": {
+        "startLine": 287,
+        "startChar": 2,
+        "endLine": 324,
+        "endChar": 0
+      },
+      "revId": "af88595cdfe6b01cb3f5fae8dcbb9ab7ae60ad63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b12b88_06c167fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T17:55:59Z",
+      "side": 1,
+      "message": "ah right. Woops forgot that part. Thanks, done.",
+      "parentUuid": "7189b5cc_fd73a26d",
       "range": {
         "startLine": 287,
         "startChar": 2,

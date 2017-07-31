@@ -183,7 +183,12 @@ limitations under the License.
 
       setup(() => {
         reporter = sandbox.stub(GrReporting.prototype, 'reporter');
-        fakeWindow = {};
+        fakeWindow = {
+          handlers: {},
+          addEventListener(type, handler) {
+            this.handlers[type] = handler;
+          },
+        };
         sandbox.stub(console, 'error');
         window.GrReporting._catchErrors(fakeWindow);
       });
@@ -203,6 +208,15 @@ limitations under the License.
 
       test('prevent default event handler', () => {
         assert.isTrue(emulateThrow());
+      });
+
+      test('unhandled rejection', () => {
+        fakeWindow.handlers['unhandledrejection']({
+          reason: {
+            message: 'bar',
+          },
+        });
+        assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
       });
     });
   });

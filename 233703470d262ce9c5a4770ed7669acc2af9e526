@@ -16,6 +16,24 @@
       "revId": "233703470d262ce9c5a4770ed7669acc2af9e526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a041b9_a4b3b4b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-07-31T21:26:16Z",
+      "side": 1,
+      "message": "Because a non-null message string still needs to be passed to the email constructor. When I realized that, I also realized we needed to indicate review starting in the message anyway, so I left this condition intact.",
+      "parentUuid": "5fadb7da_40efc033",
+      "revId": "233703470d262ce9c5a4770ed7669acc2af9e526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

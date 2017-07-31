@@ -343,5 +343,25 @@
     _computeIsWip(change) {
       return !!change.work_in_progress;
     },
+
+    _computeShowUploaderHide(change) {
+      return this._computeShowUploader(change) ? '' : 'hideDisplay';
+    },
+
+    _computeShowUploader(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision]) {
+        return null;
+      }
+
+      const rev = change.revisions[change.current_revision];
+
+      if (!rev || !rev.uploader ||
+         change.owner._account_id === rev.uploader._account_id) {
+        return null;
+      }
+
+      return rev.uploader;
+    },
   });
 })();

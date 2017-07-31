@@ -390,8 +390,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
     Repository repo = repoView.getRepository();
     checkState(
         repo.getRefDatabase().performsAtomicTransactions(),
-        "cannot use noteDb.changes.fuseUpdates=true with a repository that does not support atomic"
-            + " batch ref updates: %s",
+        "cannot use NoteDb with a repository that does not support atomic batch ref updates: %s",
         repo);
 
     ChangesHandle handle =

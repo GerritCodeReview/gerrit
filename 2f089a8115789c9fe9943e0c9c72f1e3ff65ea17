@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c88a13e_e63b1066",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-31T06:13:17Z",
+      "side": 1,
+      "message": "The problem is caused by this.  If the plugin has \".html\" extension it returns -1 and then we get the string index out of bounds exception from substring.",
+      "range": {
+        "startLine": 44,
+        "startChar": 58,
+        "endLine": 44,
+        "endChar": 76
+      },
+      "revId": "2f089a8115789c9fe9943e0c9c72f1e3ff65ea17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

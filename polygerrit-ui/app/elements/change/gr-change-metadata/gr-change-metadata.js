@@ -288,5 +288,22 @@
     _computeIsWip(change) {
       return !!change.work_in_progress;
     },
+
+    _changeRevisionUploader(change) {
+      const rev = change.revisions[change.current_revision];
+      if (!rev || !rev.uploader) {
+        return false;
+      }
+      if (change.owner === rev.uploader) {
+        return false;
+      }
+      return true;
+    },
+
+    _computeUploader(change) {
+      const rev = change.revisions[change.current_revision];
+      if (!rev || !rev.uploader) { return ''; }
+      return rev.uploader;
+    },
   });
 })();

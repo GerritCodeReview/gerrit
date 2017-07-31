@@ -163,7 +163,9 @@
     },
 
     _computeLabelShortcut(labelName) {
-      return labelName.replace(/[a-z-]/g, '');
+      return labelName.split('-').reduce(function (a, i) {
+	return a + i[0].toUpperCase();
+      }, '');
     },
 
     _changesChanged(changes) {

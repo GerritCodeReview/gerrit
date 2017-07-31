@@ -40,7 +40,10 @@
       commentSide: String,
       patchNum: String,
       path: String,
-      projectConfig: Object,
+      projectName: {
+        type: String,
+        observer: '_projectNameChanged',
+      },
       isOnParent: {
         type: Boolean,
         value: false,
@@ -53,6 +56,7 @@
         type: Boolean,
         notify: true,
       },
+      _projectConfig: Object,
     },
 
     behaviors: [
@@ -351,6 +355,17 @@
 
     _computeHostClass(unresolved) {
       return unresolved ? 'unresolved' : '';
+    },
+
+    /**
+     * Load the project config when a project name has been provided.
+     * @param {string} name The project name.
+     */
+    _projectNameChanged(name) {
+      if (!name) { return; }
+      this.$.restAPI.getProjectConfig(name).then(config => {
+        this._projectConfig = config;
+      });
     },
   });
 })();

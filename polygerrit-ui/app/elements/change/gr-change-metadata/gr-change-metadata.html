@@ -137,6 +137,15 @@ limitations under the License.
           <gr-account-link account="[[change.owner]]"></gr-account-link>
         </span>
       </section>
+      <template is="dom-if" if="[[_computeShowUploader(change)]]">
+        <section>
+          <span class="title">Uploader</span>
+          <span class="value">
+            <gr-account-link
+                account="[[_computeShowUploader(change)]]"></gr-account-link>
+          </span>
+        </section>
+      </template>
       <section class="assignee">
         <span class="title">Assignee</span>
         <span class="value">

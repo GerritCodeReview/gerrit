@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c5430ce_92c362e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-31T13:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75180025_af2897ce",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "2d92d3659afa06f68326f62d002500376a586f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b95b48b7_c5d09f1d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dc8d27d5_001755be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-31T13:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b95b48b7_c5d09f1d",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "2d92d3659afa06f68326f62d002500376a586f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9d2ede2_aea925ab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PrivateByDefaultIT.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-07-31T12:32:21Z",
       "side": 1,
       "message": "Instead of using a test suite which executes all 4 test twice (once with change.privateByDefault \u003d true and once with change.privateByDefault \u003d false) and then skipping 2 of the tests because their assumption is not fulfilled, just use @GerritConfig annotations on the test methods to set change.privateByDefault to what the test expects.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "2d92d3659afa06f68326f62d002500376a586f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d328036_c02d7334",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PrivateByDefaultIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-31T13:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9d2ede2_aea925ab",
       "range": {
         "startLine": 28,
         "startChar": 1,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1dccab10_619ed9be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-31T13:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579cc2f1_4d3c6d20",
+      "range": {
+        "startLine": 263,
+        "startChar": 21,
+        "endLine": 263,
+        "endChar": 37
+      },
+      "revId": "2d92d3659afa06f68326f62d002500376a586f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0b6ba2_de223a88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -128,6 +224,30 @@
       "writtenOn": "2017-07-31T12:32:21Z",
       "side": 1,
       "message": "With this code you will always get a private change when receiveConfig.privateByDefault is set to true. Shouldn\u0027t there be a possibility to overrule the default? If not, the parameter should be renamed to \"enforcePrivate\" or similar.",
+      "range": {
+        "startLine": 2180,
+        "startChar": 26,
+        "endLine": 2180,
+        "endChar": 81
+      },
+      "revId": "2d92d3659afa06f68326f62d002500376a586f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e105376d_3de78333",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-07-31T13:54:47Z",
+      "side": 1,
+      "message": "I think allow users to bypass this could be a better solution.",
+      "parentUuid": "0d0b6ba2_de223a88",
       "range": {
         "startLine": 2180,
         "startChar": 26,

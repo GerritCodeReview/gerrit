@@ -165,6 +165,52 @@ limitations under the License.
       assert.isTrue(showMissingSpy.called);
     });
 
+    test('test for uploader', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeShowUploader(change), {_account_id: 1011123});
+    });
+
+    test('test that it does not return uploader', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1011123
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      flushAsynchronousOperations();
+      assert.deepEqual(element._computeShowUploader(change), '');
+    });
+
     suite('Topic removal', () => {
       let change;
       setup(() => {

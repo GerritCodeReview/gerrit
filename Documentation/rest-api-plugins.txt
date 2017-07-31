@@ -110,6 +110,74 @@ Query the first plugin in the plugin list:
   }
 ----
 
+Prefix(p)::
+Limit the results to those plugins that start with the specified
+prefix.
++
+The match is case sensitive. May not be used together with `m` or `r`.
++
+List all plugins that start with `delete`:
++
+.Request
+----
+  GET /plugins/?p=delete HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete-project": {
+      "id": "delete-project",
+      "index_url": "plugins/delete-project/",
+      "version": "2.9-SNAPSHOT"
+    }
+  }
+----
++
+E.g. this feature can be used by suggestion client UI's to limit results.
+
+Regex(r)::
+Limit the results to those plugins that match the specified regex.
++
+Boundary matchers '^' and '$' are implicit. For example: the regex 'test.*' will
+match any plugins that start with 'test' and regex '.*test' will match any
+project that end with 'test'.
++
+The match is case sensitive. May not be used together with `m` or `p`.
++
+List all plugins that match regex `some.*plugin`:
++
+.Request
+----
+  GET /plugins/?r=some.*plugin HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "some-plugin": {
+      "id": "some-plugin",
+      "index_url": "plugins/some-plugin/",
+      "version": "2.9-SNAPSHOT"
+    },
+    "some-other-plugin": {
+      "id": "some-other-plugin",
+      "index_url": "plugins/some-other-plugin/",
+      "version": "2.9-SNAPSHOT"
+    }
+  }
+
+----
 
 Skip(S)::
 Skip the given number of plugins from the beginning of the list.
@@ -138,6 +206,33 @@ Query the second plugin in the plugin list:
   }
 ----
 
+Substring(m)::
+Limit the results to those plugins that match the specified substring.
++
+The match is case insensitive. May not be used together with `r` or `p`.
++
+List all plugins that match substring `project`:
++
+.Request
+----
+  GET /plugins/?m=project HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete-project": {
+      "id": "delete-project",
+      "index_url": "plugins/delete-project/",
+      "version": "2.9-SNAPSHOT"
+    }
+  }
+----
 
 [[install-plugin]]
 === Install Plugin

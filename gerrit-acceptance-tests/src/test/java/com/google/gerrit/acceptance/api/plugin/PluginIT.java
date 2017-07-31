@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.plugin;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins.ListRequest;
 import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -63,6 +65,24 @@ public class PluginIT extends AbstractDaemonTest {
     // With pagination
     assertPlugins(list().start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
+    // With prefix
+    assertPlugins(list().prefix("plugin-b").get(), ImmutableList.of("plugin-b"));
+    assertPlugins(list().prefix("PLUGIN-").get(), ImmutableList.of());
+
+    // With substring
+    assertPlugins(list().substring("lugin-").get(), PLUGINS);
+    assertPlugins(list().substring("lugin-").start(1).limit(2).get(), PLUGINS.subList(1, 3));
+
+    // With regex
+    assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b"));
+    assertPlugins(list().regex("plugin-.*").get(), PLUGINS);
+    assertPlugins(list().regex("plugin-.*").start(1).limit(2).get(), PLUGINS.subList(1, 3));
+
+    // Invalid match combinations
+    assertBadRequest(list().regex(".*in-b").substring("a"));
+    assertBadRequest(list().regex(".*in-b").prefix("a"));
+    assertBadRequest(list().substring(".*in-b").prefix("a"));
+
     // Disable
     api = gApi.plugins().name("plugin-a");
     api.disable();
@@ -98,5 +118,14 @@ public class PluginIT extends AbstractDaemonTest {
   private void assertPlugins(List<PluginInfo> actual, List<String> expected) {
     List<String> _actual = actual.stream().map(p -> p.id).collect(toList());
     assertThat(_actual).containsExactlyElementsIn(expected);
+  }
+
+  private void assertBadRequest(ListRequest req) throws Exception {
+    try {
+      req.get();
+      fail("Expected BadRequestException");
+    } catch (BadRequestException e) {
+      // Expected
+    }
   }
 }

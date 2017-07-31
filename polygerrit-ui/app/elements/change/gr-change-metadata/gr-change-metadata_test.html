@@ -165,6 +165,117 @@ limitations under the License.
       assert.isTrue(showMissingSpy.called);
     });
 
+    test('_computeShowUploader test for uploader', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123,
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.deepEqual(element._computeShowUploader(change),
+          {_account_id: 1011123});
+    });
+
+    test('_computeShowUploader test that it does not return uploader', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1011123,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123,
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.isNotOk(element._computeShowUploader(change));
+    });
+
+    test('no current_revision makes _computeShowUploader return null', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1011123,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123,
+            },
+          },
+        },
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.isNotOk(element._computeShowUploader(change));
+    });
+
+    test('_computeShowUploaderHide test for string which equals true', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1019328,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123,
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.equal(element._computeShowUploaderHide(change), '');
+    });
+
+    test('_computeShowUploaderHide test for hideDisplay', () => {
+      const change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        owner: {
+          _account_id: 1011123,
+        },
+        revisions: {
+          rev1: {
+            _number: 1,
+            uploader: {
+              _account_id: 1011123,
+            },
+          },
+        },
+        current_revision: 'rev1',
+        status: 'NEW',
+        labels: {},
+        mergeable: true,
+      };
+      assert.equal(
+          element._computeShowUploaderHide(change), 'hideDisplay');
+    });
+
     suite('Topic removal', () => {
       let change;
       setup(() => {

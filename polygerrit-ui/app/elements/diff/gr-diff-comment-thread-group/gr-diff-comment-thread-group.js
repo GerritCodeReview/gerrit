@@ -23,8 +23,8 @@
         type: Array,
         value() { return []; },
       },
+      projectName: String,
       patchForNewThreads: String,
-      projectConfig: Object,
       range: Object,
       isOnParent: {
         type: Boolean,

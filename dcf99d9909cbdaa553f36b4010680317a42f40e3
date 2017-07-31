@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "965b44fa_e763f1b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T22:23:01Z",
+      "side": 1,
+      "message": "Nit: wrap commit messages at 72ch. I\u0027ll go ahead and wrap it though.",
+      "range": {
+        "startLine": 9,
+        "startChar": 68,
+        "endLine": 9,
+        "endChar": 74
+      },
+      "revId": "dcf99d9909cbdaa553f36b4010680317a42f40e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

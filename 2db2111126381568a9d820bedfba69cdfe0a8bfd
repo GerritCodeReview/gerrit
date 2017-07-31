@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31484dc6_f085a346",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-07-31T20:07:00Z",
+      "side": 1,
+      "message": "remove this unnecessary \u0027final\u0027?",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 11
+      },
+      "revId": "2db2111126381568a9d820bedfba69cdfe0a8bfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

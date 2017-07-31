@@ -58,6 +58,7 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
+      projectName: String,
       displayLine: {
         type: Boolean,
         value: false,

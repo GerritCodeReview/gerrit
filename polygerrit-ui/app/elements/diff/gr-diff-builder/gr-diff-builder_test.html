@@ -62,13 +62,16 @@ limitations under the License.
     setup(() => {
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
+        getProjectConfig() { return Promise.resolve({}); },
       });
       const prefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
       };
-      builder = new GrDiffBuilder({content: []}, {left: [], right: []}, prefs);
+      const projectName = 'my-project';
+      builder = new GrDiffBuilder(
+          {content: []}, {left: [], right: []}, prefs, projectName);
     });
 
     test('context control buttons', () => {
@@ -265,7 +268,7 @@ limitations under the License.
         assert.equal(threadGroupEl.patchForNewThreads, patchNum);
         assert.equal(threadGroupEl.path, '/path/to/foo');
         assert.equal(threadGroupEl.isOnParent, isOnParent);
-        assert.deepEqual(threadGroupEl.projectConfig, {foo: 'bar'});
+        assert.deepEqual(threadGroupEl.projectName, 'my-project');
         assert.deepEqual(threadGroupEl.comments, comments);
       }
 
@@ -761,7 +764,7 @@ limitations under the License.
         outputEl = element.queryEffectiveChildren('#diffTable');
         sandbox.stub(element, '_getDiffBuilder', () => {
           const builder = new GrDiffBuilder(
-              {content}, {left: [], right: []}, prefs, outputEl);
+              {content}, {left: [], right: []}, prefs, 'my-project', outputEl);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');

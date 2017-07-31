@@ -30,10 +30,11 @@
 
   const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
+    this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
 
@@ -343,7 +344,7 @@
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
-    threadGroupEl.projectConfig = projectConfig;
+    threadGroupEl.projectName = this._projectName;
     threadGroupEl.range = range;
     return threadGroupEl;
   };

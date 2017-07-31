@@ -288,5 +288,17 @@
     _computeIsWip(change) {
       return !!change.work_in_progress;
     },
+
+    _changeRevisionUploader(changeCurrentRevision, changeRevisions) {
+      const rev = changeRevisions[changeCurrentRevision];
+      if (!rev || !rev.uploader) { return false; }
+      return true;
+    },
+
+    _computeUploader(changeCurrentRevision, changeRevisions) {
+      const rev = changeRevisions[changeCurrentRevision];
+      if (!rev || !rev.uploader) { return ''; }
+      return rev.uploader;
+    },
   });
 })();

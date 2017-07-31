@@ -2551,14 +2551,15 @@ displayed as part of the index page, if present in the manifest:
 Compiled plugins and extensions can be deployed to a running Gerrit
 server using the link:cmd-plugin-install.html[plugin install] command.
 
-Web UI plugins distributed as  single `.js` file can be deployed
-without the overhead of JAR packaging, for more information refer to
-link:cmd-plugin-install.html[plugin install] command.
+Web UI plugins distributed as a single `.js` file (or `.html' file for
+Polygerrit) can be deployed without the overhead of JAR packaging. For
+more information refer to link:cmd-plugin-install.html[plugin install]
+command.
 
 Plugins can also be copied directly into the server's
-directory at `$site_path/plugins/$name.(jar|js)`.  The name of
-the JAR file, minus the `.jar` or `.js` extension, will be used as the
-plugin name. Unless disabled, servers periodically scan this
+directory at `$site_path/plugins/$name.(jar|js|html)`.  The name of
+the file, minus the `.jar`, `.js` or `.html` extension, will be used
+as the plugin name. Unless disabled, servers periodically scan this
 directory for updated plugins. The time can be adjusted by
 link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 

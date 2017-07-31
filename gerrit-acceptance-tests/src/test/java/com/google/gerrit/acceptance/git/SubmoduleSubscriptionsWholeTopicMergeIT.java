@@ -748,7 +748,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
   @Test
   public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
-    assume().that(notesMigration.fuseUpdates()).isTrue();
+    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
 
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub1 = createProjectWithPush("sub1");

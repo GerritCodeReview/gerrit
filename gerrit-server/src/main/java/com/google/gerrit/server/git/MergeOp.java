@@ -63,7 +63,6 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -234,7 +233,6 @@ public class MergeOp implements AutoCloseable {
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyUtil notifyUtil;
   private final RetryHelper retryHelper;
-  private final NotesMigration notesMigration;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -262,8 +260,7 @@ public class MergeOp implements AutoCloseable {
       Provider<MergeOpRepoManager> ormProvider,
       NotifyUtil notifyUtil,
       TopicMetrics topicMetrics,
-      RetryHelper retryHelper,
-      NotesMigration notesMigration) {
+      RetryHelper retryHelper) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -276,7 +273,6 @@ public class MergeOp implements AutoCloseable {
     this.notifyUtil = notifyUtil;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
-    this.notesMigration = notesMigration;
   }
 
   @Override
@@ -909,11 +905,6 @@ public class MergeOp implements AutoCloseable {
       return "Error submitting changes";
     }
     if (p == 1) {
-      if (!notesMigration.fuseUpdates()) {
-        // No fused updates: any subset of changes might or might not have been submitted, so don't
-        // make any strong claims.
-        return "Error submitting changes";
-      }
       // Fused updates: it's correct to say that none of the n changes were submitted.
       return "Error submitting " + c + " changes";
     }

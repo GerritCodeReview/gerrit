@@ -35,10 +35,14 @@ public enum NoteDbMode {
   PRIMARY(NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY),
 
   /** All change tables are entirely disabled. */
-  DISABLE_CHANGE_REVIEW_DB(NotesMigrationState.NOTE_DB_UNFUSED),
+  DISABLE_CHANGE_REVIEW_DB(NotesMigrationState.NOTE_DB),
 
   /** All change tables are entirely disabled, and code/meta ref updates are fused. */
   FUSED(NotesMigrationState.NOTE_DB),
+
+  // TODO(dborowitz): Change CI to use this, then remove FUSED and DISABLE_CHANGE_REVIEW_DB.
+  /** All change tables are entirely disabled, and code/meta ref updates are fused. */
+  ON(NotesMigrationState.NOTE_DB),
 
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results

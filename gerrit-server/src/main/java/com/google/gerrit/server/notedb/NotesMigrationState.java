@@ -31,26 +31,19 @@ import org.eclipse.jgit.lib.Config;
  * in the order in which they are defined.
  */
 public enum NotesMigrationState {
-  REVIEW_DB(false, false, false, PrimaryStorage.REVIEW_DB, false, false),
+  REVIEW_DB(false, false, false, PrimaryStorage.REVIEW_DB, false),
 
-  WRITE(false, true, false, PrimaryStorage.REVIEW_DB, false, false),
+  WRITE(false, true, false, PrimaryStorage.REVIEW_DB, false),
 
-  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.REVIEW_DB, false, false),
+  READ_WRITE_NO_SEQUENCE(true, true, false, PrimaryStorage.REVIEW_DB, false),
 
-  READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY(
-      true, true, true, PrimaryStorage.REVIEW_DB, false, false),
+  READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY(true, true, true, PrimaryStorage.REVIEW_DB, false),
 
-  READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY(true, true, true, PrimaryStorage.NOTE_DB, false, false),
+  READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY(true, true, true, PrimaryStorage.NOTE_DB, false),
 
-  // TODO(dborowitz): This only exists as a separate state to support testing in different
-  // NoteDbModes. Once FileRepository fuses BatchRefUpdates, we won't have separate fused/unfused
-  // states.
-  NOTE_DB_UNFUSED(true, true, true, PrimaryStorage.NOTE_DB, true, false),
+  NOTE_DB(true, true, true, PrimaryStorage.NOTE_DB, true);
 
-  NOTE_DB(true, true, true, PrimaryStorage.NOTE_DB, true, true);
-
-  // TODO(dborowitz): Replace with NOTE_DB when FileRepository fuses BatchRefUpdates.
-  public static final NotesMigrationState FINAL = NOTE_DB_UNFUSED;
+  public static final NotesMigrationState FINAL = NOTE_DB;
 
   public static Optional<NotesMigrationState> forConfig(Config cfg) {
     return forSnapshot(Snapshot.create(cfg));
@@ -72,8 +65,7 @@ public enum NotesMigrationState {
       boolean rawWriteChangesSetting,
       boolean readChangeSequence,
       PrimaryStorage changePrimaryStorage,
-      boolean disableChangeReviewDb,
-      boolean fuseUpdates) {
+      boolean disableChangeReviewDb) {
     this.snapshot =
         Snapshot.builder()
             .setReadChanges(readChanges)
@@ -81,7 +73,6 @@ public enum NotesMigrationState {
             .setReadChangeSequence(readChangeSequence)
             .setChangePrimaryStorage(changePrimaryStorage)
             .setDisableChangeReviewDb(disableChangeReviewDb)
-            .setFuseUpdates(fuseUpdates)
             .build();
   }
 

@@ -56,7 +56,6 @@ public abstract class NotesMigration {
   public static final String SECTION_NOTE_DB = "noteDb";
 
   private static final String DISABLE_REVIEW_DB = "disableReviewDb";
-  private static final String FUSE_UPDATES = "fuseUpdates";
   private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
@@ -87,7 +86,6 @@ public abstract class NotesMigration {
                   SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB))
           .setDisableChangeReviewDb(
               cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false))
-          .setFuseUpdates(cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, false))
           .setFailOnLoadForTest(false) // Only set in tests, can't be set via config.
           .build();
     }
@@ -102,8 +100,6 @@ public abstract class NotesMigration {
 
     abstract boolean disableChangeReviewDb();
 
-    abstract boolean fuseUpdates();
-
     abstract boolean failOnLoadForTest();
 
     abstract Builder toBuilder();
@@ -114,7 +110,6 @@ public abstract class NotesMigration {
       cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, readChangeSequence());
       cfg.setEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, changePrimaryStorage());
       cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, disableChangeReviewDb());
-      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), FUSE_UPDATES, fuseUpdates());
     }
 
     @AutoValue.Builder
@@ -128,8 +123,6 @@ public abstract class NotesMigration {
       abstract Builder setChangePrimaryStorage(PrimaryStorage changePrimaryStorage);
 
       abstract Builder setDisableChangeReviewDb(boolean disableChangeReviewDb);
-
-      abstract Builder setFuseUpdates(boolean fuseUpdates);
 
       abstract Builder setFailOnLoadForTest(boolean failOnLoadForTest);
 
@@ -203,21 +196,6 @@ public abstract class NotesMigration {
    */
   public final boolean disableChangeReviewDb() {
     return snapshot.get().disableChangeReviewDb();
-  }
-
-  /**
-   * Fuse meta ref updates in the same batch as code updates.
-   *
-   * <p>When set, each {@link com.google.gerrit.server.update.BatchUpdate} results in a single
-   * {@link org.eclipse.jgit.lib.BatchRefUpdate} to update both code and meta refs atomically.
-   * Setting this option with a repository backend that does not support atomic multi-ref
-   * transactions ({@link org.eclipse.jgit.lib.RefDatabase#performsAtomicTransactions()}) is a
-   * configuration error, and all updates will fail at runtime.
-   *
-   * <p>Has no effect if {@link #disableChangeReviewDb()} is false.
-   */
-  public final boolean fuseUpdates() {
-    return snapshot.get().fuseUpdates();
   }
 
   /**

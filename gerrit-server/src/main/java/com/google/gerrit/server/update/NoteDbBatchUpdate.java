@@ -62,14 +62,14 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>Used when {@code noteDb.changes.disableReviewDb=true}, at which point ReviewDb is not
  * consulted during updates.
  */
-class FusedNoteDbBatchUpdate extends BatchUpdate {
+class NoteDbBatchUpdate extends BatchUpdate {
   interface AssistedFactory {
-    FusedNoteDbBatchUpdate create(
+    NoteDbBatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
   static void execute(
-      ImmutableList<FusedNoteDbBatchUpdate> updates,
+      ImmutableList<NoteDbBatchUpdate> updates,
       BatchUpdateListener listener,
       @Nullable RequestId requestId,
       boolean dryrun)
@@ -88,11 +88,11 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
       try {
         switch (order) {
           case REPO_BEFORE_DB:
-            for (FusedNoteDbBatchUpdate u : updates) {
+            for (NoteDbBatchUpdate u : updates) {
               u.executeUpdateRepo();
             }
             listener.afterUpdateRepos();
-            for (FusedNoteDbBatchUpdate u : updates) {
+            for (NoteDbBatchUpdate u : updates) {
               handles.add(u.executeChangeOps(dryrun));
             }
             for (ChangesHandle h : handles) {
@@ -113,10 +113,10 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
             // TODO(dborowitz): This may still result in multiple updates to All-Users, but that's
             // currently not a big deal because multi-change batches generally aren't affecting
             // drafts anyway.
-            for (FusedNoteDbBatchUpdate u : updates) {
+            for (NoteDbBatchUpdate u : updates) {
               handles.add(u.executeChangeOps(dryrun));
             }
-            for (FusedNoteDbBatchUpdate u : updates) {
+            for (NoteDbBatchUpdate u : updates) {
               u.executeUpdateRepo();
             }
             for (ChangesHandle h : handles) {
@@ -151,7 +151,7 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
               u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
 
       if (!dryrun) {
-        for (FusedNoteDbBatchUpdate u : updates) {
+        for (NoteDbBatchUpdate u : updates) {
           u.executePostOps();
         }
       }
@@ -163,7 +163,7 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
   class ContextImpl implements Context {
     @Override
     public RepoView getRepoView() throws IOException {
-      return FusedNoteDbBatchUpdate.this.getRepoView();
+      return NoteDbBatchUpdate.this.getRepoView();
     }
 
     @Override
@@ -272,7 +272,7 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
   private final ReviewDb db;
 
   @Inject
-  FusedNoteDbBatchUpdate(
+  NoteDbBatchUpdate(
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeNotes.Factory changeNotesFactory,
@@ -354,7 +354,7 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     }
 
     void execute() throws OrmException, IOException {
-      FusedNoteDbBatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
+      NoteDbBatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
     }
 
     @SuppressWarnings("deprecation")

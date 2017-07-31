@@ -19,7 +19,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +31,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static InMemoryRepository newRepository(Project.NameKey name) {
-    return new Repo(NoteDbMode.newNotesMigrationFromEnv(), name);
+    return new Repo(name);
   }
 
   public static class Description extends DfsRepositoryDescription {
@@ -51,15 +50,9 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static class Repo extends InMemoryRepository {
     private String description;
 
-    private Repo(NotesMigration notesMigration, Project.NameKey name) {
+    private Repo(Project.NameKey name) {
       super(new Description(name));
-      // Normally, mimic the behavior of JGit FileRepository, the standard Gerrit repository
-      // backend, and don't support atomic ref updates. The exception is when we're testing with
-      // fused ref updates, which requires atomic ref updates to function.
-      //
-      // TODO(dborowitz): Change to match the behavior of JGit FileRepository after fixing
-      // https://bugs.eclipse.org/bugs/show_bug.cgi?id=515678
-      setPerformsAtomicTransactions(notesMigration.fuseUpdates());
+      setPerformsAtomicTransactions(true);
     }
 
     @Override
@@ -78,16 +71,10 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private final NotesMigration notesMigration;
   private final Map<String, Repo> repos;
 
-  public InMemoryRepositoryManager() {
-    this(NoteDbMode.newNotesMigrationFromEnv());
-  }
-
   @Inject
-  InMemoryRepositoryManager(NotesMigration notesMigration) {
-    this.notesMigration = notesMigration;
+  public InMemoryRepositoryManager() {
     this.repos = new HashMap<>();
   }
 
@@ -106,7 +93,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
         throw new RepositoryCaseMismatchException(name);
       }
     } catch (RepositoryNotFoundException e) {
-      repo = new Repo(notesMigration, name);
+      repo = new Repo(name);
       repos.put(normalize(name), repo);
     }
     return repo;

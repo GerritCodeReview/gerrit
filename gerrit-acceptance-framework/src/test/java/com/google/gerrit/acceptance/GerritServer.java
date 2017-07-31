@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -208,10 +207,6 @@ public class GerritServer implements AutoCloseable {
    */
   public static void init(Description desc, Config baseConfig, Path site) throws Exception {
     checkArgument(!desc.memory(), "can't initialize site path for in-memory test: %s", desc);
-    assume()
-        .withMessage("FUSED mode not yet supported for on-disk sites")
-        .that(NoteDbMode.get())
-        .isNotEqualTo(NoteDbMode.FUSED);
     Config cfg = desc.buildConfig(baseConfig);
     Map<String, Config> pluginConfigs = desc.buildPluginConfigs();
 

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "179dbe05_afe3d032",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:23:24Z",
+      "side": 1,
+      "message": "Please add some more detail here to describe what this fixes. Is there an issue to link to?",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4767c80e_87c2943c",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:23:24Z",
+      "side": 1,
+      "message": "This behavior is large enough to deserve some tests that cover all four cases.",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de7f0302_9b4305ef",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:23:24Z",
+      "side": 1,
+      "message": "With the functionality added here, this method also handles cases where the user is not anonymous. Maybe this ought to be called:\n\n getUserName\n\nWhat do you think?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa419dee_899ad1bd",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:23:24Z",
+      "side": 1,
+      "message": "What does this boolean property do? It looks like if one passes true for `diasbleEmail`, then the result is allowed to be just an email. That seems to me like it contradicts the name of the parameter.\n\nCan you please add a JSDoc comment to this method for the type and purpose of each of these params?",
+      "range": {
+        "startLine": 25,
+        "startChar": 38,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb438b63_ac3fb494",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-07-31T23:23:24Z",
+      "side": 1,
+      "message": "Remove the console.log.",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

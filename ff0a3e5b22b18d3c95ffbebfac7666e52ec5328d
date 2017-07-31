@@ -16,6 +16,24 @@
       "revId": "ff0a3e5b22b18d3c95ffbebfac7666e52ec5328d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebecc10b_22edee75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T08:35:17Z",
+      "side": 1,
+      "message": "Because IE10 is old and discontinued whereas ie11 is deprecated but still supported for the time being.",
+      "parentUuid": "7779de86_ed905e71",
+      "revId": "ff0a3e5b22b18d3c95ffbebfac7666e52ec5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

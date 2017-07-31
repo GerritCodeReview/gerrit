@@ -44,6 +44,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.PersonIdent;
 
+/**
+ * A database accessor for write calls related to groups.
+ *
+ * <p>All calls which write group related details to the database (either ReviewDb or NoteDb) are
+ * gathered here. Other classes should always use this class instead of accessing the database
+ * directly. There are a few exceptions though: schema classes, wrapper classes, and classes
+ * executed during init. The latter ones should use {@code GroupsOnInit} instead.
+ *
+ * <p>If not explicitly stated, all methods of this class refer to <em>internal</em> groups.
+ */
 public class GroupsUpdate {
   public interface Factory {
     GroupsUpdate create(@Nullable IdentifiedUser currentUser);
@@ -109,10 +119,24 @@ public class GroupsUpdate {
     return user.newCommitterIdent(ident.getWhen(), ident.getTimeZone());
   }
 
+  /**
+   * Adds/Creates the specified group.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param group the group to add
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   */
   public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
     addNewGroup(db, group);
   }
 
+  /**
+   * Adds the specified group.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param group the group to add
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   */
   public static void addNewGroup(ReviewDb db, AccountGroup group) throws OrmException {
     AccountGroupName gn = new AccountGroupName(group);
     // first insert the group name to validate that the group name hasn't
@@ -121,6 +145,16 @@ public class GroupsUpdate {
     db.accountGroups().insert(ImmutableList.of(group));
   }
 
+  /**
+   * Updates the specified group.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param groupUuid the UUID of the group to update
+   * @param groupConsumer a {@code Consumer} which performs the desired updates on the group
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry for the group couldn't be invalidated
+   * @throws NoSuchGroupException if the specified group doesn't exist
+   */
   public void updateGroup(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
       throws OrmException, IOException, NoSuchGroupException {
@@ -131,13 +165,24 @@ public class GroupsUpdate {
   @VisibleForTesting
   public AccountGroup updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
-      throws OrmException, IOException, NoSuchGroupException {
+      throws OrmException, NoSuchGroupException {
     AccountGroup group = groups.getExistingGroup(db, groupUuid);
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
     return group;
   }
 
+  /**
+   * Renames the specified group.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param groupUuid the UUID of the group to rename
+   * @param newName the new name of the group
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry for the group couldn't be invalidated
+   * @throws NoSuchGroupException if the specified group doesn't exist
+   * @throws NameAlreadyUsedException if another group has the name {@code newName}
+   */
   public void renameGroup(ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
       throws OrmException, IOException, NameAlreadyUsedException, NoSuchGroupException {
     AccountGroup group = groups.getExistingGroup(db, groupUuid);
@@ -175,11 +220,37 @@ public class GroupsUpdate {
             .start(0, TimeUnit.MILLISECONDS);
   }
 
+  /**
+   * Adds an account as member to a group. The account is only added as a new member if it isn't
+   * already a member of the group.
+   *
+   * <p><strong>Note</strong>: This method doesn't check whether the account exists!
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param groupUuid the UUID of the group
+   * @param accountId the ID of the account to add
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry of the new member couldn't be invalidated
+   * @throws NoSuchGroupException if the specified group doesn't exist
+   */
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, IOException, NoSuchGroupException {
     addGroupMembers(db, groupUuid, ImmutableSet.of(accountId));
   }
 
+  /**
+   * Adds several accounts as members to a group. Only accounts which currently aren't members of
+   * the group are added.
+   *
+   * <p><strong>Note</strong>: This method doesn't check whether the accounts exist!
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param groupUuid the UUID of the group
+   * @param accountIds a set of IDs of accounts to add
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry of one of the new members couldn't be invalidated
+   * @throws NoSuchGroupException if the specified group doesn't exist
+   */
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
     AccountGroup group = groups.getExistingGroup(db, groupUuid);
@@ -206,6 +277,17 @@ public class GroupsUpdate {
     }
   }
 
+  /**
+   * Removes several members (accounts) from a group. Only accounts which currently are members of
+   * the group are removed.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param groupUuid the UUID of the group
+   * @param accountIds a set of IDs of accounts to remove
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry of one of the removed members couldn't be invalidated
+   * @throws NoSuchGroupException if the specified group doesn't exist
+   */
   public void removeGroupMembers(
       ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
@@ -233,6 +315,21 @@ public class GroupsUpdate {
     }
   }
 
+  /**
+   * Adds several groups as subgroups to a group. Only groups which currently aren't subgroups of
+   * the group are added.
+   *
+   * <p>The parent group must be an internal group whereas the subgroups can either be internal or
+   * external groups.
+   *
+   * <p><strong>Note</strong>: This method doesn't check whether the subgroups exist!
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param parentGroupUuid the UUID of the parent group
+   * @param includedGroupUuids a set of IDs of the groups to add as subgroups
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws NoSuchGroupException if the specified parent group doesn't exist
+   */
   public void addIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
       throws OrmException, NoSuchGroupException {
@@ -261,6 +358,19 @@ public class GroupsUpdate {
     groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
   }
 
+  /**
+   * Removes several subgroups from a parent group. Only groups which currently are subgroups of the
+   * group are removed.
+   *
+   * <p>The parent group must be an internal group whereas the subgroups can either be internal or
+   * external groups.
+   *
+   * @param db the {@code ReviewDb} instance to update
+   * @param parentGroupUuid the UUID of the parent group
+   * @param includedGroupUuids a set of IDs of the subgroups to remove from the parent group
+   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws NoSuchGroupException if the specified parent group doesn't exist
+   */
   public void deleteIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
       throws OrmException, NoSuchGroupException {

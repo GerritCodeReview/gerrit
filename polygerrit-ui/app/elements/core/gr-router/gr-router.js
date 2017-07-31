@@ -395,7 +395,7 @@
           data.params.view = Gerrit.Nav.View.AGREEMENTS;
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -408,7 +408,7 @@
             emailToken: data.params[0],
           };
         } else {
-          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
@@ -418,7 +418,7 @@
         if (loggedIn) {
           app.params = {view: Gerrit.Nav.View.SETTINGS};
         } else {
-          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });

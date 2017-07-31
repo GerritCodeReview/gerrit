@@ -314,6 +314,16 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", "allowDrafts", true);
   }
 
+  protected static Config privateByDefaultEnabledConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "privateByDefault", true);
+    return cfg;
+  }
+
+  protected boolean isPrivateByDefault() {
+    return cfg.getBoolean("change", "privateByDefault", false);
+  }
+
   protected boolean isSubmitWholeTopicEnabled() {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }

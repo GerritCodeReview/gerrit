@@ -2177,7 +2177,7 @@ public class ReceiveCommits {
           changeInserterFactory
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
-              .setPrivate(magicBranch.isPrivate)
+              .setPrivate(receiveConfig.privateByDefault || magicBranch.isPrivate)
               .setWorkInProgress(magicBranch.workInProgress)
               // Changes already validated in validateNewCommits.
               .setValidate(false);

@@ -2556,10 +2556,14 @@ Polygerrit) can be deployed without the overhead of JAR packaging. For
 more information refer to link:cmd-plugin-install.html[plugin install]
 command.
 
-Plugins can also be copied directly into the server's
-directory at `$site_path/plugins/$name.(jar|js|html)`.  The name of
-the file, minus the `.jar`, `.js` or `.html` extension, will be used
-as the plugin name. Unless disabled, servers periodically scan this
+Plugins can also be copied directly into the server's directory at
+`$site_path/plugins/$name.(jar|js|html)`. For Web UI plugins, the name
+of the file, minus the `.js` or `.html` extension, will be used as the
+plugin name. For JAR plugins, the value of the `Gerrit-PluginName`
+manifest attribute will be used, if provided, otherwise the name of
+the file, minus the `.jar` extension, will be used.
+
+Unless disabled, servers periodically scan the `$site_path/plugins`
 directory for updated plugins. The time can be adjusted by
 link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 

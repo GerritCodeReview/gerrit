@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b95041c3_3449f14f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T23:49:57Z",
+      "side": 1,
+      "message": "There\u0027s currently no issue filled for this. I will fill in more details now.",
+      "parentUuid": "179dbe05_afe3d032",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4767c80e_87c2943c",
         "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
         "patchSetId": 13
@@ -82,6 +100,54 @@
     },
     {
       "key": {
+        "uuid": "16dc3e20_bec333ef",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T23:49:57Z",
+      "side": 1,
+      "message": "Made it a little easier to understand and ok. Thanks, done.",
+      "parentUuid": "fa419dee_899ad1bd",
+      "range": {
+        "startLine": 25,
+        "startChar": 38,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2248b71e_f28fcb37",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T23:49:57Z",
+      "side": 1,
+      "message": "Ah yep, thanks, done.",
+      "parentUuid": "de7f0302_9b4305ef",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb438b63_ac3fb494",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
         "patchSetId": 13
@@ -93,6 +159,24 @@
       "writtenOn": "2017-07-31T23:23:24Z",
       "side": 1,
       "message": "Remove the console.log.",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35881a4d_39c65159",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-07-31T23:49:57Z",
+      "side": 1,
+      "message": "Woops thanks, done.",
+      "parentUuid": "cb438b63_ac3fb494",
       "revId": "b60766de0c21051b0ab593a886a7019163403502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

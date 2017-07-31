@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5025d903_797dfd72",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-31T05:03:33Z",
+      "side": 1,
+      "message": "This should be the default.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "432ecdd03f281daa8464c43747fdb057828e9b35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36db3661_922957ea",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-07-31T05:03:33Z",
+      "side": 1,
+      "message": "This should be polygerrit.",
+      "range": {
+        "startLine": 133,
+        "startChar": 24,
+        "endLine": 133,
+        "endChar": 33
+      },
+      "revId": "432ecdd03f281daa8464c43747fdb057828e9b35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

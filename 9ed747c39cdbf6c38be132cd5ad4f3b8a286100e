@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb4941db_dd571663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-01T10:04:56Z",
+      "side": 1,
+      "message": "Actually, that is not true (at least for us and for the next release that will contain this change) :)\n\nSee https://gerrit-review.googlesource.com/#/c/gerrit/+/112159/ in GWT",
+      "range": {
+        "startLine": 18,
+        "startChar": 16,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "9ed747c39cdbf6c38be132cd5ad4f3b8a286100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

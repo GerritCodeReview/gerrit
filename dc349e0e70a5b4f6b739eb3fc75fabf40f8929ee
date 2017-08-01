@@ -68,6 +68,24 @@
       "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741b6145_e86bbcde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-01T20:43:17Z",
+      "side": 1,
+      "message": "That\u0027s already taken care of in the IndexServlet file\n\nIt does this\n\n  static String computeCanonicalPath(String canonicalURL) throws URISyntaxException {\n    // If we serving from a sub-directory rather than root, determine the path\n    // from the cannonical web URL.\n    URI uri \u003d new URI(canonicalURL);\n    return uri.getPath().replaceAll(\"/$\", \"\");\n  }",
+      "parentUuid": "f0bc807f_4b322a36",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

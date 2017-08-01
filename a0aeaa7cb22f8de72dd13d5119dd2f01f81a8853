@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e16227c9_8188d3b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T21:15:39Z",
+      "side": 1,
+      "message": "The code LGTM. I\u0027m testing it now and seeing some problems: If I select change edit on the change screen, i can erroneously still apply some actions on it, that must not be possible on change edits, but on regular patch sets only:\n\n* 1. flip reviewed bit (checkbox in front of each file name + commit message). This is absolutely not supported. The reviewed bit is stored in the database, but when the change is opened again (say, change edit is based on patch set 2, and there weren\u0027t any reviewed bit set on ps 1 and 2) say ps 3, then we try to copy reviewed bit from previous patch set, but because the patch set number that was recorded in the AccountPatchReviewStore is 0, we try to load it, but this pacth set number 0, doesn\u0027t exist in the database or NoteDb, and this exception is reported: [1]. I remember Paladox reported something similar, so may be he already tested this change and this why his AccountPatchReviewStore was corrupted? We should prevent from flipping reviewed bit on change edit, in this or a follow-up change. So at least this should be added to the TODO list.\n* 2. even after selecting change edit, i still can vote on the change and post comment and it even succeed. In fact, i debugged and it seems that the fact that change edit was loaded is somehow ignored by the change screen, and voting happens on latest patch set and not on change edit. This is confusing. Voting shouldn\u0027t be possible on change edit. (there is no metadata storage for edits, neither in ReviewDb, no in NoteDb). So at least this should be added to the TODO list.\n* 3. other actions seems to be active too, like Rebase. This is confusing, because some similar actions, like Rebase and Delete are overloaded for the change edit. So Rebase change edit means, that the change edit is rebased on the latest patch set (if it was based on 2, and meantime we have latest patch set 7, then it will be based on patch set 7 after the rebase). All actions except change edit related actions should be disabled in the change screen, when change edit was selected. So at least this should be added to the TODO list.\n\n* [1] http://paste.openstack.org/show/617178",
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

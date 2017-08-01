@@ -57,14 +57,16 @@ limitations under the License.
           }));
       sandbox.stub(element.$.restAPI, 'getDiffRobotComments')
           .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-      sandbox.stub(element.$.restAPI, 'getDiffDrafts');
+      sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+          .returns(Promise.resolve({}));
 
       return element.loadAll(changeNum).then(() => {
         assert.isTrue(element.$.restAPI.getDiffComments.calledWithExactly(
             changeNum));
         assert.isTrue(element.$.restAPI.getDiffRobotComments.calledWithExactly(
             changeNum));
-        assert.isFalse(element.$.restAPI.getDiffDrafts.called);
+        assert.isTrue(element.$.restAPI.getDiffDrafts.calledWithExactly(
+            changeNum));
         assert.isOk(element._comments);
         assert.isOk(element._robotComments);
         assert.deepEqual(element._drafts, {});

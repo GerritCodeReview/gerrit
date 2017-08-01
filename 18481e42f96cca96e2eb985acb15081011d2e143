@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa95b8ba_85c324cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T08:26:40Z",
+      "side": 1,
+      "message": "Unused?",
+      "revId": "18481e42f96cca96e2eb985acb15081011d2e143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

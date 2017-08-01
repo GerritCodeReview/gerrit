@@ -520,6 +520,30 @@
     },
     {
       "key": {
+        "uuid": "7d588b6e_190082b6",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-01T13:33:24Z",
+      "side": 1,
+      "message": "Sorry, I thought the links here were same as at line 195-197 but they are not.",
+      "parentUuid": "e02aae56_27d4f8d6",
+      "range": {
+        "startLine": 182,
+        "startChar": 52,
+        "endLine": 182,
+        "endChar": 68
+      },
+      "revId": "1c218e7954f351e2d75a0c51578c3ebe99aa75b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a030dcaf_23351cec",
         "filename": "Documentation/config-accounts.txt",
         "patchSetId": 1

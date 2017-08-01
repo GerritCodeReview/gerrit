@@ -17,12 +17,14 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-
-<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../gr-create-change-dialog/gr-create-change-dialog.html">
 
 <dom-module id="gr-project">
   <template>
@@ -233,9 +235,42 @@ limitations under the License.
                   on-tap="_handleSaveProjectConfig"
                   disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
             </fieldset>
+            <h3 id="Options" hidden$="[[!_loggedIn]]">Project Commands</h3>
+            <fieldset id="project-commands" hidden$="[[!_loggedIn]]">
+              <section>
+                <span class="title">
+                  Commands</span>
+                <span class="value">
+                  <gr-button
+                      on-tap="_handleRunningGC"
+                      hidden$="[[!_projectConfig.actions.gc.enabled]]">
+                    Run GC
+                  </gr-button>
+                  <gr-button id="createNewChange" on-tap="_createNewChange">
+                    Create Change
+                  </gr-button>
+                </span>
+              </section>
+            </fieldset>
           </div>
         </div>
       </main>
+    <gr-overlay id="createChangeOverlay" with-backdrop>
+      <gr-confirm-dialog
+          id="createChangeDialog"
+          confirm-label="Create"
+          on-confirm="_handleCreateChange"
+          on-cancel="_handleCloseCreateChange">
+        <div class="header">
+          Create Change
+        </div>
+        <div class="main">
+          <gr-create-change-dialog
+              id="createNewChangeModal"
+              project-name="[[project]]"></gr-create-change-dialog>
+        </div>
+      </gr-confirm-dialog>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-project.js"></script>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd367d4c_ad19598d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T21:19:43Z",
+      "side": 1,
+      "message": "can we remove this \"test for test\".. here and elswhere in the file.\n\n\n Instead this can just be \"web links are in the tags list .... \"",
+      "range": {
+        "startLine": 348,
+        "startChar": 21,
+        "endLine": 348,
+        "endChar": 25
+      },
+      "revId": "74c452aa3ccb4d5d6aaac286dec48db4d0fba35e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

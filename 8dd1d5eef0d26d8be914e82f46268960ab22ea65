@@ -141,6 +141,30 @@
       "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df7dfaf1_475cb917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-01T17:35:20Z",
+      "side": 1,
+      "message": "Isn\u0027t what you\u0027re proposing identical to what my TODO comment is saying? Once this change is live and stable on googlesource.com, then I can revert 115451 and resolve the TODO here to reduce to a simple \"if (in.ready)\", all in a single change.",
+      "parentUuid": "f4dd51c3_b359837f",
+      "range": {
+        "startLine": 1333,
+        "startChar": 6,
+        "endLine": 1335,
+        "endChar": 7
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

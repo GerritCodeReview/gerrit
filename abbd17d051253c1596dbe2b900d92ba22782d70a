@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "216d9bb2_a66d6301",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T16:44:10Z",
+      "side": 1,
+      "message": "This is a guard for tests. \nPlease reopen if you think this should be refactored in a particular way.",
+      "parentUuid": "53d51d4e_aa0db9b7",
+      "range": {
+        "startLine": 23,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a3b8f76_154e98aa",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1299121a_9bef15a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T16:44:10Z",
+      "side": 1,
+      "message": "You mean, should this property be public?\nI don\u0027t think so, it\u0027s not intended for direct access.",
+      "parentUuid": "1a3b8f76_154e98aa",
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18272033_688415a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T16:44:10Z",
+      "side": 1,
+      "message": "Good catch! Done.",
+      "parentUuid": "2969f4c7_cab6b9cd",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 6
+      },
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

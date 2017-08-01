@@ -67,7 +67,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Option(
     name = "--start",
-    aliases = {"-S"},
+    aliases = {"-S", "-s"},
     metaVar = "CNT",
     usage = "number of tags to skip"
   )

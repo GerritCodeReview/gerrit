@@ -124,6 +124,9 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     input = Input.init(input);
 
     GroupControl control = resource.getControl();
+    if (!control.canAddMember()) {
+      throw new AuthException("Cannot add members to group " + internalGroup.getName());
+    }
 
     Set<Account.Id> newMemberIds = new HashSet<>();
     for (String nameOrEmailOrId : input.members) {
@@ -131,10 +134,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       if (!a.isActive()) {
         throw new UnprocessableEntityException(
             String.format("Account Inactive: %s", nameOrEmailOrId));
-      }
-
-      if (!control.canAddMember()) {
-        throw new AuthException("Cannot add member: " + a.getFullName());
       }
       newMemberIds.add(a.getId());
     }

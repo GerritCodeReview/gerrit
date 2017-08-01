@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -64,16 +63,12 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
-      throws AuthException, ResourceNotFoundException, MethodNotAllowedException, OrmException {
-    if (rsrc.toAccountGroup() == null) {
+      throws AuthException, MethodNotAllowedException, OrmException {
+    AccountGroup group = rsrc.toAccountGroup();
+    if (group == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
-    }
-
-    AccountGroup group = db.get().accountGroups().get(rsrc.toAccountGroup().getId());
-    if (group == null) {
-      throw new ResourceNotFoundException();
     }
 
     AccountLoader accountLoader = accountLoaderFactory.create(true);

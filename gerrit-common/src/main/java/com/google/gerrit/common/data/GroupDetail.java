@@ -14,27 +14,24 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import java.util.List;
 
 public class GroupDetail {
-  public AccountGroup group;
-  public List<AccountGroupMember> members;
-  public List<AccountGroupById> includes;
+  private List<AccountGroupMember> members;
+  private List<AccountGroupById> includes;
 
-  public GroupDetail() {}
-
-  public void setGroup(AccountGroup g) {
-    group = g;
+  public GroupDetail(List<AccountGroupMember> members, List<AccountGroupById> includes) {
+    this.members = members;
+    this.includes = includes;
   }
 
-  public void setMembers(List<AccountGroupMember> m) {
-    members = m;
+  public List<AccountGroupMember> getMembers() {
+    return members;
   }
 
-  public void setIncludes(List<AccountGroupById> i) {
-    includes = i;
+  public List<AccountGroupById> getIncludes() {
+    return includes;
   }
 }

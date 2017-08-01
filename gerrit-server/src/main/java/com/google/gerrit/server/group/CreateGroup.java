@@ -16,11 +16,11 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -208,19 +208,13 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       group.setDescription(createGroupArgs.groupDescription);
     }
     try {
-      groupsUpdateProvider.get().addGroup(db, group);
+      groupsUpdateProvider
+          .get()
+          .addGroup(db, group, ImmutableSet.copyOf(createGroupArgs.initialMembers));
     } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
-
-    try {
-      addMembers.addMembers(uuid, createGroupArgs.initialMembers);
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", uuid));
-    }
-
-    groupCache.onCreateGroup(createGroupArgs.getGroup());
 
     return group;
   }

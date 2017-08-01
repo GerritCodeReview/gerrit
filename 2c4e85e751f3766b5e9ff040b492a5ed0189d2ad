@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1501590926 +0200\nnonce AB2F6yDZ5UhMEyLi3LMCZVonTCHf98NqLx/DRLVNhRnonvnik7YSijqw3PvRKK4R0Wb1tF5oaLQj\n\n0000000000000000000000000000000000000000 2c4e85e751f3766b5e9ff040b492a5ed0189d2ad refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZgHWOAAoJEFG1/Zeg0O9RQQsIAIwKywxCSXHOGDYO+vHqMEQz\n1PaTqc3Nc1etUN6I2UkWhp014uITtPzGpihkLUU5q62BQIBO8L5ZmA7jjcgCxnDA\n2ymHF98CPIi9bwnU4gvDK013N/KJIPM9cjT3LXcAdxIhGqY0aE5rCbKAWsiwoDT3\nIHyysKGjmJ7Ev6jB6EQMLH0gzSX2+zDVZi3JIQBLU9ZEcqMoyLh+GDJcIiazhx3B\nuaOyijE6O25tESAV5xeG0SXSGREk9TSjXiIKU+GOIDqLSlr6apmOvPmzLLQdYGkN\n8acUTqQlFRgtshiB+ePM78F/ruVSASyPXcy4lOCY7ijA5xGlnKWlTaft8FMmY90\u003d\n\u003dSPJV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2da046e4_c75d04ed",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-01T12:47:47Z",
+      "side": 1,
+      "message": "I would go one step further and say here that the tree may be completely empty, and this is a valid account definition.",
+      "revId": "2c4e85e751f3766b5e9ff040b492a5ed0189d2ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0540e946_e6afc1a9",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-01T12:47:47Z",
+      "side": 1,
+      "message": "Are these documented somewhere else? I\u0027m concerned that this will change and we won\u0027t update this location. Better just to link.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 53
+      },
+      "revId": "2c4e85e751f3766b5e9ff040b492a5ed0189d2ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

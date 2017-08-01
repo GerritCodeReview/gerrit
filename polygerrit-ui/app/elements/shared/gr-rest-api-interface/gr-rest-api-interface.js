@@ -803,7 +803,8 @@
 
     saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
       const url = this.getChangeActionURL(changeNum, patchNum, '/review');
-      return this.send('POST', url, review, opt_errFn, opt_ctx);
+      return this.awaitPendingDiffDrafts()
+          .then(() => this.send('POST', url, review, opt_errFn, opt_ctx));
     },
 
     getFileInChangeEdit(changeNum, path) {
@@ -1035,8 +1036,23 @@
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
     },
 
+    /**
+     * @returns {boolean} Whether there are pending diff draft sends.
+     */
     hasPendingDiffDrafts() {
-      return !!this._pendingRequests[Requests.SEND_DIFF_DRAFT];
+      const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
+      return promises && promises.length;
+    },
+
+    /**
+     * @returns {Promise} A promise that resolves when all pending diff draft
+     *    sends have resolved.
+     */
+    awaitPendingDiffDrafts() {
+      return Promise.all(this._pendingRequests[Requests.SEND_DIFF_DRAFT] || [])
+          .then(() => {
+            this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
+          });
     },
 
     _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
@@ -1050,14 +1066,12 @@
       }
 
       if (!this._pendingRequests[Requests.SEND_DIFF_DRAFT]) {
-        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = 0;
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
       }
-      this._pendingRequests[Requests.SEND_DIFF_DRAFT]++;
 
-      return this.send(method, url, body).then(res => {
-        this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;
-        return res;
-      });
+      const promise = this.send(method, url, body);
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
+      return promise;
     },
 
     getCommitInfo(project, commit) {

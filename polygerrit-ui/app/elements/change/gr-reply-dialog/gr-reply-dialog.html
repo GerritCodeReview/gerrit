@@ -127,7 +127,8 @@ limitations under the License.
         color: #444;
         font-style: italic;
       }
-      #notLatestLabel {
+      #notLatestLabel,
+      #savingLabel {
         color: red;
       }
       #cancelButton {
@@ -247,6 +248,9 @@ limitations under the License.
             project-config="[[projectConfig]]"
             patch-num="[[patchNum]]"
             hidden$="[[!_includeComments]]"></gr-comment-list>
+        <span id="savingLabel" hidden$="[[!_savingComments]]">
+          Saving comments...
+        </span>
       </section>
       <section>
         <gr-button

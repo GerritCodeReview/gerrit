@@ -22,6 +22,30 @@
       "revId": "511f1e3c925d7d45d91f586c4a07bbd21dbc730e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3878656_8e7f5226",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-01T09:33:48Z",
+      "side": 0,
+      "message": "That\u0027s part of GroupsUpdate#addGroupMember (see [1]), or did I miss something?\n\n[1] https://gerrit-review.googlesource.com/c/115639/4/gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java#85",
+      "parentUuid": "be68bb3b_2c663da6",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 79
+      },
+      "revId": "511f1e3c925d7d45d91f586c4a07bbd21dbc730e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -801,6 +801,10 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    createChange(createChangeParams) {
+      return this.send('POST', '/changes/', createChangeParams);
+    },
+
     getFileInChangeEdit(changeNum, path) {
       return this.send('GET',
           this.getChangeActionURL(changeNum, null,

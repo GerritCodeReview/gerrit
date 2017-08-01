@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -120,18 +122,27 @@ public class GroupsUpdate {
   }
 
   /**
-   * Adds/Creates the specified group.
+   * Adds/Creates the specified group for the specified members (accounts).
    *
    * @param db the {@code ReviewDb} instance to update
    * @param group the group to add
+   * @param memberIds the IDs of the accounts which should be members of the created group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the cache entry of one of the new members couldn't be invalidated, or
+   *     the new group couldn't be indexed
    */
-  public void addGroup(ReviewDb db, AccountGroup group) throws OrmException {
+  public void addGroup(ReviewDb db, AccountGroup group, Set<Account.Id> memberIds)
+      throws OrmException, IOException {
     addNewGroup(db, group);
+    addNewGroupMembers(db, group, memberIds);
+    groupCache.onCreateGroup(group.getNameKey());
   }
 
   /**
    * Adds the specified group.
+   *
+   * <p><strong>Note</strong>: This method doesn't update the index! It just adds the group to the
+   * database. Use this method with care.
    *
    * @param db the {@code ReviewDb} instance to update
    * @param group the group to add
@@ -254,19 +265,29 @@ public class GroupsUpdate {
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
     AccountGroup group = groups.getExistingGroup(db, groupUuid);
-    AccountGroup.Id groupId = group.getId();
-    Set<AccountGroupMember> newMembers = new HashSet<>();
+    Set<Account.Id> newMemberIds = new HashSet<>();
     for (Account.Id accountId : accountIds) {
       boolean isMember = groups.isMember(db, groupUuid, accountId);
       if (!isMember) {
-        AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, groupId);
-        newMembers.add(new AccountGroupMember(key));
+        newMemberIds.add(accountId);
       }
     }
 
-    if (newMembers.isEmpty()) {
+    if (newMemberIds.isEmpty()) {
       return;
     }
+
+    addNewGroupMembers(db, group, newMemberIds);
+  }
+
+  private void addNewGroupMembers(ReviewDb db, AccountGroup group, Set<Account.Id> newMemberIds)
+      throws OrmException, IOException {
+    Set<AccountGroupMember> newMembers =
+        newMemberIds
+            .stream()
+            .map(accountId -> new AccountGroupMember.Key(accountId, group.getId()))
+            .map(AccountGroupMember::new)
+            .collect(toImmutableSet());
 
     if (currentUser != null) {
       auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers);

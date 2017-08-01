@@ -248,5 +248,18 @@
       }
       return commands;
     },
+
+    _createNewChange() {
+      this.$.createChangeOverlay.open();
+    },
+
+    _handleCreateChange() {
+      this.$.createNewChangeModal.handleCreateChange();
+      this._handleCloseCreateChange();
+    },
+
+    _handleCloseCreateChange() {
+      this.$.createChangeOverlay.close();
+    },
   });
 })();

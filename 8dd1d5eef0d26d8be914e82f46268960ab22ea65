@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "77674934_c726c97c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T17:18:56Z",
+      "side": 1,
+      "message": "Ack. I wasn\u0027t aware about separate client/server deployments.",
+      "parentUuid": "11a0101b_763c3fc6",
+      "range": {
+        "startLine": 1332,
+        "startChar": 6,
+        "endLine": 1332,
+        "endChar": 90
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2f2da14_a619f2ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "No. When message is empty is precisely when we must generate a message. Otherwise no email goes out.\n\nI\u0027ve carefully avoided adding noise to the timeline. PolyGerrit only makes the second call to Set Ready if PostReview doesn\u0027t reply with {ready: true} [1]. If for some reason PolyGerrit doesn\u0027t have positive confirmation of review-started, then it calls Set Ready, but the server will reject that with a 409 response code [2]. Either way, no change message is generated.\n\nIt is unfortunate that the user may informally state that the change is ready for review, and then the system will impose its own redundant message, but I think this is a reasonable temporary situation. I\u0027m going to revisit this in the coming days, as we need some changes to how the \"newchange\" email is sent out [3]. The logic will depend less on what message the reviewer posted (if any), and the wording will be moved into the email template.\n\nAlternatively, I could abandon this change and focus on the solution to [3]. However, one feature of this change is it provides a smooth transition, by migrating the temporary workaround from PolyGerrit to the server. Since the solution to [3] is going to also depend on server-side deployment, we would have an awkward period where emails are going out talking about the change starting review alongside a PolyGerrit-inserted user message stating the same thing.\n\n[1] https://gerrit-review.googlesource.com/c/114190\n[2] https://gerrit-review.googlesource.com/c/114450\n[3] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6854",
       "parentUuid": "d2f2da14_a619f2ed",
+      "range": {
+        "startLine": 1333,
+        "startChar": 6,
+        "endLine": 1335,
+        "endChar": 7
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4dd51c3_b359837f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T17:18:56Z",
+      "side": 1,
+      "message": "I agree with your approach. All what I\u0027m saying is, I would like to avoid noise. Even with this temporarily workaround. What I\u0027m basically proposing, is to adapt the proposed conditions from:\n\n  if (!msg.isEmpty()) {\n        buf.append(\"\\n\\n\").append(msg);\n  }\n  if (in.ready \u0026\u0026 !msg.contains(START_REVIEW_MESSAGE)) {\n        buf.append(\"\\n\\n\" + START_REVIEW_MESSAGE);\n  }\n\nto:\n\n  if (!msg.isEmpty()) {\n    buf.append(\"\\n\\n\").append(msg);\n  } else if (in.ready) {\n    buf.append(\"\\n\\n\" + START_REVIEW_MESSAGE);\n  }\n\nThis would avoid noise and duplicate messages, but still send mail if message is empty.",
+      "parentUuid": "cc5cafd4_946229be",
       "range": {
         "startLine": 1333,
         "startChar": 6,

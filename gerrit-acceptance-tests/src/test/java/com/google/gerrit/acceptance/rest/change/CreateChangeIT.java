@@ -16,14 +16,11 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -43,11 +40,9 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -57,7 +52,6 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -173,29 +167,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.workInProgress = true;
     assertCreateSucceeds(input);
-  }
-
-  @Test
-  public void createChangeWithoutAccessToParentCommitFails() throws Exception {
-    Map<String, PushOneCommit.Result> results =
-        changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
-    block(READ, REGISTERED_USERS, "refs/heads/invisible-branch", project);
-
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
-    in.branch = "visible-branch";
-    in.baseChange = results.get("invisible-branch").getChangeId();
-    assertCreateFails(
-        in, UnprocessableEntityException.class, "Base change not found: " + in.baseChange);
-  }
-
-  @Test
-  public void createChangeOnInvisibleBranchFails() throws Exception {
-    changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
-    block(READ, REGISTERED_USERS, "refs/heads/invisible-branch", project);
-
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
-    in.branch = "invisible-branch";
-    assertCreateFails(in, AuthException.class, "cannot upload review");
   }
 
   @Test
@@ -473,18 +444,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return in;
   }
 
-  /**
-   * Create an empty commit in master, two new branches with one commit each.
-   *
-   * @param branchA name of first branch to create
-   * @param fileA name of file to commit to branchA
-   * @param branchB name of second branch to create
-   * @param fileB name of file to commit to branchB
-   * @return A {@code Map} of branchName => commit result.
-   * @throws Exception
-   */
-  private Map<String, Result> changeInTwoBranches(
-      String branchA, String fileA, String branchB, String fileB) throws Exception {
+  private void changeInTwoBranches(String branchA, String fileA, String branchB, String fileB)
+      throws Exception {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
@@ -509,7 +470,5 @@ public class CreateChangeIT extends AbstractDaemonTest {
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();
-
-    return ImmutableMap.of("master", initialCommit, branchA, changeA, branchB, changeB);
   }
 }

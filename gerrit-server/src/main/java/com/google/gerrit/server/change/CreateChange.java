@@ -180,7 +180,7 @@ public class CreateChange
     }
 
     RefControl refControl = rsrc.getControl().controlForRef(refName);
-    if (!refControl.canUpload() || !refControl.isVisible()) {
+    if (!refControl.canUpload() || !refControl.canRead()) {
       throw new AuthException("cannot upload review");
     }
 
@@ -194,11 +194,11 @@ public class CreateChange
       if (input.baseChange != null) {
         List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getControl().getUser());
         if (ctls.size() != 1) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
         ChangeControl ctl = Iterables.getOnlyElement(ctls);
         if (!ctl.isVisible(db.get())) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
         PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
         parentCommit = ObjectId.fromString(ps.getRevision().get());

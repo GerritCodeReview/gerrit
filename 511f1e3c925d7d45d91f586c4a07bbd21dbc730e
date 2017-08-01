@@ -95,6 +95,30 @@
       "revId": "511f1e3c925d7d45d91f586c4a07bbd21dbc730e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "023e188d_994bd630",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T13:35:16Z",
+      "side": 0,
+      "message": "I think this is kind of a special case. By logging in the user triggers the creation of its account and adding it to the group. Hence that new account should be logged as actor in the audit log.\n\nMaybe you could inject a provider for a user initiated group update and then use it inside a request context:\n\ntry (ManualRequestContext ctx \u003d oneOffRequestContext.openAs(newId)) {\n  userInitiatedGroupsUpdateProvider.get().addGroupMember(db, uuid, newId);\n}\n\nOpening a request context manually is not very nice, but since it\u0027s only in the special case where the initial admin user is created it should be fine.",
+      "parentUuid": "f99cc5d5_4f6fa845",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 79
+      },
+      "revId": "511f1e3c925d7d45d91f586c4a07bbd21dbc730e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,52 @@
       "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fa60bfc_9254e613",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T22:29:17Z",
+      "side": 1,
+      "message": "Nit: you can lift this helper function out of the sort comparator so that it is only defined once.",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 36
+      },
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053629c3_191c7894",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T22:29:17Z",
+      "side": 1,
+      "message": "IMO, this syntax is for assigning multiple locals. Would you be opposed to merely...\n\n const edit \u003d r[3];\n\n...?",
+      "range": {
+        "startLine": 503,
+        "startChar": 8,
+        "endLine": 503,
+        "endChar": 31
+      },
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -516,6 +516,30 @@
     },
     {
       "key": {
+        "uuid": "f15b7726_2fbf4713",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T22:29:17Z",
+      "side": 1,
+      "message": "I hadn\u0027t noticed that we already pull in the PatchSetBehavior here. This suggestion suddenly looks more feasible to me.",
+      "parentUuid": "4dc1d2cb_c65acf56",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "5c558af431140525235ecb9e30cd739feaeb3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bce68104_9ef61195",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 7

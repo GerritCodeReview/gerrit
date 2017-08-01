@@ -240,7 +240,7 @@ public abstract class ExternalId implements Serializable {
     try {
       int accountId =
           externalIdConfig.getInt(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY, -1);
-      if (accountId <= 0) {
+      if (accountId < 0) {
         throw invalidConfig(
             noteId,
             String.format(

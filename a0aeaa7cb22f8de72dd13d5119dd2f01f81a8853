@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "78629a2e_ede12b8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T22:47:11Z",
+      "side": 1,
+      "message": "1. Will look into it.\n\n2. I actually did that on purpose... I definitely envision cases in which it\u0027s useful to comment on a change that has a pending edit, e.g. if there\u0027s a discussion about the reason you\u0027re making the edit going on. I don\u0027t know that the UX is best, but I didn\u0027t find any specific reason that one couldn\u0027t vote on a change (perhaps saying something like \"-2, don\u0027t review. Edit incoming.\") as far as the backend is concerned, so I decided to leave it enabled. Am I wrong in that?\n\n3. I agree that we have an information problem right now regarding change actions. I\u0027ll look into that point, thanks for raising it.",
+      "parentUuid": "17ddbeb4_9bd74bb0",
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa60bfc_9254e613",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 17

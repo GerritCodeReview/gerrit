@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f2a24_19672809",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-08-01T17:36:12Z",
+      "side": 1,
+      "message": "I moved these lines down because they separated the definition of out.labels from the stanza predicated on the value of out.labels.",
+      "revId": "ff43da1397b75ab30b48d3ed15efbbbcec6a98bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

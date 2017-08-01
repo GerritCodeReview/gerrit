@@ -1235,5 +1235,15 @@
       return this.send('POST', url, {reason}).then(response =>
         this.getResponseObject(response));
     },
+
+    /**
+     * Given a changeNum, gets the change.
+     *
+     * @param {string} changeNum
+     * @return {Promise<Object>} The change
+     */
+    getChange(changeNum) {
+      return this.fetchJSON(`/changes/${changeNum}`);
+    },
   });
 })();

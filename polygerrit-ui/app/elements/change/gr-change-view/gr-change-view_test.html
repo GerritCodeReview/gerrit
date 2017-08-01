@@ -1241,7 +1241,7 @@ limitations under the License.
 
     suite('_upgradeUrl calls', () => {
       let upgradeStub;
-      const mockChange = {project: 'test'};
+      const mockChange = {project: 'test', _number: '3'};
 
       setup(() => {
         upgradeStub = sandbox.stub(window.Gerrit.Nav, 'upgradeUrl');
@@ -1250,18 +1250,21 @@ limitations under the License.
       test('app.params.project undefined', () => {
         element._upgradeUrl(mockChange, {});
         assert.isTrue(upgradeStub.called);
-        assert.deepEqual(upgradeStub.lastCall.args[0], mockChange);
+        assert.deepEqual(upgradeStub.lastCall.args[0], {project: 'test'});
+        assert.deepEqual(element.$.projectLookup._lookup, {3: 'test'});
       });
 
       test('app.params.project differs from change.project', () => {
         element._upgradeUrl(mockChange, {project: 'demo'});
         assert.isTrue(upgradeStub.called);
-        assert.deepEqual(upgradeStub.lastCall.args[0], mockChange);
+        assert.deepEqual(upgradeStub.lastCall.args[0], {project: 'test'});
+        assert.deepEqual(element.$.projectLookup._lookup, {3: 'test'});
       });
 
       test('app.params.project === change.project', () => {
         element._upgradeUrl(mockChange, {project: 'test'});
         assert.isFalse(upgradeStub.called);
+        assert.deepEqual(element.$.projectLookup._lookup, {3: 'test'});
       });
     });
   });

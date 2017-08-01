@@ -947,6 +947,7 @@
 
     _upgradeUrl(change, params) {
       const project = change.project;
+      if (project) { this.$.projectLookup.set(change._number, project); }
       if (!params.project || project !== params.project) {
         Gerrit.Nav.upgradeUrl(Object.assign({}, params, {project}));
       }

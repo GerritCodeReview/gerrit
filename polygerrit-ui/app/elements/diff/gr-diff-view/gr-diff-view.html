@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
+<link rel="import" href="../../shared/gr-project-lookup/gr-project-lookup.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
@@ -334,6 +335,7 @@ limitations under the License.
         id="diffPreferences"
         prefs="{{_prefs}}"
         local-prefs="{{_localPrefs}}"></gr-diff-preferences>
+    <gr-project-lookup id="projectLookup"></gr-project-lookup>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>

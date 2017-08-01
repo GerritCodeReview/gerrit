@@ -61,6 +61,7 @@
       }
     };
 
+    const projectLookup = document.createElement('gr-project-lookup');
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
 
@@ -356,6 +357,7 @@
           normalizePatchRangeParams(params);
           app.params = params;
           upgradeUrl(params);
+          projectLookup.set(params.changeNum, params.project);
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].

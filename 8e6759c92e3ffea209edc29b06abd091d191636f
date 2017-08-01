@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd5f9e54_a7389c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T19:35:12Z",
+      "side": 1,
+      "message": "This would also have\n\nd5b7124af4de52924ed397913e2c3b37bf186948: {\n      \"options\": {},\n      \"id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"name\": \"xxx group\"\n}\n\nhere as well, correct?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

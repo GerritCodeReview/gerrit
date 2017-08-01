@@ -248,5 +248,27 @@
       }
       return commands;
     },
+
+    _handleRunningGC() {
+      return this.$.restAPI.runProjectGC(this.project).then(response => {
+            console.log(response);
+            if (response.status === 200) {
+              return window.alert('Garbage collection completed successfully.');
+            }
+          });
+    },
+
+    _createNewChange() {
+      this.$.createChangeOverlay.open();
+    },
+
+    _handleCreateChange() {
+      this.$.createNewChangeModal.handleCreateChange();
+      this._handleCloseCreateChange();
+    },
+
+    _handleCloseCreateChange() {
+      this.$.createChangeOverlay.close();
+    },
   });
 })();

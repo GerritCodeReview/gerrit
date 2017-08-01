@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1601a925_2d4dc410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-01T05:54:45Z",
+      "side": 1,
+      "message": "This should be \"PR\" according to the test, and what is described in the following paragraph.",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 46
+      },
+      "revId": "004b7d57cc0e3baa7dd06615763f8df1f4430594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

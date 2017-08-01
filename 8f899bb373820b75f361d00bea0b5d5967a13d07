@@ -81,6 +81,23 @@
       "revId": "8f899bb373820b75f361d00bea0b5d5967a13d07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c005ac8c_ae6131bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ServerInitiated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-01T09:37:21Z",
+      "side": 1,
+      "message": "Does this annotation (and the corresponding User one) need to be in the group package?  I.e. will it only be used for group related updates, or possibly also other types of updates in the future?",
+      "revId": "8f899bb373820b75f361d00bea0b5d5967a13d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

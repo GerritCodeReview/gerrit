@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ca0c08d2_9e32fe5f",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-01T13:28:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4767c80e_87c2943c",
+      "revId": "b60766de0c21051b0ab593a886a7019163403502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de7f0302_9b4305ef",
         "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
         "patchSetId": 13

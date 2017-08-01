@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a18d9a58_ab99b543",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T16:56:16Z",
+      "side": 1,
+      "message": "I feel like while we should write functions to be testable, having them return particular output for the test is something we shouldn\u0027t do. Can the test instead stub getPluginName?",
+      "parentUuid": "216d9bb2_a66d6301",
+      "range": {
+        "startLine": 23,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a3b8f76_154e98aa",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 3
@@ -81,6 +105,24 @@
       "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df766bd7_5248e965",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T16:56:16Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I was asking. Isn\u0027t it directly accessed in gr-endpoint-decorator.js and gr-public-js-api.js?",
+      "parentUuid": "1299121a_9bef15a9",
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

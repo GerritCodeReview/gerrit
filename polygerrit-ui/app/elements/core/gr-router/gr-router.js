@@ -342,7 +342,7 @@
     // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    page(/^\/c\/([^\/]+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+    page(/^\/c\/(.+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
         ctx => {
           // Parameter order is based on the regex group number matched.
           const params = {

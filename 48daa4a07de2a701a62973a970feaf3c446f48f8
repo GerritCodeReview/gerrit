@@ -94,6 +94,30 @@
       "revId": "48daa4a07de2a701a62973a970feaf3c446f48f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "772508c3_76e93700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:54:36Z",
+      "side": 1,
+      "message": "No problem, it\u0027s fine to do it as follow-up.",
+      "parentUuid": "2dfdf01f_697780c9",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "48daa4a07de2a701a62973a970feaf3c446f48f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

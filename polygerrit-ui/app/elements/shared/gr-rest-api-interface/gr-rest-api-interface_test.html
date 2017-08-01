@@ -602,17 +602,25 @@ limitations under the License.
       });
     });
 
-    test('_sendDiffDraft pending requests tracked', done => {
-      sandbox.stub(element, 'send', () => {
-        assert.equal(element._pendingRequests.sendDiffDraft, 1);
-        return Promise.resolve([]);
-      });
-      element.saveDiffDraft('', 1, 1).then(() => {
-        assert.equal(element._pendingRequests.sendDiffDraft, 0);
-        element.deleteDiffDraft('', 1, 1).then(() => {
-          assert.equal(element._pendingRequests.sendDiffDraft, 0);
-          done();
-        });
+    test('_sendDiffDraft pending requests tracked', () => {
+      const obj = element._pendingRequests;
+      sandbox.stub(element, 'send', () => mockPromise());
+      sandbox.stub(element, 'getChangeActionURL');
+      assert.notOk(element.hasPendingDiffDrafts());
+
+      element._sendDiffDraftRequest(null, null, null, {});
+      assert.equal(obj.sendDiffDraft.length, 1);
+      assert.isTrue(!!element.hasPendingDiffDrafts());
+
+      element._sendDiffDraftRequest(null, null, null, {});
+      assert.equal(obj.sendDiffDraft.length, 2);
+      assert.isTrue(!!element.hasPendingDiffDrafts());
+
+      for (const promise of obj.sendDiffDraft) { promise.resolve(); }
+
+      return element.awaitPendingDiffDrafts().then(() => {
+        assert.equal(obj.sendDiffDraft.length, 0);
+        assert.isFalse(!!element.hasPendingDiffDrafts());
       });
     });
 

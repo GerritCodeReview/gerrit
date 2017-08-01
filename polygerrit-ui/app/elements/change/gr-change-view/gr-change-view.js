@@ -19,7 +19,6 @@
     MISSING: 'missing',
   };
   const CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
-  const COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
 
   const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
   const DEFAULT_NUM_FILES_SHOWN = 200;
@@ -224,6 +223,7 @@
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
+      this.addEventListener('comment-refresh', this._getDiffDrafts.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
       this.addEventListener('editable-content-save',
@@ -841,11 +841,6 @@
     },
 
     _openReplyDialog(opt_section) {
-      if (this.$.restAPI.hasPendingDiffDrafts()) {
-        this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: COMMENT_SAVE}, bubbles: true}));
-        return;
-      }
       this.$.replyOverlay.open().then(() => {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
         this.$.replyDialog.open(opt_section);
@@ -869,10 +864,9 @@
     },
 
     _getDiffDrafts() {
-      return this.$.restAPI.getDiffDrafts(this._changeNum).then(
-          drafts => {
-            return this._diffDrafts = drafts;
-          });
+      return this.$.restAPI.getDiffDrafts(this._changeNum).then(drafts => {
+        return this._diffDrafts = drafts;
+      });
     },
 
     _getLoggedIn() {
@@ -953,16 +947,14 @@
     },
 
     _getComments() {
-      return this.$.restAPI.getDiffComments(this._changeNum).then(
-          comments => {
-            this._comments = comments;
-          });
+      return this.$.restAPI.getDiffComments(this._changeNum).then(comments => {
+        this._comments = comments;
+      });
     },
 
     _getLatestCommitMessage() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-          this.computeLatestPatchNum(this._allPatchSets)).then(
-          commitInfo => {
+          this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
             this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);
           });

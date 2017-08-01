@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8fba967_ccb68535",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T03:54:16Z",
+      "side": 1,
+      "message": "This is invalid patch set number, isn\u0027t it? Shouldn\u0027t it be at least 1?",
+      "range": {
+        "startLine": 885,
+        "startChar": 33,
+        "endLine": 885,
+        "endChar": 34
+      },
+      "revId": "2cb95eef4c4954be2fd60c636f0800db8e65b9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f6cf943_4d9b77a7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T03:54:16Z",
+      "side": 1,
+      "message": "This is needed for switching between old and new UI? In which case, this normalization can be removed when GWT UI is gone?",
+      "revId": "2cb95eef4c4954be2fd60c636f0800db8e65b9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

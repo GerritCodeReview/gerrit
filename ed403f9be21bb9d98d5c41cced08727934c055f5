@@ -46,6 +46,30 @@
       "revId": "ed403f9be21bb9d98d5c41cced08727934c055f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a04c223_2d8fbc7a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-01T08:08:48Z",
+      "side": 0,
+      "message": "Yeah. I will have a look today. Thanks.",
+      "parentUuid": "40b67d2e_562ee610",
+      "range": {
+        "startLine": 191,
+        "startChar": 13,
+        "endLine": 191,
+        "endChar": 74
+      },
+      "revId": "ed403f9be21bb9d98d5c41cced08727934c055f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

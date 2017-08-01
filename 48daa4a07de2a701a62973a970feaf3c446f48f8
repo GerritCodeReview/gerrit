@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4710633_08b96df5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:42:42Z",
+      "side": 1,
+      "message": "+1 for throwing an exception here",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "48daa4a07de2a701a62973a970feaf3c446f48f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

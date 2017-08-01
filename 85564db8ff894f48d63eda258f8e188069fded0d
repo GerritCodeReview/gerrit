@@ -22,6 +22,30 @@
       "revId": "85564db8ff894f48d63eda258f8e188069fded0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dc4c6e1_97ab178f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T16:31:51Z",
+      "side": 1,
+      "message": "Sorry, yes -- that\u0027s definitely what I meant!",
+      "parentUuid": "2916481a_1c37dfc1",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "85564db8ff894f48d63eda258f8e188069fded0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

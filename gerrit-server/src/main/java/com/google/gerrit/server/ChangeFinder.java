@@ -15,12 +15,14 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Throwables;
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.project.ChangeControl;
@@ -29,8 +31,10 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,8 +44,19 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class ChangeFinder {
+  private static final String CACHE_NAME = "changeid_project";
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        cache(CACHE_NAME, Change.Id.class, String.class).maximumWeight(1024);
+      }
+    };
+  }
 
   private final IndexConfig indexConfig;
+  private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -49,10 +64,12 @@ public class ChangeFinder {
   @Inject
   ChangeFinder(
       IndexConfig indexConfig,
+      @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> reviewDb,
       ChangeControl.GenericFactory changeControlFactory) {
     this.indexConfig = indexConfig;
+    this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.reviewDb = reviewDb;
     this.changeControlFactory = changeControlFactory;
@@ -72,67 +89,67 @@ public class ChangeFinder {
       return Collections.emptyList();
     }
 
+    int z = id.lastIndexOf('~');
+    int y = id.lastIndexOf('~', z - 1);
+    if (y < 0 && z > 0) {
+      // Try project~numericChangeId
+      Integer n = Ints.tryParse(id.substring(z + 1));
+      if (n != null) {
+        return fromProjectNumber(user, id.substring(0, z), n.intValue());
+      }
+    }
+
+    if (y < 0 && z < 0) {
+      // Try numeric changeId
+      Integer n = Ints.tryParse(id);
+      if (n != null) {
+        return find(new Change.Id(n), user);
+      }
+    }
+
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
-
-    int numTwiddles = 0;
-    for (char c : id.toCharArray()) {
-      if (c == '~') {
-        numTwiddles++;
-      }
-    }
-
-    if (numTwiddles == 1) {
-      // Try project~numericChangeId
-      String project = id.substring(0, id.indexOf('~'));
-      Integer n = Ints.tryParse(id.substring(project.length() + 1));
-      if (n != null) {
-        Change.Id changeId = new Change.Id(n);
-        try {
-          return ImmutableList.of(
-              changeControlFactory.controlFor(
-                  reviewDb.get(), Project.NameKey.parse(project), changeId, user));
-        } catch (NoSuchChangeException e) {
-          return Collections.emptyList();
-        } catch (IllegalArgumentException e) {
-          String changeNotFound = String.format("change %s not found in ReviewDb", changeId);
-          String projectNotFound =
-              String.format(
-                  "passed project %s when creating ChangeNotes for %s, but actual project is",
-                  project, changeId);
-          if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
-            return Collections.emptyList();
-          }
-          throw e;
-        } catch (OrmException e) {
-          // Distinguish between a RepositoryNotFoundException (project argument invalid) and
-          // other OrmExceptions (failure in the persistence layer).
-          if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
-            return Collections.emptyList();
-          }
-          throw e;
-        }
-      }
-    } else if (numTwiddles == 2) {
-      // Try change triplet
-      Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
+    if (y > 0 && z > 0) {
+      // Try change triplet (project~branch~Ihash...)
+      Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
-        return asChangeControls(
-            query.byBranchKey(triplet.get().branch(), triplet.get().id()), user);
+        ChangeTriplet t = triplet.get();
+        return asChangeControls(query.byBranchKey(t.branch(), t.id()), user);
       }
     }
 
-    // Try numeric changeId
-    if (id.charAt(0) != '0') {
-      Integer n = Ints.tryParse(id);
-      if (n != null) {
-        return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
-      }
-    }
-
-    // Try isolated changeId
+    // Try isolated Ihash... format ("Change-Id: Ihash").
     return asChangeControls(query.byKeyPrefix(id), user);
+  }
+
+  private List<ChangeControl> fromProjectNumber(CurrentUser user, String project, int changeNumber)
+      throws OrmException {
+    Change.Id cId = new Change.Id(changeNumber);
+    try {
+      return ImmutableList.of(
+          changeControlFactory.controlFor(
+              reviewDb.get(), Project.NameKey.parse(project), cId, user));
+    } catch (NoSuchChangeException e) {
+      return Collections.emptyList();
+    } catch (IllegalArgumentException e) {
+      String changeNotFound = String.format("change %s not found in ReviewDb", cId);
+      String projectNotFound =
+          String.format(
+              "passed project %s when creating ChangeNotes for %s, but actual project is",
+              project, cId);
+      if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
+        return Collections.emptyList();
+      }
+      throw e;
+    } catch (OrmException e) {
+      // Distinguish between a RepositoryNotFoundException (project argument invalid) and
+      // other OrmExceptions (failure in the persistence layer).
+      if (Throwables.getRootCause(e) instanceof RepositoryNotFoundException) {
+        return Collections.emptyList();
+      }
+      throw e;
+    }
   }
 
   public ChangeControl findOne(Change.Id id, CurrentUser user) throws OrmException {
@@ -144,10 +161,19 @@ public class ChangeFinder {
   }
 
   public List<ChangeControl> find(Change.Id id, CurrentUser user) throws OrmException {
+    String project = changeIdProjectCache.getIfPresent(id);
+    if (project != null) {
+      return fromProjectNumber(user, project, id.get());
+    }
+
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
-    return asChangeControls(query.byLegacyChangeId(id), user);
+    List<ChangeData> r = query.byLegacyChangeId(id);
+    if (r.size() == 1) {
+      changeIdProjectCache.put(id, r.get(0).project().get());
+    }
+    return asChangeControls(r, user);
   }
 
   private List<ChangeControl> asChangeControls(List<ChangeData> cds, CurrentUser user)

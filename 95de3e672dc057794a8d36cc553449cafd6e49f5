@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af2b622_8a4c3d34",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T03:39:47Z",
+      "side": 1,
+      "message": "How come this is necessary? Is this going to get called multiple times and need to be reset? Maybe a comment explaining.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 38
+      },
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfe5555f_de047985",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T03:39:47Z",
+      "side": 1,
+      "message": "Nit: Spacing is a little inconsistent- should probably remove this line (or add one after l.47)",
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960f0e16_21e38af4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T03:39:47Z",
+      "side": 1,
+      "message": "Nit: remove space for consistency",
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433b3dd0_acd4276c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-01T03:39:47Z",
+      "side": 1,
+      "message": "How come two meta properties are set by the comment API (but seem to just be the params passed in) and these two are set here?",
+      "range": {
+        "startLine": 729,
+        "startChar": 8,
+        "endLine": 730,
+        "endChar": 58
+      },
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

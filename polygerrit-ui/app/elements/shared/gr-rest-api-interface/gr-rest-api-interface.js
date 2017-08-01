@@ -935,9 +935,23 @@
           patchNum, opt_path);
     },
 
+    /**
+     * If the user is logged in, fetch the user's draft diff comments. If there
+     * is no logged in user, the request is not made and the promise yields an
+     * empty object.
+     *
+     * @param {number|string} changeNum
+     * @param {number|string} opt_basePatchNum
+     * @param {number|string} opt_patchNum
+     * @param {string} opt_path
+     * @return {Promise<Object>}
+     */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
-      return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
-          opt_patchNum, opt_path);
+      return this.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) { return Promise.resolve({}); }
+        return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
+            opt_patchNum, opt_path);
+      });
     },
 
     _setRange(comments, comment) {

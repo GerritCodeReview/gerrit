@@ -730,10 +730,7 @@
     },
 
     _getDiffDrafts() {
-      return this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return Promise.resolve({}); }
-        return this.$.restAPI.getDiffDrafts(this._changeNum);
-      });
+      return this.$.restAPI.getDiffDrafts(this._changeNum);
     },
 
     _computeCommentSkips(commentMap, fileList, path) {

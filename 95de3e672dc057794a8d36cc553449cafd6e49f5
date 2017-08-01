@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6e8491c_211bca3d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T21:20:07Z",
+      "side": 1,
+      "message": "I added a comment. The `loadAll` method may indeed be invoked multiple times, for example when switching the params of the change view to point to a different change.",
+      "parentUuid": "0af2b622_8a4c3d34",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 38
+      },
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfe5555f_de047985",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 10
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "fa3524f4_08230d2a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T21:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfe5555f_de047985",
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960f0e16_21e38af4",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 10
@@ -56,6 +98,24 @@
       "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245d99f3_bff359a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T21:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "960f0e16_21e38af4",
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d32cdbde_15cc2a3a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-01T21:20:07Z",
+      "side": 1,
+      "message": "It seemed simpler this way when I wrote it, but not now that you point it out. 😊 \n\nI\u0027ve refactored so they don\u0027t need to be assigned in this way (by holding on to the change num, and by admitting the project config as an optional param).",
+      "parentUuid": "433b3dd0_acd4276c",
+      "range": {
+        "startLine": 729,
+        "startChar": 8,
+        "endLine": 730,
+        "endChar": 58
+      },
+      "revId": "95de3e672dc057794a8d36cc553449cafd6e49f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

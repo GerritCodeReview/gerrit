@@ -19,8 +19,6 @@
 
   const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
-  const COMMENT_SAVE = 'Try again when all comments have saved.';
-
   const DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -341,11 +339,6 @@
       if (this.modifierPressed(e)) { return; }
 
       if (!this._loggedIn) { return; }
-      if (this.$.restAPI.hasPendingDiffDrafts()) {
-        this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: COMMENT_SAVE}, bubbles: true}));
-        return;
-      }
 
       this.set('changeViewState.showReplyDialog', true);
       e.preventDefault();

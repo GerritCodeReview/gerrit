@@ -964,6 +964,34 @@ limitations under the License.
           assertDialogClosed();
         });
       });
+
+      suite('pending diff drafts?', () => {
+        test('yes', () => {
+          const promise = mockPromise();
+          const refreshHandler = sandbox.stub();
+
+          element.addEventListener('comment-refresh', refreshHandler);
+          sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(true);
+          element.$.restAPI._pendingRequests.sendDiffDraft = [promise];
+          element.open();
+
+          assert.isFalse(refreshHandler.called);
+          assert.isTrue(element._savingComments);
+
+          promise.resolve();
+
+          return element.$.restAPI.awaitPendingDiffDrafts().then(() => {
+            assert.isTrue(refreshHandler.called);
+            assert.isFalse(element._savingComments);
+          });
+        });
+
+        test('no', () => {
+          sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(false);
+          element.open();
+          assert.notOk(element._savingComments);
+        });
+      });
     });
   });
 </script>

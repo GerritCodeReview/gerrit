@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b24eeb61_f5cbe558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T05:00:59Z",
+      "side": 1,
+      "message": "You mean here 115451? I added a reference to this change in: [1]. I would prefer to revert the workaround implemented in 115451 on the PG side and fix it on the sever side in one change (this change).\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6841",
+      "range": {
+        "startLine": 1332,
+        "startChar": 6,
+        "endLine": 1332,
+        "endChar": 90
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2f2da14_a619f2ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T05:00:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this have a check whether the message is non-empty and add hard coded START_REVIEW_MESSAGE message only then? Otherwise there is too much noise in the comment table.\n\nIf change owner press Start Review button on WIP change and adds this comment: \"All comments were addressed\", she will see something like that:\n\n  David Ostrovsky (Admin)                      6:45 AM\n  Patch Set 2:\n  All comments were addressed\n  This change is ready for review.\n\nAnd then another change message from Set Ready op:\n\n  David Ostrovsky (Admin)                      6:45 AM\n  Set Ready For Review\n\nNow, to make things even more confusing, user can add \"This change is ready for review\" comment (note, without point in the end of this statement) and would get this:\n\n  David Ostrovsky (Admin)                     6:57 AM\n  Patch Set 2:\n  This change is ready for review\n  This change is ready for review.\n\nAnd then another change message from Set Ready op:\n\n  David Ostrovsky (Admin)                      6:57 AM\n  Set Ready For Review",
+      "range": {
+        "startLine": 1333,
+        "startChar": 6,
+        "endLine": 1335,
+        "endChar": 7
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

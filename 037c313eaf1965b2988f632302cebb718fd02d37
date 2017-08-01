@@ -46,6 +46,30 @@
       "revId": "037c313eaf1965b2988f632302cebb718fd02d37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a27c6a9_2fe8d518",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-01T09:54:46Z",
+      "side": 1,
+      "message": "Actually, there\u0027s no point pushing a new patch set, since this block gets removed in the following change.",
+      "parentUuid": "c439d599_adcb5340",
+      "range": {
+        "startLine": 97,
+        "startChar": 33,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "037c313eaf1965b2988f632302cebb718fd02d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

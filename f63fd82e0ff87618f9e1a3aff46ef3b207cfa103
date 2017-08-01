@@ -22,6 +22,30 @@
       "revId": "f63fd82e0ff87618f9e1a3aff46ef3b207cfa103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b1d5f11_36bad560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-01T06:53:57Z",
+      "side": 1,
+      "message": "I\u0027ve missed to commit some changes. Will upload a new version later.",
+      "parentUuid": "a5e1fb2a_fbf4cc3a",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "f63fd82e0ff87618f9e1a3aff46ef3b207cfa103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c5b8199_ae99471b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-01T20:43:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "311e184a_45b1b074",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3887295_5f9aec6c",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
         "patchSetId": 18

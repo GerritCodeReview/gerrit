@@ -22,6 +22,30 @@
       "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eb86250_f4ba2cb1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-01T09:14:53Z",
+      "side": 1,
+      "message": "Yeah. It will be clearer as your suggestion.\n\nUsers can also get this through the following explanation about how to bypass this configuration \nwhen they try to create a change in REST endpoint or Push.",
+      "parentUuid": "c8209623_e7408280",
+      "range": {
+        "startLine": 1157,
+        "startChar": 16,
+        "endLine": 1157,
+        "endChar": 36
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

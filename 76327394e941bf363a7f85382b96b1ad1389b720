@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15396756_11284dd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "Non-blocking weird nit: is this proper English? [1] would seem to say that it isn\u0027t wrong, but it sure feels that way.\n\n[1] http://www.grammarbook.com/punctuation/hyphens.asp",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2a8309_485f760e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "I think we should probably call this \"commentAPI\" -- that\u0027s what we do with the rest API module.",
+      "range": {
+        "startLine": 414,
+        "startChar": 24,
+        "endLine": 414,
+        "endChar": 32
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "168c4606_44de3c79",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "This seems like a pretty verbose name -- do we care that it comes \"with meta\" enough to write that in the function name?",
+      "range": {
+        "startLine": 896,
+        "startChar": 4,
+        "endLine": 896,
+        "endChar": 31
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3ef7675_fba2721d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "This function needs a JSDoc complete with type annotations.",
+      "range": {
+        "startLine": 896,
+        "startChar": 0,
+        "endLine": 902,
+        "endChar": 6
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59068d89_db22ef65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "Can this fit on the prior line?",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 29
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21d9a7d_84bc9d4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:22:12Z",
+      "side": 1,
+      "message": "Viktar recently pointed out in [1] that this is a bit of an anti-pattern -- since there\u0027s never a scenario in which we need to getDiffDrafts without checking for login first, we probably ought to just do this check in gr-rest-api-interface.\n\n[1] https://gerrit-review.googlesource.com/c/115431/8/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#979",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 55,
+        "endChar": 12
+      },
+      "revId": "76327394e941bf363a7f85382b96b1ad1389b720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

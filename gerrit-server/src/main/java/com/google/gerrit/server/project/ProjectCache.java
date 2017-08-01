@@ -51,6 +51,12 @@ public interface ProjectCache {
   /** Invalidate the cached information about the given project. */
   void evict(Project.NameKey p);
 
+  /**
+   * Remove information about the given project from the cache. It will no longer be returned from
+   * {@link #all()}.
+   */
+  void remove(Project p);
+
   /** @return sorted iteration of projects. */
   Iterable<Project.NameKey> all();
 

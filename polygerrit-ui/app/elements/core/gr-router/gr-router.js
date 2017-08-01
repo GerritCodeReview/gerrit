@@ -401,6 +401,7 @@
           normalizePatchRangeParams(params);
           app.params = params;
           upgradeUrl(params);
+          restAPI.setInProjectLookup(params.changeNum, params.project);
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].

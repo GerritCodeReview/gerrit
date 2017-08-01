@@ -22,6 +22,30 @@
       "revId": "ed403f9be21bb9d98d5c41cced08727934c055f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40b67d2e_562ee610",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T08:07:40Z",
+      "side": 0,
+      "message": "I think those tests didn\u0027t work I tried to enable them last time and i haven\u0027t had time to look deeper. Could you have a look? ;-)",
+      "parentUuid": "5d8a4e4b_84c64f6f",
+      "range": {
+        "startLine": 191,
+        "startChar": 13,
+        "endLine": 191,
+        "endChar": 74
+      },
+      "revId": "ed403f9be21bb9d98d5c41cced08727934c055f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

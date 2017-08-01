@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55df7a49_818292c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-01T07:50:32Z",
+      "side": 1,
+      "message": "When http daemon is enabled it can be guessed by HttpCanonicalWebUrlProvider too? If it\u0027s null, then it was neither configured nor can be guessed. Daemon.java:\n\n  if (MoreObjects.firstNonNull(httpd, true)) {\n      modules.add(\n          new CanonicalWebUrlModule() {\n            @Override\n            protected Class\u003c? extends Provider\u003cString\u003e\u003e provider() {\n              return HttpCanonicalWebUrlProvider.class;\n            }\n          });\n    } else {\n      modules.add(\n          new CanonicalWebUrlModule() {\n            @Override\n            protected Class\u003c? extends Provider\u003cString\u003e\u003e provider() {\n              return CanonicalWebUrlProvider.class;\n            }\n          });\n    }\n\nSo may be we can make the error message more specific?",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 76,
+        "endChar": 61
+      },
+      "revId": "864e85e1b164341e0e52b440c6eed94f7f7a789b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

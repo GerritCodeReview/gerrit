@@ -46,6 +46,30 @@
       "revId": "48daa4a07de2a701a62973a970feaf3c446f48f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43cf9881_669b36f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:47:01Z",
+      "side": 1,
+      "message": "I would prefer to do it in this change since the corresponding check in AccountCreator is removed.",
+      "parentUuid": "bf64144b_57bcecf9",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "48daa4a07de2a701a62973a970feaf3c446f48f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

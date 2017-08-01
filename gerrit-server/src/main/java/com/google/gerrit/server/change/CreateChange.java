@@ -105,6 +105,7 @@ public class CreateChange
   private final ChangeFinder changeFinder;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
+  private final boolean privateByDefault;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
@@ -143,6 +144,7 @@ public class CreateChange
     this.changeFinder = changeFinder;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.privateByDefault = config.getBoolean("change", "privateByDefault", false);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
@@ -258,7 +260,7 @@ public class CreateChange
       }
       ins.setTopic(topic);
       ins.setDraft(input.status == ChangeStatus.DRAFT);
-      ins.setPrivate(input.isPrivate != null && input.isPrivate);
+      ins.setPrivate(input.isPrivate == null ? privateByDefault : input.isPrivate);
       ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);

@@ -232,6 +232,21 @@ limitations under the License.
               <gr-button
                   on-tap="_handleSaveProjectConfig"
                   disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
+
+              <h3 id="Options">Project Commands</h3>
+              <fieldset id="project-commands">
+                <section>
+                  <span class="title">
+                    Commands</span>
+                  <span class="value">
+                    <gr-button
+                        on-tap="_handleCreateChange"
+                        disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">
+                      Create Change
+                    </gr-button>
+                  </span>
+                </section>
+              </fieldset>
             </fieldset>
           </div>
         </div>

@@ -46,7 +46,8 @@ public class PluginIT extends AbstractDaemonTest {
       RawInputUtil.create(HTML_PLUGIN.getBytes(UTF_8));
 
   private static final List<String> PLUGINS =
-      ImmutableList.of("plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html");
+      ImmutableList.of(
+          "plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html", "plugin_e.js");
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
@@ -65,6 +66,7 @@ public class PluginIT extends AbstractDaemonTest {
       PluginInfo info = api.get();
       String name = pluginName(plugin);
       assertThat(info.id).isEqualTo(name);
+      assertThat(info.version).isEqualTo(pluginVersion(plugin));
       assertThat(info.indexUrl).isEqualTo(String.format("plugins/%s/", name));
       assertThat(info.disabled).isNull();
     }
@@ -78,12 +80,12 @@ public class PluginIT extends AbstractDaemonTest {
     assertPlugins(list().prefix("PLUGIN-").get(), ImmutableList.of());
 
     // With substring
-    assertPlugins(list().substring("lugin-").get(), PLUGINS);
+    assertPlugins(list().substring("lugin-").get(), PLUGINS.subList(0, PLUGINS.size() - 1));
     assertPlugins(list().substring("lugin-").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // With regex
     assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b.html"));
-    assertPlugins(list().regex("plugin-.*").get(), PLUGINS);
+    assertPlugins(list().regex("plugin-.*").get(), PLUGINS.subList(0, PLUGINS.size() - 1));
     assertPlugins(list().regex("plugin-.*").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // Invalid match combinations
@@ -133,6 +135,12 @@ public class PluginIT extends AbstractDaemonTest {
     int dot = plugin.indexOf(".");
     assertThat(dot).isGreaterThan(0);
     return plugin.substring(0, dot);
+  }
+
+  private String pluginVersion(String plugin) {
+    String name = pluginName(plugin);
+    int dash = name.lastIndexOf("-");
+    return dash > 0 ? name.substring(dash + 1) : "";
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

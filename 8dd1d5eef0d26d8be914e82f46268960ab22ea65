@@ -189,6 +189,30 @@
       "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fefc01a3_4fba70ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-01T20:06:10Z",
+      "side": 1,
+      "message": "We need one more change because there will be an overlapping period where the workaround is deployed on both the PolyGerrit side and the server side. During this period we need this slightly more complex logic with the TODO, so we don\u0027t repeat the workaround text in the email (which users will notice and complain about).\n\nOnce this change is accepted, merged, and deployed (~1 week), we can then commit the removal of the PolyGerrit workaround and resolve this TODO at the same time. The PolyGerrit part will deploy before the TODO resolution, so those two changes can land on master simultaneously with no impact on googlesource operations.\n\nI really want to check in this change so I can get rid of the workaround on the PolyGerrit side. The PolyGerrit workaround was necessary to fix the problem for users immediately, but it complicates deployment of the long-term solution in the same way it complicates this change. The long-term solution moves this workaround text from the ChangeMessage to the contents of a soy mail template. By moving the workaround text to the server side, we simplify the transition to the long-term solution because it can then be a purely server-side change, with no PolyGerrit coordination necessary.",
+      "parentUuid": "5ab06166_1c8d91b6",
+      "range": {
+        "startLine": 1333,
+        "startChar": 6,
+        "endLine": 1335,
+        "endChar": 7
+      },
+      "revId": "8dd1d5eef0d26d8be914e82f46268960ab22ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cbff06e_050bf5d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:21:46Z",
+      "side": 1,
+      "message": "Why ordered?",
+      "range": {
+        "startLine": 180,
+        "startChar": 52,
+        "endLine": 180,
+        "endChar": 59
+      },
+      "revId": "0458a482c13748f5328dc561ab722854c782323f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

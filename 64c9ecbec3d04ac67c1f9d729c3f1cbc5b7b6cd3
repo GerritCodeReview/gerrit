@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce87f81_a2f0d899",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GroupsOnInit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T08:24:05Z",
+      "side": 1,
+      "message": "Should we check here too if the group exists before adding the member entry?",
+      "revId": "64c9ecbec3d04ac67c1f9d729c3f1cbc5b7b6cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

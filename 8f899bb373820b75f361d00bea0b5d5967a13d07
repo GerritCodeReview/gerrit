@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab10dda_2863c06c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:39:07Z",
+      "side": 1,
+      "message": "I think an exception would make sense here.",
+      "revId": "8f899bb373820b75f361d00bea0b5d5967a13d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d4888a_625a151a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/Module.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-01T07:39:07Z",
+      "side": 1,
+      "message": "I think you might want to block the submission of this change until you prepared the internal changes that are required for it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 3
+      },
+      "revId": "8f899bb373820b75f361d00bea0b5d5967a13d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

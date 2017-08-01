@@ -22,6 +22,30 @@
       "revId": "184bb2309c8af90e42cfb62b63d24739d7eff116",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3169369_7ee0e2c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-01T00:01:01Z",
+      "side": 1,
+      "message": "Publishing is absolutely not supported in this change -- I\u0027m not even sure how you went about doing that. Could you elaborate?",
+      "parentUuid": "ba587397_8cd56d47",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 64
+      },
+      "revId": "184bb2309c8af90e42cfb62b63d24739d7eff116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "311e184a_45b1b074",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T20:37:56Z",
+      "side": 1,
+      "message": "Please revert this change.",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3887295_5f9aec6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T20:37:56Z",
+      "side": 1,
+      "message": "Please test with and without CANONICAL_PATH",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0bc807f_4b322a36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-01T20:37:56Z",
+      "side": 1,
+      "message": "What if CANONICAL_PATH contains slashes?",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

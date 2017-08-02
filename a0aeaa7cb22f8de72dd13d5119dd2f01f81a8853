@@ -110,6 +110,24 @@
     },
     {
       "key": {
+        "uuid": "deae7d40_cb692642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T21:24:44Z",
+      "side": 1,
+      "message": "\u003e Okay, so I think the right move here is to proceed with this change\n \u003e and its child change with the _editLoaded flag. Then, in a change\n \u003e descended from that, I can utilize the flag to disable the\n \u003e appropriate change actions and file list actions (resolving #1 and\n \u003e #3).\n\n+1\n\n \u003e As for #2, I\u0027d like to leave the workflow as-is, especially because\n \u003e we don\u0027t have any edit-specific actions available right now\n \u003e (publish, discard). We can re-evaluate the UX later, no problem.\n\nSGTM. So, one specific issue: leaving inline and file comments can\u0027t work. Right now you would get Server error, patch set not found when you try to save a comment. Add a TODO in the commit message? It would need to be addressed later in one or another way, like disable commenting entirely on change edits.",
+      "parentUuid": "320f81ad_15f5dfc5",
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa60bfc_9254e613",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 17

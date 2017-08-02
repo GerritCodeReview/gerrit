@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "230158ae_3233c8c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T21:24:44Z",
+      "side": 1,
+      "message": "Wrong rebase? This should be 4 now. Even after fixing it, diff screen still doesn\u0027t load for changed edit: [1].\n\n* [1] http://paste.openstack.org/show/617328/",
+      "range": {
+        "startLine": 509,
+        "startChar": 23,
+        "endLine": 509,
+        "endChar": 24
+      },
+      "revId": "1553fb8ddb4cea468c8276ac36e0c075e8f4e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

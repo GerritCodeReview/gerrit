@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb94c8e0_78c18399",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-02T05:38:36Z",
+      "side": 1,
+      "message": "We get this feature request from Android people. We have a host for android partners. They expect all changes uploaded to that host are private unless otherwise specified.",
+      "parentUuid": "1698b62a_988eb231",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8209623_e7408280",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

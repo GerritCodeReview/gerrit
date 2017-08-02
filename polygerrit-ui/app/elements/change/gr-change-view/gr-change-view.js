@@ -182,6 +182,10 @@
       },
       _updateCheckTimerHandle: Number,
       _sortedRevisions: Array,
+      _editLoaded: {
+        type: Boolean,
+        computed: '_computeEditLoaded(_patchRange.*)',
+      },
     },
 
     behaviors: [
@@ -1318,6 +1322,11 @@
 
     _computeHeaderClass(change) {
       return change.work_in_progress ? 'header wip' : 'header';
+    },
+
+    _computeEditLoaded(patchRangeRecord) {
+      const patchRange = patchRangeRecord.base || {};
+      return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },
   });
 })();

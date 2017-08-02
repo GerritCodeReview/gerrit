@@ -19,6 +19,7 @@
   const WARN_SHOW_ALL_THRESHOLD = 1000;
   const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
   const MERGE_LIST_PATH = '/MERGE_LIST';
+  const LOADING_DEBOUNCE_INTERVAL = 100;
 
   const FileStatus = {
     A: 'Added',
@@ -111,6 +112,10 @@
         value() { return []; },
       },
       _displayLine: Boolean,
+      _loading: {
+        type: Boolean,
+        observer: '_loadingChanged',
+      },
     },
 
     behaviors: [
@@ -145,6 +150,9 @@
       if (!this.changeNum || !this.patchRange.patchNum) {
         return Promise.resolve();
       }
+
+      this._loading = true;
+
       this._collapseAllDiffs();
       const promises = [];
 
@@ -175,6 +183,10 @@
           this.set('diffViewMode', prefs.default_diff_view);
         }
       }));
+
+      return Promise.all(promises).then(() => {
+        this._loading = false;
+      });
     },
 
     get diffs() {
@@ -913,6 +925,19 @@
           this.modifierPressed(e)) { return; }
       e.preventDefault();
       this._displayLine = false;
+    },
+
+    /**
+     * Update the loading class for the file list rows. The update is inside a
+     * debouncer so that the file list doesn't flash gray when the API requests
+     * are reasonably fast.
+     */
+    _loadingChanged(loading) {
+      this.debounce('loading-change', () => {
+        // Only show set the loading if there have been files loaded to show. In
+        // this way, the gray loading style is not shown on initial loads.
+        this.classList.toggle('loading', loading && this._files.length);
+      }, LOADING_DEBOUNCE_INTERVAL);
     },
   });
 })();

@@ -962,6 +962,32 @@ limitations under the License.
             done();
           });
     });
+
+    test('_loadingChanged fired from reload in debouncer', done => {
+      element.changeNum = 123;
+      element.patchRange = {patchNum: 12};
+      element._files = [{__path: 'foo.bar'}];
+
+      element.reload().then(() => {
+        assert.isFalse(element._loading);
+        element.flushDebouncer('loading-change');
+        assert.isFalse(element.classList.contains('loading'));
+        done();
+      });
+      assert.isTrue(element._loading);
+      assert.isFalse(element.classList.contains('loading'));
+      element.flushDebouncer('loading-change');
+      assert.isTrue(element.classList.contains('loading'));
+    });
+
+    test('_loadingChanged does not set class when there are no files', () => {
+      element.changeNum = 123;
+      element.patchRange = {patchNum: 12};
+      element.reload();
+      assert.isTrue(element._loading);
+      element.flushDebouncer('loading-change');
+      assert.isFalse(element.classList.contains('loading'));
+    });
   });
 
   suite('gr-file-list inline diff tests', () => {

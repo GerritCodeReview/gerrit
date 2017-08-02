@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
@@ -28,20 +28,15 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 public class ConflictsPredicate {
   // UI code may depend on this string, so use caution when changing.
@@ -51,9 +46,15 @@ public class ConflictsPredicate {
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
       throws QueryParseException, OrmException {
-    ChangeDataCache changeDataCache =
-        new ChangeDataCache(c, args.db, args.changeDataFactory, args.projectCache);
-    List<String> files = listFiles(c, args, changeDataCache);
+    ChangeData cd;
+    List<String> files;
+    try {
+      cd = args.changeDataFactory.create(args.db.get(), c);
+      files = cd.currentFilePaths();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+
     if (3 + files.size() > args.indexConfig.maxTerms()) {
       // Short-circuit with a nice error message if we exceed the index
       // backend's term limit. This assumes that "conflicts:foo" is the entire
@@ -73,61 +74,29 @@ public class ConflictsPredicate {
     and.add(new RefPredicate(c.getDest().get()));
     and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
     and.add(Predicate.or(filePredicates));
+
+    ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
     and.add(new CheckConflict(ChangeQueryBuilder.FIELD_CONFLICTS, value, args, c, changeDataCache));
     return Predicate.and(and);
   }
 
-  private static List<String> listFiles(Change c, Arguments args, ChangeDataCache changeDataCache)
-      throws OrmException {
-    try (Repository repo = args.repoManager.openRepository(c.getProject());
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit ps = rw.parseCommit(changeDataCache.getTestAgainst());
-      if (ps.getParentCount() > 1) {
-        String dest = c.getDest().get();
-        Ref destBranch = repo.getRefDatabase().exactRef(dest);
-        rw.setRevFilter(RevFilter.MERGE_BASE);
-        rw.markStart(rw.parseCommit(destBranch.getObjectId()));
-        rw.markStart(ps);
-        RevCommit base = rw.next();
-        // TODO(zivkov): handle the case with multiple merge bases
-
-        List<String> files = new ArrayList<>();
-        try (TreeWalk tw = new TreeWalk(repo)) {
-          if (base != null) {
-            tw.setFilter(TreeFilter.ANY_DIFF);
-            tw.addTree(base.getTree());
-          }
-          tw.addTree(ps.getTree());
-          tw.setRecursive(true);
-          while (tw.next()) {
-            files.add(tw.getPathString());
-          }
-        }
-        return files;
-      }
-      return args.changeDataFactory.create(args.db.get(), c).currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-  }
-
   private static final class CheckConflict extends ChangeOperatorPredicate {
     private final Arguments args;
-    private final Change c;
+    private final Branch.NameKey dest;
     private final ChangeDataCache changeDataCache;
 
     CheckConflict(
         String field, String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
       super(field, value);
       this.args = args;
-      this.c = c;
+      this.dest = c.getDest();
       this.changeDataCache = changeDataCache;
     }
 
     @Override
     public boolean match(ChangeData object) throws OrmException {
       Change otherChange = object.change();
-      if (otherChange == null || !otherChange.getDest().equals(c.getDest())) {
+      if (otherChange == null || !otherChange.getDest().equals(dest)) {
         return false;
       }
 
@@ -136,13 +105,17 @@ public class ConflictsPredicate {
         return false;
       }
 
+      ProjectState projectState;
+      try {
+        projectState = changeDataCache.getProjectState();
+      } catch (NoSuchProjectException | OrmException e) {
+        return false;
+      }
+
       ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
       ConflictKey conflictsKey =
           new ConflictKey(
-              changeDataCache.getTestAgainst(),
-              other,
-              str.type,
-              changeDataCache.getProjectState().isUseContentMerge());
+              changeDataCache.getTestAgainst(), other, str.type, projectState.isUseContentMerge());
       Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
       if (conflicts != null) {
         return conflicts;
@@ -187,41 +160,31 @@ public class ConflictsPredicate {
     }
   }
 
-  public static class ChangeDataCache {
-    protected final Change change;
-    protected final Provider<ReviewDb> db;
-    protected final ChangeData.Factory changeDataFactory;
-    protected final ProjectCache projectCache;
+  private static class ChangeDataCache {
+    private final ChangeData cd;
+    private final ProjectCache projectCache;
 
-    protected ObjectId testAgainst;
-    protected ProjectState projectState;
-    protected Set<ObjectId> alreadyAccepted;
+    private ObjectId testAgainst;
+    private ProjectState projectState;
+    private Set<ObjectId> alreadyAccepted;
 
-    public ChangeDataCache(
-        Change change,
-        Provider<ReviewDb> db,
-        ChangeData.Factory changeDataFactory,
-        ProjectCache projectCache) {
-      this.change = change;
-      this.db = db;
-      this.changeDataFactory = changeDataFactory;
+    ChangeDataCache(ChangeData cd, ProjectCache projectCache) {
+      this.cd = cd;
       this.projectCache = projectCache;
     }
 
-    protected ObjectId getTestAgainst() throws OrmException {
+    ObjectId getTestAgainst() throws OrmException {
       if (testAgainst == null) {
-        testAgainst =
-            ObjectId.fromString(
-                changeDataFactory.create(db.get(), change).currentPatchSet().getRevision().get());
+        testAgainst = ObjectId.fromString(cd.currentPatchSet().getRevision().get());
       }
       return testAgainst;
     }
 
-    protected ProjectState getProjectState() {
+    ProjectState getProjectState() throws OrmException, NoSuchProjectException {
       if (projectState == null) {
-        projectState = projectCache.get(change.getProject());
+        projectState = projectCache.get(cd.project());
         if (projectState == null) {
-          throw new IllegalStateException(new NoSuchProjectException(change.getProject()));
+          throw new NoSuchProjectException(cd.project());
         }
       }
       return projectState;

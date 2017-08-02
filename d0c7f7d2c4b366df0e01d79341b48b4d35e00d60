@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc0934a9_c6e0eb60",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T20:18:36Z",
+      "side": 1,
+      "message": "@Becky thinking more, in gwtui this is always showing regardless if you can or cannot create branches or tags. Should we do the same for polygerrit as in access we could for example allow a user to create a branch called refs/heads/example where as creating anything else would fail.",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "d0c7f7d2c4b366df0e01d79341b48b4d35e00d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

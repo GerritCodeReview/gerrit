@@ -16,6 +16,24 @@
       "revId": "4116069f4274e563234011a1f9c40ca7751801c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2503f8_53179085",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-02T17:01:35Z",
+      "side": 1,
+      "message": "Ah, I see you answered this in a comment on a previous patch set. Carry on.",
+      "parentUuid": "21a8fdfa_833272d9",
+      "revId": "4116069f4274e563234011a1f9c40ca7751801c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

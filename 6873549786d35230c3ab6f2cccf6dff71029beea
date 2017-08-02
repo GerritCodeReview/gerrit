@@ -22,6 +22,30 @@
       "revId": "6873549786d35230c3ab6f2cccf6dff71029beea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28c19597_5acf99eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T22:37:00Z",
+      "side": 1,
+      "message": "I had the same thought, but IME it didn\u0027t look quite right.\n\nAlso, #savingLabel may very well label either an empty list of comments OR an incomplete one. As the user is looking for their most recent comments, I think its placement at the bottom of the list is the right one, UX-wise.",
+      "parentUuid": "57f32efa_60d6d4a3",
+      "range": {
+        "startLine": 275,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 15
+      },
+      "revId": "6873549786d35230c3ab6f2cccf6dff71029beea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

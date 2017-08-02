@@ -524,7 +524,7 @@ public class ProjectControl {
       m.put(r.getName(), r);
     }
     Map<String, Ref> refs = filter.filter(m, true);
-    return !refs.isEmpty() && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
+    return !refs.isEmpty() && IncludedInResolver.includedInAny(repo, rw, commit, refs.values());
   }
 
   ForProject asForProject() {

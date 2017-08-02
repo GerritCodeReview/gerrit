@@ -46,6 +46,30 @@
       "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6d3befb_9d79d83d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T12:54:46Z",
+      "side": 1,
+      "message": "It\u0027s easier just to prevent it from showing for abandoned or merged changes and showing it for the rest :)",
+      "parentUuid": "d3129916_270f45c3",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 224,
+        "endChar": 69
+      },
+      "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

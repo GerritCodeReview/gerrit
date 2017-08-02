@@ -51,11 +51,7 @@ public class DiffObject {
       return new DiffObject(true);
     }
 
-    try {
-      return new DiffObject(new PatchSet.Id(changeId, Integer.parseInt(str)));
-    } catch (NumberFormatException e) {
-      return null;
-    }
+    return new DiffObject(Dispatcher.toPsId(changeId, str));
   }
 
   /** Create a DiffObject that represents the parent of a 1-parent patch set. */

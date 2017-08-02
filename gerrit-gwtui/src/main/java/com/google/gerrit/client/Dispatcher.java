@@ -452,7 +452,7 @@ public class Dispatcher {
     }
   }
 
-  private static PatchSet.Id toPsId(Change.Id id, String psIdStr) {
+  public static PatchSet.Id toPsId(Change.Id id, String psIdStr) {
     return new PatchSet.Id(id, psIdStr.equals("edit") ? 0 : Integer.parseInt(psIdStr));
   }
 

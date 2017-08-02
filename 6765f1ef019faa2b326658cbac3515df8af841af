@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3deda512_fd609041",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T22:33:06Z",
+      "side": 1,
+      "message": "There may be some difference in that the declarative style in the listeners list is unbound automatically or is setup in a different stage...\n\nBut at the same time, the listeners are scoped to this element, so there may be no unbinding difference...\n\ntl;dr, in this case it seems that it\u0027s just tidier. I think it looks better that way, but this `attached` maybe just needs some general cleanup, so don\u0027t consider this a blocker.",
+      "parentUuid": "887ea6f5_3513d3c9",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 78
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15114e05_b6e1a9ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

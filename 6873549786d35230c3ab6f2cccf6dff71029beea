@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57f32efa_60d6d4a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T22:33:06Z",
+      "side": 1,
+      "message": "\u003cnon blocking visual design musing\u003e\n\nI wonder if the saving comments message would fit alongside this message, since this communicates the same kind of timing info.\n\n\u003c/non blocking visual design musing\u003e",
+      "range": {
+        "startLine": 275,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 15
+      },
+      "revId": "6873549786d35230c3ab6f2cccf6dff71029beea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

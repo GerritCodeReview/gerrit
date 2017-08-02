@@ -146,7 +146,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
-  public static Set<String> getFileParts(ChangeData cd) throws OrmException {
+  public static Set<String> getFileParts(ChangeData cd) throws OrmException, IOException {
     List<String> paths = cd.currentFilePaths();
     if (paths == null) {
       return ImmutableSet.of();

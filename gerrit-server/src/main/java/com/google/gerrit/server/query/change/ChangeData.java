@@ -36,6 +36,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -66,7 +67,9 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
+import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -340,8 +343,8 @@ public class ChangeData {
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
-  private Map<Integer, List<String>> files;
-  private Map<Integer, Optional<DiffSummary>> diffSummaries;
+  private List<String> currentFiles;
+  private Optional<DiffSummary> diffSummary;
   private Collection<Comment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
@@ -364,6 +367,7 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
+  private int parentCount;
   private Integer unresolvedCommentCount;
 
   private ImmutableList<byte[]> refStates;
@@ -593,86 +597,61 @@ public class ChangeData {
     return db;
   }
 
-  private Map<Integer, List<String>> initFiles() {
-    if (files == null) {
-      files = new HashMap<>();
-    }
-    return files;
-  }
-
   public void setCurrentFilePaths(List<String> filePaths) throws OrmException {
     PatchSet ps = currentPatchSet();
     if (ps != null) {
-      initFiles().put(ps.getPatchSetId(), ImmutableList.copyOf(filePaths));
+      currentFiles = ImmutableList.copyOf(filePaths);
     }
   }
 
-  public List<String> currentFilePaths() throws OrmException {
-    PatchSet ps = currentPatchSet();
-    return ps != null ? filePaths(ps) : null;
-  }
-
-  public List<String> filePaths(PatchSet ps) throws OrmException {
-    Integer psId = ps.getPatchSetId();
-    List<String> r = initFiles().get(psId);
-    if (r == null) {
-      Change c = change();
-      if (c == null) {
-        return null;
+  public List<String> currentFilePaths() throws IOException, OrmException {
+    if (currentFiles == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
       }
-
-      Optional<DiffSummary> p = getDiffSummary(c, ps);
-      if (!p.isPresent()) {
-        List<String> emptyFileList = Collections.emptyList();
-        if (lazyLoad) {
-          files.put(ps.getPatchSetId(), emptyFileList);
-        }
-        return emptyFileList;
-      }
-
-      r = p.get().getPaths();
-      files.put(psId, r);
+      Optional<DiffSummary> p = getDiffSummary();
+      currentFiles = p.isPresent() ? p.get().getPaths() : Collections.emptyList();
     }
-    return r;
+    return currentFiles;
   }
 
-  private Optional<DiffSummary> getDiffSummary(Change c, PatchSet ps) {
-    Integer psId = ps.getId().get();
-    if (diffSummaries == null) {
-      diffSummaries = new HashMap<>();
-    }
-    Optional<DiffSummary> r = diffSummaries.get(psId);
-    if (r == null) {
+  private Optional<DiffSummary> getDiffSummary() throws OrmException, IOException {
+    if (diffSummary == null) {
       if (!lazyLoad) {
         return Optional.empty();
       }
-      try {
-        r = Optional.of(patchListCache.getDiffSummary(c, ps));
-      } catch (PatchListNotAvailableException e) {
-        r = Optional.empty();
+
+      Change c = change();
+      PatchSet ps = currentPatchSet();
+      if (c == null || ps == null || !loadCommitData()) {
+        return Optional.empty();
       }
-      diffSummaries.put(psId, r);
+
+      ObjectId id = ObjectId.fromString(ps.getRevision().get());
+      Whitespace ws = Whitespace.IGNORE_NONE;
+      PatchListKey pk =
+          parentCount > 1
+              ? PatchListKey.againstParentNum(1, id, ws)
+              : PatchListKey.againstDefaultBase(id, ws);
+      DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
+      try {
+        diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));
+      } catch (PatchListNotAvailableException e) {
+        diffSummary = Optional.empty();
+      }
     }
-    return r;
+    return diffSummary;
   }
 
-  private Optional<ChangedLines> computeChangedLines() throws OrmException {
-    Change c = change();
-    if (c == null) {
-      return Optional.empty();
-    }
-    PatchSet ps = currentPatchSet();
-    if (ps == null) {
-      return Optional.empty();
-    }
-    Optional<DiffSummary> ds = getDiffSummary(c, ps);
+  private Optional<ChangedLines> computeChangedLines() throws OrmException, IOException {
+    Optional<DiffSummary> ds = getDiffSummary();
     if (ds.isPresent()) {
       return Optional.of(ds.get().getChangedLines());
     }
     return Optional.empty();
   }
 
-  public Optional<ChangedLines> changedLines() throws OrmException {
+  public Optional<ChangedLines> changedLines() throws OrmException, IOException {
     if (changedLines == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -894,6 +873,7 @@ public class ChangeData {
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
+      parentCount = c.getParentCount();
     }
     return true;
   }

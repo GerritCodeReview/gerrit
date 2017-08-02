@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36b448d6_da115eab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12e50cb_2bac20f3",
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d99528bd_c755947d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-02T13:14:50Z",
       "side": 1,
       "message": "You do not need to create the object, just add it as a dependency and you will be able to remove dbProvider and accountsUpdate dependencies.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 74
+      },
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "268adffb_1fef7fa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99528bd_c755947d",
       "range": {
         "startLine": 58,
         "startChar": 4,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "16f8c309_6be2aeee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutActive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e7b3b2_fedc7830",
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e88dfa6_7e2e4a8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutActive.java",
         "patchSetId": 5
@@ -70,6 +130,30 @@
       "writtenOn": "2017-08-02T13:14:50Z",
       "side": 1,
       "message": "You do not need to create the object, just add it as a dependency and you will be able to remove dbProvider and accountsUpdate dependencies.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b649850_b34c425f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutActive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e88dfa6_7e2e4a8a",
       "range": {
         "startLine": 48,
         "startChar": 4,

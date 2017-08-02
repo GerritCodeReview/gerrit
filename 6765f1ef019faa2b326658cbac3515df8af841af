@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a5471a_5fe02ef8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T18:21:12Z",
+      "side": 1,
+      "message": "Nit: This component is already inconsistent, but why bind this way instead of adding...\n\n \u0027comment-refresh\u0027: \u0027getDiffDrafts\u0027,\n\n... to the listeners on l.193?",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 78
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15114e05_b6e1a9ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T18:21:12Z",
+      "side": 1,
+      "message": "Not your code initially, but returning the result of an assignment is a minor smell.\n\nI believe this `return` can be removed anyway, since the value yielded by `_getDiffDrafts` is never used.",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 14
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19309bd6_d9367a41",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T18:21:12Z",
+      "side": 1,
+      "message": "Nit: we\u0027re moving away from using hidden$ in this way. This should be upgraded to something like\n\n [[_getSavingLabelClass(_savingComments)]]\n\nwhere\n\n_getSavingLabelClass(savingComments) {\n  return savingComments ? \u0027saving\u0027 : \u0027\u0027;\n},\n\nand\n\n#savingLabel {\n  display: none;\n}\n#savingLabel.saving {\n  display: inline;\n}",
+      "range": {
+        "startLine": 251,
+        "startChar": 31,
+        "endLine": 251,
+        "endChar": 61
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25f3f2db_92496f4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T18:21:12Z",
+      "side": 1,
+      "message": "Doesn\u0027t logic need to be added here to prevent sending?",
+      "range": {
+        "startLine": 258,
+        "startChar": 12,
+        "endLine": 258,
+        "endChar": 67
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

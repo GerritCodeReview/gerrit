@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf077200_2f99a68b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T13:20:58Z",
+      "side": 1,
+      "message": "No it is not :).\n\nSee line 120.",
+      "parentUuid": "72e91191_e12f6d18",
+      "range": {
+        "startLine": 45,
+        "startChar": 44,
+        "endLine": 45,
+        "endChar": 57
+      },
+      "revId": "85bc165ae5458df902351a0bc1cde8df48c8948c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "068a33f6_bd82b12f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-02T13:14:37Z",
       "side": 1,
       "message": "import this static like RefPermission.CREATE_CHANGE?",
+      "range": {
+        "startLine": 228,
+        "startChar": 71,
+        "endLine": 228,
+        "endChar": 95
+      },
+      "revId": "85bc165ae5458df902351a0bc1cde8df48c8948c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb606728_d75efd11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T13:20:58Z",
+      "side": 1,
+      "message": "What do you mean like RefPermissions? It looks like it is already doing that?",
+      "parentUuid": "068a33f6_bd82b12f",
       "range": {
         "startLine": 228,
         "startChar": 71,

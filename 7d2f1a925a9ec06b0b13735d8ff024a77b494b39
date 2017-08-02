@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ccdc8b57_0b2bc692",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-02T13:41:32Z",
+      "side": 1,
+      "message": "\u003e Though I am not sure why it would be cheaper (besides maybe an additional iteration over the list).\n\nThere is likely no difference today, but I think this is recommended long-term as we retain the right to push visibility checks into the index.",
+      "parentUuid": "7a38b2f7_3fb062cd",
+      "revId": "7d2f1a925a9ec06b0b13735d8ff024a77b494b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c5655c_bb0c8c20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
         "patchSetId": 5

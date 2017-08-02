@@ -753,7 +753,9 @@ public class CommitValidators {
         .append(" email address ")
         .append(who.getEmailAddress())
         .append("\n");
-    sb.append("ERROR:  does not match your user account.\n");
+    sb.append("ERROR:  does not match your user account and you have no 'forge ")
+        .append(type)
+        .append("' permission.\n");
     sb.append("ERROR:\n");
     if (currentUser.getEmailAddresses().isEmpty()) {
       sb.append("ERROR:  You have not registered any email addresses.\n");

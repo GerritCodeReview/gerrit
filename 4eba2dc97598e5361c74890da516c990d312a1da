@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1501681870 +0200\nnonce AHIDc+PayqOgGWizMWRBYAeD5644uMJAkbxtmrh6chmc/IfZjEO+D2mxVtEuYbH8+hylsDqGjC9m\n\n0000000000000000000000000000000000000000 4eba2dc97598e5361c74890da516c990d312a1da refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZgdjOAAoJEFG1/Zeg0O9RCV8H/0q3wl61QeKXZI6GjYuse7KG\nNp0625lgZRGRsf4EbmTuslc1DKobwBh0WdNUTpDA3Bcl2lBnHmex8xRvz6VUqn2a\nsM8xY/R5KJ9Y4zoH2/ejZmXBN7rVhqcxvrOJ4D+iDCMq3He8rL/mzvKO1zeRA7rR\nPOqIorLT2saOJ8thPlUiYpAfiNYcu0qSKO1ddOg2Z5tmUJ7SBeMF2uOqPMrDmI3Z\n8cvuB75SLJxaNSieRRMnAY6iWriuJS4NWK3uhYDwAWQ2k+y4srumF5AU9jIWiMB6\n3sfvSoewU+kpp+JLtrcFzGLflp688//eiQN41EqtB5h4dxnuVAdr5wQTqVOJ9hM\u003d\n\u003dB6CA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8fb498f_51850169",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-02T14:00:03Z",
+      "side": 1,
+      "message": "At this point it\u0027s probably worth factoring out a get() method that also wraps the ExecutionException. Unless you strongly feel you need to customize the IOException text based on the call site, which I would argue you probably don\u0027t since you still have the specific method in the stack trace.",
+      "revId": "4eba2dc97598e5361c74890da516c990d312a1da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

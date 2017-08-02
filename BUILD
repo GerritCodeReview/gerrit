@@ -1,10 +1,10 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//tools/bzl:genrule2.bzl", "genrule2")
+  load  ("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 genrule(
-    name = "gen_version",
+    name = "gen_version ",
     outs = ["version.txt"],
     cmd = ("cat bazel-out/volatile-status.txt bazel-out/stable-status.txt | " +
            "grep STABLE_BUILD_GERRIT_LABEL | cut -d ' ' -f 2 > $@"),

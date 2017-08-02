@@ -363,12 +363,10 @@ limitations under the License.
       assert.equal(result, expected);
     });
 
-    test('_contentOrConfigChanged not called without config', () => {
-      const contentStub = sandbox.stub(element, '_contentChanged');
-      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    test('_computeNodes called without config', () => {
+      const computeNodesSpy = sandbox.spy(element, '_computeNodes');
       element.content = 'some text';
-      assert.isTrue(contentStub.called);
-      assert.isFalse(contentConfigStub.called);
+      assert.isTrue(computeNodesSpy.called);
     });
 
     test('_contentOrConfigChanged called with config', () => {

@@ -161,6 +161,17 @@ limitations under the License.
       lastComment.__draft = true;
       assert.equal(element._hideActions(showActions, lastComment), true);
     });
+
+    test('setting project name loads the project config', done => {
+      const projectName = 'foo/bar/baz';
+      const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
+          .returns(Promise.resolve({}));
+      element.projectName = projectName;
+      flush(() => {
+        assert.isTrue(getProjectStub.calledWithExactly(projectName));
+        done();
+      });
+    });
   });
 
   suite('comment action tests', () => {

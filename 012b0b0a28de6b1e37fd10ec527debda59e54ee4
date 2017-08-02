@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25314f90_86144ab8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T06:15:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7f1fafe_eeea2b65",
+      "range": {
+        "startLine": 13,
+        "startChar": 19,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "012b0b0a28de6b1e37fd10ec527debda59e54ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f4098bd_7dbe95da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-02T05:55:34Z",
       "side": 1,
       "message": "edits",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "012b0b0a28de6b1e37fd10ec527debda59e54ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff414d1d_9887e29d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T06:15:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f4098bd_7dbe95da",
       "range": {
         "startLine": 16,
         "startChar": 21,
@@ -76,6 +124,30 @@
       "writtenOn": "2017-08-02T05:55:34Z",
       "side": 1,
       "message": "If this is a bad request, why not raise BadRequestException?",
+      "range": {
+        "startLine": 153,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 38
+      },
+      "revId": "012b0b0a28de6b1e37fd10ec527debda59e54ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "637838b7_4c428836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T06:15:16Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "b3e0e8b7_22de5849",
       "range": {
         "startLine": 153,
         "startChar": 10,

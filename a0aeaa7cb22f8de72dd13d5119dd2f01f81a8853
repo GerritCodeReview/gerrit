@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "6cfe63b6_9b6ac618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T15:24:53Z",
+      "side": 1,
+      "message": "\u003e 2. I actually did that on purpose... I definitely envision cases in\n \u003e which it\u0027s useful to comment on a change that has a pending edit,\n \u003e e.g. if there\u0027s a discussion about the reason you\u0027re making the\n \u003e edit going on. I don\u0027t know that the UX is best, but I didn\u0027t find\n \u003e any specific reason that one couldn\u0027t vote on a change (perhaps\n \u003e saying something like \"-2, don\u0027t review. Edit incoming.\") as far as\n \u003e the backend is concerned, so I decided to leave it enabled. Am I\n \u003e wrong in that?\n\nYou made a valid point. PG UI behaves differently as GWT UI does. Particularly, there is no way to vote on non current patch set in GWT UI. You can add inline and file comment on non current patch sets.\n\nBut for reasons (no backend) there is now way to add inline and file comment on change edits.\n\nBotom line: I\u0027m fine either way. We should better communicate what we allow and what not and why.\n\nYesterday, i was sure, that flipping reviewed bit on change edits is disabled in GWT UI. Today morning I checked and it turns out, it is enabled, but the read of reviewed bit is disabled, so it\u0027s basically broken.",
+      "parentUuid": "78629a2e_ede12b8e",
+      "revId": "a0aeaa7cb22f8de72dd13d5119dd2f01f81a8853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fa60bfc_9254e613",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 17

@@ -22,6 +22,30 @@
       "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3129916_270f45c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T12:54:14Z",
+      "side": 1,
+      "message": "But will that work if the change is a draft?\n\nSince testing i can move changes form one branch to another in a draft.",
+      "parentUuid": "a10185f8_2696d11b",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 224,
+        "endChar": 69
+      },
+      "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

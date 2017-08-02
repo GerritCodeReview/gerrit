@@ -196,6 +196,14 @@ limitations under the License.
       assert.isTrue(resetSpy.called);
     });
 
+    test('_onValueChanged fires bind-value-changed', () => {
+      const listenerStub = sinon.stub();
+      const eventObject = {currentTarget: {focused: false}};
+      element.addEventListener('bind-value-changed', listenerStub);
+      element._onValueChanged(eventObject);
+      assert.isTrue(listenerStub.called);
+    });
+
     suite('keyboard shortcuts', () => {
       function setupDropdown() {
         MockInteractions.focus(element.$.textarea);

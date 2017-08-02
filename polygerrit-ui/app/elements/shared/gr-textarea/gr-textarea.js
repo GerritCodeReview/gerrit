@@ -53,6 +53,10 @@
   Polymer({
     is: 'gr-textarea',
 
+    /**
+     * @event bind-value-changed
+     */
+
     properties: {
       autocomplete: Boolean,
       disabled: Boolean,
@@ -240,6 +244,9 @@
      * autocomplete options.
      */
     _onValueChanged(e) {
+      // Relay the event.
+      this.fire('bind-value-changed', e);
+
       // If cursor is not in textarea (just opened with colon as last char),
       // Don't do anything.
       if (!e.currentTarget.focused) { return; }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -215,13 +215,12 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
     return new UiAction.Description()
         .setLabel("Move Change")
         .setTitle("Move change to a different branch")
         .setVisible(
-            permissionBackend
-                .user(rsrc.getUser())
-                .project(rsrc.getProject())
-                .testOrFalse(ProjectPermission.CREATE_CHANGE));
+            permissionBackend.user(user).ref(change.getDest()).testOrFalse(CREATE_CHANGE)
+                && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.ABANDON));
   }
 }

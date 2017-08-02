@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "739306f7_0ca3dc3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T14:45:11Z",
+      "side": 1,
+      "message": "If I understand the code, since the other backend implementations do not set the active boolean in the AuthRequest, every user will be deactivated.\n\nMaking active boolean true by default would is not an option, every disabled account would be reactivated for other backends than LDAP.\n\nIn addition to supportAutomaticAccountActivityUpdate check, we also need to check if backend support setting the active flag.\n\nI will fix that.",
+      "parentUuid": "29a77c37_2d478c93",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 58
+      },
+      "revId": "58992e5bf75b4b4147d0a9e809d0c826c3e54d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7428aaa1_21a18696",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 6

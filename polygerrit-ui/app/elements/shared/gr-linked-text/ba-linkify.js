@@ -176,8 +176,10 @@ window.linkify = (function(){
       parts.push([ link, href ]);
     };
 
-    // Push remaining non-link text onto the array.
-    parts.push([ txt.substr( idx_prev ) ]);
+    if (txt) {
+      // Push remaining non-link text onto the array.
+      parts.push([ txt.substr( idx_prev ) ]);
+    }
 
     // Process the array items.
     for ( i = 0; i < parts.length; i++ ) {

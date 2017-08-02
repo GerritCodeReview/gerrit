@@ -96,6 +96,24 @@
       "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "066ab741_ca2a14e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetInactiveFlag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-02T13:21:25Z",
+      "side": 1,
+      "message": "Sorry, never mind, I see it\u0027s being used from SetActive which already exists.",
+      "parentUuid": "4611c5a0_2ca400f8",
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

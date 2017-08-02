@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3bbed8_35719e5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-02T09:45:40Z",
+      "side": 1,
+      "message": "Is this necessary if the only call site already checks for empty map before calling?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "828e4741ed8fabdfb912c2da9afc94fa30511429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "829a312c_32ce0941",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-02T09:45:40Z",
+      "side": 1,
+      "message": "remove this if we keep the early exit in includedInAny?",
+      "range": {
+        "startLine": 527,
+        "startChar": 11,
+        "endLine": 527,
+        "endChar": 30
+      },
+      "revId": "828e4741ed8fabdfb912c2da9afc94fa30511429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

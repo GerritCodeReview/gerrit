@@ -169,7 +169,7 @@ public class PatchListCacheImpl implements PatchListCache {
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
     return getDiffSummary(
-        DiffSummaryKey.fromPatchListKey(PatchListKey.againstDefaultBase(b, ws)), project);
+        DiffSummaryKey.fromPatchListKey(PatchListKey.againstParentNum(1, b, ws)), project);
   }
 
   @Override

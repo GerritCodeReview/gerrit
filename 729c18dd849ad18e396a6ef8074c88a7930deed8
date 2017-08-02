@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe5053bb_fd3a95cb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4516,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T12:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "687178ca_24680b40",
+      "range": {
+        "startLine": 4516,
+        "startChar": 34,
+        "endLine": 4516,
+        "endChar": 42
+      },
+      "revId": "729c18dd849ad18e396a6ef8074c88a7930deed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddd455e0_2ab91139",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-02T12:38:31Z",
       "side": 1,
       "message": "Should these be final?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "729c18dd849ad18e396a6ef8074c88a7930deed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a5919aa_fa63f960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-02T12:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddd455e0_2ab91139",
       "range": {
         "startLine": 46,
         "startChar": 4,

@@ -122,7 +122,7 @@ import org.slf4j.LoggerFactory;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Daemon.class);
+     private static final Logger log = LoggerFactory.getLogger(Daemon.class);
 
   @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")
   private Boolean httpd;

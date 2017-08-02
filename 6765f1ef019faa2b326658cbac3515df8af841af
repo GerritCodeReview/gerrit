@@ -213,6 +213,30 @@
       "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad5f9004_5d9efbb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:21:12Z",
+      "side": 1,
+      "message": "Oh, oops! Thanks!",
+      "parentUuid": "cafb6d7e_a2293ac3",
+      "range": {
+        "startLine": 258,
+        "startChar": 12,
+        "endLine": 258,
+        "endChar": 67
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

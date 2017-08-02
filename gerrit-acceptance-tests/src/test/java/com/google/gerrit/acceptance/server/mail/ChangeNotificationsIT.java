@@ -29,6 +29,7 @@ import static com.google.gerrit.server.account.WatchConfig.NotifyType.SUBMITTED_
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth;
 import com.google.gerrit.acceptance.AbstractNotificationTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
@@ -45,6 +46,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import org.junit.Before;
@@ -861,6 +863,35 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).notSent();
+  }
+
+  @Test
+  public void addReviewerOnWipChangeAndStartReview() throws Exception {
+    StagedChange sc = stageWipChange();
+    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer, other)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void startReviewMessageNotRepeated() throws Exception {
+    // TODO(logan): Remove this test check once PolyGerrit workaround is rolled back.
+    StagedChange sc = stageWipChange();
+    ReviewInput in =
+        ReviewInput.noScore().message(PostReview.START_REVIEW_MESSAGE).setWorkInProgress(false);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    Truth.assertThat(sender.getMessages()).isNotEmpty();
+    String body = sender.getMessages().get(0).body();
+    int idx = body.indexOf(PostReview.START_REVIEW_MESSAGE);
+    Truth.assertThat(idx).isAtLeast(0);
+    Truth.assertThat(body.indexOf(PostReview.START_REVIEW_MESSAGE, idx + 1)).isEqualTo(-1);
   }
 
   private void review(TestAccount account, String changeId, EmailStrategy strategy)

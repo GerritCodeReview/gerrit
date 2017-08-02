@@ -68,6 +68,52 @@
       "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850b370d_fcd45331",
+        "filename": "Documentation/intro-how-gerrit-works.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-02T21:59:54Z",
+      "side": 1,
+      "message": "nit: I\u0027d be tempted to put the \".\" outside the link. (On the other hand if there\u0027s some common style guide saying to keep it in there, then please ignore my advice. :))",
+      "range": {
+        "startLine": 29,
+        "startChar": 45,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e135b9_4499bc71",
+        "filename": "Documentation/intro-product-overview.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-02T21:59:54Z",
+      "side": 1,
+      "message": "nit: can capitalize as Git",
+      "range": {
+        "startLine": 4,
+        "startChar": 21,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

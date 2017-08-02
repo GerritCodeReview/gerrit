@@ -79,6 +79,23 @@
       "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4611c5a0_2ca400f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetInactiveFlag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-02T13:20:20Z",
+      "side": 1,
+      "message": "Could this be implemented as a REST endpoint? We already have a corresponding endpoint to get the active flag.",
+      "revId": "b1a1911f8a3a2520a6428a602c90256d9b36857c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

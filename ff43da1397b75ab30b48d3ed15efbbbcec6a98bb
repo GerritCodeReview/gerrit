@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3737feca_56ec0ea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-08-02T16:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22471ef_539f42a9",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "ff43da1397b75ab30b48d3ed15efbbbcec6a98bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba1f2a24_19672809",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3

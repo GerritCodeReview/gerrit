@@ -148,6 +148,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             RepositoryNotFoundException, IOException, PatchListNotAvailableException {
       checkOptions();
       if (reviewed) {
+        // Reviewed bit on change edit is not supported
+        if (resource.getPatchSet().getPatchSetId() == 0) {
+          log.warn("Bad client request: Attempt to retrieve reviewed bit on change edit");
+          return Response.ok("");
+        }
         return Response.ok(reviewed(resource));
       } else if (query != null) {
         return Response.ok(query(resource));

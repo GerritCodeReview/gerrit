@@ -82,7 +82,11 @@ interface ExternalIdCache {
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
+  ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
+
   ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
+
+  ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException;
 
   default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);

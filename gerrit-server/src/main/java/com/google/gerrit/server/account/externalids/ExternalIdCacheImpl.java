@@ -218,24 +218,34 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
-    try {
-      return extIdsByAccount.get(externalIdReader.readRevision()).byAccount().get(accountId);
-    } catch (ExecutionException e) {
-      throw new IOException("Cannot list external ids by account", e);
-    }
+    return get().byAccount().get(accountId);
+  }
+
+  @Override
+  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
+    return get().byAccount();
   }
 
   @Override
   public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
+    AllExternalIds allExternalIds = get();
+    ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
+    for (String email : emails) {
+      byEmails.putAll(email, allExternalIds.byEmail().get(email));
+    }
+    return byEmails.build();
+  }
+
+  @Override
+  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
+    return get().byEmail();
+  }
+
+  private AllExternalIds get() throws IOException {
     try {
-      AllExternalIds allExternalIds = extIdsByAccount.get(externalIdReader.readRevision());
-      ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
-      for (String email : emails) {
-        byEmails.putAll(email, allExternalIds.byEmail().get(email));
-      }
-      return byEmails.build();
+      return extIdsByAccount.get(externalIdReader.readRevision());
     } catch (ExecutionException e) {
-      throw new IOException("Cannot list external ids by email", e);
+      throw new IOException("Cannot load external ids", e);
     }
   }
 

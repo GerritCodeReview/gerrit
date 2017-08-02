@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "e95387e7_add2d937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "Please add a sentence explaining why this is useful.",
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "508fe412_b96afbc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "The UUID doesn\u0027t need to be set as it\u0027s already available as map key. We normally try to keep the payload minimal and avoid to send data twice.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 39
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5f9e54_a7389c1e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -22,6 +62,115 @@
       "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6ceaa7_2bdbc26f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "Please add a JavaDoc comment that explains for what this is used.",
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e636b9f_74785835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "Should be \u0027INVISIBLE_SENTINEL\u0027 since this is static final.",
+      "range": {
+        "startLine": 65,
+        "startChar": 33,
+        "endLine": 65,
+        "endChar": 50
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4b02864_d85f384b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "rename this variable",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 35
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2e8fc34_27c13062",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "Use get() here.",
+      "range": {
+        "startLine": 251,
+        "startChar": 39,
+        "endLine": 251,
+        "endChar": 49
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fb08bac_2d37c04f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-02T08:25:52Z",
+      "side": 1,
+      "message": "rename this variable",
+      "range": {
+        "startLine": 260,
+        "startChar": 14,
+        "endLine": 260,
+        "endChar": 25
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

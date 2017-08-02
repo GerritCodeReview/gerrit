@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc0438bf_aefc5b16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-02T12:09:50Z",
+      "side": 1,
+      "message": "Becky, can you elaborate?",
+      "parentUuid": "e95387e7_add2d937",
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "508fe412_b96afbc2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +71,30 @@
       "writtenOn": "2017-08-01T19:35:12Z",
       "side": 1,
       "message": "This would also have\n\nd5b7124af4de52924ed397913e2c3b37bf186948: {\n      \"options\": {},\n      \"id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"name\": \"xxx group\"\n}\n\nhere as well, correct?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f74843_fff29ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-02T12:09:50Z",
+      "side": 1,
+      "message": "$  curl http://localhost:8080/groups/d5b7124af4de52924ed397913e2c3b37bf186948\nAuthentication required\n\n$  curl --user admin:$(cat passwd) http://localhost:8080/a/groups/d5b7124af4de52924ed397913e2c3b37bf186948\n)]}\u0027\n{\n  \"url\": \"#/admin/groups/uuid-d5b7124af4de52924ed397913e2c3b37bf186948\",\n  \"options\": {},\n  \"description\": \"Gerrit Site Administrators\",\n  \"group_id\": 1,\n  \"owner\": \"Administrators\",\n  \"owner_id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n  \"created_on\": \"2009-06-08 19:31:00.000000000\",\n  \"id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n  \"name\": \"Administrators\"\n}\n\n$  curl --user admin:$(cat passwd) http://localhost:8080/a/projects/All-Projects/access\n...\n  \"config_visible\": true,\n  \"groups\": {\n    \"d5b7124af4de52924ed397913e2c3b37bf186948\": {\n      \"url\": \"#/admin/groups/uuid-d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"options\": {},\n      \"description\": \"Gerrit Site Administrators\",\n      \"group_id\": 1,\n      \"owner\": \"Administrators\",\n      \"owner_id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"created_on\": \"2009-06-08 19:31:00.000000000\",\n      \"id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"name\": \"Administrators\"\n    },\n    \"global%3ARegistered-Users\": {\n      \"options\": {},\n      \"id\": \"global%3ARegistered-Users\",\n      \"name\": \"Registered Users\"\n    },\n    \"global%3AProject-Owners\": {\n      \"options\": {},\n      \"id\": \"global%3AProject-Owners\",\n      \"name\": \"Project Owners\"\n    },\n    \"1164991a22017e814153aa0e47305131a204b6e8\": {\n      \"url\": \"#/admin/groups/uuid-1164991a22017e814153aa0e47305131a204b6e8\",\n      \"options\": {},\n      \"description\": \"Users who perform batch actions on Gerrit\",\n      \"group_id\": 2,\n      \"owner\": \"Administrators\",\n      \"owner_id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n      \"created_on\": \"2009-06-08 19:31:00.000000000\",\n      \"id\": \"1164991a22017e814153aa0e47305131a204b6e8\",\n      \"name\": \"Non-Interactive Users\"\n    },\n    \"global%3AAnonymous-Users\": {\n      \"options\": {},\n      \"id\": \"global%3AAnonymous-Users\",\n      \"name\": \"Anonymous Users\"\n    }\n  }",
+      "parentUuid": "cd5f9e54_a7389c1e",
       "range": {
         "startLine": 41,
         "startChar": 4,

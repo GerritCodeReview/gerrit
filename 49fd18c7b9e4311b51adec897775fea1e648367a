@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1698b62a_988eb231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T05:35:00Z",
+      "side": 1,
+      "message": "I don\u0027t see how this setting is useful? I could see, on per user base, for some reasons, that I also actually fon\u0027t to see, why only some users would want this (We already have user preference sign-of footer: \"Insert Signed-off-by Footer For Inline Edit Changes\"). But even less on the while gerrit site.\n\nCan you elaborate the reasoning behind this change? Who is your customers that request that feature and configure gerrit that way? What open or close source projects that want this setting?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8209623_e7408280",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

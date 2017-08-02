@@ -51,11 +51,7 @@
           .then(comments => { this._comments = comments; }));
       promises.push(this.$.restAPI.getDiffRobotComments(changeNum)
           .then(robotComments => { this._robotComments = robotComments; }));
-      promises.push(this.$.restAPI.getLoggedIn()
-          .then(loggedIn => {
-            if (!loggedIn) { return Promise.resolve({}); }
-            return this.$.restAPI.getDiffDrafts(changeNum);
-          })
+      promises.push(this.$.restAPI.getDiffDrafts(changeNum)
           .then(drafts => { this._drafts = drafts; }));
 
       return Promise.all(promises);

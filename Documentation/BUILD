@@ -1,4 +1,4 @@
-package(default_visibility = ["//visibility:public"])
+  package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes")
 load("//tools/bzl:asciidoc.bzl", "genasciidoc")

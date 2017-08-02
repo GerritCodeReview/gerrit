@@ -156,6 +156,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             PermissionBackendException {
       checkOptions();
       if (reviewed) {
+        if (resource.getPatchSet().getPatchSetId() == 0) {
+          throw new BadRequestException("Attempt to retrieve reviewed bit on change edit");
+        }
         return Response.ok(reviewed(resource));
       } else if (query != null) {
         return Response.ok(query(resource));

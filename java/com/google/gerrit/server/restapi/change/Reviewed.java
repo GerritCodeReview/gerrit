@@ -16,8 +16,10 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gwtorm.server.OrmException;
@@ -25,6 +27,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 public class Reviewed {
+
+  private static void checkNotEdit(PatchSet.Id psId) throws BadRequestException {
+    if (psId.get() == 0) {
+      throw new BadRequestException("cannot be applied on edits");
+    }
+  }
 
   @Singleton
   public static class PutReviewed implements RestModifyView<FileResource, Input> {
@@ -36,7 +44,9 @@ public class Reviewed {
     }
 
     @Override
-    public Response<String> apply(FileResource resource, Input input) throws OrmException {
+    public Response<String> apply(FileResource resource, Input input)
+        throws OrmException, BadRequestException {
+      checkNotEdit(resource.getPatchKey().getParentKey());
       if (accountPatchReviewStore
           .get()
           .markReviewed(
@@ -59,7 +69,9 @@ public class Reviewed {
     }
 
     @Override
-    public Response<?> apply(FileResource resource, Input input) throws OrmException {
+    public Response<?> apply(FileResource resource, Input input)
+        throws OrmException, BadRequestException {
+      checkNotEdit(resource.getPatchKey().getParentKey());
       accountPatchReviewStore
           .get()
           .clearReviewed(

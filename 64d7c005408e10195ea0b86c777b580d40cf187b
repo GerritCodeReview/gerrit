@@ -16,6 +16,24 @@
       "revId": "64d7c005408e10195ea0b86c777b580d40cf187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32895d20_87277c5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-02T17:48:02Z",
+      "side": 1,
+      "message": "This caused me to go digging in JGit to see how to improve this behavior.\n\nIt turns out I was wrong: AFAICT it was literally impossible to use the FileRepository interface to write reflogs for any refs under refs/changes/*, until I made this possible in https://git.eclipse.org/r/102396. ReflogWriter would just drop logs on the floor for any ref not under one of the hard-coded prefix.\n\nSo I think there is nothing to fix in 2.14.\n\nIn 2.15, I will include that JGit series and make sure that {ReviewDb,NoteDb}BatchUpdate both override reflog setting properly on a per-ref basis.",
+      "parentUuid": "b64369bf_914168ea",
+      "revId": "64d7c005408e10195ea0b86c777b580d40cf187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

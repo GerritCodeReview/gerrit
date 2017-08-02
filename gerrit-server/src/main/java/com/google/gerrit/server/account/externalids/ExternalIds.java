@@ -75,6 +75,11 @@ public class ExternalIds {
     return byAccount(accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 
+  /** Returns all external IDs by account. */
+  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
+    return externalIdCache.allByAccount();
+  }
+
   /**
    * Returns the external ID with the given email.
    *
@@ -108,5 +113,10 @@ public class ExternalIds {
    */
   public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     return externalIdCache.byEmails(emails);
+  }
+
+  /** Returns all external IDs by email. */
+  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
+    return externalIdCache.allByEmail();
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "887ea6f5_3513d3c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T18:30:44Z",
+      "side": 1,
+      "message": "You\u0027re right that it\u0027s inconsistent... What exactly is the difference, and does it matter?",
+      "parentUuid": "24a5471a_5fe02ef8",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 78
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "15114e05_b6e1a9ec",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -91,6 +115,30 @@
       "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d3c237_5cc41338",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T18:30:44Z",
+      "side": 1,
+      "message": "No. I talked about this with Logan yesterday, and he very specifically said that we *do* want to allow the user to click send and begin the reply process, even when the comments haven\u0027t been saved yet. I\u0027d suggest you talk to him about it.",
+      "parentUuid": "25f3f2db_92496f4b",
+      "range": {
+        "startLine": 258,
+        "startChar": 12,
+        "endLine": 258,
+        "endChar": 67
+      },
+      "revId": "6765f1ef019faa2b326658cbac3515df8af841af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

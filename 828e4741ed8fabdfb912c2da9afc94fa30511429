@@ -69,6 +69,30 @@
       "revId": "828e4741ed8fabdfb912c2da9afc94fa30511429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a63b0f3e_2b2c6d98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-02T10:12:38Z",
+      "side": 1,
+      "message": "Seems to have been done in the new PS on this change :)",
+      "parentUuid": "c944142c_afded2c2",
+      "range": {
+        "startLine": 527,
+        "startChar": 11,
+        "endLine": 527,
+        "endChar": 30
+      },
+      "revId": "828e4741ed8fabdfb912c2da9afc94fa30511429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

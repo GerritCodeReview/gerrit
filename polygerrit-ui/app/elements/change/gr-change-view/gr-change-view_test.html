@@ -1288,6 +1288,14 @@ limitations under the License.
       assert.isTrue(element.$.relatedChanges.reload.calledOnce);
     });
 
+    test('_computeEditLoaded', () => {
+      const callCompute = range => element._computeEditLoaded({base: range});
+      assert.isFalse(callCompute({}));
+      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
+      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
+      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
+    });
+
     suite('_upgradeUrl calls', () => {
       let upgradeStub;
       const mockChange = {project: 'test'};

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7406ddc1_a680a2a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T14:59:27Z",
+      "side": 1,
+      "message": "Project access is requested to generate the project access form. As it is now, in order to get the project names (not ID), it requires another API call per rule to get the name. This is necessary since on the project access screen we show the group name and link to the group page. This makes it easier to render the name, get all of the information necessary together, instead of chaining more asynchronous calls.",
+      "parentUuid": "dc0438bf_aefc5b16",
+      "revId": "8e6759c92e3ffea209edc29b06abd091d191636f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "508fe412_b96afbc2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "b9901af7_1947dfc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-02T06:20:26Z",
+      "side": 1,
+      "message": "So in GWT UI, the change screen is not consistent! It doesn\u0027t currently load reviewed bit on change edit:\n\n  if (rev.isEdit()) {\n      // Comments are filtered for the current revision. Use parent\n   [...] \n   } else {\n     loadDiff(base, baseRev, rev, lastReply, group);\n   }\n\nThis happens in loadDiff(base, baseRev, rev, lastReply, group) method, *but* file table in change screen and diff screen still allow to set reviewed bit on change edit files.",
+      "parentUuid": "856a621a_059ecd98",
+      "revId": "012b0b0a28de6b1e37fd10ec527debda59e54ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3e0e8b7_22de5849",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 2

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "948dfc7e_f29820fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:54:14Z",
+      "side": 1,
+      "message": "this should be something like _shouldDisplayRevisionUploader",
+      "range": {
+        "startLine": 292,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 27
+      },
+      "revId": "17cb90d4faf6a8c612b6b01d64d208d254933c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1b9a04f_a9a4dc38",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:54:14Z",
+      "side": 1,
+      "message": "Can this be: \n\nconst uploader \u003d this._computeUploader();\nif (uploader) \u003d\u003d\u003d rev.uploader._account_id ( return false )\nreturn true;\n\n(or similar). It seems you can use the computeUploader func.",
+      "range": {
+        "startLine": 293,
+        "startChar": 6,
+        "endLine": 307,
+        "endChar": 18
+      },
+      "revId": "17cb90d4faf6a8c612b6b01d64d208d254933c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc867c9_164ce5c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:54:14Z",
+      "side": 1,
+      "message": "The return types are inconsistent. Should this return a string?",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 313,
+        "endChar": 21
+      },
+      "revId": "17cb90d4faf6a8c612b6b01d64d208d254933c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -928,7 +928,7 @@
                 this.patchNumEquals(this._patchRange.patchNum,
                     currentRevision._number)) {
               // CommitInfo.commit is optional, and may need patching.
-              if (!currentRevision.commit.commit) {
+              if (currentRevision.commit && !currentRevision.commit.commit) {
                 currentRevision.commit.commit = latestRevisionSha;
               }
               this._commitInfo = currentRevision.commit;

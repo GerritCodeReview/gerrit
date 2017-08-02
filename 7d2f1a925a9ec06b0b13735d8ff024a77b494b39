@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a38b2f7_3fb062cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-02T09:56:23Z",
+      "side": 1,
+      "message": "I think this is correct, so I changed it. Though I am not sure why it would be cheaper (besides maybe an additional iteration over the list).\n\nFrom what I see, the difference is that we invoke ChangeIsVisibleToPredicate#match()\n\nWhich uses a ChangeControl instead of the PermissionBackend (because it wasn\u0027t migrated yet).",
+      "parentUuid": "aef4a304_40407ac4",
+      "revId": "7d2f1a925a9ec06b0b13735d8ff024a77b494b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c5655c_bb0c8c20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-31T12:02:46Z",
       "side": 1,
       "message": "Not strictly related to this change, but:\n\n* I always have to double-check what \"includedInOne\" would mean, I think it would be easier to understand as \"includedInAny\" or something.\n* Surely includedInOne should short-circuit if the input collection is empty, and you wouldn\u0027t have to push this check into the callers. (It doesn\u0027t, I checked, so this is still necessary for now unless you want to start modifying that class.)",
+      "revId": "7d2f1a925a9ec06b0b13735d8ff024a77b494b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4080307_201b1cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-02T09:56:23Z",
+      "side": 1,
+      "message": "Agreed to both and created a separate change to fix those: I12db79be2646cb",
+      "parentUuid": "e3c5655c_bb0c8c20",
       "revId": "7d2f1a925a9ec06b0b13735d8ff024a77b494b39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

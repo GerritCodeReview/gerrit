@@ -96,7 +96,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     assertThat(message.author._accountId).isEqualTo(admin.getId().get());
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
   }
 
   private Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {

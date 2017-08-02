@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5b6f2ef_35dde21c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T17:43:09Z",
+      "side": 1,
+      "message": "Aside: We might also consider an approach like this, since the ETag decorator handles a similar mapping.\n\n Map\u003cChangeNum, T\u003e",
+      "range": {
+        "startLine": 76,
+        "startChar": 19,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "f1b356e3eec0c4b4c97c85020e4329b9dd14f858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf8bbe46_6df65abc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T17:43:09Z",
+      "side": 1,
+      "message": "This could use a comment (or perhaps be refactored into a descripively-named helper function).",
+      "range": {
+        "startLine": 515,
+        "startChar": 10,
+        "endLine": 524,
+        "endChar": 13
+      },
+      "revId": "f1b356e3eec0c4b4c97c85020e4329b9dd14f858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8d0426_370d9aaf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-02T17:43:09Z",
+      "side": 1,
+      "message": "Nit: line exceeds 80ch.",
+      "revId": "f1b356e3eec0c4b4c97c85020e4329b9dd14f858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

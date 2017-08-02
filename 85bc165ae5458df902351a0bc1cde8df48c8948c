@@ -93,6 +93,30 @@
       "revId": "85bc165ae5458df902351a0bc1cde8df48c8948c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8166f036_e21d0240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T13:23:06Z",
+      "side": 1,
+      "message": "Oh i see what you mean",
+      "parentUuid": "cb606728_d75efd11",
+      "range": {
+        "startLine": 228,
+        "startChar": 71,
+        "endLine": 228,
+        "endChar": 95
+      },
+      "revId": "85bc165ae5458df902351a0bc1cde8df48c8948c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

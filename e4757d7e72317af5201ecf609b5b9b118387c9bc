@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f75a6284_660fb937",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-02T21:54:01Z",
+      "side": 1,
+      "message": "nit: a couple",
+      "range": {
+        "startLine": 34,
+        "startChar": 40,
+        "endLine": 34,
+        "endChar": 50
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f365ccbe_c63820b5",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-02T21:54:01Z",
+      "side": 1,
+      "message": "nit: commands",
+      "range": {
+        "startLine": 34,
+        "startChar": 54,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c86fbdac_c73ddb06",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-02T21:54:01Z",
+      "side": 1,
+      "message": "Technical note, feel free to ignore: the \"refs/for/\u003cbranch_name\u003e\" doesn\u0027t actually exist --- allowing the pusher to repeatedly \"create\" it is a fiction handled in the server. So it would be more accurate to say \"Gerrit accepts pushes to `refs/for/\u003cbranch_name\u003e` for every branch that it tracks\".",
+      "range": {
+        "startLine": 74,
+        "startChar": 68,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

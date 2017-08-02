@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c6679c82_c0c609f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2017-08-02T17:28:45Z",
+      "side": 1,
+      "message": "To elaborate, we have multiple, different Android partners on the same Gerrit host. Partners may be working on features that are embargoed until a certain date, or may just want other partners not to be able to see their commits until it is merged in.\nCurrently, we\u0027re using a terrible hack where we have a separate branch for each partner for the sole purpose of keeping the change private until it\u0027s cherrypicked into the main branch.\nBy and large, partner A should not want/need to be able to see partner B\u0027s changes. Default private changes will allow this to be true.",
+      "parentUuid": "bb94c8e0_78c18399",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8209623_e7408280",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

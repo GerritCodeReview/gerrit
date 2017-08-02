@@ -270,7 +270,7 @@ public class MergeValidators {
           throw new MergeValidationException(
               String.format("update of %s not allowed", AccountConfig.ACCOUNT_CONFIG));
         }
-      } catch (OrmException e) {
+      } catch (IOException | OrmException e) {
         log.error("Cannot validate account update", e);
         throw new MergeValidationException("account validation unavailable");
       }

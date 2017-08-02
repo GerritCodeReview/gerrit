@@ -163,16 +163,6 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public DiffSummary getDiffSummary(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
-    Project.NameKey project = change.getProject();
-    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    Whitespace ws = Whitespace.IGNORE_NONE;
-    return getDiffSummary(
-        DiffSummaryKey.fromPatchListKey(PatchListKey.againstDefaultBase(b, ws)), project);
-  }
-
-  @Override
   public DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
       throws PatchListNotAvailableException {
     try {

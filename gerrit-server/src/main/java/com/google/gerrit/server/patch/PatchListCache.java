@@ -30,9 +30,6 @@ public interface PatchListCache {
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 
-  DiffSummary getDiffSummary(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException;
-
   DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
       throws PatchListNotAvailableException;
 }

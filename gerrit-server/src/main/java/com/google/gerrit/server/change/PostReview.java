@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -92,7 +93,11 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.patch.DiffSummary;
+import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -128,6 +133,7 @@ import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class PostReview
@@ -202,14 +208,14 @@ public class PostReview
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -548,7 +554,7 @@ public class PostReview
 
   private <T extends CommentInput> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
-      throws OrmException, BadRequestException {
+      throws BadRequestException, PatchListNotAvailableException {
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
@@ -564,9 +570,14 @@ public class PostReview
     }
   }
 
-  private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
-    ChangeData changeData = changeDataFactory.create(db.get(), revision.getControl());
-    return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
+  private Set<String> getAffectedFilePaths(RevisionResource revision)
+      throws PatchListNotAvailableException {
+    ObjectId newId = ObjectId.fromString(revision.getPatchSet().getRevision().get());
+    DiffSummaryKey key =
+        DiffSummaryKey.fromPatchListKey(
+            PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));
+    DiffSummary ds = patchListCache.getDiffSummary(key, revision.getProject());
+    return new HashSet<>(ds.getPaths());
   }
 
   private static void ensurePathRefersToAvailableOrMagicFile(
@@ -595,7 +606,7 @@ public class PostReview
 
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
-      throws BadRequestException, OrmException {
+      throws BadRequestException, PatchListNotAvailableException {
     cleanUpComments(in);
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();

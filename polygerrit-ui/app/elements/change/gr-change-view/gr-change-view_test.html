@@ -852,6 +852,24 @@ limitations under the License.
       });
     });
 
+    test('latest revision commit not available', () => {
+      sandbox.stub(element, '_changeChanged');
+      sandbox.stub(element, '_upgradeUrl');
+      sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
+        return Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'rev1',
+          revisions: {
+            rev1: {_number: 1},
+          },
+        });
+      });
+
+      return element._getChangeDetail().then(() => {
+      });
+    });
+
     test('reply dialog focus can be controlled', () => {
       const FocusTarget = element.$.replyDialog.FocusTarget;
       const openStub = sandbox.stub(element, '_openReplyDialog');

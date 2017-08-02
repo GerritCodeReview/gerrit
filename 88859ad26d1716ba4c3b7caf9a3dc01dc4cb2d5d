@@ -1,0 +1,475 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ea31c81_fba80211",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "The plugin",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e384aab_5b07c176",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "\u0027pluginname\u0027",
+      "range": {
+        "startLine": 23,
+        "startChar": 49,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d11820_27b53dda",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "The DOM is the API surface.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035d5737_b51a1eb6",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "A low-level API provides",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51884ede_23b68afe",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "\u0027through a set\u0027",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 55
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7e0038_1e55eb78",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "the DOM",
+      "range": {
+        "startLine": 42,
+        "startChar": 47,
+        "endLine": 42,
+        "endChar": 50
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14709861_059124e7",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Delete.",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5cb49d1_47bcbc99",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "In the decoration case, a hook is set with a `content` attribute that points to the DOM element.",
+      "range": {
+        "startLine": 43,
+        "startChar": 67,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31a1553_fb925cce",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Get the",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8a89f7_a4dcadce",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Set up",
+      "range": {
+        "startLine": 48,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 8
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1693d921_3a7ce681",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Callback",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffb04212_8280f466",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Use",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2641d71_b8188ed8",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "a list",
+      "range": {
+        "startLine": 65,
+        "startChar": 38,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a477fd97_a10698ea",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "(such as attributes and events)",
+      "range": {
+        "startLine": 65,
+        "startChar": 62,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a1cb91_960ecbd5",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "in the long term.",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce2d730_a91bed6d",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Is this a TODO?",
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c34935be_554aff64",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "An endpoint\u0027s contents can be replaced by passing the replace attribute as an option.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb92533_58c5bd0e",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Plugins",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd19f866_3477518f",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Delete",
+      "range": {
+        "startLine": 98,
+        "startChar": 43,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61bb9a5d_afdef2c0",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "A style must be defined as a standalone `\u003cdom-module\u003e` defined in the same .html file.",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19376d5_eaa78f47",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-02T21:56:53Z",
+      "side": 1,
+      "message": "Is this a TODO?",
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

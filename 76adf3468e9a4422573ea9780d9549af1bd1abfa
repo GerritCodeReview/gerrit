@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7c8003e_846a1ead",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:47:03Z",
+      "side": 1,
+      "message": "I also think somewhere we should show the same \u0027instructions\u0027 that GWT displays (Branch or SHA-1)",
+      "parentUuid": "7a8b7e7f_951464a0",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "faae0d67_7143e11e",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.js",
         "patchSetId": 19

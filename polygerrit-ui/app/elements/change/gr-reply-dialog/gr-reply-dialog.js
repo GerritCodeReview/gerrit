@@ -66,6 +66,13 @@
      * @event show-alert
      */
 
+    /**
+     * Fires when the reply dialog believes that the server side diff drafts
+     * have been updated and need to be refreshed.
+     *
+     * @event comment-refresh
+     */
+
     properties: {
       change: Object,
       patchNum: String,
@@ -150,6 +157,7 @@
         type: Boolean,
         computed: '_computeCCsEnabled(serverConfig)',
       },
+      _savingComments: Boolean,
     },
 
     FocusTarget,
@@ -197,6 +205,13 @@
       this._focusOn(opt_focusTarget);
       if (!this.draft || !this.draft.length) {
         this.draft = this._loadStoredDraft();
+      }
+      if (this.$.restAPI.hasPendingDiffDrafts()) {
+        this._savingComments = true;
+        this.$.restAPI.awaitPendingDiffDrafts().then(() => {
+          this.fire('comment-refresh');
+          this._savingComments = false;
+        });
       }
     },
 
@@ -748,6 +763,10 @@
 
     _computeCCsEnabled(serverConfig) {
       return serverConfig && serverConfig.note_db_enabled;
+    },
+
+    _computeSavingLabelClass(savingComments) {
+      return savingComments ? 'saving' : '';
     },
   });
 })();

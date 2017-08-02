@@ -127,11 +127,18 @@ limitations under the License.
         color: #444;
         font-style: italic;
       }
-      #notLatestLabel {
+      #notLatestLabel,
+      #savingLabel {
         color: red;
       }
+      #savingLabel {
+        display: none;
+      }
+      #savingLabel.saving {
+        display: inline;
+      }
       #cancelButton {
-        float:right;
+        float: right;
       }
       @media screen and (max-width: 50em) {
         :host {
@@ -247,6 +254,11 @@ limitations under the License.
             project-config="[[projectConfig]]"
             patch-num="[[patchNum]]"
             hidden$="[[!_includeComments]]"></gr-comment-list>
+        <span
+            id="savingLabel"
+            class$="[[_computeSavingLabelClass(_savingComments)]]">
+          Saving comments...
+        </span>
       </section>
       <section>
         <gr-button

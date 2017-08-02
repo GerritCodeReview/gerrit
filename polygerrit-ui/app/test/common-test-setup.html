@@ -33,6 +33,17 @@ limitations under the License.
     },
   });
 </script>
+<script>
+  // eslint-disable-next-line no-unused-vars
+  const mockPromise = () => {
+    let res;
+    const promise = new Promise(resolve => {
+      res = resolve;
+    });
+    promise.resolve = res;
+    return promise;
+  };
+</script>
 <link rel="import"
     href="../bower_components/iron-test-helpers/iron-test-helpers.html" />
 <link rel="import" href="test-router.html" />

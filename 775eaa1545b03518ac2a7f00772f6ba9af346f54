@@ -16,6 +16,24 @@
       "revId": "775eaa1545b03518ac2a7f00772f6ba9af346f54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99bea608_d7da89a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-08-02T17:50:03Z",
+      "side": 1,
+      "message": "I added another commit to this topic to correct the index.",
+      "parentUuid": "250effa8_2657c895",
+      "revId": "775eaa1545b03518ac2a7f00772f6ba9af346f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

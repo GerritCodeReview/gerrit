@@ -147,10 +147,13 @@ public class ChangeField {
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
-    List<String> paths = cd.currentFilePaths();
-    if (paths == null) {
-      return ImmutableSet.of();
+    List<String> paths;
+    try {
+      paths = cd.currentFilePaths();
+    } catch (IOException e) {
+      throw new OrmException(e);
     }
+
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = new HashSet<>();
     for (String path : paths) {

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a8b7e7f_951464a0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:36:13Z",
+      "side": 1,
+      "message": "Nit: please move is\u003d\"iron-input\" to next line. I don\u0027t think we should have autocomplete\u003d\"on\" unless you have a specific reason It doesn\u0027t seem like the type of thing the browser would correctly be able to complete. (here and below)",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faae0d67_7143e11e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:36:13Z",
+      "side": 1,
+      "message": "can we call this _computeDetailName? (It should be private, correct?)",
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c69954b_7a8c9bf9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:36:13Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like this class is being used.",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 31
+      },
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc62319_d70aef3d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:36:13Z",
+      "side": 1,
+      "message": "Since this is already done here, perhaps just pass detail-type as an parameter gr-create-item-dialog, then it doesn\u0027t have to be computed there too.",
+      "range": {
+        "startLine": 156,
+        "startChar": 17,
+        "endLine": 156,
+        "endChar": 49
+      },
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ada8254_0c85cb8d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-02T18:36:13Z",
+      "side": 1,
+      "message": "Nit: can this be the first attribute?",
+      "range": {
+        "startLine": 163,
+        "startChar": 14,
+        "endLine": 163,
+        "endChar": 33
+      },
+      "revId": "76adf3468e9a4422573ea9780d9549af1bd1abfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

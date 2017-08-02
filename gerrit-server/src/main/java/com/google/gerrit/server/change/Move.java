@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
+import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
@@ -38,11 +40,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -112,12 +111,12 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     // Move requires abandoning this change, and creating a new change.
     try {
-      rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+      rsrc.permissions().database(dbProvider).check(ABANDON);
       permissionBackend
           .user(caller)
           .database(dbProvider)
           .ref(newDest)
-          .check(RefPermission.CREATE_CHANGE);
+          .check(CREATE_CHANGE);
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
@@ -215,13 +214,16 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
     return new UiAction.Description()
         .setLabel("Move Change")
         .setTitle("Move change to a different branch")
         .setVisible(
-            permissionBackend
-                .user(rsrc.getUser())
-                .project(rsrc.getProject())
-                .testOrFalse(ProjectPermission.CREATE_CHANGE));
+            change.getStatus().isOpen()
+                && permissionBackend
+                    .user(rsrc.getUser())
+                    .ref(change.getDest())
+                    .testOrFalse(CREATE_CHANGE)
+                && rsrc.permissions().database(dbProvider).testOrFalse(ABANDON));
   }
 }

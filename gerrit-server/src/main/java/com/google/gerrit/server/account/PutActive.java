@@ -19,15 +19,11 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.PutActive.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
@@ -35,35 +31,16 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutActive implements RestModifyView<AccountResource, Input> {
   public static class Input {}
 
-  private final Provider<ReviewDb> dbProvider;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final SetInactiveFlag setInactiveFlag;
 
   @Inject
-  PutActive(Provider<ReviewDb> dbProvider, AccountsUpdate.Server accountsUpdate) {
-    this.dbProvider = dbProvider;
-    this.accountsUpdate = accountsUpdate;
+  PutActive(SetInactiveFlag setInactiveFlag) {
+    this.setInactiveFlag = setInactiveFlag;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
-    AtomicBoolean alreadyActive = new AtomicBoolean(false);
-    Account account =
-        accountsUpdate
-            .create()
-            .update(
-                dbProvider.get(),
-                rsrc.getUser().getAccountId(),
-                a -> {
-                  if (a.isActive()) {
-                    alreadyActive.set(true);
-                  } else {
-                    a.setActive(true);
-                  }
-                });
-    if (account == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
-    return alreadyActive.get() ? Response.ok("") : Response.created("");
+    return setInactiveFlag.activate(rsrc.getUser());
   }
 }

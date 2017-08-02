@@ -94,6 +94,30 @@
       "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf3c0e1_bb826326",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-02T13:00:26Z",
+      "side": 1,
+      "message": "Throws\n\nINFO: Found 1 target...\nERROR: /Users/patrickmulhall/Documents/workspace/gerrit/gerrit-server/BUILD:28:1: Building gerrit-server/libserver-class.jar (1426 source files) failed: Worker process sent response with exit code: 1.\ngerrit-server/src/main/java/com/google/gerrit/server/change/Move.java:223: error: cannot find symbol\n            change.isOpen()\n                  ^\n  symbol:   method isOpen()\n  location: variable change of type Change\nTarget //:release failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 31.391s, Critical Path: 31.15s",
+      "parentUuid": "3e6fb7ff_9b7d1f47",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 224,
+        "endChar": 69
+      },
+      "revId": "84ed93588d2d290d9bb847ee5cbee90c60d33851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "8c9878c4_020742ca",
+        "filename": "Documentation/intro-how-gerrit-works.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-03T12:26:07Z",
+      "side": 1,
+      "message": "Typically we put it outside the link.",
+      "parentUuid": "850b370d_fcd45331",
+      "range": {
+        "startLine": 29,
+        "startChar": 45,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "e4757d7e72317af5201ecf609b5b9b118387c9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "88e135b9_4499bc71",
         "filename": "Documentation/intro-product-overview.txt",
         "patchSetId": 5

@@ -44,6 +44,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
@@ -1019,6 +1020,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  @GerritConfig(name = "user.readAccountsFromGit", value = "true")
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(
@@ -1038,7 +1040,8 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(repo.exactRef(userRef)).isNull();
     }
 
-    // TODO(ekempin): assert that account was deleted from cache and index
+    assertThat(accountCache.getOrNull(admin.id)).isNull();
+    accountQuery.byDefault(admin.id.toString()).isEmpty();
   }
 
   @Test

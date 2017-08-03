@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "694d0ffa_50bd7868",
+        "filename": "Documentation/CONCEPT-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T22:40:46Z",
+      "side": 1,
+      "message": "\"Each patch set in a change represents a new version of the change and replaces the previous patch set.\" --- that\u0027s the text that makes it less confusing for me.\n\nPerhaps the first sentence would say something like \"A change represents a single commit under review\". Then afterwards it could talk about how there can be multiple revisions of a change (Gerrit jargon talks about \"revisions\" and \"patch sets\" interchangeably --- if you have ideas for clearing up that terminology then that would be wonderful) and that each revision represents a new version and replaces the previous one.",
+      "parentUuid": "5249bbb8_b19b217e",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "7178bfd4ed46ac26ed7cd5555f5283f1ac60986f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "015b610f_1e5ef506",
         "filename": "Documentation/CONCEPT-changes.txt",
         "patchSetId": 1

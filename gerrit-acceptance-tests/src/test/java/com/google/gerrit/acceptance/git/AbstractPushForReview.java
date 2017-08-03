@@ -64,7 +64,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.receive.ReceiveCommits;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;

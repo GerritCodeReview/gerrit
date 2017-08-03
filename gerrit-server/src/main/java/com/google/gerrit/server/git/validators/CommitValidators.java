@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git.validators;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
-import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -168,6 +168,8 @@ public class CommitValidators {
   }
 
   private final List<CommitValidationListener> validators;
+  public static final Pattern NEW_PATCHSET_PATTERN =
+      Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   CommitValidators(List<CommitValidationListener> validators) {
     this.validators = validators;
@@ -266,7 +268,7 @@ public class CommitValidators {
 
     private static boolean shouldValidateChangeId(CommitReceivedEvent event) {
       return MagicBranch.isMagicBranch(event.command.getRefName())
-          || NEW_PATCHSET.matcher(event.command.getRefName()).matches();
+          || NEW_PATCHSET_PATTERN.matcher(event.command.getRefName()).matches();
     }
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg, RevCommit c) {

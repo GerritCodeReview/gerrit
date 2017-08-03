@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fda6352_f2c62d68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "Let\u0027s link to issue 4935 here. (I only just assigned it to you a few minutes ago. 😊)",
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10117b16_9462acb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "One issue I see when I run this is that, if I enter text for a new hashtag, it\u0027s visible in the editable label even after it\u0027s been added. I think this editable label should return to displaying the placeholder after a new hashtag has been entered.",
+      "range": {
+        "startLine": 231,
+        "startChar": 12,
+        "endLine": 231,
+        "endChar": 30
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ed4d0b1_cd9c98a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "If I enter no text in the editable label and try to add an empty hashtag this will still try to save (with `null` as the hashtag). Is this intended? Should this just be a `return`? Is there a reason to try and post a null hashtag?",
+      "range": {
+        "startLine": 174,
+        "startChar": 29,
+        "endLine": 174,
+        "endChar": 44
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5931e50e_f8eebaee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "When I run this locally, part of this message is cut-off and it says ..\n\n\u003e Click to add hash…\n\nSince it\u0027s already somewhat unambiguous, can we shorten this to merely ..\n\n Click to add\n\nOr merely ..\n\n Add\n\n.. so it shows the entire message?\n\nAlso, please declare this string as a constant near the top of the file. something like ..\n\n const HASHTAG_ADD_MESSAGE \u003d \u0027Click to add\u0027;",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 58
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c4ee29_459d0e55",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "It looks like this event is only listened to in the tests. Can we just remove this?",
+      "range": {
+        "startLine": 325,
+        "startChar": 12,
+        "endLine": 326,
+        "endChar": 69
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12d20e4_abc43b0f",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:36:34Z",
+      "side": 1,
+      "message": "Please add a line regarding the new optional `hashtag` property here.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

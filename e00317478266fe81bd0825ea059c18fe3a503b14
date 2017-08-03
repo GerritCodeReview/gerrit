@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a22f8601_70d769bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T23:03:11Z",
+      "side": 1,
+      "message": "Nit: now this line exceeds 80 characters.",
+      "revId": "e00317478266fe81bd0825ea059c18fe3a503b14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

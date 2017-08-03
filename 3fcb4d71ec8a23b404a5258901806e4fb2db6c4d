@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14c27069_c9a8aeae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T17:33:32Z",
+      "side": 1,
+      "message": "I think we may want to add type annotations to this JSDoc.",
+      "range": {
+        "startLine": 930,
+        "startChar": 4,
+        "endLine": 934,
+        "endChar": 7
+      },
+      "revId": "3fcb4d71ec8a23b404a5258901806e4fb2db6c4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

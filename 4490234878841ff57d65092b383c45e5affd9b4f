@@ -16,6 +16,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b53f0ca_c081c180",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T21:31:04Z",
+      "side": 1,
+      "message": "The code was in its own element before, and Wyatt recommended just rolling it into this file.\n\n@Wyatt, what do you think?",
+      "parentUuid": "521506f2_8db6d830",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

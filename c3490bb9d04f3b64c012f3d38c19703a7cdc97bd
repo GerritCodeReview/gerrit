@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12f8aa43_8508fc01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T16:27:12Z",
+      "side": 1,
+      "message": "The reason I didn\u0027t do that, is because often (perhaps most of the time) when switching between patch sets, the files that will be visible are approximately the same as those which were visible and it\u0027s less jarring to flash an empty file list while loading.\n\nThat was my reasoning, anyway.",
+      "parentUuid": "f2f68f09_07cede79",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "c3490bb9d04f3b64c012f3d38c19703a7cdc97bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ca56e0b_b4290bbc",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c3490bb9d04f3b64c012f3d38c19703a7cdc97bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18fffb71_ac417235",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T16:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ca56e0b_b4290bbc",
+      "range": {
+        "startLine": 939,
+        "startChar": 9,
+        "endLine": 939,
+        "endChar": 12
+      },
+      "revId": "c3490bb9d04f3b64c012f3d38c19703a7cdc97bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

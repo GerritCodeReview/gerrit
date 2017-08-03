@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2f68f09_07cede79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T01:13:22Z",
+      "side": 1,
+      "message": "Do you think we should clear out the data until the new content is loaded instead of just using opacity? I\u0027m not convinced either way myself, just starting a discussion.",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "c3490bb9d04f3b64c012f3d38c19703a7cdc97bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca56e0b_b4290bbc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T01:13:22Z",
+      "side": 1,
+      "message": "I think we are typically defining these as constants",
+      "range": {
+        "startLine": 939,
+        "startChar": 9,
+        "endLine": 939,
+        "endChar": 12
+      },
+      "revId": "c3490bb9d04f3b64c012f3d38c19703a7cdc97bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

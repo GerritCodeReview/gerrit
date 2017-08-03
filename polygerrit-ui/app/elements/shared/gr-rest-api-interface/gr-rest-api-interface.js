@@ -199,6 +199,12 @@
           opt_errFn, opt_ctx);
     },
 
+    runProjectGC(project, opt_errFn, opt_ctx) {
+      const encodeName = encodeURIComponent(project);
+      return this.send('POST', `/projects/${encodeName}/gc`, '',
+          opt_errFn, opt_ctx);
+    },
+
     createProject(config, opt_errFn, opt_ctx) {
       if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
@@ -255,6 +261,32 @@
       const encodeTag = encodeURIComponent(tag);
       return this.send('PUT', `/projects/${encodeName}/tags/${encodeTag}`,
           revision, opt_errFn, opt_ctx);
+    },
+
+    getIsGroupOwner(groupId) {
+      const encodeId = encodeURIComponent(groupId);
+      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeId);
+    },
+
+    saveGroupName(groupId, name) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/name`, {name});
+    },
+
+    saveGroupOwner(groupId, ownerId) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/owner`, {owner: ownerId});
+    },
+
+    saveGroupDescription(groupId, description) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/description`,
+          {description});
+    },
+
+    saveGroupOptions(groupId, options) {
+      const encodeId = encodeURIComponent(groupId);
+      return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
     getVersion() {
@@ -822,6 +854,13 @@
       const url = this.getChangeActionURL(changeNum, patchNum, '/review');
       return this.awaitPendingDiffDrafts()
           .then(() => this.send('POST', url, review, opt_errFn, opt_ctx));
+    },
+
+    createChange(createChangeParams) {
+      return this.send('POST', '/changes/', createChangeParams)
+          .then(response =>
+            this.getResponseObject(response)
+          );
     },
 
     getFileInChangeEdit(changeNum, path) {

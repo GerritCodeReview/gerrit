@@ -51,6 +51,7 @@
         value: false,
       },
       _showGroupList: Boolean,
+      _showProjectCommands: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -96,6 +97,13 @@
             view: 'gr-project',
             url: `/admin/projects/${this.encodeURL(this._project, true)}`,
             children: [{
+              name: 'Project Commands',
+              detailType: 'commands',
+              view: 'gr-project-commands',
+              url: `/admin/projects/${this.encodeURL(this._project, true)}` +
+                    ',commands',
+            },
+            {
               name: 'Branches',
               detailType: 'branches',
               view: 'gr-project-detail-list',
@@ -128,6 +136,8 @@
 
     _paramsChanged(params) {
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
+      this.set('_showProjectCommands',
+          params.adminView === 'gr-project-commands');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');

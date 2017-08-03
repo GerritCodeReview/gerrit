@@ -92,6 +92,7 @@
 == Concepts
 . link:config-labels.html[Review Labels]
 . link:access-control.html[Access Controls]
+. link:CONCEPT-changes.html[Changes]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

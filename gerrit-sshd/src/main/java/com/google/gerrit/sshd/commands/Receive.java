@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
-import com.google.gerrit.server.git.receive.ReceiveCommits;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
@@ -88,11 +87,8 @@ final class Receive extends AbstractGitCommand {
       throw die(r.getMessage());
     }
 
-    ReceiveCommits receive = arc.getReceiveCommits();
-    receive.init();
-    receive.addReviewers(reviewerId);
-    receive.addExtraCC(ccId);
-    ReceivePack rp = receive.getReceivePack();
+    arc.init(reviewerId, ccId);
+    ReceivePack rp = arc.getReceivePack();
     try {
       rp.receive(in, out, err);
       session.setPeerAgent(rp.getPeerUserAgent());

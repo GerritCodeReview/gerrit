@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4466ce3_c250952a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T12:05:06Z",
+      "side": 1,
+      "message": "optional: We could omit this part as Predicate#or has special treatment for single element lists.",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 5
+      },
+      "revId": "a93b3f596fd15a099f0af9f2ed47fa0b2a68eefb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4c5df8a_c4d00a95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T12:05:06Z",
+      "side": 1,
+      "message": "The previous code checked the limit against the terms of all changes. Is the resulting index query now limited to the terms for one change?",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "a93b3f596fd15a099f0af9f2ed47fa0b2a68eefb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b13a366_e60a09c9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T17:36:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e0da11c_22bda624",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 43
+      },
+      "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34d75dba_3263f252",
         "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11dc5fff_7014b676",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T17:36:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d75dba_3263f252",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6c21ab1d_240a0212",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T17:36:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c4fd9cc_9a261e6a",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f773476a_174f222f",
         "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper_test.html",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f1a55bdb_72eda340",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T17:36:50Z",
+      "side": 1,
+      "message": "Doesn\u0027t look cleaner here imo, but I don\u0027t feel strongly about it.",
+      "parentUuid": "f773476a_174f222f",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a1e6a9_cdd9b7b5",
         "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper_test.html",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-08-02T22:01:31Z",
       "side": 1,
       "message": "Christmas in August, eh? 😋",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "3a27670fd0365402e88954ec8886cb30b7177fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "956fc709_93fb27ef",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T17:36:50Z",
+      "side": 1,
+      "message": "😎",
+      "parentUuid": "91a1e6a9_cdd9b7b5",
       "range": {
         "startLine": 81,
         "startChar": 4,

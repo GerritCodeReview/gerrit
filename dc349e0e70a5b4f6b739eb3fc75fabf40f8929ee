@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "69cc691d_98f52d20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T21:40:16Z",
+      "side": 1,
+      "message": "Exactly.\nThis needs to be done before a Gerrit.install().",
+      "parentUuid": "31b6487a_31917ca1",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0bc807f_4b322a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 18

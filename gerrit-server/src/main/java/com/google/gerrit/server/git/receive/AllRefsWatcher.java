@@ -16,10 +16,8 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
@@ -36,19 +34,7 @@ class AllRefsWatcher implements AdvertiseRefsHook {
 
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
-    allRefs = rp.getAdvertisedRefs();
-    if (allRefs == null) {
-      try {
-        allRefs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
-      } catch (ServiceMayNotContinueException e) {
-        throw e;
-      } catch (IOException e) {
-        ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-        ex.initCause(e);
-        throw ex;
-      }
-    }
-    rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());
+    allRefs = HookUtil.ensureAllRefsAdvertised(rp);
   }
 
   @Override

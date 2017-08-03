@@ -131,6 +131,29 @@
       "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64b140f_7445a124",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:50:08Z",
+      "side": 1,
+      "message": "It looks like the hashtag search will only work if it\u0027s lowercased.\n\n params.hashtag.toLowerCase();",
+      "range": {
+        "startLine": 515,
+        "startChar": 46,
+        "endLine": 515,
+        "endChar": 60
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -70,6 +70,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01089cc1_166eab9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T21:43:05Z",
+      "side": 1,
+      "message": "How do we feel about a class that\u0027s similar to the GrEtagDecorator? (See my other comment at [1].)\n\nMy objection to declaring it as a component is because the project lookup itself needs to use the REST API interface itself to backfill the mapping -- causing a cyclic dependency between the two.\n\nBut this problem might not apply if it were a simple class like GrEtagDecorator with some methods that the REST API calls here and there.\n\n* [1] https://gerrit-review.googlesource.com/c/117270/2/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+      "parentUuid": "0ed65b35_f947487a",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

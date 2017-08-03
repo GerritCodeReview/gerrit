@@ -16,6 +16,24 @@
       "revId": "2d67b7c5a5f17539528c54c51dc07a4013399321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d23b28b_0b1369fa",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 128
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T20:52:49Z",
+      "side": 0,
+      "message": "I rebased wrong here when i renamed it to remove the admin prefix.\n\nWill re add it, thanks, done.",
+      "parentUuid": "13285526_9917391d",
+      "revId": "2d67b7c5a5f17539528c54c51dc07a4013399321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

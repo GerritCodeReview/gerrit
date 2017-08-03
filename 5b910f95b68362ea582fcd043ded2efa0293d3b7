@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "930d2cba_b6b171d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 128
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T20:52:49Z",
+      "side": 1,
+      "message": "Hmm not sure, will remove those literal\u0027s now. Thanks, done.",
+      "parentUuid": "5163f319_ff1b737c",
+      "range": {
+        "startLine": 101,
+        "startChar": 18,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "5b910f95b68362ea582fcd043ded2efa0293d3b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2dd94154_7c1dfaec",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 128
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "cfeb5e0c_03ca4898",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 128
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T20:52:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2dd94154_7c1dfaec",
+      "range": {
+        "startLine": 122,
+        "startChar": 18,
+        "endLine": 122,
+        "endChar": 38
+      },
+      "revId": "5b910f95b68362ea582fcd043ded2efa0293d3b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "431fd7f9_f5953f93",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
         "patchSetId": 128
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-03T20:46:45Z",
       "side": 1,
       "message": "Nit: this needs to be indented one more level.",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 64
+      },
+      "revId": "5b910f95b68362ea582fcd043ded2efa0293d3b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6f7323_0a58ffe6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 128
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T20:52:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "431fd7f9_f5953f93",
       "range": {
         "startLine": 72,
         "startChar": 18,

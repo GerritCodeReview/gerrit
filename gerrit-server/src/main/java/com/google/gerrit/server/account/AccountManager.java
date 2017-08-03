@@ -34,8 +34,6 @@ import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
-import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -60,8 +58,7 @@ public class AccountManager {
   private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
-  private final OneOffRequestContext oneOffRequestContext;
-  private final Provider<Sequences> sequencesProvider;
+  private final Sequences sequences;
   private final Accounts accounts;
   private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
@@ -79,8 +76,7 @@ public class AccountManager {
   @Inject
   AccountManager(
       SchemaFactory<ReviewDb> schema,
-      OneOffRequestContext oneOffRequestContext,
-      Provider<Sequences> sequencesProvider,
+      Sequences sequences,
       @GerritServerConfig Config cfg,
       Accounts accounts,
       AccountsUpdate.Server accountsUpdateFactory,
@@ -95,8 +91,7 @@ public class AccountManager {
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
-    this.oneOffRequestContext = oneOffRequestContext;
-    this.sequencesProvider = sequencesProvider;
+    this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
@@ -214,10 +209,7 @@ public class AccountManager {
 
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    Account.Id newId;
-    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      newId = new Account.Id(sequencesProvider.get().nextAccountId());
-    }
+    Account.Id newId = new Account.Id(sequences.nextAccountId());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());

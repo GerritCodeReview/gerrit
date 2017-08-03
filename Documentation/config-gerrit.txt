@@ -3295,17 +3295,6 @@ NoteDb is the next generation of Gerrit storage backend, currently powering
 `googlesource.com`. It is not (yet) recommended for general use, but if you want
 to learn more, see the link:dev-note-db.html[developer documentation].
 
-[[notedb.accounts.readSequenceFromNoteDb]]notedb.accounts.readSequenceFromNoteDb::
-+
-Whether the account sequence should be read from NoteDb.
-+
-Once set to `true` this parameter cannot be set back to `false` because
-the account sequence in ReviewDb will no longer be updated when account
-IDs are retrieved from NoteDb, and hence the account sequence in
-ReviewDb will be outdated.
-+
-By default `false`.
-
 [[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
 +
 The current account sequence number is stored as UTF-8 text in a blob
@@ -3316,9 +3305,6 @@ ref updates, processes increment the counter by a larger number and
 hand out numbers from that range in memory until they run out. This
 configuration parameter controls the size of the account ID batch that
 each process retrieves at once.
-+
-Only relevant if link:#notedb.accounts.readSequenceFromNoteDb[
-notedb.accounts.readSequenceFromNoteDb] is set to `true`.
 +
 By default, 1.
 

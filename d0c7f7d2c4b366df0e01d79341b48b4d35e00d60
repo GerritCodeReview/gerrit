@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "804ab822_2ef1081c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T17:53:57Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "cd7f8ed1_1297e53f",
+      "revId": "d0c7f7d2c4b366df0e01d79341b48b4d35e00d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc0934a9_c6e0eb60",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 21

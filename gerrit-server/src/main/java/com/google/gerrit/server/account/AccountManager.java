@@ -39,6 +39,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -252,7 +253,12 @@ public class AccountManager {
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
-      AccountGroup g = db.accountGroups().byUUID(uuid).iterator().next();
+      Iterator<AccountGroup> adminGroupIt = db.accountGroups().byUUID(uuid).iterator();
+      if (!adminGroupIt.hasNext()) {
+        throw new OrmException(
+            "Administrator group's UUID is misaligned in backend and All-Projects repository");
+      }
+      AccountGroup g = adminGroupIt.next();
       AccountGroup.Id adminId = g.getId();
       AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
       auditService.dispatchAddAccountsToGroup(newId, Collections.singleton(m));

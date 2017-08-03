@@ -69,6 +69,7 @@
 
     attached() {
       this._getCreateGroupCapability();
+      this.fire('title-change', {title: 'Groups'});
     },
 
     _paramsChanged(params) {

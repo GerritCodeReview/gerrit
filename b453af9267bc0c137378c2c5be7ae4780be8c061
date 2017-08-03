@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "5947211d_43beedc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T22:22:03Z",
+      "side": 1,
+      "message": "I see, thanks, done.",
+      "parentUuid": "da219756_4a0383d8",
+      "range": {
+        "startLine": 231,
+        "startChar": 12,
+        "endLine": 231,
+        "endChar": 30
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed4d0b1_cd9c98a9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 18

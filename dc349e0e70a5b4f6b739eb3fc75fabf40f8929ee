@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "0e69f8af_7994e10c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T21:42:56Z",
+      "side": 1,
+      "message": "I\u0027ve done that before gerrit install though too.\n\nI did something like\n    setup(() \u003d\u003e {\n  window.CANONICAL_PATH \u003d \u0027/r\u0027;\n      Gerrit._setPluginsCount(1);\n      Gerrit.install(p \u003d\u003e { plugin \u003d p; }, \u00270.1\u0027,\n          \u0027http://test.com/r/plugins/testplugin/static/test.js\u0027);\n});",
+      "parentUuid": "69cc691d_98f52d20",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0bc807f_4b322a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 18

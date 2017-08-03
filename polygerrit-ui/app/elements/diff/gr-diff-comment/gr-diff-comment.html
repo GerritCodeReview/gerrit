@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../shared/gr-nonblocking-manager/gr-nonblocking-manager.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
@@ -266,6 +267,9 @@ limitations under the License.
             on-tap="_handleCancel" hidden>Cancel</gr-button>
         <gr-button class="action discard hideOnPublished"
             on-tap="_handleDiscard">Discard</gr-button>
+        <div class="action nonblockingStatus hideOnPublished">
+          [[savingStatus.action]]
+        </div>
         <div class="action resolve hideOnPublished">
           <label>
             <input type="checkbox"
@@ -298,6 +302,7 @@ limitations under the License.
           on-cancel="_handleCancelDeleteComment">
       </gr-confirm-delete-comment-dialog>
     </gr-overlay>
+    <gr-nonblocking-manager id="nonblocking"></gr-nonblocking-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>

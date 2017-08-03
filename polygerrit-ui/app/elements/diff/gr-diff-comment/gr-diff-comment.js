@@ -78,6 +78,11 @@
         value: false,
         observer: '_editingChanged',
       },
+      savingStatus: {
+        type: Object,
+        observer: '_savingStatusChanged',
+      },
+
       hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
@@ -134,11 +139,17 @@
       this._getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;
       });
+      this.listen(
+          this.$.nonblocking, 'update-action-status',
+          '_handleUpdateActionStatus');
     },
 
     detached() {
       this.cancelDebouncer('fire-update');
       this.$.editTextarea.closeDropdown();
+      this.unlisten(
+          this.$.nonblocking, 'update-action-status',
+          '_handleUpdateActionStatus');
     },
 
     _computeShowHideText(collapsed) {
@@ -162,12 +173,19 @@
       return this.$.restAPI.getIsAdmin();
     },
 
+    _savingStatusChanged(status) {
+      console.log('saving status changed:', status);
+      this.$.nonblocking.updateActionStatus('comment', status);
+    },
+
     save() {
       this.comment.message = this._messageText;
 
       this.disabled = true;
 
       this._eraseDraftComment();
+
+      this.savingStatus = {action: 'Syncing with server...'};
 
       this._xhrPromise = this._saveDraft(this.comment).then(response => {
         this.disabled = false;
@@ -184,10 +202,13 @@
           comment.__commentSide = this.commentSide;
           this.comment = comment;
           this.editing = false;
+          this.savingStatus = {done: true};
           this._fireSave();
           return obj;
         });
+        return result;
       }).catch(err => {
+        this.savingStatus = {done: true};
         this.disabled = false;
         throw err;
       });
@@ -490,6 +511,10 @@
             this._handleCancelDeleteComment();
             this.comment = newComment;
           });
+    },
+
+    _handleUpdateActionStatus(e) {
+      console.log('comment: update action status:', e);
     },
   });
 })();

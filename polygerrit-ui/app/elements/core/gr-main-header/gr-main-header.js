@@ -95,6 +95,10 @@
         type: String,
         value: '/login',
       },
+      _pendingNonblockingActionCount: {
+        type: Number,
+        value: 0,
+      },
       _userLinks: {
         type: Array,
         value() { return []; },
@@ -113,11 +117,19 @@
     attached() {
       this._loadAccount();
       this._loadConfig();
+      this.listen(window, 'beforeunload', '_handleBeforeUnload');
       this.listen(window, 'location-change', '_handleLocationChange');
+      this.listen(
+          this.$.nonblocking, 'update-action-status',
+          '_handleUpdateActionStatus');
     },
 
     detached() {
+      this.unlisten(window, 'beforeunload', '_handleBeforeUnload');
       this.unlisten(window, 'location-change', '_handleLocationChange');
+      this.unlisten(
+          this.$.nonblocking, 'update-action-status',
+          '_handleUpdateActionStatus');
     },
 
     reload() {
@@ -223,6 +235,25 @@
     _isSupportedLink(linkObj) {
       // Groups are not yet supported.
       return !linkObj.url.startsWith('/groups');
+    },
+
+    _getNonblockingStatusClass(pendingNonblockingActionCount) {
+      return pendingNonblockingActionCount > 0 ? '' : 'nonblockingStatusHidden';
+    },
+
+    _handleBeforeUnload(e) {
+      if (this._pendingNonblockingActionCount > 0) {
+        e.returnValue =
+            'Background operations still pending. You may lose data if you ' +
+            'leave this page. Are you sure?';
+        return e.returnValue;
+      }
+    },
+
+    _handleUpdateActionStatus(e) {
+      console.log('handle update');
+      this._pendingNonblockingActionCount = this.$.nonblocking.countPending();
+      console.log('pending count:', this._pendingNonblockingActionCount);
     },
   });
 })();

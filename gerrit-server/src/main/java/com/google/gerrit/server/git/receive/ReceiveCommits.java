@@ -30,7 +30,6 @@ import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
@@ -190,12 +189,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
-import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
-import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -346,7 +342,7 @@ class ReceiveCommits {
 
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
-  private Map<String, Ref> allRefs;
+  private AllRefsWatcher allRefsWatcher;
 
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<MergeOp> mergeOpProvider;
@@ -484,28 +480,9 @@ class ReceiveCommits {
     rp.setAdvertiseRefsHook(
         refFilterFactory.create(projectControl.getProjectState(), repo).setShowMetadata(false));
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
-    advHooks.add(
-        new AdvertiseRefsHook() {
-          @Override
-          public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
-            allRefs = rp.getAdvertisedRefs();
-            if (allRefs == null) {
-              try {
-                allRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
-              } catch (ServiceMayNotContinueException e) {
-                throw e;
-              } catch (IOException e) {
-                ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-                ex.initCause(e);
-                throw ex;
-              }
-            }
-            rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());
-          }
 
-          @Override
-          public void advertiseRefs(UploadPack uploadPack) {}
-        });
+    allRefsWatcher = new AllRefsWatcher();
+    advHooks.add(allRefsWatcher);
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(
         new ReceiveCommitsAdvertiseRefsHook(
@@ -1674,7 +1651,7 @@ class ReceiveCommits {
   }
 
   private RevCommit readBranchTip(ReceiveCommand cmd, Branch.NameKey branch) throws IOException {
-    Ref r = allRefs.get(branch.get());
+    Ref r = allRefs().get(branch.get());
     if (r == null) {
       reject(cmd, branch.get() + " not found");
       return null;
@@ -2047,7 +2024,7 @@ class ReceiveCommits {
     for (RevCommit c : magicBranch.baseCommit) {
       rp.getRevWalk().markUninteresting(c);
     }
-    Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+    Ref targetRef = allRefs().get(magicBranch.ctl.getRefName());
     if (targetRef != null) {
       logDebug(
           "Marking target ref {} ({}) uninteresting",
@@ -2059,7 +2036,7 @@ class ReceiveCommits {
 
   private void rejectImplicitMerges(Set<RevCommit> mergedParents) throws IOException {
     if (!mergedParents.isEmpty()) {
-      Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+      Ref targetRef = allRefs().get(magicBranch.ctl.getRefName());
       if (targetRef != null) {
         RevWalk rw = rp.getRevWalk();
         RevCommit tip = rw.parseCommit(targetRef.getObjectId());
@@ -2093,7 +2070,7 @@ class ReceiveCommits {
 
   private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
     int i = 0;
-    for (Ref ref : allRefs.values()) {
+    for (Ref ref : allRefs().values()) {
       if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
           && ref.getObjectId() != null) {
         try {
@@ -2521,7 +2498,7 @@ class ReceiveCommits {
     private void newPatchSet() throws IOException {
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       psId =
-          ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs, notes.getChange().currentPatchSetId());
+          ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs(), notes.getChange().currentPatchSetId());
       info = patchSetInfoFactory.get(rp.getRevWalk(), newCommit, psId);
       cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
     }
@@ -2653,10 +2630,10 @@ class ReceiveCommits {
       int estRefsPerChange = 4;
       refsById = MultimapBuilder.hashKeys().arrayListValues().build();
       refsByChange =
-          MultimapBuilder.hashKeys(allRefs.size() / estRefsPerChange)
+          MultimapBuilder.hashKeys(allRefs().size() / estRefsPerChange)
               .arrayListValues(estRefsPerChange)
               .build();
-      for (Ref ref : allRefs.values()) {
+      for (Ref ref : allRefs().values()) {
         ObjectId obj = ref.getObjectId();
         if (obj != null) {
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
@@ -2937,6 +2914,10 @@ class ReceiveCommits {
       r.put(cd.change().getKey(), cd.notes());
     }
     return r;
+  }
+
+  private Map<String, Ref> allRefs() {
+    return allRefsWatcher.getAllRefs();
   }
 
   private void reject(@Nullable ReceiveCommand cmd, String why) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5249bbb8_b19b217e",
+        "filename": "Documentation/CONCEPT-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T22:26:16Z",
+      "side": 1,
+      "message": "I have another topic coming up that focuses specifically on patch sets. I was considering putting the two topics together, but thought this topic could move forward independently.\n\nIn the User guide, under the changes section, there\u0027s a paragraph that states: \n\n\"A change consists of a Change-Id, meta data (owner, project, target branch etc.), one or more patch sets, comments and votes. A patch set is a git commit. Each patch set in a change represents a new version of the change and replaces the previous patch set.\"\n\nLines 3 and 4, and the list that follows, was my attempt to rewrite this paragraph. It was the phrase \"consists of...one or more patch sets...\" and the sentence \"A patch set is a git commit\" that prompted me to state that a change is a group of related patch sets.\n\nPerhaps we should say \"commits\" instead of patch sets? Or I could add the Patch Set topic to this change and link to it?",
+      "parentUuid": "3bf03be5_accc2f6c",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "7178bfd4ed46ac26ed7cd5555f5283f1ac60986f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "015b610f_1e5ef506",
         "filename": "Documentation/CONCEPT-changes.txt",
         "patchSetId": 1

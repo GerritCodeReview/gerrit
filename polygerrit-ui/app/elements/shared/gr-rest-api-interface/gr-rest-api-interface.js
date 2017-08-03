@@ -214,6 +214,17 @@
     },
 
     /**
+     * @param {?Object} project
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?=} opt_ctx
+     */
+    runProjectGC(project, opt_errFn, opt_ctx) {
+      const encodeName = encodeURIComponent(project);
+      return this.send('POST', `/projects/${encodeName}/gc`, '',
+          opt_errFn, opt_ctx);
+    },
+
+    /**
      * @param {?Object} config
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
@@ -1115,6 +1126,13 @@
                 params) :
             false;
       });
+    },
+
+    createChange(createChangeParams) {
+      return this.send('POST', '/changes/', createChangeParams)
+          .then(response =>
+            this.getResponseObject(response)
+          );
     },
 
     getFileInChangeEdit(changeNum, path) {

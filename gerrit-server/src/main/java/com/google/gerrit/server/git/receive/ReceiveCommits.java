@@ -194,7 +194,6 @@ import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
@@ -471,21 +470,7 @@ class ReceiveCommits {
     rp.setMaxObjectSizeLimit(
         transferConfig.getEffectiveMaxObjectSizeLimit(projectControl.getProjectState()));
     rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());
-    rp.setRefFilter(
-        new RefFilter() {
-          @Override
-          public Map<String, Ref> filter(Map<String, Ref> refs) {
-            Map<String, Ref> filteredRefs = Maps.newHashMapWithExpectedSize(refs.size());
-            for (Map.Entry<String, Ref> e : refs.entrySet()) {
-              String name = e.getKey();
-              if (!name.startsWith(REFS_CHANGES)
-                  && !name.startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
-                filteredRefs.put(name, e.getValue());
-              }
-            }
-            return filteredRefs;
-          }
-        });
+    rp.setRefFilter(new ReceiveRefFilter());
 
     permissions = permissionBackend.user(user).project(project.getNameKey());
     // If the user lacks READ permission, some references may be filtered and hidden from view.

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8a02cc1b_43926ffe",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c9d073e3_0f1b4f11",
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46460d5e_c65d6bc4",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 3
@@ -56,6 +74,30 @@
       "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a04b40_b765114f",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Man, I hate missing stuff like that. :) Done.",
+      "parentUuid": "b8d0c6ff_ca577e0f",
+      "range": {
+        "startLine": 117,
+        "startChar": 66,
+        "endLine": 117,
+        "endChar": 71
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +147,54 @@
     },
     {
       "key": {
+        "uuid": "b35ce093_2d04243c",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "No longer necessary (see previous comment).",
+      "parentUuid": "2893fede_6c4cbc4b",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 8
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "728a8534_ac6fcac8",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Sounds good to me! Done.",
+      "parentUuid": "67cebe8d_3d8afd4c",
+      "range": {
+        "startLine": 117,
+        "startChar": 73,
+        "endLine": 118,
+        "endChar": 29
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a734d4c_038dc906",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 3
@@ -125,6 +215,30 @@
       "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d554866_c43d615e",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a734d4c_038dc906",
+      "range": {
+        "startLine": 126,
+        "startChar": 37,
+        "endLine": 126,
+        "endChar": 44
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "b086fa1a_d615461e",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8a1a7e2_28e5e35f",
+      "range": {
+        "startLine": 132,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 62
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edbc248a_79c74fe3",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 3
@@ -165,6 +303,24 @@
       "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353967ba_9c63da60",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-03T23:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edbc248a_79c74fe3",
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

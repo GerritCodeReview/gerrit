@@ -52,6 +52,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed65b35_f947487a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T21:33:53Z",
+      "side": 1,
+      "message": "I tried to make that very same point :P\n\nI don\u0027t mind either way how this gets done, I just want to get it done so I can move on to the rest of the project -- there\u0027s still plenty to do, so I\u0027d like to make a final judgement on this part soon.",
+      "parentUuid": "1e3c7712_c958e916",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

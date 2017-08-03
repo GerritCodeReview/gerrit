@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1aa6655_353b153a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 130
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T21:12:15Z",
+      "side": 1,
+      "message": "Nit: indentation, can it fit on prev line? if not, should be 4 spaces indented from the line above.",
+      "range": {
+        "startLine": 96,
+        "startChar": 25,
+        "endLine": 96,
+        "endChar": 75
+      },
+      "revId": "fc7ff7357f24ac86dab3d934459c377340203214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "720b556c_20b4e847",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 130
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T21:12:15Z",
+      "side": 1,
+      "message": "Nit: should be indented 4 spaces from line above.",
+      "range": {
+        "startLine": 113,
+        "startChar": 25,
+        "endLine": 113,
+        "endChar": 81
+      },
+      "revId": "fc7ff7357f24ac86dab3d934459c377340203214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a0d99c_7795230d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 130
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T21:12:15Z",
+      "side": 1,
+      "message": "I wonder if this should also go instead of the status \u003d\u003d\u003d 200 statement?",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 33
+      },
+      "revId": "fc7ff7357f24ac86dab3d934459c377340203214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea88365_1062e9b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 130
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T21:12:15Z",
+      "side": 1,
+      "message": "Nit: this can fit on the previous line.",
+      "range": {
+        "startLine": 157,
+        "startChar": 9,
+        "endLine": 157,
+        "endChar": 22
+      },
+      "revId": "fc7ff7357f24ac86dab3d934459c377340203214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

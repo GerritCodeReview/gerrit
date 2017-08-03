@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e9fcb7f_78c867c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-03T15:49:38Z",
+      "side": 1,
+      "message": "TODO: It will be good to provide more information here, which guides users to push as wip or private changes.",
+      "range": {
+        "startLine": 1536,
+        "startChar": 19,
+        "endLine": 1536,
+        "endChar": 56
+      },
+      "revId": "dde4d4d565c5f0a17adf20f5ea87a4bb63574a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

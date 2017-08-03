@@ -168,6 +168,24 @@
     },
     {
       "key": {
+        "uuid": "23741a35_55de4cd1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T01:07:03Z",
+      "side": 1,
+      "message": "Sorry for the confusion!",
+      "parentUuid": "ebd4bc6c_16ccdaaf",
+      "revId": "abbd17d051253c1596dbe2b900d92ba22782d70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2969f4c7_cab6b9cd",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 3

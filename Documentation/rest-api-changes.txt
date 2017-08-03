@@ -10,7 +10,7 @@ link:rest-api.html[REST API].
 [[create-change]]
 === Create Change
 --
-'POST /changes'
+'POST /changes/'
 --
 
 The change input link:#change-input[ChangeInput] entity must be provided in the

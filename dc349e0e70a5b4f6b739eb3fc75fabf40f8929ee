@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8006491b_8a0a5318",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T17:58:07Z",
+      "side": 1,
+      "message": "hmm, i\u0027ve already tryed to add window.CANONICAL_PATH to setup but that did not seem to work either.",
+      "parentUuid": "fbbd6394_1d443e5c",
+      "revId": "dc349e0e70a5b4f6b739eb3fc75fabf40f8929ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0bc807f_4b322a36",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 18

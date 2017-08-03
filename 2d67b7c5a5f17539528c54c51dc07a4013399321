@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13285526_9917391d",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 128
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T20:46:45Z",
+      "side": 0,
+      "message": "Why does this remove the tests for gr-plugin-list?",
+      "revId": "2d67b7c5a5f17539528c54c51dc07a4013399321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

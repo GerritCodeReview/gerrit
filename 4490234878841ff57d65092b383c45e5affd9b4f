@@ -142,6 +142,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f73d573_26d02950",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T23:40:41Z",
+      "side": 1,
+      "message": "This actually won\u0027t work as well as we think it will -- Moving all of the code into a separate file/class reintroduces the issue of the circular dependency. The fn `getFromProjectLookup` must conditionally call restAPI.getChange().",
+      "parentUuid": "15b48062_bcd29d85",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

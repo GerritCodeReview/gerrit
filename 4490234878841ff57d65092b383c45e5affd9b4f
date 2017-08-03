@@ -106,6 +106,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0792fe6_0df53300",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-03T22:55:16Z",
+      "side": 1,
+      "message": "I know this back and forth is frustrating, and I\u0027ve put +1 to this change hoping that it will show that I\u0027m not opposed to this going in the way it is.\n\nIt\u0027s a technical debt, that\u0027s why I\u0027ve started this thread, and I believe we should address it sooner or later (better now).\n\nSorry about this.",
+      "parentUuid": "4de90e03_c1451801",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

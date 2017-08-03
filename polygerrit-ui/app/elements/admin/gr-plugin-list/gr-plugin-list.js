@@ -59,7 +59,7 @@
     ],
 
     attached() {
-      this.fire('title-change', {title: 'Plugin List'});
+      this.fire('title-change', {title: 'Plugins'});
     },
 
     _paramsChanged(params) {

@@ -69,7 +69,7 @@
 
     attached() {
       this._getCreateProjectCapability();
-      this.fire('title-change', {title: 'Project List'});
+      this.fire('title-change', {title: 'Projects'});
     },
 
     _paramsChanged(params) {

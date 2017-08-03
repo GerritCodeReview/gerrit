@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const ERR_COMMENT_ON_EDIT = 'Commenting is not allowed on edits.';
+  const ERR_INVALID_LINE = 'Invalid line number: ';
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -79,10 +82,6 @@
       },
       noRenderOnPrefsChange: Boolean,
       comments: Object,
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -92,6 +91,10 @@
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
         observer: '_viewModeObserver',
+      },
+      _loggedIn: {
+        type: Boolean,
+        value: false,
       },
       _diff: Object,
       _diffHeaderItems: {
@@ -119,6 +122,10 @@
 
       _showWarning: Boolean,
     },
+
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+    ],
 
     listeners: {
       'thread-discard': '_handleThreadDiscard',
@@ -167,27 +174,6 @@
       }
 
       return Polymer.dom(this.root).querySelectorAll('.diff-row');
-    },
-
-    addDraftAtLine(el) {
-      this._selectLine(el);
-      this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          this.fire('show-auth-required');
-          return;
-        }
-
-        const value = el.getAttribute('data-value');
-        if (value === GrDiffLine.FILE) {
-          this._addDraft(el);
-          return;
-        }
-        const lineNum = parseInt(value, 10);
-        if (isNaN(lineNum)) {
-          throw Error('Invalid line number: ' + value);
-        }
-        this._addDraft(el, lineNum);
-      });
     },
 
     isRangeSelected() {
@@ -254,34 +240,69 @@
       });
     },
 
+    addDraftAtLine(el) {
+      this._selectLine(el);
+      this._isValidElForComment(el).then(valid => {
+        if (!valid) { return; }
+
+        const value = el.getAttribute('data-value');
+        let lineNum;
+        if (value !== GrDiffLine.FILE) {
+          lineNum = parseInt(value, 10);
+          if (isNaN(lineNum)) {
+            this.fire('show-alert', {message: ERR_INVALID_LINE + value});
+            return;
+          }
+        }
+        this._addDraft(el, lineNum);
+      });
+    },
+
     _handleCreateComment(e) {
       const range = e.detail.range;
-      const diffSide = e.detail.side;
-      const line = range.endLine;
-      const lineEl = this.$.diffBuilder.getLineElByNumber(line, diffSide);
-      const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
-      const contentEl = contentText.parentElement;
-      const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
-      const isOnParent =
-          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          diffSide, isOnParent, range);
+      const side = e.detail.side;
+      const lineNum = range.endLine;
+      const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
+      this._isValidElForComment(el).then(valid => {
+        if (!valid) { return; }
 
-      threadEl.addOrEditDraft(line, range);
+        this._createComment(lineEl, lineNum, side, range);
+      });
     },
 
     _addDraft(lineEl, opt_lineNum) {
+      this._createComment(lineEl, opt_lineNum);
+    },
+
+    _isValidElForComment(el) {
+      return this._getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          this.fire('show-auth-required');
+          return false;
+        }
+        const patchNum = el.classList.contains(DiffSide.LEFT) ?
+            this.patchRange.basePatchNum :
+            this.patchRange.patchNum;
+
+        if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+          this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
+          return false;
+        }
+        return true;
+      });
+    },
+
+    _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
-      const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
-      const commentSide =
+      const side = opt_side ||
           this._getCommentSideByLineAndContent(lineEl, contentEl);
+      const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
-          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          commentSide, isOnParent);
-
-      threadEl.addOrEditDraft(opt_lineNum);
+          side, isOnParent);
+      threadEl.addOrEditDraft(opt_lineNum, opt_range);
     },
 
     _getThreadForRange(threadGroupEl, rangeToCheck) {

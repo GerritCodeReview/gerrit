@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -30,7 +30,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -73,17 +72,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
-    if (oldRefs == null) {
-      try {
-        oldRefs = rp.getRepository().getRefDatabase().getRefs(ALL);
-      } catch (ServiceMayNotContinueException e) {
-        throw e;
-      } catch (IOException e) {
-        ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-        ex.initCause(e);
-        throw ex;
-      }
-    }
+    checkState(
+        oldRefs != null,
+        "expected refs to previously be advertised; %s assumes it is not the first %s in the chain",
+        getClass().getSimpleName(),
+        AdvertiseRefsHook.class.getSimpleName());
     Result r = advertiseRefs(oldRefs);
     rp.setAdvertisedRefs(r.allRefs(), r.additionalHaves());
   }

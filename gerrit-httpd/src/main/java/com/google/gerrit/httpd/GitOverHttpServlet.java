@@ -295,9 +295,9 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       AsyncReceiveCommits arc = factory.create(pc, db);
-      arc.getReceiveCommits().init();
+      arc.init();
 
-      ReceivePack rp = arc.getReceiveCommits().getReceivePack();
+      ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;
     }
@@ -325,7 +325,7 @@ public class GitOverHttpServlet extends GitServlet {
       boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
       AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);
-      ReceivePack rp = arc.getReceiveCommits().getReceivePack();
+      ReceivePack rp = arc.getReceivePack();
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();

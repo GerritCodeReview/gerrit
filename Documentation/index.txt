@@ -84,6 +84,10 @@
 . link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
 . link:dev-release-jgit.html[Making a Release of JGit]
 
+== Concepts
+. link:config-labels.html[Review Labels]
+. link:access-control.html[Access Controls]
+
 == Resources
 * link:licenses.html[Licenses and Notices]
 * link:https://www.gerritcodereview.com/[Homepage]

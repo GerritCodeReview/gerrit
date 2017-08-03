@@ -88,6 +88,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de90e03_c1451801",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T21:45:49Z",
+      "side": 1,
+      "message": "I\u0027m fine with that, as long as this is the last time I have to completely refactor this change. Are there any other designs we ought to consider?",
+      "parentUuid": "01089cc1_166eab9e",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

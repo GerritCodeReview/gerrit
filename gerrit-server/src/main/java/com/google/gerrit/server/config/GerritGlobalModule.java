@@ -119,10 +119,10 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.git.ReplaceOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
@@ -237,6 +237,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());
+    install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());
 
@@ -398,7 +399,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
-    factory(ReplaceOp.Factory.class);
     factory(MergedByPushOp.Factory.class);
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);

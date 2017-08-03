@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.receive;
 
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 

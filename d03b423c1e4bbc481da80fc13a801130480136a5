@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bb5a904_8b926297",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T22:59:22Z",
+      "side": 1,
+      "message": "How about add determineIfOwner inside of this? and remove the getLoggedIn call from that function (only call _determineIfOwner if logged in here)",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "d03b423c1e4bbc481da80fc13a801130480136a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

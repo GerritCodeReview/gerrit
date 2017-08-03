@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d81d48d5_c6952d9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T23:26:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "71f504fb_21c724c3",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "d2509d5451091c48c963a531c3e9319ab402fd1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a6c417c_45e3fd91",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-03T23:25:39Z",
       "side": 1,
       "message": "in the GWTUI",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "d2509d5451091c48c963a531c3e9319ab402fd1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d2fb308_00a7b857",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T23:26:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5a6c417c_45e3fd91",
       "range": {
         "startLine": 9,
         "startChar": 13,

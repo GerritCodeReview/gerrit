@@ -46,196 +46,196 @@ limitations under the License.
       }
     </style>
     <style include="gr-form-styles"></style>
-      <main class="gr-form-styles read-only">
-        <h1 id="Title">[[project]]</h1>
-        <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
-        <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-          <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">
-            <h2 id="download">Download</h2>
+    <main class="gr-form-styles read-only">
+      <h1 id="Title">[[project]]</h1>
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
+      <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
+        <div id="downloadContent" class$="[[_computeDownloadClass(_schemes)]]">
+          <h2 id="download">Download</h2>
+          <fieldset>
+            <gr-download-commands
+                id="downloadCommands"
+                commands="[[_computeCommands(project, _schemesObj, _selectedScheme)]]"
+                schemes="[[_schemes]]"
+                selected-scheme="{{_selectedScheme}}"></gr-download-commands>
+          </fieldset>
+        </div>
+        <h2 id="configurations"
+            class$="[[_computeHeaderClass(_configChanged)]]">Configurations</h2>
+        <div id="form">
+          <fieldset>
+            <h3 id="Description">Description</h3>
             <fieldset>
-              <gr-download-commands
-                  id="downloadCommands"
-                  commands="[[_computeCommands(project, _schemesObj, _selectedScheme)]]"
-                  schemes="[[_schemes]]"
-                  selected-scheme="{{_selectedScheme}}"></gr-download-commands>
+              <iron-autogrow-textarea
+                  id="descriptionInput"
+                  class="description"
+                  autocomplete="on"
+                  placeholder="<Insert project description here>"
+                  bind-value="{{_projectConfig.description}}"
+                  disabled$="[[_readOnly]]"></iron-autogrow-textarea>
             </fieldset>
-          </div>
-          <h2 id="configurations"
-              class$="[[_computeHeaderClass(_configChanged)]]">Configurations</h2>
-          <div id="form">
-            <fieldset>
-              <h3 id="Description">Description</h3>
-              <fieldset>
-                <iron-autogrow-textarea
-                    id="descriptionInput"
-                    class="description"
-                    autocomplete="on"
-                    placeholder="<Insert project description here>"
-                    bind-value="{{_projectConfig.description}}"
-                    disabled$="[[_readOnly]]"></iron-autogrow-textarea>
-              </fieldset>
-              <h3 id="Options">Project Options</h3>
-              <fieldset id="options">
-                <section>
-                  <span class="title">State</span>
-                  <span class="value">
-                    <gr-select
-                        id="stateSelect"
-                        bind-value="{{_projectConfig.state}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat" items=[[_states]]>
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Submit type</span>
-                  <span class="value">
-                    <gr-select
-                        id="submitTypeSelect"
-                        bind-value="{{_projectConfig.submit_type}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat" items="[[_submitTypes]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Allow content merges</span>
-                  <span class="value">
-                    <gr-select
-                        id="contentMergeSelect"
-                        bind-value="{{_projectConfig.use_content_merge.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Create a new change for every commit not in the target branch
-                  </span>
-                  <span class="value">
-                    <gr-select
-                        id="newChangeSelect"
-                        bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Require Change-Id in commit message</span>
-                  <span class="value">
-                    <gr-select
-                        id="requireChangeIdSelect"
-                        bind-value="{{_projectConfig.require_change_id.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Reject implicit merges when changes are pushed for review</span>
-                  <span class="value">
-                    <gr-select
-                        id="rejectImplicitMergesSelect"
-                        bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Maximum Git object size limit</span>
-                  <span class="value">
-                    <input
-                        id="maxGitObjSizeInput"
-                        bind-value="{{_projectConfig.max_object_size_limit.configured_value}}"
-                        is="iron-input"
-                        type="text"
-                        disabled$="[[_readOnly]]">
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Match authored date with committer date upon submit</span>
-                  <span class="value">
-                    <gr-select
-                        id="matchAuthoredDateWithCommitterDateSelect"
-                        bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                    </select>
-                    </gr-select>
-                  </span>
-                </section>
-              </fieldset>
-              <h3 id="Options">Contributor Agreements</h3>
-              <fieldset id="agreements">
-                <section>
-                  <span class="title">
-                    Require a valid contributor agreement to upload</span>
-                  <span class="value">
-                    <gr-select
-                        id="contributorAgreementSelect"
-                        bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}">
+            <h3 id="Options">Project Options</h3>
+            <fieldset id="options">
+              <section>
+                <span class="title">State</span>
+                <span class="value">
+                  <gr-select
+                      id="stateSelect"
+                      bind-value="{{_projectConfig.state}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
+                      <template is="dom-repeat" items=[[_states]]>
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">Require Signed-off-by in commit message</span>
-                  <span class="value">
-                    <gr-select
-                          id="useSignedOffBySelect"
-                          bind-value="{{_projectConfig.use_signed_off_by.configured_value}}">
-                      <select disabled$="[[_readOnly]]">
-                        <template is="dom-repeat"
-                            items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
-                          <option value="[[item.value]]">[[item.label]]</option>
-                        </template>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-              </fieldset>
-              <!-- TODO @beckysiegel add plugin config widgets -->
-              <gr-button
-                  on-tap="_handleSaveProjectConfig"
-                  disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">Submit type</span>
+                <span class="value">
+                  <gr-select
+                      id="submitTypeSelect"
+                      bind-value="{{_projectConfig.submit_type}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat" items="[[_submitTypes]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">Allow content merges</span>
+                <span class="value">
+                  <gr-select
+                      id="contentMergeSelect"
+                      bind-value="{{_projectConfig.use_content_merge.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">
+                  Create a new change for every commit not in the target branch
+                </span>
+                <span class="value">
+                  <gr-select
+                      id="newChangeSelect"
+                      bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">Require Change-Id in commit message</span>
+                <span class="value">
+                  <gr-select
+                      id="requireChangeIdSelect"
+                      bind-value="{{_projectConfig.require_change_id.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">
+                  Reject implicit merges when changes are pushed for review</span>
+                <span class="value">
+                  <gr-select
+                      id="rejectImplicitMergesSelect"
+                      bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">Maximum Git object size limit</span>
+                <span class="value">
+                  <input
+                      id="maxGitObjSizeInput"
+                      bind-value="{{_projectConfig.max_object_size_limit.configured_value}}"
+                      is="iron-input"
+                      type="text"
+                      disabled$="[[_readOnly]]">
+                </span>
+              </section>
+              <section>
+                <span class="title">Match authored date with committer date upon submit</span>
+                <span class="value">
+                  <gr-select
+                      id="matchAuthoredDateWithCommitterDateSelect"
+                      bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                  </select>
+                  </gr-select>
+                </span>
+              </section>
             </fieldset>
-          </div>
+            <h3 id="Options">Contributor Agreements</h3>
+            <fieldset id="agreements">
+              <section>
+                <span class="title">
+                  Require a valid contributor agreement to upload</span>
+                <span class="value">
+                  <gr-select
+                      id="contributorAgreementSelect"
+                      bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}">
+                  <select disabled$="[[_readOnly]]">
+                    <template is="dom-repeat"
+                        items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
+                      <option value="[[item.value]]">[[item.label]]</option>
+                    </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
+                <span class="title">Require Signed-off-by in commit message</span>
+                <span class="value">
+                  <gr-select
+                        id="useSignedOffBySelect"
+                        bind-value="{{_projectConfig.use_signed_off_by.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+            </fieldset>
+            <!-- TODO @beckysiegel add plugin config widgets -->
+            <gr-button
+                on-tap="_handleSaveProjectConfig"
+                disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
+          </fieldset>
         </div>
-      </main>
+      </div>
+    </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-project.js"></script>

@@ -124,6 +124,24 @@
       "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b48062_bcd29d85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-03T23:04:51Z",
+      "side": 1,
+      "message": "Definitely not complaining! It\u0027s important we get it right. I just want to make sure we think through it before I go ahead and write the code 😊 \n\nIt seems like this is the best plan, so I\u0027ll start work on it now.",
+      "parentUuid": "a0792fe6_0df53300",
+      "revId": "4490234878841ff57d65092b383c45e5affd9b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

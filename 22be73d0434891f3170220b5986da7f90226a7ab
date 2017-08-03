@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d4dad9_d18ea5d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T22:15:21Z",
+      "side": 1,
+      "message": "Nit: the line now exceeds 80 characters.",
+      "revId": "22be73d0434891f3170220b5986da7f90226a7ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

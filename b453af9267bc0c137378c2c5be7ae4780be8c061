@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "da219756_4a0383d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T22:15:21Z",
+      "side": 1,
+      "message": "One way to do it would be to declare a new property on gr-change-metadata like ..\n\n _newHashtag: String\n\n.. and here, two-way data-bind to it with the `value` property ..\n\n\u003cgr-editable-label\n    value\u003d\"{{_newHashtag}}\"\n\nThat way, in the `_handleHashtagChanged` method, instead of using the `hashtag` parameter, it could use `this._newHashtag`.\n\nThen, after the request succeeds, you can just assign ..\n\n this._newHashtag \u003d \u0027\u0027;\n\n.. and since it\u0027s two-way data-bound, it\u0027ll reset the editable label to the placeholder.",
+      "parentUuid": "4336b2e4_c776e672",
+      "range": {
+        "startLine": 231,
+        "startChar": 12,
+        "endLine": 231,
+        "endChar": 30
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed4d0b1_cd9c98a9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 18
@@ -178,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "71e0ef43_3d687316",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T22:15:21Z",
+      "side": 1,
+      "message": "Sorry. I meant that the constant should appear near the top of the file, not the top of the method. Someplace like around line 24.",
+      "parentUuid": "368722f0_27917f2a",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 58
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05c4ee29_459d0e55",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 18
@@ -219,6 +267,23 @@
         "endLine": 326,
         "endChar": 69
       },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469d5697_4c3b9ff0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T22:15:21Z",
+      "side": 1,
+      "message": "I suspect the tests might fail unless this is removed. Also the declaration on line 391.",
       "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

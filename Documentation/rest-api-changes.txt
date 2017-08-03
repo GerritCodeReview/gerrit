@@ -10,7 +10,7 @@ link:rest-api.html[REST API].
 [[create-change]]
 === Create Change
 --
-'POST /changes'
+'POST /changes/'
 --
 
 The change input link:#change-input[ChangeInput] entity must be provided in the
@@ -18,7 +18,7 @@ request body.
 
 .Request
 ----
-  POST /changes HTTP/1.0
+  POST /changes/ HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {
@@ -35,7 +35,7 @@ the resulting change.
 
 .Response
 ----
-  HTTP/1.1 200 OK
+  HTTP/1.1 201 OK
   Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 

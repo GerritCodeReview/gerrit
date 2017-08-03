@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "cd7f8ed1_1297e53f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-item-dialog/gr-create-item-dialog.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T17:46:49Z",
+      "side": 1,
+      "message": "Because this change adds this new component, please add a small description to the commit message regarding what it\u0027s for.\n\nAm I correct in interpreting that this dialog is used only to create branches and tags? If that\u0027s true, since both branches and tags are kinds of pointers in git, maybe a more specific name might be...\n\n gr-create-pointer-dialog\n\nWhat do you think?",
+      "revId": "d0c7f7d2c4b366df0e01d79341b48b4d35e00d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc0934a9_c6e0eb60",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 21

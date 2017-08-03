@@ -250,6 +250,30 @@
     },
     {
       "key": {
+        "uuid": "e4af5e9b_2e1c8483",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T22:29:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "71e0ef43_3d687316",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 58
+      },
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05c4ee29_459d0e55",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 18
@@ -308,6 +332,24 @@
       "writtenOn": "2017-08-03T22:15:21Z",
       "side": 1,
       "message": "I suspect the tests might fail unless this is removed. Also the declaration on line 391.",
+      "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a899aec_93d29c1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-03T22:29:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "469d5697_4c3b9ff0",
       "revId": "b453af9267bc0c137378c2c5be7ae4780be8c061",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

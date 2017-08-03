@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../../shared/gr-nonblocking-manager/gr-nonblocking-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="../gr-search-bar/gr-search-bar.html">
@@ -114,6 +115,11 @@ limitations under the License.
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      #nonblockingStatus {
+      }
+      .nonblockingStatusHidden {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: 14px;
@@ -166,6 +172,12 @@ limitations under the License.
         </div>
       </div>
     </nav>
+    <div
+        id="nonblockingStatus"
+        class$="[[_getNonblockingStatusClass(_pendingNonblockingActionCount)]]">
+      Action pending: [[_pendingNonblockingActionCount]]
+    </div>
+    <gr-nonblocking-manager id="nonblocking" global></gr-nonblocking-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-main-header.js"></script>

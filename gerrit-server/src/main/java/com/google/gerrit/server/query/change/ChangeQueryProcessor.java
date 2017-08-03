@@ -30,6 +30,7 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;
@@ -55,6 +56,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
+  private final PermissionBackend permissionBackend;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -74,7 +76,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       Provider<ReviewDb> db,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
-      DynamicMap<ChangeAttributeFactory> attributeFactories) {
+      DynamicMap<ChangeAttributeFactory> attributeFactories,
+      PermissionBackend permissionBackend) {
     super(
         userProvider,
         limitsFactory,
@@ -88,6 +91,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -130,7 +134,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
         pred,
-        new ChangeIsVisibleToPredicate(db, notesFactory, changeControlFactory, userProvider.get()),
+        new ChangeIsVisibleToPredicate(
+            db, notesFactory, changeControlFactory, userProvider.get(), permissionBackend),
         start);
   }
 }

@@ -29,6 +29,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -86,7 +87,8 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event) throws OrmException {
+  public void postEvent(Change change, ChangeEvent event)
+      throws OrmException, PermissionBackendException {
     fireEvent(change, event);
   }
 
@@ -101,7 +103,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Event event) throws OrmException {
+  public void postEvent(Event event) throws OrmException, PermissionBackendException {
     fireEvent(event);
   }
 
@@ -111,7 +113,8 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected void fireEvent(Change change, ChangeEvent event) throws OrmException {
+  protected void fireEvent(Change change, ChangeEvent event)
+      throws OrmException, PermissionBackendException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(change, listener.getUser())) {
         listener.onEvent(event);
@@ -138,7 +141,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Event event) throws OrmException {
+  protected void fireEvent(Event event) throws OrmException, PermissionBackendException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(event, listener.getUser())) {
         listener.onEvent(event);
@@ -156,7 +159,8 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected boolean isVisibleTo(Change change, CurrentUser user) throws OrmException {
+  protected boolean isVisibleTo(Change change, CurrentUser user)
+      throws OrmException, PermissionBackendException {
     if (change == null) {
       return false;
     }
@@ -164,9 +168,12 @@ public class EventBroker implements EventDispatcher {
     if (pe == null) {
       return false;
     }
-    ProjectControl pc = pe.controlFor(user);
     ReviewDb db = dbProvider.get();
-    return pc.controlFor(db, change).isVisible(db);
+    return permissionBackend
+        .user(user)
+        .change(notesFactory.createChecked(db, change))
+        .database(db)
+        .test(ChangePermission.READ);
   }
 
   protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
@@ -178,7 +185,8 @@ public class EventBroker implements EventDispatcher {
     return pc.controlForRef(branchName).isVisible();
   }
 
-  protected boolean isVisibleTo(Event event, CurrentUser user) throws OrmException {
+  protected boolean isVisibleTo(Event event, CurrentUser user)
+      throws OrmException, PermissionBackendException {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();

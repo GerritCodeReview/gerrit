@@ -63,6 +63,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -423,6 +424,7 @@ public class MergeOp implements AutoCloseable {
    * @param submitInput parameters regarding the merge
    * @throws OrmException an error occurred reading or writing the database.
    * @throws RestApiException if an error occurred.
+   * @throws PermissionBackendException if permissions can't be checked
    */
   public void merge(
       ReviewDb db,
@@ -431,7 +433,8 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     this.submitInput = submitInput;
     this.accountsToNotify = notifyUtil.resolveAccounts(submitInput.notifyDetails);
     this.dryrun = dryrun;

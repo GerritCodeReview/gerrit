@@ -136,18 +136,6 @@ public class ChangeControl {
       return create(refControl, notesFactory.create(db, project, changeId));
     }
 
-    /**
-     * Create a change control for a change that was loaded from index. This method should only be
-     * used when database access is harmful and potentially stale data from the index is acceptable.
-     *
-     * @param refControl ref control
-     * @param change change loaded from secondary index
-     * @return change control
-     */
-    ChangeControl createForIndexedChange(RefControl refControl, Change change) {
-      return create(refControl, notesFactory.createFromIndexedChange(change));
-    }
-
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
       return new ChangeControl(changeDataFactory, approvalsUtil, refControl, notes, patchSetUtil);
     }
@@ -209,12 +197,12 @@ public class ChangeControl {
   }
 
   /** Can this user see this change? */
-  public boolean isVisible(ReviewDb db) throws OrmException {
+  boolean isVisible(ReviewDb db) throws OrmException {
     return isVisible(db, null);
   }
 
   /** Can this user see this change? */
-  public boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  private boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
@@ -226,6 +214,7 @@ public class ChangeControl {
 
   /** Can this user see the given patchset? */
   public boolean isPatchVisible(PatchSet ps, ReviewDb db) throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after drafts are deprecated.
     if (ps != null && ps.isDraft() && !isDraftVisible(db, null)) {
       return false;
     }
@@ -234,6 +223,7 @@ public class ChangeControl {
 
   /** Can this user see the given patchset? */
   public boolean isPatchVisible(PatchSet ps, ChangeData cd) throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after drafts are deprecated.
     checkArgument(
         cd.getId().equals(ps.getId().getParentKey()), "%s not for change %s", ps, cd.getId());
     if (ps.isDraft() && !isDraftVisible(cd.db(), cd)) {

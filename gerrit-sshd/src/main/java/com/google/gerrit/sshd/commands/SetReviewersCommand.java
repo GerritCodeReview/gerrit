@@ -23,6 +23,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -79,6 +80,8 @@ public class SetReviewersCommand extends SshCommand {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
       throw new IllegalArgumentException("database is down", e);
+    } catch (PermissionBackendException e) {
+      throw new IllegalArgumentException("can't check permissions", e);
     }
   }
 

@@ -56,6 +56,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -338,8 +339,12 @@ public class PostReviewers
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws OrmException {
-    if (!rsrc.getControl().forUser(anonymousProvider.get()).isVisible(dbProvider.get())) {
+      throws OrmException, PermissionBackendException {
+    if (!permissionBackend
+        .user(anonymousProvider)
+        .change(rsrc.getNotes())
+        .database(dbProvider)
+        .test(ChangePermission.READ)) {
       return fail(
           reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
     }

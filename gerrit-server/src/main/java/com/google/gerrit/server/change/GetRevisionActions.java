@@ -24,6 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -74,7 +75,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
         changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }
       h.putBoolean(cs.furtherHiddenChanges());
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new OrmRuntimeException(e);
     }
     return h.hash().toString();

@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Index;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -42,7 +43,7 @@ final class IndexChangesCommand extends SshCommand {
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);
-    } catch (UnloggedFailure | OrmException e) {
+    } catch (UnloggedFailure | OrmException | PermissionBackendException e) {
       writeError("warning", e.getMessage());
     }
   }

@@ -136,11 +136,6 @@ public class Sequences {
   }
 
   @SuppressWarnings("deprecation")
-  private static int nextAccountId(ReviewDb db) throws OrmException {
-    return db.nextAccountId();
-  }
-
-  @SuppressWarnings("deprecation")
   private static int nextChangeId(ReviewDb db) throws OrmException {
     return db.nextChangeId();
   }

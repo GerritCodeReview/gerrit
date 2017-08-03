@@ -98,7 +98,6 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.git.HackPushNegotiateHook;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergedByPushOp;
@@ -109,9 +108,7 @@ import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -127,7 +124,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -187,8 +183,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -229,7 +223,8 @@ class ReceiveCommits {
   }
 
   interface Factory {
-    ReceiveCommits create(ProjectControl projectControl, Repository repository);
+    ReceiveCommits create(
+        ProjectControl projectControl, ReceivePack receivePack, AllRefsWatcher allRefsWatcher);
   }
 
   interface MessageSender {
@@ -342,7 +337,7 @@ class ReceiveCommits {
 
   private ListMultimap<Change.Id, Ref> refsByChange;
   private ListMultimap<ObjectId, Ref> refsById;
-  private AllRefsWatcher allRefsWatcher;
+  private final AllRefsWatcher allRefsWatcher;
 
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<MergeOp> mergeOpProvider;
@@ -383,7 +378,6 @@ class ReceiveCommits {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TagCache tagCache,
-      VisibleRefFilter.Factory refFilterFactory,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
       RefOperationValidators.Factory refValidatorsFactory,
@@ -392,11 +386,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       AllProjectsName allProjectsName,
       ReceiveConfig receiveConfig,
-      TransferConfig transferConfig,
       DynamicSet<ReceivePackInitializer> initializers,
-      Provider<LazyPostReceiveHookChain> lazyPostReceive,
-      @Assisted ProjectControl projectControl,
-      @Assisted Repository repo,
       SubmoduleOp.Factory subOpFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
@@ -407,8 +397,11 @@ class ReceiveCommits {
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
       ReplaceOp.Factory replaceOpFactory,
-      MergedByPushOp.Factory mergedByPushOpFactory)
-      throws IOException, PermissionBackendException {
+      MergedByPushOp.Factory mergedByPushOpFactory,
+      @Assisted ProjectControl projectControl,
+      @Assisted ReceivePack rp,
+      @Assisted AllRefsWatcher allRefsWatcher)
+      throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -439,8 +432,10 @@ class ReceiveCommits {
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
     this.project = projectControl.getProject();
-    this.repo = repo;
-    this.rp = new ReceivePack(repo);
+    this.repo = rp.getRepository();
+    this.rp = rp;
+    this.allRefsWatcher = allRefsWatcher;
+
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
     this.receiveId = RequestId.forProject(project.getNameKey());
 
@@ -458,39 +453,8 @@ class ReceiveCommits {
     ProjectState ps = projectControl.getProjectState();
 
     this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
-    rp.setAllowCreates(true);
-    rp.setAllowDeletes(true);
-    rp.setAllowNonFastForwards(true);
-    rp.setRefLogIdent(user.newRefLogIdent());
-    rp.setTimeout(transferConfig.getTimeout());
-    rp.setMaxObjectSizeLimit(
-        transferConfig.getEffectiveMaxObjectSizeLimit(projectControl.getProjectState()));
-    rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());
-    rp.setRefFilter(new ReceiveRefFilter());
 
     permissions = permissionBackend.user(user).project(project.getNameKey());
-    // If the user lacks READ permission, some references may be filtered and hidden from view.
-    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
-    try {
-      permissionBackend.user(user).project(project.getNameKey()).check(ProjectPermission.READ);
-    } catch (AuthException e) {
-      rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
-    }
-
-    rp.setAdvertiseRefsHook(
-        refFilterFactory.create(projectControl.getProjectState(), repo).setShowMetadata(false));
-    List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
-
-    allRefsWatcher = new AllRefsWatcher();
-    advHooks.add(allRefsWatcher);
-    advHooks.add(rp.getAdvertiseRefsHook());
-    advHooks.add(
-        new ReceiveCommitsAdvertiseRefsHook(
-            queryProvider, projectControl.getProject().getNameKey()));
-    advHooks.add(new HackPushNegotiateHook());
-    rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
-    rp.setPostReceiveHook(lazyPostReceive.get());
-    rp.setAllowPushOptions(true);
   }
 
   void init() {
@@ -523,10 +487,6 @@ class ReceiveCommits {
 
   Project getProject() {
     return project;
-  }
-
-  ReceivePack getReceivePack() {
-    return rp;
   }
 
   private void addMessage(String message) {

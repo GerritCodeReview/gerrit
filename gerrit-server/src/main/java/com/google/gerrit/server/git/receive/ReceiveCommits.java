@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -21,6 +21,7 @@ import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
@@ -94,7 +95,22 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.git.HackPushNegotiateHook;
+import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOpRepoManager;
+import com.google.gerrit.server.git.MergedByPushOp;
+import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gerrit.server.git.SubmoduleOp;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -153,7 +169,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -189,9 +204,6 @@ import org.slf4j.LoggerFactory;
 public class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
   private static final String BYPASS_REVIEW = "bypass-review";
-
-  public static final Pattern NEW_PATCHSET =
-      Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"
@@ -898,7 +910,7 @@ public class ReceiveCommits {
             };
       }
 
-      Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());
+      Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
       if (m.matches()) {
         // The referenced change must exist and must still be open.
         //
@@ -2762,7 +2774,7 @@ public class ReceiveCommits {
     PermissionBackend.ForRef perm = permissions.ref(ctl.getRefName());
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())
+            || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(BYPASS_REVIEW)) {
       try {
         perm.check(RefPermission.BYPASS_REVIEW);

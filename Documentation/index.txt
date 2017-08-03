@@ -5,7 +5,7 @@
 . link:linux-quickstart.html[Quickstart for Installing Gerrit on Linux]
 
 == About Gerrit
-. link:intro-product-overview.html[Product Overview]
+. link:intro-quick.html[Product Overview]
 . link:intro-how-gerrit-works.html[How Gerrit Works]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
 

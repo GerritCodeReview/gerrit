@@ -297,7 +297,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         }
 
         AsyncReceiveCommits arc = factory.create(ctl, db);
-        ReceivePack rp = arc.getReceiveCommits().getReceivePack();
+        ReceivePack rp = arc.getReceivePack();
 
         Capable r = arc.canUpload();
         if (r != Capable.OK) {

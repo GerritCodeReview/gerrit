@@ -64,7 +64,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.receive.ReceiveCommits;
+import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -490,7 +490,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
     testRepo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
-    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
+    r.assertErrorStatus(ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP);
 
     // Other user trying to move from WIP to WIP should succeed.
     r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
@@ -506,7 +506,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
     testRepo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
-    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
+    r.assertErrorStatus(ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP);
 
     // Other user trying to move from ready to ready should succeed.
     r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);

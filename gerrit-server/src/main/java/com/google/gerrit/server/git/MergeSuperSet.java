@@ -37,6 +37,9 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -101,6 +104,7 @@ public class MergeSuperSet {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
+  private final PermissionBackend permissionBackend;
   private final Config cfg;
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
@@ -115,13 +119,15 @@ public class MergeSuperSet {
       Accounts accounts,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
-      Provider<MergeOpRepoManager> repoManagerProvider) {
+      Provider<MergeOpRepoManager> repoManagerProvider,
+      PermissionBackend permissionBackend) {
     this.cfg = cfg;
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
+    this.permissionBackend = permissionBackend;
     queryCache = new HashMap<>();
     heads = new HashMap<>();
   }
@@ -134,11 +140,13 @@ public class MergeSuperSet {
   }
 
   public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
-      throws IOException, OrmException {
+      throws IOException, OrmException, PermissionBackendException {
     try {
       ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
       cd.changeControl(user);
-      ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
+      ChangeSet cs =
+          new ChangeSet(
+              cd, permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ));
       if (Submit.wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, cs, user);
       }
@@ -212,7 +220,7 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes, CurrentUser user)
-      throws IOException, OrmException {
+      throws IOException, OrmException, PermissionBackendException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -231,7 +239,7 @@ public class MergeSuperSet {
                 + " at ChangeData creation time");
 
         boolean visible = changes.ids().contains(cd.getId());
-        if (visible && !cd.changeControl().isVisible(db, cd)) {
+        if (visible && !canRead(db, user, cd)) {
           // We thought the change was visible, but it isn't.
           // This can happen if the ACL changes during the
           // completeChangeSet computation, for example.
@@ -357,7 +365,7 @@ public class MergeSuperSet {
       CurrentUser user,
       Set<String> topicsSeen,
       Set<String> visibleTopicsSeen)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -370,7 +378,7 @@ public class MergeSuperSet {
       for (ChangeData topicCd : query().byTopicOpen(topic)) {
         try {
           topicCd.changeControl(user);
-          if (topicCd.changeControl().isVisible(db, topicCd)) {
+          if (canRead(db, user, topicCd)) {
             visibleChanges.add(topicCd);
           } else {
             nonVisibleChanges.add(topicCd);
@@ -402,7 +410,8 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes, CurrentUser user) throws IOException, OrmException {
+      ReviewDb db, ChangeSet changes, CurrentUser user)
+      throws IOException, OrmException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
@@ -442,5 +451,10 @@ public class MergeSuperSet {
   private void logErrorAndThrow(String msg) throws OrmException {
     logError(msg);
     throw new OrmException(msg);
+  }
+
+  private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
+      throws PermissionBackendException {
+    return permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ);
   }
 }

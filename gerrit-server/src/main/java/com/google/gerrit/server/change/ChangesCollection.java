@@ -26,6 +26,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
@@ -44,6 +47,7 @@ public class ChangesCollection
   private final ChangeFinder changeFinder;
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ChangesCollection(
@@ -53,7 +57,8 @@ public class ChangesCollection
       DynamicMap<RestView<ChangeResource>> views,
       ChangeFinder changeFinder,
       CreateChange createChange,
-      ChangeResource.Factory changeResourceFactory) {
+      ChangeResource.Factory changeResourceFactory,
+      PermissionBackend permissionBackend) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -61,6 +66,7 @@ public class ChangesCollection
     this.changeFinder = changeFinder;
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -75,7 +81,7 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException {
     List<ChangeControl> ctls = changeFinder.find(id.encoded(), user.get());
     if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(id);
@@ -84,13 +90,14 @@ public class ChangesCollection
     }
 
     ChangeControl ctl = ctls.get(0);
-    if (!ctl.isVisible(db.get())) {
+    if (!canRead(ctl)) {
       throw new ResourceNotFoundException(id);
     }
     return changeResourceFactory.create(ctl);
   }
 
-  public ChangeResource parse(Change.Id id) throws ResourceNotFoundException, OrmException {
+  public ChangeResource parse(Change.Id id)
+      throws ResourceNotFoundException, OrmException, PermissionBackendException {
     List<ChangeControl> ctls = changeFinder.find(id, user.get());
     if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
@@ -99,7 +106,7 @@ public class ChangesCollection
     }
 
     ChangeControl ctl = ctls.get(0);
-    if (!ctl.isVisible(db.get())) {
+    if (!canRead(ctl)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
     return changeResourceFactory.create(ctl);
@@ -117,5 +124,13 @@ public class ChangesCollection
   @Override
   public CreateChange post(TopLevelResource parent) throws RestApiException {
     return createChange;
+  }
+
+  private boolean canRead(ChangeControl ctl) throws PermissionBackendException {
+    return permissionBackend
+        .user(user)
+        .change(ctl.getNotes())
+        .database(db)
+        .test(ChangePermission.READ);
   }
 }

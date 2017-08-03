@@ -53,6 +53,7 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
@@ -261,7 +262,7 @@ public class StreamEventsApiListener
       event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -277,7 +278,7 @@ public class StreamEventsApiListener
       event.oldTopic = ev.getOldTopic();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -295,7 +296,7 @@ public class StreamEventsApiListener
       event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -315,7 +316,7 @@ public class StreamEventsApiListener
           approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -333,7 +334,7 @@ public class StreamEventsApiListener
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.get().postEvent(change, event);
       }
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -360,7 +361,7 @@ public class StreamEventsApiListener
       event.removed = hashtagArray(ev.getRemovedHashtags());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -399,7 +400,7 @@ public class StreamEventsApiListener
       event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -419,7 +420,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -437,7 +438,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -455,7 +456,7 @@ public class StreamEventsApiListener
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -473,7 +474,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -493,7 +494,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Failed to dispatch event", e);
     }
   }

@@ -713,6 +713,11 @@ public class RefControl {
     }
 
     @Override
+    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
+      return getProjectControl().controlFor(notes).asForChange(cd, db);
+    }
+
+    @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");

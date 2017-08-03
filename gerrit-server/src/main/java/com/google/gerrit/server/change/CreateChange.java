@@ -52,6 +52,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -195,7 +196,11 @@ public class CreateChange
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
         ChangeControl ctl = Iterables.getOnlyElement(ctls);
-        if (!ctl.isVisible(db.get())) {
+        if (!permissionBackend
+            .user(user)
+            .change(ctl.getNotes())
+            .database(db)
+            .test(ChangePermission.READ)) {
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
         PatchSet ps = psUtil.current(db.get(), ctl.getNotes());

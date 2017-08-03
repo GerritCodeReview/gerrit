@@ -217,7 +217,8 @@ public class Submit
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException {
+      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException,
+          PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -340,7 +341,7 @@ public class Submit
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getControl().getUser());
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new OrmRuntimeException(
           "Could not determine complete set of changes to be submitted", e);
     }

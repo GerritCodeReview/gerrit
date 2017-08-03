@@ -21,6 +21,7 @@ import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 
 /** Interface for posting (dispatching) Events */
@@ -31,8 +32,9 @@ public interface EventDispatcher {
    * @param change The change that the event is related to
    * @param event The event to post
    * @throws OrmException on failure to post the event due to DB error
+   * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(Change change, ChangeEvent event) throws OrmException;
+  void postEvent(Change change, ChangeEvent event) throws OrmException, PermissionBackendException;
 
   /**
    * Post a stream event that is related to a branch
@@ -58,6 +60,7 @@ public interface EventDispatcher {
    *
    * @param event The event to post.
    * @throws OrmException on failure to post the event due to DB error
+   * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(Event event) throws OrmException;
+  void postEvent(Event event) throws OrmException, PermissionBackendException;
 }

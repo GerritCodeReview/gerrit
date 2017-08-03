@@ -190,17 +190,6 @@ public class ProjectControl {
         controlForRef(change.getDest()), db, change.getProject(), change.getId());
   }
 
-  /**
-   * Create a change control for a change that was loaded from index. This method should only be
-   * used when database access is harmful and potentially stale data from the index is acceptable.
-   *
-   * @param change change loaded from secondary index
-   * @return change control
-   */
-  public ChangeControl controlForIndexedChange(Change change) {
-    return changeControlFactory.createForIndexedChange(controlForRef(change.getDest()), change);
-  }
-
   public ChangeControl controlFor(ChangeNotes notes) {
     return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
   }

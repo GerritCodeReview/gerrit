@@ -38,6 +38,7 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
@@ -405,12 +406,12 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected boolean isVisibleTo(Account.Id to) throws OrmException {
-    return projectState == null
-        || projectState
-            .controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(args.db.get(), change)
-            .isVisible(args.db.get());
+  protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
+    return args.permissionBackend
+        .user(args.identifiedUserFactory.create(to))
+        .change(changeData)
+        .database(args.db.get())
+        .test(ChangePermission.READ);
   }
 
   /** Find all users who are authors of any part of this change. */

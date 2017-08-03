@@ -30,6 +30,7 @@ limitations under the License.
     //    - `project`, optional, String: the project name.
     //    - `branch`, optional, String: the branch name.
     //    - `topic`, optional, String: the topic name.
+    //    - `hashtags`, optional, Array<String>: the list of hashtags names.
     //    - `statuses`, optional, Array<String>: the list of change statuses to
     //        search for. If more than one is provided, the search will OR them
     //        together.
@@ -147,6 +148,18 @@ limitations under the License.
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           topic,
+          statuses: ['open', 'merged'],
+        });
+      },
+
+      /**
+       * @param {string} hashtag The name of the hashtag.
+       * @return {string}
+       */
+      getUrlForHashtag(hashtag) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          hashtag,
           statuses: ['open', 'merged'],
         });
       },

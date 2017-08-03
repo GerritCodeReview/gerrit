@@ -538,6 +538,10 @@
         if (params.topic) {
           operators.push('topic:"' + encode(params.topic) + '"');
         }
+        if (params.hashtag) {
+          operators.push('hashtag:"' +
+              encode(params.hashtag.toLowerCase()) + '"');
+        }
         if (params.statuses) {
           if (params.statuses.length === 1) {
             operators.push('status:' + encode(params.statuses[0]));

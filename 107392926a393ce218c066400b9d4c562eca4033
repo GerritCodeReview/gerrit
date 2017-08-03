@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3da46b6_1ade5e3d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-03T23:24:34Z",
+      "side": 1,
+      "message": "I know the project list is like this, but I\u0027m thinking that instead of \"Project List\", \"Group List\", \"Plugin List\"\n\nThe title should just be \"Projects\", \"Groups\", \"Plugins\"",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "107392926a393ce218c066400b9d4c562eca4033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
-import com.google.gerrit.server.git.receive.ReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -297,10 +296,10 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        ReceiveCommits rc = factory.create(ctl, db).getReceiveCommits();
-        ReceivePack rp = rc.getReceivePack();
+        AsyncReceiveCommits arc = factory.create(ctl, db);
+        ReceivePack rp = arc.getReceiveCommits().getReceivePack();
 
-        Capable r = rc.canUpload();
+        Capable r = arc.canUpload();
         if (r != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }

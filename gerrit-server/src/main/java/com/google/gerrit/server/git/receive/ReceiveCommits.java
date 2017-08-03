@@ -51,7 +51,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -576,18 +575,6 @@ public class ReceiveCommits {
   /** @return the ReceivePack instance to speak the native Git protocol. */
   public ReceivePack getReceivePack() {
     return rp;
-  }
-
-  /** Determine if the user can upload commits. */
-  public Capable canUpload() {
-    Capable result = projectControl.canPushToAtLeastOneRef();
-    if (result != Capable.OK) {
-      return result;
-    }
-    if (receiveConfig.checkMagicRefs) {
-      result = MagicBranch.checkMagicBranchRefs(repo, project);
-    }
-    return result;
   }
 
   private void addMessage(String message) {

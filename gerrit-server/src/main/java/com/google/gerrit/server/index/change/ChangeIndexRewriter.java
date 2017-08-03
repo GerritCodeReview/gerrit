@@ -200,6 +200,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     BitSet isIndexed = new BitSet(n);
     BitSet notIndexed = new BitSet(n);
     BitSet rewritten = new BitSet(n);
+    BitSet changeSource = new BitSet(n);
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
@@ -211,6 +212,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
         notIndexed.set(i);
         newChildren.add(c);
       } else {
+        if (nc instanceof ChangeDataSource) {
+          changeSource.set(i);
+        }
         rewritten.set(i);
         newChildren.add(nc);
       }
@@ -221,7 +225,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     } else if (notIndexed.cardinality() == n) {
       return null; // Can't rewrite any children, so cannot rewrite in.
     } else if (rewritten.cardinality() == n) {
-      return in.copy(newChildren); // All children were rewritten.
+      // All children were rewritten.
+      if (n > 1 && changeSource.cardinality() == n) {
+        return copy(in, newChildren);
+      }
+      return in.copy(newChildren);
     }
     return partitionChildren(in, newChildren, isIndexed, index, opts);
   }

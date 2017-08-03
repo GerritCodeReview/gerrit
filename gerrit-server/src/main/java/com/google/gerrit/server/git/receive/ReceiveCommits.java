@@ -21,6 +21,9 @@ import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static java.util.Comparator.comparingInt;
@@ -200,21 +203,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits {
+class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
   private static final String BYPASS_REVIEW = "bypass-review";
-
-  private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
-      "Please read the documentation and contact an administrator\n"
-          + "if you feel the configuration is incorrect";
-
-  private static final String SAME_CHANGE_ID_IN_MULTIPLE_CHANGES =
-      "same Change-Id in multiple changes.\n"
-          + "Squash the commits with the same Change-Id or "
-          + "ensure Change-Ids are unique for each commit";
-
-  public static final String ONLY_OWNER_CAN_MODIFY_WIP =
-      "only change owner can modify Work-in-Progress";
 
   private enum Error {
     CONFIG_UPDATE(
@@ -237,7 +228,7 @@ public class ReceiveCommits {
       this.value = value;
     }
 
-    public String get() {
+    String get() {
       return value;
     }
   }
@@ -246,7 +237,7 @@ public class ReceiveCommits {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
 
-  public interface MessageSender {
+  interface MessageSender {
     void sendMessage(String what);
 
     void sendError(String what);
@@ -540,24 +531,24 @@ public class ReceiveCommits {
     rp.setAllowPushOptions(true);
   }
 
-  public void init() {
+  void init() {
     for (ReceivePackInitializer i : initializers) {
       i.init(projectControl.getProject().getNameKey(), rp);
     }
   }
 
   /** Add reviewers for new (or updated) changes. */
-  public void addReviewers(Collection<Account.Id> who) {
+  void addReviewers(Collection<Account.Id> who) {
     reviewersFromCommandLine.addAll(who);
   }
 
   /** Add reviewers for new (or updated) changes. */
-  public void addExtraCC(Collection<Account.Id> who) {
+  void addExtraCC(Collection<Account.Id> who) {
     ccFromCommandLine.addAll(who);
   }
 
   /** Set a message sender for this operation. */
-  public void setMessageSender(MessageSender ms) {
+  void setMessageSender(MessageSender ms) {
     messageSender = ms != null ? ms : new ReceivePackMessageSender();
   }
 
@@ -572,8 +563,7 @@ public class ReceiveCommits {
     return project;
   }
 
-  /** @return the ReceivePack instance to speak the native Git protocol. */
-  public ReceivePack getReceivePack() {
+  ReceivePack getReceivePack() {
     return rp;
   }
 
@@ -1437,7 +1427,7 @@ public class ReceiveCommits {
       return ref.substring(0, split);
     }
 
-    public NotifyHandling getNotify() {
+    NotifyHandling getNotify() {
       if (notify != null) {
         return notify;
       }
@@ -1447,7 +1437,7 @@ public class ReceiveCommits {
       return NotifyHandling.ALL;
     }
 
-    public NotifyHandling getNotify(ChangeNotes notes) {
+    NotifyHandling getNotify(ChangeNotes notes) {
       if (notify != null) {
         return notify;
       }
@@ -1467,7 +1457,7 @@ public class ReceiveCommits {
    * @return an unmodifiable view of pushOptions.
    */
   @Nullable
-  public ListMultimap<String, String> getPushOptions() {
+  ListMultimap<String, String> getPushOptions() {
     return ImmutableListMultimap.copyOf(pushOptions);
   }
 

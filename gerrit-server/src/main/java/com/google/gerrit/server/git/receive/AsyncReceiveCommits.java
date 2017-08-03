@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git.receive;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -129,6 +131,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private final ReceiveCommits rc;
+  private final ReceivePack rp;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final MultiProgressMonitor progress;
@@ -154,7 +157,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.timeoutMillis = timeoutMillis;
 
     rc = factory.create(projectControl, repo);
-    rc.getReceivePack().setPreReceiveHook(this);
+    rp = rc.getReceivePack();
+    rp.setPreReceiveHook(this);
     progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
   }
 
@@ -196,7 +200,22 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
-  public ReceiveCommits getReceiveCommits() {
-    return rc;
+  public ReceivePack getReceivePack() {
+    return rp;
+  }
+
+  public void init() {
+    init(null, null);
+  }
+
+  public void init(
+      @Nullable Collection<Account.Id> extraReviewers, @Nullable Collection<Account.Id> extraCcs) {
+    rc.init();
+    if (extraReviewers != null) {
+      rc.addReviewers(extraReviewers);
+    }
+    if (extraCcs != null) {
+      rc.addExtraCC(extraCcs);
+    }
   }
 }

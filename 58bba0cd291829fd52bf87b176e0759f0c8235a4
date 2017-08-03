@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32e6746f_0b179bc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T14:44:05Z",
+      "side": 1,
+      "message": "My gut feeling says that this doesn\u0027t always work, especially when merge commits can introduce parent commits without changes for them.\n\nConsider the following two examples and let\u0027s assume that all changes are targeted to master:\n\n      (change 1) o  o (change 2; changes a.txt)\n                 | \\|\n (changes a.txt) o  o (changes b.txt)\n                 | /\n        master \u003e o\n\n (change 2; changes a.txt) o  o (change 1)\n                           | /|\n           (changes b.txt) o  o (changes a.txt)\n                           | /\n                  master \u003e o\n\nIn both cases, change 2 is potentially in conflict with change 1 because of a.txt. Would the diff against the first parent really work for both cases?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e8c5503_8cf293fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T14:44:05Z",
+      "side": 1,
+      "message": "Can we be absolutely sure that the first parent is the one which is part of the target branch?",
+      "range": {
+        "startLine": 22,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 5
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e95aacdb_31bfd246",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T14:44:05Z",
+      "side": 1,
+      "message": "Most other code paths for REST endpoints catch the PatchListNotAvailableException and map it to another exception. Do we really want to let it through?",
+      "range": {
+        "startLine": 209,
+        "startChar": 62,
+        "endLine": 209,
+        "endChar": 92
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1abcd6_611b648f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T14:44:05Z",
+      "side": 1,
+      "message": "Did we ever deliberately decide on which files of a merge commit comments may be placed?",
+      "range": {
+        "startLine": 573,
+        "startChar": 4,
+        "endLine": 577,
+        "endChar": 79
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ccd68c_ed33e50b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-03T14:44:05Z",
+      "side": 1,
+      "message": "For non-merge commits, this key should result in the same computation as PatchListKey#againstDefaultBase. However, as it counts as a different key and we don\u0027t use #againstParentNum for non-merge commits anywhere else, this effectively represents a cache invalidation.\n\nIf possible, we should stay with #againsDefaultBase for non-merge commits.",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 90
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

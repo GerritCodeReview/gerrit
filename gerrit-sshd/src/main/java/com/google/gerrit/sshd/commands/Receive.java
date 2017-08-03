@@ -81,13 +81,14 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
     }
 
-    final ReceiveCommits receive = factory.create(projectControl, repo).getReceiveCommits();
+    AsyncReceiveCommits arc = factory.create(projectControl, repo);
 
-    Capable r = receive.canUpload();
+    Capable r = arc.canUpload();
     if (r != Capable.OK) {
       throw die(r.getMessage());
     }
 
+    ReceiveCommits receive = arc.getReceiveCommits();
     receive.init();
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);

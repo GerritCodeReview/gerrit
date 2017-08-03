@@ -5,9 +5,15 @@ CONSTANTS_SRC = [
     "src/main/java/com/google/gerrit/server/documentation/Constants.java",
 ]
 
+GERRIT_GLOBAL_MODULE_SRC = [
+    "src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+]
+
+RECEIVE_SRCS = glob(["src/main/java/com/google/gerrit/server/git/receive/**/*.java"])
+
 SRCS = glob(
     ["src/main/java/**/*.java"],
-    exclude = CONSTANTS_SRC,
+    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + RECEIVE_SRCS,
 )
 
 RESOURCES = glob(["src/main/resources/**/*"])
@@ -25,6 +31,12 @@ prolog_cafe_library(
     deps = [":server"],
 )
 
+# Giant kitchen-sink target.
+#
+# The only reason this hasn't been split up further is because we have too many
+# tangled dependencies (and Guice unfortunately makes it quite easy to get into
+# this state). Which means if you see an opportunity to split something off, you
+# should seize it.
 java_library(
     name = "server",
     srcs = SRCS,
@@ -94,7 +106,49 @@ java_library(
     ],
 )
 
+# Large modules that import things from all across the server package
+# hierarchy, so they need lots of dependencies.
+java_library(
+    name = "modules",
+    srcs = GERRIT_GLOBAL_MODULE_SRC,
+    visibility = ["//visibility:public"],
+    deps = [
+        ":receive",
+        ":server",
+        "//gerrit-extension-api:api",
+        "//lib:blame-cache",
+        "//lib:guava",
+        "//lib:soy",
+        "//lib:velocity",
+        "//lib/guice",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+    ],
+)
+
+java_library(
+    name = "receive",
+    srcs = RECEIVE_SRCS,
+    visibility = ["//visibility:public"],
+    deps = [
+        ":server",
+        "//gerrit-common:annotations",
+        "//gerrit-common:server",
+        "//gerrit-extension-api:api",
+        "//gerrit-reviewdb:server",
+        "//gerrit-util-cli:cli",
+        "//lib:args4j",
+        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib/auto:auto-value",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
+    ],
+)
+
 TESTUTIL_DEPS = [
+    ":modules",
     ":server",
     "//gerrit-common:annotations",
     "//gerrit-common:server",

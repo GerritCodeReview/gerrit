@@ -173,7 +173,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
+  public void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;

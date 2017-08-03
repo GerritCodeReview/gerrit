@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
-import com.google.gerrit.server.git.receive.ReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -80,7 +79,7 @@ public class GitOverHttpServlet extends GitServlet {
   private static final long serialVersionUID = 1L;
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
-  private static final String ATT_RC = ReceiveCommits.class.getName();
+  private static final String ATT_ARC = AsyncReceiveCommits.class.getName();
   private static final String ID_CACHE = "adv_bases";
 
   public static final String URL_REGEX;
@@ -295,11 +294,11 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
-      rc.init();
+      AsyncReceiveCommits arc = factory.create(pc, db);
+      arc.getReceiveCommits().init();
 
-      ReceivePack rp = rc.getReceivePack();
-      req.setAttribute(ATT_RC, rc);
+      ReceivePack rp = arc.getReceiveCommits().getReceivePack();
+      req.setAttribute(ATT_ARC, arc);
       return rp;
     }
   }
@@ -325,8 +324,8 @@ public class GitOverHttpServlet extends GitServlet {
         throws IOException, ServletException {
       boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
-      ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
-      ReceivePack rp = rc.getReceivePack();
+      AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);
+      ReceivePack rp = arc.getReceiveCommits().getReceivePack();
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
@@ -340,7 +339,7 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      final Capable s = rc.canUpload();
+      Capable s = arc.canUpload();
       if (s != Capable.OK) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,

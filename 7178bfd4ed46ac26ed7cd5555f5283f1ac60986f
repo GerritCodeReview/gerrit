@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bf03be5_accc2f6c",
+        "filename": "Documentation/CONCEPT-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T22:08:40Z",
+      "side": 1,
+      "message": "This is a little confusing to me, in part perhaps because gerrit\u0027s concept of a patch set is confusing. E.g. when I first read this, it made me think that a change is a topic grouping a collection of commits under review.\n\nA change represents a single commit under review. It can have one or more patch sets, representing attempts to produce a better commit which the author produced over time. The change owner can create a new patch set by amending the commit (with \"git commit --amend\") and pushing again to refs/for/master for review.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "7178bfd4ed46ac26ed7cd5555f5283f1ac60986f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "015b610f_1e5ef506",
+        "filename": "Documentation/CONCEPT-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T22:08:40Z",
+      "side": 1,
+      "message": "maybe \"has\"?",
+      "range": {
+        "startLine": 3,
+        "startChar": 70,
+        "endLine": 4,
+        "endChar": 2
+      },
+      "revId": "7178bfd4ed46ac26ed7cd5555f5283f1ac60986f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea7372f_ce19725d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T22:08:40Z",
+      "side": 1,
+      "message": "nit: the existing docs don\u0027t use this ALL-CAPS-CATEGORY-lowercase-topic convention. Does it come from somewhere?\n\nI think link:concept-changes.html would fit in better with the existing categories.",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 14
+      },
+      "revId": "7178bfd4ed46ac26ed7cd5555f5283f1ac60986f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

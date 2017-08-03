@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d073e3_0f1b4f11",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "A subtlety: in practice this is used for \"Who is this change blocked on?\"\n\nE.g. it can ping-pong between a reviewer and the change owner.\n\nI think the text here you have is fine, just providing some color.",
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46460d5e_c65d6bc4",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "Not about this change: ideally this content would go in another page, e.g. concept-submit-strategies, that could be referred to from multiple pages in the documentation.",
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8d0c6ff_ca577e0f",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "client",
+      "range": {
+        "startLine": 117,
+        "startChar": 66,
+        "endLine": 117,
+        "endChar": 71
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67cebe8d_3d8afd4c",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "one subtlety, not too important: maybe this should say \"before submitting the change\"? E.g. I might send a change without a merge, a reviewer might point of \"this isn\u0027t a fast-forward\", and then I could make a merge change and upload that for review and get *that* reviewed and submit it (\"submit including ancestors\").",
+      "range": {
+        "startLine": 117,
+        "startChar": 73,
+        "endLine": 118,
+        "endChar": 29
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2893fede_6c4cbc4b",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "uploading",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 8
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a734d4c_038dc906",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "created at submit time",
+      "range": {
+        "startLine": 126,
+        "startChar": 37,
+        "endLine": 126,
+        "endChar": 44
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a1a7e2_28e5e35f",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "when users of the project want to be able to read the history of submits by running",
+      "range": {
+        "startLine": 132,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 62
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edbc248a_79c74fe3",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "optional: this could link to cmd-hook-commit-msg.html to make it easier for people to find the commit-msg hook used by Gerrit.",
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bcfff03_ad3a0b16",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-03T23:07:45Z",
+      "side": 1,
+      "message": "concept",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 14
+      },
+      "revId": "12f48f7f83ff30e740be4b80ad0598272723c308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -44,6 +44,10 @@
         type: Boolean,
         value: false,
       },
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
       /**
        * Offset of currently visible query results.
        */
@@ -86,6 +90,10 @@
 
     _paramsChanged(params) {
       if (!params || !params.project) { return; }
+
+      this._getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+      });
 
       this._project = params.project;
       this.detailType = params.detailType;

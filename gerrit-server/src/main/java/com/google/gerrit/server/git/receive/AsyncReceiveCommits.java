@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.git.receive;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
@@ -130,23 +132,42 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final MultiProgressMonitor progress;
+  private final ReceiveConfig receiveConfig;
   private final long timeoutMillis;
+  private final ProjectControl projectControl;
+  private final Repository repo;
 
   @Inject
   AsyncReceiveCommits(
       ReceiveCommits.Factory factory,
       @ReceiveCommitsExecutor ExecutorService executor,
       RequestScopePropagator scopePropagator,
+      ReceiveConfig receiveConfig,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo) {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
+    this.receiveConfig = receiveConfig;
+    this.projectControl = projectControl;
+    this.repo = repo;
+    this.timeoutMillis = timeoutMillis;
+
     rc = factory.create(projectControl, repo);
     rc.getReceivePack().setPreReceiveHook(this);
-
     progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
-    this.timeoutMillis = timeoutMillis;
+  }
+
+  /** Determine if the user can upload commits. */
+  public Capable canUpload() {
+    Capable result = projectControl.canPushToAtLeastOneRef();
+    if (result != Capable.OK) {
+      return result;
+    }
+    if (receiveConfig.checkMagicRefs) {
+      result = MagicBranch.checkMagicBranchRefs(repo, projectControl.getProject());
+    }
+    return result;
   }
 
   @Override

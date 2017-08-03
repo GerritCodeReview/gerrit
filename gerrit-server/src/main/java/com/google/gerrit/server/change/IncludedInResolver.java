@@ -51,9 +51,12 @@ public class IncludedInResolver {
     }
   }
 
-  public static boolean includedInOne(
+  public static boolean includedInAny(
       final Repository repo, RevWalk rw, RevCommit commit, Collection<Ref> refs)
       throws IOException {
+    if (refs.isEmpty()) {
+      return false;
+    }
     RevFlag flag = newFlag(rw);
     try {
       return new IncludedInResolver(repo, rw, commit, flag).includedInOne(refs);

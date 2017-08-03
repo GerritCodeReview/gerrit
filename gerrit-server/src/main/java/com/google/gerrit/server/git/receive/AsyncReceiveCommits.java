@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.receive;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;

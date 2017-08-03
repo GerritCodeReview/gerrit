@@ -211,6 +211,22 @@
       });
     });
 
+    // Matches /admin/projects/<project>,commands.
+    page(/^\/admin\/projects\/(.+),commands$/, loadUser, data => {
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project-commands',
+            detailType: 'commands',
+            project: data.params[0],
+          };
+        } else {
+          redirectToLogin(data.canonicalPath);
+        }
+      });
+    });
+
     // Matches /admin/projects/<project>,branches[,<offset>].
     page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
       app.params = {
@@ -574,3 +590,4 @@
     },
   });
 })();
+

@@ -28,6 +28,7 @@ limitations under the License.
 <link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
+<link rel="import" href="../gr-group/gr-group.html">
 <link rel="import" href="../gr-plugin-list/gr-plugin-list.html">
 <link rel="import" href="../gr-project/gr-project.html">
 <link rel="import" href="../gr-project-detail-list/gr-project-detail-list.html">
@@ -77,6 +78,13 @@ limitations under the License.
     <template is="dom-if" if="[[_showProjectMain]]" restamp="true">
       <main>
         <gr-project project="[[params.project]]"></gr-project>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showGroup]]" restamp="true">
+      <main>
+        <gr-group
+            group-id="[[params.groupId]]"
+            on-name-changed="_updateGroupName"></gr-group>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupList]]" restamp="true">

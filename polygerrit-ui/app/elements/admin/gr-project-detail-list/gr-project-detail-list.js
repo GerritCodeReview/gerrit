@@ -44,6 +44,10 @@
         type: Boolean,
         value: false,
       },
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
       /**
        * Offset of currently visible query results.
        */
@@ -77,9 +81,7 @@
     ],
 
     _determineIfOwner(project) {
-      return this._getLoggedIn()
-          .then(loggedIn =>
-                loggedIn ? this.$.restAPI.getProjectAccess(project) : null)
+      return this.$.restAPI.getProjectAccess(project)
           .then(access =>
                 this._isOwner = access && access[project].is_owner);
     },
@@ -88,9 +90,15 @@
       if (!params || !params.project) { return; }
 
       this._project = params.project;
-      this.detailType = params.detailType;
 
-      this._determineIfOwner(this._project);
+      this._getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          this._determineIfOwner(this._project);
+        }
+      });
+
+      this.detailType = params.detailType;
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);

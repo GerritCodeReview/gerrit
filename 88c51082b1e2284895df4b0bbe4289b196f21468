@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "85f09d20_f92e3c74",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T17:02:13Z",
+      "side": 1,
+      "message": "Nit: update the copyright year.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "88c51082b1e2284895df4b0bbe4289b196f21468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16d009af_10b702bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-03T17:02:13Z",
+      "side": 1,
+      "message": "Here also.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "88c51082b1e2284895df4b0bbe4289b196f21468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a010a3c_c086041d",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 5

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.receive;
 
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
@@ -45,7 +45,9 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
-import com.google.gerrit.server.git.ReceiveCommits.MagicBranchInput;
+import com.google.gerrit.server.git.MergedByPushOp;
+import com.google.gerrit.server.git.SendEmailExecutor;
+import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;

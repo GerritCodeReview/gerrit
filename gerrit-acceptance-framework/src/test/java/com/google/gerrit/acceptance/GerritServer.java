@@ -27,7 +27,7 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;

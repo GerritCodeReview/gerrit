@@ -22,6 +22,30 @@
       "revId": "32a2844399ed23bd245a5e21480462dfcf1f7d4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b427112_abb4c1bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-03T08:30:05Z",
+      "side": 1,
+      "message": "This will be used in follow-up changes, for enabling/disabling stuff specific to change edits, as specified in the commit message.",
+      "parentUuid": "10b8a2d4_548c2557",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 8
+      },
+      "revId": "32a2844399ed23bd245a5e21480462dfcf1f7d4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

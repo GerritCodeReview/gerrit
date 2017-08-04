@@ -31,6 +31,10 @@
     _configChanged(config) {
       const jsPlugins = config.js_resource_paths || [];
       const htmlPlugins = config.html_resource_paths || [];
+      const defaultTheme = config.default_theme;
+      if (defaultTheme) {
+        htmlPlugins.unshift(defaultTheme);
+      }
       Gerrit._setPluginsCount(jsPlugins.length + htmlPlugins.length);
       this._loadJsPlugins(jsPlugins);
       this._importHtmlPlugins(htmlPlugins);
@@ -62,7 +66,10 @@
       if (pathOrUrl.startsWith('http')) {
         return pathOrUrl;
       }
-      return this.getBaseUrl() + '/' + pathOrUrl;
+      if (!pathOrUrl.startsWith('/')) {
+        pathOrUrl = '/' + pathOrUrl;
+      }
+      return this.getBaseUrl() + pathOrUrl;
     },
   });
 })();

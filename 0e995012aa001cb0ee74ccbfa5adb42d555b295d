@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c965adbd_67ae68e3",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-04T20:21:30Z",
+      "side": 1,
+      "message": "Is this the correct var? It\u0027s the same on from l.63",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 24
+      },
+      "revId": "0e995012aa001cb0ee74ccbfa5adb42d555b295d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -290,6 +290,12 @@
       return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
+    saveGroupMembers(groupName, groupMembers) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeMember = encodeURIComponent(groupMembers);
+      return this.send('PUT', `/groups/${encodeName}/members/${encodeMember}`);
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

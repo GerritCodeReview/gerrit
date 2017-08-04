@@ -22,6 +22,30 @@
       "revId": "da282544e53fdc888e68f78ff2cdb88f41dd0675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4ad14dc_61dec84c",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-04T18:14:53Z",
+      "side": 1,
+      "message": "Thanks for this feedback! I\u0027ve rewritten this paragraph. Please take a look!",
+      "parentUuid": "19ebf5a2_eec327f3",
+      "range": {
+        "startLine": 3,
+        "startChar": 61,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "da282544e53fdc888e68f78ff2cdb88f41dd0675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

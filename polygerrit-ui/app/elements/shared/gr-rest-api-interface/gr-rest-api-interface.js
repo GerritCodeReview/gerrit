@@ -269,6 +269,12 @@
       return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeId);
     },
 
+    getGroupMembers(groupName) {
+      const encodeName = encodeURIComponent(groupName);
+      return this.send('GET', `/groups/${encodeName}/members/`)
+          .then(response => this.getResponseObject(response));
+    },
+
     saveGroupName(groupId, name) {
       const encodeId = encodeURIComponent(groupId);
       return this.send('PUT', `/groups/${encodeId}/name`, {name});
@@ -288,6 +294,12 @@
     saveGroupOptions(groupId, options) {
       const encodeId = encodeURIComponent(groupId);
       return this.send('PUT', `/groups/${encodeId}/options`, options);
+    },
+
+    saveGroupMembers(groupName, groupMembers) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeMember = encodeURIComponent(groupMembers);
+      return this.send('PUT', `/groups/${encodeName}/members/${encodeMember}`);
     },
 
     getVersion() {

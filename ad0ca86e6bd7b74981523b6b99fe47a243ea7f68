@@ -22,6 +22,30 @@
       "revId": "ad0ca86e6bd7b74981523b6b99fe47a243ea7f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce6b0598_e32e7d92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T22:14:55Z",
+      "side": 1,
+      "message": "\"Clients are allowed to specify more than one query by setting the q parameter multiple times. In this case the result is an array of arrays, one per query in the same order the queries were given in.\"\n\nas per https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-changes",
+      "parentUuid": "ecc6ce00_f5fe795a",
+      "range": {
+        "startLine": 575,
+        "startChar": 30,
+        "endLine": 576,
+        "endChar": 18
+      },
+      "revId": "ad0ca86e6bd7b74981523b6b99fe47a243ea7f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2cb4817_b9b7cce6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T21:22:49Z",
+      "side": 1,
+      "message": "Why is it named \"Audit Type\" here? Why not \"Audit Log\"?",
+      "range": {
+        "startLine": 128,
+        "startChar": 23,
+        "endLine": 128,
+        "endChar": 33
+      },
+      "revId": "ea491d2ed011cc153f0135470896fd455089e80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd4a2af_26adcd84",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T21:22:49Z",
+      "side": 1,
+      "message": "Instead of presenting the raw date, let\u0027s import and use the gr-date-formatter. Something like...\n\n\u003cgr-date-formatter\n    has-tooltip\n    date-str\u003d\"[[item.date]]\"\u003e\u003c/gr-date-formatter\u003e",
+      "range": {
+        "startLine": 40,
+        "startChar": 27,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "ea491d2ed011cc153f0135470896fd455089e80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68515ced_31a90bbc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T21:22:49Z",
+      "side": 1,
+      "message": "Indentation in this method is a little off.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 6
+      },
+      "revId": "ea491d2ed011cc153f0135470896fd455089e80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3484dd_59c3b894",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T21:22:49Z",
+      "side": 1,
+      "message": "Can this `\u003d\u003d\u003d true` can be omitted?",
+      "range": {
+        "startLine": 55,
+        "startChar": 26,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "ea491d2ed011cc153f0135470896fd455089e80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "effe1ecc_ab6f677d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T17:17:12Z",
+      "side": 1,
+      "message": "Nit: This is barely longer than 72 characters.\n\n This is needed for the new create change dialog as it is required by\n some users.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "8fd3706d14276d3a49951a07838c706f343fa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "febf5799_6814b1f5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T17:17:12Z",
+      "side": 1,
+      "message": "Nit: wrap this below 80 characters.\n\n\u003cspan class\u003d\"title\"\u003e\n  Insert Signed-off-by Footer For Inline Edit Changes\n\u003c/span\u003e",
+      "range": {
+        "startLine": 194,
+        "startChar": 12,
+        "endLine": 194,
+        "endChar": 90
+      },
+      "revId": "8fd3706d14276d3a49951a07838c706f343fa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0988991b_a938e2f6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T17:17:12Z",
+      "side": 1,
+      "message": "Nit: this line does not need to be wrapped.\n\n this.set(\u0027_localPrefs.signed_off_by\u0027, this.$.insertSignedOff.checked);",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 42
+      },
+      "revId": "8fd3706d14276d3a49951a07838c706f343fa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

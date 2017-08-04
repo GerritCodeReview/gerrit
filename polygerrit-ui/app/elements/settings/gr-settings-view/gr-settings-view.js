@@ -254,6 +254,11 @@
           this.$.publishCommentsOnPush.checked);
     },
 
+    _handleInsertSignedOff() {
+      this.set('_localPrefs.signed_off_by',
+          this.$.insertSignedOff.checked);
+    },
+
     _handleMenuChanged() {
       if (this._isLoading()) { return; }
       this._menuChanged = true;

@@ -152,12 +152,13 @@ limitations under the License.
             <gr-formatted-text
                 class="message hideOnCollapsed"
                 content="[[message.message]]"
-                config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+                config="[[_commentLinks]]"></gr-formatted-text>
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"
                 patch-num="[[message._revision_number]]"
-                project-config="[[projectConfig]]"></gr-comment-list>
+                project-name="[[projectName]]"
+                comment-links="[[_commentLinks]]"></gr-comment-list>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">

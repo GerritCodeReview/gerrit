@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -76,7 +77,7 @@ limitations under the License.
               class="message"
               no-trailing-margin
               content="[[comment.message]]"
-              config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+              config="[[commentLinks]]"></gr-formatted-text>
         </div>
       </template>
     </template>

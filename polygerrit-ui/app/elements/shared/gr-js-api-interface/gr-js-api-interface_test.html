@@ -318,6 +318,10 @@ limitations under the License.
       }
     });
 
+    test('attributeHelper', () => {
+      assert.isOk(plugin.attributeHelper());
+    });
+
     suite('test plugin with base url', () => {
       setup(() => {
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');

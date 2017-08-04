@@ -71,7 +71,7 @@ limitations under the License.
                 <gr-autocomplete
                     id="groupNameInput"
                     text="{{_groupConfig.name}}"
-                    disabled$="[[_groupOwner]]"></gr-autocomplete>
+                    disabled$="[[!_groupOwner]]"></gr-autocomplete>
               </span>
               <gr-button
                   id="inputUpdateNameBtn"
@@ -87,7 +87,7 @@ limitations under the License.
                 <gr-autocomplete
                     text="{{_groupConfig.owner}}"
                     query="[[_query]]"
-                    disabled$="[[_groupOwner]]">
+                    disabled$="[[!_groupOwner]]">
                 </gr-autocomplete>
               </span>
               <gr-button
@@ -104,7 +104,7 @@ limitations under the License.
                     class="description"
                     autocomplete="on"
                     bind-value="{{_groupConfig.description}}"
-                    disabled$="[[_groupOwner]]"></iron-autogrow-textarea>
+                    disabled$="[[!_groupOwner]]"></iron-autogrow-textarea>
               </div>
               <gr-button
                   on-tap="_handleSaveDescription"
@@ -124,7 +124,7 @@ limitations under the License.
                 <span class="value">
                   <gr-select
                       bind-value="{{_groupConfig.options.visible_to_all}}">
-                    <select disabled$="[[_groupOwner]]">
+                    <select disabled$="[[!_groupOwner]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>

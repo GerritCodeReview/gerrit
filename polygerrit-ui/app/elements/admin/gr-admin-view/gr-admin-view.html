@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
+<link rel="import" href="../gr-group-members/gr-group-members.html">
 <link rel="import" href="../gr-plugin-list/gr-plugin-list.html">
 <link rel="import" href="../gr-project/gr-project.html">
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
@@ -86,6 +87,12 @@ limitations under the License.
         <gr-group
             group-id="[[params.groupId]]"
             on-name-changed="_updateGroupName"></gr-group>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showGroupMembers]]" restamp="true">
+      <main>
+        <gr-group-members
+            group-id="[[params.groupId]]"></gr-group-members>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupList]]" restamp="true">

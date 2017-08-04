@@ -37,8 +37,12 @@ limitations under the License.
         width: 100%;
         will-change: top;
       }
+      .fixedAtTop {
+        border-bottom: 1px solid #a4a4a4;
+        box-shadow: 0 4px 4px rgba(0,0,0,0.1);
+      }
     </style>
-    <header id="header" class$="[[_computeHeaderClass(_headerFloating)]]">
+    <header id="header" class$="[[_computeHeaderClass(_headerFloating, _topLast)]]">
       <content></content>
     </header>
   </template>

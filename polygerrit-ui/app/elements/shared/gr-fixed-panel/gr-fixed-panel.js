@@ -31,7 +31,9 @@
         type: Boolean,
         value: false,
       },
+      // Initial offset from the top of the document, in pixels.
       _topInitial: Number,
+      // Current offset from the top of the window, in pixels.
       _topLast: Number,
       _headerHeight: Number,
       _headerFloating: {
@@ -73,8 +75,12 @@
       }
     },
 
-    _computeHeaderClass(headerFloating) {
-      return headerFloating ? 'floating' : '';
+    _computeHeaderClass(headerFloating, topLast) {
+      const fixedAtTop = this.keepOnScroll && topLast === 0;
+      return [
+        headerFloating ? 'floating' : '',
+        fixedAtTop ? 'fixedAtTop' : '',
+      ].join(' ');
     },
 
     _getScrollY() {

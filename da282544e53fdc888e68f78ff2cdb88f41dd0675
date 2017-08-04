@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19ebf5a2_eec327f3",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-04T17:26:47Z",
+      "side": 1,
+      "message": "In the context of git, this phrase doesn\u0027t really make sense. A commit is identified by the SHA-1 of its contents, so there is no such thing as different versions of the \"same commit\": as soon as you change something, it gets a new SHA-1 and thus is by definition no longer the same commit.\n\nThis is why Gerrit has a different word for this in the first place, \"change.\" I\u0027m not sure the best way to fix this paragraph, though, without making the definition too circular.",
+      "range": {
+        "startLine": 3,
+        "startChar": 61,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "da282544e53fdc888e68f78ff2cdb88f41dd0675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

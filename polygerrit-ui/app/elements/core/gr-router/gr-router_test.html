@@ -93,6 +93,13 @@ limitations under the License.
         delete params.basePatchNum;
         assert.equal(element._generateUrl(params),
             '/c/42/2/foo+bar/my%252Bfile.txt%2525');
+
+        params.path = 'file.cpp';
+        params.lineNum = 123;
+        assert.equal(element._generateUrl(params), '/c/42/2/file.cpp#123');
+
+        params.leftSide = true;
+        assert.equal(element._generateUrl(params), '/c/42/2/file.cpp#b123');
       });
     });
   });

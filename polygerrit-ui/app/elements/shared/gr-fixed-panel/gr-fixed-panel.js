@@ -73,8 +73,12 @@
       }
     },
 
-    _computeHeaderClass(headerFloating) {
-      return headerFloating ? 'floating' : '';
+    _computeHeaderClass(headerFloating, topLast) {
+      const fixedAtTop = this.keepOnScroll && topLast === 0;
+      return [
+        headerFloating ? 'floating' : '',
+        fixedAtTop ? 'fixedAtTop' : '',
+      ].join(' ');
     },
 
     _getScrollY() {

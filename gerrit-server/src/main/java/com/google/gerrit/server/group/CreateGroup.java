@@ -173,7 +173,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException, IOException, ResourceNotFoundException {
+      throws OrmException, ResourceConflictException, IOException {
 
     // Do not allow creating groups with the same name as system groups
     for (String name : systemGroupBackend.getNames()) {

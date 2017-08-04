@@ -23,6 +23,30 @@
       "revId": "a01ed8071201b4333acf3cb3703ecf82e92f0b1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6687af5_040a12e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-04T09:41:13Z",
+      "side": 1,
+      "message": "It explains why the field is public.",
+      "parentUuid": "d1a0e7fe_13bf5365",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "a01ed8071201b4333acf3cb3703ecf82e92f0b1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

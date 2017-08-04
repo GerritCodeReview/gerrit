@@ -51,7 +51,7 @@ limitations under the License.
       let titleEl;
       for (let i = 0; i < sections.length; i++) {
         titleEl = sections[i].querySelector('.title');
-        if (titleEl.textContent === title) {
+        if (titleEl.textContent.trim() === title) {
           return sections[i].querySelector('.value');
         }
       }
@@ -171,6 +171,9 @@ limitations under the License.
       assert.equal(valueOf('Expand inline diffs', 'preferences')
           .firstElementChild.checked, false);
       assert.equal(valueOf('Publish comments on push', 'preferences')
+          .firstElementChild.checked, false);
+      assert.equal(valueOf(
+          'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
           .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);

@@ -188,6 +188,29 @@
       "revId": "8fd3706d14276d3a49951a07838c706f343fa3a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9b4422_866aad09",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T19:05:46Z",
+      "side": 1,
+      "message": "Since the cause of the failing test is the whitespace around the message, we could just trim the .textContent here.\n\n if (titleEl.textContent.trim() \u003d\u003d\u003d title) {\n\nDoes that make sense to you?",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 44
+      },
+      "revId": "8fd3706d14276d3a49951a07838c706f343fa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

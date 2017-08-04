@@ -22,6 +22,30 @@
       "revId": "31141c41afb6e85907811a94e4ef71fddfa45c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72541cf7_295d8cb2",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-04T18:54:50Z",
+      "side": 1,
+      "message": "I don\u0027t know if we need to be that verbose. I\u0027m reading a lot of git docs at the moment, and I don\u0027t see commits referred to in that way. However, I see your point that we should make sure folks know we\u0027re talking about _git_ commits, so I updated the text to say that: \"Multiple git commits can share...\"\n\nWhat do you think?",
+      "parentUuid": "bf8cd431_a677c4a5",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 16
+      },
+      "revId": "31141c41afb6e85907811a94e4ef71fddfa45c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

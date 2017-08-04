@@ -1,0 +1,103 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-group-members">
+  <template>
+    <style include="shared-styles">
+      main {
+        margin: 2em 1em;
+      }
+      .loading {
+        display: none;
+      }
+      #loading.loading {
+        display: block;
+      }
+      #loading:not(.loading) {
+        display: none;
+      }
+      .input {
+        width: 15em;
+      }
+      .gr-autocomplete,
+      .gr-autocomplete.input {
+        width: 15em;
+        --gr-autocomplete: {
+          font-size: 1em;
+          height: 2em;
+          width: 15em;
+        }
+      }
+    </style>
+    <style include="gr-form-styles"></style>
+    <main class="gr-form-styles">
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
+        Loading...
+      </div>
+      <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
+        <h1 id="Title">[[_groupName]]</h1>
+        <div id="form">
+          <fieldset>
+            <h3 id="members">Members</h3>
+            <fieldset>
+              <span class="value">
+                <gr-autocomplete
+                    id="groupSearchInput"
+                    text="{{groupSearch}}"
+                    query="[[_query]]"
+                    placeholder="Name Or Email">
+                </gr-autocomplete>
+              </span>
+              <gr-button
+                  id="saveGroupMember"
+                  on-tap="_handleSavingGroupMember"
+                  disabled$="[[!groupSearch]]">Add</gr-button>
+              <div class="gr-form-styles">
+                <table id="groups">
+                  <thead>
+                    <tr>
+                      <th class="nameHeader">Name</th>
+                      <th class="emailAddressHeader">Email Address</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template is="dom-repeat" items="[[_groupMembers]]">
+                      <tr>
+                        <td class="nameColumn">[[item.name]]</td>
+                        <td>[[item.email]]</td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+          </fieldset>
+        </div>
+      </div>
+    </main>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-group-members.js"></script>
+</dom-module>

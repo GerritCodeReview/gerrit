@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -294,9 +295,7 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      AsyncReceiveCommits arc = factory.create(pc, db);
-      arc.init();
-
+      AsyncReceiveCommits arc = factory.create(pc, db, ImmutableSetMultimap.of());
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;

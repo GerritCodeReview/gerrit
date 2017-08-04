@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9aac03b2_6aa92477",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T12:31:22Z",
+      "side": 1,
+      "message": "Thanks :).\n\nDone.",
+      "parentUuid": "0dfd93d0_30ef981e",
+      "range": {
+        "startLine": 1782,
+        "startChar": 0,
+        "endLine": 1782,
+        "endChar": 59
+      },
+      "revId": "4f136213886d38d83e1050e0b74ae0b51ea6d080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e1636f_41c26033",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-04T12:30:09Z",
       "side": 1,
       "message": "nit: trailing \u0027.\u0027 is missing.",
+      "revId": "4f136213886d38d83e1050e0b74ae0b51ea6d080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8b2c2e1_3f7d9b12",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1783,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T12:31:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "35e1636f_41c26033",
       "revId": "4f136213886d38d83e1050e0b74ae0b51ea6d080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -66,7 +66,7 @@ public class PluginsImpl implements Plugins {
         list.setMatchPrefix(this.getPrefix());
         list.setMatchSubstring(this.getSubstring());
         list.setMatchRegex(this.getRegex());
-        return list.apply();
+        return list.apply(TopLevelResource.INSTANCE);
       }
     };
   }

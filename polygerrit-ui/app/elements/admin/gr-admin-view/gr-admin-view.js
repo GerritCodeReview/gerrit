@@ -62,6 +62,7 @@
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
+      _showGroupMembers: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -127,7 +128,15 @@
             name: this._groupName,
             view: 'gr-group',
             url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
-            children: [],
+            children: [
+              {
+                name: 'Members',
+                detailType: 'members',
+                view: 'gr-group-members',
+                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
+                    ',members',
+              },
+           ],
           };
           if (this._groupOwner) {
             linkCopy.subsection.children.push(
@@ -160,6 +169,7 @@
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
+      this.set('_showGroupMembers', params.adminView === 'gr-group-members');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');

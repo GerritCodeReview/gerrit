@@ -269,8 +269,10 @@ limitations under the License.
     });
 
     test('differing patch diff comments are properly grouped', done => {
+      sandbox.stub(element, '_getFromProjectLookup')
+          .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchJSON', url => {
-        if (url == '/changes/42/revisions/1') {
+        if (url === '/changes/test~42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
             'sieve.go': [
@@ -285,7 +287,7 @@ limitations under the License.
               },
             ],
           });
-        } else if (url == '/changes/42/revisions/2') {
+        } else if (url === '/changes/test~42/revisions/2') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
             'sieve.go': [
@@ -606,8 +608,7 @@ limitations under the License.
 
     test('_sendDiffDraft pending requests tracked', () => {
       const obj = element._pendingRequests;
-      sandbox.stub(element, 'send', () => mockPromise());
-      sandbox.stub(element, 'getChangeActionURL');
+      sandbox.stub(element, 'getChangeURLAndSend', () => mockPromise());
       assert.notOk(element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(null, null, null, {});
@@ -627,6 +628,7 @@ limitations under the License.
     });
 
     test('saveChangeEdit', done => {
+      element._projectLookup = {1: 'test'};
       const change_num = '1';
       const file_name = 'index.php';
       const file_contents = '<?php';
@@ -636,17 +638,16 @@ limitations under the License.
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, file_name, file_contents]));
       element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
-      element.saveChangeEdit(change_num, file_name, file_contents).then(
-          () => {
-            assert.isTrue(element.send.calledWith('PUT',
-                '/changes/' + change_num + '/edit/' + file_name,
-                file_contents));
-            done();
-          }
-      );
+      element.saveChangeEdit(change_num, file_name, file_contents).then(() => {
+        assert.isTrue(element.send.calledWith('PUT',
+            '/changes/test~1/edit/' + file_name,
+            file_contents));
+        done();
+      });
     });
 
     test('putChangeCommitMessage', done => {
+      element._projectLookup = {1: 'test'};
       const change_num = '1';
       const message = 'this is a commit message';
       sandbox.stub(element, 'send').returns(
@@ -655,42 +656,42 @@ limitations under the License.
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, message]));
       element._cache['/changes/' + change_num + '/message'] = {};
-      element.putChangeCommitMessage(change_num, message).then(
-          () => {
-            assert.isTrue(element.send.calledWith('PUT',
-                '/changes/' + change_num + '/message', {message}));
-            done();
-          }
-      );
+      element.putChangeCommitMessage(change_num, message).then(() => {
+        assert.isTrue(element.send.calledWith('PUT',
+            '/changes/test~1/message', {message}));
+        done();
+      });
     });
 
     test('startWorkInProgress', () => {
-      sandbox.stub(element, 'send').returns(Promise.resolve('ok'));
+      sandbox.stub(element, 'getChangeURLAndSend')
+          .returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');
-      assert.isTrue(element.send.calledWith(
-          'POST', '/changes/42/wip', {}));
+      assert.isTrue(element.getChangeURLAndSend.calledWith(
+          '42', 'POST', null, '/wip', {}));
       element.startWorkInProgress('42', 'revising...');
-      assert.isTrue(element.send.calledWith(
-          'POST', '/changes/42/wip', {message: 'revising...'}));
+      assert.isTrue(element.getChangeURLAndSend.calledWith(
+          '42', 'POST', null, '/wip', {message: 'revising...'}));
     });
 
     test('startReview', () => {
-      sandbox.stub(element, 'send').returns(Promise.resolve({}));
+      sandbox.stub(element, 'getChangeURLAndSend')
+          .returns(Promise.resolve({}));
       element.startReview('42', {message: 'Please review.'});
-      assert.isTrue(element.send.calledWith(
-          'POST', '/changes/42/ready', {message: 'Please review.'}));
+      assert.isTrue(element.getChangeURLAndSend.calledWith(
+          '42', 'POST', null, '/ready', {message: 'Please review.'}));
     });
 
     test('deleteComment', done => {
-      sandbox.stub(element, 'send').returns(Promise.resolve());
+      sandbox.stub(element, 'getChangeURLAndSend').returns(Promise.resolve());
       sandbox.stub(element, 'getResponseObject').returns('some response');
       element.deleteComment('foo', 'bar', '01234', 'removal reason')
           .then(response => {
             assert.equal(response, 'some response');
             done();
           });
-      assert.isTrue(element.send.calledWith(
-          'POST', '/changes/foo/revisions/bar/comments/01234/delete',
+      assert.isTrue(element.getChangeURLAndSend.calledWith(
+          'foo', 'POST', 'bar', '/comments/01234/delete',
           {reason: 'removal reason'}));
     });
 
@@ -763,10 +764,9 @@ limitations under the License.
 
     test('_getChangeDetail passes params to ETags decorator', () => {
       const changeNum = 4321;
+      element._projectLookup[changeNum] = 'test';
       const params = {foo: 'bar'};
-      const expectedUrl = element._urlWithParams(
-          element.getChangeActionURL(changeNum, null, '/detail'),
-          params);
+      const expectedUrl = '/changes/test~4321/detail?foo=bar';
       sandbox.stub(element._etags, 'getOptions');
       sandbox.stub(element._etags, 'collect');
       return element._getChangeDetail(changeNum, params).then(() => {
@@ -856,6 +856,24 @@ limitations under the License.
       return element._getChangeDetail().then(() => {
         assert.equal(Object.keys(element._projectLookup).length, 1);
         assert.equal(element._projectLookup[1], 'test');
+      });
+    });
+
+    test('_getChangeURLAndFetch', () => {
+      element._projectLookup = {1: 'test'};
+      const fetchStub = sandbox.stub(element, 'fetchJSON')
+          .returns(Promise.resolve());
+      return element._getChangeURLAndFetch(1, '/test', 1).then(() => {
+        assert.isTrue(fetchStub.calledWith('/changes/test~1/revisions/1/test'));
+      });
+    });
+
+    test('getChangeURLAndSend', () => {
+      element._projectLookup = {1: 'test'};
+      const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+      return element.getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
+        assert.isTrue(sendStub.calledWith('POST',
+            '/changes/test~1/revisions/1/test'));
       });
     });
   });

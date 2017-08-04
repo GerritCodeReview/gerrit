@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "19d2d25b_5a0c8bb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-04T12:39:15Z",
+      "side": 1,
+      "message": "nit: Exposing \u0027privateByDefault\u0027 there",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "13559846ce16c37677bd4600af26a6fc32f4c14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa93e883_877b7454",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 5

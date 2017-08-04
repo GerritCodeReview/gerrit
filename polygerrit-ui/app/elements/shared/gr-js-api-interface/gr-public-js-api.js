@@ -55,7 +55,6 @@
   window.$wnd = window;
 
   function Plugin(opt_url) {
-    this._generatedHookNames = [];
     this._domHooks = new GrDomHooks(this);
 
     if (!opt_url) {
@@ -77,6 +76,10 @@
       return;
     }
     this._name = pathname.split('/')[2];
+
+    this.deprecated = {
+      popup: deprecatedAPI.popup.bind(this),
+    };
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -93,11 +96,14 @@
   };
 
   Plugin.prototype.registerCustomComponent = function(
-      endpointName, moduleName, opt_options) {
+      endpointName, opt_moduleName, opt_options) {
     const type = opt_options && opt_options.replace ?
           EndpointType.REPLACE : EndpointType.DECORATE;
+    const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
+    const moduleName = opt_moduleName || hook.getModuleName();
     Gerrit._endpoints.registerModule(
-        this, endpointName, type, moduleName);
+        this, endpointName, type, moduleName, hook);
+    return hook;
   };
 
   Plugin.prototype.getServerInfo = function() {
@@ -166,12 +172,24 @@
     return new GrAttributeHelper(element);
   };
 
-  Plugin.prototype.getDomHook = function(endpointName, opt_options) {
-    const hook = this._domHooks.getDomHook(endpointName);
-    const moduleName = hook.getModuleName();
-    const type = opt_options && opt_options.type || EndpointType.DECORATE;
-    Gerrit._endpoints.registerModule(this, endpointName, type, moduleName);
-    return hook;
+  Plugin.prototype.popup = function(moduleName) {
+    if (typeof moduleName !== 'string') {
+      console.error('deprecated, use deprecated.popup');
+      return;
+    }
+    const api = new GrPopupInterface(this, moduleName);
+    return api.open().then(() => api);
+  };
+
+  const deprecatedAPI = {};
+
+  deprecatedAPI.popup = function(el) {
+    console.log('plugin.deprecated.popup() is deprecated!');
+    if (!el) {
+      throw new Error('Popup contents not found');
+    }
+    const api = new GrPopupInterface(this);
+    api.open().then(() => api._getElement().appendChild(el));
   };
 
   const Gerrit = window.Gerrit || {};

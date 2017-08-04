@@ -102,8 +102,7 @@
             this._loading = false;
             this.$.restAPI.getIsGroupOwner(config.name).then(
                 configs => {
-                  if (Object.keys(configs).length === 0 &&
-                      configs.constructor === Object) {
+                  if (configs) {
                     this._groupOwner = true;
                   }
                 });
@@ -186,7 +185,7 @@
     },
 
     _computeButtonDisabled(options, option) {
-      return options || !option;
+      return !options || !option;
     },
 
     _computeHeaderClass(configChanged) {

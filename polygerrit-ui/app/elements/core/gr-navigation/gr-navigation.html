@@ -199,13 +199,28 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {!String} path The file path.
+       * @param {!string} path The file path.
        * @param {number} opt_patchNum
        * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
        *     for none.
        * @return {string}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+        return this.getUrlForDiffById(change._number, change.project, path,
+            opt_patchNum, opt_basePatchNum);
+      },
+
+      /**
+       * @param {!number} change The change object.
+       * @param {!string} projectName The name of the project.
+       * @param {!string} path The file path.
+       * @param {number} opt_patchNum
+       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
+       * @return {string}
+       */
+      getUrlForDiffById(changeNum, projectName, path, opt_patchNum,
+          opt_basePatchNum) {
         if (opt_basePatchNum === PARENT_PATCHNUM) {
           opt_basePatchNum = undefined;
         }
@@ -213,7 +228,8 @@ limitations under the License.
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.DIFF,
-          changeNum: change._number,
+          changeNum,
+          projectName,
           path,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,

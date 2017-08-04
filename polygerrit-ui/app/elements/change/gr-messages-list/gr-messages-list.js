@@ -36,7 +36,7 @@
         value() { return []; },
       },
       comments: Object,
-      projectConfig: Object,
+      projectName: String,
       showReplyButtons: {
         type: Boolean,
         value: false,

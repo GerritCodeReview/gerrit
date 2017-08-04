@@ -45,6 +45,30 @@
       "revId": "13559846ce16c37677bd4600af26a6fc32f4c14b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4a9ad38_3dfc00fb",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1783,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-04T12:40:01Z",
+      "side": 1,
+      "message": "+1 to add here the link to this configuration option.",
+      "parentUuid": "fa93e883_877b7454",
+      "range": {
+        "startLine": 1783,
+        "startChar": 0,
+        "endLine": 1783,
+        "endChar": 18
+      },
+      "revId": "13559846ce16c37677bd4600af26a6fc32f4c14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

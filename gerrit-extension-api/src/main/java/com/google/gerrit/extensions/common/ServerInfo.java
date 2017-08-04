@@ -23,6 +23,7 @@ public class ServerInfo {
   public GerritInfo gerrit;
   public Boolean noteDbEnabled;
   public PluginConfigInfo plugin;
+  public Boolean privateByDefault;
   public SshdInfo sshd;
   public SuggestInfo suggest;
   public Map<String, String> urlAliases;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6123e38_d0d1ccad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T18:21:52Z",
+      "side": 1,
+      "message": "Ideally, as per a/b testing principles, there would be test checking for failures.\nUp to you though.",
+      "revId": "bf85c283a5dd02d717f138171dc005be914273a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

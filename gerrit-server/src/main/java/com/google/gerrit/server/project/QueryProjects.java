@@ -105,12 +105,12 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
     }
 
     try {
-      QueryResult<ProjectState> result = queryProcessor.query(queryBuilder.parse(query));
-      List<ProjectState> projects = result.entities();
+      QueryResult<ProjectData> result = queryProcessor.query(queryBuilder.parse(query));
+      List<ProjectData> pds = result.entities();
 
-      ArrayList<ProjectInfo> projectInfos = Lists.newArrayListWithCapacity(projects.size());
-      for (ProjectState projectState : projects) {
-        projectInfos.add(json.format(projectState.getProject()));
+      ArrayList<ProjectInfo> projectInfos = Lists.newArrayListWithCapacity(pds.size());
+      for (ProjectData pd : pds) {
+        projectInfos.add(json.format(pd.getProject()));
       }
       return projectInfos;
     } catch (QueryParseException e) {

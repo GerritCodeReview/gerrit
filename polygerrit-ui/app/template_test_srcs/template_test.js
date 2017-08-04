@@ -27,13 +27,15 @@ const EXTERN_NAMES = [
   'GrGerritAuth',
   'GrLinkTextParser',
   'GrPluginEndpoints',
+  'GrPopupInterface',
   'GrRangeNormalizer',
   'GrReporting',
   'GrReviewerUpdatesParser',
   'GrThemeApi',
   'moment',
   'page',
-  'util'];
+  'util',
+];
 
 fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
   if (err) {

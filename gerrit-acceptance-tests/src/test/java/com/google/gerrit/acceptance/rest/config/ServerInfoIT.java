@@ -52,6 +52,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // change
   @GerritConfig(name = "change.allowDrafts", value = "false")
   @GerritConfig(name = "change.largeChange", value = "300")
+  @GerritConfig(name = "change..privateByDefault", value = "true")
   @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
   @GerritConfig(name = "change.replyLabel", value = "Vote")
   @GerritConfig(name = "change.updateDelay", value = "50s")
@@ -89,6 +90,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.registerText).isNull();
     assertThat(i.auth.editFullNameUrl).isNull();
     assertThat(i.auth.httpPasswordUrl).isNull();
+
+    // private change
+    assertThat(i.privateByDefault).isTrue();
 
     // change
     assertThat(i.change.allowDrafts).isNull();

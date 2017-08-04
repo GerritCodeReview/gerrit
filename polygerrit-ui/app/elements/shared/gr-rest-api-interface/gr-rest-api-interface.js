@@ -307,9 +307,33 @@
           revision, opt_errFn, opt_ctx);
     },
 
-    getIsGroupOwner(groupId) {
-      const encodeId = encodeURIComponent(groupId);
-      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeId);
+    /**
+     * @param {!string} groupName
+     */
+    getIsGroupOwner(groupName) {
+      const encodeName = encodeURIComponent(groupName);
+      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeName);
+    },
+
+    /**
+     * @param {!string} groupName
+     * @returns {!Promise<boolean>}
+     */
+    userIsGroupOwner(groupName) {
+      return this.getIsGroupOwner(groupName)
+          .then(configs => configs.hasOwnProperty(groupName));
+    },
+
+    getGroupMembers(groupName) {
+      const encodeName = encodeURIComponent(groupName);
+      return this.send('GET', `/groups/${encodeName}/members/`)
+          .then(response => this.getResponseObject(response));
+    },
+
+    getIncludedGroup(groupName) {
+      const encodeName = encodeURIComponent(groupName);
+      return this.send('GET', `/groups/${encodeName}/groups/`)
+          .then(response => this.getResponseObject(response));
     },
 
     saveGroupName(groupId, name) {
@@ -335,6 +359,35 @@
 
     getGroupAuditLog(group) {
       return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    },
+
+    saveGroupMembers(groupName, groupMembers) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeMember = encodeURIComponent(groupMembers);
+      return this.send('PUT', `/groups/${encodeName}/members/${encodeMember}`)
+          .then(response => this.getResponseObject(response));
+    },
+
+    saveIncludedGroup(groupName, includedGroup) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeIncludedGroup = encodeURIComponent(includedGroup);
+      return this.send('PUT',
+          `/groups/${encodeName}/groups/${encodeIncludedGroup}`)
+          .then(response => this.getResponseObject(response));
+    },
+
+    deleteGroupMembers(groupName, groupMembers) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeMember = encodeURIComponent(groupMembers);
+      return this.send('DELETE',
+          `/groups/${encodeName}/members/${encodeMember}`);
+    },
+
+    deleteIncludedGroup(groupName, includedGroup) {
+      const encodeName = encodeURIComponent(groupName);
+      const encodeIncludedGroup = encodeURIComponent(includedGroup);
+      return this.send('DELETE',
+          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
     },
 
     getVersion() {

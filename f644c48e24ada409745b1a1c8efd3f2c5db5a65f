@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d128fd3d_3f8fee7b",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Nit: some of the items in this table end with periods, others don\u0027t. I\u0027d pick one or the other and make them consistent. (Personally, I like periods as they indicate closure.)",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3c324c_ac7d4edd",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Nit: \"indicates\"? Sounds more visual.",
+      "range": {
+        "startLine": 88,
+        "startChar": 69,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "374bf38c_01500b76",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Nit: switching this around to \"...identical to the `git merge -ff` command.\" would avoid \"suffixing\" the command with the period (makes users prone to copy-paste mistakes) and the repetition of \"git.\"",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "149166a8_856130be",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Same nit as earlier.",
+      "range": {
+        "startLine": 135,
+        "startChar": 63,
+        "endLine": 135,
+        "endChar": 68
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c2e1f27_fa45c068",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Same nit on accidentally \"suffixing\" the command with a period.",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 45
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2738c9d9_cdac812e",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Nit: I would reword this to read \"Any project owner can use the Project screen to modify the method...\" As-is, we\u0027re not sure if it\u0027s Gerrit that submits a change through the Project screen or a project owner using the Project screen to modify the method.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bfb5740_4471bc3b",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:22:53Z",
+      "side": 1,
+      "message": "Nit: If there is a way to distinguish field names from plain text via formatting, it might improve readability.",
+      "range": {
+        "startLine": 204,
+        "startChar": 37,
+        "endLine": 204,
+        "endChar": 43
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

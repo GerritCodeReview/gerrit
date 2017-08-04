@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf8cd431_a677c4a5",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-04T18:48:43Z",
+      "side": 1,
+      "message": "Is it worth being a little more verbose here and specifying that these are commits in the git sense? \"Multiple git commits with different SHA-1s can share...\"",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 16
+      },
+      "revId": "31141c41afb6e85907811a94e4ef71fddfa45c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -269,8 +269,10 @@ limitations under the License.
     });
 
     test('differing patch diff comments are properly grouped', done => {
+      sandbox.stub(element, '_getFromProjectLookup')
+          .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchJSON', url => {
-        if (url == '/changes/42/revisions/1') {
+        if (url === '/changes/test~42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
             'sieve.go': [
@@ -285,7 +287,7 @@ limitations under the License.
               },
             ],
           });
-        } else if (url == '/changes/42/revisions/2') {
+        } else if (url === '/changes/test~42/revisions/2') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
             'sieve.go': [
@@ -636,14 +638,12 @@ limitations under the License.
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, file_name, file_contents]));
       element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
-      element.saveChangeEdit(change_num, file_name, file_contents).then(
-          () => {
-            assert.isTrue(element.send.calledWith('PUT',
-                '/changes/' + change_num + '/edit/' + file_name,
-                file_contents));
-            done();
-          }
-      );
+      element.saveChangeEdit(change_num, file_name, file_contents).then(() => {
+        assert.isTrue(element.send.calledWith('PUT',
+            '/changes/' + change_num + '/edit/' + file_name,
+            file_contents));
+        done();
+      });
     });
 
     test('putChangeCommitMessage', done => {

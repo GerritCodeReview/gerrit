@@ -128,6 +128,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
         "gwt"
       ]
     },
+    "private_by_default": false,
     "sshd": {},
     "suggest": {
       "from": 0
@@ -1778,6 +1779,9 @@ link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.
+|`private_by_default `     ||
+Returns true if changes are created by default as privates.
+Defaults to false
 |`plugin `                 ||
 Information about Gerrit extensions by plugins as
 link:#plugin-config-info[PluginConfigInfo] entity.

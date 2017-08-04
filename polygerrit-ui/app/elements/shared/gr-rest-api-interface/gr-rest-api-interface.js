@@ -523,8 +523,8 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
-          response => {
+      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
+          .then(response => {
             if (response !== undefined) {
               this._cache[url] = response;
             }
@@ -541,6 +541,16 @@
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
     },
 
+    /**
+     * @param {!number} opt_changesPerPage
+     * @param {!string|Array<string>} opt_query A query or an array of queries.
+     * @param {!number} opt_offset
+     * @param {!Object} opt_options
+     * @return {Array<Object>|Array<Array<Object>>} If opt_query is an array,
+     *     fetchJSON will return an array of arrays of changeInfos. If it is
+     *     unspecified or a string, fetchJSON will return an array of
+     *     changeInfos.
+     */
     getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
       const options = opt_options || this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
@@ -558,19 +568,33 @@
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      return this.fetchJSON('/changes/', null, null, params)
-          .then(response => {
-            // Response is an array of arrays of changes. Iterate over each and
-            // set in _projectLookup.
-            for (const arr of (response || [])) {
-              for (const change of (arr || [])) {
-                if (change && change.project) {
-                  this.setInProjectLookup(change._number, change.project);
-                }
-              }
-            }
-            return response;
-          });
+      const iterateOverChanges = arr => {
+        for (const change of (arr || [])) {
+          this._maybeInsertInLookup(change);
+        }
+      };
+      return this.fetchJSON('/changes/', null, null, params).then(response => {
+        // Response may be an array of changes OR an array of arrays of
+        // changes.
+        if (opt_query instanceof Array) {
+          for (const arr of response) {
+            iterateOverChanges(arr);
+          }
+        } else {
+          iterateOverChanges(response);
+        }
+        return response;
+      });
+    },
+
+    /**
+     * Inserts a change into _projectLookup iff it has a valid structure.
+     * @param {!Object} change
+     */
+    _maybeInsertInLookup(change) {
+      if (change && change.project && change._number) {
+        this.setInProjectLookup(change._number, change.project);
+      }
     },
 
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
@@ -620,9 +644,7 @@
                   Promise.resolve();
               payloadPromise.then(payload => {
                 this._etags.collect(urlWithParams, response, payload);
-                if (payload && payload.project) {
-                  this.setInProjectLookup(payload._number, payload.project);
-                }
+                this._maybeInsertInLookup(payload);
               });
               return payloadPromise;
             }

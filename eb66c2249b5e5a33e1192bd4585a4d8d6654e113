@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "28b45d3c_514050ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T17:50:35Z",
+      "side": 1,
+      "message": "How do you remove the base url though? .replace(base, \u0027\u0027);?",
+      "parentUuid": "277a9f7b_3e90fec1",
+      "range": {
+        "startLine": 75,
+        "startChar": 61,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "eb66c2249b5e5a33e1192bd4585a4d8d6654e113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04c24f76_5fe99c2e",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 24

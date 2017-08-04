@@ -18,16 +18,16 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.project.ProjectField;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.Predicate;
 
 public class ProjectPredicates {
-  public static Predicate<ProjectState> name(Project.NameKey nameKey) {
+  public static Predicate<ProjectData> name(Project.NameKey nameKey) {
     return new ProjectPredicate(ProjectField.NAME, nameKey.get());
   }
 
-  static class ProjectPredicate extends IndexPredicate<ProjectState> {
-    ProjectPredicate(FieldDef<ProjectState, ?> def, String value) {
+  static class ProjectPredicate extends IndexPredicate<ProjectData> {
+    ProjectPredicate(FieldDef<ProjectData, ?> def, String value) {
       super(def, value);
     }
   }

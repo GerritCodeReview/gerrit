@@ -17,13 +17,13 @@ package com.google.gerrit.server.index.project;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexCollection;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class ProjectIndexCollection
-    extends IndexCollection<Project.NameKey, ProjectState, ProjectIndex> {
+    extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {
 
   @Inject
   @VisibleForTesting

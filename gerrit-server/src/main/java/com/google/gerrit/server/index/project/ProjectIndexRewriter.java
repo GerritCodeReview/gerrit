@@ -18,14 +18,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ProjectIndexRewriter implements IndexRewriter<ProjectState> {
+public class ProjectIndexRewriter implements IndexRewriter<ProjectData> {
   private final ProjectIndexCollection indexes;
 
   @Inject
@@ -34,7 +34,7 @@ public class ProjectIndexRewriter implements IndexRewriter<ProjectState> {
   }
 
   @Override
-  public Predicate<ProjectState> rewrite(Predicate<ProjectState> in, QueryOptions opts)
+  public Predicate<ProjectData> rewrite(Predicate<ProjectData> in, QueryOptions opts)
       throws QueryParseException {
     ProjectIndex index = indexes.getSearchIndex();
     checkNotNull(index, "no active search index configured for projects");

@@ -25,14 +25,14 @@ import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import com.google.gerrit.server.index.project.ProjectIndexRewriter;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.AndSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class ProjectQueryProcessor extends QueryProcessor<ProjectState> {
+public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;
 
   static {
@@ -64,7 +64,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectState> {
   }
 
   @Override
-  protected Predicate<ProjectState> enforceVisibility(Predicate<ProjectState> pred) {
+  protected Predicate<ProjectData> enforceVisibility(Predicate<ProjectData> pred) {
     return new AndSource<>(
         pred, new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()), start);
   }

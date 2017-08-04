@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexDefinition;
-import com.google.gerrit.server.project.ProjectData;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.project.ProjectPredicates;
 
-public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
+public class ProjectData {
+  private final Project project;
+  private final ImmutableList<Project.NameKey> ancestors;
 
-  public interface Factory
-      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectData, ProjectIndex> {}
+  public ProjectData(Project project, Iterable<Project.NameKey> ancestors) {
+    this.project = project;
+    this.ancestors = ImmutableList.copyOf(ancestors);
+  }
 
-  @Override
-  default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
-    return ProjectPredicates.name(nameKey);
+  public Project getProject() {
+    return project;
+  }
+
+  public ImmutableList<Project.NameKey> getAncestors() {
+    return ancestors;
   }
 }

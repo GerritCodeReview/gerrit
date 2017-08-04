@@ -18,11 +18,11 @@ import static com.google.gerrit.server.index.SchemaUtil.schema;
 
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 
-public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectState> {
+public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 
-  static final Schema<ProjectState> V1 =
+  static final Schema<ProjectData> V1 =
       schema(
           ProjectField.NAME,
           ProjectField.DESCRIPTION,
@@ -33,6 +33,6 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectState> {
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 
   private ProjectSchemaDefinitions() {
-    super("projects", ProjectState.class);
+    super("projects", ProjectData.class);
   }
 }

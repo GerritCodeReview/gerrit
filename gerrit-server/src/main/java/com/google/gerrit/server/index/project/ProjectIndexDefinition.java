@@ -17,12 +17,12 @@ package com.google.gerrit.server.index.project;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexDefinition;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
 public class ProjectIndexDefinition
-    extends IndexDefinition<Project.NameKey, ProjectState, ProjectIndex> {
+    extends IndexDefinition<Project.NameKey, ProjectData, ProjectIndex> {
 
   @Inject
   ProjectIndexDefinition(

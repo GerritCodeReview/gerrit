@@ -27,7 +27,7 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -56,12 +56,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectState>
+public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
   static class ProjectMapping {
     MappingProperties projects;
 
-    ProjectMapping(Schema<ProjectState> schema) {
+    ProjectMapping(Schema<ProjectData> schema) {
       this.projects = ElasticMapping.createMapping(schema);
     }
   }
@@ -80,7 +80,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
       JestClientBuilder clientBuilder,
-      @Assisted Schema<ProjectState> schema) {
+      @Assisted Schema<ProjectData> schema) {
     // No parts of FillArgs are currently required, just use null.
     super(cfg, null, sitePaths, schema, clientBuilder, PROJECTS_PREFIX);
     this.projectCache = projectCache;
@@ -88,7 +88,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   }
 
   @Override
-  public void replace(ProjectState projectState) throws IOException {
+  public void replace(ProjectData projectState) throws IOException {
     Bulk bulk =
         new Bulk.Builder()
             .defaultIndex(indexName)
@@ -106,7 +106,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   }
 
   @Override
-  public DataSource<ProjectState> getSource(Predicate<ProjectState> p, QueryOptions opts)
+  public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
     return new QuerySource(p, opts);
   }
@@ -123,15 +123,15 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   }
 
   @Override
-  protected String getId(ProjectState projectState) {
+  protected String getId(ProjectData projectState) {
     return projectState.getProject().getName();
   }
 
-  private class QuerySource implements DataSource<ProjectState> {
+  private class QuerySource implements DataSource<ProjectData> {
     private final Search search;
     private final Set<String> fields;
 
-    QuerySource(Predicate<ProjectState> p, QueryOptions opts) throws QueryParseException {
+    QuerySource(Predicate<ProjectData> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.projectFields(opts);
       SearchSourceBuilder searchSource =
@@ -158,9 +158,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
     }
 
     @Override
-    public ResultSet<ProjectState> read() throws OrmException {
+    public ResultSet<ProjectData> read() throws OrmException {
       try {
-        List<ProjectState> results = Collections.emptyList();
+        List<ProjectData> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
           JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
@@ -168,21 +168,21 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              results.add(toProjectState(json.get(i)));
+              results.add(toProjectData(json.get(i)));
             }
           }
         } else {
           log.error(result.getErrorMessage());
         }
-        final List<ProjectState> r = Collections.unmodifiableList(results);
-        return new ResultSet<ProjectState>() {
+        final List<ProjectData> r = Collections.unmodifiableList(results);
+        return new ResultSet<ProjectData>() {
           @Override
-          public Iterator<ProjectState> iterator() {
+          public Iterator<ProjectData> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<ProjectState> toList() {
+          public List<ProjectData> toList() {
             return r;
           }
 
@@ -201,7 +201,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       return search.toString();
     }
 
-    private ProjectState toProjectState(JsonElement json) {
+    private ProjectData toProjectData(JsonElement json) {
       JsonElement source = json.getAsJsonObject().get("_source");
       if (source == null) {
         source = json.getAsJsonObject().get("fields");
@@ -210,7 +210,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       Project.NameKey nameKey =
           new Project.NameKey(
               source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
-      return projectCache.get().get(nameKey);
+      return projectCache.get().get(nameKey).toProjectData();
     }
   }
 }

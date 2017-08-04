@@ -24,7 +24,7 @@ import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, ProjectState>
+public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
   private static final Logger log = LoggerFactory.getLogger(LuceneProjectIndex.class);
 
@@ -64,7 +64,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
   private static final String NAME_SORT_FIELD = sortFieldName(NAME);
 
-  private static Term idTerm(ProjectState projectState) {
+  private static Term idTerm(ProjectData projectState) {
     return idTerm(projectState.getProject().getNameKey());
   }
 
@@ -73,10 +73,10 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
-  private final QueryBuilder<ProjectState> queryBuilder;
+  private final QueryBuilder<ProjectData> queryBuilder;
   private final Provider<ProjectCache> projectCache;
 
-  private static Directory dir(Schema<ProjectState> schema, Config cfg, SitePaths sitePaths)
+  private static Directory dir(Schema<ProjectData> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
@@ -90,7 +90,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      @Assisted Schema<ProjectState> schema)
+      @Assisted Schema<ProjectData> schema)
       throws IOException {
     super(
         schema,
@@ -107,7 +107,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   }
 
   @Override
-  public void replace(ProjectState projectState) throws IOException {
+  public void replace(ProjectData projectState) throws IOException {
     try {
       // No parts of FillArgs are currently required, just use null.
       replace(idTerm(projectState), toDocument(projectState, null)).get();
@@ -126,7 +126,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   }
 
   @Override
-  public DataSource<ProjectState> getSource(Predicate<ProjectState> p, QueryOptions opts)
+  public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
     return new QuerySource(
         opts,
@@ -134,7 +134,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         new Sort(new SortField(NAME_SORT_FIELD, SortField.Type.STRING, false)));
   }
 
-  private class QuerySource implements DataSource<ProjectState> {
+  private class QuerySource implements DataSource<ProjectData> {
     private final QueryOptions opts;
     private final Query query;
     private final Sort sort;
@@ -151,27 +151,27 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
     }
 
     @Override
-    public ResultSet<ProjectState> read() throws OrmException {
+    public ResultSet<ProjectData> read() throws OrmException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
         int realLimit = opts.start() + opts.limit();
         TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<ProjectState> result = new ArrayList<>(docs.scoreDocs.length);
+        List<ProjectData> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searcher.doc(sd.doc, IndexUtils.projectFields(opts));
-          result.add(toProjectState(doc));
+          result.add(toProjectData(doc));
         }
-        final List<ProjectState> r = Collections.unmodifiableList(result);
-        return new ResultSet<ProjectState>() {
+        final List<ProjectData> r = Collections.unmodifiableList(result);
+        return new ResultSet<ProjectData>() {
           @Override
-          public Iterator<ProjectState> iterator() {
+          public Iterator<ProjectData> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<ProjectState> toList() {
+          public List<ProjectData> toList() {
             return r;
           }
 
@@ -194,8 +194,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
     }
   }
 
-  private ProjectState toProjectState(Document doc) {
+  private ProjectData toProjectData(Document doc) {
     Project.NameKey nameKey = new Project.NameKey(doc.getField(NAME.getName()).stringValue());
-    return projectCache.get().get(nameKey);
+    return projectCache.get().get(nameKey).toProjectData();
   }
 }

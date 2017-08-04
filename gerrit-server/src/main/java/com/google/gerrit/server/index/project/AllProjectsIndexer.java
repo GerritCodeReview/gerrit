@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectState, ProjectIndex> {
+public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData, ProjectIndex> {
 
   private static final Logger log = LoggerFactory.getLogger(AllProjectsIndexer.class);
 
@@ -84,7 +84,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectStat
               () -> {
                 try {
                   projectCache.evict(name);
-                  index.replace(projectCache.get(name));
+                  index.replace(projectCache.get(name).toProjectData());
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

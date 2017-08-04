@@ -21,25 +21,24 @@ import static com.google.gerrit.server.index.FieldDef.prefix;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 
 /** Index schema for projects. */
 public class ProjectField {
 
-  public static final FieldDef<ProjectState, String> NAME =
+  public static final FieldDef<ProjectData, String> NAME =
       exact("name").stored().build(p -> p.getProject().getName());
 
-  public static final FieldDef<ProjectState, String> DESCRIPTION =
+  public static final FieldDef<ProjectData, String> DESCRIPTION =
       fullText("description").build(p -> p.getProject().getDescription());
 
-  public static final FieldDef<ProjectState, String> PARENT_NAME =
+  public static final FieldDef<ProjectData, String> PARENT_NAME =
       exact("parent_name").build(p -> p.getProject().getParentName());
 
-  public static final FieldDef<ProjectState, Iterable<String>> NAME_PART =
+  public static final FieldDef<ProjectData, Iterable<String>> NAME_PART =
       prefix("name_part").buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()));
 
-  public static final FieldDef<ProjectState, Iterable<String>> ANCESTOR_NAME =
+  public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
       exact("ancestor_name")
-          .buildRepeatable(
-              p -> Iterables.transform(p.parents(), parent -> parent.getProject().getName()));
+          .buildRepeatable(p -> Iterables.transform(p.getAncestors(), n -> n.get()));
 }

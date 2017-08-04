@@ -21,7 +21,7 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.project.ProjectIndex;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 
@@ -49,7 +49,7 @@ public class DummyIndexModule extends AbstractModule {
 
   private static class DummyProjectIndexFactory implements ProjectIndex.Factory {
     @Override
-    public ProjectIndex create(Schema<ProjectState> schema) {
+    public ProjectIndex create(Schema<ProjectData> schema) {
       throw new UnsupportedOperationException();
     }
   }

@@ -17,12 +17,12 @@ package com.google.gerrit.server.query.project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
-public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectState> {
+public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectData> {
   protected final PermissionBackend permissionBackend;
   protected final CurrentUser user;
 
@@ -33,10 +33,10 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectSta
   }
 
   @Override
-  public boolean match(ProjectState projectState) throws OrmException {
+  public boolean match(ProjectData pd) throws OrmException {
     return permissionBackend
         .user(user)
-        .project(projectState.getProject().getNameKey())
+        .project(pd.getProject().getNameKey())
         .testOrFalse(ProjectPermission.READ);
   }
 

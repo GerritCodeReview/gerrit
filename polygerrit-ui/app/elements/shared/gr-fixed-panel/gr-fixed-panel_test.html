@@ -98,6 +98,14 @@ limitations under the License.
         emulateScrollY(120);
         assert.equal(getHeaderTop(), '0px');
       });
+
+      test('drops a shadow when fixed to the top', () => {
+        element.keepOnScroll = true;
+        emulateScrollY(5);
+        assert.isFalse(element.$.header.classList.contains('fixedAtTop'));
+        emulateScrollY(120);
+        assert.isTrue(element.$.header.classList.contains('fixedAtTop'));
+      });
     });
   });
 </script>

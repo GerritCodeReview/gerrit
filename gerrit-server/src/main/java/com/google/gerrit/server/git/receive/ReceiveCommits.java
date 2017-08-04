@@ -294,63 +294,66 @@ class ReceiveCommits {
         }
       };
 
-  private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
+  // ReceiveCommits has a lot of fields, sorry. Here and in the constructor they are split up
+  // somewhat, and kept sorted lexicographically within sections, except where later assignments
+  // depend on previous ones.
 
-  private final IdentifiedUser user;
-  private final ReviewDb db;
-  private final Sequences seq;
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final ChangeNotes.Factory notesFactory;
-  private final AccountsUpdate.Server accountsUpdate;
+  // Injected fields.
   private final AccountResolver accountResolver;
-  private final PermissionBackend permissionBackend;
-  private final PermissionBackend.ForProject permissions;
-  private final CmdLineParser.Factory optionParserFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final PatchSetUtil psUtil;
-  private final ProjectCache projectCache;
-  private final String canonicalWebUrl;
-  private final CommitValidators.Factory commitValidatorsFactory;
-  private final RefOperationValidators.Factory refValidatorsFactory;
-  private final TagCache tagCache;
-  private final ChangeInserter.Factory changeInserterFactory;
-  private final RequestScopePropagator requestScopePropagator;
-  private final SshInfo sshInfo;
+  private final AccountsUpdate.Server accountsUpdate;
   private final AllProjectsName allProjectsName;
-  private final ReceiveConfig receiveConfig;
-  private final DynamicSet<ReceivePackInitializer> initializers;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final SetHashtagsOp.Factory hashtagsFactory;
-  private final ReplaceOp.Factory replaceOpFactory;
-  private final MergedByPushOp.Factory mergedByPushOpFactory;
-
-  private final ProjectControl projectControl;
-  private final Project project;
-  private final LabelTypes labelTypes;
-  private final Repository repo;
-  private final ReceivePack rp;
-  private final NoteMap rejectCommits;
-  private final RequestId receiveId;
-  private MagicBranchInput magicBranch;
-  private boolean newChangeForAllNotInTarget;
-  private final ListMultimap<String, String> pushOptions = LinkedListMultimap.create();
-
-  private List<CreateRequest> newChanges = Collections.emptyList();
-  private final Map<Change.Id, ReplaceRequest> replaceByChange = new LinkedHashMap<>();
-  private final List<UpdateGroupsRequest> updateGroups = new ArrayList<>();
-  private final Set<ObjectId> validCommits = new HashSet<>();
-
-  private ListMultimap<Change.Id, Ref> refsByChange;
-  private ListMultimap<ObjectId, Ref> refsById;
-  private final AllRefsWatcher allRefsWatcher;
-
-  private final SubmoduleOp.Factory subOpFactory;
-  private final Provider<MergeOp> mergeOpProvider;
-  private final Provider<MergeOpRepoManager> ormProvider;
-  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
-  private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
   private final ChangeIndexer indexer;
+  private final ChangeInserter.Factory changeInserterFactory;
+  private final ChangeNotes.Factory notesFactory;
+  private final CmdLineParser.Factory optionParserFactory;
+  private final CommitValidators.Factory commitValidatorsFactory;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicSet<ReceivePackInitializer> initializers;
+  private final IdentifiedUser user;
+  private final MergedByPushOp.Factory mergedByPushOpFactory;
+  private final NotesMigration notesMigration;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private final PatchSetUtil psUtil;
+  private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<MergeOp> mergeOpProvider;
+  private final Provider<MergeOpRepoManager> ormProvider;
+  private final ReceiveConfig receiveConfig;
+  private final RefOperationValidators.Factory refValidatorsFactory;
+  private final ReplaceOp.Factory replaceOpFactory;
+  private final RequestScopePropagator requestScopePropagator;
+  private final ReviewDb db;
+  private final Sequences seq;
+  private final SetHashtagsOp.Factory hashtagsFactory;
+  private final SshInfo sshInfo;
+  private final String canonicalWebUrl;
+  private final SubmoduleOp.Factory subOpFactory;
+  private final TagCache tagCache;
+
+  // Assisted injected fields.
+  private final AllRefsWatcher allRefsWatcher;
+  private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
+  private final ProjectControl projectControl;
+  private final ReceivePack rp;
+
+  // Immutable fields derived from constructor arguments.
+  private final LabelTypes labelTypes;
+  private final NoteMap rejectCommits;
+  private final PermissionBackend.ForProject permissions;
+  private final Project project;
+  private final Repository repo;
+  private final RequestId receiveId;
+
+  // Collections populated during processing.
+  private final List<UpdateGroupsRequest> updateGroups;
+  private final List<ValidationMessage> messages;
+  private final ListMultimap<Error, String> errors;
+  private final ListMultimap<String, String> pushOptions;
+  private final Map<Change.Id, ReplaceRequest> replaceByChange;
+  private final Set<ObjectId> validCommits;
 
   /**
    * Actual commands to be executed, as opposed to the mix of actual and magic commands that were
@@ -359,10 +362,18 @@ class ReceiveCommits {
    * <p>Excludes commands executed implicitly as part of other {@link BatchUpdateOp}s, such as
    * creating patch set refs.
    */
-  private final List<ReceiveCommand> actualCommands = new ArrayList<>();
+  private final List<ReceiveCommand> actualCommands;
 
-  private final List<ValidationMessage> messages = new ArrayList<>();
-  private ListMultimap<Error, String> errors = LinkedListMultimap.create();
+  // Collections lazily populated during processing.
+  private List<CreateRequest> newChanges;
+  private ListMultimap<Change.Id, Ref> refsByChange;
+  private ListMultimap<ObjectId, Ref> refsById;
+
+  // Other settings populated during processing.
+  private MagicBranchInput magicBranch;
+  private boolean newChangeForAllNotInTarget;
+
+  // Handles for outputting back over the wire to the end user.
   private Task newProgress;
   private Task replaceProgress;
   private Task closeProgress;
@@ -371,98 +382,110 @@ class ReceiveCommits {
 
   @Inject
   ReceiveCommits(
-      ReviewDb db,
-      Sequences seq,
-      Provider<InternalChangeQuery> queryProvider,
-      ChangeNotes.Factory notesFactory,
-      AccountsUpdate.Server accountsUpdate,
-      AccountResolver accountResolver,
-      PermissionBackend permissionBackend,
-      CmdLineParser.Factory optionParserFactory,
-      PatchSetInfoFactory patchSetInfoFactory,
-      PatchSetUtil psUtil,
-      ProjectCache projectCache,
-      TagCache tagCache,
-      ChangeInserter.Factory changeInserterFactory,
-      CommitValidators.Factory commitValidatorsFactory,
-      RefOperationValidators.Factory refValidatorsFactory,
       @CanonicalWebUrl String canonicalWebUrl,
-      RequestScopePropagator requestScopePropagator,
-      SshInfo sshInfo,
+      AccountResolver accountResolver,
+      AccountsUpdate.Server accountsUpdate,
       AllProjectsName allProjectsName,
-      ReceiveConfig receiveConfig,
-      DynamicSet<ReceivePackInitializer> initializers,
-      SubmoduleOp.Factory subOpFactory,
-      Provider<MergeOp> mergeOpProvider,
-      Provider<MergeOpRepoManager> ormProvider,
-      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      NotesMigration notesMigration,
+      BatchUpdate.Factory batchUpdateFactory,
       ChangeEditUtil editUtil,
       ChangeIndexer indexer,
-      BatchUpdate.Factory batchUpdateFactory,
-      SetHashtagsOp.Factory hashtagsFactory,
-      ReplaceOp.Factory replaceOpFactory,
+      ChangeInserter.Factory changeInserterFactory,
+      ChangeNotes.Factory notesFactory,
+      CmdLineParser.Factory optionParserFactory,
+      CommitValidators.Factory commitValidatorsFactory,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicSet<ReceivePackInitializer> initializers,
       MergedByPushOp.Factory mergedByPushOpFactory,
+      NotesMigration notesMigration,
+      PatchSetInfoFactory patchSetInfoFactory,
+      PatchSetUtil psUtil,
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache,
+      Provider<InternalChangeQuery> queryProvider,
+      Provider<MergeOp> mergeOpProvider,
+      Provider<MergeOpRepoManager> ormProvider,
+      ReceiveConfig receiveConfig,
+      RefOperationValidators.Factory refValidatorsFactory,
+      ReplaceOp.Factory replaceOpFactory,
+      RequestScopePropagator requestScopePropagator,
+      ReviewDb db,
+      Sequences seq,
+      SetHashtagsOp.Factory hashtagsFactory,
+      SshInfo sshInfo,
+      SubmoduleOp.Factory subOpFactory,
+      TagCache tagCache,
       @Assisted ProjectControl projectControl,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws IOException {
-    this.user = projectControl.getUser().asIdentifiedUser();
-    this.db = db;
-    this.seq = seq;
-    this.queryProvider = queryProvider;
-    this.notesFactory = notesFactory;
-    this.accountsUpdate = accountsUpdate;
+    // Injected fields.
     this.accountResolver = accountResolver;
-    this.permissionBackend = permissionBackend;
-    this.optionParserFactory = optionParserFactory;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.psUtil = psUtil;
-    this.projectCache = projectCache;
+    this.accountsUpdate = accountsUpdate;
+    this.allProjectsName = allProjectsName;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.canonicalWebUrl = canonicalWebUrl;
-    this.tagCache = tagCache;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.refValidatorsFactory = refValidatorsFactory;
-    this.requestScopePropagator = requestScopePropagator;
-    this.sshInfo = sshInfo;
-    this.allProjectsName = allProjectsName;
-    this.receiveConfig = receiveConfig;
-    this.initializers = initializers;
-    this.batchUpdateFactory = batchUpdateFactory;
-    this.hashtagsFactory = hashtagsFactory;
-    this.replaceOpFactory = replaceOpFactory;
-    this.mergedByPushOpFactory = mergedByPushOpFactory;
-
-    this.projectControl = projectControl;
-    this.labelTypes = projectControl.getLabelTypes();
-    this.project = projectControl.getProject();
-    this.repo = rp.getRepository();
-    this.rp = rp;
-    this.allRefsWatcher = allRefsWatcher;
-
-    this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
-    this.receiveId = RequestId.forProject(project.getNameKey());
-
-    this.subOpFactory = subOpFactory;
-    this.mergeOpProvider = mergeOpProvider;
-    this.ormProvider = ormProvider;
-    this.pluginConfigEntries = pluginConfigEntries;
-    this.notesMigration = notesMigration;
-
+    this.db = db;
     this.editUtil = editUtil;
+    this.hashtagsFactory = hashtagsFactory;
     this.indexer = indexer;
+    this.initializers = initializers;
+    this.mergeOpProvider = mergeOpProvider;
+    this.mergedByPushOpFactory = mergedByPushOpFactory;
+    this.notesFactory = notesFactory;
+    this.notesMigration = notesMigration;
+    this.optionParserFactory = optionParserFactory;
+    this.ormProvider = ormProvider;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.permissionBackend = permissionBackend;
+    this.pluginConfigEntries = pluginConfigEntries;
+    this.projectCache = projectCache;
+    this.psUtil = psUtil;
+    this.queryProvider = queryProvider;
+    this.receiveConfig = receiveConfig;
+    this.refValidatorsFactory = refValidatorsFactory;
+    this.replaceOpFactory = replaceOpFactory;
+    this.requestScopePropagator = requestScopePropagator;
+    this.seq = seq;
+    this.sshInfo = sshInfo;
+    this.subOpFactory = subOpFactory;
+    this.tagCache = tagCache;
 
-    this.messageSender = new ReceivePackMessageSender();
-
-    ProjectState ps = projectControl.getProjectState();
-
-    this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
-
-    permissions = permissionBackend.user(user).project(project.getNameKey());
-
+    // Assisted injected fields.
+    this.allRefsWatcher = allRefsWatcher;
     this.extraReviewers = ImmutableSetMultimap.copyOf(extraReviewers);
+    this.projectControl = projectControl;
+    this.rp = rp;
+
+    // Immutable fields derived from constructor arguments.
+    repo = rp.getRepository();
+    user = projectControl.getUser().asIdentifiedUser();
+    project = projectControl.getProject();
+    labelTypes = projectControl.getLabelTypes();
+    permissions = permissionBackend.user(user).project(project.getNameKey());
+    receiveId = RequestId.forProject(project.getNameKey());
+    rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
+
+    // Collections populated during processing.
+    actualCommands = new ArrayList<>();
+    errors = LinkedListMultimap.create();
+    messages = new ArrayList<>();
+    pushOptions = LinkedListMultimap.create();
+    replaceByChange = new LinkedHashMap<>();
+    updateGroups = new ArrayList<>();
+    validCommits = new HashSet<>();
+
+    // Collections lazily populated during processing.
+    newChanges = Collections.emptyList();
+
+    // Other settings populated during processing.
+    newChangeForAllNotInTarget =
+        projectControl.getProjectState().isCreateNewChangeForAllNotInTarget();
+
+    // Handles for outputting back over the wire to the end user.
+    messageSender = new ReceivePackMessageSender();
   }
 
   void init() {

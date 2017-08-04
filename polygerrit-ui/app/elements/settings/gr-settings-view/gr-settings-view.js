@@ -22,6 +22,7 @@
     'diff_view',
     'expand_inline_diffs',
     'publish_comments_on_push',
+    'signed_off_by',
     'email_format',
   ];
 
@@ -252,6 +253,10 @@
     _handlePublishCommentsOnPushChanged() {
       this.set('_localPrefs.publish_comments_on_push',
           this.$.publishCommentsOnPush.checked);
+    },
+
+    _handleInsertSignedOff() {
+      this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
     },
 
     _handleMenuChanged() {

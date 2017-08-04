@@ -71,6 +71,29 @@
       "revId": "ad0ca86e6bd7b74981523b6b99fe47a243ea7f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "222d1958_02e3bcc1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-04T22:19:53Z",
+      "side": 1,
+      "message": "@Wyatt this is the cause of that issue, fixed in the latest PS.",
+      "range": {
+        "startLine": 645,
+        "startChar": 21,
+        "endLine": 645,
+        "endChar": 42
+      },
+      "revId": "ad0ca86e6bd7b74981523b6b99fe47a243ea7f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

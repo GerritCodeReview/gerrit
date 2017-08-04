@@ -29,7 +29,7 @@ import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import com.google.gerrit.server.index.project.ProjectIndexRewriter;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -39,7 +39,7 @@ import com.google.inject.Provider;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class ProjectQueryProcessor extends QueryProcessor<ProjectState> {
+public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> userProvider;
 
@@ -72,7 +72,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectState> {
   }
 
   @Override
-  protected Predicate<ProjectState> enforceVisibility(Predicate<ProjectState> pred) {
+  protected Predicate<ProjectData> enforceVisibility(Predicate<ProjectData> pred) {
     return new AndSource<>(
         pred, new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()), start);
   }

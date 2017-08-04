@@ -217,6 +217,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(
             cfg.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
     info.largeChange = cfg.getInt("change", "largeChange", 500);
+    info.privateByDefault = toBoolean(cfg.getBoolean("change", "privateByDefault", false));
     info.replyTooltip =
         Optional.ofNullable(cfg.getString("change", null, "replyTooltip")).orElse("Reply and score")
             + " (Shortcut: a)";

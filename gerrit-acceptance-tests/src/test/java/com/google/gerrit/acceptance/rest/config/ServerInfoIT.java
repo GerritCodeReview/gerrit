@@ -52,6 +52,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // change
   @GerritConfig(name = "change.allowDrafts", value = "false")
   @GerritConfig(name = "change.largeChange", value = "300")
+  @GerritConfig(name = "change..privateByDefault", value = "true")
   @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
   @GerritConfig(name = "change.replyLabel", value = "Vote")
   @GerritConfig(name = "change.updateDelay", value = "50s")
@@ -93,6 +94,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // change
     assertThat(i.change.allowDrafts).isNull();
     assertThat(i.change.largeChange).isEqualTo(300);
+    assertThat(i.change.privateByDefault).isTrue();
     assertThat(i.change.replyTooltip).startsWith("Publish votes and draft comments");
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);

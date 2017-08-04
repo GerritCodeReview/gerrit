@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e2bad886_615bda6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T13:04:39Z",
+      "side": 1,
+      "message": "Ah yep. Thanks :).\n\nDone.",
+      "parentUuid": "30a5c8e9_77eb676e",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "343f0247f1855eed2a2952ba74ac87849b293761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8597f91b_dccdc8de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-04T13:02:41Z",
       "side": 1,
       "message": "Not sure, we need to mention some gerrit customers in commit message. Remove it?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "343f0247f1855eed2a2952ba74ac87849b293761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80fe25b_4558a191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T13:04:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8597f91b_dccdc8de",
       "range": {
         "startLine": 10,
         "startChar": 0,

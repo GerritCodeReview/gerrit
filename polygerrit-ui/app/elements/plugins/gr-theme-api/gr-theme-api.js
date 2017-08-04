@@ -22,12 +22,14 @@
   }
 
   GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
-    this.plugin.getDomHook('header-title', {replace: true}).then(element => {
-      const customHeader = document.createElement('gr-custom-plugin-header');
-      customHeader.logoUrl = logoUrl;
-      customHeader.title = title;
-      element.appendChild(customHeader);
-    });
+    this.plugin.getDomHook('header-title', {replace: true}).onAttached(
+        element => {
+          const customHeader =
+                document.createElement('gr-custom-plugin-header');
+          customHeader.logoUrl = logoUrl;
+          customHeader.title = title;
+          element.appendChild(customHeader);
+        });
   };
 
   window.GrThemeApi = GrThemeApi;

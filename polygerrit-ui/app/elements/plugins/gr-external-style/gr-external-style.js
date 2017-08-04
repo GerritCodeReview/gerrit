@@ -35,10 +35,10 @@
 
     ready() {
       Gerrit.awaitPluginsLoaded().then(() => Promise.all(
-          Gerrit._getPluginsForEndpoint(this.name).map(
+          Gerrit._endpoints.getPlugins(this.name).map(
               pluginUrl => this._import(pluginUrl)))
       ).then(() => {
-        const moduleNames = Gerrit._getModulesForEndoint(this.name);
+        const moduleNames = Gerrit._endpoints.getModules(this.name);
         for (const name of moduleNames) {
           this._applyStyle(name);
         }

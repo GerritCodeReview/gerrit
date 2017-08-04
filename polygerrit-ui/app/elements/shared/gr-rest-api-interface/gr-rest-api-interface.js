@@ -596,7 +596,8 @@
     },
 
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this._changeBaseURL(changeNum, opt_patchNum)
+          .then(url => url + endpoint);
     },
 
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
@@ -624,34 +625,34 @@
 
     _getChangeDetail(changeNum, params, opt_errFn,
         opt_cancelCondition) {
-      const url = this.getChangeActionURL(changeNum, null, '/detail');
-      const urlWithParams = this._urlWithParams(url, params);
-      return this._fetchRawJSON(
-          url,
-          opt_errFn,
-          opt_cancelCondition,
-          {O: params},
-          this._etags.getOptions(urlWithParams))
-          .then(response => {
-            if (response && response.status === 304) {
-              return Promise.resolve(
-                  this._etags.getCachedPayload(urlWithParams));
-            } else {
-              const payloadPromise = response ?
-                  this.getResponseObject(response) :
-                  Promise.resolve();
-              payloadPromise.then(payload => {
-                this._etags.collect(urlWithParams, response, payload);
-                this._maybeInsertInLookup(payload);
-              });
-              return payloadPromise;
-            }
-          });
+      return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
+        const urlWithParams = this._urlWithParams(url, params);
+        return this._fetchRawJSON(
+            url,
+            opt_errFn,
+            opt_cancelCondition,
+            {O: params},
+            this._etags.getOptions(urlWithParams))
+            .then(response => {
+              if (response && response.status === 304) {
+                return Promise.resolve(
+                    this._etags.getCachedPayload(urlWithParams));
+              } else {
+                const payloadPromise = response ?
+                    this.getResponseObject(response) :
+                    Promise.resolve();
+                payloadPromise.then(payload => {
+                  this._etags.collect(urlWithParams, response, payload);
+                  this._maybeInsertInLookup(payload);
+                });
+                return payloadPromise;
+              }
+            });
+      });
     },
 
     getChangeCommitInfo(changeNum, patchNum) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/commit?links'));
+      return this._getChangeURLAndFetch(changeNum, '/commit?links', patchNum);
     },
 
     getChangeFiles(changeNum, patchRange) {
@@ -659,8 +660,8 @@
       if (patchRange.basePatchNum !== 'PARENT') {
         endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
       }
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchRange.patchNum, endpoint));
+      return this._getChangeURLAndFetch(changeNum, endpoint,
+          patchRange.patchNum);
     },
 
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
@@ -689,10 +690,9 @@
     },
 
     getChangeRevisionActions(changeNum, patchNum) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
-          revisionActions => {
-                // The rebase button on change screen is always enabled.
+      return this._getChangeURLAndFetch(changeNum, '/actions', patchNum)
+          .then(revisionActions => {
+            // The rebase button on change screen is always enabled.
             if (revisionActions.rebase) {
               revisionActions.rebase.rebaseOnCurrent =
                       !!revisionActions.rebase.enabled;
@@ -808,30 +808,30 @@
     },
 
     _sendChangeReviewerRequest(method, changeNum, reviewerID) {
-      let url = this.getChangeActionURL(changeNum, null, '/reviewers');
-      let body;
-      switch (method) {
-        case 'POST':
-          body = {reviewer: reviewerID};
-          break;
-        case 'DELETE':
-          url += '/' + encodeURIComponent(reviewerID);
-          break;
-        default:
-          throw Error('Unsupported HTTP method: ' + method);
-      }
+      return this.getChangeActionURL(changeNum, null, '/reviewers')
+          .then(url => {
+            let body;
+            switch (method) {
+              case 'POST':
+                body = {reviewer: reviewerID};
+                break;
+              case 'DELETE':
+                url += '/' + encodeURIComponent(reviewerID);
+                break;
+              default:
+                throw Error('Unsupported HTTP method: ' + method);
+            }
 
-      return this.send(method, url, body);
+            return this.send(method, url, body);
+          });
     },
 
     getRelatedChanges(changeNum, patchNum) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/related'));
+      return this._getChangeURLAndFetch(changeNum, '/related', patchNum);
     },
 
     getChangesSubmittedTogether(changeNum) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, null, '/submitted_together'));
+      return this._getChangeURLAndFetch(changeNum, '/submitted_together', null);
     },
 
     getChangeConflicts(changeNum) {
@@ -879,90 +879,74 @@
     },
 
     getReviewedFiles(changeNum, patchNum) {
-      return this.fetchJSON(
-          this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
+      return this._getChangeURLAndFetch(changeNum, '/files?reviewed', patchNum);
     },
 
     saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn, opt_ctx) {
       const method = reviewed ? 'PUT' : 'DELETE';
-      const url = this.getChangeActionURL(changeNum, patchNum,
-          '/files/' + encodeURIComponent(path) + '/reviewed');
-
-      return this.send(method, url, null, opt_errFn, opt_ctx);
+      const e = `/files/${encodeURIComponent(path)}/reviewed`;
+      return this.getChangeURLAndSend(changeNum, method, patchNum, e, null,
+          opt_errFn, opt_ctx);
     },
 
     saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
-      const url = this.getChangeActionURL(changeNum, patchNum, '/review');
-      return this.awaitPendingDiffDrafts()
-          .then(() => this.send('POST', url, review, opt_errFn, opt_ctx));
+      const promises = [
+        this.awaitPendingDiffDrafts(),
+        this.getChangeActionURL(changeNum, patchNum, '/review'),
+      ];
+      return Promise.all(promises).then(([, url]) => {
+        return this.send('POST', url, review, opt_errFn, opt_ctx);
+      });
     },
 
     getFileInChangeEdit(changeNum, path) {
-      return this.send('GET',
-          this.getChangeActionURL(changeNum, null,
-              '/edit/' + encodeURIComponent(path)
-          ));
+      const e = '/edit/' + encodeURIComponent(path);
+      return this.getChangeURLAndSend(changeNum, 'GET', null, e);
     },
 
     rebaseChangeEdit(changeNum) {
-      return this.send('POST',
-          this.getChangeActionURL(changeNum, null,
-              '/edit:rebase'
-          ));
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit:rebase');
     },
 
     deleteChangeEdit(changeNum) {
-      return this.send('DELETE',
-          this.getChangeActionURL(changeNum, null,
-              '/edit'
-          ));
+      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/edit');
     },
 
     restoreFileInChangeEdit(changeNum, restore_path) {
-      return this.send('POST',
-          this.getChangeActionURL(changeNum, null, '/edit'),
-          {restore_path}
-      );
+      const p = {restore_path};
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
     },
 
     renameFileInChangeEdit(changeNum, old_path, new_path) {
-      return this.send('POST',
-          this.getChangeActionURL(changeNum, null, '/edit'),
-          {old_path},
-          {new_path}
-      );
+      const p = {old_path, new_path};
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
     },
 
     deleteFileInChangeEdit(changeNum, path) {
-      return this.send('DELETE',
-          this.getChangeActionURL(changeNum, null,
-              '/edit/' + encodeURIComponent(path)
-          ));
+      const e = '/edit/' + encodeURIComponent(path);
+      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
     },
 
     saveChangeEdit(changeNum, path, contents) {
-      return this.send('PUT',
-          this.getChangeActionURL(changeNum, null,
-              '/edit/' + encodeURIComponent(path)
-          ),
-          contents
-      );
+      const e = '/edit/' + encodeURIComponent(path);
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents);
     },
 
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
-      const url = this.getChangeActionURL(changeNum, null, '/edit:message');
-      return this.send('PUT', url, {message});
+      const p = {message};
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/edit:message',
+          p);
     },
 
     publishChangeEdit(changeNum) {
-      return this.send('POST',
-          this.getChangeActionURL(changeNum, null, '/edit:publish'));
+      return this.getChangeURLAndSend(changeNum, 'POST', null,
+          '/edit:publish');
     },
 
     putChangeCommitMessage(changeNum, message) {
-      const url = this.getChangeActionURL(changeNum, null, '/message');
-      return this.send('PUT', url, {message});
+      const p = {message};
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);
     },
 
     saveChangeStarred(changeNum, starred) {
@@ -1004,7 +988,6 @@
 
     getDiff(changeNum, basePatchNum, patchNum, path,
         opt_errFn, opt_cancelCondition) {
-      const url = this._getDiffFetchURL(changeNum, patchNum, path);
       const params = {
         context: 'ALL',
         intraline: null,
@@ -1013,13 +996,10 @@
       if (basePatchNum != PARENT_PATCH_NUM) {
         params.base = basePatchNum;
       }
+      const endpoint = `/files/${encodeURIComponent(path)}/diff`;
 
-      return this.fetchJSON(url, opt_errFn, opt_cancelCondition, params);
-    },
-
-    _getDiffFetchURL(changeNum, patchNum, path) {
-      return this._changeBaseURL(changeNum, patchNum) + '/files/' +
-          encodeURIComponent(path) + '/diff';
+      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
+          opt_errFn, opt_cancelCondition, params);
     },
 
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
@@ -1076,11 +1056,20 @@
 
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
-      if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
-        return this.fetchJSON(
-            this._getDiffCommentsFetchURL(changeNum, endpoint));
-      }
+      /**
+       * Fetches the comments for a given patchNum.
+       * Helper function to make promises more legible.
+       *
+       * @param {string|number} patchNum
+       * @return {!Object} Diff comments response.
+       */
+      const fetchComments = patchNum => {
+        return this._getChangeURLAndFetch(changeNum, endpoint, patchNum);
+      };
 
+      if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
+        return fetchComments();
+      }
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
       function setPath(c) { c.path = opt_path; }
@@ -1088,16 +1077,13 @@
       const promises = [];
       let comments;
       let baseComments;
-      const url =
-          this._getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum);
-      promises.push(this.fetchJSON(url).then(response => {
+      let fetchPromise;
+      fetchPromise = fetchComments(opt_patchNum).then(response => {
         comments = response[opt_path] || [];
-
-        // TODO(kaspern): Implement this on in the backend so this can be
-        // removed.
-
-        // Sort comments by date so that parent ranges can be propagated in a
-        // single pass.
+        // TODO(kaspern): Implement this on in the backend so this can
+        // be removed.
+        // Sort comments by date so that parent ranges can be propagated
+        // in a single pass.
         comments = this._setRanges(comments);
 
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
@@ -1107,18 +1093,17 @@
         comments = comments.filter(withoutParent);
 
         comments.forEach(setPath);
-      }));
+      });
+      promises.push(fetchPromise);
 
       if (opt_basePatchNum != PARENT_PATCH_NUM) {
-        const baseURL = this._getDiffCommentsFetchURL(changeNum, endpoint,
-            opt_basePatchNum);
-        promises.push(this.fetchJSON(baseURL).then(response => {
-          baseComments = (response[opt_path] || []).filter(withoutParent);
-
+        fetchPromise = fetchComments(opt_basePatchNum).then(response => {
+          baseComments = (response[opt_path] || [])
+              .filter(withoutParent);
           baseComments = this._setRanges(baseComments);
-
           baseComments.forEach(setPath);
-        }));
+        });
+        promises.push(fetchPromise);
       }
 
       return Promise.all(promises).then(() => {
@@ -1130,7 +1115,8 @@
     },
 
     _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
+      return this._changeBaseURL(changeNum, opt_patchNum)
+          .then(url => url + endpoint);
     },
 
     saveDiffDraft(changeNum, patchNum, draft) {
@@ -1161,9 +1147,9 @@
     },
 
     _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
-      let url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
+      let endpoint = '/drafts';
       if (draft.id) {
-        url += '/' + draft.id;
+        endpoint += '/' + draft.id;
       }
       let body;
       if (method === 'PUT') {
@@ -1174,7 +1160,8 @@
         this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
       }
 
-      const promise = this.send(method, url, body);
+      const promise = this.getChangeURLAndSend(changeNum, method, patchNum,
+          endpoint, body);
       this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
       return promise;
     },
@@ -1200,11 +1187,10 @@
     getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
-      return this._fetchB64File(
-          '/changes/' + encodeURIComponent(changeId) +
-          '/revisions/' + encodeURIComponent(patchNum) +
-          '/files/' + encodeURIComponent(path) +
-          '/content' + parent);
+      return this._changeBaseUrl(changeId, patchNum).then(url => {
+        url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
+        return this._fetchB64File(url);
+      });
     },
 
     getImagesForDiff(changeNum, diff, patchRange) {
@@ -1249,22 +1235,36 @@
       });
     },
 
-    _changeBaseURL(changeNum, opt_patchNum) {
-      let v = '/changes/' + changeNum;
-      if (opt_patchNum) {
-        v += '/revisions/' + opt_patchNum;
-      }
-      return v;
+    /**
+     * @param {string} changeNum
+     * @param {number|string=} opt_patchNum
+     * @param {string=} opt_project
+     * @return {!Promise<string>}
+     */
+    _changeBaseURL(changeNum, opt_patchNum, opt_project) {
+      // TODO(kaspern): For full slicer migration, app should warn with a call
+      // stack every time _changeBaseURL is called without a project.
+      const projectPromise = opt_project ?
+          Promise.resolve(opt_project) :
+          this._getFromProjectLookup(changeNum);
+      return projectPromise.then(project => {
+        let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
+        if (opt_patchNum) {
+          url += `/revisions/${opt_patchNum}`;
+        }
+        return url;
+      });
     },
 
     setChangeTopic(changeNum, topic) {
-      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
-          '/topic', {topic}).then(this.getResponseObject);
+      const p = {topic};
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
+          .then(this.getResponseObject);
     },
 
     setChangeHashtag(changeNum, hashtag) {
-      return this.send('POST', '/changes/' + encodeURIComponent(changeNum) +
-          '/hashtags', hashtag).then(this.getResponseObject);
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
+          hashtag).then(this.getResponseObject);
     },
 
     deleteAccountHttpPassword() {
@@ -1299,15 +1299,15 @@
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
 
-    deleteVote(changeID, account, label) {
-      return this.send('DELETE', '/changes/' + changeID +
-          '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
+    deleteVote(changeNum, account, label) {
+      const e = `/reviewers/${account}/votes/${encodeURIComponent(label)}`;
+      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
     },
 
     setDescription(changeNum, patchNum, desc) {
-      return this.send('PUT',
-          this.getChangeActionURL(changeNum, patchNum, '/description'),
-          {description: desc});
+      const p = {description: desc};
+      return this.getChangeURLAndSend(changeNum, 'PUT', patchNum,
+          '/description', p);
     },
 
     confirmEmail(token) {
@@ -1321,14 +1321,12 @@
     },
 
     setAssignee(changeNum, assignee) {
-      return this.send('PUT',
-          this.getChangeActionURL(changeNum, null, '/assignee'),
-          {assignee});
+      const p = {assignee};
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/assignee', p);
     },
 
     deleteAssignee(changeNum) {
-      return this.send('DELETE',
-          this.getChangeActionURL(changeNum, null, '/assignee'));
+      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/assignee');
     },
 
     probePath(path) {
@@ -1343,8 +1341,7 @@
       if (opt_message) {
         payload.message = opt_message;
       }
-      const url = this.getChangeActionURL(changeNum, null, '/wip');
-      return this.send('POST', url, payload)
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/wip', payload)
           .then(response => {
             if (response.status === 204) {
               return 'Change marked as Work In Progress.';
@@ -1353,16 +1350,15 @@
     },
 
     startReview(changeNum, opt_body, opt_errFn) {
-      return this.send(
-          'POST', this.getChangeActionURL(changeNum, null, '/ready'),
+      return this.getChangeURLAndSend(changeNum, 'POST', null, '/ready',
           opt_body, opt_errFn);
     },
 
     deleteComment(changeNum, patchNum, commentID, reason) {
-      const url = this.changeBaseURL(changeNum, patchNum) +
-          '/comments/' + commentID + '/delete';
-      return this.send('POST', url, {reason}).then(response =>
-        this.getResponseObject(response));
+      const endpoint = `/comments/${commentID}/delete`;
+      const payload = {reason};
+      return this.getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
+          payload).then(this.getResponseObject);
     },
 
     /**
@@ -1372,6 +1368,7 @@
      * @return {Promise<Object>} The change
      */
     getChange(changeNum) {
+      // Cannot use _changeBaseURL, as this function is used by _projectLookup.
       return this.fetchJSON(`/changes/${changeNum}`);
     },
 
@@ -1403,6 +1400,45 @@
         if (!change || !change.project) { return; }
         this.setInProjectLookup(changeNum, change.project);
         return change.project;
+      });
+    },
+
+    /**
+     * Alias for _changeBaseURL.then(send).
+     *
+     * @param {string|number} changeNum
+     * @param {string} method
+     * @param {string} endpoint
+     * @param {string|number=} opt_patchNum
+     * @param {!Object=} opt_payload
+     * @param {function(?Response, string)=} opt_errFn
+     * @return {!Promise<!Object>}
+     */
+    getChangeURLAndSend(changeNum, method, opt_patchNum, endpoint, opt_payload,
+        opt_errFn, opt_ctx, opt_contentType) {
+      return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
+        return this.send(method, url + endpoint, opt_payload, opt_errFn,
+            opt_ctx, opt_contentType);
+      });
+    },
+
+   /**
+    * Alias for _changeBaseURL.then(fetchJSON).
+    *
+    * @param {string|number} changeNum
+    * @param {string} endpoint
+    * @param {string|number=} opt_patchNum
+    * @param {function(?Response, string)=} opt_errFn
+    * @param {!function()=} opt_cancelCondition
+    * @param {!Object=} opt_params
+    * @param {!Object=} opt_options
+    * @return {!Promise<!Object>}
+    */
+    _getChangeURLAndFetch(changeNum, endpoint, opt_patchNum, opt_errFn,
+        opt_cancelCondition, opt_params, opt_options) {
+      return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
+        return this.fetchJSON(url + endpoint, opt_errFn, opt_cancelCondition,
+            opt_params, opt_options);
       });
     },
   });

@@ -131,5 +131,16 @@ limitations under the License.
       assert.isTrue(element._createScriptTag.calledWith(
           'https://example.com/baz'));
     });
+
+    test('default theme is loaded with html plugins', () => {
+      element.config = {
+        default_theme: '/oof',
+        html_resource_paths: ['some'],
+      };
+      assert.isTrue(element.importHref.calledWith(
+          '/oof', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+      assert.isTrue(element.importHref.calledWith(
+          '/some', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+    });
   });
 </script>

@@ -172,6 +172,9 @@ limitations under the License.
           .firstElementChild.checked, false);
       assert.equal(valueOf('Publish comments on push', 'preferences')
           .firstElementChild.checked, false);
+      assert.equal(valueOf(
+          'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
+          .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);

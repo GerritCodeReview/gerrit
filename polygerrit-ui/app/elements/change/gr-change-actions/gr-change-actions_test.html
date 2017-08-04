@@ -71,12 +71,12 @@ limitations under the License.
         send(method, url, payload) {
           if (method !== 'POST') { return Promise.reject('bad method'); }
 
-          if (url === '/changes/42/revisions/2/submit') {
+          if (url === '/changes/test~42/revisions/2/submit') {
             return Promise.resolve({
               ok: true,
               text() { return Promise.resolve(')]}\'\n{}'); },
             });
-          } else if (url === '/changes/42/revisions/2/rebase') {
+          } else if (url === '/changes/test~42/revisions/2/rebase') {
             return Promise.resolve({
               ok: true,
               text() { return Promise.resolve(')]}\'\n{}'); },
@@ -228,6 +228,8 @@ limitations under the License.
     });
 
     test('submit change', done => {
+      sandbox.stub(element.$.restAPI, '_getFromProjectLookup')
+          .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchIsLatestKnown',
           () => { return Promise.resolve(true); });
       element.change = {

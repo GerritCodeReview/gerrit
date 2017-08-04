@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fe6408e_1ae7703f",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "\"...following command:\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 9,
+        "endLine": 8,
+        "endChar": 10
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a239d0f0_bd664dc2",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "From my experience, \"both\" would warrant \"and\" here. \"or\" implies \"either\" instead of \"both.\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d531e2_470e5c07",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "Nit: I would write \"is\" (lowercase) since you\u0027re continuing \"For instance, this command:\"",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaccca15_ac46ee19",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "Consistency nit: Either punctuate the ends of the list items or don\u0027t.",
+      "range": {
+        "startLine": 47,
+        "startChar": 35,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890835be_c8f5033f",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "\"commit:\" since I\u0027m assuming the command that follows is the example.",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c953d519_01095898",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1052021
+      },
+      "writtenOn": "2017-08-04T20:29:12Z",
+      "side": 1,
+      "message": "\"Change\" (capitalize if this is the screen title)",
+      "range": {
+        "startLine": 65,
+        "startChar": 59,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

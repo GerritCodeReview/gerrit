@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9bc08379_6f66332a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T17:54:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "28b45d3c_514050ca",
+      "range": {
+        "startLine": 75,
+        "startChar": 61,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "eb66c2249b5e5a33e1192bd4585a4d8d6654e113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04c24f76_5fe99c2e",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 24
@@ -60,6 +84,24 @@
       "writtenOn": "2017-08-04T17:43:36Z",
       "side": 1,
       "message": "Sort the whole list alphabetically.",
+      "revId": "eb66c2249b5e5a33e1192bd4585a4d8d6654e113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d88b90f0_3bf6f038",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-04T17:54:03Z",
+      "side": 1,
+      "message": "Woops that was a mistake. That was for my testing so i would not have to wait 10 mins to get the test results that it failed.",
+      "parentUuid": "04c24f76_5fe99c2e",
       "revId": "eb66c2249b5e5a33e1192bd4585a4d8d6654e113",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

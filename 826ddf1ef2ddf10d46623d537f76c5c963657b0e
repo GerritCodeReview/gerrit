@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbb0d014_76af0bf9",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-04T05:36:05Z",
+      "side": 1,
+      "message": "This file was removed by this change.",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "826ddf1ef2ddf10d46623d537f76c5c963657b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

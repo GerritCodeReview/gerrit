@@ -817,8 +817,8 @@
     _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (labels) {
-        const url = `/changes/${newChangeId}/revisions/current/review`;
-        this.$.restAPI.send(this.actions.revert.method, url, {labels});
+        this.$.restAPI.getChangeURLAndSend(newChangeId, 'current',
+            this.actions.revert.method, '/review', {labels});
       }
     },
 
@@ -878,11 +878,10 @@
               cleanupFn();
               return Promise.resolve();
             }
-
-            const url = this.$.restAPI.getChangeActionURL(this.changeNum,
-                revisionAction ? this.patchNum : null, actionEndpoint);
-            return this.$.restAPI.send(method, url, payload,
-                this._handleResponseError, this).then(response => {
+            const patchNum = revisionAction ? this.patchNum : null;
+            return this.$.restAPI.getChangeURLAndSend(this.changeNum, patchNum,
+                method, actionEndpoint, payload, this._handleResponseError,
+                this).then(response => {
                   cleanupFn.call(this);
                   return response;
                 });

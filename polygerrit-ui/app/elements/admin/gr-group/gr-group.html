@@ -71,12 +71,12 @@ limitations under the License.
                 <gr-autocomplete
                     id="groupNameInput"
                     text="{{_groupConfig.name}}"
-                    disabled$="[[_groupOwner]]"></gr-autocomplete>
+                    disabled="[[!_groupOwner]]"></gr-autocomplete>
               </span>
               <gr-button
                   id="inputUpdateNameBtn"
                   on-tap="_handleSaveName"
-                  disabled$="[[_computeButtonDisabled(_groupOwner, _rename)]]">
+                  disabled="[[_computeButtonDisabled(_groupOwner, _rename)]]">
                 Rename Group</gr-button>
             </fieldset>
             <h3 class$="[[_computeHeaderClass(_owner)]]">
@@ -87,12 +87,12 @@ limitations under the License.
                 <gr-autocomplete
                     text="{{_groupConfig.owner}}"
                     query="[[_query]]"
-                    disabled$="[[_groupOwner]]">
+                    disabled$="[[!_groupOwner]]">
                 </gr-autocomplete>
               </span>
               <gr-button
                   on-tap="_handleSaveOwner"
-                  disabled$="[[_computeButtonDisabled(_groupOwner, _owner)]]">
+                  disabled="[[_computeButtonDisabled(_groupOwner, _owner)]]">
                 Change Owners</gr-button>
             </fieldset>
             <h3 class$="[[_computeHeaderClass(_description)]]">
@@ -104,11 +104,11 @@ limitations under the License.
                     class="description"
                     autocomplete="on"
                     bind-value="{{_groupConfig.description}}"
-                    disabled$="[[_groupOwner]]"></iron-autogrow-textarea>
+                    disabled="[[!_groupOwner]]"></iron-autogrow-textarea>
               </div>
               <gr-button
                   on-tap="_handleSaveDescription"
-                  disabled$=
+                  disabled=
                       "[[_computeButtonDisabled(_groupOwner, _description)]]">
                 Save Description
               </gr-button>
@@ -124,7 +124,7 @@ limitations under the License.
                 <span class="value">
                   <gr-select
                       bind-value="{{_groupConfig.options.visible_to_all}}">
-                    <select disabled$="[[_groupOwner]]">
+                    <select disabled$="[[!_groupOwner]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
@@ -134,7 +134,7 @@ limitations under the License.
               </section>
               <gr-button
                   on-tap="_handleSaveOptions"
-                  disabled$=
+                  disabled=
                          "[[_computeButtonDisabled(_groupOwner, _options)]]">
                 Save Group Options
               </gr-button>

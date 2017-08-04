@@ -76,9 +76,10 @@ limitations under the License.
         name: groupName,
       };
       element._groupName = groupName;
+      element._groupOwner = true;
 
       sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
-        return Promise.resolve({is_owner: true});
+        return Promise.resolve(true);
       });
 
       sandbox.stub(element.$.restAPI, 'saveGroupName', () => {

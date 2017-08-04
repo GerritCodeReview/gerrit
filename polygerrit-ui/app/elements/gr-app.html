@@ -46,6 +46,7 @@ limitations under the License.
 <link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
@@ -201,6 +202,7 @@ limitations under the License.
           on-close="_handleRegistrationDialogClose">
       </gr-registration-dialog>
     </gr-overlay>
+    <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>

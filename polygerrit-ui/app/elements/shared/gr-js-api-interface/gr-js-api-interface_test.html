@@ -338,5 +338,35 @@ limitations under the License.
             'http://test.com/r/plugins/testplugin/static/test.js');
       });
     });
+
+    suite('popup', () => {
+      test('popup(element) is deprecated', () => {
+        assert.throws(() => {
+          plugin.popup(document.createElement('div'));
+        });
+      });
+
+      test('popup(moduleName) creates popup with component', () => {
+        const openStub = sandbox.stub();
+        sandbox.stub(window, 'GrPopupInterface').returns({
+          open: openStub,
+        });
+        plugin.popup('some-name');
+        assert.isTrue(openStub.calledOnce);
+        assert.isTrue(GrPopupInterface.calledWith(plugin, 'some-name'));
+      });
+
+      test('deprecated.popup(element) creates popup with element', () => {
+        const el = document.createElement('div');
+        el.textContent = 'some text here';
+        const openStub = sandbox.stub(GrPopupInterface.prototype, 'open');
+        openStub.returns(Promise.resolve({
+          _getElement() {
+            return document.createElement('div');
+          }}));
+        plugin.deprecated.popup(el);
+        assert.isTrue(openStub.calledOnce);
+      });
+    });
   });
 </script>

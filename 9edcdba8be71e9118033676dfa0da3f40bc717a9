@@ -58,6 +58,24 @@
       "revId": "9edcdba8be71e9118033676dfa0da3f40bc717a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a98efd_73620a09",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-04T11:32:37Z",
+      "side": 1,
+      "message": "\u003e \u003e Right now I\u0027m asking, why it wasn\u0027t necessary to add new\n \u003e extracted deps to eclipse class path generation machinery in\n \u003e tools/eclipse/BUILD? It has only:\n \u003e \u003e\n \u003e \u003e   DEPS \u003d [\n \u003e \u003e     \"//gerrit-acceptance-tests:lib\",\n \u003e \n \u003e This has transitive deps on :receive and :modules.\n\nRight.\n\n \u003e \u003e     \"//gerrit-gwtdebug:gwtdebug\",\n \u003e \u003e     \"//gerrit-gwtui:ui_module\",\n \u003e \u003e     \"//gerrit-main:main_lib\",\n \u003e \u003e     \"//gerrit-plugin-gwtui:gwtui-api-lib\",\n \u003e \u003e     \"//gerrit-server:server\",\n \u003e \u003e   [...]\n \u003e \u003e\n \u003e \u003e I assumed you verified that Eclipse project generation still\n \u003e works?\n \u003e \n \u003e It does.\n \u003e \n \u003e In general I am fine with adding direct dependencies on new targets\n \u003e when a source file in a library directly depends on them (and in\n \u003e fact Bazel chokes if you don\u0027t). But I\u0027m not sure what a \"direct\n \u003e dependency\" is in the context of tools/eclipse/BUILD, because it\u0027s\n \u003e just about generating a classpath, there are no source files\n \u003e involved.\n\nCorrect, direct dependencies only needed for java rules. Eclipse class path generation machinery is only gathering transitive runtime and compilations dependencies (tools/bzl/classpath.bzl), so that we don\u0027t have a notion of  strict deps in this context.",
+      "parentUuid": "b42b92f1_92e209ac",
+      "revId": "9edcdba8be71e9118033676dfa0da3f40bc717a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

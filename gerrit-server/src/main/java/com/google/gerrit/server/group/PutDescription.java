@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -23,14 +24,13 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutDescription.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Objects;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
@@ -38,13 +38,14 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
     @DefaultInput public String description;
   }
 
-  private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutDescription(GroupCache groupCache, Provider<ReviewDb> db) {
-    this.groupCache = groupCache;
+  PutDescription(
+      Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.db = db;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
@@ -55,20 +56,24 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       input = new Input(); // Delete would set description to null.
     }
 
-    if (resource.toAccountGroup() == null) {
+    AccountGroup accountGroup = resource.toAccountGroup();
+    if (accountGroup == null) {
       throw new MethodNotAllowedException();
     } else if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
-    if (group == null) {
-      throw new ResourceNotFoundException();
+    String newDescription = Strings.emptyToNull(input.description);
+    if (!Objects.equals(accountGroup.getDescription(), newDescription)) {
+      AccountGroup.UUID groupUuid = resource.getGroupUUID();
+      try {
+        groupsUpdateProvider
+            .get()
+            .updateGroup(db.get(), groupUuid, group -> group.setDescription(newDescription));
+      } catch (NoSuchGroupException e) {
+        throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      }
     }
-
-    group.setDescription(Strings.emptyToNull(input.description));
-    db.get().accountGroups().update(Collections.singleton(group));
-    groupCache.evict(group);
 
     return Strings.isNullOrEmpty(input.description)
         ? Response.<String>none()

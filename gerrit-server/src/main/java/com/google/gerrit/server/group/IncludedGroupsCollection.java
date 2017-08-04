@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,7 +26,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
 import com.google.gwtorm.server.OrmException;
@@ -40,6 +40,7 @@ public class IncludedGroupsCollection
   private final ListIncludedGroups list;
   private final GroupsCollection groupsCollection;
   private final Provider<ReviewDb> dbProvider;
+  private final Groups groups;
   private final AddIncludedGroups put;
 
   @Inject
@@ -48,11 +49,13 @@ public class IncludedGroupsCollection
       ListIncludedGroups list,
       GroupsCollection groupsCollection,
       Provider<ReviewDb> dbProvider,
+      Groups groups,
       AddIncludedGroups put) {
     this.views = views;
     this.list = list;
     this.groupsCollection = groupsCollection;
     this.dbProvider = dbProvider;
+    this.groups = groups;
     this.put = put;
   }
 
@@ -71,18 +74,20 @@ public class IncludedGroupsCollection
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
-    if (isMember(parent, member) && resource.getControl().canSeeGroup()) {
+    if (resource.getControl().canSeeGroup() && isMember(parent, member)) {
       return new IncludedGroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(AccountGroup parent, GroupDescription.Basic member) throws OrmException {
-    return dbProvider
-            .get()
-            .accountGroupById()
-            .get(new AccountGroupById.Key(parent.getId(), member.getGroupUUID()))
-        != null;
+  private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
+      throws OrmException, ResourceNotFoundException {
+    try {
+      return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(
+          String.format("Group %s not found", parent.getGroupUUID()));
+    }
   }
 
   @SuppressWarnings("unchecked")

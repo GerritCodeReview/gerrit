@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -25,6 +24,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -97,17 +97,15 @@ public class SchemaCreator {
   }
 
   private void createDefaultGroups(ReviewDb db) throws OrmException, IOException {
-    admin = newGroup(db, "Administrators", null);
+    admin = newGroup(db, "Administrators");
     admin.setDescription("Gerrit Site Administrators");
-    db.accountGroups().insert(Collections.singleton(admin));
-    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(admin)));
+    GroupsUpdate.addNewGroup(db, admin);
     index(admin);
 
-    batch = newGroup(db, "Non-Interactive Users", null);
+    batch = newGroup(db, "Non-Interactive Users");
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
-    db.accountGroups().insert(Collections.singleton(batch));
-    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(batch)));
+    GroupsUpdate.addNewGroup(db, batch);
     index(batch);
   }
 
@@ -117,11 +115,8 @@ public class SchemaCreator {
     }
   }
 
-  private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)
-      throws OrmException {
-    if (uuid == null) {
-      uuid = GroupUUID.make(name, serverUser);
-    }
+  private AccountGroup newGroup(ReviewDb c, String name) throws OrmException {
+    AccountGroup.UUID uuid = GroupUUID.make(name, serverUser);
     return new AccountGroup( //
         new AccountGroup.NameKey(name), //
         new AccountGroup.Id(c.nextAccountGroupId()), //

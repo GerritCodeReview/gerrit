@@ -17,8 +17,8 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -26,21 +26,18 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
@@ -70,28 +67,26 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   }
 
   private final GroupsCollection groupsCollection;
-  private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupJson json;
-  private final AuditService auditService;
 
   @Inject
   public AddIncludedGroups(
       GroupsCollection groupsCollection,
-      GroupIncludeCache groupIncludeCache,
       Provider<ReviewDb> db,
-      GroupJson json,
-      AuditService auditService) {
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
+      GroupJson json) {
     this.groupsCollection = groupsCollection;
-    this.groupIncludeCache = groupIncludeCache;
     this.db = db;
+    this.groupsUpdateProvider = groupsUpdateProvider;
     this.json = json;
-    this.auditService = auditService;
   }
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException {
+      throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
+          ResourceNotFoundException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -103,33 +98,20 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
       throw new AuthException(String.format("Cannot add groups to group %s", group.getName()));
     }
 
-    Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = new HashMap<>();
     List<GroupInfo> result = new ArrayList<>();
-    Account.Id me = control.getUser().getAccountId();
-
+    Set<AccountGroup.UUID> includedGroupUuids = new HashSet<>();
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-
-      if (!newIncludedGroups.containsKey(d.getGroupUUID())) {
-        AccountGroupById.Key agiKey = new AccountGroupById.Key(group.getId(), d.getGroupUUID());
-        AccountGroupById agi = db.get().accountGroupById().get(agiKey);
-        if (agi == null) {
-          agi = new AccountGroupById(agiKey);
-          newIncludedGroups.put(d.getGroupUUID(), agi);
-        }
-      }
+      includedGroupUuids.add(d.getGroupUUID());
       result.add(json.format(d));
     }
 
-    if (!newIncludedGroups.isEmpty()) {
-      auditService.dispatchAddGroupsToGroup(me, newIncludedGroups.values());
-      db.get().accountGroupById().insert(newIncludedGroups.values());
-      for (AccountGroupById agi : newIncludedGroups.values()) {
-        groupIncludeCache.evictParentGroupsOf(agi.getIncludeUUID());
-      }
-      groupIncludeCache.evictSubgroupsOf(group.getGroupUUID());
+    AccountGroup.UUID groupUuid = group.getGroupUUID();
+    try {
+      groupsUpdateProvider.get().addIncludedGroups(db.get(), groupUuid, includedGroupUuids);
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
-
     return result;
   }
 

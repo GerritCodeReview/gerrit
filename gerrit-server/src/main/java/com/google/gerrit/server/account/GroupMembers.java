@@ -18,8 +18,6 @@ import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -101,14 +99,15 @@ public class GroupMembers {
       final AccountGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
-    final GroupDetail groupDetail = groupDetailFactory.create(group.getId()).call();
+    final GroupDetail groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
 
     final Set<Account> members = new HashSet<>();
-    for (AccountGroupMember member : groupDetail.getMembers()) {
-      members.add(accountCache.get(member.getAccountId()).getAccount());
+    for (Account.Id memberId : groupDetail.getMembers()) {
+      members.add(accountCache.get(memberId).getAccount());
     }
-    for (AccountGroupById groupInclude : groupDetail.getIncludes()) {
-      final AccountGroup includedGroup = groupCache.get(groupInclude.getIncludeUUID());
+
+    for (AccountGroup.UUID groupIncludeUuid : groupDetail.getIncludes()) {
+      AccountGroup includedGroup = groupCache.get(groupIncludeUuid);
       if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
         members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
       }

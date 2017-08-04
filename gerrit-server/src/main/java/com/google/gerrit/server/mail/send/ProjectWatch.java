@@ -18,9 +18,9 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -166,6 +166,9 @@ public class ProjectWatch {
     while (!q.isEmpty()) {
       AccountGroup.UUID uuid = q.remove(q.size() - 1);
       GroupDescription.Basic group = args.groupBackend.get(uuid);
+      if (group == null) {
+        continue;
+      }
       if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
         // If the group has an email address, do not expand membership.
         matching.emails.add(new Address(group.getEmailAddress()));
@@ -178,8 +181,10 @@ public class ProjectWatch {
         continue;
       }
 
-      for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
-        matching.accounts.add(m.getAccountId());
+      try {
+        args.groups.getMembers(db, ig.getGroupUUID()).forEach(matching.accounts::add);
+      } catch (NoSuchGroupException e) {
+        continue;
       }
       for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
         if (seen.add(m)) {

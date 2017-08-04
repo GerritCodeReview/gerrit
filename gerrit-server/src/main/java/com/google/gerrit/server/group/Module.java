@@ -22,10 +22,12 @@ import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
 import com.google.gerrit.server.group.DeleteIncludedGroups.DeleteIncludedGroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
+import com.google.inject.Provides;
 
 public class Module extends RestApiModule {
   @Override
@@ -68,7 +70,21 @@ public class Module extends RestApiModule {
     delete(INCLUDED_GROUP_KIND).to(DeleteIncludedGroup.class);
 
     factory(CreateGroup.Factory.class);
+    factory(GroupsUpdate.Factory.class);
 
     DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(DbGroupMemberAuditListener.class);
+  }
+
+  @Provides
+  @ServerInitiated
+  GroupsUpdate provideServerInitiatedGroupsUpdate(GroupsUpdate.Factory groupsUpdateFactory) {
+    return groupsUpdateFactory.create(null);
+  }
+
+  @Provides
+  @UserInitiated
+  GroupsUpdate provideUserInitiatedGroupsUpdate(
+      GroupsUpdate.Factory groupsUpdateFactory, IdentifiedUser currentUser) {
+    return groupsUpdateFactory.create(currentUser);
   }
 }

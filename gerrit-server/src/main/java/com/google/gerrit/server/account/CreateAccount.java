@@ -16,11 +16,11 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
@@ -42,6 +41,8 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -51,7 +52,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +65,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
   private final ReviewDb db;
   private final Sequences seq;
-  private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
@@ -74,9 +73,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
-  private final AuditService auditService;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
+  private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
   private final String username;
 
@@ -93,14 +92,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      AuditService auditService,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
     this.seq = seq;
-    this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
@@ -109,9 +107,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
-    this.auditService = auditService;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.groupsUpdate = groupsUpdate;
     this.validator = validator;
     this.username = username;
   }
@@ -135,7 +133,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
           "Username '" + username + "' must contain only letters, numbers, _, - or .");
     }
 
-    Set<AccountGroup.Id> groups = parseGroups(input.groups);
+    Set<AccountGroup.UUID> groups = parseGroups(input.groups);
 
     Account.Id id = new Account.Id(seq.nextAccountId());
 
@@ -188,11 +186,12 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
               a.setPreferredEmail(input.email);
             });
 
-    for (AccountGroup.Id groupId : groups) {
-      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
-      auditService.dispatchAddAccountsToGroup(
-          currentUser.get().getAccountId(), Collections.singleton(m));
-      db.accountGroupMembers().insert(Collections.singleton(m));
+    for (AccountGroup.UUID groupUuid : groups) {
+      try {
+        groupsUpdate.get().addGroupMember(db, groupUuid, id);
+      } catch (NoSuchGroupException e) {
+        throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
+      }
     }
 
     if (input.sshKey != null) {
@@ -213,14 +212,15 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     return Response.created(info);
   }
 
-  private Set<AccountGroup.Id> parseGroups(List<String> groups)
+  private Set<AccountGroup.UUID> parseGroups(List<String> groups)
       throws UnprocessableEntityException {
-    Set<AccountGroup.Id> groupIds = new HashSet<>();
+    Set<AccountGroup.UUID> groupUuids = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        groupIds.add(GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g)).getId());
+        AccountGroup group = GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g));
+        groupUuids.add(group.getGroupUUID());
       }
     }
-    return groupIds;
+    return groupUuids;
   }
 }

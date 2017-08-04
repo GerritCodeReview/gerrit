@@ -95,6 +95,7 @@
 . link:concept-changes.html[Changes]
 . link:concept-refs-for-namespace.html[The refs/for Namespace]
 . link:concept-patch-sets.html[Patch Sets]
+. link:concept-comments.html[Comments]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

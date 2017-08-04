@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1501788622 -0400\nnonce AHIDc+NNTZXfp8+2S/i6Zjb+MRjeQsiP+LJ2EYtofg/vKsclgTa06eX/zxSb8xyQEWvITh23n0Kp\n\n0000000000000000000000000000000000000000 d9e05e464c84790854f2d02b0d1d754c731b8704 refs/for/master%topic\u003dreceive-commits-refactor,r\u003dekempin,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZg3nOAAoJEF/XxZqaEoiM++gP/3Q3Ky9dH0WmRo0MaSB5VUpS\nXEfDwIPekbtQb8GQoukHrAMM/61ouiJ+BcirUFDxLjQLke+/Xkd1rPj10CtpYTYM\n5Le/Nz133MoX711qL6fSJRSCvg3pBvg6ITCD8N67odS+sbK17dMSRSM1tptNHOup\n90pG3O8zgorJwjW09LLL28EmT86gZU4gNtttQS+DJzRfasUZ486NMFEHkvAsiZAT\nYqnorB0GPA/J1tya7RjPBkodYRfk/yj1sLcalFpKamrruQ5C8VdsvdyeEBE2z9Lc\nGHyoNYxjiYEs07ft1rJfvsLXKO0Vl5bN28ENCjUyVJWNh5lx2k0DKsf3z1MADJAc\nXbRyHR6aQqDolJ3xKkYhCSuSdU7Gj9kJ5AsE9eMuBSF50JZMAg92H070X2qGSW33\nJRqdbxLO284ttbyPq+4vIuUN29vU8TnsDsep6N++/IHZ/bCZC4kRmkkEswCKDFkL\n1FC+S4AwmlKGBBYUg0Wj+lXSzLlj+gDMlu1Gnq7shwTcmcsQLzysOGOpRuPIeF9s\nmzmM4vIZ+cYouEIYxeU6l0+kFaeyGAzx31dxHQtpQB50VPjuC5SSLdTKQ0HQOBDt\nuqIMaKbgQQn2+yvmsBzUr/Lpr4SNoWpysY9GHQCiCUzVL/TgKOchpyV1Run9KcK8\nA5X+mqId+gXYRn5CJbWe\n\u003dX6Ud\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "63332e67_f16f1591",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-04T08:06:19Z",
+      "side": 1,
+      "message": "Nit: This is not consequence with the constant definition: singular vs. plural.",
+      "range": {
+        "startLine": 112,
+        "startChar": 18,
+        "endLine": 112,
+        "endChar": 19
+      },
+      "revId": "9edcdba8be71e9118033676dfa0da3f40bc717a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -290,6 +290,10 @@
       return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
+    getGroupAuditLog(group) {
+      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    },
+
     getVersion() {
       return this._fetchSharedCacheURL('/config/server/version');
     },

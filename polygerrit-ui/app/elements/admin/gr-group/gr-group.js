@@ -99,14 +99,10 @@
           config => {
             this._groupConfig = config;
             this._groupName = config.name;
+            this.fire('title-change', {title: config.name});
             this._loading = false;
-            this.$.restAPI.getIsGroupOwner(config.name).then(
-                configs => {
-                  if (Object.keys(configs).length === 0 &&
-                      configs.constructor === Object) {
-                    this._groupOwner = true;
-                  }
-                });
+            this.$.restAPI.getIsGroupOwner(config.name)
+                .then(isOwner => { this._groupOwner = isOwner; });
           });
     },
 
@@ -186,7 +182,7 @@
     },
 
     _computeButtonDisabled(options, option) {
-      return options || !option;
+      return !options || !option;
     },
 
     _computeHeaderClass(configChanged) {

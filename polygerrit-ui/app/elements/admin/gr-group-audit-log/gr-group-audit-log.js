@@ -30,6 +30,10 @@
       Gerrit.ListViewBehavior,
     ],
 
+    attached() {
+      this.fire('title-change', {title: 'Audit Log'});
+    },
+
     ready() {
       this._getAuditLogs();
     },

@@ -21,6 +21,14 @@
     this.plugin = plugin;
   }
 
+  if (window.THEME) {
+    const theme = window.THEME;
+    if (theme.topMenuColor) {
+      document.documentElement.style.setProperty(
+        '--header-background-color', theme.topMenuColor);
+    }
+  }
+
   GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
     this.plugin.hook('header-title', {replace: true}).onAttached(
         element => {

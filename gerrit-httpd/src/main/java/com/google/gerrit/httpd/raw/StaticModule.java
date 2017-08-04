@@ -252,10 +252,12 @@ public class StaticModule extends ServletModule {
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
     HttpServlet getPolyGerritUiIndexServlet(
-        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
+                                            @CanonicalWebUrl @Nullable String canonicalUrl,
+                                            @GerritServerConfig Config cfg,
+                                            ThemeFactory themeFactory)
         throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
-      return new IndexServlet(canonicalUrl, cdnPath);
+      return new IndexServlet(canonicalUrl, cdnPath, themeFactory);
     }
 
     @Provides

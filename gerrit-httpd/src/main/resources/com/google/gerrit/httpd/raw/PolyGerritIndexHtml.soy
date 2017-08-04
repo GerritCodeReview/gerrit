@@ -20,6 +20,7 @@
  * @param canonicalPath
  * @param staticResourcePath
  * @param? versionInfo
+ * @param? theme
  */
 {template .Index autoescape="strict" kind="html"}
   <!DOCTYPE html>{\n}
@@ -28,10 +29,12 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
-  {if $canonicalPath != '' or $versionInfo}
+  {if $canonicalPath != '' or $versionInfo or $theme}
     <script>
       {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
       {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+      {if $theme}window.THEME = {lb}foo:'bar',
+      {if $theme.topMenuColor}topMenuColor:{$theme.topMenuColor}{/if}{rb};{/if}
     </script>{\n}
   {/if}
 

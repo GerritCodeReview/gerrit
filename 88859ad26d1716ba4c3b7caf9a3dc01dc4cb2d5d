@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6ea64d6_65bb443d",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ea31c81_fba80211",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e384aab_5b07c176",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9129a9e_a17f4921",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e384aab_5b07c176",
+      "range": {
+        "startLine": 23,
+        "startChar": 49,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "17c06288_e6c8bb08",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this one. There\u0027s only one low-level API.",
+      "parentUuid": "035d5737_b51a1eb6",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "516b6577_88254b2c",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01d11820_27b53dda",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51884ede_23b68afe",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee087f5a_90995b24",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51884ede_23b68afe",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 55
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "0255643b_de5a0574",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e7e0038_1e55eb78",
+      "range": {
+        "startLine": 42,
+        "startChar": 47,
+        "endLine": 42,
+        "endChar": 50
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14709861_059124e7",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -160,6 +304,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d380a4e1_853e8652",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14709861_059124e7",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "0eadf8f3_fcae87c6",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5cb49d1_47bcbc99",
+      "range": {
+        "startLine": 43,
+        "startChar": 67,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c31a1553_fb925cce",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -206,6 +398,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3edd07c3_85679ac5",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c31a1553_fb925cce",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "f23b986f_384bcc0c",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d8a89f7_a4dcadce",
+      "range": {
+        "startLine": 48,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 8
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1693d921_3a7ce681",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -252,6 +492,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36b6efe9_fe197bff",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1693d921_3a7ce681",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "a17ba1d8_3fc7ee5c",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffb04212_8280f466",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2641d71_b8188ed8",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -298,6 +586,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d371891f_b64ac78d",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2641d71_b8188ed8",
+      "range": {
+        "startLine": 65,
+        "startChar": 38,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -347,6 +659,54 @@
     },
     {
       "key": {
+        "uuid": "895b2636_b135ecde",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07a1cb91_960ecbd5",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a709846_21896d1f",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a477fd97_a10698ea",
+      "range": {
+        "startLine": 65,
+        "startChar": 62,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ce2d730_a91bed6d",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -361,6 +721,24 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8808fc_9269d045",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "7ce2d730_a91bed6d",
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -384,6 +762,30 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc48e4da_679a0191",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34935be_554aff64",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -433,6 +835,54 @@
     },
     {
       "key": {
+        "uuid": "65869bf3_50e4e8a7",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cb92533_58c5bd0e",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 6
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0c9bdd_6af98cdf",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd19f866_3477518f",
+      "range": {
+        "startLine": 98,
+        "startChar": 43,
+        "endLine": 98,
+        "endChar": 46
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61bb9a5d_afdef2c0",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -456,6 +906,30 @@
     },
     {
       "key": {
+        "uuid": "ee45e846_41aab920",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61bb9a5d_afdef2c0",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c19376d5_eaa78f47",
         "filename": "Documentation/dev-plugins-pg.txt",
         "patchSetId": 2
@@ -470,6 +944,24 @@
       "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5cef1b0_a3ce87a3",
+        "filename": "Documentation/dev-plugins-pg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-04T17:39:11Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "c19376d5_eaa78f47",
+      "revId": "88859ad26d1716ba4c3b7caf9a3dc01dc4cb2d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

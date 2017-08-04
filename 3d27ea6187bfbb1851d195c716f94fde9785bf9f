@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ca7f9c_b16efd85",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-04T12:21:39Z",
+      "side": 1,
+      "message": "Should not be included if false",
+      "revId": "3d27ea6187bfbb1851d195c716f94fde9785bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e85b7e23_5c6d4a48",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-04T12:21:39Z",
+      "side": 1,
+      "message": "not set if `false`",
+      "range": {
+        "startLine": 1782,
+        "startChar": 28,
+        "endLine": 1782,
+        "endChar": 29
+      },
+      "revId": "3d27ea6187bfbb1851d195c716f94fde9785bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d8db822_ee4d86dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-04T12:21:39Z",
+      "side": 1,
+      "message": "Use toBoolean to set it only if true.",
+      "range": {
+        "startLine": 146,
+        "startChar": 28,
+        "endLine": 146,
+        "endChar": 83
+      },
+      "revId": "3d27ea6187bfbb1851d195c716f94fde9785bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

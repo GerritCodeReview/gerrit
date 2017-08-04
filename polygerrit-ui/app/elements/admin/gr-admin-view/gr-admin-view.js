@@ -58,6 +58,7 @@
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
+      _showGroupMembers: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -125,6 +126,13 @@
             url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
             children: [
               {
+                name: 'Members',
+                detailType: 'members',
+                view: 'gr-group-members',
+                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
+                    ',members',
+              },
+              {
                 name: 'Audit Log',
                 detailType: 'audit-log',
                 view: 'gr-group-audit-log',
@@ -153,6 +161,7 @@
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
+      this.set('_showGroupMembers', params.adminView === 'gr-group-members');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-admin-project-list');

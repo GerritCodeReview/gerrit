@@ -21,13 +21,13 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 
-public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectState>
-    implements DataSource<ProjectState> {
+public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectData>
+    implements DataSource<ProjectData> {
 
   public IndexedProjectQuery(
-      Index<Project.NameKey, ProjectState> index, Predicate<ProjectState> pred, QueryOptions opts)
+      Index<Project.NameKey, ProjectData> index, Predicate<ProjectData> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
   }

@@ -36,7 +36,7 @@ import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -162,7 +162,7 @@ final class ElasticTestUtils {
         .execute()
         .actionGet();
 
-    Schema<ProjectState> projectSchema = ProjectSchemaDefinitions.INSTANCE.getLatest();
+    Schema<ProjectData> projectSchema = ProjectSchemaDefinitions.INSTANCE.getLatest();
     ProjectMapping projectMapping = new ProjectMapping(projectSchema);
     nodeInfo
         .node

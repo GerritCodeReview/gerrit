@@ -190,6 +190,16 @@ limitations under the License.
                   on-change="_handlePublishCommentsOnPushChanged">
             </span>
           </section>
+          <section>
+            <span class="title">Insert Signed-off-by Footer For Inline Edit Changes</span>
+            <span class="value">
+              <input
+                  id="insertSignedOff"
+                  type="checkbox"
+                  checked$="[[_localPrefs.signed_off_by]]"
+                  on-change="_handleInsertSignedOff">
+            </span>
+          </section>
           <gr-button
               id="savePrefs"
               on-tap="_handleSavePreferences"

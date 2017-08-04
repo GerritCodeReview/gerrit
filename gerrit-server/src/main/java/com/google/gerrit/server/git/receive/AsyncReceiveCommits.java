@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.gerrit.common.Nullable;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -68,7 +69,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private static final String TIMEOUT_NAME = "ReceiveCommitsOverallTimeout";
 
   public interface Factory {
-    AsyncReceiveCommits create(ProjectControl projectControl, Repository repository);
+    AsyncReceiveCommits create(
+        ProjectControl projectControl,
+        Repository repository,
+        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
   public static class Module extends PrivateModule {
@@ -168,7 +172,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,
-      @Assisted Repository repo)
+      @Assisted Repository repo,
+      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
@@ -209,7 +214,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
 
-    rc = factory.create(projectControl, rp, allRefsWatcher);
+    rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
+    rc.init();
     progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
   }
 
@@ -253,20 +259,5 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   public ReceivePack getReceivePack() {
     return rp;
-  }
-
-  public void init() {
-    init(null, null);
-  }
-
-  public void init(
-      @Nullable Collection<Account.Id> extraReviewers, @Nullable Collection<Account.Id> extraCcs) {
-    rc.init();
-    if (extraReviewers != null) {
-      rc.addReviewers(extraReviewers);
-    }
-    if (extraCcs != null) {
-      rc.addExtraCC(extraCcs);
-    }
   }
 }

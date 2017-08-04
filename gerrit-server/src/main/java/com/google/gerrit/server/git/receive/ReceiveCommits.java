@@ -43,12 +43,14 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.common.Nullable;
@@ -119,6 +121,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -224,7 +227,10 @@ class ReceiveCommits {
 
   interface Factory {
     ReceiveCommits create(
-        ProjectControl projectControl, ReceivePack receivePack, AllRefsWatcher allRefsWatcher);
+        ProjectControl projectControl,
+        ReceivePack receivePack,
+        AllRefsWatcher allRefsWatcher,
+        SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
   interface MessageSender {
@@ -288,8 +294,7 @@ class ReceiveCommits {
         }
       };
 
-  private Set<Account.Id> reviewersFromCommandLine = Sets.newLinkedHashSet();
-  private Set<Account.Id> ccFromCommandLine = Sets.newLinkedHashSet();
+  private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
 
   private final IdentifiedUser user;
   private final ReviewDb db;
@@ -400,7 +405,8 @@ class ReceiveCommits {
       MergedByPushOp.Factory mergedByPushOpFactory,
       @Assisted ProjectControl projectControl,
       @Assisted ReceivePack rp,
-      @Assisted AllRefsWatcher allRefsWatcher)
+      @Assisted AllRefsWatcher allRefsWatcher,
+      @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
@@ -455,22 +461,14 @@ class ReceiveCommits {
     this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
 
     permissions = permissionBackend.user(user).project(project.getNameKey());
+
+    this.extraReviewers = ImmutableSetMultimap.copyOf(extraReviewers);
   }
 
   void init() {
     for (ReceivePackInitializer i : initializers) {
       i.init(projectControl.getProject().getNameKey(), rp);
     }
-  }
-
-  /** Add reviewers for new (or updated) changes. */
-  void addReviewers(Collection<Account.Id> who) {
-    reviewersFromCommandLine.addAll(who);
-  }
-
-  /** Add reviewers for new (or updated) changes. */
-  void addExtraCC(Collection<Account.Id> who) {
-    ccFromCommandLine.addAll(who);
   }
 
   /** Set a message sender for this operation. */
@@ -1391,8 +1389,8 @@ class ReceiveCommits {
 
     logDebug("Found magic branch {}", cmd.getRefName());
     magicBranch = new MagicBranchInput(user, cmd, labelTypes, notesMigration);
-    magicBranch.reviewer.addAll(reviewersFromCommandLine);
-    magicBranch.cc.addAll(ccFromCommandLine);
+    magicBranch.reviewer.addAll(extraReviewers.get(ReviewerStateInternal.REVIEWER));
+    magicBranch.cc.addAll(extraReviewers.get(ReviewerStateInternal.CC));
 
     String ref;
     CmdLineParser clp = optionParserFactory.create(magicBranch);

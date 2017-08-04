@@ -1,0 +1,115 @@
+= Comments
+
+One of the primary benefits of code review is allowing contributors to comment
+on and discuss changes. Comments help contributors understand the reasons
+behind a specific change.
+
+Gerrit groups comments into the following categories.
+
+.Comment categories
+|===
+|Comment Type|Description
+
+|Inline comment
+|Applies to a particular section of a file in a patch set.
+
+|File level comment
+|Applies to a specific file in a patch set.
+
+|Summary comment
+|Applies to the change in general.
+
+== Inline comments
+
+Inline comments are comments placed directly on lines or code blocks. You can
+create an inline comment either by clicking on a line number of a file, or by
+selecting a code block and pressing `c`.
+
+NOTE: When a comment is applied to a code block, the background for that code
+block changes to yellow.
+
+
+To publish inline comments for a patch set, you must click the Reply button at
+the top of the Review screen and then click Send.
+
+== File comments
+
+File comments are similar to inline comments, except they apply to the entire
+file, as opposed to a specific line or code block. You can add file comments
+by clicking the File link.
+
+To publish file comments for a patch set, you must click the Reply button at
+the top of the Review screen and then click Send.
+
+
+== Comment properties
+
+When you create a new inline or file comment, a comment box appears. This box
+contains the following properties:
+
+|===
+|Property|Description
+
+|Comment text box
+|A text box in which you can write your comment.
+
+|Save
+|Saves the comment.
+|Discard
+|Discards the comment.
+
+|Resolved
+|Marks the comment as resolved. Depending on your Gerrit configuration, some
+changes cannot be submitted if they have unresolved comments.
+
+|===
+
+Existing comments have the following properties.
+
+|===
+|Property|Description
+|Author name
+|The name of the comment's author.
+
+|Date
+|The date on which the comment was made.
+
+|Comment text
+|The contents of the comment.
+
+|Reply
+|Allows a user to reply to the comment.
+
+|Quote
+|Same as Reply, but includes a quote of the previous comment.
+
+|Ack
+|Acknowledges the comment.
+
+|Done
+|Closes the comment editing window.
+
+|Resolved
+|Marks the comment as resolved. Depending on your Gerrit configuration, some
+changes cannot be submitted if they have unresolved comments.
+
+|===
+
+== Summary comments
+
+Summary comments are comments that apply to a change as a whole. Summary
+comments allow you to send information, such as status updates or requests,
+that do not belong to a specific patch set.
+
+Summary comments are available by clicking the Reply button from the Review
+screen.
+
+You can view all the summary comments, along with any inline or file comments
+they contain, at the bottom of the Review screen.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

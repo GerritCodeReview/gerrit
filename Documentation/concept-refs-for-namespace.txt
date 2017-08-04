@@ -1,0 +1,73 @@
+= The refs/for namespace
+
+When pushing a new or updated commit to Gerrit, you push that commit using a
+reference, or ref, in the `refs/for` namespace. This reference must also define
+the target branch, such as `refs/for/[BRANCH-NAME]`.
+
+For example, to push a commit into the master branch, you would use the
+following:
+
+....
+git push origin HEAD:refs/for/master
+....
+
+The `refs/for/[BRANCH-NAME]` syntax allows Gerrit to differentiate between
+commits that are pushed for review and commits that are pushed directly into
+the repository.
+
+Gerrit supports using both the full name or the short name for a branch. For
+instance, this command:
+
+....
+git commit
+git push origin HEAD:refs/for master
+....
+
+Is the same as:
+
+....
+git commit
+git push origin HEAD:refs/for/refs/heads/master
+....
+
+Gerrit uses the `refs/for/` prefix to map the concept of "Pushing for Review" to
+the git protocol. For the git client, it looks like every push goes to the same
+branch, such as `refs/for/master`.  In fact, for each commit pushed to this ref,
+Gerrit creates a new branch under a `refs/changes/` namespace. This namespace is
+a staging area, which Gerrit uses to track these commits. These references use
+the following format:
+
+....
+refs/changes/XX/YYYY/ZZ
+....
+
+Where:
+
+* XX is the last two digits of the numeric change number,
+* YYYY is the numeric change number
+* ZZ is the patch set number and XX is the last two digits of the numeric change
+  number
+
+For example:
+
+....
+refs/changes/20/884120/1
+....
+
+You can use the change reference to fetch its corresponding commit.
+
+....
+git fetch https://[GERRIT-SERVER-URL]/[PROJECT] refs/changes/[XX]/[YYYY]/[ZZ] \
+&& git checkout FETCH_HEAD
+....
+
+NOTE: The fetch command can be copied from the
+link:user-review-ui.html#download[download command] in the change screen.
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

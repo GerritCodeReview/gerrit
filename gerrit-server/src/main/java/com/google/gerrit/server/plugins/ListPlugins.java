@@ -15,11 +15,8 @@
 package com.google.gerrit.server.plugins;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.PluginInfo;
@@ -27,16 +24,12 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.OutputFormat;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
@@ -51,10 +44,6 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private String matchPrefix;
   private String matchSubstring;
   private String matchRegex;
-
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format = OutputFormat.TEXT;
 
   @Option(
     name = "--all",
@@ -115,29 +104,12 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     this.pluginLoader = pluginLoader;
   }
 
-  public OutputFormat getFormat() {
-    return format;
-  }
-
-  public ListPlugins setFormat(OutputFormat fmt) {
-    this.format = fmt;
-    return this;
-  }
-
   @Override
-  public Object apply(TopLevelResource resource) throws BadRequestException {
-    format = OutputFormat.JSON;
-    return display(null);
+  public SortedMap<String, PluginInfo> apply(TopLevelResource resource) throws BadRequestException {
+    return apply();
   }
 
   public SortedMap<String, PluginInfo> apply() throws BadRequestException {
-    format = OutputFormat.JSON;
-    return display(null);
-  }
-
-  public SortedMap<String, PluginInfo> display(@Nullable PrintWriter stdout)
-      throws BadRequestException {
-    SortedMap<String, PluginInfo> output = new TreeMap<>();
     Stream<Plugin> s = Streams.stream(pluginLoader.getPlugins(all));
     if (matchPrefix != null) {
       checkMatchOptions(matchSubstring == null && matchRegex == null);
@@ -158,38 +130,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       s = s.limit(limit);
     }
-    List<Plugin> plugins = s.collect(toList());
-
-    if (!format.isJson()) {
-      stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
-      stdout.print(
-          "-------------------------------------------------------------------------------\n");
-    }
-
-    for (Plugin p : plugins) {
-      PluginInfo info = toPluginInfo(p);
-      if (format.isJson()) {
-        output.put(p.getName(), info);
-      } else {
-        stdout.format(
-            "%-30s %-10s %-8s %s\n",
-            p.getName(),
-            Strings.nullToEmpty(info.version),
-            p.isDisabled() ? "DISABLED" : "ENABLED",
-            p.getSrcFile().getFileName());
-      }
-    }
-
-    if (stdout == null) {
-      return output;
-    } else if (format.isJson()) {
-      format
-          .newGson()
-          .toJson(output, new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
-      stdout.print('\n');
-    }
-    stdout.flush();
-    return null;
+    return new TreeMap<>(s.collect(Collectors.toMap(p -> p.getName(), p -> toPluginInfo(p))));
   }
 
   private void checkMatchOptions(boolean cond) throws BadRequestException {
@@ -202,13 +143,20 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     String id;
     String version;
     String indexUrl;
+    String filename;
     Boolean disabled;
 
     id = Url.encode(p.getName());
     version = p.getVersion();
     disabled = p.isDisabled() ? true : null;
-    indexUrl = p.getSrcFile() != null ? String.format("plugins/%s/", p.getName()) : null;
+    if (p.getSrcFile() != null) {
+      indexUrl = String.format("plugins/%s/", p.getName());
+      filename = p.getSrcFile().getFileName().toString();
+    } else {
+      indexUrl = null;
+      filename = null;
+    }
 
-    return new PluginInfo(id, version, indexUrl, disabled);
+    return new PluginInfo(id, version, indexUrl, filename, disabled);
   }
 }

@@ -818,21 +818,43 @@ limitations under the License.
       });
     });
 
-    test('getChanges populates _projectLookup', () => {
-      sandbox.stub(element, 'fetchJSON')
-          .returns(Promise.resolve([
-            [
+    suite('getChanges populates _projectLookup', () => {
+      test('multiple queries', () => {
+        sandbox.stub(element, 'fetchJSON')
+            .returns(Promise.resolve([
+              [
+                {_number: 1, project: 'test'},
+                {_number: 2, project: 'test'},
+              ], [
+                {_number: 3, project: 'test/test'},
+              ],
+            ]));
+        // When opt_query instanceof Array, fetchJSON returns
+        // Array<Array<Object>>.
+        return element.getChanges(null, []).then(() => {
+          assert.equal(Object.keys(element._projectLookup).length, 3);
+          assert.equal(element._projectLookup[1], 'test');
+          assert.equal(element._projectLookup[2], 'test');
+          assert.equal(element._projectLookup[3], 'test/test');
+        });
+      });
+
+      test('no query', () => {
+        sandbox.stub(element, 'fetchJSON')
+            .returns(Promise.resolve([
               {_number: 1, project: 'test'},
               {_number: 2, project: 'test'},
-            ], [
               {_number: 3, project: 'test/test'},
-            ],
-          ]));
-      return element.getChanges().then(() => {
-        assert.equal(Object.keys(element._projectLookup).length, 3);
-        assert.equal(element._projectLookup[1], 'test');
-        assert.equal(element._projectLookup[2], 'test');
-        assert.equal(element._projectLookup[3], 'test/test');
+            ]));
+
+        // When opt_query !instanceof Array, fetchJSON returns
+        // Array<Object>.
+        return element.getChanges().then(() => {
+          assert.equal(Object.keys(element._projectLookup).length, 3);
+          assert.equal(element._projectLookup[1], 'test');
+          assert.equal(element._projectLookup[2], 'test');
+          assert.equal(element._projectLookup[3], 'test/test');
+        });
       });
     });
 

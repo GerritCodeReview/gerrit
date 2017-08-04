@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99f5da06_c4ee4aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-04T22:53:09Z",
+      "side": 1,
+      "message": "Its",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d938b34_a29963bb",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-04T22:53:09Z",
+      "side": 1,
+      "message": "I have heard CL and issue are both used to mean change, not patch set.\n\nI hear changelist mostly from people used to tools like Perforce: https://www.perforce.com/perforce/doc.current/manuals/p4v/Working_with_changelists.html\n\nI think issue comes from Rietveld: https://github.com/rietveld-codereview/rietveld/wiki#starting-a-code-review",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 5,
+        "endChar": 8
+      },
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c33849a_b017e267",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-04T22:53:09Z",
+      "side": 1,
+      "message": "This way of phrasing it makes me confused for the same reason I was confused by patch set 1 of the concept-changes page. Saying a change is a group of patch sets doesn\u0027t tell me why the patch sets were grouped that way, and my first instinct is to think that they are related by being in the same topic, not by being multiple revisions of a change.\n\nI wonder if describing it in terms of changes up front would be simpler. E.g. how about something like \"A patch set represents a single revision of a link:concept-change.html[change] under review\"?",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 55
+      },
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77b354c7_95c221b0",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-04T22:53:09Z",
+      "side": 1,
+      "message": "There is describing a very old version of the Gerrit UI. Nowadays there is no patch set table --- the change screen shows a single patch set and has a drop-down to pick a different one to look at.",
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

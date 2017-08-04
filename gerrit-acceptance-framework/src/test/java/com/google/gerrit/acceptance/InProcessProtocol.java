@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
 import com.google.gerrit.common.data.Capable;
@@ -296,7 +297,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        AsyncReceiveCommits arc = factory.create(ctl, db);
+        AsyncReceiveCommits arc = factory.create(ctl, db, ImmutableSetMultimap.of());
         ReceivePack rp = arc.getReceivePack();
 
         Capable r = arc.canUpload();

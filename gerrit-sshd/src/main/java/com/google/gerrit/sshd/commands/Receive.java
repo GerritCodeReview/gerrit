@@ -14,21 +14,22 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
@@ -51,8 +52,8 @@ final class Receive extends AbstractGitCommand {
   @Inject private IdentifiedUser currentUser;
   @Inject private SshSession session;
 
-  private final Set<Account.Id> reviewerId = new HashSet<>();
-  private final Set<Account.Id> ccId = new HashSet<>();
+  private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
+      MultimapBuilder.hashKeys(2).hashSetValues().build();
 
   @Option(
     name = "--reviewer",
@@ -61,7 +62,7 @@ final class Receive extends AbstractGitCommand {
     usage = "request reviewer for change(s)"
   )
   void addReviewer(Account.Id id) {
-    reviewerId.add(id);
+    reviewers.put(ReviewerStateInternal.REVIEWER, id);
   }
 
   @Option(
@@ -71,7 +72,7 @@ final class Receive extends AbstractGitCommand {
     usage = "CC user on change(s)"
   )
   void addCC(Account.Id id) {
-    ccId.add(id);
+    reviewers.put(ReviewerStateInternal.CC, id);
   }
 
   @Override
@@ -80,14 +81,13 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
     }
 
-    AsyncReceiveCommits arc = factory.create(projectControl, repo);
+    AsyncReceiveCommits arc = factory.create(projectControl, repo, reviewers);
 
     Capable r = arc.canUpload();
     if (r != Capable.OK) {
       throw die(r.getMessage());
     }
 
-    arc.init(reviewerId, ccId);
     ReceivePack rp = arc.getReceivePack();
     try {
       rp.receive(in, out, err);

@@ -40,6 +40,24 @@
       "revId": "9edcdba8be71e9118033676dfa0da3f40bc717a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b42b92f1_92e209ac",
+        "filename": "gerrit-war/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-04T11:14:53Z",
+      "side": 1,
+      "message": "\u003e Right now I\u0027m asking, why it wasn\u0027t necessary to add new extracted deps to eclipse class path generation machinery in tools/eclipse/BUILD? It has only:\n\u003e \n\u003e   DEPS \u003d [\n\u003e     \"//gerrit-acceptance-tests:lib\",\n\nThis has transitive deps on :receive and :modules.\n\n\u003e     \"//gerrit-gwtdebug:gwtdebug\",\n\u003e     \"//gerrit-gwtui:ui_module\",\n\u003e     \"//gerrit-main:main_lib\",\n\u003e     \"//gerrit-plugin-gwtui:gwtui-api-lib\",\n\u003e     \"//gerrit-server:server\",\n\u003e   [...]\n\u003e \n\u003e I assumed you verified that Eclipse project generation still works?\n\nIt does.\n\nIn general I am fine with adding direct dependencies on new targets when a source file in a library directly depends on them (and in fact Bazel chokes if you don\u0027t). But I\u0027m not sure what a \"direct dependency\" is in the context of tools/eclipse/BUILD, because it\u0027s just about generating a classpath, there are no source files involved.",
+      "parentUuid": "70396205_12af2bea",
+      "revId": "9edcdba8be71e9118033676dfa0da3f40bc717a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

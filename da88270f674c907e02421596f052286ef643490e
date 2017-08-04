@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3848044e_b9327313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-04T12:59:46Z",
+      "side": 1,
+      "message": "Too long subject, mx 73 chars., may be just:\n\n  PolyGerrit: Add \"Signed-off-by Footer\" option to user preferences",
+      "revId": "da88270f674c907e02421596f052286ef643490e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

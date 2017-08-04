@@ -143,6 +143,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
+    info.privateByDefault = config.getBoolean("change", "privateByDefault", false);
     if (Files.exists(sitePaths.site_theme)) {
       info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
     }

@@ -74,7 +74,11 @@
         type: Boolean,
         computed: '_computeShowReplyButton(message, _loggedIn)',
       },
-      projectConfig: Object,
+      projectName: {
+        type: String,
+        observer: '_projectNameChanged',
+      },
+      _commentLinks: Object,
       // Computed property needed to trigger Polymer value observing.
       _expanded: {
         type: Object,
@@ -239,6 +243,12 @@
       }
 
       return this.getAnonymousName(this.config);
+    },
+
+    _projectNameChanged(name) {
+      this.$.restAPI.getProjectConfig(name).then(config => {
+        this._commentLinks = config.commentlinks;
+      });
     },
   });
 })();

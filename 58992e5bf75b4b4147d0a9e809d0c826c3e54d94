@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "89a76666_61c1fa08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-04T18:54:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "739306f7_0ca3dc3f",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 58
+      },
+      "revId": "58992e5bf75b4b4147d0a9e809d0c826c3e54d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7428aaa1_21a18696",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 6
@@ -60,6 +84,30 @@
       "writtenOn": "2017-08-02T14:03:46Z",
       "side": 1,
       "message": "Or:\n\n boolean active \u003d false;\n try {\n   findAccount(schema, ctx, username, false);\n   active \u003d true;\n } catch (NoSuchUserException e) {\n   // Ignored\n }\n who.setActive(active);",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 24
+      },
+      "revId": "58992e5bf75b4b4147d0a9e809d0c826c3e54d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "287edf6d_d8e886e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-04T18:54:35Z",
+      "side": 1,
+      "message": "Done, I remove this entire method",
+      "parentUuid": "7428aaa1_21a18696",
       "range": {
         "startLine": 189,
         "startChar": 4,

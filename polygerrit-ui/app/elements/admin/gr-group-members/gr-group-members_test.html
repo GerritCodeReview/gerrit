@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-group-members</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-group-members.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-group-members></gr-group-members>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-group-members tests', () => {
+    let element;
+    let sandbox;
+    let groups;
+    let groupMembers;
+    let groupOwner;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      groups = {
+        name: 'Administrators',
+        owner: 'Administrators',
+        group_id: 1,
+      };
+
+      groupMembers = [
+        {
+          _account_id: 1000097,
+          name: 'Jane Roe',
+          email: 'jane.roe@example.com',
+          username: 'jane',
+        },
+        {
+          _account_id: 1000096,
+          name: 'Test User',
+          email: 'john.doe@example.com',
+          username: 'john',
+        },
+        {
+          _account_id: 1000095,
+          name: 'Gerrit',
+          email: 'gerrit@example.com',
+          username: 'git',
+        },
+      ];
+
+      groupOwner = {
+        name: 'Administrators',
+        owner: 'Administrators',
+        group_id: 1,
+      };
+
+      stub('gr-rest-api-interface', {
+        getSuggestedAccounts(input) {
+          if (input.startsWith('test')) {
+            return Promise.resolve([
+              {
+                _account_id: 1000096,
+                name: 'test-account',
+                email: 'test.account@example.com',
+                username: 'test123',
+              },
+              {
+                _account_id: 1001439,
+                name: 'test-admin',
+                email: 'test.admin@example.com',
+                username: 'test_admin',
+              },
+              {
+                _account_id: 1001439,
+                name: 'test-git',
+                username: 'test_git',
+              },
+            ]);
+          } else {
+            return Promise.resolve({});
+          }
+        },
+        getLoggedIn() { return Promise.resolve(true); },
+        getGroupConfig() {
+          return Promise.resolve(groups);
+        },
+        getGroupMembers() {
+          return Promise.resolve(groupMembers);
+        },
+        getIsGroupOwner() {
+          return Promise.resolve(groupOwner);
+        },
+      });
+
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('save correctly', done => {
+      const memberName = 'test-admin';
+
+      const saveStub = sandbox.stub(element.$.restAPI, 'saveGroupMembers'
+          , () => {
+            return Promise.resolve({});
+          });
+
+      const button = Polymer.dom(element.root).querySelector('gr-button');
+
+      assert.isTrue(button.hasAttribute('disabled'));
+
+      element.$.groupMemberSearchInput.text = memberName;
+
+      assert.isFalse(button.hasAttribute('disabled'));
+
+      element._handleSavingGroupMember().then(() => {
+        assert.isTrue(button.hasAttribute('disabled'));
+        assert.isFalse(element.$.Title.classList.contains('edited'));
+        done();
+      });
+    });
+
+    test('_getAccountSuggestions empty', done => {
+      element._getAccountSuggestions('nonexistent').then(accounts => {
+        assert.equal(accounts.length, 0);
+        done();
+      });
+    });
+
+    test('_getAccountSuggestions non-empty', done => {
+      element._getAccountSuggestions('test-').then(accounts => {
+        assert.equal(accounts.length, 3);
+        assert.equal(accounts[0].name, 'test-account <test.account@example.com>');
+        assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
+        assert.equal(accounts[2].name, 'test-git');
+        done();
+      });
+    });
+  });
+</script>

@@ -95,10 +95,15 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private class Worker implements ProjectRunnable {
+    final MultiProgressMonitor progress;
+
     private final Collection<ReceiveCommand> commands;
+    private final ReceiveCommits rc;
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
+      rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
+      progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
     @Override
@@ -125,39 +130,44 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     public String toString() {
       return "receive-commits";
     }
+
+    void sendMessages() {
+      rc.sendMessages();
+    }
+
+    private class MessageSenderOutputStream extends OutputStream {
+      @Override
+      public void write(int b) {
+        rc.getMessageSender().sendBytes(new byte[] {(byte) b});
+      }
+
+      @Override
+      public void write(byte[] what, int off, int len) {
+        rc.getMessageSender().sendBytes(what, off, len);
+      }
+
+      @Override
+      public void write(byte[] what) {
+        rc.getMessageSender().sendBytes(what);
+      }
+
+      @Override
+      public void flush() {
+        rc.getMessageSender().flush();
+      }
+    }
   }
 
-  private class MessageSenderOutputStream extends OutputStream {
-    @Override
-    public void write(int b) {
-      rc.getMessageSender().sendBytes(new byte[] {(byte) b});
-    }
-
-    @Override
-    public void write(byte[] what, int off, int len) {
-      rc.getMessageSender().sendBytes(what, off, len);
-    }
-
-    @Override
-    public void write(byte[] what) {
-      rc.getMessageSender().sendBytes(what);
-    }
-
-    @Override
-    public void flush() {
-      rc.getMessageSender().flush();
-    }
-  }
-
-  private final ReceiveCommits rc;
+  private final ReceiveCommits.Factory factory;
   private final ReceivePack rp;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
-  private final MultiProgressMonitor progress;
   private final ReceiveConfig receiveConfig;
   private final long timeoutMillis;
   private final ProjectControl projectControl;
   private final Repository repo;
+  private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
+  private final AllRefsWatcher allRefsWatcher;
 
   @Inject
   AsyncReceiveCommits(
@@ -175,12 +185,14 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted Repository repo,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
+    this.factory = factory;
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
     this.projectControl = projectControl;
     this.repo = repo;
     this.timeoutMillis = timeoutMillis;
+    this.extraReviewers = extraReviewers;
 
     IdentifiedUser user = projectControl.getUser().asIdentifiedUser();
     ProjectState state = projectControl.getProjectState();
@@ -207,16 +219,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
 
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
-    AllRefsWatcher allRefsWatcher = new AllRefsWatcher();
+    allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
     advHooks.add(refFilterFactory.create(state, repo).setShowMetadata(false));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
-
-    rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
-    rc.init();
-    progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
   }
 
   /** Determine if the user can upload commits. */
@@ -233,18 +241,17 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   @Override
   public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+    Worker w = new Worker(commands);
     try {
-      progress.waitFor(
-          executor.submit(scopePropagator.wrap(new Worker(commands))),
-          timeoutMillis,
-          TimeUnit.MILLISECONDS);
+      w.progress.waitFor(
+          executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
       log.warn(
           String.format(
               "Error in ReceiveCommits while processing changes for project %s",
-              rc.getProject().getName()),
+              projectControl.getProject().getName()),
           e);
-      rc.addError("internal error while processing changes");
+      rp.sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.
       for (ReceiveCommand c : commands) {
@@ -253,7 +260,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         }
       }
     } finally {
-      rc.sendMessages();
+      w.sendMessages();
     }
   }
 

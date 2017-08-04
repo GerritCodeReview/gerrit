@@ -60,12 +60,6 @@ limitations under the License.
       assert.deepEqual(element._computeFilesFromComments(null), []);
     });
 
-    test('_computeFileDiffURL', () => {
-      const expected = '/c/change/patch/file';
-      const actual = element._computeFileDiffURL('file', 'change', 'patch');
-      assert.equal(actual, expected);
-    });
-
     test('_computeFileDisplayName', () => {
       assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
           'Commit message');
@@ -73,27 +67,6 @@ limitations under the License.
           'Merge list');
       assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
           '/foo/bar/baz');
-    });
-
-    test('_computeDiffLineURL', () => {
-      const comment = {line: 123, side: 'REVISION', patch_set: 10};
-      let expected = '/c/change/patch/file#123';
-      let actual = element._computeDiffLineURL('file', 'change', 'patch',
-          comment);
-      assert.equal(actual, expected);
-
-      comment.line = 321;
-      comment.side = 'PARENT';
-
-      expected = '/c/change/patch/file#b321';
-      actual = element._computeDiffLineURL('file', 'change', 'patch', comment);
-    });
-
-    test('_computeDiffLineURL encoding', () => {
-      const comment = {line: 123, side: 'REVISION', patch_set: 10};
-      const expected = '/c/123/2/x%252By.md#123';
-      const actual = element._computeDiffLineURL('x+y.md', '123', '2', comment);
-      assert.equal(actual, expected);
     });
 
     test('_computePatchDisplayName', () => {

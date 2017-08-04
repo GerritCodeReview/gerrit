@@ -580,6 +580,12 @@
         if (range.length) { range = '/' + range; }
 
         url = `/c/${params.changeNum}${range}/${encode(params.path, true)}`;
+
+        if (params.lineNum) {
+          url += '#';
+          if (params.leftSide) { url += 'b'; }
+          url += params.lineNum;
+        }
       } else {
         throw new Error('Can\'t generate');
       }

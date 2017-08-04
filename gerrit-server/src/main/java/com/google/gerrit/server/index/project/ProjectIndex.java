@@ -18,16 +18,16 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.project.ProjectPredicates;
 
-public interface ProjectIndex extends Index<Project.NameKey, ProjectState> {
+public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
 
   public interface Factory
-      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectState, ProjectIndex> {}
+      extends IndexDefinition.IndexFactory<Project.NameKey, ProjectData, ProjectIndex> {}
 
   @Override
-  default Predicate<ProjectState> keyPredicate(Project.NameKey nameKey) {
+  default Predicate<ProjectData> keyPredicate(Project.NameKey nameKey) {
     return ProjectPredicates.name(nameKey);
   }
 }

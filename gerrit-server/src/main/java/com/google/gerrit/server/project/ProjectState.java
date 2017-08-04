@@ -500,6 +500,10 @@ public class ProjectState {
     }
   }
 
+  public ProjectData toProjectData() {
+    return new ProjectData(getProject(), parents().transform(s -> s.getProject().getNameKey()));
+  }
+
   private String readFile(Path p) throws IOException {
     return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
   }

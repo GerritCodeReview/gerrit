@@ -76,6 +76,10 @@
       return;
     }
     this._name = pathname.split('/')[2];
+
+    this.deprecated = {
+      popup: deprecatedAPI.popup.bind(this),
+    };
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -174,6 +178,24 @@
 
   Plugin.prototype.attributeHelper = function(element) {
     return new GrAttributeHelper(element);
+  };
+
+  Plugin.prototype.popup = function(moduleName) {
+    if (typeof moduleName !== 'string') {
+      throw new Error('deprecated, use deprecated.popup');
+    }
+    const api = new GrPopupInterface(this, moduleName);
+    return api.open();
+  };
+
+  const deprecatedAPI = {};
+  deprecatedAPI.popup = function(el) {
+    console.log('plugin.deprecated.popup() is deprecated!');
+    if (!el) {
+      throw new Error('Popup contents not found');
+    }
+    const api = new GrPopupInterface(this);
+    api.open().then(api => api._getElement().appendChild(el));
   };
 
   const Gerrit = window.Gerrit || {};

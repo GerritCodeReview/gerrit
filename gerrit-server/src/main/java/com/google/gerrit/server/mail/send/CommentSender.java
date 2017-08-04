@@ -435,18 +435,36 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a shortened version of the given comment's message. Will be shortened to 75 characters
-   *     or the first line, whichever is shorter.
+   * @return a shortened version of the given comment's message. Will be shortened to 100 characters
+   *     or the first line, or following the last period within the first 100 characters, whichever
+   *     is shorter. If the message is shortened, an ellipsis is appended.
    */
   private String getShortenedCommentMessage(Comment comment) {
-    String msg = comment.message.trim();
-    if (msg.length() > 75) {
-      msg = msg.substring(0, 75);
+    final int THRESHOLD = 100;
+    final String fullMessage = comment.message.trim();
+    String msg = fullMessage;
+
+    if (msg.length() > THRESHOLD) {
+      msg = msg.substring(0, THRESHOLD);
     }
+
     int lf = msg.indexOf('\n');
+    int period = msg.lastIndexOf('.');
+
     if (lf > 0) {
+      // Truncate if a line feed appears within the threshold.
       msg = msg.substring(0, lf);
+
+    } else if (period > 0) {
+      // Otherwise truncate if there is a period within the threshold.
+      msg = msg.substring(0, period + 1);
     }
+
+    // Append an ellipsis if the message has been truncated.
+    if (!msg.equals(fullMessage)) {
+      msg += " […]";
+    }
+
     return msg;
   }
 

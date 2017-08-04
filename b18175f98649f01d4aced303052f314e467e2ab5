@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19efd8d0_3b322863",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T17:01:49Z",
+      "side": 1,
+      "message": "Nitpicking the wording: just to avoid saying \"not allowed\", what about ..\n\n You cannot comment on an edit.\n\n.. ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 66
+      },
+      "revId": "b18175f98649f01d4aced303052f314e467e2ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34303a85_e93ab82b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-04T17:01:49Z",
+      "side": 1,
+      "message": "Is this method even needed now?",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 6
+      },
+      "revId": "b18175f98649f01d4aced303052f314e467e2ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

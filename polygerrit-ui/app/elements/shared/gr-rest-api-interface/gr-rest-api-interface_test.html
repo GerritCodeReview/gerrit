@@ -42,6 +42,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
       element._cache = {};
+      element._projectLookup = {};
       const testJSON = ')]}\'\n{"hello": "bonjour"}';
       sandbox.stub(window, 'fetch').returns(Promise.resolve({
         ok: true,
@@ -480,7 +481,8 @@ limitations under the License.
     });
 
     test('legacy n,z key in change url is replaced', () => {
-      const stub = sandbox.stub(element, 'fetchJSON');
+      const stub = sandbox.stub(element, 'fetchJSON')
+          .returns(Promise.resolve([]));
       element.getChanges(1, null, 'n,z');
       assert.equal(stub.args[0][3].S, 0);
     });
@@ -779,6 +781,68 @@ limitations under the License.
       return element._getChangeDetail(changeNum, params).then(() => {
         assert.isTrue(element._etags.getOptions.calledWithExactly(expectedUrl));
         assert.equal(element._etags.collect.lastCall.args[0], expectedUrl);
+      });
+    });
+
+    test('setInProjectLookup', () => {
+      element.setInProjectLookup('test', 'project');
+      assert.deepEqual(element._projectLookup, {test: 'project'});
+    });
+
+    suite('_getFromProjectLookup', () => {
+      test('getChange fails', () => {
+        sandbox.stub(element, 'getChange')
+            .returns(Promise.resolve());
+        return element._getFromProjectLookup().then(val => {
+          assert.strictEqual(val, undefined);
+          assert.deepEqual(element._projectLookup, {});
+        });
+      });
+
+      test('getChange succeeds, no project', () => {
+        sandbox.stub(element, 'getChange')
+            .returns(Promise.resolve({}));
+        return element._getFromProjectLookup().then(val => {
+          assert.strictEqual(val, undefined);
+          assert.deepEqual(element._projectLookup, {});
+        });
+      });
+
+      test('getChange succeeds with project', () => {
+        sandbox.stub(element, 'getChange')
+            .returns(Promise.resolve({project: 'project'}));
+        return element._getFromProjectLookup('test').then(val => {
+          assert.equal(val, 'project');
+          assert.deepEqual(element._projectLookup, {test: 'project'});
+        });
+      });
+    });
+
+    test('getChanges populates _projectLookup', () => {
+      sandbox.stub(element, 'fetchJSON')
+          .returns(Promise.resolve([
+            [
+              {_number: 1, project: 'test'},
+              {_number: 2, project: 'test'},
+            ], [
+              {_number: 3, project: 'test/test'},
+            ],
+          ]));
+      return element.getChanges().then(() => {
+        assert.equal(Object.keys(element._projectLookup).length, 3);
+        assert.equal(element._projectLookup[1], 'test');
+        assert.equal(element._projectLookup[2], 'test');
+        assert.equal(element._projectLookup[3], 'test/test');
+      });
+    });
+
+    test('getChangeDetail populates _projectLookup', () => {
+      sandbox.stub(element, '_fetchRawJSON').returns(Promise.resolve(true));
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve({_number: 1, project: 'test'}));
+      return element._getChangeDetail().then(() => {
+        assert.equal(Object.keys(element._projectLookup).length, 1);
+        assert.equal(element._projectLookup[1], 'test');
       });
     });
   });

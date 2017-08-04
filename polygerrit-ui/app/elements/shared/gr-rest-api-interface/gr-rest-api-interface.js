@@ -75,6 +75,13 @@
         type: Object,
         value: new GrEtagDecorator(), // Share across instances.
       },
+      /**
+       * Used to maintain a mapping of changeNums to project names.
+       */
+      _projectLookup: {
+        type: Object,
+        value: {}, // Intentional to share the object across instances.
+      },
     },
 
     JSON_PREFIX,
@@ -547,7 +554,19 @@
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON('/changes/', null, null, params)
+          .then(response => {
+            // Response is an array of arrays of changes. Iterate over each and
+            // set in _projectLookup.
+            for (const arr of (response || [])) {
+              for (const change of (arr || [])) {
+                if (change && change.project) {
+                  this.setInProjectLookup(change._number, change.project);
+                }
+              }
+            }
+            return response;
+          });
     },
 
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
@@ -593,9 +612,13 @@
                   this._etags.getCachedPayload(urlWithParams));
             } else {
               const payloadPromise = response ?
-                    this.getResponseObject(response) : Promise.resolve();
+                  this.getResponseObject(response) :
+                  Promise.resolve();
               payloadPromise.then(payload => {
                 this._etags.collect(urlWithParams, response, payload);
+                if (payload && payload.project) {
+                  this.setInProjectLookup(payload._number, payload.project);
+                }
               });
               return payloadPromise;
             }
@@ -1315,6 +1338,47 @@
           '/comments/' + commentID + '/delete';
       return this.send('POST', url, {reason}).then(response =>
         this.getResponseObject(response));
+    },
+
+    /**
+     * Given a changeNum, gets the change.
+     *
+     * @param {string} changeNum
+     * @return {Promise<Object>} The change
+     */
+    getChange(changeNum) {
+      return this.fetchJSON(`/changes/${changeNum}`);
+    },
+
+    /**
+     * @param {string|number} changeNum
+     * @param {string} project
+     */
+    setInProjectLookup(changeNum, project) {
+      if (this._projectLookup[changeNum] &&
+          this._projectLookup[changeNum] !== project) {
+        console.warn('Change set with multiple project nums.' +
+            'One of them must be invalid.');
+      }
+      this._projectLookup[changeNum] = project;
+    },
+
+    /**
+     * Checks in _projectLookup for the changeNum. If it exists, returns the
+     * project. If not, calls the restAPI to get the change, populates
+     * _projectLookup with the project for that change, and returns the project.
+     *
+     * @param {string|number} changeNum
+     * @return {Promise<string>}
+     */
+    _getFromProjectLookup(changeNum) {
+      const project = this._projectLookup[changeNum];
+      if (project) { return Promise.resolve(project); }
+      return this.getChange(changeNum).then(change => {
+        if (!change || !change.project) { return; }
+        this.setInProjectLookup(changeNum, change.project);
+        return change.project;
+      });
     },
   });
 })();

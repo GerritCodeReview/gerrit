@@ -176,8 +176,13 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(accounts => {
             if (!accounts) { return []; }
-            return accounts.map(acct =>
-                predicate + ':"' + acct.name + ' <' + acct.email + '>"');
+            return accounts.map(acct => {
+              if (acct.email !== undefined) {
+                predicate + ':"' + acct.name + ' <' + acct.email + '>"';
+              } else {
+                predicate + ':"' + acct.name + '"';
+              }
+            });
           }).then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.

@@ -142,10 +142,22 @@ limitations under the License.
         element.$.restAPI.getSuggestedProjects.restore();
       });
 
-      test('Autocompletes accounts', done => {
+      test('Autocompletes accounts', () => {
         element._getSearchSuggestions('owner:fr').then(s => {
           assert.equal(s[0].value, 'owner:"fred <fred@goog.co>"');
-          done();
+        });
+      });
+
+      test('Autocompletes accounts with no email', () => {
+        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+            },
+          ])
+        );
+        element._getSearchSuggestions('owner:fr').then(s => {
+          assert.equal(s[0].value, 'owner:"fred"');
         });
       });
 

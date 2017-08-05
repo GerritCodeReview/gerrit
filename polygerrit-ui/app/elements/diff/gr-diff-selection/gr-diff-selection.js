@@ -31,6 +31,7 @@
 
     properties: {
       diff: Object,
+      /** @type {Object} */
       _cachedDiffBuilder: Object,
       _linesCache: {
         type: Object,
@@ -144,14 +145,14 @@
      * true, it returns only the text of comments within the selection.
      * Otherwise it returns the text of the selected diff region.
      *
-     * @param {!string} The side that is selected.
-     * @param {boolean} Whether or not a comment is selected.
+     * @param {!string} side The side that is selected.
+     * @param {boolean} commentSelected Whether or not a comment is selected.
      * @return {string} The selected text.
      */
     _getSelectedText(side, commentSelected) {
       const sel = window.getSelection();
       if (sel.rangeCount != 1) {
-        return; // No multi-select support yet.
+        return ''; // No multi-select support yet.
       }
       if (commentSelected) {
         return this._getCommentLines(sel, side);
@@ -170,10 +171,10 @@
     /**
      * Query the diff object for the selected lines.
      *
-     * @param {int} startLineNum
-     * @param {int} startOffset
-     * @param {int} endLineNum
-     * @param {int} endOffset
+     * @param {number} startLineNum
+     * @param {number} startOffset
+     * @param {number} endLineNum
+     * @param {number} endOffset
      * @param {!string} side The side that is currently selected.
      * @return {string} The selected diff text.
      */
@@ -192,7 +193,7 @@
      * Query the diff object for the lines from a particular side.
      *
      * @param {!string} side The side that is currently selected.
-     * @return {Array.string} An array of strings indexed by line number.
+     * @return {Array<string>} An array of strings indexed by line number.
      */
     _getDiffLines(side) {
       if (this._linesCache[side]) {
@@ -254,7 +255,7 @@
      * of the text content within that selection.
      * Using a domNode that isn't in the selection returns an empty string.
      *
-     * @param {Element} domNode The root DOM node.
+     * @param {Node} domNode The root DOM node.
      * @param {Selection} sel The selection.
      * @param {Range} range The normalized selection range.
      * @return {string} The text within the selection.

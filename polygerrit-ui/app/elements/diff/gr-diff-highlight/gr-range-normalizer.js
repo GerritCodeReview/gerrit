@@ -94,8 +94,8 @@
     /**
      * The DOM API textContent.length calculation is broken when the text
      * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
-     * @param {Text} A text node.
-     * @return {Number} The length of the text.
+     * @param {Text} node A text node.
+     * @return {number} The length of the text.
      */
     _getLength(node) {
       return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;

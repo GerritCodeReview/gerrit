@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0b0d1dc_879ed38e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-05T19:16:53Z",
+      "side": 1,
+      "message": "I\u0027m looking into the number of requests fired by PG UI during change load. As example I investigated comment load request. For this I apply this patch: [1] on the client side. In addition I added this line in the REST endpoint: [2] on the server side. I load a test change on my test server. It turns out, REST endpoint /changes/3155/comments is fired 4 times, here are the stack traces on the client: [3]. And here is the output on the server side: [4].\n\nDo we have an understanding why this happens, and how this can be prevented so that the requests are only fired one single time on change load?\n\nNeedless to say, if i switch to the GWT UI and load the same change there, the REST endpoint /changes/3155/comments is called only once, obviously.\n\nI filed this issue: [5].\n\n* [1] http://paste.openstack.org/show/617588\n* [2] http://paste.openstack.org/show/617589\n* [3] http://paste.openstack.org/show/617587\n* [4] http://paste.openstack.org/show/617590\n* [5] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6953",
+      "revId": "dc8782d762b364e70c0fda66f2f6b8f1a059ec5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

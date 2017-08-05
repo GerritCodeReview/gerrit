@@ -142,10 +142,9 @@ limitations under the License.
         element.$.restAPI.getSuggestedProjects.restore();
       });
 
-      test('Autocompletes accounts', done => {
+      test('Autocompletes accounts', () => {
         element._getSearchSuggestions('owner:fr').then(s => {
           assert.equal(s[0].value, 'owner:"fred <fred@goog.co>"');
-          done();
         });
       });
 
@@ -217,6 +216,29 @@ limitations under the License.
             assert.equal(s.length, 0);
             done();
           });
+        });
+      });
+    });
+
+    suite('_getSearchSuggestions with no email', () => {
+      setup(() => {
+        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+            },
+          ])
+        );
+      });
+
+      teardown(() => {
+        element.$.restAPI.getSuggestedAccounts.restore();
+      });
+
+
+      test('Autocompletes accounts with no email', () => {
+        element._getSearchSuggestions('owner:fr').then(s => {
+          assert.equal(s[0].value, 'owner:"fred"');
         });
       });
     });

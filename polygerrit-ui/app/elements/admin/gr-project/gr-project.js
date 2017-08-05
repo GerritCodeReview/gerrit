@@ -96,6 +96,7 @@
       },
       _selectedScheme: String,
       _schemesObj: Object,
+      _serverConfig: Object,
     },
 
     observers: [
@@ -133,6 +134,7 @@
 
       promises.push(this.$.restAPI.getConfig().then(config => {
         this._schemesObj = config.download.schemes;
+        this._serverConfig = config;
       }));
 
       return Promise.all(promises);

@@ -54,6 +54,11 @@
 
       /**
        * State persisted across restamps of the element.
+       *
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @typedef {{ selectedChangeIndex: number }}
+       *
        */
       viewState: {
         type: Object,

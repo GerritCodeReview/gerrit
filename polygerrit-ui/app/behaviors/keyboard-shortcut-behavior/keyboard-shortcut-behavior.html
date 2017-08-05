@@ -29,8 +29,10 @@ limitations under the License.
     return e;
   };
 
-  /** @polymerBehavior KeyboardShortcutBehaviorImpl */
-  const KeyboardShortcutBehaviorImpl = {
+  window.Gerrit = window.Gerrit || {};
+
+  /** @polymerBehavior KeyboardShortcutBehavior */
+  Gerrit.KeyboardShortcutBehavior = [{
     modifierPressed(e) {
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
@@ -60,13 +62,8 @@ limitations under the License.
     getRootTarget(e) {
       return Polymer.dom(getKeyboardEvent(e)).rootTarget;
     },
-  };
-
-  window.Gerrit = window.Gerrit || {};
-  /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
-  window.Gerrit.KeyboardShortcutBehavior = [
+  },
     Polymer.IronA11yKeysBehavior,
-    KeyboardShortcutBehaviorImpl,
   ];
 })(window);
 </script>

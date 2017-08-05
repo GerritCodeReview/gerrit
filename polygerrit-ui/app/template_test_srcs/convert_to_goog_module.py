@@ -2,11 +2,8 @@ import os, re, json
 from shutil import copyfile, rmtree
 
 def replaceBehaviorLikeHTML (fileIn, fileOut):
-  print fileIn
-  print fileOut
   with open(fileIn) as f:
     file_str = f.read()
-    print file_str
     match = behaviorCompiledRegex.search(file_str)
     if (match):
       replacement = match.group(1)
@@ -92,6 +89,3 @@ if __name__ == "__main__":
         replaceBehaviorLikeHTML(os.path.join(root, file), file)
       elif file.endswith("behavior.js"):
         replaceBehaviorLikeJS(os.path.join(root, file), file)
-
-
-

@@ -1,20 +1,26 @@
 const path = require('path');
 const fs = require('fs');
 
-fs.readdir( path.join(__dirname, '../../temp/behaviors/'), (err, data) => {
+fs.readdir('./polygerrit-ui/', (err, files) => {
+  files.forEach(file => {
+    console.log(file);
+  });
+});
+
+fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
   const behaviors = data;
   const externs = [];
 
   for (const behavior of behaviors) {
     externs.push({
-      path: path.join(__dirname, `../../temp/behaviors/${behavior}`),
+      path: `./polygerrit-ui/temp/behaviors/${behavior}`,
       src: fs.readFileSync(
-          path.join(__dirname, `../../temp/behaviors/${behavior}`), 'utf-8'),
+          `./polygerrit-ui/temp/behaviors/${behavior}`, 'utf-8'),
     });
   }
 
   const mappings = JSON.parse(fs.readFileSync(
-      path.join(__dirname, `../../temp/map.json`), 'utf-8'));
+      `./polygerrit-ui/temp/map.json`, 'utf-8'));
 
   externs.push({
     path: 'custom-externs.js',

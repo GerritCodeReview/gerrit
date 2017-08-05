@@ -50,6 +50,10 @@
         observer: '_computeGroupName',
       },
       _groupName: String,
+      _groupOwner: {
+        type: Boolean,
+        value: false,
+      },
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
@@ -119,18 +123,23 @@
           };
         }
         if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
+          let groupOwner;
+          if (this._groupOwner) {
+            groupOwner = {
+              name: 'Audit Log',
+              detailType: 'audit-log',
+              view: 'gr-group-audit-log',
+              owner: _groupOwner,
+              url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
+                    ',audit-log',
+            };
+          }
           linkCopy.subsection = {
             name: this._groupName,
             view: 'gr-group',
             url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
             children: [
-              {
-                name: 'Audit Log',
-                detailType: 'audit-log',
-                view: 'gr-group-audit-log',
-                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
-                      ',audit-log',
-              },
+              groupOwner,
             ],
           };
         }
@@ -202,8 +211,15 @@
       if (!groupId) { return ''; }
       this.$.restAPI.getGroupConfig(groupId).then(group => {
         this._groupName = group.name;
-        this.reload();
       });
+      this.$.restAPI.getIsGroupOwner(this._groupName).then(
+          configs => {
+            if (Object.keys(configs).length === 0 &&
+                configs.constructor === Object) {
+              this._groupOwner = true;
+              this.reload();
+            }
+          });
     },
 
     _updateGroupName(e) {

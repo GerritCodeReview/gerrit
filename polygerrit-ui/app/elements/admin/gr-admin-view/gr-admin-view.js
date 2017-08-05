@@ -50,6 +50,10 @@
         observer: '_computeGroupName',
       },
       _groupName: String,
+      _groupOwner: {
+        type: Boolean,
+        value: false,
+      },
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
@@ -123,16 +127,19 @@
             name: this._groupName,
             view: 'gr-group',
             url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
-            children: [
+            children: [],
+          };
+          if (!this._groupOwner) {
+            linkCopy.subsection.children.push(
               {
                 name: 'Audit Log',
                 detailType: 'audit-log',
                 view: 'gr-group-audit-log',
                 url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
                       ',audit-log',
-              },
-            ],
-          };
+              }
+            );
+          }
         }
         filteredLinks.push(linkCopy);
       }
@@ -203,6 +210,14 @@
       this.$.restAPI.getGroupConfig(groupId).then(group => {
         this._groupName = group.name;
         this.reload();
+        this.$.restAPI.getIsGroupOwner(group.name).then(
+            configs => {
+              if (Object.keys(configs).length === 0 &&
+                  configs.constructor === Object) {
+                this._groupOwner = true;
+                this.reload();
+              }
+            });
       });
     },
 

@@ -44,6 +44,9 @@ limitations under the License.
       #loading:not(.loading) {
         display: none;
       }
+      .hideNoteDB {
+        display: none;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
@@ -164,6 +167,22 @@ limitations under the License.
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
                     </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section id="noteDbSettings" class$="[[_computeNoteDbClass(_noteDbEnabled)]]">
+                <span class="title">
+                  Enable adding unregistered users as reviewers and CCs on changes</span>
+                <span class="value">
+                  <gr-select
+                      id="unRegisteredCcSelect"
+                      bind-value="{{_projectConfig.enable_reviewer_by_email.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.enable_reviewer_by_email)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                  </select>
                   </gr-select>
                 </span>
               </section>

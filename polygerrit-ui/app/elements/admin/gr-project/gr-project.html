@@ -167,6 +167,22 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
+              <section id="ccsClass" hidden$="[[!_noteDbEnabled]]">
+                <span class="title">
+                  Enable adding unregistered users as reviewers and CCs on changes</span>
+                <span class="value">
+                  <gr-select
+                      id="unRegisteredCcSelect"
+                      bind-value="{{_projectConfig.enable_reviewer_by_email.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.enable_reviewer_by_email)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                  </select>
+                  </gr-select>
+                </span>
+              </section>
               <section>
                 <span class="title">Maximum Git object size limit</span>
                 <span class="value">

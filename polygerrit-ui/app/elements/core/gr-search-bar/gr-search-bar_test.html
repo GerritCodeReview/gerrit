@@ -220,5 +220,29 @@ limitations under the License.
         });
       });
     });
+
+    suite('_getSearchSuggestions with no email', () => {
+      setup(() => {
+        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+            },
+          ])
+        );
+      });
+
+      teardown(() => {
+        element.$.restAPI.getSuggestedAccounts.restore();
+      });
+
+
+      test('Autocompletes accounts with no email', done => {
+        element._getSearchSuggestions('owner:fr').then(s => {
+          assert.equal(s[0].value, 'owner:"fred"');
+          done();
+        });
+      });
+    });
   });
 </script>

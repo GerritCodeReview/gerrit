@@ -177,7 +177,8 @@
           .then(accounts => {
             if (!accounts) { return []; }
             return accounts.map(acct =>
-                predicate + ':"' + acct.name + ' <' + acct.email + '>"');
+                predicate + ':"' + acct.name + acct.email ?
+                  ' <' + acct.email + '>' + '"' : '' + '"');
           }).then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.

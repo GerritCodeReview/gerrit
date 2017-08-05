@@ -97,6 +97,7 @@
       },
       _selectedScheme: String,
       _schemesObj: Object,
+      _noteDbEnabled: Boolean,
     },
 
     observers: [
@@ -134,6 +135,7 @@
 
       promises.push(this.$.restAPI.getConfig().then(config => {
         this._schemesObj = config.download.schemes;
+        this._noteDbEnabled = config.note_db_enabled;
       }));
 
       return Promise.all(promises);
@@ -248,6 +250,10 @@
         });
       }
       return commands;
+    },
+
+    _computeNoteDbClass(noteDB) {
+      return !noteDB ? 'hideNoteDB': '';
     },
   });
 })();

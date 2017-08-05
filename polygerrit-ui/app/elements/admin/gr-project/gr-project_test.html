@@ -81,6 +81,10 @@ limitations under the License.
               value: false,
               configured_value: 'FALSE',
             },
+            enable_reviewer_by_email: {
+              value: false,
+              configured_value: 'FALSE',
+            },
             max_object_size_limit: {},
             submit_type: 'MERGE_IF_NECESSARY',
           });
@@ -221,6 +225,9 @@ limitations under the License.
       });
 
       test('fields update and save correctly', done => {
+        element._serverConfig.note_db_enabled = true;
+        flushAsynchronousOperations();
+
         const configInputObj = {
           description: 'new description',
           use_contributor_agreements: 'TRUE',
@@ -233,6 +240,7 @@ limitations under the License.
           max_object_size_limit: 10,
           submit_type: 'FAST_FORWARD_ONLY',
           state: 'READ_ONLY',
+          enable_reviewer_by_email: true,
         };
 
         const saveStub = sandbox.stub(element.$.restAPI, 'saveProjectConfig'
@@ -264,6 +272,8 @@ limitations under the License.
               configInputObj.use_contributor_agreements;
           element.$.useSignedOffBySelect.bindValue =
               configInputObj.use_signed_off_by;
+          element.$.unregisteredCCS.bindValue =
+              configInputObj.enable_reviewer_by_email;
 
           assert.isFalse(button.hasAttribute('disabled'));
           assert.isTrue(element.$.configurations.classList.contains('edited'));

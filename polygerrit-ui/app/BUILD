@@ -125,6 +125,21 @@ sh_test(
     ],
 )
 
+sh_test(
+    name = "template_test",
+    size = "large",
+    srcs = ["template_test.sh"],
+    data = [
+        ":pg_code",
+        ":template_test_files",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)
+
 # Embed bundle
 polygerrit_bundle(
     name = "polygerrit_embed_ui",
@@ -151,6 +166,15 @@ filegroup(
             "embed/**/*_test.html",
         ],
     ),
+)
+
+filegroup(
+    name = "template_test_files",
+    srcs = [
+        "template_test/template_test.js",
+        "template_test/convert_to_goog_module.py",
+        "template_test/remove_goog_modules.py",
+    ],
 )
 
 sh_test(

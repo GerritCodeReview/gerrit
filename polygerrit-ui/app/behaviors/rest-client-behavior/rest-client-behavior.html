@@ -19,8 +19,10 @@ limitations under the License.
 (function(window) {
   'use strict';
 
+  window.Gerrit = window.Gerrit || {};
+
   /** @polymerBehavior Gerrit.RESTClientBehavior */
-  const RESTClientBehavior = {
+  Gerrit.RESTClientBehavior = [{
     ChangeDiffType: {
       ADDED: 'ADDED',
       COPIED: 'COPIED',
@@ -131,12 +133,8 @@ limitations under the License.
       if (change.status === this.ChangeStatus.DRAFT) { states.push('Draft'); }
       return states.join(', ');
     },
-  };
-
-  window.Gerrit = window.Gerrit || {};
-  window.Gerrit.RESTClientBehavior = [
+  },
     Gerrit.BaseUrlBehavior,
-    RESTClientBehavior,
   ];
 })(window);
 </script>

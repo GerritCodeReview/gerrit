@@ -30,6 +30,10 @@
      */
 
     properties: {
+      /**
+       * Weird API usage requires this to be String or Null. Add this so
+       * the closure compiler doesn't complain.
+       * @type {string|null} */
       base: String,
       branch: String,
       hasParent: Boolean,
@@ -62,7 +66,7 @@
       this.fire('cancel', null, {bubbles: false});
     },
 
-    _handleRebaseOnOther(e) {
+    _handleRebaseOnOther() {
       this.$.parentInput.focus();
     },
 
@@ -73,15 +77,15 @@
      * rebased on top of the target branch. Leaving out the base implies that it
      * should be rebased on top of its current parent.
      */
-    _handleRebaseOnTip(e) {
+    _handleRebaseOnTip() {
       this.base = '';
     },
 
-    _handleRebaseOnParent(e) {
+    _handleRebaseOnParent() {
       this.base = null;
     },
 
-    _handleEnterChangeNumberTap(e) {
+    _handleEnterChangeNumberTap() {
       this.$.rebaseOnOtherInput.checked = true;
     },
 

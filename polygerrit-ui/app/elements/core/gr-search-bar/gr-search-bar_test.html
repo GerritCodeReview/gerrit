@@ -37,9 +37,15 @@ limitations under the License.
 <script>
   suite('gr-search-bar tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('value is propagated to _inputVal', () => {
@@ -54,7 +60,7 @@ limitations under the License.
     };
 
     test('tap on search button triggers nav', done => {
-      sinon.stub(page, 'show', () => {
+      sandbox.stub(page, 'show', () => {
         page.show.restore();
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
@@ -65,7 +71,7 @@ limitations under the License.
     });
 
     test('enter in search input triggers nav', done => {
-      sinon.stub(page, 'show', () => {
+      sandbox.stub(page, 'show', () => {
         page.show.restore();
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
@@ -77,27 +83,24 @@ limitations under the License.
     });
 
     test('search query should be double-escaped', () => {
-      const showStub = sinon.stub(page, 'show');
+      const showStub = sandbox.stub(page, 'show');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
-      showStub.restore();
     });
 
     test('input blurred after commit', () => {
-      const showStub = sinon.stub(page, 'show');
-      const blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
+      sandbox.stub(page, 'show');
+      const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.isTrue(blurSpy.called);
-      showStub.restore();
-      blurSpy.restore();
     });
 
     test('empty search query does not trigger nav', () => {
-      const showSpy = sinon.spy(page, 'show');
+      const showSpy = sandbox.spy(page, 'show');
       element.value = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
@@ -105,8 +108,8 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', () => {
-      const focusSpy = sinon.spy(element.$.searchInput, 'focus');
-      const selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
+      const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
+      const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
       MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
       assert.isTrue(focusSpy.called);
       assert.isTrue(selectAllSpy.called);
@@ -114,7 +117,7 @@ limitations under the License.
 
     suite('_getSearchSuggestions', () => {
       setup(() => {
-        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
           Promise.resolve([
             {
               name: 'fred',
@@ -122,24 +125,18 @@ limitations under the License.
             },
           ])
         );
-        sinon.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
           Promise.resolve({
             Polygerrit: 0,
             gerrit: 0,
             gerrittest: 0,
           })
         );
-        sinon.stub(element.$.restAPI, 'getSuggestedProjects', () =>
+        sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
           Promise.resolve({
             Polygerrit: 0,
           })
         );
-      });
-
-      teardown(() => {
-        element.$.restAPI.getSuggestedAccounts.restore();
-        element.$.restAPI.getSuggestedGroups.restore();
-        element.$.restAPI.getSuggestedProjects.restore();
       });
 
       test('Autocompletes accounts', done => {
@@ -217,6 +214,25 @@ limitations under the License.
             assert.equal(s.length, 0);
             done();
           });
+        });
+      });
+    });
+
+    suite('_getSearchSuggestions with no email', () => {
+      setup(() => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+            },
+          ])
+        );
+      });
+
+      test('Autocompletes accounts with no email', done => {
+        element._getSearchSuggestions('owner:fr').then(s => {
+          assert.equal(s[0].value, 'owner:"fred"');
+          done();
         });
       });
     });

@@ -94,6 +94,7 @@
     is: 'gr-search-bar',
 
     behaviors: [
+      Gerrit.AnonymousNameBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.URLEncodingBehavior,
     ],
@@ -128,6 +129,13 @@
         type: Number,
         value: 1,
       },
+      _config: Object,
+    },
+
+    attached() {
+      this.$.restAPI.getConfig().then(cfg => {
+        this._config = cfg;
+      });
     },
 
     _valueChanged(value) {
@@ -161,6 +169,10 @@
       }
     },
 
+    _accountOrAnon(name) {
+      return this.getUserName(this._config, name, false);
+    },
+
     /**
      * Fetch from the API the predicted accounts.
      * @param {string} predicate - The first part of the search term, e.g.
@@ -177,8 +189,14 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(accounts => {
             if (!accounts) { return []; }
-            return accounts.map(acct =>
-                predicate + ':"' + acct.name + ' <' + acct.email + '>"');
+            return accounts.map(acct => {
+              if (acct.email) {
+                return predicate + ':"' + this._accountOrAnon(acct) +
+                    ' <' + acct.email + '>"';
+              } else {
+                return predicate + ':"' + this._accountOrAnon(acct) + '"';
+              }
+            });
           }).then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.

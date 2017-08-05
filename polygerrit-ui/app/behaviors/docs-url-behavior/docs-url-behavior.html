@@ -23,8 +23,10 @@ limitations under the License.
 
   let cachedPromise;
 
+  window.Gerrit = window.Gerrit || {};
+
   /** @polymerBehavior Gerrit.DocsUrlBehavior */
-  const DocsUrlBehavior = {
+  Gerrit.DocsUrlBehavior = [{
 
     /**
      * Get the docs base URL from either the server config or by probing.
@@ -52,12 +54,7 @@ limitations under the License.
     _clearDocsBaseUrlCache() {
       cachedPromise = undefined;
     },
-  };
-
-  window.Gerrit = window.Gerrit || {};
-  window.Gerrit.DocsUrlBehavior = [
-    window.Gerrit.BaseUrlBehavior,
-    DocsUrlBehavior,
-  ];
+  },
+  Gerrit.BaseUrlBehavior];
 })(window);
 </script>

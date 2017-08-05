@@ -22,15 +22,17 @@ limitations under the License.
 
   // Must be declared outside behavior implementation to be accessed inside
   // behavior functions.
-  const getKeyboardEvent = function(e) {
+   const getKeyboardEvent = function(e) {
     e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
     // When e is a keyboardEvent, e.event is not null.
     if (e.event) { e = e.event; }
     return e;
   };
 
-  /** @polymerBehavior KeyboardShortcutBehaviorImpl */
-  const KeyboardShortcutBehaviorImpl = {
+  window.Gerrit = window.Gerrit || {};
+
+  /** @polymerBehavior KeyboardShortcutBehavior */
+  Gerrit.KeyboardShortcutBehavior = [{
     modifierPressed(e) {
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
@@ -60,13 +62,7 @@ limitations under the License.
     getRootTarget(e) {
       return Polymer.dom(getKeyboardEvent(e)).rootTarget;
     },
-  };
-
-  window.Gerrit = window.Gerrit || {};
-  /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
-  window.Gerrit.KeyboardShortcutBehavior = [
-    Polymer.IronA11yKeysBehavior,
-    KeyboardShortcutBehaviorImpl,
-  ];
+  },
+  Polymer.IronA11yKeysBehavior];
 })(window);
 </script>

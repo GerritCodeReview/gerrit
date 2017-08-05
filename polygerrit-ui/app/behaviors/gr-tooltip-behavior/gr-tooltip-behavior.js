@@ -16,8 +16,10 @@
 
   const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
+  window.Gerrit = window.Gerrit || {};
+
   /** @polymerBehavior Gerrit.TooltipBehavior */
-  const TooltipBehavior = {
+  Gerrit.TooltipBehavior = {
 
     properties: {
       hasTooltip: {
@@ -125,7 +127,4 @@
           'px))';
     },
   };
-
-  window.Gerrit = window.Gerrit || {};
-  window.Gerrit.TooltipBehavior = TooltipBehavior;
 })(window);

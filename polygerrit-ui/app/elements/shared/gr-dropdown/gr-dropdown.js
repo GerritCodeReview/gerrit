@@ -62,8 +62,6 @@
         value() { return []; },
       },
 
-      _hasAvatars: String,
-
       /**
        * The elements of the list.
        */
@@ -83,12 +81,6 @@
       'enter space': '_handleEnter',
       'tab': '_handleTab',
       'up': '_handleUp',
-    },
-
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      });
     },
 
     _handleUp(e) {

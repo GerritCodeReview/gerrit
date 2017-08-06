@@ -36,6 +36,7 @@
     is: 'gr-rest-api-interface',
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
     ],

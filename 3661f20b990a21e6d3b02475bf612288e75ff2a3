@@ -22,6 +22,30 @@
       "revId": "3661f20b990a21e6d3b02475bf612288e75ff2a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f376e38b_bfbd9e2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-06T13:47:34Z",
+      "side": 1,
+      "message": "It\u0027s better if we make this change a seperate one to make it easier to backport to stable-2.14.",
+      "parentUuid": "32752663_55121768",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "3661f20b990a21e6d3b02475bf612288e75ff2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

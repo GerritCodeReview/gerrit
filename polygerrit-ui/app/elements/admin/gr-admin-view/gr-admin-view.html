@@ -39,6 +39,13 @@ limitations under the License.
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
+    <style>
+      @media only screen and (max-width: 53em) {
+        main#mobile {
+          margin-left: 14em;
+        }
+      }
+    </style>
     <gr-page-nav class="navStyles">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
@@ -71,43 +78,43 @@ limitations under the License.
       </ul>
     </gr-page-nav>
     <template is="dom-if" if="[[_showProjectList]]" restamp="true">
-      <main class="table">
+      <main class="table" id="mobile">
         <gr-admin-project-list class="table" params="[[params]]">
         </gr-admin-project-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectMain]]" restamp="true">
-      <main>
+      <main id="mobile">
         <gr-project project="[[params.project]]"></gr-project>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroup]]" restamp="true">
-      <main>
+      <main id="mobile">
         <gr-group
             group-id="[[params.groupId]]"
             on-name-changed="_updateGroupName"></gr-group>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupList]]" restamp="true">
-      <main class="table">
+      <main class="table" id="mobile">
         <gr-admin-group-list class="table" params="[[params]]">
         </gr-admin-group-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showPluginList]]" restamp="true">
-      <main class="table">
+      <main class="table" id="mobile">
         <gr-plugin-list class="table" params="[[params]]"></gr-plugin-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectDetailList]]" restamp="true">
-      <main class="table">
+      <main class="table" id="mobile">
         <gr-project-detail-list
             params="[[params]]"
             class="table"></gr-project-detail-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupAuditLog]]" restamp="true">
-      <main class="table">
+      <main class="table" id="mobile">
         <gr-group-audit-log
             group-id="[[params.groupId]]"
             class="table"></gr-group-audit-log>

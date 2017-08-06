@@ -65,7 +65,7 @@ _GenSuite = rule(
 )
 
 def junit_tests(name, srcs, **kwargs):
-    s_name = name + "TestSuite"
+    s_name = name.replace("-", "_") + "TestSuite"
     _GenSuite(
         name = s_name,
         srcs = srcs,

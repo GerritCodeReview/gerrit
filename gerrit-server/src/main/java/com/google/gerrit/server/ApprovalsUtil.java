@@ -109,7 +109,6 @@ public class ApprovalsUtil {
 
   private final NotesMigration migration;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
 
@@ -118,12 +117,10 @@ public class ApprovalsUtil {
   public ApprovalsUtil(
       NotesMigration migration,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       ApprovalCopier copier,
       PermissionBackend permissionBackend) {
     this.migration = migration;
     this.userFactory = userFactory;
-    this.changeControlFactory = changeControlFactory;
     this.copier = copier;
     this.permissionBackend = permissionBackend;
   }

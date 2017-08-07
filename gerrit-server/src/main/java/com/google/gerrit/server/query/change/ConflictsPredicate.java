@@ -166,7 +166,7 @@ public class ConflictsPredicate {
 
     private ObjectId testAgainst;
     private ProjectState projectState;
-    private Iterable<ObjectId> alreadyAccepted;
+    private Set<ObjectId> alreadyAccepted;
 
     ChangeDataCache(ChangeData cd, ProjectCache projectCache) {
       this.cd = cd;
@@ -190,7 +190,7 @@ public class ConflictsPredicate {
       return projectState;
     }
 
-    Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
       if (alreadyAccepted == null) {
         alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
       }

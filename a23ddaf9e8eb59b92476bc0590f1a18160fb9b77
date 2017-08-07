@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aa77e4e_7db001ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:47:20Z",
+      "side": 1,
+      "message": "Unnecessary final. If you want it to be an uppercase CONSTANT, extract it to the class level. I think a lowercase non-constant local var would also be acceptable.",
+      "range": {
+        "startLine": 443,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 9
+      },
+      "revId": "a23ddaf9e8eb59b92476bc0590f1a18160fb9b77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511782dc_0f808fa4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:47:20Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "range": {
+        "startLine": 444,
+        "startChar": 4,
+        "endLine": 444,
+        "endChar": 9
+      },
+      "revId": "a23ddaf9e8eb59b92476bc0590f1a18160fb9b77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

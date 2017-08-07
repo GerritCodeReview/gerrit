@@ -14,18 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -37,7 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -56,20 +50,17 @@ public class Accounts {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final OutgoingEmailValidator emailValidator;
-  private final ExternalIds externalIds;
 
   @Inject
   Accounts(
       @GerritServerConfig Config cfg,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator,
-      ExternalIds externalIds) {
+      OutgoingEmailValidator emailValidator) {
     this.readFromGit = cfg.getBoolean("user", null, "readAccountsFromGit", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;
-    this.externalIds = externalIds;
   }
 
   public Account get(ReviewDb db, Account.Id accountId)
@@ -96,44 +87,6 @@ public class Accounts {
     }
 
     return db.accounts().get(accountIds).toList();
-  }
-
-  /**
-   * Returns the accounts with the given email.
-   *
-   * <p>Each email should belong to a single account only. This means if more than one account is
-   * returned there is an inconsistency in the external IDs.
-   *
-   * <p>The accounts are retrieved via the external ID cache. Each access to the external ID cache
-   * requires reading the SHA1 of the refs/meta/external-ids branch. If accounts for multiple emails
-   * are needed it is more efficient to use {@link #byEmails(String...)} as this method reads the
-   * SHA1 of the refs/meta/external-ids branch only once (and not once per email).
-   *
-   * @see #byEmails(String...)
-   */
-  public ImmutableSet<Account.Id> byEmail(String email) throws IOException {
-    return externalIds.byEmail(email).stream().map(e -> e.accountId()).collect(toImmutableSet());
-  }
-
-  /**
-   * Returns the accounts for the given emails.
-   *
-   * <p>Each email should belong to a single account only. This means if more than one account for
-   * an email is returned there is an inconsistency in the external IDs.
-   *
-   * <p>The accounts are retrieved via the external ID cache. Each access to the external ID cache
-   * requires reading the SHA1 of the refs/meta/external-ids branch. If accounts for multiple emails
-   * are needed it is more efficient to use this method instead of {@link #byEmail(String)} as this
-   * method reads the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
-   *
-   * @see #byEmail(String)
-   */
-  public ImmutableSetMultimap<String, Account.Id> byEmails(String... emails) throws IOException {
-    return externalIds
-        .byEmails(emails)
-        .entries()
-        .stream()
-        .collect(toImmutableSetMultimap(Map.Entry::getKey, e -> e.getValue().accountId()));
   }
 
   /**

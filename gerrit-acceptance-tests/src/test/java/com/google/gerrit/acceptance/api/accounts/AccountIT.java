@@ -81,6 +81,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -155,6 +156,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
 
   @Inject private InternalAccountQuery accountQuery;
+
+  @Inject protected Emails emails;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -701,28 +704,42 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void lookUpByEmail() throws Exception {
     // exact match with scheme "mailto:"
-    assertEmail(accounts.byEmail(admin.email), admin);
+    assertEmail(emails.getAccountFor(admin.email), admin);
 
     // exact match with other scheme
     String email = "foo.bar@example.com";
     externalIdsUpdateFactory
         .create()
         .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
-    assertEmail(accounts.byEmail(email), admin);
+    assertEmail(emails.getAccountFor(email), admin);
 
     // wrong case doesn't match
-    assertThat(accounts.byEmail(admin.email.toUpperCase(Locale.US))).isEmpty();
+    assertThat(emails.getAccountFor(admin.email.toUpperCase(Locale.US))).isEmpty();
 
     // prefix doesn't match
-    assertThat(accounts.byEmail(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
+    assertThat(emails.getAccountFor(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
 
     // non-existing doesn't match
-    assertThat(accounts.byEmail("non-existing@example.com")).isEmpty();
+    assertThat(emails.getAccountFor("non-existing@example.com")).isEmpty();
 
     // lookup several accounts by email at once
-    ImmutableSetMultimap<String, Account.Id> byEmails = accounts.byEmails(admin.email, user.email);
+    ImmutableSetMultimap<String, Account.Id> byEmails =
+        emails.getAccountsFor(admin.email, user.email);
     assertEmail(byEmails.get(admin.email), admin);
     assertEmail(byEmails.get(user.email), user);
+  }
+
+  @Test
+  public void lookUpByPreferredEmail() throws Exception {
+    // create an inconsistent account that has a preferred email without external ID
+    String prefEmail = "foo.preferred@example.com";
+    TestAccount foo = accountCreator.create(name("foo"));
+    accountsUpdate.create().update(db, foo.id, a -> a.setPreferredEmail(prefEmail));
+
+    // verify that the account is still found when using the preferred email to lookup the account
+    ImmutableSet<Account.Id> accountsByPrefEmail = emails.getAccountFor(prefEmail);
+    assertThat(accountsByPrefEmail).hasSize(1);
+    assertThat(Iterables.getOnlyElement(accountsByPrefEmail)).isEqualTo(foo.id);
   }
 
   @Test

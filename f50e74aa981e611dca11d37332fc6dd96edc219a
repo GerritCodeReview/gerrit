@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c1000e3_5048468a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-07T14:17:19Z",
+      "side": 0,
+      "message": "Where is init() done now?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 14
+      },
+      "revId": "f50e74aa981e611dca11d37332fc6dd96edc219a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

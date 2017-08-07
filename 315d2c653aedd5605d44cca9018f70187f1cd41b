@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b44ca12_6ddfb84e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-07T16:12:44Z",
+      "side": 1,
+      "message": "Hmm could these be merged? There\u0027s simply a \"getToken\" which always performs a new fetch.",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "315d2c653aedd5605d44cca9018f70187f1cd41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

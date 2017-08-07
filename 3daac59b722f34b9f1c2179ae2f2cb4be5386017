@@ -46,6 +46,30 @@
       "revId": "3daac59b722f34b9f1c2179ae2f2cb4be5386017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6f8687_cdaf3fb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:45:09Z",
+      "side": 1,
+      "message": "If the predicate tree coming in has always n \u003e 1 for an OrPredicate or AndPredicate, we can omit this check here. #copy delegates to in#copy if \u0027in\u0027 isn\u0027t one of those predicates.",
+      "parentUuid": "3c58653a_ca9f1ba9",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "3daac59b722f34b9f1c2179ae2f2cb4be5386017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

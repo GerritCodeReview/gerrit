@@ -17,6 +17,24 @@
       "revId": "8d5383a76db291c4fbb96066c8ec6443e583bfe3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69af4faa_0ab1e7ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-07T15:18:40Z",
+      "side": 1,
+      "message": "Both options sound good to me. I think I slightly prefer to handle oldRefs \u003d\u003d null here and then have a helper method to avoid code duplication.",
+      "parentUuid": "8d8d2d04_4d7e246c",
+      "revId": "8d5383a76db291c4fbb96066c8ec6443e583bfe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

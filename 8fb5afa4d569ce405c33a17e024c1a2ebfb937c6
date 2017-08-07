@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ac6875a_b1200f32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "You can merge this with the OrmException block. You will have to use the same log message, but I don\u0027t think that\u0027s a big loss since the log will contain the stack trace anyway.",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fab3743_8ed073c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "Optional: factor into a local canRead method.",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 36
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1470a190_b8abaec6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "Optional: factor out a local method?",
+      "range": {
+        "startLine": 150,
+        "startChar": 18,
+        "endLine": 150,
+        "endChar": 97
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87baa108_f48c6bc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "I think you still want to catch OrmException here. This was primarily to catch the OrmException wrapping NSCE from topicCd.changeControl on line 382.",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9feca98_b6278caf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "Nit: s/drafts are deprecated/support for drafts is removed/",
+      "range": {
+        "startLine": 217,
+        "startChar": 82,
+        "endLine": 217,
+        "endChar": 92
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6441911_1baa2bac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "Nit: s/drafts are deprecated/support for drafts is removed/",
+      "range": {
+        "startLine": 226,
+        "startChar": 82,
+        "endLine": 226,
+        "endChar": 92
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2723bd8_042cfeaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": "Why is rethrowing the original exception preferable to just wrapping it again? The downside of doing this is that you entirely lose the stack frame that threw the PBE.",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8757160_97b12684",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T12:44:51Z",
+      "side": 1,
+      "message": ".database(db)?",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -707,7 +707,7 @@
 
     _onLineSelected(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
-      history.replaceState(null, null, '#' + this.$.cursor.getAddress());
+      history.replaceState(null, '', '#' + this.$.cursor.getAddress());
     },
 
     _computeDownloadLink(changeNum, patchRange, path) {

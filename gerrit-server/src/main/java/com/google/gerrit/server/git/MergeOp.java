@@ -491,7 +491,7 @@ public class MergeOp implements AutoCloseable {
             }
             return null;
           },
-          retryTracker);
+          RetryHelper.options().listener(retryTracker).build());
 
       if (projects > 1) {
         topicMetrics.topicSubmissionsCompleted.increment();

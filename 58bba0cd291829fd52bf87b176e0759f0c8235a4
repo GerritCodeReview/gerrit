@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "291e852d_398f247f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T15:31:01Z",
+      "side": 1,
+      "message": "Thanks for adding the comment in the commit message and making the conflicts operator symmetric again.",
+      "parentUuid": "30343673_9b19b028",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e8c5503_8cf293fd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

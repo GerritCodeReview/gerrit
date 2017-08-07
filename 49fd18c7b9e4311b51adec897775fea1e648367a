@@ -213,6 +213,30 @@
       "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b3541fb_0e6fffe3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-07T09:03:12Z",
+      "side": 1,
+      "message": "Yes, indeed :-)\nAre you planning any follow-up to extend its configurability?",
+      "parentUuid": "4c09f8c3_57e3f315",
+      "range": {
+        "startLine": 1157,
+        "startChar": 16,
+        "endLine": 1157,
+        "endChar": 36
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

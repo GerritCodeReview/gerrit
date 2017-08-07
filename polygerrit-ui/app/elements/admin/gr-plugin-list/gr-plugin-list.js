@@ -52,6 +52,7 @@
         value: true,
       },
       _filter: String,
+      checkStatus: Boolean,
     },
 
     behaviors: [
@@ -88,12 +89,32 @@
           });
     },
 
+    _getSettingsPath(pluginName) {
+      if (this._getSettingsURL(pluginName)) {
+        return 'hidden';
+      }
+    },
+
+    _getSettingsURL(pluginName) {
+      const plugin = this.getBaseUrl() + '/plugins/' + pluginName + '/settings';
+      return this.$.restAPI.probePath(plugin).then(ok => {
+        if (ok.status === 404) {
+          return true;
+        }
+        return false;
+      });
+    },
+
     _status(item) {
       return item.disabled === true ? 'Disabled' : 'Enabled';
     },
 
     _computePluginUrl(id) {
       return this.getUrl('/', id);
+    },
+
+    _generateSettingsUrl(pluginName) {
+      return this.getBaseUrl() + '/plugins/' + pluginName + '/settings';
     },
   });
 })();

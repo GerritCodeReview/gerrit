@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a90aaf2_8e95cc6e",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d128fd3d_3f8fee7b",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 7
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3c324c_ac7d4edd",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8825126_e06f44aa",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf3c324c_ac7d4edd",
+      "range": {
+        "startLine": 88,
+        "startChar": 69,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6c125549_30c6e194",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "374bf38c_01500b76",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "149166a8_856130be",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a43821c_e93ea18d",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149166a8_856130be",
+      "range": {
+        "startLine": 135,
+        "startChar": 63,
+        "endLine": 135,
+        "endChar": 68
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "01104d6f_6d3251a1",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c2e1f27_fa45c068",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 45
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2738c9d9_cdac812e",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 7
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "32721677_f286c463",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2738c9d9_cdac812e",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bfb5740_4471bc3b",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 7
@@ -160,6 +304,30 @@
       "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67176230_e0376ab8",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:09Z",
+      "side": 1,
+      "message": "I agree, but I don\u0027t want to do that until I am sure of a good style pattern. Should Change-Ids be in bold? italics? Something else? What about UI elements?\n\nThat\u0027s worth a separate consideration, in my opinion. But your point is VERY well taken!",
+      "parentUuid": "8bfb5740_4471bc3b",
+      "range": {
+        "startLine": 204,
+        "startChar": 37,
+        "endLine": 204,
+        "endChar": 43
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,27 +58,22 @@ public abstract class JdbcAccountPatchReviewStore
 
     @Override
     protected void configure() {
+      Class<? extends JdbcAccountPatchReviewStore> impl;
       String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
       if (url == null || url.contains(H2_DB)) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(H2AccountPatchReviewStore.class);
-        listener().to(H2AccountPatchReviewStore.class);
+        impl = H2AccountPatchReviewStore.class;
       } else if (url.contains(POSTGRESQL)) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(PostgresqlAccountPatchReviewStore.class);
-        listener().to(PostgresqlAccountPatchReviewStore.class);
+        impl = PostgresqlAccountPatchReviewStore.class;
       } else if (url.contains(MYSQL)) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(MysqlAccountPatchReviewStore.class);
-        listener().to(MysqlAccountPatchReviewStore.class);
+        impl = MysqlAccountPatchReviewStore.class;
       } else if (url.contains(MARIADB)) {
-        DynamicItem.bind(binder(), AccountPatchReviewStore.class)
-            .to(MariaDBAccountPatchReviewStore.class);
-        listener().to(MariaDBAccountPatchReviewStore.class);
+        impl = MariaDBAccountPatchReviewStore.class;
       } else {
         throw new IllegalArgumentException(
             "unsupported driver type for account patch reviews db: " + url);
       }
+      DynamicItem.bind(binder(), AccountPatchReviewStore.class).to(impl);
+      listener().to(impl);
     }
   }
 

@@ -33,11 +33,13 @@ limitations under the License.
       return this.getBaseUrl() + path + this.encodeURL(item, true);
     },
 
+    /** @return {string} */
     getFilterValue(params) {
-      if (!params) { return null; }
-      return params.filter || null;
+      if (!params) { return ''; }
+      return params.filter || '';
     },
 
+    /** @return {number} */
     getOffsetValue(params) {
       if (params && params.offset) {
         return params.offset;

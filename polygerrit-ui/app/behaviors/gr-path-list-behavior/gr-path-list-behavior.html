@@ -19,6 +19,11 @@ limitations under the License.
 
   /** @polymerBehavior Gerrit.PathListBehavior */
   const PathListBehavior = {
+    /**
+     * @param {string} a
+     * @param {string} b
+     * @return {number}
+     */
     specialFilePathCompare(a, b) {
       // The commit message always goes first.
       const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';

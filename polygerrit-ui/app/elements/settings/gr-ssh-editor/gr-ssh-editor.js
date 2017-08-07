@@ -24,6 +24,11 @@
         notify: true,
       },
       _keys: Array,
+      /**
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @typedef {{ algorithm: string, encoded_key: string, comment: string }}
+       */
       _keyToView: Object,
       _newKey: {
         type: String,

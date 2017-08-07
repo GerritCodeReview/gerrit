@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dba97ea_f735c4ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-07T16:44:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this else statement is necessary. I think this._cachedToken can always be set to null.",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 29
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fcf72cb_0e8429e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-07T16:44:49Z",
+      "side": 1,
+      "message": "I don\u0027t know what\u0027s the best response here. So the client has attempted to fetch a fresh access token, but that token is not valid. This seems like a failure scenario. Should this throw an exception? Or is it better to attempt to make the xhr request without the access_token\u003d\"token\" parameter? That xhr seems doomed to fail and a bit more challenging to debug. Thoughts?",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

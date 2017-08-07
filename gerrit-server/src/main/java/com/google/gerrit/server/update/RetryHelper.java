@@ -108,6 +108,10 @@ public class RetryHelper {
             WaitStrategies.randomWait(50, MILLISECONDS));
   }
 
+  public Duration getDefaultTimeout() {
+    return defaultTimeout;
+  }
+
   public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
     return execute(action, defaults());
   }

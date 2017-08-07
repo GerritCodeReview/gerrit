@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4ced0fb_20aba695",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ac6875a_b1200f32",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fab3743_8ed073c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-07T12:44:51Z",
       "side": 1,
       "message": "Optional: factor into a local canRead method.",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 36
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d093679_e5f36894",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fab3743_8ed073c6",
       "range": {
         "startLine": 113,
         "startChar": 8,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7bfefcd7_80dd6a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1470a190_b8abaec6",
+      "range": {
+        "startLine": 150,
+        "startChar": 18,
+        "endLine": 150,
+        "endChar": 97
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87baa108_f48c6bc3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bcc7f50_2db80bb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done. Good catch. In this case I think we only need to look at the OrmException since a NoSuchChangeException would always throw in the topicCd.changeControl() call first.",
+      "parentUuid": "87baa108_f48c6bc3",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "9fe62f62_600598d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9feca98_b6278caf",
+      "range": {
+        "startLine": 217,
+        "startChar": 82,
+        "endLine": 217,
+        "endChar": 92
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6441911_1baa2bac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -125,6 +233,30 @@
       "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c6db26_af650abe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6441911_1baa2bac",
+      "range": {
+        "startLine": 226,
+        "startChar": 82,
+        "endLine": 226,
+        "endChar": 92
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "284b97f1_4393331e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2723bd8_042cfeaf",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8757160_97b12684",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 1
@@ -165,6 +321,24 @@
       "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9c5e56a_391d703c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-07T14:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8757160_97b12684",
+      "revId": "8fb5afa4d569ce405c33a17e024c1a2ebfb937c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

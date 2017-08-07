@@ -73,6 +73,8 @@ limitations under the License.
           },
         });
 
+        sandbox.stub(page, 'show');
+
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
@@ -149,6 +151,67 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.equal(element.computeLoadingClass(element._loading), '');
         assert.equal(getComputedStyle(element.$.loading).display, 'none');
+      });
+    });
+
+    suite('unit tests', () => {
+      test('_determineShowSettingsClass returns showSettings when true',
+          () => {
+            assert.equal(
+                element._determineShowSettingsClass(true), 'showSettings');
+          });
+
+      test('_determineShowSettingsClass returns string when false', () => {
+        assert.equal(element._determineShowSettingsClass(false), '');
+      });
+
+      test('_computeHideSettingsClass hides setting url', done => {
+        sandbox.stub(element.$.restAPI, 'probePath').returns(
+            Promise.resolve(false));
+        element._determineShowPluginSettings('test').then(res => {
+          assert.equal(res, false);
+          done();
+        });
+      });
+
+      test('_computeHideSettingsClass does not hide settings url', done => {
+        sandbox.stub(element.$.restAPI, 'probePath').returns(
+            Promise.resolve(true));
+        element._determineShowPluginSettings('test').then(res => {
+          assert.equal(res, true);
+          done();
+        });
+      });
+
+      test('_generateSettingsUrl returns plugin url', () => {
+        assert.deepEqual(element._generateSettingsUrl('test'),
+            '/plugins/test/settings');
+      });
+    });
+
+    suite('_getPlugins', () => {
+      setup(done => {
+        plugins = _.times(26, pluginGenerator);
+
+        stub('gr-rest-api-interface', {
+          getPlugins(num, offset) {
+            return Promise.resolve(plugins);
+          },
+        });
+
+        element._paramsChanged(value).then(() => { flush(done); });
+      });
+
+      test('_getPlugins and _determineShowPluginSettings', done => {
+        sandbox.stub(element, '_determineShowPluginSettings').returns(
+            Promise.resolve(false));
+        element._determineShowPluginSettings.onCall(0).returns(
+            Promise.resolve(true));
+        element._getPlugins().then(() => {
+          assert.equal(element._plugins[0].showSettings, true);
+          assert.equal(element._plugins[1].showSettings, false);
+          done();
+        });
       });
     });
   });

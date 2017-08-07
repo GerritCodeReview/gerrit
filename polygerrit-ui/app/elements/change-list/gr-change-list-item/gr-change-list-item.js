@@ -22,6 +22,14 @@
       labelNames: {
         type: Array,
       },
+      /**
+       * State persisted across restamps of the element.
+       *
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @type {{ subject: string, owner: string, project: string, updated: string }}
+       *
+       */
       change: Object,
       changeURL: {
         type: String,

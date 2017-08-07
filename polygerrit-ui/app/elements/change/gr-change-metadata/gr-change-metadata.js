@@ -34,9 +34,20 @@
      */
 
     properties: {
+      /**
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @type {{ updated: string, owner: string }}
+       *
+       */
       change: Object,
       commitInfo: Object,
       mutable: Boolean,
+      /**
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @type {{ note_db_enabled: string }}
+       */
       serverConfig: Object,
       _topicReadOnly: {
         type: Boolean,
@@ -235,6 +246,13 @@
       return false;
     },
 
+    /**
+     * Closure annotation for Polymer.prototype.splice is off.
+     * For now, supressing annotations.
+     *
+     * TODO(beckysiegel) submit Polymer PR
+     *
+     * @suppress {checkTypes} */
     _onDeleteVote(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;

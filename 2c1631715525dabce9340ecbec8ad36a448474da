@@ -93,6 +93,30 @@
       "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e896e3_56ec7d7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-07T18:33:22Z",
+      "side": 1,
+      "message": "Yeah. Is making the xhr request without the access_token the best way to handle this scenario? Is the xhr guaranteed to fail w/out the access_token. If the xhr is doomed to fail, should this throw an exception?",
+      "parentUuid": "f52b2be5_74e34738",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

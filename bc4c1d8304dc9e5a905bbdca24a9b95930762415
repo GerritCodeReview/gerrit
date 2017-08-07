@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "565949e3_d274249e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-07T18:33:22Z",
+      "side": 1,
+      "message": "If there is no cached_token and _getAccessToken is called multiple times, then this._getToken() will be called multiple times which will make multiple oauth token requests. I think the promise needs to be only created once and cached and then destroyed if the token is invalid.",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "bc4c1d8304dc9e5a905bbdca24a9b95930762415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

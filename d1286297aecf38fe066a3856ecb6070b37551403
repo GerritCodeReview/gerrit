@@ -117,6 +117,30 @@
       "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c23b0b_1a8b45f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-07T22:53:35Z",
+      "side": 1,
+      "message": "I still don\u0027t quite understand (but maybe it doesn\u0027t matter at this point).\n\nIf we can pass `undefined` to mean that the optional param is not used, what does it mean to pass `null`?",
+      "parentUuid": "56dffb9a_becfba54",
+      "range": {
+        "startLine": 1050,
+        "startChar": 15,
+        "endLine": 1050,
+        "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -93,6 +93,30 @@
       "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56dffb9a_becfba54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-07T22:50:54Z",
+      "side": 1,
+      "message": "Others (that are among other optional params) should be like this too. I will go over them and make sure it is consistent.\n\nwith out \u0027?\u0027 I believe we could pass undefined, but not null. the \u0027?\u0027 allows the param to be null.",
+      "parentUuid": "a518711d_fcb9d3cf",
+      "range": {
+        "startLine": 1050,
+        "startChar": 15,
+        "endLine": 1050,
+        "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

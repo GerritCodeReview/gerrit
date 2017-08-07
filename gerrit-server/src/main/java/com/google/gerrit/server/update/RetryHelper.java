@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -21,7 +22,6 @@ import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 
@@ -61,9 +62,14 @@ public class RetryHelper {
     @Nullable
     abstract RetryListener listener();
 
+    @Nullable
+    abstract Duration timeout();
+
     @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder listener(RetryListener listener);
+
+      public abstract Builder timeout(Duration timeout);
 
       public abstract Options build();
     }
@@ -79,7 +85,7 @@ public class RetryHelper {
 
   private final NotesMigration migration;
   private final BatchUpdate.Factory updateFactory;
-  private final StopStrategy stopStrategy;
+  private final Duration defaultTimeout;
   private final WaitStrategy waitStrategy;
 
   @Inject
@@ -91,10 +97,9 @@ public class RetryHelper {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
-    this.stopStrategy =
-        StopStrategies.stopAfterDelay(
-            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS),
-            MILLISECONDS);
+    this.defaultTimeout =
+        Duration.ofMillis(
+            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS));
     this.waitStrategy =
         WaitStrategies.join(
             WaitStrategies.exponentialWait(
@@ -112,7 +117,9 @@ public class RetryHelper {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb()) {
         builder
-            .withStopStrategy(stopStrategy)
+            .withStopStrategy(
+                StopStrategies.stopAfterDelay(
+                    firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
             .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
         if (opts.listener() != null) {

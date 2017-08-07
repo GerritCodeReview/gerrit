@@ -22,6 +22,30 @@
       "revId": "bc4c1d8304dc9e5a905bbdca24a9b95930762415",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e29dc2_5c6c1d74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T23:03:59Z",
+      "side": 1,
+      "message": "Good point, done.\nAdded a test for that, too.",
+      "parentUuid": "565949e3_d274249e",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 29
+      },
+      "revId": "bc4c1d8304dc9e5a905bbdca24a9b95930762415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

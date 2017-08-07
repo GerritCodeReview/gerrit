@@ -141,6 +141,30 @@
       "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34aca722_7a06abdb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T23:03:59Z",
+      "side": 1,
+      "message": "Done, with anonymous fallback after 5 retries.\n\nJust to recap:\n- auth waits for valid token\n- on expiry, updates the token\n- on sequential failures - retries 5 times\n- auth and server errors are reported through auth-error and server-error DOM events",
+      "parentUuid": "148c403a_a49bf19c",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

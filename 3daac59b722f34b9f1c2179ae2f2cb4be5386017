@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0565f3fc_db420d5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T09:58:36Z",
+      "side": 1,
+      "message": "Why is OrPredicate instead of OrSource explicitly used for single elements? Shouldn\u0027t we rather get rid of the or-wrapper at all and just use the single element?\n\nSorry for asking probably silly questions. It\u0027s the first time I\u0027m looking at this part of the code.",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "3daac59b722f34b9f1c2179ae2f2cb4be5386017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -204,6 +204,12 @@
           '/access/?project=' + encodeURIComponent(project));
     },
 
+    /**
+     * @param {string} project
+     * @param {Object} config
+     * @param {Function=} opt_errFn
+     * @param {Object=} opt_ctx
+     */
     saveProjectConfig(project, config, opt_errFn, opt_ctx) {
       const encodeName = encodeURIComponent(project);
       return this.send('PUT', `/projects/${encodeName}/config`, config,
@@ -416,11 +422,21 @@
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} email
+     * @param {Function=} opt_errFn
+     * @param {Object=} opt_ctx
+     */
     deleteAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('DELETE', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} email
+     * @param {Function=} opt_errFn
+     * @param {Object=} opt_ctx
+     */
     setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
@@ -441,6 +457,11 @@
           });
     },
 
+    /**
+     * @param {string} name
+     * @param {Function=} opt_errFn
+     * @param {Object=} opt_ctx
+     */
     setAccountName(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
           opt_ctx).then(response => {
@@ -458,6 +479,11 @@
           });
     },
 
+    /**
+     * @param {number} status
+     * @param {Function=} opt_errFn
+     * @param {Object=} opt_ctx
+     */
     setAccountStatus(status, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/status', {status},
           opt_errFn, opt_ctx).then(response => {
@@ -748,7 +774,8 @@
      */
     _normalizeChangeFilesResponse(response) {
       if (!response) { return []; }
-      const paths = Object.keys(response).sort(this.specialFilePathCompare);
+      const sortFunc =this.specialFilePathCompare;
+      const paths = Object.keys(response).sort(sortFunc);
       const files = [];
       for (let i = 0; i < paths.length; i++) {
         const info = response[paths[i]];
@@ -1115,10 +1142,9 @@
      * empty object.
      *
      * @param {number|string} changeNum
-     * @param {number|string} opt_basePatchNum
-     * @param {number|string} opt_patchNum
-     * @param {string} opt_path
-     * @return {Promise<Object>}
+     * @param {(number|string)=} opt_basePatchNum
+     * @param {(number|string)=} opt_patchNum
+     * @param {string=} opt_path
      */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this.getLoggedIn().then(loggedIn => {
@@ -1231,7 +1257,7 @@
     },
 
     /**
-     * @returns {boolean} Whether there are pending diff draft sends.
+     * @return {boolean} Whether there are pending diff draft sends.
      */
     hasPendingDiffDrafts() {
       const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
@@ -1239,7 +1265,7 @@
     },
 
     /**
-     * @returns {Promise} A promise that resolves when all pending diff draft
+     * @return {Promise} A promise that resolves when all pending diff draft
      *    sends have resolved.
      */
     awaitPendingDiffDrafts() {
@@ -1344,6 +1370,10 @@
       });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {(number|string)=} opt_patchNum
+     */
     _changeBaseURL(changeNum, opt_patchNum) {
       let v = '/changes/' + changeNum;
       if (opt_patchNum) {
@@ -1433,6 +1463,10 @@
           });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {string=} opt_message
+     */
     startWorkInProgress(changeNum, opt_message) {
       const payload = {};
       if (opt_message) {
@@ -1447,6 +1481,11 @@
           });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {(string|Object)=} opt_body
+     * @param {Function=} opt_errFn
+     */
     startReview(changeNum, opt_body, opt_errFn) {
       return this.send(
           'POST', this.getChangeActionURL(changeNum, null, '/ready'),
@@ -1471,7 +1510,7 @@
     },
 
     /**
-     * @param {string|number} changeNum
+     * @param {number|string} changeNum
      * @param {string} project
      */
     setInProjectLookup(changeNum, project) {
@@ -1488,8 +1527,8 @@
      * project. If not, calls the restAPI to get the change, populates
      * _projectLookup with the project for that change, and returns the project.
      *
-     * @param {string|number} changeNum
-     * @return {Promise<string>}
+     * @param {number|string} changeNum
+     * @return {Promise.<string>}
      */
     _getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];

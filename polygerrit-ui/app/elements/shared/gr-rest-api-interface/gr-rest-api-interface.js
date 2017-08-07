@@ -96,10 +96,10 @@
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
      * @param {string} url
-     * @param {function(response, error)} opt_errFn
-     * @param {function()} opt_cancelCondition
-     * @param {Object=} opt_params URL params, key-value hash.
-     * @param {Object=} opt_options Fetch options.
+     * @param {function(?Response, string)=} opt_errFn
+     * @param {function()=} opt_cancelCondition
+     * @param {?Object=} opt_params URL params, key-value hash.
+     * @param {?Object=} opt_options Fetch options.
      */
     _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_options) {
@@ -121,7 +121,7 @@
           return;
         }
         if (opt_errFn) {
-          opt_errFn.call(null, null, err);
+          opt_errFn.call(undefined, null, err);
         } else {
           this.fire('network-error', {error: err});
         }
@@ -134,10 +134,10 @@
      * Returns a Promise that resolves to a parsed response.
      * Same as {@link _fetchRawJSON}, plus error handling.
      * @param {string} url
-     * @param {function(response, error)} opt_errFn
-     * @param {function()} opt_cancelCondition
-     * @param {Object=} opt_params URL params, key-value hash.
-     * @param {Object=} opt_options Fetch options.
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {function()=} opt_cancelCondition
+     * @param {?Object=} opt_params URL params, key-value hash.
+     * @param {?Object=} opt_options Fetch options.
      */
     fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
       return this._fetchRawJSON(
@@ -158,6 +158,10 @@
           });
     },
 
+    /**
+     * @param {string} url
+     * @param {?Object=} opt_params URL params, key-value hash.
+     */
     _urlWithParams(url, opt_params) {
       if (!opt_params) { return this.getBaseUrl() + url; }
 
@@ -206,6 +210,11 @@
           opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {?Object} config
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     createProject(config, opt_errFn, opt_ctx) {
       if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
@@ -213,6 +222,11 @@
           opt_ctx);
     },
 
+    /**
+     * @param {?Object} config
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     createGroup(config, opt_errFn, opt_ctx) {
       if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
@@ -225,6 +239,12 @@
       return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
     },
 
+    /**
+     * @param {string} project
+     * @param {string} ref
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
       if (!project || !ref) {
         return '';
@@ -236,6 +256,12 @@
           opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} project
+     * @param {string} ref
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
       if (!project || !ref) {
         return '';
@@ -247,6 +273,13 @@
           opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} name
+     * @param {string} branch
+     * @param {string} revision
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     createProjectBranch(name, branch, revision, opt_errFn, opt_ctx) {
       if (!name || !branch || !revision) { return ''; }
       const encodeName = encodeURIComponent(name);
@@ -256,6 +289,13 @@
           revision, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} name
+     * @param {string} tag
+     * @param {string} revision
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     createProjectTag(name, tag, revision, opt_errFn, opt_ctx) {
       if (!name || !tag || !revision) { return ''; }
       const encodeName = encodeURIComponent(name);
@@ -326,6 +366,11 @@
       });
     },
 
+    /**
+     * @param {?Object} prefs
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     savePreferences(prefs, opt_errFn, opt_ctx) {
       // Note (Issue 5142): normalize the download scheme with lower case before
       // saving.
@@ -337,6 +382,11 @@
           opt_ctx);
     },
 
+    /**
+     * @param {?Object} prefs
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     saveDiffPreferences(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.diff'] = undefined;
@@ -356,16 +406,31 @@
       return this._fetchSharedCacheURL('/accounts/self/emails');
     },
 
+    /**
+     * @param {string} email
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     addAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} email
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     deleteAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('DELETE', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} email
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
@@ -386,6 +451,11 @@
           });
     },
 
+    /**
+     * @param {string} name
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     setAccountName(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
           opt_ctx).then(response => {
@@ -403,6 +473,11 @@
           });
     },
 
+    /**
+     * @param {string} status
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     setAccountStatus(status, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/status', {status},
           opt_errFn, opt_ctx).then(response => {
@@ -428,6 +503,9 @@
       return this._fetchSharedCacheURL('/accounts/self/agreements');
     },
 
+    /**
+     * @param {string=} opt_params
+     */
     getAccountCapabilities(opt_params) {
       let queryString = '';
       if (opt_params) {
@@ -502,6 +580,11 @@
       return this._fetchSharedCacheURL('/accounts/self/watched.projects');
     },
 
+    /**
+     * @param {string} projects
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     saveWatchedProjects(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects', projects,
           opt_errFn, opt_ctx)
@@ -510,11 +593,20 @@
           });
     },
 
+    /**
+     * @param {string} projects
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     deleteWatchedProjects(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects:delete',
           projects, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {string} url
+     * @param {function(?Response, string=)=} opt_errFn
+     */
     _fetchSharedCacheURL(url, opt_errFn) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
@@ -542,11 +634,11 @@
     },
 
     /**
-     * @param {!number} opt_changesPerPage
-     * @param {!string|Array<string>} opt_query A query or an array of queries.
-     * @param {!number} opt_offset
-     * @param {!Object} opt_options
-     * @return {Array<Object>|Array<Array<Object>>} If opt_query is an array,
+     * @param {number=} opt_changesPerPage
+     * @param {string|!Array<string>=} opt_query A query or an array of queries.
+     * @param {number|string=} opt_offset
+     * @param {!Object=} opt_options
+     * @return {?Array<?Object>|Array<Array<?Object>>} If opt_query is an array,
      *     fetchJSON will return an array of arrays of changeInfos. If it is
      *     unspecified or a string, fetchJSON will return an array of
      *     changeInfos.
@@ -597,10 +689,23 @@
       }
     },
 
+    /**
+     * TODO (beckysiegel) this needs to be rewritten with the optional param
+     * at the end.
+     *
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_patchNum
+     * @param {?} endpoint
+     */
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {function()=} opt_cancelCondition
+     */
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_REVISIONS,
@@ -616,6 +721,11 @@
           .then(GrReviewerUpdatesParser.parse);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {function()=} opt_cancelCondition
+     */
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const params = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_REVISIONS
@@ -624,6 +734,11 @@
           opt_cancelCondition);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {function()=} opt_cancelCondition
+     */
     _getChangeDetail(changeNum, params, opt_errFn,
         opt_cancelCondition) {
       const url = this.getChangeActionURL(changeNum, null, '/detail');
@@ -670,12 +785,22 @@
           this._normalizeChangeFilesResponse.bind(this));
     },
 
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
     getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(files => {
         return Object.keys(files).sort(this.specialFilePathCompare);
       });
     },
 
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
     _normalizeChangeFilesResponse(response) {
       if (!response) { return []; }
       const paths = Object.keys(response).sort(this.specialFilePathCompare);
@@ -704,6 +829,12 @@
           });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {string} inputVal
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn,
         opt_ctx) {
       const url =
@@ -724,6 +855,11 @@
       return filter;
     },
 
+    /**
+     * @param {string} filter
+     * @param {number} groupsPerPage
+     * @param {number|string} opt_offset
+     */
     getGroups(filter, groupsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -733,6 +869,11 @@
       );
     },
 
+    /**
+     * @param {string} filter
+     * @param {number} projectsPerPage
+     * @param {number|string} opt_offset
+     */
     getProjects(filter, projectsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -747,6 +888,12 @@
           'PUT', `/projects/${encodeURIComponent(project)}/HEAD`, {ref});
     },
 
+    /**
+     * @param {string} filter
+     * @param {string} project
+     * @param {number} projectsBranchesPerPage
+     * @param {number|string} opt_offset
+     */
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -757,6 +904,12 @@
       );
     },
 
+    /**
+     * @param {string} filter
+     * @param {string} project
+     * @param {number} projectsTagsPerPage
+     * @param {number|string} opt_offset
+     */
     getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -767,6 +920,11 @@
       );
     },
 
+    /**
+     * @param {string} filter
+     * @param {number} pluginsPerPage
+     * @param {number|string} opt_offset
+     */
     getPlugins(filter, pluginsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -776,12 +934,24 @@
       );
     },
 
+    /**
+     * @param {string} inputVal
+     * @param {number} opt_n
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
     },
 
+    /**
+     * @param {string} inputVal
+     * @param {number} opt_n
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {
         m: inputVal,
@@ -792,6 +962,12 @@
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },
 
+    /**
+     * @param {string} inputVal
+     * @param {number} opt_n
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     getSuggestedAccounts(inputVal, opt_n, opt_errFn, opt_ctx) {
       if (!inputVal) {
         return Promise.resolve([]);
@@ -885,6 +1061,14 @@
           this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string} patchNum
+     * @param {string} path
+     * @param {reviewed} boolean
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn, opt_ctx) {
       const method = reviewed ? 'PUT' : 'DELETE';
       const url = this.getChangeActionURL(changeNum, patchNum,
@@ -893,6 +1077,14 @@
       return this.send(method, url, null, opt_errFn, opt_ctx);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string} patchNum
+     * @param {string} path
+     * @param {reviewed} boolean
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     */
     saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
       const url = this.getChangeActionURL(changeNum, patchNum, '/review');
       return this.awaitPendingDiffDrafts()
@@ -930,8 +1122,7 @@
     renameFileInChangeEdit(changeNum, old_path, new_path) {
       return this.send('POST',
           this.getChangeActionURL(changeNum, null, '/edit'),
-          {old_path},
-          {new_path}
+          {old_path, new_path}
       );
     },
 
@@ -973,12 +1164,19 @@
       return this.send(method, url);
     },
 
+    /**
+     * @param {string} method
+     * @param {string} url
+     * @param {?string|!Object=} opt_body
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     * @param {?string=} opt_contentType
+     */
     send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
       const options = {method};
       if (opt_body) {
-        options.headers = new Headers({
-          'Content-Type': opt_contentType || 'application/json',
-        });
+        options.headers = new Headers();
+        options.headers.append('Content-Type', 'image/jpeg');
         if (typeof opt_body !== 'string') {
           opt_body = JSON.stringify(opt_body);
         }
@@ -1003,6 +1201,15 @@
       });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string} basePatchNum
+     * @param {number|string} patchNum
+     * @param {string} path
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?} opt_ctx
+     * @param {function()=} opt_cancelCondition
+     */
     getDiff(changeNum, basePatchNum, patchNum, path,
         opt_errFn, opt_cancelCondition) {
       const url = this._getDiffFetchURL(changeNum, patchNum, path);
@@ -1023,6 +1230,12 @@
           encodeURIComponent(path) + '/diff';
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_basePatchNum
+     * @param {number|string=} opt_patchNum
+     * @param {string=} opt_path
+     */
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
@@ -1042,7 +1255,7 @@
      * @param {number|string} opt_basePatchNum
      * @param {number|string} opt_patchNum
      * @param {string} opt_path
-     * @return {Promise<Object>}
+     * @return {?Promise<?Object>}
      */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this.getLoggedIn().then(loggedIn => {
@@ -1075,6 +1288,13 @@
       return comments;
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {string} endpoint
+     * @param {number|string=} opt_basePatchNum
+     * @param {number|string=} opt_patchNum
+     * @param {?string=} opt_path
+     */
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
@@ -1130,6 +1350,11 @@
       });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {string} endpoint
+     * @param {number|string=} opt_patchNum
+     */
     _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
       return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
@@ -1151,7 +1376,7 @@
     },
 
     /**
-     * @returns {Promise} A promise that resolves when all pending diff draft
+     * @returns {?Promise} A promise that resolves when all pending diff draft
      *    sends have resolved.
      */
     awaitPendingDiffDrafts() {
@@ -1198,12 +1423,18 @@
           });
     },
 
+    /**
+     * @param {string} changeId
+     * @param {string|number} patchNum
+     * @param {string} path
+     * @param {number=} opt_parentIndex
+     */
     getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
       return this._fetchB64File(
           '/changes/' + encodeURIComponent(changeId) +
-          '/revisions/' + encodeURIComponent(patchNum) +
+          '/revisions/' + encodeURIComponent(patchNum + '') +
           '/files/' + encodeURIComponent(path) +
           '/content' + parent);
     },
@@ -1250,6 +1481,10 @@
       });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_patchNum
+     */
     _changeBaseURL(changeNum, opt_patchNum) {
       let v = '/changes/' + changeNum;
       if (opt_patchNum) {
@@ -1339,6 +1574,10 @@
           });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_message
+     */
     startWorkInProgress(changeNum, opt_message) {
       const payload = {};
       if (opt_message) {
@@ -1353,6 +1592,11 @@
           });
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_body
+     * @param {function(?Response, string=)=} opt_errFn
+     */
     startReview(changeNum, opt_body, opt_errFn) {
       return this.send(
           'POST', this.getChangeActionURL(changeNum, null, '/ready'),
@@ -1369,8 +1613,8 @@
     /**
      * Given a changeNum, gets the change.
      *
-     * @param {string} changeNum
-     * @return {Promise<Object>} The change
+     * @param {number|string} changeNum
+     * @return {!Promise<?Object>} The change
      */
     getChange(changeNum) {
       return this.fetchJSON(`/changes/${changeNum}`);
@@ -1395,7 +1639,7 @@
      * _projectLookup with the project for that change, and returns the project.
      *
      * @param {string|number} changeNum
-     * @return {Promise<string>}
+     * @return {?Promise<string>}
      */
     _getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];

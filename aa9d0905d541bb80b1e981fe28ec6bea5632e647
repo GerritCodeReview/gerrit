@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46fe21bc_9bec09e2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:58:37Z",
+      "side": 1,
+      "message": "+Becky, she did some work regarding hashes... Not sure if that\u0027s still a thing here.",
+      "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "016db0133f8fb9d29433860246929ab44ef97271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f359e390_133d65ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T16:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90343d4d_338842dc",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "016db0133f8fb9d29433860246929ab44ef97271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

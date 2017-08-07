@@ -57,12 +57,12 @@ public class RetryHelper {
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
     this.stopStrategy =
         StopStrategies.stopAfterDelay(
-            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(5), MILLISECONDS),
+            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS),
             MILLISECONDS);
     this.waitStrategy =
         WaitStrategies.join(
             WaitStrategies.exponentialWait(
-                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(20), MILLISECONDS),
+                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(5), MILLISECONDS),
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
   }

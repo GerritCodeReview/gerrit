@@ -117,6 +117,30 @@
       "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "148c403a_a49bf19c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T20:31:58Z",
+      "side": 1,
+      "message": "tl;dr: I\u0027m agree with the point, but I don\u0027t see a straightforward solution right here.\n\n\u003e If the xhr is doomed to fail\n\nEffectively, the response would be performed as if user isn\u0027t signed in.\nPractically this will generate mixed results - some things will work while some would not.\n\nSay, the access_token isn\u0027t expired, but user had logged out. What should happen? I presume, some sort of error should be reported.\n\nWould throwing an error solve it? We don\u0027t do that normally elsewhere, and I\u0027m not sure this is the best pattern for reporting errors.\n\nLet\u0027s discuss this.",
+      "parentUuid": "45e896e3_56ec7d7f",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

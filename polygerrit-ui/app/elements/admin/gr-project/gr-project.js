@@ -67,6 +67,20 @@
         value: false,
         observer: '_loggedInChanged',
       },
+      /** @type {{
+       *  description: string,
+       *  state: string,
+       *  submit_type: string,
+       *  use_content_merge: boolean,
+       *  create_new_change_for_all_not_in_target: boolean,
+       *  require_change_id: Object,
+       *  reject_implicit_merges: Object,
+       *  max_object_size_limit: Object,
+       *  match_author_to_committer_date: Object,
+       *  use_contributor_agreements: Object,
+       *  use_signed_off_by: Object
+       * }}
+       */
       _projectConfig: Object,
       _readOnly: {
         type: Boolean,

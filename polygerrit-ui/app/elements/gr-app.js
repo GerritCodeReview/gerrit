@@ -31,6 +31,9 @@
      */
 
     properties: {
+      /**
+       * @type {{ query: string, view: string }}
+       */
       params: Object,
       keyEventTarget: {
         type: Object,
@@ -41,6 +44,9 @@
         type: Object,
         observer: '_accountChanged',
       },
+      /**
+       * @type {{ plugin: Object }}
+       */
       _serverConfig: Object,
       _version: String,
       _showChangeListView: Boolean,
@@ -50,7 +56,16 @@
       _showSettingsView: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
+      /**
+       * @type {{
+       *  changeListView: Object,
+       *  dashboardView: Object,
+       *  changeView: Object }}
+       */
       _viewState: Object,
+      /**
+       * @type {{ email: string, text: string, moreInfo: string }}
+       */
       _lastError: Object,
       _lastSearchPage: String,
       _path: String,

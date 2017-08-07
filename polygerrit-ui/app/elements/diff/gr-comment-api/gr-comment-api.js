@@ -20,9 +20,13 @@
     is: 'gr-comment-api',
 
     properties: {
+      /** @type {number|undefined} */
       _changeNum: Number,
+      /** @type {Object|undefined} */
       _comments: Object,
+      /** @type {Object|undefined} */
       _drafts: Object,
+      /** @type {Object|undefined} */
       _robotComments: Object,
     },
 
@@ -35,8 +39,8 @@
      * number. The returned promise resolves when the comments have loaded, but
      * does not yield the comment data.
      *
-     * @param {!number} changeNum
-     * @return {!Promise}
+     * @param {number=} changeNum
+     * @return {Promise}
      */
     loadAll(changeNum) {
       this._changeNum = changeNum;
@@ -65,7 +69,7 @@
      * Paths with comments are mapped to true, whereas paths without comments
      * are not mapped.
      *
-     * @param {!Object} patchRange The patch-range object containing patchNum
+     * @param {Object=} patchRange The patch-range object containing patchNum
      *     and basePatchNum properties to represent the range.
      * @return {Object}
      */
@@ -88,10 +92,10 @@
      * patch-range. Returns an object with left and right properties mapping to
      * arrays of comments in on either side of the patch range for that path.
      *
-     * @param {!string} path
-     * @param {!Object} patchRange The patch-range object containing patchNum
+     * @param {string=} path
+     * @param {Object=} patchRange The patch-range object containing patchNum
      *     and basePatchNum properties to represent the range.
-     * @param {Object} opt_projectConfig Optional project config object to
+     * @param {?Object=} opt_projectConfig Optional project config object to
      *     include in the meta sub-object.
      * @return {Object}
      */
@@ -124,8 +128,8 @@
     /**
      * Whether the given comment should be included in the base side of the
      * given patch range.
-     * @param {!Object} comment
-     * @param {!Object} range
+     * @param {Object=} comment
+     * @param {Object=} range
      * @return {boolean}
      */
     _isInBaseOfPatchRange(comment, range) {
@@ -147,8 +151,8 @@
     /**
      * Whether the given comment should be included in the revision side of the
      * given patch range.
-     * @param {!Object} comment
-     * @param {!Object} range
+     * @param {Object=} comment
+     * @param {Object=} range
      * @return {boolean}
      */
     _isInRevisionOfPatchRange(comment, range) {
@@ -158,9 +162,9 @@
 
     /**
      * Whether the given comment should be included in the given patch range.
-     * @param {!Object} comment
-     * @param {!Object} range
-     * @return {boolean}
+     * @param {Object=} comment
+     * @param {Object=} range
+     * @return {boolean|undefined}
      */
     _isInPatchRange(comment, range) {
       return this._isInBaseOfPatchRange(comment, range) ||

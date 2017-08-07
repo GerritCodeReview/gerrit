@@ -61,6 +61,9 @@
         value: false,
         observer: '_loggedInChanged',
       },
+      /**
+       * @type {{ owner: string, description: string, options: {Object} }}
+       */
       _groupConfig: Object,
       _groupName: Object,
       _groupOwner: {

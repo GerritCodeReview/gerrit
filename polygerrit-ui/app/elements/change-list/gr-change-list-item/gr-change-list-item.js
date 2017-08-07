@@ -31,7 +31,8 @@
        *  project: string,
        *  updated: string,
        *  insertions: Array,
-       *  deletions: Array }} */
+       *  deletions: Array }}
+       */
       change: Object,
       changeURL: {
         type: String,

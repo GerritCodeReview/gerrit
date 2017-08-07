@@ -32,6 +32,14 @@
         reflectToAttribute: true,
       },
 
+      /**
+       * @type {{
+       *  line_wrapping: boolean,
+       *  line_length: number,
+       *  tab_size: number,
+       *  font_size: number
+       * }}
+       */
       _newPrefs: Object,
       _newLocalPrefs: Object,
     },

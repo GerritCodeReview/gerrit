@@ -51,6 +51,13 @@
         type: Boolean,
         value: false,
       },
+      /**
+       * @type {{
+       *  _account_id: number,
+       *  email: string,
+       *  username: string,
+       *  status: string }}
+       */
       _account: Object,
       _serverConfig: Object,
     },

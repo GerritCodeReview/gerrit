@@ -25,12 +25,20 @@
         value: false,
       },
 
+      /**
+       * @type {{
+       *  name: string,
+       *  parent: string,
+       *  create_empty_commit: boolean,
+       *  permissions_only: boolean
+       * }}
+       */
       _projectConfig: {
         type: Object,
         value: () => { return {}; },
       },
       _projectCreated: {
-        type: Object,
+        type: Boolean,
         value: false,
       },
 

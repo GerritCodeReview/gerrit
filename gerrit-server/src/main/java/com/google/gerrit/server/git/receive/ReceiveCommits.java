@@ -233,18 +233,6 @@ class ReceiveCommits {
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
-  interface MessageSender {
-    void sendMessage(String what);
-
-    void sendError(String what);
-
-    void sendBytes(byte[] what);
-
-    void sendBytes(byte[] what, int off, int len);
-
-    void flush();
-  }
-
   private class ReceivePackMessageSender implements MessageSender {
     @Override
     public void sendMessage(String what) {

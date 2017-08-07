@@ -56,6 +56,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
@@ -89,8 +90,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -234,6 +237,7 @@ public class MergeOp implements AutoCloseable {
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyUtil notifyUtil;
   private final RetryHelper retryHelper;
+  private final long defaultRetryTimeoutMs;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -250,6 +254,7 @@ public class MergeOp implements AutoCloseable {
 
   @Inject
   MergeOp(
+      @GerritServerConfig Config cfg,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       InternalUser.Factory internalUserFactory,
@@ -274,6 +279,7 @@ public class MergeOp implements AutoCloseable {
     this.notifyUtil = notifyUtil;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
+    this.defaultRetryTimeoutMs = RetryHelper.getRetryTimeoutMs(cfg);
   }
 
   @Override
@@ -490,7 +496,12 @@ public class MergeOp implements AutoCloseable {
             }
             return null;
           },
-          RetryHelper.options().listener(retryTracker).build());
+          RetryHelper.options()
+              .listener(retryTracker)
+              // Up to the entire submit operation is retried, including possibly many projects.
+              // Multiply the timeout by the number of projects we're actually attempting to submit.
+              .timeout(defaultRetryTimeoutMs * cs.projects().size(), TimeUnit.MILLISECONDS)
+              .build());
 
       if (projects > 1) {
         topicMetrics.topicSubmissionsCompleted.increment();

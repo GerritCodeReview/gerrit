@@ -41,6 +41,12 @@ import org.slf4j.LoggerFactory;
 
 public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
+  private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
+  private static final String H2_DB = "h2";
+  private static final String MARIADB = "mariadb";
+  private static final String MYSQL = "mysql";
+  private static final String POSTGRESQL = "postgresql";
+  private static final String URL = "url";
   private static final Logger log = LoggerFactory.getLogger(JdbcAccountPatchReviewStore.class);
 
   public static class Module extends LifecycleModule {
@@ -52,20 +58,20 @@ public abstract class JdbcAccountPatchReviewStore
 
     @Override
     protected void configure() {
-      String url = cfg.getString("accountPatchReviewDb", null, "url");
-      if (url == null || url.contains("h2")) {
+      String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
+      if (url == null || url.contains(H2_DB)) {
         DynamicItem.bind(binder(), AccountPatchReviewStore.class)
             .to(H2AccountPatchReviewStore.class);
         listener().to(H2AccountPatchReviewStore.class);
-      } else if (url.contains("postgresql")) {
+      } else if (url.contains(POSTGRESQL)) {
         DynamicItem.bind(binder(), AccountPatchReviewStore.class)
             .to(PostgresqlAccountPatchReviewStore.class);
         listener().to(PostgresqlAccountPatchReviewStore.class);
-      } else if (url.contains("mysql")) {
+      } else if (url.contains(MYSQL)) {
         DynamicItem.bind(binder(), AccountPatchReviewStore.class)
             .to(MysqlAccountPatchReviewStore.class);
         listener().to(MysqlAccountPatchReviewStore.class);
-      } else if (url.contains("mariadb")) {
+      } else if (url.contains(MARIADB)) {
         DynamicItem.bind(binder(), AccountPatchReviewStore.class)
             .to(MariaDBAccountPatchReviewStore.class);
         listener().to(MariaDBAccountPatchReviewStore.class);
@@ -80,14 +86,14 @@ public abstract class JdbcAccountPatchReviewStore
 
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths) {
-    String url = cfg.getString("accountPatchReviewDb", null, "url");
-    if (url == null || url.contains("h2")) {
+    String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
+    if (url == null || url.contains(H2_DB)) {
       return new H2AccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("postgresql")) {
+    } else if (url.contains(POSTGRESQL)) {
       return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("mysql")) {
+    } else if (url.contains(MYSQL)) {
       return new MysqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains("mariadb")) {
+    } else if (url.contains(MARIADB)) {
       return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
     } else {
       throw new IllegalArgumentException(
@@ -104,7 +110,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
-    String url = cfg.getString("accountPatchReviewDb", null, "url");
+    String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return H2.createUrl(sitePaths.db_dir.resolve("account_patch_reviews"));
     }
@@ -113,13 +119,13 @@ public abstract class JdbcAccountPatchReviewStore
 
   protected static DataSource createDataSource(String url) {
     BasicDataSource datasource = new BasicDataSource();
-    if (url.contains("postgresql")) {
+    if (url.contains(POSTGRESQL)) {
       datasource.setDriverClassName("org.postgresql.Driver");
-    } else if (url.contains("h2")) {
+    } else if (url.contains(H2_DB)) {
       datasource.setDriverClassName("org.h2.Driver");
-    } else if (url.contains("mysql")) {
+    } else if (url.contains(MYSQL)) {
       datasource.setDriverClassName("com.mysql.jdbc.Driver");
-    } else if (url.contains("mariadb")) {
+    } else if (url.contains(MARIADB)) {
       datasource.setDriverClassName("org.mariadb.jdbc.Driver");
     }
     datasource.setUrl(url);

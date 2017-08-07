@@ -297,7 +297,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        AsyncReceiveCommits arc = factory.create(ctl, db, ImmutableSetMultimap.of());
+        AsyncReceiveCommits arc = factory.create(ctl, db, null, ImmutableSetMultimap.of());
         ReceivePack rp = arc.getReceivePack();
 
         Capable r = arc.canUpload();

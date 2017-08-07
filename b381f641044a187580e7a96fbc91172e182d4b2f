@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24caf0f_c75ccdc9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Do we care about formatting and spacing in JSDoc?",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8f5e28_fdbd0993",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Needs doc.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab35c709_f1716936",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Needs doc.",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e15c76_e780c477",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Needs doc.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7bd70d7_2f351c9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Needs doc.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 23
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47e58f16_9dd53430",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T23:54:03Z",
+      "side": 1,
+      "message": "Needs doc.",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 25
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

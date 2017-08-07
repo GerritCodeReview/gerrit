@@ -136,5 +136,34 @@ limitations under the License.
         assert.equal(getComputedStyle(element.$.loading).display, 'none');
       });
     });
+
+    suite('test hidding settings link', () => {
+      test('_computeHideSettingsClass hides setting url', done => {
+        sandbox.stub(element.$.restAPI, 'probePath').returns(
+            Promise.resolve(false));
+        element._computeHideSettingsClass('test').then(() => {
+          assert.equal(element._hideSettings, true);
+          done();
+        });
+      });
+    });
+
+    suite('test settings link does not hide', () => {
+      test('_computeHideSettingsClass does not hide settings url', done => {
+        sandbox.stub(element.$.restAPI, 'probePath').returns(
+            Promise.resolve(true));
+        element._computeHideSettingsClass('test').then(() => {
+          assert.equal(element._hideSettings, false);
+          done();
+        });
+      });
+    });
+
+    suite('_generateSettingsUrl', () => {
+      test('_generateSettingsUrl returns plugin url', () => {
+        assert.deepEqual(element._generateSettingsUrl('test'),
+            '/plugins/test/settings');
+      });
+    });
   });
 </script>

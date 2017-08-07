@@ -135,8 +135,8 @@
       if (!dateStr) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
+      const dateFromNow = date.fromNow();
       if (relative) {
-        const dateFromNow = date.fromNow();
         if (dateFromNow === 'a few seconds ago') {
           return 'just now';
         } else {
@@ -146,7 +146,7 @@
       const now = new Date();
       let format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
-        format = timeFormat;
+        format = dateFromNow;
       } else if (this._isWithinHalfYear(now, date)) {
         format = TimeFormats.MONTH_DAY;
       }

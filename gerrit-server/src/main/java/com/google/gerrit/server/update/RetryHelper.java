@@ -96,6 +96,10 @@ public class RetryHelper {
     return options().build();
   }
 
+  public static long getRetryTimeoutMs(Config cfg) {
+    return cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS);
+  }
+
   private final NotesMigration migration;
   private final BatchUpdate.Factory updateFactory;
   private final long defaultTimeoutMs;
@@ -110,8 +114,7 @@ public class RetryHelper {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
-    this.defaultTimeoutMs =
-        cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS);
+    this.defaultTimeoutMs = getRetryTimeoutMs(cfg);
     this.waitStrategy =
         WaitStrategies.join(
             WaitStrategies.exponentialWait(

@@ -73,5 +73,13 @@
       }
       return item;
     },
+
+    _getName(name) {
+      if (name.username) {
+        return name.username + ' (' + name.username._account_id + ')';
+      } else if (name.name) {
+        return name.name + ' (' + name.name._account_id + ')';
+      }
+    },
   });
 })();

@@ -89,16 +89,18 @@ public abstract class JdbcAccountPatchReviewStore
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null || url.contains(H2_DB)) {
       return new H2AccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains(POSTGRESQL)) {
-      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains(MYSQL)) {
-      return new MysqlAccountPatchReviewStore(cfg, sitePaths);
-    } else if (url.contains(MARIADB)) {
-      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
-    } else {
-      throw new IllegalArgumentException(
-          "unsupported driver type for account patch reviews db: " + url);
     }
+    if (url.contains(POSTGRESQL)) {
+      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
+    }
+    if (url.contains(MYSQL)) {
+      return new MysqlAccountPatchReviewStore(cfg, sitePaths);
+    }
+    if (url.contains(MARIADB)) {
+      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
+    }
+    throw new IllegalArgumentException(
+        "unsupported driver type for account patch reviews db: " + url);
   }
 
   protected JdbcAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {

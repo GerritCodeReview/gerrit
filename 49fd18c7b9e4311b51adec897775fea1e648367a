@@ -189,6 +189,30 @@
       "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c09f8c3_57e3f315",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-07T07:29:09Z",
+      "side": 1,
+      "message": "If users want to configure this in all these specific cases, that\u0027s a good news. \u0027private changes\u0027 are very useful and widely used. \\o/",
+      "parentUuid": "e8955d23_e01ee1a2",
+      "range": {
+        "startLine": 1157,
+        "startChar": 16,
+        "endLine": 1157,
+        "endChar": 36
+      },
+      "revId": "49fd18c7b9e4311b51adec897775fea1e648367a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

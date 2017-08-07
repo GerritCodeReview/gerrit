@@ -65,14 +65,15 @@ limitations under the License.
         const params = {
           view: Gerrit.Nav.View.CHANGE,
           changeNum: '1234',
+          project: 'test',
         };
-        assert.equal(element._generateUrl(params), '/c/1234');
+        assert.equal(element._generateUrl(params), '/c/test/+/1234');
 
         params.patchNum = 10;
-        assert.equal(element._generateUrl(params), '/c/1234/10');
+        assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
 
         params.basePatchNum = 5;
-        assert.equal(element._generateUrl(params), '/c/1234/5..10');
+        assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
       });
 
       test('diff', () => {
@@ -81,18 +82,20 @@ limitations under the License.
           changeNum: '42',
           path: 'x+y/path.cpp',
           patchNum: 12,
+          project: 'test',
         };
-        assert.equal(element._generateUrl(params), '/c/42/12/x%252By/path.cpp');
+        assert.equal(element._generateUrl(params),
+            '/c/test/+/42/12/x%252By/path.cpp');
 
         params.basePatchNum = 6;
         assert.equal(element._generateUrl(params),
-            '/c/42/6..12/x%252By/path.cpp');
+            '/c/test/+/42/6..12/x%252By/path.cpp');
 
         params.path = 'foo bar/my+file.txt%';
         params.patchNum = 2;
         delete params.basePatchNum;
         assert.equal(element._generateUrl(params),
-            '/c/42/2/foo+bar/my%252Bfile.txt%2525');
+            '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525');
       });
     });
   });

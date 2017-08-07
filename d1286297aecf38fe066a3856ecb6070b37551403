@@ -22,6 +22,30 @@
       "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c129b8_2c8539d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-07T22:36:55Z",
+      "side": 1,
+      "message": "I should probably update these to\n\n@param {?Object\u003d} opt_ctx\n\n... but \u0027\u003d\u0027 means the param is optional and \u0027?\u0027 means nullable. So when we have multiple optional paramaters they have to be both.",
+      "parentUuid": "199065db_acdadb61",
+      "range": {
+        "startLine": 1050,
+        "startChar": 15,
+        "endLine": 1050,
+        "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

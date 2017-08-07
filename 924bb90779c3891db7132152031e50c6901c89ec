@@ -398,6 +398,30 @@
     },
     {
       "key": {
+        "uuid": "65a15f34_2b17d3e8",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T18:34:34Z",
+      "side": 1,
+      "message": "Not done: {!Promise\u003cboolean\u003e}",
+      "parentUuid": "5cb197b6_70946714",
+      "range": {
+        "startLine": 193,
+        "startChar": 16,
+        "endLine": 193,
+        "endChar": 23
+      },
+      "revId": "924bb90779c3891db7132152031e50c6901c89ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b0632ba_11821b15",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 10

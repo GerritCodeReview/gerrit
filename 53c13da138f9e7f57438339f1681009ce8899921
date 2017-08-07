@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b57c001c_00cd66a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T18:34:34Z",
+      "side": 1,
+      "message": "Drop trailing space",
+      "range": {
+        "startLine": 38,
+        "startChar": 66,
+        "endLine": 38,
+        "endChar": 67
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3053ca55_75191755",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T18:34:34Z",
+      "side": 1,
+      "message": "Looks like this one can\u0027t be null, so {!Object}",
+      "range": {
+        "startLine": 149,
+        "startChar": 15,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97cfe540_8a1f5246",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T18:34:34Z",
+      "side": 1,
+      "message": "Downside: this will effectively slow down all the changes for everyone.\nIdeally, the server would indicate that a change has an edit.",
+      "range": {
+        "startLine": 917,
+        "startChar": 25,
+        "endLine": 917,
+        "endChar": 57
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d19750f3_d1f9f021",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T18:34:34Z",
+      "side": 1,
+      "message": "Alternatively: [,,,edit] \u003d\u003e {",
+      "range": {
+        "startLine": 504,
+        "startChar": 33,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

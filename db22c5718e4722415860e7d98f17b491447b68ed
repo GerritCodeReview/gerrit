@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d9cd7e1_0d842556",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:49:44Z",
+      "side": 1,
+      "message": "nit: I wouldn\u0027t bother saying \"or ref\". If we expect the reader to wonder what a git reference is, maybe this should link to a page on that subject.\n\nSadly https://www.kernel.org/pub/software/scm/git/docs/gitglossary.html#def_ref doesn\u0027t mention that it is an abbreviation for reference. I can send a patch to fix that upstream in git.",
+      "range": {
+        "startLine": 4,
+        "startChar": 9,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "db22c5718e4722415860e7d98f17b491447b68ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -111,6 +111,8 @@
        * been bypassed. If the value is null, then the safety has not been
        * bypassed. If the value is a number, then that number represents the
        * context preference to use when rendering the bypassed diff.
+       *
+       * @type (number|null)
        */
       _safetyBypass: {
         type: Number,
@@ -270,6 +272,10 @@
       threadEl.addOrEditDraft(line, range);
     },
 
+    /**
+     * @param {!Object} lineEl
+     * @param {number=} opt_lineNum
+     */
     _addDraft(lineEl, opt_lineNum) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
@@ -292,14 +298,21 @@
       return contentEl.querySelector('gr-diff-comment-thread-group');
     },
 
+    /**
+     * @param {!Object} contentEl
+     * @param {number} patchNum
+     * @param {string} commentSide
+     * @param {boolean} isOnParent
+     * @param {Object=} opt_range
+     */
     _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
-        isOnParent, range) {
-      const rangeToCheck = range ?
+        isOnParent, opt_range) {
+      const rangeToCheck = opt_range ?
           'range-' +
-          range.startLine + '-' +
-          range.startChar + '-' +
-          range.endLine + '-' +
-          range.endChar + '-' +
+          opt_range.startLine + '-' +
+          opt_range.startChar + '-' +
+          opt_range.endLine + '-' +
+          opt_range.endChar + '-' +
           commentSide : 'line-' + commentSide;
 
       // Check if thread group exists.
@@ -357,7 +370,7 @@
 
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
-      this._removeComment(comment, e.detail.patchNum);
+      this._removeComment(comment);
     },
 
     _removeComment(comment) {
@@ -372,6 +385,12 @@
       this.set(['comments', side, idx], comment);
     },
 
+    /**
+     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
+     * https://github.com/Polymer/polymer/pull/4776
+     * but for not supressing annotations.
+     *
+     * @suppress {checkTypes} */
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
       const side = e.detail.comment.__commentSide;

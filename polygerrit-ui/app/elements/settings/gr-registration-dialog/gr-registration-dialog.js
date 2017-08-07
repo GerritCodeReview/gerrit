@@ -30,6 +30,11 @@
      */
 
     properties: {
+      /**
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @type {{ name: string, email: string, secondary_emails: Array }}
+       */
       _account: Object,
       _saving: Boolean,
     },

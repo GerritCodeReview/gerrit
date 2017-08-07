@@ -25,6 +25,11 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-table-styles"></style>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_pluginsPerPage]]"
@@ -35,6 +40,7 @@ limitations under the License.
       <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Plugin Name</th>
+          <th class="settings topHeader">Settings</th>
           <th class="version topHeader">Version</th>
           <th class="status topHeader">Status</th>
         </tr>
@@ -46,6 +52,13 @@ limitations under the License.
             <tr class="table">
               <td class="name">
                 <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+              </td>
+              <td class="settings">
+                <a
+                   href$="[[_generateSettingsUrl(item.id)]]"
+                   hidden$="[[_hideSettings]]">
+                  Plugin Settings
+                </a>
               </td>
               <td class="version">[[item.version]]</td>
               <td class="status">[[_status(item)]]</td>

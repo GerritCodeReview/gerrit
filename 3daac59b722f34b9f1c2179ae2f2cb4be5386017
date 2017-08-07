@@ -22,6 +22,30 @@
       "revId": "3daac59b722f34b9f1c2179ae2f2cb4be5386017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c58653a_ca9f1ba9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-08-07T13:34:49Z",
+      "side": 1,
+      "message": "Its a good question, but we shouldn\u0027t be here with n \u003d\u003d 1. OrPredicate and AndPredicate both don\u0027t allocate themselves when they are given 1 child. They just pass-through the child. So the predicate tree coming into here should always be n \u003e 1 if `in` is OrPredicate or AndPredicate.",
+      "parentUuid": "0565f3fc_db420d5b",
+      "range": {
+        "startLine": 229,
+        "startChar": 10,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "3daac59b722f34b9f1c2179ae2f2cb4be5386017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

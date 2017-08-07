@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f392b7_ef368ebc",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:44:56Z",
+      "side": 1,
+      "message": "--first-parent",
+      "range": {
+        "startLine": 137,
+        "startChar": 37,
+        "endLine": 137,
+        "endChar": 49
+      },
+      "revId": "eece28293cb21a24ff2a6c609473679441e21c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

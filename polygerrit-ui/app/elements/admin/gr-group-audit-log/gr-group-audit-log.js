@@ -73,5 +73,13 @@
       }
       return item;
     },
+
+    _getName(name) {
+      if (name.username) {
+        return name.username;
+      } else if (name.name) {
+        return name.name;
+      }
+    },
   });
 })();

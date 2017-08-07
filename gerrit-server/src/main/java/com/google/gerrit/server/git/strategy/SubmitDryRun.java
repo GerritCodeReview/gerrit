@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +62,13 @@ public class SubmitDryRun {
     }
   }
 
-  public static Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
-    return FluentIterable.from(repo.getRefDatabase().getRefs(Constants.R_HEADS).values())
-        .append(repo.getRefDatabase().getRefs(Constants.R_TAGS).values())
-        .transform(Ref::getObjectId);
+  public static Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    return Streams.concat(
+            repo.getRefDatabase().getRefs(Constants.R_HEADS).values().stream(),
+            repo.getRefDatabase().getRefs(Constants.R_TAGS).values().stream())
+        .map(Ref::getObjectId)
+        .filter(o -> o != null)
+        .collect(Collectors.toSet());
   }
 
   public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) throws IOException {
@@ -76,6 +81,9 @@ public class SubmitDryRun {
       throws IOException {
     for (ObjectId id : ids) {
       RevObject obj = rw.parseAny(id);
+      if (obj instanceof RevTag) {
+        obj = rw.peel(obj);
+      }
       if (obj instanceof RevCommit) {
         out.add((RevCommit) obj);
       }

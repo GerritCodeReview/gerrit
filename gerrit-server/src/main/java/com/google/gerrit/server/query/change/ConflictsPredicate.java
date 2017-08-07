@@ -208,7 +208,7 @@ public class ConflictsPredicate extends OrPredicate<ChangeData> {
 
     protected ObjectId testAgainst;
     protected ProjectState projectState;
-    protected Iterable<ObjectId> alreadyAccepted;
+    protected Set<ObjectId> alreadyAccepted;
 
     public ChangeDataCache(
         Change change,
@@ -240,7 +240,7 @@ public class ConflictsPredicate extends OrPredicate<ChangeData> {
       return projectState;
     }
 
-    protected Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
       if (alreadyAccepted == null) {
         alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
       }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dd5396d_d9ff7d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:20:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we block this change due to internal preparations?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 55
+      },
+      "revId": "5cff2a8a87ba3957915546b2452c2e3cda351c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ea53c90_9501b5d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:20:18Z",
+      "side": 1,
+      "message": "optional: Could be replaced with\n\n p.map(DiffSummary::getPaths).orElseGet(Collections::emptyList);",
+      "range": {
+        "startLine": 613,
+        "startChar": 21,
+        "endLine": 613,
+        "endChar": 82
+      },
+      "revId": "5cff2a8a87ba3957915546b2452c2e3cda351c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1391f1db_3a17381e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:20:18Z",
+      "side": 1,
+      "message": "How do we know that we\u0027re still on the same patch set as when this list of files was computed? I would have guessed it\u0027s one of the reasons why the previous code used a map.",
+      "range": {
+        "startLine": 615,
+        "startChar": 11,
+        "endLine": 615,
+        "endChar": 23
+      },
+      "revId": "5cff2a8a87ba3957915546b2452c2e3cda351c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "30343673_9b19b028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:20:18Z",
+      "side": 1,
+      "message": "I think it all boils down to the assumption that the first parent is a commit of the target branch of the merge commit. If it is, the logic should identify the conflicting changes which introduce the conflicting parts.\n\nIf the first parent is targeted at another branch than the merge commit or the other commit in question, we can end up with a situation as in my first diagram and wouldn\u0027t identify that change 2 is in conflict with change 1 (or change 3).\n\nIt\u0027s just that the previous logic didn\u0027t have this restriction. I\u0027m totally fine with limiting this feature to typical merge scenarios. We should mention that in the commit message, though.\n\nThere\u0027s another difference to the previous logic:\nThe conflicts operator isn\u0027t always symmetric for merge commits anymore. Merge commits will report that they are in conflict to another non-merge commit change even when the conflicting code is introduced by the first parent. However for that scenario, the other non-merge commit won\u0027t report that it is in conflict with the merge commit (but just with the parent of the merge commit).\n\nIt probably is something we don\u0027t care about but I thought that I should at least mention it.",
+      "parentUuid": "ccc95dc8_5d04bb39",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "58bba0cd291829fd52bf87b176e0759f0c8235a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e8c5503_8cf293fd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

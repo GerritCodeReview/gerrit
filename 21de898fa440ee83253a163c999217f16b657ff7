@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b87e7b0b_ec3d3acb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RegexPathPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-07T13:20:18Z",
+      "side": 0,
+      "message": "Don\u0027t we need this anymore?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "21de898fa440ee83253a163c999217f16b657ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

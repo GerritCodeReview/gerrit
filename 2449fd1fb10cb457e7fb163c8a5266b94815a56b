@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c3b6eeae_264709bb",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "The term \"magic\" seemed a little *too* informal, if you will. I noticed that we do refer to this branch as a \"namespace\", which is why I went with it. Just explaining where I got the term.",
+      "parentUuid": "3cb70e25_cc96ad21",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 24
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae9190a4_fa2fad0b",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a63a2f6_e60d76e4",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Reworded to say: \"...to create a new change on the master branch...\"",
+      "parentUuid": "ae9190a4_fa2fad0b",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "aaf72349_08bf19ca",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bb6eada_162b7be7",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 27
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4d21313_5d6448fb",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "024fa0dc_5632e085",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "Good point. I don\u0027t want to cause any confusion, so I re-worded this section.",
+      "parentUuid": "d4d21313_5d6448fb",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "090950ae_d96ce0b9",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "I like it. I went with\n\nrefs/changes/[CD]/[ABCD]/[EF]",
+      "parentUuid": "3f706cbf_8360ebae",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d803b7b6_fb042488",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 5
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "876c69bd_d20b71cb",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "Yup. Copy-and-paste error. Fixed.",
+      "parentUuid": "d803b7b6_fb042488",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d71b218_10dbd825",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 5
@@ -154,6 +298,24 @@
       "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1be727d5_a56015e8",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T21:46:40Z",
+      "side": 1,
+      "message": "Good to know. If it\u0027s going to get turned off, is the preceding information still relevant? (Lines 37ish to here, I guess.) \n\nI\u0027d advocate for leaving the text as it is, since it appears to be accurate for now. When this does become a configurable option, we can modify or remove it as needed.",
+      "parentUuid": "4d71b218_10dbd825",
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

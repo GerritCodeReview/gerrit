@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68eb9fb8_1b01525d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T18:04:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we have plans to support this, at least for now.\n\nWe\u0027d be overriding the behavior of some user settings that exist, for sure, and also many of our users prefer the time format as shown.\n\nIf you\u0027re interested in pursuing the addition of this feature to Gerrit, I\u0027d recommend adding it as a preference in the user time settings first.",
+      "revId": "1949ba259774f3569939ff72a9bf4b689e8e0f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

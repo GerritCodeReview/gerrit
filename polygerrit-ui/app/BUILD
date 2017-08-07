@@ -125,6 +125,22 @@ sh_test(
     ],
 )
 
+sh_test(
+    name = "template_test",
+    size = "large",
+    srcs = ["template_test.sh"],
+    data = [
+        ":pg_code",
+        ":template_test_srcs",
+        "//polygerrit-ui:polygerrit_components.bower_components.zip",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)
+
 # Embed bundle
 polygerrit_bundle(
     name = "polygerrit_embed_ui",
@@ -151,6 +167,15 @@ filegroup(
             "embed/**/*_test.html",
         ],
     ),
+)
+
+filegroup(
+    name = "template_test_srcs",
+    srcs = [
+        "template_test_srcs/convert_to_goog_module.py",
+        "template_test_srcs/remove_goog_modules.py",
+        "template_test_srcs/template_test.js",
+    ],
 )
 
 sh_test(

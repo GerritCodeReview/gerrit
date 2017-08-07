@@ -24,6 +24,7 @@ import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -39,6 +40,41 @@ import org.eclipse.jgit.lib.Config;
 public class RetryHelper {
   public interface Action<T> {
     T call(BatchUpdate.Factory updateFactory) throws Exception;
+  }
+
+  /**
+   * Options for retrying a single operation.
+   *
+   * <p>This class is similar in function to upstream's {@link RetryerBuilder}, but it exists as its
+   * own class in Gerrit for several reasons:
+   *
+   * <ul>
+   *   <li>Gerrit needs to support defaults for some of the options, such as a default timeout.
+   *       {@code RetryerBuilder} doesn't support calling the same setter multiple times, so doing
+   *       this with {@code RetryerBuilder} directly would not be easy.
+   *   <li>Gerrit explicitly does not want callers to have full control over all possible options,
+   *       so this class exposes a curated subset.
+   * </ul>
+   */
+  @AutoValue
+  public abstract static class Options {
+    @Nullable
+    abstract RetryListener listener();
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder listener(RetryListener listener);
+
+      public abstract Options build();
+    }
+  }
+
+  public static Options.Builder options() {
+    return new AutoValue_RetryHelper_Options.Builder();
+  }
+
+  public static Options defaults() {
+    return options().build();
   }
 
   private final NotesMigration migration;
@@ -68,11 +104,10 @@ public class RetryHelper {
   }
 
   public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
-    return execute(action, null);
+    return execute(action, defaults());
   }
 
-  public <T> T execute(Action<T> action, @Nullable RetryListener listener)
-      throws RestApiException, UpdateException {
+  public <T> T execute(Action<T> action, Options opts) throws RestApiException, UpdateException {
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb()) {
@@ -80,8 +115,8 @@ public class RetryHelper {
             .withStopStrategy(stopStrategy)
             .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
-        if (listener != null) {
-          builder.withRetryListener(listener);
+        if (opts.listener() != null) {
+          builder.withRetryListener(opts.listener());
         }
       } else {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic

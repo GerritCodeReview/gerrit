@@ -23,7 +23,14 @@ limitations under the License.
 
 <dom-module id="gr-plugin-list">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      .settingsLink {
+        display: none;
+      }
+      .settingsLink.showSettings {
+        display: block;
+      }
+    </style>
     <style include="gr-table-styles"></style>
     <gr-list-view
         filter="[[_filter]]"
@@ -35,6 +42,7 @@ limitations under the License.
       <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Plugin Name</th>
+          <th class="settings topHeader">Settings</th>
           <th class="version topHeader">Version</th>
           <th class="status topHeader">Status</th>
         </tr>
@@ -51,6 +59,13 @@ limitations under the License.
                 <template is="dom-if" if="[[!item.index_url]]">
                   [[item.id]]
                 </template>
+              </td>
+              <td class="settings">
+                <a
+                   href$="[[_generateSettingsUrl(item.id)]]"
+                   class$="settingsLink [[_determineShowSettingsClass(item.showSettings)]]">
+                  Plugin Settings
+                </a>
               </td>
               <td class="version">[[item.version]]</td>
               <td class="status">[[_status(item)]]</td>

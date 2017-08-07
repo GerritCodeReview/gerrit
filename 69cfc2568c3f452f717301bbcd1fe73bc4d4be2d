@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34429c28_b6184ee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:56:50Z",
+      "side": 1,
+      "message": "Comment copied over from PS1: \"Its\", to make it easier to quickly read and not confuse for \"It is\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c3a653_46f5f8f6",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:56:50Z",
+      "side": 1,
+      "message": "maybe: \"reflecting how the commit under review has been amended in response to feedback during the code review process\".\n\nWhat I want to avoid is it seeming like I can make new commits on top (using \"git commit\") with the same Change-Id to represent improvements to the change, instead of making new replacement commits (using \"git commit --amend\") to represent improved versions of the change. When I read this paragraph it wasn\u0027t completely clear which one it meant.",
+      "range": {
+        "startLine": 6,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d533b8_f6db6e77",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:56:50Z",
+      "side": 1,
+      "message": "drop-down?",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "246f668d_52bdb2e6",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-07T22:56:50Z",
+      "side": 1,
+      "message": "This section could be fleshed out more.\n\nThe change description comes from the commit message and is part of history. The patch set description is a guide to reviewers and doesn\u0027t end up as part of the history you can view with \"git log master\".",
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

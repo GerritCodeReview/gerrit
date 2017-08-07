@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -72,6 +73,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     AsyncReceiveCommits create(
         ProjectControl projectControl,
         Repository repository,
+        @Nullable MessageSender messageSender,
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
   }
 
@@ -103,6 +105,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
       rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
+      rc.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
@@ -166,6 +169,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final long timeoutMillis;
   private final ProjectControl projectControl;
   private final Repository repo;
+  private final MessageSender messageSender;
   private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
   private final AllRefsWatcher allRefsWatcher;
 
@@ -183,15 +187,17 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo,
+      @Assisted @Nullable MessageSender messageSender,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
     this.factory = factory;
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
+    this.timeoutMillis = timeoutMillis;
     this.projectControl = projectControl;
     this.repo = repo;
-    this.timeoutMillis = timeoutMillis;
+    this.messageSender = messageSender;
     this.extraReviewers = extraReviewers;
 
     IdentifiedUser user = projectControl.getUser().asIdentifiedUser();

@@ -22,6 +22,16 @@
       labelNames: {
         type: Array,
       },
+
+      /**
+       * @type {{
+       *  _number: number,
+       *  subject: string,
+       *  owner: string,
+       *  project: string,
+       *  updated: string,
+       *  insertions: Array,
+       *  deletions: Array }} */
       change: Object,
       changeURL: {
         type: String,
@@ -31,6 +41,7 @@
         type: Boolean,
         value: false,
       },
+      showNumber: Boolean,
     },
 
     behaviors: [

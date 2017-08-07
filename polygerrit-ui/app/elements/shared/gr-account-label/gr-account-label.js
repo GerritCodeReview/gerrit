@@ -18,6 +18,14 @@
     is: 'gr-account-label',
 
     properties: {
+      /**
+       * State persisted across restamps of the element.
+       *
+       * Need sub-property declaration since it is used in template before
+       * assignment.
+       * @type {{ name: string, status:string }}
+       *
+       */
       account: Object,
       avatarImageSize: {
         type: Number,

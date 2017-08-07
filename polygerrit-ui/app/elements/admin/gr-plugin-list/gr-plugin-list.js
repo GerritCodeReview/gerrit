@@ -58,6 +58,7 @@
         type: String,
         value: '',
       },
+      _hideSettings: Boolean,
     },
 
     behaviors: [
@@ -84,14 +85,40 @@
               this._plugins = [];
               return;
             }
-            this._plugins = Object.keys(plugins)
-             .map(key => {
-               const plugin = plugins[key];
-               plugin.name = key;
-               return plugin;
-             });
-            this._loading = false;
+
+            const promises = [];
+            plugins = Object.keys(plugins)
+              .map(key => {
+                const plugin = plugins[key];
+                plugin.name = key;
+                return plugin;
+              });
+            for (const plugin of plugins) {
+              promises.push(this._determineShowPluginSettings(plugin.id)
+                  .then(showSettings => {
+                    plugin.showSettings = showSettings;
+                  }));
+            }
+            return Promise.all(promises).then(() => {
+              this._plugins = plugins;
+              this._loading = false;
+            });
           });
+    },
+
+    _determineShowPluginSettings(pluginName) {
+      const plugin = this.getBaseUrl() + '/plugins/' + pluginName + '/settings';
+      return this.$.restAPI.probePath(plugin).then(ok => {
+        if (ok) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    },
+
+    _determineShowSettingsClass(showSettings) {
+      return showSettings ? 'showSettings' : '';
     },
 
     _status(item) {
@@ -100,6 +127,10 @@
 
     _computePluginUrl(id) {
       return this.getUrl('/', id);
+    },
+
+    _generateSettingsUrl(pluginName) {
+      return this.getBaseUrl() + '/plugins/' + pluginName + '/settings';
     },
   });
 })();

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -479,7 +480,7 @@ public abstract class OutgoingEmail {
         rcptTo.add(to);
         add(rt, toAddress(to), override);
       }
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("Error reading database for account: " + to, e);
     }
   }
@@ -487,9 +488,10 @@ public abstract class OutgoingEmail {
   /**
    * @param to account.
    * @throws OrmException
+   * @throws PermissionBackendException
    * @return whether this email is visible to the given account.
    */
-  protected boolean isVisibleTo(Account.Id to) throws OrmException {
+  protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
     return true;
   }
 

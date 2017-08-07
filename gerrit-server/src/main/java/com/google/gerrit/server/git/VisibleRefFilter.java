@@ -30,8 +30,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -262,12 +264,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(db.get(), project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(cd.change()).isVisible(db.get(), cd)) {
+        if (permissionBackend
+            .user(user)
+            .indexedChange(cd, changeNotesFactory.createFromIndexedChange(cd.change()))
+            .database(db)
+            .test(ChangePermission.READ)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
       return visibleChanges;
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error(
           "Cannot load changes for project "
               + project.getName()
@@ -282,12 +288,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeNotes cn : changeNotesFactory.scan(git, db.get(), project)) {
-        if (projectCtl.controlFor(cn).isVisible(db.get())) {
+        if (permissionBackend.user(user).change(cn).database(db).test(ChangePermission.READ)) {
           visibleChanges.put(cn.getChangeId(), cn.getChange().getDest());
         }
       }
       return visibleChanges;
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       log.error(
           "Cannot load changes for project " + project + ", assuming no changes are visible", e);
       return Collections.emptyMap();

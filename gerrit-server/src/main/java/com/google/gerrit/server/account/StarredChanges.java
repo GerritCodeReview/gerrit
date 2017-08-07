@@ -32,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -67,7 +68,7 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -104,7 +105,7 @@ public class StarredChanges
       return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       log.error("cannot resolve change", e);
       throw new UnprocessableEntityException("internal server error");
     }

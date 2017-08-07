@@ -119,7 +119,12 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public ForChange change(ChangeNotes cd) {
+    public ForChange change(ChangeNotes notes) {
+      return new FailedChange(message, cause);
+    }
+
+    @Override
+    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
       return new FailedChange(message, cause);
     }
 

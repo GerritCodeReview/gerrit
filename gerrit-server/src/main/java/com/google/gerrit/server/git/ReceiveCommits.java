@@ -819,7 +819,8 @@ public class ReceiveCommits {
           | OrmException
           | UpdateException
           | IOException
-          | ConfigInvalidException e) {
+          | ConfigInvalidException
+          | PermissionBackendException e) {
         logError("Error submitting changes to " + project.getName(), e);
         reject(magicBranchCmd, "error during submit");
       }
@@ -2264,7 +2265,8 @@ public class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
       checkNotNull(r.change, "cannot submit new change %s; op may not have run", r.changeId);

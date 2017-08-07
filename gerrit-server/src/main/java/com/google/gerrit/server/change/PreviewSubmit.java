@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.UpdateException;
@@ -83,7 +84,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
   @Override
   public BinaryResult apply(RevisionResource rsrc)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -111,7 +113,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException {
+      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
@@ -131,7 +134,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
         | UpdateException
         | IOException
         | ConfigInvalidException
-        | RuntimeException e) {
+        | RuntimeException
+        | PermissionBackendException e) {
       op.close();
       throw e;
     }

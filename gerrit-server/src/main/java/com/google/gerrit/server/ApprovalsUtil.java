@@ -47,6 +47,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
@@ -108,6 +111,7 @@ public class ApprovalsUtil {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ApprovalCopier copier;
+  private final PermissionBackend permissionBackend;
 
   @VisibleForTesting
   @Inject
@@ -115,11 +119,13 @@ public class ApprovalsUtil {
       NotesMigration migration,
       IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory changeControlFactory,
-      ApprovalCopier copier) {
+      ApprovalCopier copier,
+      PermissionBackend permissionBackend) {
     this.migration = migration;
     this.userFactory = userFactory;
     this.changeControlFactory = changeControlFactory;
     this.copier = copier;
+    this.permissionBackend = permissionBackend;
   }
 
   /**
@@ -262,8 +268,8 @@ public class ApprovalsUtil {
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
       IdentifiedUser user = userFactory.create(accountId);
-      return changeControlFactory.controlFor(notes, user).isVisible(db);
-    } catch (OrmException e) {
+      return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
+    } catch (PermissionBackendException e) {
       log.warn(
           String.format(
               "Failed to check if account %d can see change %d",

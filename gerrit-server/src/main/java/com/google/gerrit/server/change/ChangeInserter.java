@@ -53,7 +53,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -475,8 +477,12 @@ public class ChangeInserter implements InsertChangeOp {
             accountId -> {
               try {
                 IdentifiedUser user = userFactory.create(accountId);
-                return changeControlFactory.controlFor(notes, user).isVisible(db);
-              } catch (OrmException e) {
+                return permissionBackend
+                    .user(user)
+                    .change(notes)
+                    .database(db)
+                    .test(ChangePermission.READ);
+              } catch (PermissionBackendException e) {
                 log.warn(
                     String.format(
                         "Failed to check if account %d can see change %d",

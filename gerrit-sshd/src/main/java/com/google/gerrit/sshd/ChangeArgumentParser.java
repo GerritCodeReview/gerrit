@@ -25,6 +25,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -68,13 +69,13 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
-      throws UnloggedFailure, OrmException {
+      throws UnloggedFailure, OrmException, PermissionBackendException {
     addChange(id, changes, null);
   }
 
   public void addChange(
       String id, Map<Change.Id, ChangeResource> changes, ProjectControl projectControl)
-      throws UnloggedFailure, OrmException {
+      throws UnloggedFailure, OrmException, PermissionBackendException {
     addChange(id, changes, projectControl, true);
   }
 
@@ -83,7 +84,7 @@ public class ChangeArgumentParser {
       Map<Change.Id, ChangeResource> changes,
       ProjectControl projectControl,
       boolean useIndex)
-      throws UnloggedFailure, OrmException {
+      throws UnloggedFailure, OrmException, PermissionBackendException {
     List<ChangeControl> matched =
         useIndex ? changeFinder.find(id, currentUser) : changeFromNotesFactory(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
@@ -97,7 +98,12 @@ public class ChangeArgumentParser {
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId())
           && inProject(projectControl, ctl.getProject())
-          && (canMaintainServer || ctl.isVisible(db))) {
+          && (canMaintainServer
+              || permissionBackend
+                  .user(currentUser)
+                  .change(ctl.getNotes())
+                  .database(db)
+                  .test(ChangePermission.READ))) {
         toAdd.add(ctl);
       }
     }

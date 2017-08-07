@@ -33,6 +33,7 @@ import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.account.AccountResource.Star;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -65,7 +66,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Override
   public Star parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());

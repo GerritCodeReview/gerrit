@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1502111163 +0200\nnonce AHIDc+MkNPeLdPmFdjmLgj0+zROIZi23dn02x478OUz7+Q2WcWXyRxHLzdl/lU9FqXzGjn/CuVnc\n\n0000000000000000000000000000000000000000 937478bdfaf7db767cc1c552f549ca45f0d087e6 refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZiGW7AAoJEFG1/Zeg0O9R/PcH/ix+6+924euvQRzur8wznTS+\ns5Ta1X04GpwTIXq0pajuFproO8M4ZBwCPL5WHA1/VjAjMzYYVa6siotwAFIRPnBk\nxt9ANW7pYccekq88DEmAX0ukYrj6Ln4tmz8rh+jJQ11dzLgEewp6SFfrVFUBlJRJ\nJdsx8Fnagioe0XlRcxHO12KI/NsuGjOW7XrmYe9KDg+U5mEhlEOkUofRuDG8FF9P\nnX7fYGDv588RnyJChLFOzyukUgx1wawyZS/ii1HXhFfEDyAoXEclIUKYSmE49hzJ\n9J0SMSnBZ79Mpl8nLQA7yQxLzL0T4AIqPmVcy94dQpcD39bJ/4d8C5eUVWaF8Mc\u003d\n\u003dlTi5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d0c0a0d_721a76ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T13:20:20Z",
+      "side": 1,
+      "message": "I think we can be open about the reasoning here:\n* Our account system is backed by Google Accounts\n* It is possible to associate multiple email addresses with a single Google Account, and one is designated as \"primary\".\n* We explicitly want to let users set as their preferred email *any* email address associated with their Google Account, not just the primary email.\n* Because ExternalId only has a single email field, we don\u0027t store the secondary email addresses anywhere in Gerrit\u0027s database.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "728cfe17_56f26f96",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-07T23:21:20Z",
+      "side": 1,
+      "message": "Why does the value default to true?",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 20
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4473ffc7_f78db171",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-07T23:21:20Z",
+      "side": 1,
+      "message": "Nit: This group is indent one level too far.",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ecc8c9e_cc062536",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-07T23:21:20Z",
+      "side": 1,
+      "message": "What\u0027s the reason for this check?",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d1cc237_f3734169",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-07T23:21:20Z",
+      "side": 1,
+      "message": "This is the wrong property name.",
+      "range": {
+        "startLine": 217,
+        "startChar": 21,
+        "endLine": 217,
+        "endChar": 35
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -73,6 +73,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -395,6 +396,26 @@ public class BaseInit extends SiteProgram {
             @Override
             public boolean yesno(boolean def, String msg) {
               return ui.yesno(def, msg);
+            }
+
+            @Override
+            public void waitForUser() {
+              ui.waitForUser();
+            }
+
+            @Override
+            public String readString(String def, String fmt, Object... args) {
+              return ui.readString(def, fmt, args);
+            }
+
+            @Override
+            public String readString(
+                String def, Set<String> allowedValues, String fmt, Object... args) {
+              return ui.readString(def, allowedValues, fmt, args);
+            }
+
+            public int readInt(int def, String fmt, Object... args) {
+              return ui.readInt(def, fmt, args);
             }
 
             @Override

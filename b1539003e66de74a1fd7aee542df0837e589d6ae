@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "3ae837c2_46f3e7c3",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:32Z",
+      "side": 1,
+      "message": "I\u0027ve re-worked the introductory paragraphs to this topic (see more in the next comment). I\u0027ve removed the sentence referring to issues and changelists.",
+      "parentUuid": "2d938b34_a29963bb",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 5,
+        "endChar": 8
+      },
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d6215fe_78b8a9c7",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:32Z",
+      "side": 1,
+      "message": "I agree. In fact, I\u0027ve updated this introduction to use much of the same content that I wrote for the concept-changes.txt topic. I think the content there explains both changes and patch sets quite well.\n\nThis results in a bit of duplication between two topics. I think that is very acceptable. We cannot know how a user might enter the documentation (they may come across the patch set topic first, or they may come across the Changes topic first). Having some duplication is a worthwhile trade-off if it helps user comprehension.",
+      "parentUuid": "2c33849a_b017e267",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 55
+      },
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77b354c7_95c221b0",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 1
@@ -85,6 +133,24 @@
       "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dacff265_47f6bb57",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-07T15:16:32Z",
+      "side": 1,
+      "message": "I think I have referred to a section of the UI incorrectly. What I\u0027m really talking about is the list of files that appears in the middle of the screen, as you correctly point out. I\u0027ve changed references to \"patch set table\" to simply \"file list\". I think this is more accurate.",
+      "parentUuid": "77b354c7_95c221b0",
+      "revId": "b1539003e66de74a1fd7aee542df0837e589d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

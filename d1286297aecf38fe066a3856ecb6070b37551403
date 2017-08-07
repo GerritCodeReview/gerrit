@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "927c82d6_6551d6c0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-07T22:43:45Z",
+      "side": 1,
+      "message": "If I were reading this comment outside the context of this change, I\u0027d be confused about what \"it\" is referring to.",
+      "range": {
+        "startLine": 736,
+        "startChar": 7,
+        "endLine": 736,
+        "endChar": 9
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "199065db_acdadb61",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1

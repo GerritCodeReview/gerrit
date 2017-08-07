@@ -56,9 +56,11 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -100,6 +102,7 @@ public class CreateChange
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
+  private final CommitsCollection commits;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeFinder changeFinder;
@@ -121,6 +124,7 @@ public class CreateChange
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
+      CommitsCollection commits,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
@@ -139,6 +143,7 @@ public class CreateChange
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.projectsCollection = projectsCollection;
+    this.commits = commits;
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeFinder = changeFinder;
@@ -311,12 +316,13 @@ public class CreateChange
       throw new BadRequestException("merge.source must be non-empty");
     }
 
+    ProjectState state = projectControl.getProjectState();
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
-    if (!projectControl.canReadCommit(db.get(), repo, sourceCommit)) {
+    if (!commits.canRead(state, repo, sourceCommit)) {
       throw new BadRequestException("do not have read permission for: " + merge.source);
     }
 
-    MergeUtil mergeUtil = mergeUtilFactory.create(projectControl.getProjectState());
+    MergeUtil mergeUtil = mergeUtilFactory.create(state);
     // default merge strategy from project settings
     String mergeStrategy =
         MoreObjects.firstNonNull(

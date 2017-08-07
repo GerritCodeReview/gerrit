@@ -45,9 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -347,7 +345,7 @@ public class RefControl {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
       return null;
-    } else if (isMergedIntoBranchOrTag(repo, commit)) {
+    } else if (projectControl.isReachableFromHeadsOrTags(repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
@@ -355,21 +353,6 @@ public class RefControl {
       return null;
     }
     return userId + " lacks permission " + Permission.PUSH + " for creating new commit object";
-  }
-
-  private boolean isMergedIntoBranchOrTag(Repository repo, RevCommit commit) {
-    try (RevWalk rw = new RevWalk(repo)) {
-      List<Ref> refs = new ArrayList<>(repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
-      refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
-      return projectControl.isMergedIntoVisibleRef(repo, rw, commit, refs);
-    } catch (IOException e) {
-      String msg =
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), projectControl.getProject().getNameKey());
-      log.error(msg, e);
-    }
-    return false;
   }
 
   /**

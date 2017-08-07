@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "975b54f7_0f73f813",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T17:59:11Z",
+      "side": 1,
+      "message": "I don\u0027t see significant difference here, so done.",
+      "parentUuid": "7dba97ea_f735c4ca",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 29
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fcf72cb_0e8429e6",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52b2be5_74e34738",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-07T17:59:11Z",
+      "side": 1,
+      "message": "\u003e is it better to attempt to make the xhr request without the \naccess_token\u003d\"token\" parameter?\n\nThis is exactly what will happen.",
+      "parentUuid": "6fcf72cb_0e8429e6",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2c1631715525dabce9340ecbec8ad36a448474da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

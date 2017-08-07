@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b45d7fc_961e709b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T22:17:14Z",
+      "side": 1,
+      "message": "I don\u0027t know how you even noticed this, but I\u0027d rather not add an extra patchset and restart CI for such a small issue.",
+      "parentUuid": "b57c001c_00cd66a0",
+      "range": {
+        "startLine": 38,
+        "startChar": 66,
+        "endLine": 38,
+        "endChar": 67
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3053ca55_75191755",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "53c13da138f9e7f57438339f1681009ce8899921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f506b0a_a2e63793",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T22:17:14Z",
+      "side": 1,
+      "message": "Fixed in followup change.",
+      "parentUuid": "3053ca55_75191755",
+      "range": {
+        "startLine": 149,
+        "startChar": 15,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b39a845c_1edb002e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T22:17:14Z",
+      "side": 1,
+      "message": "Ack, but OOS for this task.",
+      "parentUuid": "97cfe540_8a1f5246",
+      "range": {
+        "startLine": 917,
+        "startChar": 25,
+        "endLine": 917,
+        "endChar": 57
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d19750f3_d1f9f021",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 23
@@ -91,6 +163,30 @@
       "revId": "53c13da138f9e7f57438339f1681009ce8899921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa58a0a_4c358ae3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-07T22:17:14Z",
+      "side": 1,
+      "message": "This was already discussed in PS history. Won\u0027t fix.",
+      "parentUuid": "d19750f3_d1f9f021",
+      "range": {
+        "startLine": 504,
+        "startChar": 33,
+        "endLine": 504,
+        "endChar": 34
+      },
+      "revId": "53c13da138f9e7f57438339f1681009ce8899921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

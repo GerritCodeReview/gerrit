@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.query.account;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Joiner;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -24,6 +28,7 @@ import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.InternalQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -104,6 +109,17 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
 
   public List<AccountState> byPreferredEmail(String email) throws OrmException {
     return query(AccountPredicates.preferredEmail(email));
+  }
+
+  public Multimap<String, AccountState> byPreferredEmail(String... emails) throws OrmException {
+    List<String> emailList = Arrays.asList(emails);
+    List<List<AccountState>> r =
+        query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
+    Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+    for (int i = 0; i < emailList.size(); i++) {
+      accountsByEmail.putAll(emailList.get(i), r.get(i));
+    }
+    return accountsByEmail;
   }
 
   public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {

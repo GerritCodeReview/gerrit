@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb70e25_cc96ad21",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "FYI: In the code we call this a \"magic branch\" or \"magic ref\". Mostly for brevity, and I\u0027m not proposing we use the term \"magic\" in the documentation. Just...if it slips in somewhere, that\u0027s what it means.\n\nI\u0027m guessing we think it\u0027s not worth burdening this documentation by mentioning it, though.",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 24
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae9190a4_fa2fad0b",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "Technical nit: the commit isn\u0027t going into the master branch, that would be HEAD:refs/heads/master. Instead you are creating a new change on the master branch, meaning, when that change is submitted, it will end up on the master branch. But it\u0027s not there yet.\n\nYou clearly understand this, because that\u0027s basically what you say in the next paragraph. I\u0027m just objecting to this specific phrasing here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb6eada_162b7be7",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "s/branch/ref/\n\nIn the git documentation, usually \"branch\" refers to a ref under refs/heads/.",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 27
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4d21313_5d6448fb",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "You can leave this if you prefer, but I\u0027m a little leery of using the term \"staging area\" since it already has a separate meaning in core git which is completely unrelated:\nhttps://git-scm.com/book/en/v2/Getting-Started-Git-Basics#_the_three_states",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f706cbf_8360ebae",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "I have no objection to leaving this, but personally, when I write this, I say \"refs/changes/CD/ABCD\" so the relationship between the path components is implied from just the refname.",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d803b7b6_fb042488",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "Redundant with the earlier bullet point?",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d71b218_10dbd825",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-07T20:25:44Z",
+      "side": 1,
+      "message": "Hm. Today, yes, but for googlesource.com at least we are actually planning on turning off this possibility, so the refs/changes/* refs are not exposed to the client. In this scenario the download command will just list a SHA-1, and we don\u0027t expect users to be hand-typing it.\n\nOn the one hand since this is correct today it\u0027s hard to argue against it.\n\nBut on the other hand, when we make this behavior configurable with an option, in order to be technically correct you would have to say \"this is the default [or maybe not the default] behavior, but can be controlled by an option\". At which point is it really worth it to have this text?",
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

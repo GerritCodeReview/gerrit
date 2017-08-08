@@ -153,6 +153,9 @@ limitations under the License.
         -webkit-user-select: text;
         user-select: text;
       }
+      #container.editLoaded .hideOnEdit {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         header {
           padding: .5em var(--default-horizontal-margin);
@@ -200,6 +203,8 @@ limitations under the License.
       }
     </style>
     <gr-fixed-panel
+        id="container"
+        class$="[[_computeContainerClass(_editLoaded)]]"
         floating-disabled="[[_panelFloatingDisabled]]"
         keep-on-scroll
         ready-for-measure="[[!_loading]]">
@@ -210,10 +215,10 @@ limitations under the License.
           <span>[[_change.subject]]</span>
           <span class="dash">—</span>
           <input id="reviewed"
-                 class="reviewed"
-                 type="checkbox"
-                 on-change="_handleReviewedChange"
-                 hidden$="[[!_loggedIn]]" hidden>
+              class="reviewed hideOnEdit"
+              type="checkbox"
+              on-change="_handleReviewedChange"
+              hidden$="[[!_loggedIn]]" hidden>
           <div class="jumpToFileContainer desktop">
             <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
               <span>[[_computeFileDisplayName(_path)]]</span>
@@ -231,9 +236,9 @@ limitations under the License.
                     as="path"
                     initial-count="75">
                   <a href$="[[_computeDiffURL(_change, _patchRange.*, path)]]"
-                     selected$="[[_computeFileSelected(path, _path)]]"
-                     data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                     on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
+                    selected$="[[_computeFileSelected(path, _path)]]"
+                    data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
+                    on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
                 </template>
               </div>
             </iron-dropdown>
@@ -277,7 +282,7 @@ limitations under the License.
           <span class="download desktop">
             <span class="separator">/</span>
             <a class="downloadLink"
-               href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
+              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
               Download
             </a>
           </span>
@@ -306,7 +311,7 @@ limitations under the License.
       </div>
       <div class="fileNav mobile">
         <a class="mobileNavLink"
-           href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+          href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
           &lt;</a>
         <div class="fullFileName mobile">[[_computeFileDisplayName(_path)]]
         </div>

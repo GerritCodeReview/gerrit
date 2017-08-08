@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7308f627_5394cd71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T16:52:45Z",
+      "side": 1,
+      "message": "Primitive types are non-nullable by default, so {number\u003d} should be enough.\nAlso, there are few other cases down below.",
+      "range": {
+        "startLine": 607,
+        "startChar": 15,
+        "endLine": 607,
+        "endChar": 23
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f76f7b3d_ebf46a1c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T16:52:45Z",
+      "side": 1,
+      "message": "!Array",
+      "range": {
+        "startLine": 608,
+        "startChar": 23,
+        "endLine": 608,
+        "endChar": 28
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "927c82d6_6551d6c0",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -137,6 +183,70 @@
         "startChar": 15,
         "endLine": 1050,
         "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de8c4f2_07018aa9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T16:52:45Z",
+      "side": 1,
+      "message": "Becky:\nWould {Object\u003d} work here? It\u0027s nullable by default.",
+      "parentUuid": "64c23b0b_1a8b45f3",
+      "range": {
+        "startLine": 1050,
+        "startChar": 15,
+        "endLine": 1050,
+        "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f8f64f_f6413415",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T16:52:45Z",
+      "side": 1,
+      "message": "Would {number|string\u003d} work here?\nAnd in similar cases as well.",
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eecdfc2_9435b86a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T16:52:45Z",
+      "side": 1,
+      "message": "{!Promise\u003cObject\u003e}",
+      "range": {
+        "startLine": 1467,
+        "startChar": 16,
+        "endLine": 1467,
+        "endChar": 23
       },
       "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

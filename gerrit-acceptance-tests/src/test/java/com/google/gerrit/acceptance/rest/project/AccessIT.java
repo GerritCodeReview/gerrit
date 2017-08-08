@@ -208,6 +208,51 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void permissionsGroupMap() throws Exception {
+    // Add initial permission set
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+
+    PermissionInfo push = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
+    accessSection.permissions.put(Permission.PUSH, push);
+
+    PermissionInfo read = newPermissionInfo();
+    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    read.rules.put(SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
+    accessSection.permissions.put(Permission.READ, read);
+
+    accessInput.add.put(REFS_ALL, accessSection);
+    ProjectAccessInfo result = pApi.access(accessInput);
+    assertThat(result.groups.keySet())
+        .containsExactly(
+            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
+
+    // Check the name, which is what the UI cares about; exhaustive
+    // coverage of GroupInfo should be in groups REST API tests.
+    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
+        .isEqualTo("Project Owners");
+    // Strip the ID, since it is in the key.
+    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
+
+    // Get call returns groups too.
+    ProjectAccessInfo loggedInResult = pApi.access();
+    assertThat(loggedInResult.groups.keySet())
+        .containsExactly(
+            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
+    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
+        .isEqualTo("Project Owners");
+    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
+
+    // PROJECT_OWNERS is invisible to anonymous user, so we strip it.
+    setApiUserAnonymous();
+    ProjectAccessInfo anonResult = pApi.access();
+    assertThat(anonResult.groups.keySet())
+        .containsExactly(SystemGroupBackend.ANONYMOUS_USERS.get());
+  }
+
+  @Test
   public void updateParentAsUser() throws Exception {
     // Create child
     String newParentProjectName = createProject(PROJECT_NAME + "PA").get();

@@ -1006,6 +1006,22 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
     "can_upload": true,
     "can_add": true,
     "config_visible": true
+    "groups": {
+      "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+        "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+        "options": {},
+        "description": "Users who perform batch actions on Gerrit",
+        "group_id": 2,
+        "owner": "Administrators",
+        "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+        "created_on": "2009-06-08 23:31:00.000000000",
+        "name": "Non-Interactive Users"
+      },
+      "global:Anonymous-Users": {
+        "options": {},
+        "name": "Anonymous Users"
+      }
+    }
   }
 ----
 
@@ -1087,6 +1103,12 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
     "can_upload": true,
     "can_add": true,
     "config_visible": true
+    "groups": {
+      "global:Anonymous-Users": {
+        "options": {},
+        "name": "Anonymous Users"
+      }
+    }
   }
 ----
 

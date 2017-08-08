@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "70a538ee_2ccc9bb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-08T19:48:44Z",
+      "side": 1,
+      "message": "FWIW, I think functions should have some sort of doc no matter what. The work surrounding closure compiler typing was not why I left this comment.",
+      "parentUuid": "f5338127_b63aaa70",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32e15c76_e780c477",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8

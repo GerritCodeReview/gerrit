@@ -39,20 +39,80 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('test _getName', () => {
-      let account;
-      account = {
-        username: 'test-user',
-        name: 'test-name',
-        _account_id: 12,
-      };
-      assert.deepEqual(element._getName(account), 'test-user (12)');
+    suite('members', () => {
+      test('test _getName', () => {
+        let account = {
+          member: {
+            username: 'test-user',
+            name: 'test-name',
+            _account_id: 12,
+          },
+        };
+        assert.deepEqual(element._getName(account.member, false), 'test-user (12)');
 
-      account = {
-        name: 'test-name',
-        _account_id: 12,
-      };
-      assert.deepEqual(element._getName(account), 'test-name (12)');
+        account = {
+          member: {
+            name: 'test-name',
+            _account_id: 12,
+          },
+        };
+        assert.deepEqual(element._getName(account.member, false), 'test-name (12)');
+      });
+
+      test('test _account_id not present', () => {
+        let account = {
+          member: {
+            username: 'test-user',
+            name: 'test-name',
+          },
+        };
+        assert.deepEqual(element._getName(account.member, true), 'test-user');
+
+        account = {
+          member: {
+            name: 'test-name',
+          },
+        };
+        assert.deepEqual(element._getName(account.member, true), 'test-name');
+      });
+    });
+
+    suite('users', () => {
+      test('test _getName', () => {
+        let account = {
+          user: {
+            username: 'test-user',
+            name: 'test-name',
+            _account_id: 12,
+          },
+        };
+        assert.deepEqual(element._getName(account.user, false), 'test-user (12)');
+
+        account = {
+          user: {
+            name: 'test-name',
+            _account_id: 12,
+          },
+        };
+        assert.deepEqual(element._getName(account.user, false), 'test-name (12)');
+      });
+
+      test('test _account_id not present', () => {
+        let account = {
+          user: {
+            username: 'test-user',
+            name: 'test-name',
+          },
+        };
+        assert.deepEqual(element._getName(account.user, true), 'test-user');
+
+        account = {
+          user: {
+            name: 'test-name',
+          },
+        };
+        assert.deepEqual(element._getName(account.user, true), 'test-name');
+      });
     });
   });
 </script>

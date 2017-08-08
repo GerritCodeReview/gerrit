@@ -27,6 +27,7 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -44,6 +45,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   private final AccountCache accountCache;
   private final AccountLoader.Factory accountInfoFactory;
   private final Accounts accounts;
+  private final Emails emails;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -54,14 +56,16 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountCache accountCache,
+      AccountLoader.Factory infoFactory,
       Accounts accounts,
-      AccountLoader.Factory infoFactory) {
+      Emails emails) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountCache = accountCache;
     this.accountInfoFactory = infoFactory;
     this.accounts = accounts;
+    this.emails = emails;
   }
 
   @Override
@@ -76,7 +80,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
         new SubmitRuleEvaluator(
-            accountCache, accounts, changeDataFactory.create(db.get(), rsrc.getControl()));
+            accountCache, accounts, emails, changeDataFactory.create(db.get(), rsrc.getControl()));
 
     List<SubmitRecord> records =
         evaluator

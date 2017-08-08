@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;

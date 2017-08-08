@@ -21,6 +21,7 @@ import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IntegerRangePredicate;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import java.util.Date;
 import java.util.List;
 import org.apache.lucene.analysis.Analyzer;

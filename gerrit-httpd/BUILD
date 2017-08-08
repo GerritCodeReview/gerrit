@@ -16,12 +16,12 @@ java_library(
     resources = RESOURCES,
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-antlr:query_exception",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
         "//gerrit-gwtexpui:linker_server",
         "//gerrit-gwtexpui:server",
+        "//gerrit-index:query_exception",
         "//gerrit-launcher:launcher",
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",

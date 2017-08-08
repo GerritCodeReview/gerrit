@@ -339,7 +339,7 @@ public class PostReviewers
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     if (!permissionBackend
         .user(anonymousProvider)
         .change(rsrc.getNotes())

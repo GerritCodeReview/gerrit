@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f8c58247_7ebac36e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T16:56:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34429c28_b6184ee0",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33c3a653_46f5f8f6",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80b42d18_d8851502",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T16:56:38Z",
+      "side": 1,
+      "message": "Understandable--thanks for explaining. I made some significant modifications to this paragraph. Dave Borowitz has already had a look, but please let me know what you think.",
+      "parentUuid": "33c3a653_46f5f8f6",
+      "range": {
+        "startLine": 6,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ff67407f_87c28443",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T16:56:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3d533b8_f6db6e77",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "246f668d_52bdb2e6",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 4
@@ -85,6 +157,24 @@
       "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbc3363_7135524d",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T16:56:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "246f668d_52bdb2e6",
+      "revId": "69cfc2568c3f452f717301bbcd1fe73bc4d4be2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

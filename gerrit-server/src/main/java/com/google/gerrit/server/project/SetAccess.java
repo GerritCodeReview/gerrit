@@ -23,33 +23,40 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -65,6 +72,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final GetAccess getAccess;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
+  private final GroupControl.Factory groupControlFactory;
+  private final GroupJson groupJson;
 
   @Inject
   private SetAccess(
@@ -76,7 +85,9 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GroupsCollection groupsCollection,
       ProjectCache projectCache,
       GetAccess getAccess,
-      Provider<IdentifiedUser> identifiedUser) {
+      Provider<IdentifiedUser> identifiedUser,
+      GroupControl.Factory groupControlFactory,
+      GroupJson groupJson) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -86,6 +97,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.getAccess = getAccess;
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
+    this.groupControlFactory = groupControlFactory;
+    this.groupJson = groupJson;
   }
 
   @Override
@@ -219,7 +232,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     return getAccess.apply(rsrc.getNameKey());
   }
 
-  private List<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
+  private List<AccessSection> getAccessSections(
+      Map<String, AccessSectionInfo> sectionInfos)
       throws UnprocessableEntityException {
     if (sectionInfos == null) {
       return Collections.emptyList();

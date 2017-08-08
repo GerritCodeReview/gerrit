@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cd3bcee4_4e0b4093",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:16:26Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "88d362c2_da5bf578",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6004888_1004ef77",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
         "patchSetId": 6

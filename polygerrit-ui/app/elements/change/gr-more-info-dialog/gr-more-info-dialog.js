@@ -14,40 +14,33 @@
 (function() {
   'use strict';
 
-  const COPY_TIMEOUT_MS = 1000;
-
   Polymer({
-    is: 'gr-copy-clipboard',
+    is: 'gr-more-info-dialog',
+
+    /**
+     * Fired when the user presses the close button.
+     *
+     * @event close
+     */
 
     properties: {
-      text: String,
-      title: String,
-      hideInput: {
-        type: Boolean,
-        value: false,
-      },
-      hideLabel: Boolean,
+      changeNum: Object,
+      patchNum: String,
+      commitInfo: Object,
     },
 
-    focusOnCopy() {
-      this.$.button.focus();
+    hostAttributes: {
+      role: 'dialog',
     },
 
-    _computeInputClass(hideInput) {
-      return hideInput ? 'hideInput' : '';
-    },
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+      Gerrit.RESTClientBehavior,
+    ],
 
-    _handleInputTap(e) {
+    _handleCloseTap(e) {
       e.preventDefault();
-      Polymer.dom(e).rootTarget.select();
-    },
-
-    _copyToClipboard(e) {
-      this.$.input.select();
-      document.execCommand('copy');
-      window.getSelection().removeAllRanges();
-      e.target.textContent = 'done';
-      this.async(() => { e.target.textContent = 'copy'; }, COPY_TIMEOUT_MS);
+      this.fire('close', null, {bubbles: false});
     },
   });
 })();

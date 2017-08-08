@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2b975adb_5f511327",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-08-08T00:55:37Z",
+      "side": 1,
+      "message": "Apologies for the shortness. Should the max retries be a setting passed in to the setup call?",
+      "parentUuid": "1255549d_83b86fa9",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d8f5e28_fdbd0993",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8

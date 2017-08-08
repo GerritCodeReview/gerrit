@@ -32,6 +32,7 @@ import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.util.cli.Options;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,7 +45,7 @@ import org.kohsuke.args4j.Option;
   runsAt = MASTER_OR_SLAVE
 )
 public class ListGroupsCommand extends SshCommand {
-  @Inject private MyListGroups impl;
+  @Inject @Options public MyListGroups impl;
 
   @Override
   public void run() throws Exception {
@@ -52,11 +53,6 @@ public class ListGroupsCommand extends SshCommand {
       throw die("--user and --project options are not compatible.");
     }
     impl.display(stdout);
-  }
-
-  @Override
-  protected void parseCommandLine() throws UnloggedFailure {
-    parseCommandLine(impl);
   }
 
   private static class MyListGroups extends ListGroups {

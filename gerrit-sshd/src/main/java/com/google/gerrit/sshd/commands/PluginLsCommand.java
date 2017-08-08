@@ -25,6 +25,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.util.cli.Options;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -33,21 +34,13 @@ import org.kohsuke.args4j.Option;
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 @CommandMetaData(name = "ls", description = "List the installed plugins", runsAt = MASTER_OR_SLAVE)
 final class PluginLsCommand extends SshCommand {
-  @Inject private ListPlugins list;
-
-  @Option(
-    name = "--all",
-    aliases = {"-a"},
-    usage = "List all plugins, including disabled plugins"
-  )
-  private boolean all;
+  @Inject @Options public ListPlugins list;
 
   @Option(name = "--format", usage = "output format")
   private OutputFormat format = OutputFormat.TEXT;
 
   @Override
   public void run() throws Exception {
-    list.setAll(all);
     Map<String, PluginInfo> output = list.apply(TopLevelResource.INSTANCE);
 
     if (format.isJson()) {
@@ -74,10 +67,5 @@ final class PluginLsCommand extends SshCommand {
 
   private String status(Boolean disabled) {
     return disabled != null && disabled.booleanValue() ? "DISABLED" : "ENABLED";
-  }
-
-  @Override
-  protected void parseCommandLine() throws UnloggedFailure {
-    parseCommandLine(this);
   }
 }

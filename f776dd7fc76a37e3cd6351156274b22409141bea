@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c31e02d7_ad2c85ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-08T05:05:26Z",
+      "side": 1,
+      "message": "What about hiding the reviewed checkbox on diff view? Will it be done in a follow-up, e.g.: [1].\n\n* [1] http://paste.openstack.org/show/617734",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "f776dd7fc76a37e3cd6351156274b22409141bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

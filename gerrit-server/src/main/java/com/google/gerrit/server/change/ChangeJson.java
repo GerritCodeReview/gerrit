@@ -116,7 +116,9 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -212,6 +214,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final RemoveReviewerControl removeReviewerControl;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -243,6 +246,7 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      RemoveReviewerControl removeReviewerControl,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -267,6 +271,7 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.removeReviewerControl = removeReviewerControl;
     this.options = Sets.immutableEnumSet(options);
   }
 
@@ -1096,7 +1101,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out) {
+  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out)
+      throws PermissionBackendException, NoSuchChangeException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -1116,7 +1122,9 @@ public class ChangeJson {
       }
       for (ApprovalInfo ai : label.all) {
         Account.Id id = new Account.Id(ai._accountId);
-        if (ctl.canRemoveReviewer(id, MoreObjects.firstNonNull(ai.value, 0))) {
+
+        if (removeReviewerControl.testRemoveReviewer(
+            ctl.getNotes(), ctl.getUser(), id, MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(id);
         } else {
           fixed.add(id);
@@ -1133,7 +1141,7 @@ public class ChangeJson {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
           Account.Id id = new Account.Id(ai._accountId);
-          if (ctl.canRemoveReviewer(id, 0)) {
+          if (removeReviewerControl.testRemoveReviewer(ctl.getNotes(), ctl.getUser(), id, 0)) {
             removable.add(id);
           }
         }

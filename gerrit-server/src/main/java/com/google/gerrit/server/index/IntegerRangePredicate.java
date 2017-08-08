@@ -19,10 +19,10 @@ import com.google.gerrit.server.util.RangeUtil;
 import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.gwtorm.server.OrmException;
 
-public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
+public abstract class IntegerRangePredicate<T, A> extends IndexPredicate<T, A> {
   private final Range range;
 
-  protected IntegerRangePredicate(FieldDef<T, Integer> type, String value)
+  protected IntegerRangePredicate(FieldDef<T, A, Integer> type, String value)
       throws QueryParseException {
     super(type, value);
     range = RangeUtil.getRange(value, Integer.MIN_VALUE, Integer.MAX_VALUE);

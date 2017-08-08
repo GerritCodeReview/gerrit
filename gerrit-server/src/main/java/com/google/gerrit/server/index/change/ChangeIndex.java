@@ -15,15 +15,16 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 
-public interface ChangeIndex extends Index<Change.Id, ChangeData> {
+public interface ChangeIndex extends Index<Change.Id, ChangeData, ChangeFillArgs> {
   public interface Factory
-      extends IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeIndex> {}
+      extends IndexDefinition.IndexFactory<Change.Id, ChangeData, ChangeFillArgs, ChangeIndex> {}
 
   @Override
   default Predicate<ChangeData> keyPredicate(Change.Id id) {

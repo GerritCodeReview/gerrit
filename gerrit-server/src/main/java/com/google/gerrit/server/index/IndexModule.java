@@ -64,8 +64,8 @@ public class IndexModule extends LifecycleModule {
     ELASTICSEARCH
   }
 
-  public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
-      ImmutableList.<SchemaDefinitions<?>>of(
+  public static final ImmutableCollection<SchemaDefinitions<?, ?>> ALL_SCHEMA_DEFS =
+      ImmutableList.of(
           AccountSchemaDefinitions.INSTANCE,
           ChangeSchemaDefinitions.INSTANCE,
           GroupSchemaDefinitions.INSTANCE);
@@ -114,10 +114,9 @@ public class IndexModule extends LifecycleModule {
   }
 
   @Provides
-  Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+  Collection<IndexDefinition<?, ?, ?, ?>> getIndexDefinitions(
       AccountIndexDefinition accounts, ChangeIndexDefinition changes, GroupIndexDefinition groups) {
-    Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups, changes);
+    Collection<IndexDefinition<?, ?, ?, ?>> result = ImmutableList.of(accounts, groups, changes);
     Set<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
     Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();

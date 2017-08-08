@@ -21,9 +21,9 @@ import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.account.AccountPredicates;
 
-public interface AccountIndex extends Index<Account.Id, AccountState> {
+public interface AccountIndex extends Index<Account.Id, AccountState, Void> {
   public interface Factory
-      extends IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {}
+      extends IndexDefinition.IndexFactory<Account.Id, AccountState, Void, AccountIndex> {}
 
   @Override
   default Predicate<AccountState> keyPredicate(Account.Id id) {

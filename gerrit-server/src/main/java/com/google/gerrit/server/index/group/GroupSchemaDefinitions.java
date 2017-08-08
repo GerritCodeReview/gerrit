@@ -20,9 +20,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
-public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
+public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup, Void> {
   @Deprecated
-  static final Schema<AccountGroup> V2 =
+  static final Schema<AccountGroup, Void> V2 =
       schema(
           GroupField.DESCRIPTION,
           GroupField.ID,
@@ -32,11 +32,11 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
           GroupField.OWNER_UUID,
           GroupField.UUID);
 
-  static final Schema<AccountGroup> V3 = schema(V2, GroupField.CREATED_ON);
+  static final Schema<AccountGroup, Void> V3 = schema(V2, GroupField.CREATED_ON);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 
   private GroupSchemaDefinitions() {
-    super("groups", AccountGroup.class);
+    super("groups", AccountGroup.class, Void.class);
   }
 }

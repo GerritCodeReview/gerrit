@@ -20,9 +20,9 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
-public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
+public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState, Void> {
   @Deprecated
-  static final Schema<AccountState> V4 =
+  static final Schema<AccountState, Void> V4 =
       schema(
           AccountField.ACTIVE,
           AccountField.EMAIL,
@@ -34,12 +34,12 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           AccountField.USERNAME,
           AccountField.WATCHED_PROJECT);
 
-  static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
+  static final Schema<AccountState, Void> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 
   private AccountSchemaDefinitions() {
-    super(NAME, AccountState.class);
+    super(NAME, AccountState.class, Void.class);
   }
 }

@@ -42,7 +42,7 @@ public class ElasticQueryBuilder {
     } else if (p instanceof NotPredicate) {
       return not(p);
     } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<T>) p);
+      return fieldQuery((IndexPredicate<T, Void>) p);
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }
@@ -72,10 +72,10 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> QueryBuilder not(Predicate<T> p) throws QueryParseException {
+  private <T, A> QueryBuilder not(Predicate<T> p) throws QueryParseException {
     Predicate<T> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
-      return notTimestamp((TimestampRangePredicate<T>) n);
+      return notTimestamp((TimestampRangePredicate<T, A>) n);
     }
 
     // Lucene does not support negation, start with all and subtract.
@@ -85,9 +85,9 @@ public class ElasticQueryBuilder {
     return q;
   }
 
-  private <T> QueryBuilder fieldQuery(IndexPredicate<T> p) throws QueryParseException {
+  private <T, A> QueryBuilder fieldQuery(IndexPredicate<T, A> p) throws QueryParseException {
     FieldType<?> type = p.getType();
-    FieldDef<?, ?> field = p.getField();
+    FieldDef<?, ?, ?> field = p.getField();
     String name = field.getName();
     String value = p.getValue();
 
@@ -111,9 +111,9 @@ public class ElasticQueryBuilder {
     }
   }
 
-  private <T> QueryBuilder intRangeQuery(IndexPredicate<T> p) throws QueryParseException {
+  private <T, A> QueryBuilder intRangeQuery(IndexPredicate<T, A> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
-      IntegerRangePredicate<T> r = (IntegerRangePredicate<T>) p;
+      IntegerRangePredicate<T, A> r = (IntegerRangePredicate<T, A>) p;
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
@@ -125,7 +125,8 @@ public class ElasticQueryBuilder {
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private <T> QueryBuilder notTimestamp(TimestampRangePredicate<T> r) throws QueryParseException {
+  private <T, A> QueryBuilder notTimestamp(TimestampRangePredicate<T, A> r)
+      throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return QueryBuilders.rangeQuery(r.getField().getName())
           .gt(Instant.ofEpochMilli(r.getMaxTimestamp().getTime()));
@@ -133,9 +134,9 @@ public class ElasticQueryBuilder {
     throw new QueryParseException("cannot negate: " + r);
   }
 
-  private <T> QueryBuilder timestampQuery(IndexPredicate<T> p) throws QueryParseException {
+  private <T, A> QueryBuilder timestampQuery(IndexPredicate<T, A> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<T> r = (TimestampRangePredicate<T>) p;
+      TimestampRangePredicate<T, A> r = (TimestampRangePredicate<T, A>) p;
       if (p instanceof AfterPredicate) {
         return QueryBuilders.rangeQuery(r.getField().getName())
             .gte(Instant.ofEpochMilli(r.getMinTimestamp().getTime()));
@@ -147,7 +148,7 @@ public class ElasticQueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private <T> QueryBuilder exactQuery(IndexPredicate<T> p) {
+  private <T, A> QueryBuilder exactQuery(IndexPredicate<T, A> p) {
     String name = p.getField().getName();
     String value = p.getValue();
 

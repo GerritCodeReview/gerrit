@@ -46,7 +46,7 @@ public class ElasticVersionManager extends VersionManager {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,
-      Collection<IndexDefinition<?, ?, ?>> defs,
+      Collection<IndexDefinition<?, ?, ?, ?>> defs,
       ElasticIndexVersionDiscovery versionDiscovery) {
     super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
     this.versionDiscovery = versionDiscovery;
@@ -54,15 +54,15 @@ public class ElasticVersionManager extends VersionManager {
   }
 
   @Override
-  protected <V> boolean isDirty(Collection<Version<V>> inUse, Version<V> v) {
+  protected <V, A> boolean isDirty(Collection<Version<V, A>> inUse, Version<V, A> v) {
     return !inUse.contains(v);
   }
 
   @Override
-  protected <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>> scanVersions(
-      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
-    TreeMap<Integer, Version<V>> versions = new TreeMap<>();
-    for (Schema<V> schema : def.getSchemas().values()) {
+  protected <K, V, A, I extends Index<K, V, A>> TreeMap<Integer, Version<V, A>> scanVersions(
+      IndexDefinition<K, V, A, I> def, GerritIndexStatus cfg) {
+    TreeMap<Integer, Version<V, A>> versions = new TreeMap<>();
+    for (Schema<V, A> schema : def.getSchemas().values()) {
       int v = schema.getVersion();
       versions.put(v, new Version<>(schema, v, cfg.getReady(def.getName(), v)));
     }
@@ -75,7 +75,7 @@ public class ElasticVersionManager extends VersionManager {
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, cfg.getReady(def.getName(), v)));
+          versions.put(v, new Version<>(null, v, cfg.getReady(def.getName(), v)));
         }
       }
     } catch (IOException e) {

@@ -15,19 +15,21 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Matchable;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 
-public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
+public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData, ChangeFillArgs>
     implements Matchable<ChangeData> {
-  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String value) {
+  protected ChangeIndexPredicate(FieldDef<ChangeData, ChangeFillArgs, ?> def, String value) {
     super(def, value);
   }
 
-  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
+  protected ChangeIndexPredicate(
+      FieldDef<ChangeData, ChangeFillArgs, ?> def, String name, String value) {
     super(def, name, value);
   }
 

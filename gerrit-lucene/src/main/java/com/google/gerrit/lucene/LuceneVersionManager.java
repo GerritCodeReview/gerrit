@@ -40,16 +40,16 @@ import org.slf4j.LoggerFactory;
 public class LuceneVersionManager extends VersionManager {
   private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
 
-  private static class Version<V> extends VersionManager.Version<V> {
+  private static class Version<V, A> extends VersionManager.Version<V, A> {
     private final boolean exists;
 
-    private Version(Schema<V> schema, int version, boolean exists, boolean ready) {
+    private Version(Schema<V, A> schema, int version, boolean exists, boolean ready) {
       super(schema, version, ready);
       this.exists = exists;
     }
   }
 
-  static Path getDir(SitePaths sitePaths, String name, Schema<?> schema) {
+  static Path getDir(SitePaths sitePaths, String name, Schema<?, ?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s_%04d", name, schema.getVersion()));
   }
 
@@ -58,22 +58,23 @@ public class LuceneVersionManager extends VersionManager {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,
-      Collection<IndexDefinition<?, ?, ?>> defs) {
+      Collection<IndexDefinition<?, ?, ?, ?>> defs) {
     super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
   }
 
   @Override
-  protected <V> boolean isDirty(
-      Collection<com.google.gerrit.server.index.VersionManager.Version<V>> inUse,
-      com.google.gerrit.server.index.VersionManager.Version<V> v) {
-    return !inUse.contains(v) && ((Version<V>) v).exists;
+  protected <V, A> boolean isDirty(
+      Collection<com.google.gerrit.server.index.VersionManager.Version<V, A>> inUse,
+      com.google.gerrit.server.index.VersionManager.Version<V, A> v) {
+    return !inUse.contains(v) && ((Version<?, ?>) v).exists;
   }
 
   @Override
-  protected <K, V, I extends Index<K, V>> TreeMap<Integer, VersionManager.Version<V>> scanVersions(
-      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
-    TreeMap<Integer, VersionManager.Version<V>> versions = new TreeMap<>();
-    for (Schema<V> schema : def.getSchemas().values()) {
+  protected <K, V, A, I extends Index<K, V, A>>
+      TreeMap<Integer, VersionManager.Version<V, A>> scanVersions(
+          IndexDefinition<K, V, A, I> def, GerritIndexStatus cfg) {
+    TreeMap<Integer, VersionManager.Version<V, A>> versions = new TreeMap<>();
+    for (Schema<V, A> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
       Path p = getDir(sitePaths, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
@@ -98,7 +99,7 @@ public class LuceneVersionManager extends VersionManager {
           continue;
         }
         if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
+          versions.put(v, new Version<>(null, v, true, cfg.getReady(def.getName(), v)));
         }
       }
     } catch (IOException e) {

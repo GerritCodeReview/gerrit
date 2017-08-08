@@ -43,7 +43,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGroup, GroupIndex> {
+public class AllGroupsIndexer
+    extends SiteIndexer<AccountGroup.UUID, AccountGroup, Void, GroupIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;

@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
+public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Void, AccountIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllAccountsIndexer.class);
 
   private final ListeningExecutorService executor;

@@ -22,7 +22,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
-public abstract class IndexCollection<K, V, I extends Index<K, V>> implements LifecycleListener {
+public abstract class IndexCollection<K, V, A, I extends Index<K, V, A>>
+    implements LifecycleListener {
   private final CopyOnWriteArrayList<I> writeIndexes;
   private final AtomicReference<I> searchIndex;
 

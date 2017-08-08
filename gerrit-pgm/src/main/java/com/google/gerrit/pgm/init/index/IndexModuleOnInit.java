@@ -46,9 +46,8 @@ import java.util.Set;
 public class IndexModuleOnInit extends AbstractModule {
   static final String INDEX_MANAGER = "IndexModuleOnInit/IndexManager";
 
-  private static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
-      ImmutableList.<SchemaDefinitions<?>>of(
-          AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
+  private static final ImmutableCollection<SchemaDefinitions<?, ?>> ALL_SCHEMA_DEFS =
+      ImmutableList.of(AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
 
   @Override
   protected void configure() {
@@ -86,10 +85,9 @@ public class IndexModuleOnInit extends AbstractModule {
   }
 
   @Provides
-  Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+  Collection<IndexDefinition<?, ?, ?, ?>> getIndexDefinitions(
       AccountIndexDefinition accounts, GroupIndexDefinition groups) {
-    Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups);
+    Collection<IndexDefinition<?, ?, ?, ?>> result = ImmutableList.of(accounts, groups);
     Set<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
     Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();

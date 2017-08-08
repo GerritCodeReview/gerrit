@@ -53,7 +53,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
-import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -206,7 +206,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ConflictsCache conflictsCache;
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final DynamicMap<ChangeOperatorFactory> opFactories;
-    final FieldDef.FillArgs fillArgs;
+    final ChangeFillArgs fillArgs;
     final GitRepositoryManager repoManager;
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
@@ -239,7 +239,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
-        FieldDef.FillArgs fillArgs,
+        ChangeFillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -305,7 +305,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
-        FieldDef.FillArgs fillArgs,
+        ChangeFillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -425,7 +425,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    Schema<ChangeData> getSchema() {
+    Schema<ChangeData, ChangeFillArgs> getSchema() {
       return index != null ? index.getSchema() : null;
     }
   }

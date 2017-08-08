@@ -21,9 +21,9 @@ import com.google.gerrit.server.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
+  static MappingProperties createMapping(Schema<?, ?> schema) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder();
-    for (FieldDef<?, ?> field : schema.getFields().values()) {
+    for (FieldDef<?, ?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {

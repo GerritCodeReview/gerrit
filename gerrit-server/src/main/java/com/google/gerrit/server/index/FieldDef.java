@@ -18,14 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -34,7 +29,7 @@ import org.eclipse.jgit.lib.Config;
  * @param <T> type that should be extracted from the input object when converting to an index
  *     document.
  */
-public final class FieldDef<I, T> {
+public final class FieldDef<I, A, T> {
   public static FieldDef.Builder<String> exact(String name) {
     return new FieldDef.Builder<>(FieldType.EXACT, name);
   }
@@ -69,23 +64,8 @@ public final class FieldDef<I, T> {
   }
 
   @FunctionalInterface
-  public interface GetterWithArgs<I, T> {
-    T get(I input, FillArgs args) throws OrmException, IOException;
-  }
-
-  /** Arguments needed to fill in missing data in the input object. */
-  public static class FillArgs {
-    public final TrackingFooters trackingFooters;
-    public final boolean allowsDrafts;
-    public final AllUsersName allUsers;
-
-    @Inject
-    FillArgs(
-        TrackingFooters trackingFooters, @GerritServerConfig Config cfg, AllUsersName allUsers) {
-      this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true);
-      this.allUsers = allUsers;
-    }
+  public interface GetterWithArgs<I, A, T> {
+    T get(I input, A args) throws OrmException, IOException;
   }
 
   public static class Builder<T> {
@@ -103,19 +83,20 @@ public final class FieldDef<I, T> {
       return this;
     }
 
-    public <I> FieldDef<I, T> build(Getter<I, T> getter) {
+    public <I, A> FieldDef<I, A, T> build(Getter<I, T> getter) {
       return build((in, a) -> getter.get(in));
     }
 
-    public <I> FieldDef<I, T> build(GetterWithArgs<I, T> getter) {
+    public <I, A> FieldDef<I, A, T> build(GetterWithArgs<I, A, T> getter) {
       return new FieldDef<>(name, type, stored, false, getter);
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
+    public <I, A> FieldDef<I, A, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
       return buildRepeatable((in, a) -> getter.get(in));
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(GetterWithArgs<I, Iterable<T>> getter) {
+    public <I, A> FieldDef<I, A, Iterable<T>> buildRepeatable(
+        GetterWithArgs<I, A, Iterable<T>> getter) {
       return new FieldDef<>(name, type, stored, true, getter);
     }
   }
@@ -124,14 +105,14 @@ public final class FieldDef<I, T> {
   private final FieldType<?> type;
   private final boolean stored;
   private final boolean repeatable;
-  private final GetterWithArgs<I, T> getter;
+  private final GetterWithArgs<I, A, T> getter;
 
   private FieldDef(
       String name,
       FieldType<?> type,
       boolean stored,
       boolean repeatable,
-      GetterWithArgs<I, T> getter) {
+      GetterWithArgs<I, A, T> getter) {
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
@@ -171,7 +152,7 @@ public final class FieldDef<I, T> {
    * @return the field value(s) to index.
    * @throws OrmException
    */
-  public T get(I input, FillArgs args) throws OrmException {
+  public T get(I input, A args) throws OrmException {
     try {
       return getter.get(input, args);
     } catch (IOException e) {

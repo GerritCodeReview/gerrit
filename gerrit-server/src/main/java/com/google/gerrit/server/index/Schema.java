@@ -22,7 +22,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,28 +32,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Specific version of a secondary index schema. */
-public class Schema<T> {
-  public static class Builder<T> {
-    private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+public class Schema<T, A> {
+  public static class Builder<T, A> {
+    private final List<FieldDef<T, A, ?>> fields = new ArrayList<>();
 
-    public Builder<T> add(Schema<T> schema) {
+    public Builder<T, A> add(Schema<T, A> schema) {
       this.fields.addAll(schema.getFields().values());
       return this;
     }
 
     @SafeVarargs
-    public final Builder<T> add(FieldDef<T, ?>... fields) {
+    public final Builder<T, A> add(FieldDef<T, A, ?>... fields) {
       this.fields.addAll(Arrays.asList(fields));
       return this;
     }
 
     @SafeVarargs
-    public final Builder<T> remove(FieldDef<T, ?>... fields) {
+    public final Builder<T, A> remove(FieldDef<T, A, ?>... fields) {
       this.fields.removeAll(Arrays.asList(fields));
       return this;
     }
 
-    public Schema<T> build() {
+    public Schema<T, A> build() {
       return new Schema<>(ImmutableList.copyOf(fields));
     }
   }
@@ -62,15 +61,15 @@ public class Schema<T> {
   private static final Logger log = LoggerFactory.getLogger(Schema.class);
 
   public static class Values<T> {
-    private final FieldDef<T, ?> field;
+    private final FieldDef<T, ?, ?> field;
     private final Iterable<?> values;
 
-    private Values(FieldDef<T, ?> field, Iterable<?> values) {
+    private Values(FieldDef<T, ?, ?> field, Iterable<?> values) {
       this.field = field;
       this.values = values;
     }
 
-    public FieldDef<T, ?> getField() {
+    public FieldDef<T, ?, ?> getField() {
       return field;
     }
 
@@ -79,25 +78,24 @@ public class Schema<T> {
     }
   }
 
-  private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1, FieldDef<T, ?> f2) {
+  private static void checkSame(FieldDef<?, ?, ?> f1, FieldDef<?, ?, ?> f2) {
     checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
-    return f1;
   }
 
-  private final ImmutableMap<String, FieldDef<T, ?>> fields;
-  private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+  private final ImmutableMap<String, FieldDef<T, A, ?>> fields;
+  private final ImmutableMap<String, FieldDef<T, A, ?>> storedFields;
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
+  public Schema(Iterable<FieldDef<T, A, ?>> fields) {
     this(0, fields);
   }
 
-  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  public Schema(int version, Iterable<FieldDef<T, A, ?>> fields) {
     this.version = version;
-    ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
-    ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
-    for (FieldDef<T, ?> f : fields) {
+    ImmutableMap.Builder<String, FieldDef<T, A, ?>> b = ImmutableMap.builder();
+    ImmutableMap.Builder<String, FieldDef<T, A, ?>> sb = ImmutableMap.builder();
+    for (FieldDef<T, A, ?> f : fields) {
       b.put(f.getName(), f);
       if (f.isStored()) {
         sb.put(f.getName(), f);
@@ -120,12 +118,12 @@ public class Schema<T> {
    *
    * @return all fields in this schema indexed by name.
    */
-  public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
+  public final ImmutableMap<String, FieldDef<T, A, ?>> getFields() {
     return fields;
   }
 
   /** @return all fields in this schema where {@link FieldDef#isStored()} is true. */
-  public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
+  public final ImmutableMap<String, FieldDef<T, A, ?>> getStoredFields() {
     return storedFields;
   }
 
@@ -138,15 +136,18 @@ public class Schema<T> {
    *     absent if no field matches.
    */
   @SafeVarargs
-  public final Optional<FieldDef<T, ?>> getField(FieldDef<T, ?> first, FieldDef<T, ?>... rest) {
-    FieldDef<T, ?> field = fields.get(first.getName());
+  public final Optional<FieldDef<T, A, ?>> getField(
+      FieldDef<T, A, ?> first, FieldDef<T, A, ?>... rest) {
+    FieldDef<T, A, ?> field = fields.get(first.getName());
     if (field != null) {
-      return Optional.of(checkSame(field, first));
+      checkSame(field, first);
+      return Optional.of(field);
     }
-    for (FieldDef<T, ?> f : rest) {
+    for (FieldDef<T, A, ?> f : rest) {
       field = fields.get(f.getName());
       if (field != null) {
-        return Optional.of(checkSame(field, f));
+        checkSame(field, f);
+        return Optional.of(field);
       }
     }
     return Optional.empty();
@@ -158,8 +159,8 @@ public class Schema<T> {
    * @param field field to look up.
    * @return whether the field is present.
    */
-  public final boolean hasField(FieldDef<T, ?> field) {
-    FieldDef<T, ?> f = fields.get(field.getName());
+  public final boolean hasField(FieldDef<T, ?, ?> field) {
+    FieldDef<T, A, ?> f = fields.get(field.getName());
     if (f == null) {
       return false;
     }
@@ -176,12 +177,12 @@ public class Schema<T> {
    * @param fillArgs arguments for filling fields.
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(T obj, FillArgs fillArgs) {
+  public final Iterable<Values<T>> buildFields(T obj, A fillArgs) {
     return FluentIterable.from(fields.values())
         .transform(
-            new Function<FieldDef<T, ?>, Values<T>>() {
+            new Function<FieldDef<T, A, ?>, Values<T>>() {
               @Override
-              public Values<T> apply(FieldDef<T, ?> f) {
+              public Values<T> apply(FieldDef<T, A, ?> f) {
                 Object v;
                 try {
                   v = f.get(obj, fillArgs);
@@ -194,6 +195,7 @@ public class Schema<T> {
                 } else if (f.isRepeatable()) {
                   return new Values<>(f, (Iterable<?>) v);
                 } else {
+                  //noinspection Guava
                   return new Values<>(f, Collections.singleton(v));
                 }
               }

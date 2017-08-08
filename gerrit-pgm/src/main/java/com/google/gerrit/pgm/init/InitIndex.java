@@ -66,7 +66,7 @@ class InitIndex implements InitStep {
     }
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
-      for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
+      for (SchemaDefinitions<?, ?> def : IndexModule.ALL_SCHEMA_DEFS) {
         IndexUtils.setReady(site, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {

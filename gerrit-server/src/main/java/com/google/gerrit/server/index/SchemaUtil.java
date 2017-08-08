@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,19 +36,20 @@ import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class SchemaUtil {
-  public static <V> ImmutableSortedMap<Integer, Schema<V>> schemasFromClass(
-      Class<?> schemasClass, Class<V> valueClass) {
-    Map<Integer, Schema<V>> schemas = new HashMap<>();
+  public static <V, A> ImmutableSortedMap<Integer, Schema<V, A>> schemasFromClass(
+      Class<?> schemasClass, Class<V> valueClass, Class<A> argsClass) {
+    Map<Integer, Schema<V, A>> schemas = new HashMap<>();
     for (Field f : schemasClass.getDeclaredFields()) {
       if (Modifier.isStatic(f.getModifiers())
           && Modifier.isFinal(f.getModifiers())
           && Schema.class.isAssignableFrom(f.getType())) {
         ParameterizedType t = (ParameterizedType) f.getGenericType();
-        if (t.getActualTypeArguments()[0] == valueClass) {
+        Type[] typeArgs = t.getActualTypeArguments();
+        if (typeArgs.length == 2 && typeArgs[0] == valueClass && typeArgs[1] == argsClass) {
           try {
             f.setAccessible(true);
             @SuppressWarnings("unchecked")
-            Schema<V> schema = (Schema<V>) f.get(null);
+            Schema<V, A> schema = (Schema<V, A>) f.get(null);
             checkArgument(f.getName().startsWith("V"));
             schema.setVersion(Integer.parseInt(f.getName().substring(1)));
             schemas.put(schema.getVersion(), schema);
@@ -66,21 +68,21 @@ public class SchemaUtil {
     return ImmutableSortedMap.copyOf(schemas);
   }
 
-  public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {
+  public static <V, A> Schema<V, A> schema(Collection<FieldDef<V, A, ?>> fields) {
     return new Schema<>(ImmutableList.copyOf(fields));
   }
 
   @SafeVarargs
-  public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
+  public static <V, A> Schema<V, A> schema(Schema<V, A> schema, FieldDef<V, A, ?>... moreFields) {
     return new Schema<>(
-        new ImmutableList.Builder<FieldDef<V, ?>>()
+        new ImmutableList.Builder<FieldDef<V, A, ?>>()
             .addAll(schema.getFields().values())
             .addAll(ImmutableList.copyOf(moreFields))
             .build());
   }
 
   @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
+  public static <V, A> Schema<V, A> schema(FieldDef<V, A, ?>... fields) {
     return schema(ImmutableList.copyOf(fields));
   }
 

@@ -25,21 +25,21 @@ import com.google.inject.Provider;
  * in the static definition of one or more schemas, see the implementations of {@link
  * SchemaDefinitions}.
  */
-public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
-  public interface IndexFactory<K, V, I extends Index<K, V>> {
-    I create(Schema<V> schema);
+public abstract class IndexDefinition<K, V, A, I extends Index<K, V, A>> {
+  public interface IndexFactory<K, V, A, I extends Index<K, V, A>> {
+    I create(Schema<V, A> schema);
   }
 
-  private final SchemaDefinitions<V> schemaDefs;
-  private final IndexCollection<K, V, I> indexCollection;
-  private final IndexFactory<K, V, I> indexFactory;
-  private final Provider<SiteIndexer<K, V, I>> siteIndexer;
+  private final SchemaDefinitions<V, A> schemaDefs;
+  private final IndexCollection<K, V, A, I> indexCollection;
+  private final IndexFactory<K, V, A, I> indexFactory;
+  private final Provider<SiteIndexer<K, V, A, I>> siteIndexer;
 
   protected IndexDefinition(
-      SchemaDefinitions<V> schemaDefs,
-      IndexCollection<K, V, I> indexCollection,
-      IndexFactory<K, V, I> indexFactory,
-      Provider<SiteIndexer<K, V, I>> siteIndexer) {
+      SchemaDefinitions<V, A> schemaDefs,
+      IndexCollection<K, V, A, I> indexCollection,
+      IndexFactory<K, V, A, I> indexFactory,
+      Provider<SiteIndexer<K, V, A, I>> siteIndexer) {
     this.schemaDefs = schemaDefs;
     this.indexCollection = indexCollection;
     this.indexFactory = indexFactory;
@@ -50,23 +50,23 @@ public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
     return schemaDefs.getName();
   }
 
-  public final ImmutableSortedMap<Integer, Schema<V>> getSchemas() {
+  public final ImmutableSortedMap<Integer, Schema<V, A>> getSchemas() {
     return schemaDefs.getSchemas();
   }
 
-  public final Schema<V> getLatest() {
+  public final Schema<V, A> getLatest() {
     return schemaDefs.getLatest();
   }
 
-  public final IndexCollection<K, V, I> getIndexCollection() {
+  public final IndexCollection<K, V, A, I> getIndexCollection() {
     return indexCollection;
   }
 
-  public final IndexFactory<K, V, I> getIndexFactory() {
+  public final IndexFactory<K, V, A, I> getIndexFactory() {
     return indexFactory;
   }
 
-  public final SiteIndexer<K, V, I> getSiteIndexer() {
+  public final SiteIndexer<K, V, A, I> getSiteIndexer() {
     return siteIndexer.get();
   }
 }

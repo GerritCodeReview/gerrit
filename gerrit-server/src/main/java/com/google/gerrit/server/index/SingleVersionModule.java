@@ -51,13 +51,13 @@ public class SingleVersionModule extends LifecycleModule {
   @Singleton
   public static class SingleVersionListener implements LifecycleListener {
     private final Set<String> disabled;
-    private final Collection<IndexDefinition<?, ?, ?>> defs;
+    private final Collection<IndexDefinition<?, ?, ?, ?>> defs;
     private final Map<String, Integer> singleVersions;
 
     @Inject
     SingleVersionListener(
         @GerritServerConfig Config cfg,
-        Collection<IndexDefinition<?, ?, ?>> defs,
+        Collection<IndexDefinition<?, ?, ?, ?>> defs,
         @Named(SINGLE_VERSIONS) Map<String, Integer> singleVersions) {
       this.defs = defs;
       this.singleVersions = singleVersions;
@@ -67,16 +67,16 @@ public class SingleVersionModule extends LifecycleModule {
 
     @Override
     public void start() {
-      for (IndexDefinition<?, ?, ?> def : defs) {
+      for (IndexDefinition<?, ?, ?, ?> def : defs) {
         start(def);
       }
     }
 
-    private <K, V, I extends Index<K, V>> void start(IndexDefinition<K, V, I> def) {
+    private <K, V, A, I extends Index<K, V, A>> void start(IndexDefinition<K, V, A, I> def) {
       if (disabled.contains(def.getName())) {
         return;
       }
-      Schema<V> schema;
+      Schema<V, A> schema;
       Integer v = singleVersions.get(def.getName());
       if (v == null) {
         schema = def.getLatest();

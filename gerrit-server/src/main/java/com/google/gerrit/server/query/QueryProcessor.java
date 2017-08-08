@@ -64,9 +64,9 @@ public abstract class QueryProcessor<T> {
 
   private final AccountLimits.Factory limitsFactory;
   private final Metrics metrics;
-  private final SchemaDefinitions<T> schemaDef;
+  private final SchemaDefinitions<T, ?> schemaDef;
   private final IndexConfig indexConfig;
-  private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
+  private final IndexCollection<?, T, ?, ? extends Index<?, T, ?>> indexes;
   private final IndexRewriter<T> rewriter;
   private final String limitField;
 
@@ -80,9 +80,9 @@ public abstract class QueryProcessor<T> {
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
       Metrics metrics,
-      SchemaDefinitions<T> schemaDef,
+      SchemaDefinitions<T, ?> schemaDef,
       IndexConfig indexConfig,
-      IndexCollection<?, T, ? extends Index<?, T>> indexes,
+      IndexCollection<?, T, ?, ? extends Index<?, T, ?>> indexes,
       IndexRewriter<T> rewriter,
       String limitField) {
     this.userProvider = userProvider;
@@ -225,7 +225,7 @@ public abstract class QueryProcessor<T> {
     if (requestedFields != null) {
       return requestedFields;
     }
-    Index<?, T> index = indexes.getSearchIndex();
+    Index<?, T, ?> index = indexes.getSearchIndex();
     return index != null ? index.getSchema().getStoredFields().keySet() : ImmutableSet.<String>of();
   }
 

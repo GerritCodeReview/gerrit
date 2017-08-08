@@ -75,7 +75,7 @@ public class Reindex extends SiteProgram {
   private Injector sysInjector;
   private Config globalConfig;
 
-  @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
+  @Inject private Collection<IndexDefinition<?, ?, ?, ?>> indexDefs;
 
   @Override
   public int run() throws Exception {
@@ -108,7 +108,7 @@ public class Reindex extends SiteProgram {
   }
 
   private boolean list() {
-    for (IndexDefinition<?, ?, ?> def : indexDefs) {
+    for (IndexDefinition<?, ?, ?, ?> def : indexDefs) {
       System.out.format("%s\n", def.getName());
     }
     return true;
@@ -116,7 +116,7 @@ public class Reindex extends SiteProgram {
 
   private boolean reindex() throws IOException {
     boolean ok = true;
-    for (IndexDefinition<?, ?, ?> def : indexDefs) {
+    for (IndexDefinition<?, ?, ?, ?> def : indexDefs) {
       if (indices.isEmpty() || indices.contains(def.getName())) {
         ok &= reindex(def);
       }
@@ -190,14 +190,14 @@ public class Reindex extends SiteProgram {
     globalConfig.setBoolean("index", null, "autoReindexIfStale", false);
   }
 
-  private <K, V, I extends Index<K, V>> boolean reindex(IndexDefinition<K, V, I> def)
+  private <K, V, I extends Index<K, V, ?>> boolean reindex(IndexDefinition<K, V, ?, I> def)
       throws IOException {
     I index = def.getIndexCollection().getSearchIndex();
     checkNotNull(index, "no active search index configured for %s", def.getName());
     index.markReady(false);
     index.deleteAll();
 
-    SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer();
+    SiteIndexer<K, V, ?, I> siteIndexer = def.getSiteIndexer();
     siteIndexer.setProgressOut(System.err);
     siteIndexer.setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE);
     SiteIndexer.Result result = siteIndexer.indexAll(index);

@@ -17,20 +17,20 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.server.query.OperatorPredicate;
 
 /** Index-aware predicate that includes a field type annotation. */
-public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
-  private final FieldDef<I, ?> def;
+public abstract class IndexPredicate<I, A> extends OperatorPredicate<I> {
+  private final FieldDef<I, A, ?> def;
 
-  protected IndexPredicate(FieldDef<I, ?> def, String value) {
+  protected IndexPredicate(FieldDef<I, A, ?> def, String value) {
     super(def.getName(), value);
     this.def = def;
   }
 
-  protected IndexPredicate(FieldDef<I, ?> def, String name, String value) {
+  protected IndexPredicate(FieldDef<I, A, ?> def, String name, String value) {
     super(name, value);
     this.def = def;
   }
 
-  public FieldDef<I, ?> getField() {
+  public FieldDef<I, A, ?> getField() {
     return def;
   }
 

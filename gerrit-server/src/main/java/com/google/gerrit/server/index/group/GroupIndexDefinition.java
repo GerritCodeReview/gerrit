@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
 public class GroupIndexDefinition
-    extends IndexDefinition<AccountGroup.UUID, AccountGroup, GroupIndex> {
+    extends IndexDefinition<AccountGroup.UUID, AccountGroup, Void, GroupIndex> {
 
   @Inject
   GroupIndexDefinition(

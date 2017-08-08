@@ -16,7 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
@@ -29,10 +29,10 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeChangeIndex implements ChangeIndex {
-  static Schema<ChangeData> V1 =
-      new Schema<>(1, ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.STATUS));
+  static Schema<ChangeData, ChangeFillArgs> V1 =
+      new Schema<>(1, ImmutableList.of(ChangeField.STATUS));
 
-  static Schema<ChangeData> V2 =
+  static Schema<ChangeData, ChangeFillArgs> V2 =
       new Schema<>(2, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));
 
   private static class Source implements ChangeDataSource {
@@ -63,9 +63,9 @@ public class FakeChangeIndex implements ChangeIndex {
     }
   }
 
-  private final Schema<ChangeData> schema;
+  private final Schema<ChangeData, ChangeFillArgs> schema;
 
-  FakeChangeIndex(Schema<ChangeData> schema) {
+  FakeChangeIndex(Schema<ChangeData, ChangeFillArgs> schema) {
     this.schema = schema;
   }
 
@@ -91,7 +91,7 @@ public class FakeChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public Schema<ChangeData> getSchema() {
+  public Schema<ChangeData, ChangeFillArgs> getSchema() {
     return schema;
   }
 

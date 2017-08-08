@@ -28,6 +28,7 @@ import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
 import com.google.gerrit.elasticsearch.ElasticGroupIndex.GroupMapping;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
@@ -118,7 +119,7 @@ final class ElasticTestUtils {
   }
 
   static void createAllIndexes(ElasticNodeInfo nodeInfo) {
-    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
+    Schema<ChangeData, ChangeFillArgs> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
     ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
     ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
     openChangesMapping.closedChanges = null;
@@ -134,7 +135,7 @@ final class ElasticTestUtils {
         .execute()
         .actionGet();
 
-    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
+    Schema<AccountState, Void> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
     AccountMapping accountMapping = new AccountMapping(accountSchema);
     nodeInfo
         .node
@@ -146,7 +147,7 @@ final class ElasticTestUtils {
         .execute()
         .actionGet();
 
-    Schema<AccountGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
+    Schema<AccountGroup, Void> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
     GroupMapping groupMapping = new GroupMapping(groupSchema);
     nodeInfo
         .node

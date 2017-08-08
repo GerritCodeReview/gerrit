@@ -296,7 +296,7 @@ public class InMemoryModule extends FactoryModule {
   }
 
   private void putSchemaVersion(
-      Map<String, Integer> singleVersions, SchemaDefinitions<?> schemaDef) {
+      Map<String, Integer> singleVersions, SchemaDefinitions<?, ?> schemaDef) {
     String schemaName = schemaDef.getName();
     int version = cfg.getInt("index", "lucene", schemaName + "TestVersion", -1);
     if (version > 0) {

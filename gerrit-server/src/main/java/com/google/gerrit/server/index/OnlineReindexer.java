@@ -24,12 +24,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OnlineReindexer<K, V, I extends Index<K, V>> {
+public class OnlineReindexer<K, V, A, I extends Index<K, V, A>> {
   private static final Logger log = LoggerFactory.getLogger(OnlineReindexer.class);
 
   private final String name;
-  private final IndexCollection<K, V, I> indexes;
-  private final SiteIndexer<K, V, I> batchIndexer;
+  private final IndexCollection<K, V, A, I> indexes;
+  private final SiteIndexer<K, V, A, I> batchIndexer;
   private final int oldVersion;
   private final int newVersion;
   private final DynamicSet<OnlineUpgradeListener> listeners;
@@ -37,7 +37,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private final AtomicBoolean running = new AtomicBoolean();
 
   public OnlineReindexer(
-      IndexDefinition<K, V, I> def,
+      IndexDefinition<K, V, A, I> def,
       int oldVersion,
       int newVersion,
       DynamicSet<OnlineUpgradeListener> listeners) {
@@ -82,7 +82,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     return newVersion;
   }
 
-  private static int version(Index<?, ?> i) {
+  private static int version(Index<?, ?, ?> i) {
     return i.getSchema().getVersion();
   }
 

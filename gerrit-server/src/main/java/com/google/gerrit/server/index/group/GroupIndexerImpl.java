@@ -63,7 +63,7 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   @Override
   public void index(AccountGroup.UUID uuid) throws IOException {
-    for (Index<?, AccountGroup> i : getWriteIndexes()) {
+    for (Index<?, AccountGroup, Void> i : getWriteIndexes()) {
       i.replace(groupCache.get(uuid));
     }
     fireGroupIndexedEvent(uuid.get());

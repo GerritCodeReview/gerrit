@@ -46,7 +46,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.NumericUtils;
 
-public class QueryBuilder<V> {
+public class QueryBuilder<V, A> {
   static Term intTerm(String name, int value) {
     BytesRefBuilder builder = new BytesRefBuilder();
     NumericUtils.intToPrefixCoded(value, 0, builder);
@@ -59,10 +59,10 @@ public class QueryBuilder<V> {
     return new Term(name, builder.get());
   }
 
-  private final Schema<V> schema;
+  private final Schema<V, ?> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
-  public QueryBuilder(Schema<V> schema, Analyzer analyzer) {
+  public QueryBuilder(Schema<V, ?> schema, Analyzer analyzer) {
     this.schema = schema;
     queryBuilder = new org.apache.lucene.util.QueryBuilder(analyzer);
   }
@@ -75,7 +75,7 @@ public class QueryBuilder<V> {
     } else if (p instanceof NotPredicate) {
       return not(p);
     } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<V>) p);
+      return fieldQuery((IndexPredicate<V, A>) p);
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }
@@ -102,7 +102,7 @@ public class QueryBuilder<V> {
         if (c instanceof NotPredicate) {
           Predicate<V> n = c.getChild(0);
           if (n instanceof TimestampRangePredicate) {
-            b.add(notTimestamp((TimestampRangePredicate<V>) n), MUST);
+            b.add(notTimestamp((TimestampRangePredicate<V, A>) n), MUST);
           } else {
             not.add(toQuery(n));
           }
@@ -122,7 +122,7 @@ public class QueryBuilder<V> {
   private Query not(Predicate<V> p) throws QueryParseException {
     Predicate<V> n = p.getChild(0);
     if (n instanceof TimestampRangePredicate) {
-      return notTimestamp((TimestampRangePredicate<V>) n);
+      return notTimestamp((TimestampRangePredicate<V, A>) n);
     }
 
     // Lucene does not support negation, start with all and subtract.
@@ -132,7 +132,7 @@ public class QueryBuilder<V> {
         .build();
   }
 
-  private Query fieldQuery(IndexPredicate<V> p) throws QueryParseException {
+  private Query fieldQuery(IndexPredicate<V, A> p) throws QueryParseException {
     checkArgument(
         schema.hasField(p.getField()),
         "field not in schema v%s: %s",
@@ -155,7 +155,7 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query intQuery(IndexPredicate<V> p) throws QueryParseException {
+  private Query intQuery(IndexPredicate<V, A> p) throws QueryParseException {
     int value;
     try {
       // Can't use IntPredicate because it and IndexPredicate are different
@@ -167,9 +167,9 @@ public class QueryBuilder<V> {
     return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
-  private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
+  private Query intRangeQuery(IndexPredicate<V, A> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
-      IntegerRangePredicate<V> r = (IntegerRangePredicate<V>) p;
+      IntegerRangePredicate<V, A> r = (IntegerRangePredicate<V, A>) p;
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
@@ -181,9 +181,9 @@ public class QueryBuilder<V> {
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
+  private Query timestampQuery(IndexPredicate<V, A> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
+      TimestampRangePredicate<V, A> r = (TimestampRangePredicate<V, A>) p;
       return NumericRangeQuery.newLongRange(
           r.getField().getName(),
           r.getMinTimestamp().getTime(),
@@ -194,7 +194,7 @@ public class QueryBuilder<V> {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
+  private Query notTimestamp(TimestampRangePredicate<V, A> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newLongRange(
           r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
@@ -202,14 +202,14 @@ public class QueryBuilder<V> {
     throw new QueryParseException("cannot negate: " + r);
   }
 
-  private Query exactQuery(IndexPredicate<V> p) {
-    if (p instanceof RegexPredicate<?>) {
+  private Query exactQuery(IndexPredicate<V, A> p) {
+    if (p instanceof RegexPredicate) {
       return regexQuery(p);
     }
     return new TermQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query regexQuery(IndexPredicate<V> p) {
+  private Query regexQuery(IndexPredicate<V, A> p) {
     String re = p.getValue();
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -220,11 +220,11 @@ public class QueryBuilder<V> {
     return new RegexpQuery(new Term(p.getField().getName(), re));
   }
 
-  private Query prefixQuery(IndexPredicate<V> p) {
+  private Query prefixQuery(IndexPredicate<V, A> p) {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query fullTextQuery(IndexPredicate<V> p) throws QueryParseException {
+  private Query fullTextQuery(IndexPredicate<V, A> p) throws QueryParseException {
     String value = p.getValue();
     if (value == null) {
       throw new QueryParseException("Full-text search over empty string not supported");

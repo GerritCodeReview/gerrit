@@ -55,12 +55,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
+public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup, Void>
     implements GroupIndex {
   static class GroupMapping {
     MappingProperties groups;
 
-    GroupMapping(Schema<AccountGroup> schema) {
+    GroupMapping(Schema<AccountGroup, Void> schema) {
       this.groups = ElasticMapping.createMapping(schema);
     }
   }
@@ -79,8 +79,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       JestClientBuilder clientBuilder,
-      @Assisted Schema<AccountGroup> schema) {
-    // No parts of FillArgs are currently required, just use null.
+      @Assisted Schema<AccountGroup, Void> schema) {
     super(cfg, null, sitePaths, schema, clientBuilder, GROUPS_PREFIX);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);

@@ -16,13 +16,14 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
-public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
+public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData, ChangeFillArgs> {
   @Deprecated
-  static final Schema<ChangeData> V39 =
+  static final Schema<ChangeData, ChangeFillArgs> V39 =
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
@@ -70,28 +71,32 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED);
 
-  @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
-  @Deprecated static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
-  @Deprecated static final Schema<ChangeData> V42 = schema(V41, ChangeField.WIP);
+  @Deprecated
+  static final Schema<ChangeData, ChangeFillArgs> V40 = schema(V39, ChangeField.PRIVATE);
 
   @Deprecated
-  static final Schema<ChangeData> V43 =
+  static final Schema<ChangeData, ChangeFillArgs> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
+
+  @Deprecated static final Schema<ChangeData, ChangeFillArgs> V42 = schema(V41, ChangeField.WIP);
+
+  @Deprecated
+  static final Schema<ChangeData, ChangeFillArgs> V43 =
       schema(V42, ChangeField.EXACT_AUTHOR, ChangeField.EXACT_COMMITTER);
 
   @Deprecated
-  static final Schema<ChangeData> V44 =
+  static final Schema<ChangeData, ChangeFillArgs> V44 =
       schema(
           V43,
           ChangeField.STARTED,
           ChangeField.PENDING_REVIEWER,
           ChangeField.PENDING_REVIEWER_BY_EMAIL);
 
-  static final Schema<ChangeData> V45 = schema(V44, ChangeField.REVERT_OF);
+  static final Schema<ChangeData, ChangeFillArgs> V45 = schema(V44, ChangeField.REVERT_OF);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 
   private ChangeSchemaDefinitions() {
-    super(NAME, ChangeData.class);
+    super(NAME, ChangeData.class, ChangeFillArgs.class);
   }
 }

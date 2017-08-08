@@ -19,11 +19,12 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gwtorm.server.OrmException;
 
 public class CommitPredicate extends ChangeIndexPredicate {
-  static FieldDef<ChangeData, ?> commitField(String id) {
+  static FieldDef<ChangeData, ChangeFillArgs, ?> commitField(String id) {
     if (id.length() == OBJECT_ID_STRING_LENGTH) {
       return EXACT_COMMIT;
     }

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.index;
 
-public abstract class RegexPredicate<I> extends IndexPredicate<I> {
-  protected RegexPredicate(FieldDef<I, ?> def, String value) {
+public abstract class RegexPredicate<I, A> extends IndexPredicate<I, A> {
+  protected RegexPredicate(FieldDef<I, A, ?> def, String value) {
     super(def, value);
   }
 
-  protected RegexPredicate(FieldDef<I, ?> def, String name, String value) {
+  protected RegexPredicate(FieldDef<I, A, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

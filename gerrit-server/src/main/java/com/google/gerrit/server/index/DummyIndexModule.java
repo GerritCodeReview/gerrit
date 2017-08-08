@@ -26,21 +26,21 @@ import com.google.inject.AbstractModule;
 public class DummyIndexModule extends AbstractModule {
   private static class DummyChangeIndexFactory implements ChangeIndex.Factory {
     @Override
-    public ChangeIndex create(Schema<ChangeData> schema) {
+    public ChangeIndex create(Schema<ChangeData, ChangeFillArgs> schema) {
       throw new UnsupportedOperationException();
     }
   }
 
   private static class DummyAccountIndexFactory implements AccountIndex.Factory {
     @Override
-    public AccountIndex create(Schema<AccountState> schema) {
+    public AccountIndex create(Schema<AccountState, Void> schema) {
       throw new UnsupportedOperationException();
     }
   }
 
   private static class DummyGroupIndexFactory implements GroupIndex.Factory {
     @Override
-    public GroupIndex create(Schema<AccountGroup> schema) {
+    public GroupIndex create(Schema<AccountGroup, Void> schema) {
       throw new UnsupportedOperationException();
     }
   }

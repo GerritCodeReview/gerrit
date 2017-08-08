@@ -21,6 +21,7 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
@@ -40,10 +41,10 @@ import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
+public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData, ChangeFillArgs>
     implements ChangeIndex {
   ChangeSubIndex(
-      Schema<ChangeData> schema,
+      Schema<ChangeData, ChangeFillArgs> schema,
       SitePaths sitePaths,
       Path path,
       GerritIndexWriterConfig writerConfig,
@@ -59,7 +60,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   }
 
   ChangeSubIndex(
-      Schema<ChangeData> schema,
+      Schema<ChangeData, ChangeFillArgs> schema,
       SitePaths sitePaths,
       Directory dir,
       String subIndex,
@@ -88,7 +89,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   @Override
   void add(Document doc, Values<ChangeData> values) {
     // Add separate DocValues fields for those fields needed for sorting.
-    FieldDef<ChangeData, ?> f = values.getField();
+    FieldDef<ChangeData, ?, ?> f = values.getField();
     if (f == ChangeField.LEGACY_ID) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));

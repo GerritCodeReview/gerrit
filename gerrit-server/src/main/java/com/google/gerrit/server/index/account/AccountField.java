@@ -34,15 +34,15 @@ import java.util.Set;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
-  public static final FieldDef<AccountState, Integer> ID =
+  public static final FieldDef<AccountState, Void, Integer> ID =
       integer("id").stored().build(a -> a.getAccount().getId().get());
 
-  public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
+  public static final FieldDef<AccountState, Void, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
           .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.key().get()));
 
   /** Fuzzy prefix match on name and email parts. */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountState, Void, Iterable<String>> NAME_PART =
       prefix("name")
           .buildRepeatable(
               a -> {
@@ -59,13 +59,13 @@ public class AccountField {
                 return parts;
               });
 
-  public static final FieldDef<AccountState, String> FULL_NAME =
+  public static final FieldDef<AccountState, Void, String> FULL_NAME =
       exact("full_name").build(a -> a.getAccount().getFullName());
 
-  public static final FieldDef<AccountState, String> ACTIVE =
+  public static final FieldDef<AccountState, Void, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
 
-  public static final FieldDef<AccountState, Iterable<String>> EMAIL =
+  public static final FieldDef<AccountState, Void, Iterable<String>> EMAIL =
       prefix("email")
           .buildRepeatable(
               a ->
@@ -76,7 +76,7 @@ public class AccountField {
                       .transform(String::toLowerCase)
                       .toSet());
 
-  public static final FieldDef<AccountState, String> PREFERRED_EMAIL =
+  public static final FieldDef<AccountState, Void, String> PREFERRED_EMAIL =
       prefix("preferredemail")
           .build(
               a -> {
@@ -84,13 +84,13 @@ public class AccountField {
                 return preferredEmail != null ? preferredEmail.toLowerCase() : null;
               });
 
-  public static final FieldDef<AccountState, Timestamp> REGISTERED =
+  public static final FieldDef<AccountState, Void, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
 
-  public static final FieldDef<AccountState, String> USERNAME =
+  public static final FieldDef<AccountState, Void, String> USERNAME =
       exact("username").build(a -> Strings.nullToEmpty(a.getUserName()).toLowerCase());
 
-  public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
+  public static final FieldDef<AccountState, Void, Iterable<String>> WATCHED_PROJECT =
       exact("watchedproject")
           .buildRepeatable(
               a ->

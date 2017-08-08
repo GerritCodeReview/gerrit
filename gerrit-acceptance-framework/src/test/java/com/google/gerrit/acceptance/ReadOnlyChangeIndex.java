@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -36,7 +37,7 @@ public class ReadOnlyChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public Schema<ChangeData> getSchema() {
+  public Schema<ChangeData, ChangeFillArgs> getSchema() {
     return index.getSchema();
   }
 

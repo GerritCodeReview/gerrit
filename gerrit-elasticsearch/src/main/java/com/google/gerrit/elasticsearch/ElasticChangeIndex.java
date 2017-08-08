@@ -38,7 +38,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
@@ -77,7 +77,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Secondary index implementation using Elasticsearch. */
-class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
+class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData, ChangeFillArgs>
     implements ChangeIndex {
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
@@ -85,7 +85,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     MappingProperties openChanges;
     MappingProperties closedChanges;
 
-    ChangeMapping(Schema<ChangeData> schema) {
+    ChangeMapping(Schema<ChangeData, ChangeFillArgs> schema) {
       MappingProperties mapping = ElasticMapping.createMapping(schema);
       this.openChanges = mapping;
       this.closedChanges = mapping;
@@ -105,10 +105,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      FillArgs fillArgs,
+      ChangeFillArgs fillArgs,
       SitePaths sitePaths,
       JestClientBuilder clientBuilder,
-      @Assisted Schema<ChangeData> schema) {
+      @Assisted Schema<ChangeData, ChangeFillArgs> schema) {
     super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;

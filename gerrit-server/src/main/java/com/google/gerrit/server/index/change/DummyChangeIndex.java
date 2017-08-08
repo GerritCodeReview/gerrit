@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
@@ -24,7 +25,7 @@ import java.io.IOException;
 
 public class DummyChangeIndex implements ChangeIndex {
   @Override
-  public Schema<ChangeData> getSchema() {
+  public Schema<ChangeData, ChangeFillArgs> getSchema() {
     throw new UnsupportedOperationException();
   }
 

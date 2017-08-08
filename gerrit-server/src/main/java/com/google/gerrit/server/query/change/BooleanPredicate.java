@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 
 public class BooleanPredicate extends ChangeIndexPredicate {
-  protected final FillArgs args;
+  protected final ChangeFillArgs args;
 
-  public BooleanPredicate(FieldDef<ChangeData, String> field, FillArgs args) {
+  public BooleanPredicate(FieldDef<ChangeData, ChangeFillArgs, String> field, ChangeFillArgs args) {
     super(field, "1");
     this.args = args;
   }

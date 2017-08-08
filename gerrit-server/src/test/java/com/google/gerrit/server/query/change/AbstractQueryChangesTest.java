@@ -84,6 +84,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
@@ -2476,7 +2477,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  protected void assertMissingField(FieldDef<ChangeData, ?> field) {
+  protected void assertMissingField(FieldDef<ChangeData, ?, ?> field) {
     assertThat(getSchema().hasField(field))
         .named("schema %s has field %s", getSchemaVersion(), field.getName())
         .isFalse();
@@ -2495,7 +2496,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return getSchema().getVersion();
   }
 
-  protected Schema<ChangeData> getSchema() {
+  protected Schema<ChangeData, ChangeFillArgs> getSchema() {
     return indexes.getSearchIndex().getSchema();
   }
 }

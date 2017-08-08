@@ -20,9 +20,9 @@ import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.group.GroupPredicates;
 
-public interface GroupIndex extends Index<AccountGroup.UUID, AccountGroup> {
+public interface GroupIndex extends Index<AccountGroup.UUID, AccountGroup, Void> {
   public interface Factory
-      extends IndexDefinition.IndexFactory<AccountGroup.UUID, AccountGroup, GroupIndex> {}
+      extends IndexDefinition.IndexFactory<AccountGroup.UUID, AccountGroup, Void, GroupIndex> {}
 
   @Override
   default Predicate<AccountGroup> keyPredicate(AccountGroup.UUID uuid) {

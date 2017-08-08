@@ -28,34 +28,34 @@ import java.sql.Timestamp;
 /** Secondary index schemas for groups. */
 public class GroupField {
   /** Legacy group ID. */
-  public static final FieldDef<AccountGroup, Integer> ID =
+  public static final FieldDef<AccountGroup, Void, Integer> ID =
       integer("id").build(g -> g.getId().get());
 
   /** Group UUID. */
-  public static final FieldDef<AccountGroup, String> UUID =
+  public static final FieldDef<AccountGroup, Void, String> UUID =
       exact("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
-  public static final FieldDef<AccountGroup, String> OWNER_UUID =
+  public static final FieldDef<AccountGroup, Void, String> OWNER_UUID =
       exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Timestamp indicating when this group was created. */
-  public static final FieldDef<AccountGroup, Timestamp> CREATED_ON =
+  public static final FieldDef<AccountGroup, Void, Timestamp> CREATED_ON =
       timestamp("created_on").build(AccountGroup::getCreatedOn);
 
   /** Group name. */
-  public static final FieldDef<AccountGroup, String> NAME =
+  public static final FieldDef<AccountGroup, Void, String> NAME =
       exact("name").build(AccountGroup::getName);
 
   /** Prefix match on group name parts. */
-  public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountGroup, Void, Iterable<String>> NAME_PART =
       prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
 
   /** Group description. */
-  public static final FieldDef<AccountGroup, String> DESCRIPTION =
+  public static final FieldDef<AccountGroup, Void, String> DESCRIPTION =
       fullText("description").build(AccountGroup::getDescription);
 
   /** Whether the group is visible to all users. */
-  public static final FieldDef<AccountGroup, String> IS_VISIBLE_TO_ALL =
+  public static final FieldDef<AccountGroup, Void, String> IS_VISIBLE_TO_ALL =
       exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
 }

@@ -23,11 +23,11 @@ import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 
-public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
+public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState, Void>
     implements DataSource<AccountState> {
 
   public IndexedAccountQuery(
-      Index<Account.Id, AccountState> index, Predicate<AccountState> pred, QueryOptions opts)
+      Index<Account.Id, AccountState, Void> index, Predicate<AccountState> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
   }

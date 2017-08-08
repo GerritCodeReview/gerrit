@@ -31,9 +31,9 @@ import java.util.Optional;
  *
  * <p>Implementations must be thread-safe and should batch inserts/updates where appropriate.
  */
-public interface Index<K, V> {
+public interface Index<K, V, A> {
   /** @return the schema version used by this index. */
-  Schema<V> getSchema();
+  Schema<V, A> getSchema();
 
   /** Stop and await termination of all executor threads */
   default void stop() {}

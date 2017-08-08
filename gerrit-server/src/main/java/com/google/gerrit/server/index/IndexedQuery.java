@@ -36,14 +36,14 @@ import java.util.List;
  * @param <I> The type of the IDs by which the entities are stored in the index.
  * @param <T> The type of the entities that are stored in the index.
  */
-public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, Paginated<T> {
-  protected final Index<I, T> index;
+public class IndexedQuery<I, T, A> extends Predicate<T> implements DataSource<T>, Paginated<T> {
+  protected final Index<I, T, A> index;
 
   private QueryOptions opts;
   private final Predicate<T> pred;
   protected DataSource<T> source;
 
-  public IndexedQuery(Index<I, T> index, Predicate<T> pred, QueryOptions opts)
+  public IndexedQuery(Index<I, T, A> index, Predicate<T> pred, QueryOptions opts)
       throws QueryParseException {
     this.index = index;
     this.opts = opts;
@@ -115,7 +115,7 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
     if (other == null || getClass() != other.getClass()) {
       return false;
     }
-    IndexedQuery<?, ?> o = (IndexedQuery<?, ?>) other;
+    IndexedQuery<?, ?, Void> o = (IndexedQuery<?, ?, Void>) other;
     return pred.equals(o.pred) && opts.equals(o.opts);
   }
 

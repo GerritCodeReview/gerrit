@@ -26,26 +26,27 @@ import org.junit.Test;
 
 public class SchemaUtilTest extends GerritBaseTests {
   static class TestSchemas {
-    static final Schema<String> V1 = schema();
-    static final Schema<String> V2 = schema();
-    static Schema<String> V3 = schema(); // Not final, ignored.
-    private static final Schema<String> V4 = schema();
+    static final Schema<String, Void> V1 = schema();
+    static final Schema<String, Void> V2 = schema();
+    static Schema<String, Void> V3 = schema(); // Not final, ignored.
+    private static final Schema<String, Void> V4 = schema();
 
     // Ignored.
-    static Schema<String> V10 = schema();
-    final Schema<String> V11 = schema();
+    static Schema<String, Void> V10 = schema();
+    final Schema<String, Void> V11 = schema();
   }
 
   @Test
   public void schemasFromClassBuildsMap() {
-    Map<Integer, Schema<String>> all = SchemaUtil.schemasFromClass(TestSchemas.class, String.class);
+    Map<Integer, Schema<String, Void>> all =
+        SchemaUtil.schemasFromClass(TestSchemas.class, String.class, Void.class);
     assertThat(all.keySet()).containsExactly(1, 2, 4);
     assertThat(all.get(1)).isEqualTo(TestSchemas.V1);
     assertThat(all.get(2)).isEqualTo(TestSchemas.V2);
     assertThat(all.get(4)).isEqualTo(TestSchemas.V4);
 
     exception.expect(IllegalArgumentException.class);
-    SchemaUtil.schemasFromClass(TestSchemas.class, Object.class);
+    SchemaUtil.schemasFromClass(TestSchemas.class, Object.class, Void.class);
   }
 
   @Test

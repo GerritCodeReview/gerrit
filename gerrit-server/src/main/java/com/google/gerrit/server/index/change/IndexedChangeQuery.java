@@ -22,6 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IndexedQuery;
@@ -49,7 +50,7 @@ import java.util.Set;
  * index; such predicates must also implement {@link ChangeDataSource} to be chosen by the query
  * processor.
  */
-public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
+public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData, ChangeFillArgs>
     implements ChangeDataSource, Matchable<ChangeData> {
   public static QueryOptions oneResult() {
     return createOptions(IndexConfig.createDefault(), 0, 1, ImmutableSet.<String>of());

@@ -58,12 +58,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
+public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState, Void>
     implements AccountIndex {
   static class AccountMapping {
     MappingProperties accounts;
 
-    AccountMapping(Schema<AccountState> schema) {
+    AccountMapping(Schema<AccountState, Void> schema) {
       this.accounts = ElasticMapping.createMapping(schema);
     }
   }
@@ -82,8 +82,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       JestClientBuilder clientBuilder,
-      @Assisted Schema<AccountState> schema) {
-    // No parts of FillArgs are currently required, just use null.
+      @Assisted Schema<AccountState, Void> schema) {
     super(cfg, null, sitePaths, schema, clientBuilder, ACCOUNTS_PREFIX);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);

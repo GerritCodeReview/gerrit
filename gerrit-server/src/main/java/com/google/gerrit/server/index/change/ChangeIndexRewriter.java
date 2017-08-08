@@ -238,10 +238,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     if (!(in instanceof IndexPredicate)) {
       return false;
     }
-    IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
+    IndexPredicate<ChangeData, Void> p = (IndexPredicate<ChangeData, Void>) in;
 
-    FieldDef<ChangeData, ?> def = p.getField();
-    Schema<ChangeData> schema = index.getSchema();
+    FieldDef<ChangeData, ?, ?> def = p.getField();
+    Schema<ChangeData, ?> schema = index.getSchema();
     return schema.hasField(def);
   }
 

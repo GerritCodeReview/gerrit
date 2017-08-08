@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 // TODO: Migrate this to IntegerRangePredicate
-public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
+public abstract class TimestampRangePredicate<I, A> extends IndexPredicate<I, A> {
   protected static Timestamp parse(String value) throws QueryParseException {
     try {
       return JavaSqlTimestampHelper.parseTimestamp(value);
@@ -30,7 +30,7 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
     }
   }
 
-  protected TimestampRangePredicate(FieldDef<I, Timestamp> def, String name, String value) {
+  protected TimestampRangePredicate(FieldDef<I, A, Timestamp> def, String name, String value) {
     super(def, name, value);
   }
 

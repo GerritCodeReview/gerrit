@@ -50,12 +50,12 @@ public class GroupPredicates {
     return new GroupPredicate(GroupField.IS_VISIBLE_TO_ALL, "1");
   }
 
-  static class GroupPredicate extends IndexPredicate<AccountGroup> {
-    GroupPredicate(FieldDef<AccountGroup, ?> def, String value) {
+  static class GroupPredicate extends IndexPredicate<AccountGroup, Void> {
+    GroupPredicate(FieldDef<AccountGroup, Void, ?> def, String value) {
       super(def, value);
     }
 
-    GroupPredicate(FieldDef<AccountGroup, ?> def, String name, String value) {
+    GroupPredicate(FieldDef<AccountGroup, Void, ?> def, String name, String value) {
       super(def, name, value);
     }
   }

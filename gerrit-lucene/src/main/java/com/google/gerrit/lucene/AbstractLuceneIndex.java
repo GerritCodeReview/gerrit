@@ -27,7 +27,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
@@ -66,14 +65,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Basic Lucene index implementation. */
-public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
+public abstract class AbstractLuceneIndex<K, V, A> implements Index<K, V, A> {
   private static final Logger log = LoggerFactory.getLogger(AbstractLuceneIndex.class);
 
-  static String sortFieldName(FieldDef<?, ?> f) {
+  static String sortFieldName(FieldDef<?, ?, ?> f) {
     return f.getName() + "_SORT";
   }
 
-  private final Schema<V> schema;
+  private final Schema<V, A> schema;
   private final SitePaths sitePaths;
   private final Directory dir;
   private final String name;
@@ -85,7 +84,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private ScheduledThreadPoolExecutor autoCommitExecutor;
 
   AbstractLuceneIndex(
-      Schema<V> schema,
+      Schema<V, A> schema,
       SitePaths sitePaths,
       Directory dir,
       String name,
@@ -285,7 +284,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     searcherManager.release(searcher);
   }
 
-  Document toDocument(V obj, FillArgs fillArgs) {
+  Document toDocument(V obj, A fillArgs) {
     Document result = new Document();
     for (Values<V> vs : schema.buildFields(obj, fillArgs)) {
       if (vs.getValues() != null) {
@@ -329,7 +328,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
-  private static Field.Store store(FieldDef<?, ?> f) {
+  private static Field.Store store(FieldDef<?, ?, ?> f) {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 
@@ -414,7 +413,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public Schema<V> getSchema() {
+  public Schema<V, A> getSchema() {
     return schema;
   }
 }

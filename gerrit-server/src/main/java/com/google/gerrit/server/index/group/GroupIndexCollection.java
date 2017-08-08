@@ -22,7 +22,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class GroupIndexCollection
-    extends IndexCollection<AccountGroup.UUID, AccountGroup, GroupIndex> {
+    extends IndexCollection<AccountGroup.UUID, AccountGroup, Void, GroupIndex> {
   @Inject
   @VisibleForTesting
   public GroupIndexCollection() {}

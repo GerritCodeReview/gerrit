@@ -55,7 +55,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, AccountGroup>
+public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, AccountGroup, Void>
     implements GroupIndex {
   private static final Logger log = LoggerFactory.getLogger(LuceneGroupIndex.class);
 
@@ -72,10 +72,10 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Acc
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
-  private final QueryBuilder<AccountGroup> queryBuilder;
+  private final QueryBuilder<AccountGroup, Void> queryBuilder;
   private final Provider<GroupCache> groupCache;
 
-  private static Directory dir(Schema<AccountGroup> schema, Config cfg, SitePaths sitePaths)
+  private static Directory dir(Schema<AccountGroup, Void> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
@@ -89,7 +89,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Acc
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      @Assisted Schema<AccountGroup> schema)
+      @Assisted Schema<AccountGroup, Void> schema)
       throws IOException {
     super(
         schema,
@@ -108,7 +108,6 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Acc
   @Override
   public void replace(AccountGroup group) throws IOException {
     try {
-      // No parts of FillArgs are currently required, just use null.
       replace(idTerm(group), toDocument(group, null)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);

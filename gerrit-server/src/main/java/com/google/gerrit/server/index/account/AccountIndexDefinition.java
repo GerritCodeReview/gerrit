@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
 public class AccountIndexDefinition
-    extends IndexDefinition<Account.Id, AccountState, AccountIndex> {
+    extends IndexDefinition<Account.Id, AccountState, Void, AccountIndex> {
 
   @Inject
   AccountIndexDefinition(

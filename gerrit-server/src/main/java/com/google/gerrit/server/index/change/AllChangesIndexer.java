@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -68,7 +69,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
+public class AllChangesIndexer
+    extends SiteIndexer<Change.Id, ChangeData, ChangeFillArgs, ChangeIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllChangesIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;

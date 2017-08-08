@@ -29,35 +29,35 @@ import com.google.gerrit.common.Nullable;
  * version number to schema definition. If you are interested in the classes responsible for
  * backend-specific runtime implementations, see the implementations of {@link IndexDefinition}.
  */
-public abstract class SchemaDefinitions<V> {
+public abstract class SchemaDefinitions<V, A> {
   private final String name;
-  private final ImmutableSortedMap<Integer, Schema<V>> schemas;
+  private final ImmutableSortedMap<Integer, Schema<V, A>> schemas;
 
-  protected SchemaDefinitions(String name, Class<V> valueClass) {
+  protected SchemaDefinitions(String name, Class<V> valueClass, Class<A> argsClass) {
     this.name = checkNotNull(name);
-    this.schemas = SchemaUtil.schemasFromClass(getClass(), valueClass);
+    this.schemas = SchemaUtil.schemasFromClass(getClass(), valueClass, argsClass);
   }
 
   public final String getName() {
     return name;
   }
 
-  public final ImmutableSortedMap<Integer, Schema<V>> getSchemas() {
+  public final ImmutableSortedMap<Integer, Schema<V, A>> getSchemas() {
     return schemas;
   }
 
-  public final Schema<V> get(int version) {
-    Schema<V> schema = schemas.get(version);
+  public final Schema<V, A> get(int version) {
+    Schema<V, A> schema = schemas.get(version);
     checkArgument(schema != null, "Unrecognized %s schema version: %s", name, version);
     return schema;
   }
 
-  public final Schema<V> getLatest() {
+  public final Schema<V, A> getLatest() {
     return schemas.lastEntry().getValue();
   }
 
   @Nullable
-  public final Schema<V> getPrevious() {
+  public final Schema<V, A> getPrevious() {
     if (schemas.size() <= 1) {
       return null;
     }

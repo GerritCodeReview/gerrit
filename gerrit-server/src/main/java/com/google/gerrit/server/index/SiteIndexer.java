@@ -30,7 +30,7 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
+public abstract class SiteIndexer<K, V, A, I extends Index<K, V, A>> {
   private static final Logger log = LoggerFactory.getLogger(SiteIndexer.class);
 
   public static class Result {

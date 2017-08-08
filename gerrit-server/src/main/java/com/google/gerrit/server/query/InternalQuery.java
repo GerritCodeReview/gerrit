@@ -33,13 +33,13 @@ import java.util.Set;
  */
 public class InternalQuery<T> {
   private final QueryProcessor<T> queryProcessor;
-  private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
+  private final IndexCollection<?, T, ?, ? extends Index<?, T, ?>> indexes;
 
   protected final IndexConfig indexConfig;
 
   protected InternalQuery(
       QueryProcessor<T> queryProcessor,
-      IndexCollection<?, T, ? extends Index<?, T>> indexes,
+      IndexCollection<?, T, ?, ? extends Index<?, T, ?>> indexes,
       IndexConfig indexConfig) {
     this.queryProcessor = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
@@ -92,8 +92,8 @@ public class InternalQuery<T> {
     }
   }
 
-  protected Schema<T> schema() {
-    Index<?, T> index = indexes != null ? indexes.getSearchIndex() : null;
+  protected Schema<T, ?> schema() {
+    Index<?, T, ?> index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
   }
 }

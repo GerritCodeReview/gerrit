@@ -43,7 +43,7 @@ public class IndexVersions {
    * @return the index versions from {@link IndexVersions#get(SchemaDefinitions)} without the latest
    *     schema version
    */
-  public static <V> ImmutableList<Integer> getWithoutLatest(SchemaDefinitions<V> schemaDef) {
+  public static <V, A> ImmutableList<Integer> getWithoutLatest(SchemaDefinitions<V, A> schemaDef) {
     List<Integer> schemaVersions = new ArrayList<>(get(schemaDef));
     schemaVersions.remove(Integer.valueOf(schemaDef.getLatest().getVersion()));
     return ImmutableList.copyOf(schemaVersions);
@@ -72,7 +72,7 @@ public class IndexVersions {
    * @throws IllegalArgumentException if the value of the env var or system property is invalid or
    *     if any of the specified schema versions doesn't exist
    */
-  public static <V> ImmutableList<Integer> get(SchemaDefinitions<V> schemaDef) {
+  public static <V, A> ImmutableList<Integer> get(SchemaDefinitions<V, A> schemaDef) {
     String envVar = schemaDef.getName().toUpperCase() + "_INDEX_VERSIONS";
     String value = System.getenv(envVar);
     if (!Strings.isNullOrEmpty(value)) {
@@ -85,12 +85,13 @@ public class IndexVersions {
   }
 
   @VisibleForTesting
-  static <V> ImmutableList<Integer> get(SchemaDefinitions<V> schemaDef, String name, String value) {
+  static <V, A> ImmutableList<Integer> get(
+      SchemaDefinitions<V, A> schemaDef, String name, String value) {
     if (value != null) {
       value = value.trim();
     }
 
-    SortedMap<Integer, Schema<V>> schemas = schemaDef.getSchemas();
+    SortedMap<Integer, Schema<V, A>> schemas = schemaDef.getSchemas();
     if (!Strings.isNullOrEmpty(value)) {
       if (ALL.equals(value)) {
         return ImmutableList.copyOf(schemas.keySet());
@@ -126,8 +127,8 @@ public class IndexVersions {
     return ImmutableList.copyOf(schemaVersions);
   }
 
-  public static <V> Map<String, Config> asConfigMap(
-      SchemaDefinitions<V> schemaDef,
+  public static <V, A> Map<String, Config> asConfigMap(
+      SchemaDefinitions<V, A> schemaDef,
       List<Integer> schemaVersions,
       String testSuiteNamePrefix,
       Config baseConfig) {

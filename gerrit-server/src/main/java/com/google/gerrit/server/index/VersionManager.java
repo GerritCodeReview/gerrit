@@ -38,12 +38,12 @@ public abstract class VersionManager implements LifecycleListener {
     return cfg.getBoolean("index", null, "onlineUpgrade", true);
   }
 
-  public static class Version<V> {
-    public final Schema<V> schema;
+  public static class Version<V, A> {
+    public final Schema<V, A> schema;
     public final int version;
     public final boolean ready;
 
-    public Version(Schema<V> schema, int version, boolean ready) {
+    public Version(Schema<V, A> schema, int version, boolean ready) {
       checkArgument(schema == null || schema.getVersion() == version);
       this.schema = schema;
       this.version = version;
@@ -58,18 +58,18 @@ public abstract class VersionManager implements LifecycleListener {
   private final DynamicSet<OnlineUpgradeListener> listeners;
 
   // The following fields must be accessed synchronized on this.
-  protected final Map<String, IndexDefinition<?, ?, ?>> defs;
-  protected final Map<String, OnlineReindexer<?, ?, ?>> reindexers;
+  protected final Map<String, IndexDefinition<?, ?, ?, ?>> defs;
+  protected final Map<String, OnlineReindexer<?, ?, ?, ?>> reindexers;
 
   protected VersionManager(
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,
-      Collection<IndexDefinition<?, ?, ?>> defs,
+      Collection<IndexDefinition<?, ?, ?, ?>> defs,
       boolean onlineUpgrade) {
     this.sitePaths = sitePaths;
     this.listeners = listeners;
     this.defs = Maps.newHashMapWithExpectedSize(defs.size());
-    for (IndexDefinition<?, ?, ?> def : defs) {
+    for (IndexDefinition<?, ?, ?, ?> def : defs) {
       this.defs.put(def.getName(), def);
     }
 
@@ -84,7 +84,7 @@ public abstract class VersionManager implements LifecycleListener {
   @Override
   public void start() {
     GerritIndexStatus cfg = createIndexStatus();
-    for (IndexDefinition<?, ?, ?> def : defs.values()) {
+    for (IndexDefinition<?, ?, ?, ?> def : defs.values()) {
       initIndex(def, cfg);
     }
   }
@@ -104,7 +104,7 @@ public abstract class VersionManager implements LifecycleListener {
    */
   public synchronized boolean startReindexer(String name, boolean force)
       throws ReindexerAlreadyRunningException {
-    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+    OnlineReindexer<?, ?, ?, ?> reindexer = reindexers.get(name);
     validateReindexerNotRunning(reindexer);
     if (force || !isLatestIndexVersion(name, reindexer)) {
       reindexer.start();
@@ -122,7 +122,7 @@ public abstract class VersionManager implements LifecycleListener {
    */
   public synchronized boolean activateLatestIndex(String name)
       throws ReindexerAlreadyRunningException {
-    OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+    OnlineReindexer<?, ?, ?, ?> reindexer = reindexers.get(name);
     validateReindexerNotRunning(reindexer);
     if (!isLatestIndexVersion(name, reindexer)) {
       reindexer.activateIndex();
@@ -131,14 +131,14 @@ public abstract class VersionManager implements LifecycleListener {
     return false;
   }
 
-  protected <K, V, I extends Index<K, V>> void initIndex(
-      IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
-    TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);
+  protected <K, V, A, I extends Index<K, V, A>> void initIndex(
+      IndexDefinition<K, V, A, I> def, GerritIndexStatus cfg) {
+    TreeMap<Integer, Version<V, A>> versions = scanVersions(def, cfg);
     // Search from the most recent ready version.
     // Write to the most recent ready version and the most recent version.
-    Version<V> search = null;
-    List<Version<V>> write = Lists.newArrayListWithCapacity(2);
-    for (Version<V> v : versions.descendingMap().values()) {
+    Version<V, A> search = null;
+    List<Version<V, A>> write = Lists.newArrayListWithCapacity(2);
+    for (Version<V, A> v : versions.descendingMap().values()) {
       if (v.schema == null) {
         continue;
       }
@@ -157,11 +157,11 @@ public abstract class VersionManager implements LifecycleListener {
       throw new ProvisionException(String.format(runReindexMsg, def.getName()));
     }
 
-    IndexFactory<K, V, I> factory = def.getIndexFactory();
+    IndexFactory<K, V, A, I> factory = def.getIndexFactory();
     I searchIndex = factory.create(search.schema);
-    IndexCollection<K, V, I> indexes = def.getIndexCollection();
+    IndexCollection<K, V, A, I> indexes = def.getIndexCollection();
     indexes.setSearchIndex(searchIndex);
-    for (Version<V> v : write) {
+    for (Version<V, A> v : write) {
       if (v.version != search.version) {
         indexes.addWriteIndex(factory.create(v.schema));
       } else {
@@ -174,7 +174,7 @@ public abstract class VersionManager implements LifecycleListener {
     synchronized (this) {
       if (!reindexers.containsKey(def.getName())) {
         int latest = write.get(0).version;
-        OnlineReindexer<K, V, I> reindexer =
+        OnlineReindexer<K, V, A, I> reindexer =
             new OnlineReindexer<>(def, search.version, latest, listeners);
         reindexers.put(def.getName(), reindexer);
       }
@@ -183,15 +183,15 @@ public abstract class VersionManager implements LifecycleListener {
 
   synchronized void startOnlineUpgrade() {
     checkState(onlineUpgrade, "online upgrade not enabled");
-    for (IndexDefinition<?, ?, ?> def : defs.values()) {
+    for (IndexDefinition<?, ?, ?, ?> def : defs.values()) {
       String name = def.getName();
-      IndexCollection<?, ?, ?> indexes = def.getIndexCollection();
-      Index<?, ?> search = indexes.getSearchIndex();
+      IndexCollection<?, ?, ?, ?> indexes = def.getIndexCollection();
+      Index<?, ?, ?> search = indexes.getSearchIndex();
       checkState(
           search != null, "no search index ready for %s; should have failed at startup", name);
       int searchVersion = search.getSchema().getVersion();
 
-      List<Index<?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
+      List<Index<?, ?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
       checkState(
           !write.isEmpty(),
           "no write indexes set for %s; should have been initialized at startup",
@@ -199,7 +199,7 @@ public abstract class VersionManager implements LifecycleListener {
       int latestWriteVersion = write.get(0).getSchema().getVersion();
 
       if (latestWriteVersion != searchVersion) {
-        OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
+        OnlineReindexer<?, ?, ?, ?> reindexer = reindexers.get(name);
         checkState(
             reindexer != null,
             "no reindexer found for %s; should have been initialized at startup",
@@ -217,28 +217,29 @@ public abstract class VersionManager implements LifecycleListener {
     }
   }
 
-  protected abstract <V> boolean isDirty(Collection<Version<V>> inUse, Version<V> v);
+  protected abstract <V, A> boolean isDirty(Collection<Version<V, A>> inUse, Version<V, A> v);
 
-  protected abstract <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>> scanVersions(
-      IndexDefinition<K, V, I> def, GerritIndexStatus cfg);
+  protected abstract <K, V, A, I extends Index<K, V, A>>
+      TreeMap<Integer, Version<V, A>> scanVersions(
+          IndexDefinition<K, V, A, I> def, GerritIndexStatus cfg);
 
-  private boolean isLatestIndexVersion(String name, OnlineReindexer<?, ?, ?> reindexer) {
+  private boolean isLatestIndexVersion(String name, OnlineReindexer<?, ?, ?, ?> reindexer) {
     int readVersion = defs.get(name).getIndexCollection().getSearchIndex().getSchema().getVersion();
     return reindexer == null || reindexer.getVersion() == readVersion;
   }
 
-  private static void validateReindexerNotRunning(OnlineReindexer<?, ?, ?> reindexer)
+  private static void validateReindexerNotRunning(OnlineReindexer<?, ?, ?, ?> reindexer)
       throws ReindexerAlreadyRunningException {
     if (reindexer != null && reindexer.isRunning()) {
       throw new ReindexerAlreadyRunningException();
     }
   }
 
-  private <V> void markNotReady(
-      String name, Iterable<Version<V>> versions, Collection<Version<V>> inUse) {
+  private <V, A> void markNotReady(
+      String name, Iterable<Version<V, A>> versions, Collection<Version<V, A>> inUse) {
     GerritIndexStatus cfg = createIndexStatus();
     boolean dirty = false;
-    for (Version<V> v : versions) {
+    for (Version<V, A> v : versions) {
       if (isDirty(inUse, v)) {
         cfg.setReady(name, v.version, false);
         dirty = true;

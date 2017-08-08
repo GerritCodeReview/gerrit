@@ -22,11 +22,13 @@ import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 
-public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, AccountGroup>
+public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, AccountGroup, Void>
     implements DataSource<AccountGroup> {
 
   public IndexedGroupQuery(
-      Index<AccountGroup.UUID, AccountGroup> index, Predicate<AccountGroup> pred, QueryOptions opts)
+      Index<AccountGroup.UUID, AccountGroup, Void> index,
+      Predicate<AccountGroup> pred,
+      QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
   }

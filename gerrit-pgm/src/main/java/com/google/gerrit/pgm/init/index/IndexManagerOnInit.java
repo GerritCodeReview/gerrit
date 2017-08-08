@@ -26,12 +26,12 @@ import java.util.Collection;
  */
 public class IndexManagerOnInit {
   private final LifecycleListener indexManager;
-  private final Collection<IndexDefinition<?, ?, ?>> defs;
+  private final Collection<IndexDefinition<?, ?, ?, ?>> defs;
 
   @Inject
   IndexManagerOnInit(
       @Named(IndexModuleOnInit.INDEX_MANAGER) LifecycleListener indexManager,
-      Collection<IndexDefinition<?, ?, ?>> defs) {
+      Collection<IndexDefinition<?, ?, ?, ?>> defs) {
     this.indexManager = indexManager;
     this.defs = defs;
   }
@@ -39,7 +39,7 @@ public class IndexManagerOnInit {
   public void start() {
     indexManager.start();
 
-    for (IndexDefinition<?, ?, ?> def : defs) {
+    for (IndexDefinition<?, ?, ?, ?> def : defs) {
       def.getIndexCollection().start();
     }
   }
@@ -47,7 +47,7 @@ public class IndexManagerOnInit {
   public void stop() {
     indexManager.stop();
 
-    for (IndexDefinition<?, ?, ?> def : defs) {
+    for (IndexDefinition<?, ?, ?, ?> def : defs) {
       def.getIndexCollection().stop();
     }
   }

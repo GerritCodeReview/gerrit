@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountState>
+public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountState, Void>
     implements AccountIndex {
   private static final Logger log = LoggerFactory.getLogger(LuceneAccountIndex.class);
 
@@ -73,10 +73,10 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
-  private final QueryBuilder<AccountState> queryBuilder;
+  private final QueryBuilder<AccountState, Void> queryBuilder;
   private final Provider<AccountCache> accountCache;
 
-  private static Directory dir(Schema<AccountState> schema, Config cfg, SitePaths sitePaths)
+  private static Directory dir(Schema<AccountState, Void> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
@@ -90,7 +90,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
-      @Assisted Schema<AccountState> schema)
+      @Assisted Schema<AccountState, Void> schema)
       throws IOException {
     super(
         schema,
@@ -109,7 +109,6 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) throws IOException {
     try {
-      // No parts of FillArgs are currently required, just use null.
       replace(idTerm(as), toDocument(as, null)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);

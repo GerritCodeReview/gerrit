@@ -44,7 +44,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.ChangeFillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
@@ -142,12 +142,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
-  private final FillArgs fillArgs;
+  private final ChangeFillArgs fillArgs;
   private final ListeningExecutorService executor;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
-  private final Schema<ChangeData> schema;
-  private final QueryBuilder<ChangeData> queryBuilder;
+  private final Schema<ChangeData, ChangeFillArgs> schema;
+  private final QueryBuilder<ChangeData, Void> queryBuilder;
   private final ChangeSubIndex openIndex;
   private final ChangeSubIndex closedIndex;
 
@@ -158,8 +158,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      FillArgs fillArgs,
-      @Assisted Schema<ChangeData> schema)
+      ChangeFillArgs fillArgs,
+      @Assisted Schema<ChangeData, ChangeFillArgs> schema)
       throws IOException {
     this.fillArgs = fillArgs;
     this.executor = executor;
@@ -206,7 +206,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public Schema<ChangeData> getSchema() {
+  public Schema<ChangeData, ChangeFillArgs> getSchema() {
     return schema;
   }
 

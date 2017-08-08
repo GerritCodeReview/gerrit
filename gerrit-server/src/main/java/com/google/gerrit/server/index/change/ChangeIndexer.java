@@ -201,7 +201,7 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (Index<?, ChangeData> i : getWriteIndexes()) {
+    for (Index<?, ChangeData, ?> i : getWriteIndexes()) {
       i.replace(cd);
     }
     fireChangeIndexedEvent(cd.getId().get());

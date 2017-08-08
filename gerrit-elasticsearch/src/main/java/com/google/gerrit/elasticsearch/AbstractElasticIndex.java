@@ -25,7 +25,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
@@ -47,7 +46,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
-abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
+abstract class AbstractElasticIndex<K, V, A> implements Index<K, V, A> {
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
     JsonArray field = doc.getAsJsonArray(fieldName);
@@ -59,8 +58,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         .toList();
   }
 
-  private final Schema<V> schema;
-  private final FillArgs fillArgs;
+  private final Schema<V, A> schema;
+  private final A fillArgs;
   private final SitePaths sitePaths;
 
   protected final String indexName;
@@ -70,9 +69,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   AbstractElasticIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
+      A fillArgs,
       SitePaths sitePaths,
-      Schema<V> schema,
+      Schema<V, A> schema,
       JestClientBuilder clientBuilder,
       String indexName) {
     this.fillArgs = fillArgs;
@@ -90,7 +89,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public Schema<V> getSchema() {
+  public Schema<V, A> getSchema() {
     return schema;
   }
 

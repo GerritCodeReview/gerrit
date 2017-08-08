@@ -96,12 +96,12 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
   }
 
-  static class AccountPredicate extends IndexPredicate<AccountState> {
-    AccountPredicate(FieldDef<AccountState, ?> def, String value) {
+  static class AccountPredicate extends IndexPredicate<AccountState, Void> {
+    AccountPredicate(FieldDef<AccountState, Void, ?> def, String value) {
       super(def, value);
     }
 
-    AccountPredicate(FieldDef<AccountState, ?> def, String name, String value) {
+    AccountPredicate(FieldDef<AccountState, Void, ?> def, String name, String value) {
       super(def, name, value);
     }
   }

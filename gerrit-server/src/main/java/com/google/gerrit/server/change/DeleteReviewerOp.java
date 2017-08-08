@@ -38,6 +38,8 @@ import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
@@ -109,7 +111,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException {
     Account.Id reviewerId = reviewer.getId();
     if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
       throw new ResourceNotFoundException();
@@ -130,21 +132,20 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     List<PatchSetApproval> del = new ArrayList<>();
     boolean votesRemoved = false;
     for (PatchSetApproval a : approvals(ctx, reviewerId)) {
-      if (ctx.getControl().canRemoveReviewer(a)) {
-        del.add(a);
-        if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
-          oldApprovals.put(a.getLabel(), a.getValue());
-          removedVotesMsg
-              .append("* ")
-              .append(a.getLabel())
-              .append(formatLabelValue(a.getValue()))
-              .append(" by ")
-              .append(userFactory.create(a.getAccountId()).getNameEmail())
-              .append("\n");
-          votesRemoved = true;
-        }
-      } else {
-        throw new AuthException("delete reviewer not permitted");
+      if (!ctx.getControl().canRemoveReviewer(a)) {
+        ctx.permissions().check(ChangePermission.REMOVE_REVIEWER);
+      }
+      del.add(a);
+      if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
+        oldApprovals.put(a.getLabel(), a.getValue());
+        removedVotesMsg
+            .append("* ")
+            .append(a.getLabel())
+            .append(formatLabelValue(a.getValue()))
+            .append(" by ")
+            .append(userFactory.create(a.getAccountId()).getNameEmail())
+            .append("\n");
+        votesRemoved = true;
       }
     }
 

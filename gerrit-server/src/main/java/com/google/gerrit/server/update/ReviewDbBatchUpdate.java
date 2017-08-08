@@ -56,6 +56,8 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
@@ -215,6 +217,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
+    public ForChange permissions() {
+      return permissionBackend.user(user).database(db).change(getControl().getNotes());
+    }
+
+    @Override
     public void dontBumpLastUpdatedOn() {
       bumpLastUpdatedOn = false;
     }
@@ -317,6 +324,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   private final Metrics metrics;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
+  private final PermissionBackend permissionBackend;
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
@@ -341,6 +349,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       NotesMigration notesMigration,
       SchemaFactory<ReviewDb> schemaFactory,
+      PermissionBackend permissionBackend,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -357,6 +366,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     this.notesMigration = notesMigration;
     this.schemaFactory = schemaFactory;
     this.updateManagerFactory = updateManagerFactory;
+    this.permissionBackend = permissionBackend;
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }

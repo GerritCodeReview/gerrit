@@ -35,6 +35,8 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
@@ -245,6 +247,11 @@ class NoteDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
+    public ForChange permissions() {
+      return permissionBackend.user(user).database(db).change(getControl().getNotes());
+    }
+
+    @Override
     public void dontBumpLastUpdatedOn() {
       // Do nothing; NoteDb effectively updates timestamp if and only if a commit was written to the
       // change meta ref.
@@ -269,6 +276,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final PermissionBackend permissionBackend;
   private final ReviewDb db;
 
   @Inject
@@ -281,6 +289,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      PermissionBackend permissionBackend,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -292,6 +301,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.permissionBackend = permissionBackend;
     this.db = db;
   }
 

@@ -111,6 +111,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -1096,7 +1097,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out) {
+  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out)
+      throws PermissionBackendException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -1116,7 +1118,7 @@ public class ChangeJson {
       }
       for (ApprovalInfo ai : label.all) {
         Account.Id id = new Account.Id(ai._accountId);
-        if (ctl.canRemoveReviewer(id, MoreObjects.firstNonNull(ai.value, 0))) {
+        if (canRemoveReviewer(ctl, id, MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(id);
         } else {
           fixed.add(id);
@@ -1133,7 +1135,7 @@ public class ChangeJson {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
           Account.Id id = new Account.Id(ai._accountId);
-          if (ctl.canRemoveReviewer(id, 0)) {
+          if (canRemoveReviewer(ctl, id, 0)) {
             removable.add(id);
           }
         }
@@ -1426,5 +1428,15 @@ public class ChangeJson {
 
     @Nullable
     abstract SubmitRecord.Label.Status status();
+  }
+
+  private boolean canRemoveReviewer(ChangeControl ctl, Account.Id reviewer, int value)
+      throws PermissionBackendException {
+    return ctl.canRemoveReviewer(reviewer, value)
+        || permissionBackend
+            .user(userProvider.get())
+            .change(ctl.getNotes())
+            .database(db)
+            .test(ChangePermission.REMOVE_REVIEWER);
   }
 }

@@ -40,6 +40,8 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -143,7 +145,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, AuthException, ResourceNotFoundException, IOException {
+        throws OrmException, AuthException, ResourceNotFoundException, IOException,
+            PermissionBackendException {
       ChangeControl ctl = ctx.getControl();
       change = ctl.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
@@ -167,7 +170,11 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           newApprovals.put(a.getLabel(), a.getValue());
           continue;
         } else if (!ctl.canRemoveReviewer(a)) {
-          throw new AuthException("delete vote not permitted");
+          try {
+            ctx.permissions().check(ChangePermission.REMOVE_REVIEWER);
+          } catch (AuthException e) {
+            throw new AuthException("delete vote not permitted", e);
+          }
         }
         // Set the approval to 0 if vote is being removed.
         newApprovals.put(a.getLabel(), (short) 0);

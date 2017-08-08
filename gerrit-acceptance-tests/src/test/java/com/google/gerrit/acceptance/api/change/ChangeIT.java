@@ -1797,7 +1797,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("delete reviewer not permitted");
+    exception.expectMessage("remove reviewer not permitted");
     gApi.changes().id(r.getChangeId()).reviewer(admin.getId().toString()).remove();
   }
 

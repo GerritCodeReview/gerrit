@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 
 /**
@@ -52,6 +53,14 @@ public interface ChangeContext extends Context {
    * @return control for this change.
    */
   ChangeControl getControl();
+
+  /**
+   * Get an instance of {@link PermissionBackend.ForChange} to perform permission checks by calling
+   * on {@code check} and {@code test}.
+   *
+   * @return permissionBackend for this change.
+   */
+  PermissionBackend.ForChange permissions();
 
   /**
    * Don't bump the value of {@link Change#getLastUpdatedOn()}.

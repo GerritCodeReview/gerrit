@@ -381,38 +381,49 @@ public class ChangeControl {
     return false;
   }
 
-  /** @return true if the user is allowed to remove this reviewer. */
+  /** @see #canRemoveReviewer(Account.Id, int) */
   public boolean canRemoveReviewer(PatchSetApproval approval) {
     return canRemoveReviewer(approval.getAccountId(), approval.getValue());
   }
 
+  /**
+   * Check if reviewer can be removed based on ownership of the change/ref or ownership/admin
+   * privileges on the project. Callers also need to check if removal is possible through {@link
+   * ChangePermission}.REMOVE_REVIEWER by calling {@link
+   * com.google.gerrit.server.permissions.PermissionBackend}.
+   *
+   * <p>Example:
+   *
+   * <pre>
+   * if (canRemoveReviewer(user, 0) || pb.user(u).change(c).test(REMOVE_REVIEWER)) {
+   *   // Remove
+   * }
+   * </pre>
+   */
   public boolean canRemoveReviewer(Account.Id reviewer, int value) {
-    if (getChange().getStatus().isOpen()) {
-      // A user can always remove themselves.
-      //
-      if (getUser().isIdentifiedUser()) {
-        if (getUser().getAccountId().equals(reviewer)) {
-          return true; // can remove self
-        }
-      }
-
-      // The change owner may remove any zero or positive score.
-      //
-      if (isOwner() && 0 <= value) {
-        return true;
-      }
-
-      // Users with the remove reviewer permission, the branch owner, project
-      // owner and site admin can remove anyone
-      if (getRefControl().canRemoveReviewer() // has removal permissions
-          || getRefControl().isOwner() // branch owner
-          || getProjectControl().isOwner() // project owner
-          || getProjectControl().isAdmin()) {
-        return true;
+    if (!getChange().getStatus().isOpen()) {
+      return false;
+    }
+    // A user can always remove themselves.
+    if (getUser().isIdentifiedUser()) {
+      if (getUser().getAccountId().equals(reviewer)) {
+        return true; // can remove self
       }
     }
+    // The change owner may remove any zero or positive score.
+    if (isOwner() && 0 <= value) {
+      return true;
+    }
+    // Users with the remove reviewer permission, the branch owner, project
+    // owner and site admin can remove anyone
+    return (getRefControl().isOwner() // branch owner
+        || getProjectControl().isOwner() // project owner
+        || getProjectControl().isAdmin()); // project admin
+  }
 
-    return false;
+  /** @return true if the user is allowed to remove a reviewer based on the ref permission. */
+  private boolean canRemoveReviewer() {
+    return getChange().getStatus().isOpen() && getRefControl().canRemoveReviewer();
   }
 
   /** Can this user edit the topic name? */
@@ -568,6 +579,8 @@ public class ChangeControl {
             return canEditHashtags();
           case EDIT_TOPIC_NAME:
             return canEditTopicName();
+          case REMOVE_REVIEWER:
+            return canRemoveReviewer();
           case REBASE:
             return canRebase(db());
           case RESTORE:
@@ -575,7 +588,6 @@ public class ChangeControl {
           case SUBMIT:
             return getRefControl().canSubmit(isOwner());
 
-          case REMOVE_REVIEWER: // TODO Honor specific removal filters?
           case SUBMIT_AS:
             return getRefControl().canPerform(perm.permissionName().get());
         }

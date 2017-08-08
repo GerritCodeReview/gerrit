@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7fe16160_f914f0e9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-08T19:52:31Z",
+      "side": 1,
+      "message": "I would have expected the opposite behavior -- hide the option until we know you can see it. That way, if the request for group ownership is slow, we don\u0027t show a link that cannot be followed.",
+      "parentUuid": "95bd39ff_41b3ad56",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 20
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4473ffc7_f78db171",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "I was following how i did it for gr-group. It\u0027s to make sure that there\u0027s no object in there so ie an ownert would have something like\n\n  {\n    name: \u003cname\u003e,\n  }\n\na non owner would not have any of that.",
       "parentUuid": "6ecc8c9e_cc062536",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70720729_0305c9c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-08T19:52:31Z",
+      "side": 1,
+      "message": "But the response for a non owner will be `{}` -- this is still an object.\n\n ({}).constructor \u003d\u003d\u003d Object // True\n\nSo this test will match in all cases, won\u0027t it? Instead of ..\n\nif (Object.keys(configs).length \u003d\u003d\u003d 0 \u0026\u0026\n    configs.constructor \u003d\u003d\u003d Object) {\n\n.. would it make sense to just check whether the group name appears in the object\u0027s keys?\n\n if (!configs.hasOwnProperty(group.name)) {",
+      "parentUuid": "9ef0bbf3_25aed816",
       "range": {
         "startLine": 216,
         "startChar": 18,

@@ -44,11 +44,11 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
+        "//gerrit-index:query_exception",
+        "//gerrit-index:query_parser",
         "//gerrit-patch-commonsnet:commons-net",
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
@@ -266,9 +266,6 @@ java_library(
     deps = TESTUTIL_DEPS + [
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
-        "//lib/antlr:java_runtime",
     ],
 )
 
@@ -280,9 +277,6 @@ junit_tests(
     deps = TESTUTIL_DEPS + [
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
-        "//lib/antlr:java_runtime",
     ],
 )
 
@@ -299,7 +293,7 @@ junit_tests(
         ":custom-truth-subjects",
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
+        "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
         "//gerrit-test-util:test_util",
         "//lib:args4j",

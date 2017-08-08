@@ -12,8 +12,8 @@ PLUGIN_API = [
 ]
 
 EXPORTS = [
-    "//gerrit-antlr:query_exception",
-    "//gerrit-antlr:query_parser",
+    "//gerrit-index:query_exception",
+    "//gerrit-index:query_parser",
     "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
@@ -81,12 +81,12 @@ java_binary(
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "//gerrit-antlr:libquery_exception-src.jar",
-        "//gerrit-antlr:libquery_parser-src.jar",
         "//gerrit-common:libannotations-src.jar",
         "//gerrit-extension-api:libapi-src.jar",
         "//gerrit-gwtexpui:libserver-src.jar",
         "//gerrit-httpd:libhttpd-src.jar",
+        "//gerrit-index:libquery_exception-src.jar",
+        "//gerrit-index:libquery_parser-src.jar",
         "//gerrit-pgm:libinit-api-src.jar",
         "//gerrit-reviewdb:libserver-src.jar",
         "//gerrit-server:libserver-src.jar",
@@ -99,8 +99,8 @@ load("//tools/bzl:javadoc.bzl", "java_doc")
 java_doc(
     name = "plugin-api-javadoc",
     libs = PLUGIN_API + [
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
+        "//gerrit-index:query_exception",
+        "//gerrit-index:query_parser",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",

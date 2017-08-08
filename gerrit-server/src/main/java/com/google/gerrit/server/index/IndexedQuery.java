@@ -16,10 +16,10 @@ package com.google.gerrit.server.index;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Paginated;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import java.util.Collection;

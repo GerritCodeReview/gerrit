@@ -14,18 +14,20 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.gerrit.index.query.QueryParser.AND;
+import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
+import static com.google.gerrit.index.query.QueryParser.EXACT_PHRASE;
+import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
+import static com.google.gerrit.index.query.QueryParser.NOT;
+import static com.google.gerrit.index.query.QueryParser.OR;
+import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.Predicate.or;
-import static com.google.gerrit.server.query.QueryParser.AND;
-import static com.google.gerrit.server.query.QueryParser.DEFAULT_FIELD;
-import static com.google.gerrit.server.query.QueryParser.EXACT_PHRASE;
-import static com.google.gerrit.server.query.QueryParser.FIELD_NAME;
-import static com.google.gerrit.server.query.QueryParser.NOT;
-import static com.google.gerrit.server.query.QueryParser.OR;
-import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryParser;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

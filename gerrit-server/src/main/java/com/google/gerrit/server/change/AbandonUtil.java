@@ -16,11 +16,11 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;

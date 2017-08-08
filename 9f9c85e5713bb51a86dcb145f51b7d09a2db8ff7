@@ -23,6 +23,30 @@
       "revId": "9f9c85e5713bb51a86dcb145f51b7d09a2db8ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e5e7294_d4570de6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T12:42:43Z",
+      "side": 1,
+      "message": "Done\n\nAlso updated the commit message in the predecessor change.",
+      "parentUuid": "1a3fcbf1_a6c71262",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "9f9c85e5713bb51a86dcb145f51b7d09a2db8ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

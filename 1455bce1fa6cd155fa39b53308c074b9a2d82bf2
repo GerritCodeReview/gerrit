@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ade14669_d7dd54b1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:05:44Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we should really place this class in that general package. This class should be only used for tests relating to schema upgrades. Can\u0027t we keep it in \u0027com.google.gerrit.server.schema\u0027 for now?\n\nBy the way, the same holds for TestUpdateUI.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6004888_1004ef77",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:05:44Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be part of the try-statement? If an error occurs during setup, we should still clean up as best as we can.",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fef2e78_36a80cb3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:05:44Z",
+      "side": 1,
+      "message": "If we move the setUp() into the try-statement, we\u0027ll need a null check here.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 36
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

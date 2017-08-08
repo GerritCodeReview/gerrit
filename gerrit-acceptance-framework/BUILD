@@ -32,8 +32,8 @@ java_library2(
     testonly = 1,
     srcs = SRCS,
     exported_deps = [
-        "//gerrit-antlr:query_exception",
         "//gerrit-gpg:gpg",
+        "//gerrit-index:query_exception",
         "//gerrit-launcher:launcher",
         "//gerrit-openid:openid",
         "//gerrit-pgm:daemon",

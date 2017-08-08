@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
 import java.util.Date;

@@ -26,11 +26,11 @@ import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AfterPredicate;
 import java.time.Instant;
 import org.apache.lucene.search.BooleanQuery;

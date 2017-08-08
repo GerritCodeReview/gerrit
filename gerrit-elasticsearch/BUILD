@@ -3,8 +3,8 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-antlr:query_exception",
         "//gerrit-extension-api:api",
+        "//gerrit-index:query_exception",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//lib:gson",

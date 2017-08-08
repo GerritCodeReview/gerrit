@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 
 public interface IndexRewriter<T> {
 

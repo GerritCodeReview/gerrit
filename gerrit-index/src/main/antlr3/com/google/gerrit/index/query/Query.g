@@ -26,7 +26,7 @@ tokens {
 }
 
 @header {
-package com.google.gerrit.server.query;
+package com.google.gerrit.index.query;
 }
 @members {
   static class QueryParseInternalException extends RuntimeException {
@@ -55,7 +55,7 @@ package com.google.gerrit.server.query;
     }
   }
 
-  static boolean isSingleWord(final String value) {
+  public static boolean isSingleWord(final String value) {
     try {
       final QueryLexer lexer = new QueryLexer(new ANTLRStringStream(value));
       lexer.mSINGLE_WORD();
@@ -77,7 +77,7 @@ package com.google.gerrit.server.query;
 }
 
 @lexer::header {
-package com.google.gerrit.server.query;
+package com.google.gerrit.index.query;
 }
 @lexer::members {
   @Override

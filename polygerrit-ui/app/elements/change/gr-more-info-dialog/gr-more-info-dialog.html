@@ -1,0 +1,110 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
+<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-more-info-dialog">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 1em;
+      }
+      header {
+        display: flex;
+      }
+      .closeButtonContainer {
+        display: flex;
+        flex: 0;
+        justify-content: flex-end;
+      }
+      .patchFiles {
+        margin-right: 2em;
+      }
+      .patchFiles a,
+      .archives a {
+        display: inline-block;
+        margin-right: 1em;
+      }
+      .patchFiles a:last-of-type,
+      .archives a:last-of-type {
+        margin-right: 0;
+      }
+      .title {
+        text-align: center;
+        flex: 1;
+      }
+      gr-copy-clipboard .copyText.gr-copy-clipboard {
+        max-width: 30em;
+      }
+    </style>
+    <header>
+      <span class="title">
+        Additional commit info
+      </span>
+      <span class="closeButtonContainer">
+        <gr-button id="closeButton"
+            link
+            on-tap="_handleCloseTap">Close</gr-button>
+      </span>
+    </header>
+    <div class="author">
+      <label>Author</label>
+      <div>
+        <gr-avatar account="[[change.owner]]" image-size="32">
+        </gr-avatar>
+        <a href$="[[_getCommitOwnerOrCommitterUrl(commitInfo.author)]]">
+          [[_getCommitOwnerOrCommitter(commitInfo.author)]]
+        </a>
+      </div>
+    </div>
+    <div class="committer">
+      <label>Committer</label>
+      <div>
+        <gr-avatar account="[[_computeCommitter(change)]]" image-size="32">
+        </gr-avatar>
+        <a href$="[[_getCommitOwnerOrCommitterUrl(commitInfo.committer)]]">
+          [[_getCommitOwnerOrCommitter(commitInfo.committer)]]
+        </a>
+      </div>
+    </div>
+    <div class="commit">
+      <label>Commit</label>
+      <div>
+        <gr-copy-clipboard
+            hide-label=true
+            text=[[commitInfo.commit]]></gr-copy-clipboard>
+        <template is="dom-repeat"
+                    items="[[_commitWebLink(commitInfo)]]" as="link">
+          <a href$="[[link.url]]" class="webLink" rel="noopener" target="_blank">
+            ([[link.name]])
+          </a>
+        </template>
+      </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-more-info-dialog.js"></script>
+</dom-module>

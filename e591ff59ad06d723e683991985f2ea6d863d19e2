@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95bd39ff_41b3ad56",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T12:22:54Z",
+      "side": 1,
+      "message": "I thought this is needed so that it will show for everyone and then hide if it detects that your not the owner.",
+      "parentUuid": "728cfe17_56f26f96",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 20
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4473ffc7_f78db171",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-07T23:21:20Z",
       "side": 1,
       "message": "Nit: This group is indent one level too far.",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1f3215_dc117cca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T12:22:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4473ffc7_f78db171",
       "range": {
         "startLine": 134,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ef0bbf3_25aed816",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T12:22:54Z",
+      "side": 1,
+      "message": "I was following how i did it for gr-group. It\u0027s to make sure that there\u0027s no object in there so ie an ownert would have something like\n\n  {\n    name: \u003cname\u003e,\n  }\n\na non owner would not have any of that.",
+      "parentUuid": "6ecc8c9e_cc062536",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d1cc237_f3734169",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-07T23:21:20Z",
       "side": 1,
       "message": "This is the wrong property name.",
+      "range": {
+        "startLine": 217,
+        "startChar": 21,
+        "endLine": 217,
+        "endChar": 35
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6197ad12_54311297",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T12:22:54Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nThis was a mistake when i was trying to think of a better name. Went back to the original name but changed it to true and false for non owner.",
+      "parentUuid": "9d1cc237_f3734169",
       "range": {
         "startLine": 217,
         "startChar": 21,

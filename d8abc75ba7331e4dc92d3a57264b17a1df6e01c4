@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8114420_35a3b1f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T20:47:28Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 1241,
+        "startChar": 15,
+        "endLine": 1241,
+        "endChar": 16
+      },
+      "revId": "d8abc75ba7331e4dc92d3a57264b17a1df6e01c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c084775_a4fe60b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T20:47:28Z",
+      "side": 1,
+      "message": "not needed (scalar types are not nullable by default)\nhttps://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler#non-nullable-type",
+      "range": {
+        "startLine": 1242,
+        "startChar": 15,
+        "endLine": 1242,
+        "endChar": 16
+      },
+      "revId": "d8abc75ba7331e4dc92d3a57264b17a1df6e01c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d54fb691_280ce042",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T20:47:28Z",
+      "side": 1,
+      "message": "strings and numbers are not nullable so this is not needed.",
+      "range": {
+        "startLine": 1413,
+        "startChar": 15,
+        "endLine": 1413,
+        "endChar": 16
+      },
+      "revId": "d8abc75ba7331e4dc92d3a57264b17a1df6e01c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8348e3cc_36d99900",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T20:47:28Z",
+      "side": 1,
+      "message": "this should be:\n\nresponse, error should be Response, string\n\nIn other parts of the rest API response I believe Response had to be nullable as well, though not sure if that\u0027ll stick or not: \n\n@param {function(?Response, string)\u003d} opt_errFn",
+      "range": {
+        "startLine": 1415,
+        "startChar": 7,
+        "endLine": 1415,
+        "endChar": 53
+      },
+      "revId": "d8abc75ba7331e4dc92d3a57264b17a1df6e01c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058b99f7_9a83eb28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T20:47:28Z",
+      "side": 1,
+      "message": "See above comment",
+      "range": {
+        "startLine": 1432,
+        "startChar": 24,
+        "endLine": 1432,
+        "endChar": 39
+      },
+      "revId": "d8abc75ba7331e4dc92d3a57264b17a1df6e01c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

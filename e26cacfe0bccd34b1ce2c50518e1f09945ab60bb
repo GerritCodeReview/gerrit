@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1502192702 +0200\nnonce AHIDc+NRjpuqryAEhVNzHFvpaM75kV1TPJ/xshsy8yBEi2cT7VoYL6SXsR1eVmQ/XH5K6nYRy9bH\n\n0000000000000000000000000000000000000000 c8e9f93f994ba66b27953845cefa48260668daf2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZiaQ+AAoJEFG1/Zeg0O9R5tkH/35PBAi1r1jUnXpBvbwcKvR/\nRKKJnpjgUjlWdBmCdEfyS+wOXULOiqjh/c+8wQgruBgK8mKJP4Wsfg/YEB9NU1sD\nbspWvNe84/ODcPRfyIiIDJlheOHCOLPZyriapL5pd7uz5fZ3U32Qwp3QxaajYm6F\nGh4opZtu5H9HOOOTwsPCubT1EBkKPWJlAdD70VC/BCozSu0QVPrRU+SGAlUF6NhF\n7wK7C4MFxabtnFPmQhhvSH/ewusn6FXtLv/cw7VfHSFPoyg/KA6U6GmcMHvCVW5N\nGjhbxJWZk82sFlBz+lN1EafkpKAb1PdOBYC2i7AoXab5YZwL/V2bExsKU4h419E\u003d\n\u003du9Vo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "87e7a426_84ec59b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T12:32:23Z",
+      "side": 1,
+      "message": "Should no longer be a constraint (have not yet checked the code yet to see whether this is only a problem with the commit message)",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60d5902c_3d335615",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T12:32:23Z",
+      "side": 1,
+      "message": "Remove this phrasing here and later in the paragraph.",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ae4607_9ca257b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T12:32:23Z",
+      "side": 1,
+      "message": "No longer applicable",
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77a48a5_280a7f60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/AccountValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T12:32:23Z",
+      "side": 1,
+      "message": "This check is no longer applicable.",
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

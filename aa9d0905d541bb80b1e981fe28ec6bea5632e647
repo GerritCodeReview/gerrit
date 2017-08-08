@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "402a0eca_4a96df49",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T16:33:11Z",
+      "side": 1,
+      "message": "number|string\u003d\n\n(?number|string\u003d if nullable as well, here and below)",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 30
+      },
+      "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fddc1e3_9db3bc60",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T16:33:11Z",
+      "side": 1,
+      "message": "number\u003d",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 23
+      },
+      "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3ae5577_ce100f92",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T16:33:11Z",
+      "side": 1,
+      "message": "boolean\u003d",
+      "range": {
+        "startLine": 225,
+        "startChar": 17,
+        "endLine": 225,
+        "endChar": 24
+      },
+      "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46fe21bc_9bec09e2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 5
@@ -13,6 +82,24 @@
       "writtenOn": "2017-08-07T23:58:37Z",
       "side": 1,
       "message": "+Becky, she did some work regarding hashes... Not sure if that\u0027s still a thing here.",
+      "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c84df58_0294aa0e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-08T16:33:11Z",
+      "side": 1,
+      "message": "I think this is fine since it\u0027s computing an entire URL. IIRC what I did was was dealt with how the router/diff view handled the hash if they were/were not there.",
+      "parentUuid": "46fe21bc_9bec09e2",
       "revId": "aa9d0905d541bb80b1e981fe28ec6bea5632e647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

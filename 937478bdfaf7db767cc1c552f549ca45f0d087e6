@@ -47,6 +47,46 @@
       "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad2130d7_03dbfc57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T11:56:16Z",
+      "side": 1,
+      "message": "This is a lot of copy/pasting; IMO the @see is sufficient.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 4
+      },
+      "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa927d11_2ca8c087",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T11:56:16Z",
+      "side": 1,
+      "message": "Huh. I wonder if we should also have an exact variant of this field?\n\nDefinitely should not block this change.",
+      "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

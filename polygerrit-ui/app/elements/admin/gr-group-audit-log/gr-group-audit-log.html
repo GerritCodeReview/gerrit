@@ -46,11 +46,11 @@ limitations under the License.
           </td>
           <td class="type">[[itemType(item.type)]]</td>
           <td class="member">
-            <a href$="[[_computeGroupUrl(item.member._account_id)]]">
-              [[_getName(item.member)]]
+            <a href$="[[_computeGroupUrl(item.member.group_id)]]">
+              [[_getName(item.member, 'true')]]
             </a>
           </td>
-          <td class="by-user">[[_getName(item.user)]]</td>
+          <td class="by-user">[[_getName(item.user, 'false')]]</td>
         </tr>
       </template>
     </table>

@@ -46,13 +46,27 @@ limitations under the License.
         name: 'test-name',
         _account_id: 12,
       };
-      assert.deepEqual(element._getName(account), 'test-user (12)');
+      assert.deepEqual(element._getName(account, 'false'), 'test-user (12)');
 
       account = {
         name: 'test-name',
         _account_id: 12,
       };
-      assert.deepEqual(element._getName(account), 'test-name (12)');
+      assert.deepEqual(element._getName(account, 'false'), 'test-name (12)');
+    });
+
+    test('test _account_id not present', () => {
+      let account;
+      account = {
+        username: 'test-user',
+        name: 'test-name',
+      };
+      assert.deepEqual(element._getName(account, 'true'), 'test-user');
+
+      account = {
+        name: 'test-name',
+      };
+      assert.deepEqual(element._getName(account, 'true'), 'test-name');
     });
   });
 </script>

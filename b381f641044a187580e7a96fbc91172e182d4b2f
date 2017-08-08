@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c0449ae_512b13c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "We obviously do, and we obviously don\u0027t have precedent here.\nI\u0027ve reformatted this to be marginally better, and open to further comments.",
+      "parentUuid": "f24caf0f_c75ccdc9",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 61
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1255549d_83b86fa9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "6dcef6cf_7a64a822",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this honestly.\nWe don\u0027t expect variation among clients, so we probably can set any number if it works better.",
+      "parentUuid": "2b975adb_5f511327",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d8f5e28_fdbd0993",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8
@@ -92,6 +140,30 @@
       "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be189cf2_b87a64e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8f5e28_fdbd0993",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "f5338127_b63aaa70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "I\u0027m going to do that once we establish the goal and what to type and what not.",
+      "parentUuid": "ab35c709_f1716936",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32e15c76_e780c477",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8
@@ -138,6 +234,30 @@
       "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a92c0461_0a3c9995",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "32e15c76_e780c477",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "ac10d4e1_551c7916",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c7bd70d7_2f351c9d",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 23
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47e58f16_9dd53430",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8
@@ -184,6 +328,30 @@
       "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b024eb0_fd8919d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T18:12:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "47e58f16_9dd53430",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 25
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

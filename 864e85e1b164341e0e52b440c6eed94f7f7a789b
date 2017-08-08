@@ -22,6 +22,30 @@
       "revId": "864e85e1b164341e0e52b440c6eed94f7f7a789b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a6f677_6d6a94e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-08T07:31:11Z",
+      "side": 1,
+      "message": "If canonicalWebUrl is null, it cannot be guessed because we don\u0027t have access to the incoming HTTP request URL.\n\nAt the moment we just throw a NPE, which isn\u0027t nice. A message kindly saying that you should specify a canonicalWebUrl is much better IMHO.\n\nI do not get however the Daemon.java suggestion and how it can help improve this error condition.",
+      "parentUuid": "55df7a49_818292c2",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 76,
+        "endChar": 61
+      },
+      "revId": "864e85e1b164341e0e52b440c6eed94f7f7a789b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

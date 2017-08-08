@@ -352,6 +352,30 @@
       "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "811483ab_91dd5ebe",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T15:03:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7ccb7b34_9f762c31",
+      "range": {
+        "startLine": 204,
+        "startChar": 37,
+        "endLine": 204,
+        "endChar": 43
+      },
+      "revId": "f644c48e24ada409745b1a1c8efd3f2c5db5a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

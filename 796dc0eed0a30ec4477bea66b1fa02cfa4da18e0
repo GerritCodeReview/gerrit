@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "7e00b086_e32985cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T14:26:30Z",
+      "side": 1,
+      "message": "That causes the test to fail with https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/25871/console",
+      "parentUuid": "55db4c65_fb2ec50a",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf631af8_eb782e1c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 21

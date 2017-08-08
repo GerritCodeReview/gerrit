@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28864dd4_76f15d4a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-08T12:32:12Z",
+      "side": 1,
+      "message": "It will be good if we can move these two to \"Schema_150_to_151_Test\". Currently, injecting them there will fail. It might because @Rule results in @Inject been skipped.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -18,14 +18,14 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.index.query.LimitPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.query.LimitPredicate;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryBuilder;
 import com.google.inject.Inject;
 import java.util.List;
 

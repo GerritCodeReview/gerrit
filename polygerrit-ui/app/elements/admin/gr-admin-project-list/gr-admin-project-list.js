@@ -127,7 +127,7 @@
     },
 
     _readOnly(item) {
-      return item.state === 'READ_ONLY' ? 'Y' : 'N';
+      return item.state === 'READ_ONLY' ? 'Y' : '';
     },
 
     _computeWeblink(project) {

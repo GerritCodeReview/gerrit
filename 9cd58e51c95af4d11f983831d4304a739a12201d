@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "57f282c9_5474ff1a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/Schema_150_to_151_Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T13:12:02Z",
+      "side": 1,
+      "message": "optional: This call occurs often enough that introducing a private field is worth the effort.",
+      "range": {
+        "startLine": 49,
+        "startChar": 35,
+        "endLine": 49,
+        "endChar": 46
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c799213e_a56ef9e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T13:12:02Z",
+      "side": 1,
+      "message": "Please don\u0027t let us call it ...TestRule. No JUnit rule is called like that. What about SchemaUpgradeEnvironment?",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28864dd4_76f15d4a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
         "patchSetId": 3
@@ -18,6 +64,53 @@
         "startChar": 0,
         "endLine": 48,
         "endChar": 38
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e17b04_a1c119ea",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T13:12:02Z",
+      "side": 1,
+      "message": "Yes, those injections shouldn\u0027t be part of this rule.\n\nA possible solution is to store the injector which we create in #setUp in a private field of this rule and make it accessible by a public getter. In the test, we would only need to add:\n\n  @Before\n  public void setUp() throws Exception {\n    testRule.getInjector().injectMembers(this);\n  }\n\nand could move those lines to the test class.",
+      "parentUuid": "28864dd4_76f15d4a",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211eb9a7_4812c6e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T13:12:02Z",
+      "side": 1,
+      "message": "This class isn\u0027t just a DTO and hence should use getters instead of public fields.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 21
       },
       "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -166,6 +166,7 @@ import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -260,6 +261,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
+    factory(RemoveReviewerControl.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(SetAssigneeSender.Factory.class);
     factory(VisibleRefFilter.Factory.class);

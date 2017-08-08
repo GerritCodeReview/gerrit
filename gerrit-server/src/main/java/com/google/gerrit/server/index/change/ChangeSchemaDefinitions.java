@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.gerrit.server.index.SchemaUtil.schema;
+import static com.google.gerrit.index.SchemaUtil.schema;
 
-import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.SchemaDefinitions;
+import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {

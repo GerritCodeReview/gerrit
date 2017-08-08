@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "d5c5ead6_5d14340f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T20:02:01Z",
+      "side": 1,
+      "message": "Ah actually the response is differently so i will do\n\nif (configs.hasOwnProperty(group.name)) {",
+      "parentUuid": "f0d85c31_df2a1f48",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d1cc237_f3734169",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9

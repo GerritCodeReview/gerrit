@@ -19,12 +19,13 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

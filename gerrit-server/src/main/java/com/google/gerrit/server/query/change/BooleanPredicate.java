@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.index.FieldDef;
 import com.google.gwtorm.server.OrmException;
 
 public class BooleanPredicate extends ChangeIndexPredicate {

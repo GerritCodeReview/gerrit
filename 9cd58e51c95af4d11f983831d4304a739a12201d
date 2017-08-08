@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c5ca9a7d_54752298",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T13:29:41Z",
+      "side": 1,
+      "message": "Well, that\u0027s one and the same solution (just using different syntax).",
+      "parentUuid": "bf80250c_13c7d36b",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "9cd58e51c95af4d11f983831d4304a739a12201d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "211eb9a7_4812c6e9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestRule.java",
         "patchSetId": 3

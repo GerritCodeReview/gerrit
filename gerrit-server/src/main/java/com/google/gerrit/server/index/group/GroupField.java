@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.gerrit.server.index.FieldDef.exact;
-import static com.google.gerrit.server.index.FieldDef.fullText;
-import static com.google.gerrit.server.index.FieldDef.integer;
-import static com.google.gerrit.server.index.FieldDef.prefix;
-import static com.google.gerrit.server.index.FieldDef.timestamp;
+import static com.google.gerrit.index.FieldDef.exact;
+import static com.google.gerrit.index.FieldDef.fullText;
+import static com.google.gerrit.index.FieldDef.integer;
+import static com.google.gerrit.index.FieldDef.prefix;
+import static com.google.gerrit.index.FieldDef.timestamp;
 
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;
 
 /** Secondary index schemas for groups. */

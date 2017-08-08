@@ -7,6 +7,7 @@ PROVIDED = [
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
     "//gerrit-httpd:httpd",
+    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-pgm:init",
     "//gerrit-reviewdb:server",

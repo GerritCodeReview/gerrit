@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndex;

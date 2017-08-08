@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -27,8 +28,11 @@ import org.eclipse.jgit.lib.Config;
 public class MysqlAccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
   @Inject
-  MysqlAccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
-    super(cfg, sitePaths);
+  MysqlAccountPatchReviewStore(
+      @GerritServerConfig Config cfg,
+      SitePaths sitePaths,
+      ThreadSettingsConfig threadSettingsConfig) {
+    super(cfg, sitePaths, threadSettingsConfig);
   }
 
   @Override

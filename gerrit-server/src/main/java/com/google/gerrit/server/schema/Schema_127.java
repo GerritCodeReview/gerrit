@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,18 +33,25 @@ public class Schema_127 extends SchemaVersion {
 
   private final SitePaths sitePaths;
   private final Config cfg;
+  private final ThreadSettingsConfig threadSettingsConfig;
 
   @Inject
-  Schema_127(Provider<Schema_126> prior, SitePaths sitePaths, @GerritServerConfig Config cfg) {
+  Schema_127(
+      Provider<Schema_126> prior,
+      SitePaths sitePaths,
+      @GerritServerConfig Config cfg,
+      ThreadSettingsConfig threadSettingsConfig) {
     super(prior);
     this.sitePaths = sitePaths;
     this.cfg = cfg;
+    this.threadSettingsConfig = threadSettingsConfig;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, sitePaths);
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
+            cfg, sitePaths, threadSettingsConfig);
     jdbcAccountPatchReviewStore.dropTableIfExists();
     jdbcAccountPatchReviewStore.createTableIfNotExists();
     try (Connection con = jdbcAccountPatchReviewStore.getConnection();

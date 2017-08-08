@@ -14,19 +14,19 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.gerrit.server.index.FieldDef.exact;
-import static com.google.gerrit.server.index.FieldDef.integer;
-import static com.google.gerrit.server.index.FieldDef.prefix;
-import static com.google.gerrit.server.index.FieldDef.timestamp;
+import static com.google.gerrit.index.FieldDef.exact;
+import static com.google.gerrit.index.FieldDef.integer;
+import static com.google.gerrit.index.FieldDef.prefix;
+import static com.google.gerrit.index.FieldDef.timestamp;
 
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Locale;

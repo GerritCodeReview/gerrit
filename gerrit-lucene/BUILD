@@ -7,6 +7,7 @@ java_library(
     srcs = QUERY_BUILDER,
     visibility = ["//visibility:public"],
     deps = [
+        "//gerrit-index:index",
         "//gerrit-index:query_exception",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
@@ -28,6 +29,7 @@ java_library(
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
+        "//gerrit-index:index",
         "//gerrit-index:query_exception",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",

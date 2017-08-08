@@ -16,9 +16,9 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.REVIEWEDBY;
 
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Collection;

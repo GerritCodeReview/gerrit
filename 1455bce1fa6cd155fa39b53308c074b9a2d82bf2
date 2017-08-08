@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88d362c2_da5bf578",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-08T14:14:41Z",
+      "side": 1,
+      "message": "All classes in \u0027gerrit-server/src/test/java/com/google/gerrit/**/*.java\u0027 are treated as tests in the BUILD file except those contained in \u0027testutil\u0027 package. We\u0027d better keep them there?",
+      "parentUuid": "ade14669_d7dd54b1",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6004888_1004ef77",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-08T14:05:44Z",
       "side": 1,
       "message": "Shouldn\u0027t this be part of the try-statement? If an error occurs during setup, we should still clean up as best as we can.",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80babe5e_2be894e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-08T14:14:41Z",
+      "side": 1,
+      "message": "I think we should move it into the try block.",
+      "parentUuid": "c6004888_1004ef77",
       "range": {
         "startLine": 55,
         "startChar": 8,

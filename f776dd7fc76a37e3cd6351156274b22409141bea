@@ -22,6 +22,30 @@
       "revId": "f776dd7fc76a37e3cd6351156274b22409141bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f842557_b2fb0964",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-08T16:57:19Z",
+      "side": 1,
+      "message": "That\u0027s a similar feature, yes, but there\u0027s no code intersection at all with this one, so I was planning on doing it later.\n\nAlso, since it isn\u0027t *techincally* a regression from GWTUI, I don\u0027t think it should block the edit chain from being merged.",
+      "parentUuid": "c31e02d7_ad2c85ee",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "f776dd7fc76a37e3cd6351156274b22409141bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

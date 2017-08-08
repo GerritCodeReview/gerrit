@@ -37,9 +37,11 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -76,7 +78,9 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GroupsCollection groupsCollection,
       ProjectCache projectCache,
       GetAccess getAccess,
-      Provider<IdentifiedUser> identifiedUser) {
+      Provider<IdentifiedUser> identifiedUser,
+      GroupControl.Factory groupControlFactory,
+      GroupJson groupJson) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -86,6 +90,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.getAccess = getAccess;
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
+    this.groupControlFactory = groupControlFactory;
+    this.groupJson = groupJson;
   }
 
   @Override

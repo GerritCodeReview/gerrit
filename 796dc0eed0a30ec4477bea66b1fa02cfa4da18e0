@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1dc75a5_0bee52b5",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T10:46:54Z",
+      "side": 1,
+      "message": "Yep. Thanks, done.",
+      "parentUuid": "66ea9edd_900bbfd1",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "107966e9_a3015186",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-07T23:46:10Z",
       "side": 1,
       "message": "Because it\u0027s only used within this element, this property should be declared as a private.\n\n _config: Object",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e28b27c_c152d64d",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T10:46:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "107966e9_a3015186",
       "range": {
         "startLine": 28,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "55db4c65_fb2ec50a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T10:46:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "596cd90b_d9c59f14",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf631af8_eb782e1c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 21
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-07T23:46:10Z",
       "side": 1,
       "message": "Same here, this can be\n\n _config",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "216eafa4_f5b0bfaa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T10:46:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bf631af8_eb782e1c",
       "range": {
         "startLine": 26,
         "startChar": 5,

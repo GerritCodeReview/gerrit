@@ -15,6 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -22,8 +24,6 @@ import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.OrPredicate;
-import com.google.gerrit.server.query.Predicate;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.query.Matchable;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 
 public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>

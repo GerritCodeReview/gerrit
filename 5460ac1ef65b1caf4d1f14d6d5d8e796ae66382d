@@ -17,6 +17,24 @@
       "revId": "5460ac1ef65b1caf4d1f14d6d5d8e796ae66382d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53c5c279_cba11268",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:51:43Z",
+      "side": 1,
+      "message": "Can\u0027t we simply add a (non-static) getter to RetryHelper which returns the defaultTimeoutMs? Before we call retryHelper#execute in the merge() method, we could retrieve that value, multiply it by the number of projects, and use it for the options.",
+      "parentUuid": "12e4261c_9e46a1cf",
+      "revId": "5460ac1ef65b1caf4d1f14d6d5d8e796ae66382d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

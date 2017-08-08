@@ -19,7 +19,7 @@
 
     properties: {
       groupId: Object,
-      _auditLog: Array,
+      _auditLog: Object,
       _loading: {
         type: Boolean,
         value: true,
@@ -35,16 +35,15 @@
     },
 
     _getAuditLogs() {
+      if (!this.groupId) {
+        return '';
+      }
       return this.$.restAPI.getGroupAuditLog(this.groupId).then(auditLog => {
         if (!auditLog) {
           this._auditLog = [];
           return;
         }
-        this._auditLog = Object.keys(auditLog).map(key => {
-          const audit = auditLog[key];
-          audit.name = key;
-          return audit;
-        });
+        this._auditLog = auditLog;
         this._loading = false;
       });
     },
@@ -74,11 +73,15 @@
       return item;
     },
 
-    _getName(account) {
-      if (account.username) {
-        return account.username + ' (' + account._account_id + ')';
-      } else if (account.name) {
-        return account.name + ' (' + account._account_id + ')';
+    _getName(account, accountId) {
+      if (accountId) {
+        accountId =
+            account._account_id ? ' (' + account._account_id + ')' : '';
+      }
+      if (account && account.username) {
+        return account.username + accountId
+      } else if (account && account.name) {
+        return account.name + accountId;
       }
     },
   });

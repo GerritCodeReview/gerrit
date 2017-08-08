@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "8d1cc20f_10b6f779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T13:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87e7a426_84ec59b9",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60d5902c_3d335615",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2017-08-08T12:32:23Z",
       "side": 1,
       "message": "Remove this phrasing here and later in the paragraph.",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6fcad71_0fa931eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T13:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60d5902c_3d335615",
       "range": {
         "startLine": 23,
         "startChar": 63,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "15cad478_3a28c1cb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T13:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0ae4607_9ca257b8",
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b77a48a5_280a7f60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/AccountValidator.java",
         "patchSetId": 5
@@ -77,6 +143,24 @@
       "writtenOn": "2017-08-08T12:32:23Z",
       "side": 1,
       "message": "This check is no longer applicable.",
+      "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9102ad9_ecdef83c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/AccountValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T13:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b77a48a5_280a7f60",
       "revId": "e26cacfe0bccd34b1ce2c50518e1f09945ab60bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

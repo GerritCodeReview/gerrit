@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.gerrit.index.query.QueryParser;
 import java.util.Collection;
 
 /** Predicate to filter a field by matching value. */

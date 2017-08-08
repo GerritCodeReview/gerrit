@@ -47,8 +47,8 @@ java_library(
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
+        "//gerrit-index:index",
         "//gerrit-index:query_exception",
-        "//gerrit-index:query_parser",
         "//gerrit-patch-commonsnet:commons-net",
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
@@ -73,7 +73,6 @@ java_library(
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib:velocity",
-        "//lib/antlr:java_runtime",
         "//lib/auto:auto-value",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
@@ -155,6 +154,7 @@ TESTUTIL_DEPS = [
     "//gerrit-cache-h2:cache-h2",
     "//gerrit-extension-api:api",
     "//gerrit-gpg:gpg",
+    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-reviewdb:server",
     "//lib:gwtorm",
@@ -267,8 +267,6 @@ java_library(
         ":prolog-common",
         ":testutil",
         "//gerrit-index:query_exception",
-        "//gerrit-index:query_parser",
-        "//lib/antlr:java_runtime",
     ],
 )
 
@@ -281,7 +279,6 @@ junit_tests(
         ":prolog-common",
         ":testutil",
         "//gerrit-index:query_exception",
-        "//gerrit-index:query_parser",
     ],
 )
 

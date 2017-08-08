@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 
 public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {

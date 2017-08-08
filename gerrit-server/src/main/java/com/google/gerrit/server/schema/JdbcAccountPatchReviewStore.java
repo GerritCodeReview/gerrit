@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -22,8 +25,10 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import java.sql.Connection;
@@ -77,29 +82,30 @@ public abstract class JdbcAccountPatchReviewStore
     }
   }
 
-  private final DataSource ds;
+  private DataSource ds;
 
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
-      Config cfg, SitePaths sitePaths) {
+      Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null || url.contains(H2_DB)) {
-      return new H2AccountPatchReviewStore(cfg, sitePaths);
+      return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     if (url.contains(POSTGRESQL)) {
-      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
+      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     if (url.contains(MYSQL)) {
-      return new MysqlAccountPatchReviewStore(cfg, sitePaths);
+      return new MysqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     if (url.contains(MARIADB)) {
-      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
+      return new MariaDBAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     throw new IllegalArgumentException(
         "unsupported driver type for account patch reviews db: " + url);
   }
 
-  protected JdbcAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
-    this.ds = createDataSource(getUrl(cfg, sitePaths));
+  protected JdbcAccountPatchReviewStore(
+      Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
+    this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
   }
 
   protected JdbcAccountPatchReviewStore(DataSource ds) {
@@ -114,25 +120,43 @@ public abstract class JdbcAccountPatchReviewStore
     return url;
   }
 
-  protected static DataSource createDataSource(String url) {
+  DataSource createDataSource(
+      Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     BasicDataSource datasource = new BasicDataSource();
-    if (url.contains(POSTGRESQL)) {
-      datasource.setDriverClassName("org.postgresql.Driver");
-    } else if (url.contains(H2_DB)) {
-      datasource.setDriverClassName("org.h2.Driver");
-    } else if (url.contains(MYSQL)) {
-      datasource.setDriverClassName("com.mysql.jdbc.Driver");
-    } else if (url.contains(MARIADB)) {
-      datasource.setDriverClassName("org.mariadb.jdbc.Driver");
-    }
+    final String url = getUrl(cfg, sitePaths);
+    int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
     datasource.setUrl(url);
-    datasource.setMaxActive(50);
-    datasource.setMinIdle(4);
-    datasource.setMaxIdle(16);
-    long evictIdleTimeMs = 1000 * 60;
+    datasource.setDriverClassName(getDriverFromUrl(url));
+    datasource.setMaxActive(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
+    datasource.setMinIdle(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolminidle", 4));
+    datasource.setMaxIdle(
+        cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolmaxidle", Math.min(poolLimit, 16)));
+    datasource.setInitialSize(datasource.getMinIdle());
+    datasource.setMaxWait(
+        ConfigUtil.getTimeUnit(
+            cfg,
+            ACCOUNT_PATCH_REVIEW_DB,
+            null,
+            "poolmaxwait",
+            MILLISECONDS.convert(30, SECONDS),
+            MILLISECONDS));
+    long evictIdleTimeMs = 1000L * 60;
     datasource.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
     datasource.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
     return datasource;
+  }
+
+  private String getDriverFromUrl(String url) {
+    if (url.contains(POSTGRESQL)) {
+      return "org.postgresql.Driver";
+    }
+    if (url.contains(MYSQL)) {
+      return "com.mysql.jdbc.Driver";
+    }
+    if (url.contains(MARIADB)) {
+      return "org.mariadb.jdbc.Driver";
+    }
+    return "org.h2.Driver";
   }
 
   @Override

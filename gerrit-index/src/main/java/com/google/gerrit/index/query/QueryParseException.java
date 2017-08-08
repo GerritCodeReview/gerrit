@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query;
+package com.google.gerrit.index.query;
 
 /**
  * Exception thrown when a search query is invalid.

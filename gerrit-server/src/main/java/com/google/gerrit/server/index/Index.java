@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.List;

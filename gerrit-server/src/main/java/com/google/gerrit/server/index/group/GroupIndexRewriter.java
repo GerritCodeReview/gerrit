@@ -16,11 +16,11 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

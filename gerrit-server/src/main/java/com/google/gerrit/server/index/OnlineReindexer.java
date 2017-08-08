@@ -18,6 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexCollection;
+import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.index.SiteIndexer;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

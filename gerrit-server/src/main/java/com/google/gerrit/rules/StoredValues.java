@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -50,6 +51,7 @@ import org.eclipse.jgit.lib.Repository;
 public final class StoredValues {
   public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
   public static final StoredValue<AccountCache> ACCOUNT_CACHE = create(AccountCache.class);
+  public static final StoredValue<Emails> EMAILS = create(Emails.class);
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
 

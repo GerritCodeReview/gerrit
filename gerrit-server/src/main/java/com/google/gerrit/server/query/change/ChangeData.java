@@ -60,6 +60,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -304,7 +305,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id);
+            null, null, null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -316,6 +317,7 @@ public class ChangeData {
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountCache accountCache;
   private final Accounts accounts;
+  private final Emails emails;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -376,6 +378,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       AccountCache accountCache,
       Accounts accounts,
+      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
@@ -396,6 +399,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.accountCache = accountCache;
     this.accounts = accounts;
+    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
@@ -418,6 +422,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       AccountCache accountCache,
       Accounts accounts,
+      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
@@ -437,6 +442,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.accountCache = accountCache;
     this.accounts = accounts;
+    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
@@ -460,6 +466,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       AccountCache accountCache,
       Accounts accounts,
+      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
@@ -479,6 +486,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.accountCache = accountCache;
     this.accounts = accounts;
+    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
@@ -503,6 +511,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       AccountCache accountCache,
       Accounts accounts,
+      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
@@ -522,6 +531,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.accountCache = accountCache;
     this.accounts = accounts;
+    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
@@ -547,6 +557,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       AccountCache accountCache,
       Accounts accounts,
+      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
@@ -569,6 +580,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.accountCache = accountCache;
     this.accounts = accounts;
+    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
@@ -1117,7 +1129,9 @@ public class ChangeData {
         return Collections.emptyList();
       }
       records =
-          new SubmitRuleEvaluator(accountCache, accounts, this).setOptions(options).evaluate();
+          new SubmitRuleEvaluator(accountCache, accounts, emails, this)
+              .setOptions(options)
+              .evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -1134,7 +1148,8 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = new SubmitRuleEvaluator(accountCache, accounts, this).getSubmitType();
+      submitTypeRecord =
+          new SubmitRuleEvaluator(accountCache, accounts, emails, this).getSubmitType();
     }
     return submitTypeRecord;
   }

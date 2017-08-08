@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7fa4fc04_db3ce2cc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T19:57:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7fe16160_f914f0e9",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 20
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4473ffc7_f78db171",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "But the response for a non owner will be `{}` -- this is still an object.\n\n ({}).constructor \u003d\u003d\u003d Object // True\n\nSo this test will match in all cases, won\u0027t it? Instead of ..\n\nif (Object.keys(configs).length \u003d\u003d\u003d 0 \u0026\u0026\n    configs.constructor \u003d\u003d\u003d Object) {\n\n.. would it make sense to just check whether the group name appears in the object\u0027s keys?\n\n if (!configs.hasOwnProperty(group.name)) {",
       "parentUuid": "9ef0bbf3_25aed816",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d85c31_df2a1f48",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T19:57:52Z",
+      "side": 1,
+      "message": "Actually /owner wont work if you are not an owner so we can use status here.",
+      "parentUuid": "70720729_0305c9c2",
       "range": {
         "startLine": 216,
         "startChar": 18,

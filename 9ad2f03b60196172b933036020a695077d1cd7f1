@@ -22,6 +22,30 @@
       "revId": "9ad2f03b60196172b933036020a695077d1cd7f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d1c8d2e_635aa71c",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-08T13:52:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af9a9d10_8a5ea4b5",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "9ad2f03b60196172b933036020a695077d1cd7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

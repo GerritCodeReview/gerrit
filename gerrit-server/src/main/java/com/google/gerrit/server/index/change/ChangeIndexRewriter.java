@@ -18,6 +18,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.FieldDef;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;

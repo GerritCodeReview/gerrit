@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -43,9 +44,11 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -58,6 +61,9 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
+
+  /** Marker value used in {@code Map<?, GroupInfo>} for groups not visible to current user. */
+  private static final GroupInfo INVISIBLE_SENTINEL = new GroupInfo();
 
   public static final ImmutableBiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
       ImmutableBiMap.of(
@@ -81,6 +87,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupBackend groupBackend;
+  private final GroupJson groupJson;
 
   @Inject
   public GetAccess(
@@ -92,7 +99,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
       ProjectControl.GenericFactory projectControlFactory,
-      GroupBackend groupBackend) {
+      GroupBackend groupBackend,
+      GroupJson groupJson) {
     this.user = self;
     this.permissionBackend = permissionBackend;
     this.groupControlFactory = groupControlFactory;
@@ -102,6 +110,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.projectControlFactory = projectControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
+    this.groupJson = groupJson;
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
@@ -151,27 +160,27 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
-    Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
+    Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
     boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
         if (pc.isOwner()) {
-          info.local.put(name, createAccessSection(section));
+          info.local.put(name, createAccessSection(visibleGroups, section));
           info.ownerOf.add(name);
 
         } else if (checkReadConfig) {
-          info.local.put(section.getName(), createAccessSection(section));
+          info.local.put(section.getName(), createAccessSection(visibleGroups, section));
         }
 
       } else if (RefConfigSection.isValid(name)) {
         if (pc.controlForRef(name).isOwner()) {
-          info.local.put(name, createAccessSection(section));
+          info.local.put(name, createAccessSection(visibleGroups, section));
           info.ownerOf.add(name);
 
         } else if (checkReadConfig) {
-          info.local.put(name, createAccessSection(section));
+          info.local.put(name, createAccessSection(visibleGroups, section));
 
         } else if (check(perm, name, READ)) {
           // Filter the section to only add rules describing groups that
@@ -184,26 +193,18 @@ public class GetAccess implements RestReadView<ProjectResource> {
             Permission dstPerm = null;
 
             for (PermissionRule srcRule : srcPerm.getRules()) {
-              AccountGroup.UUID group = srcRule.getGroup().getUUID();
-              if (group == null) {
+              AccountGroup.UUID groupId = srcRule.getGroup().getUUID();
+              if (groupId == null) {
                 continue;
               }
 
-              Boolean canSeeGroup = visibleGroups.get(group);
-              if (canSeeGroup == null) {
-                try {
-                  canSeeGroup = groupControlFactory.controlFor(group).isVisible();
-                } catch (NoSuchGroupException e) {
-                  canSeeGroup = Boolean.FALSE;
-                }
-                visibleGroups.put(group, canSeeGroup);
-              }
+              GroupInfo canSeeGroup = loadGroup(visibleGroups, groupId);
 
-              if (canSeeGroup) {
+              if (canSeeGroup != INVISIBLE_SENTINEL) {
                 if (dstPerm == null) {
                   if (dst == null) {
                     dst = new AccessSection(name);
-                    info.local.put(name, createAccessSection(dst));
+                    info.local.put(name, createAccessSection(visibleGroups, dst));
                   }
                   dstPerm = dst.getPermission(srcPerm.getName(), true);
                 }
@@ -244,7 +245,34 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
     info.configVisible = checkReadConfig || pc.isOwner();
 
+    info.groups = new HashMap<>();
+    for (Map.Entry<AccountGroup.UUID, GroupInfo> entry : visibleGroups.entrySet()) {
+      if (entry.getValue() != INVISIBLE_SENTINEL) {
+        info.groups.put(entry.getKey().get(), entry.getValue());
+      }
+    }
+
     return info;
+  }
+
+  private GroupInfo loadGroup(
+      Map<AccountGroup.UUID, GroupInfo> visibleGroups, AccountGroup.UUID id) {
+    GroupInfo canSeeGroup = visibleGroups.get(id);
+    if (canSeeGroup == null) {
+      try {
+        GroupControl control = groupControlFactory.controlFor(id);
+        canSeeGroup = INVISIBLE_SENTINEL;
+        if (control.isVisible()) {
+          canSeeGroup = groupJson.format(control.getGroup());
+          canSeeGroup.id = null;
+        }
+      } catch (NoSuchGroupException | OrmException e) {
+        canSeeGroup = INVISIBLE_SENTINEL;
+      }
+      visibleGroups.put(id, canSeeGroup);
+    }
+
+    return canSeeGroup;
   }
 
   private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
@@ -257,7 +285,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
   }
 
-  private AccessSectionInfo createAccessSection(AccessSection section) {
+  private AccessSectionInfo createAccessSection(
+      Map<AccountGroup.UUID, GroupInfo> groups, AccessSection section) {
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
     accessSectionInfo.permissions = new HashMap<>();
     for (Permission p : section.getPermissions()) {
@@ -273,6 +302,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         AccountGroup.UUID group = r.getGroup().getUUID();
         if (group != null) {
           pInfo.rules.put(group.get(), info);
+          loadGroup(groups, group);
         }
       }
       accessSectionInfo.permissions.put(p.getName(), pInfo);

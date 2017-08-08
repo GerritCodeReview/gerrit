@@ -113,6 +113,10 @@
         type: Boolean,
         value: () => { return window.PANEL_FLOATING_DISABLED; },
       },
+      _editLoaded: {
+        type: Boolean,
+        computed: '_computeEditLoaded(_patchRange.*)',
+      },
     },
 
     behaviors: [
@@ -205,6 +209,7 @@
     },
 
     _setReviewed(reviewed) {
+      if (this._editLoaded) { return; }
       this.$.reviewed.checked = reviewed;
       this._saveReviewedState(reviewed).catch(err => {
         this.fire('show-alert', {message: ERR_REVIEW_STATUS});
@@ -766,6 +771,21 @@
       if (panelFloatingDisabled) {
         return 'noOverflow';
       }
+    },
+
+    /**
+     * @param {!Object} patchRangeRecord
+     */
+    _computeEditLoaded(patchRangeRecord) {
+      const patchRange = patchRangeRecord.base || {};
+      return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    },
+
+    /**
+     * @param {boolean} editLoaded
+     */
+    _computeContainerClass(editLoaded) {
+      return editLoaded ? 'editLoaded' : '';
     },
   });
 })();

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "25f39150_0dbb60bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T20:17:35Z",
+      "side": 1,
+      "message": "SGTM.\nI\u0027ve reduced it to two - one would trigger refresh, and if refreshed token fails, auth falls back to anonymous access.",
+      "parentUuid": "1e49e936_bd87231c",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d8f5e28_fdbd0993",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 8
@@ -250,6 +274,30 @@
       "side": 1,
       "message": "FWIW, I think functions should have some sort of doc no matter what. The work surrounding closure compiler typing was not why I left this comment.",
       "parentUuid": "f5338127_b63aaa70",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "b381f641044a187580e7a96fbc91172e182d4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3557016_f1cf340f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-08T20:17:35Z",
+      "side": 1,
+      "message": "Ah, I see. \nStill, in this case for example it\u0027s obvious what the function does.",
+      "parentUuid": "70a538ee_2ccc9bb6",
       "range": {
         "startLine": 70,
         "startChar": 4,

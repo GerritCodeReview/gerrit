@@ -208,6 +208,49 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setPermissionsGroupMap() throws Exception {
+    // Add initial permission set
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+
+    PermissionInfo push = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
+    accessSection.permissions.put(Permission.PUSH, push);
+
+    PermissionInfo read = newPermissionInfo();
+    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    read.rules.put(SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
+    accessSection.permissions.put(Permission.READ, read);
+
+    accessInput.add.put(REFS_ALL, accessSection);
+    ProjectAccessInfo result = pApi.access(accessInput);
+    assertThat(result.groups.keySet())
+        .containsExactly(
+            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
+
+    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
+        .isEqualTo("Project Owners");
+    // Strip the ID, since it is in the key.
+    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
+
+    ProjectAccessInfo loggedInResult = pApi.access();
+    assertThat(loggedInResult.groups.keySet())
+        .containsExactly(
+            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
+
+    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
+        .isEqualTo("Project Owners");
+    // Strip the ID, since it is in the key.
+    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
+
+    setApiUserAnonymous();
+    ProjectAccessInfo anonResult = pApi.access();
+    assertThat(anonResult.groups.keySet())
+        .containsExactly(SystemGroupBackend.ANONYMOUS_USERS.get());
+  }
+
+  @Test
   public void updateParentAsUser() throws Exception {
     // Create child
     String newParentProjectName = createProject(PROJECT_NAME + "PA").get();

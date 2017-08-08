@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1502192702 +0200\nnonce AHIDc+NRjpuqryAEhVNzHFvpaM75kV1TPJ/xshsy8yBEi2cT7VoYL6SXsR1eVmQ/XH5K6nYRy9bH\n\n0000000000000000000000000000000000000000 c8e9f93f994ba66b27953845cefa48260668daf2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZiaQ+AAoJEFG1/Zeg0O9R5tkH/35PBAi1r1jUnXpBvbwcKvR/\nRKKJnpjgUjlWdBmCdEfyS+wOXULOiqjh/c+8wQgruBgK8mKJP4Wsfg/YEB9NU1sD\nbspWvNe84/ODcPRfyIiIDJlheOHCOLPZyriapL5pd7uz5fZ3U32Qwp3QxaajYm6F\nGh4opZtu5H9HOOOTwsPCubT1EBkKPWJlAdD70VC/BCozSu0QVPrRU+SGAlUF6NhF\n7wK7C4MFxabtnFPmQhhvSH/ewusn6FXtLv/cw7VfHSFPoyg/KA6U6GmcMHvCVW5N\nGjhbxJWZk82sFlBz+lN1EafkpKAb1PdOBYC2i7AoXab5YZwL/V2bExsKU4h419E\u003d\n\u003du9Vo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a3fcbf1_a6c71262",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-08T11:58:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this paragraph now reflect the new way of getting accounts, which may include an index query?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "9f9c85e5713bb51a86dcb145f51b7d09a2db8ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

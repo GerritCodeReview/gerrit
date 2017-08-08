@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "3f47f0aa_55e084d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-08T13:28:55Z",
+      "side": 1,
+      "message": "Actually it breaks the lint see https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/3910/console",
+      "parentUuid": "2d1f3215_dc117cca",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "e591ff59ad06d723e683991985f2ea6d863d19e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ecc8c9e_cc062536",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9

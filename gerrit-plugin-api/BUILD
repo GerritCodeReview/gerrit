@@ -12,6 +12,7 @@ PLUGIN_API = [
 ]
 
 EXPORTS = [
+    "//gerrit-index:index",
     "//gerrit-index:query_exception",
     "//gerrit-index:query_parser",
     "//gerrit-common:annotations",

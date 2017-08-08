@@ -4,6 +4,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-extension-api:api",
+        "//gerrit-index:index",
         "//gerrit-index:query_exception",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
@@ -35,6 +36,7 @@ java_library(
     deps = [
         ":elasticsearch",
         "//gerrit-extension-api:api",
+        "//gerrit-index:index",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//lib:gson",

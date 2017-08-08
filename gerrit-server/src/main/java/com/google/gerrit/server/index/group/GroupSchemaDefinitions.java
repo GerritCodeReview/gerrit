@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.gerrit.server.index.SchemaUtil.schema;
+import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
   @Deprecated

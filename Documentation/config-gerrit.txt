@@ -42,6 +42,53 @@ otherwise gerrit's init will remove the table.
   url = jdbc:postgresql://<host>:<port>/<db_name>?user=<user>&password=<password>
 ----
 
+[[accountPatchReviewDb.poolLimit]]accountPatchReviewDb.poolLimit::
++
+Maximum number of open database connections.  If the server needs
+more than this number, request processing threads will wait up
+to <<accountPatchReviewDb.poolMaxWait, poolMaxWait>> seconds for a
+connection to be released before they abort with an exception.
+This limit must be several units higher than the total number of
+httpd and sshd threads as some request processing code paths may
+need multiple connections.
++
+Default is <<sshd.threads, sshd.threads>>
+ + <<httpd.maxThreads, httpd.maxThreads>> + 2.
++
+
+[[accountPatchReviewDb.poolMinIdle]]database.poolMinIdle::
++
+Minimum number of connections to keep idle in the pool.
+Default is 4.
++
+
+[[accountPatchReviewDb.poolMaxIdle]]accountPatchReviewDb.poolMaxIdle::
++
+Maximum number of connections to keep idle in the pool.  If there
+are more idle connections, connections will be closed instead of
+being returned back to the pool.
+Default is min(<<accountPatchReviewDb.poolLimit, accountPatchReviewDb.poolLimit>>, 16).
++
+
+[[accountPatchReviewDb.poolMaxWait]]accountPatchReviewDb.poolMaxWait::
++
+Maximum amount of time a request processing thread will wait to
+acquire a database connection from the pool.  If no connection is
+released within this time period, the processing thread will abort
+its current operations and return an error to the client.
+Values should use common unit suffixes to express their setting:
++
+* ms, milliseconds
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+
++
+--
+If a unit suffix is not specified, `milliseconds` is assumed.
+
+Default is `30 seconds`.
+
 [[accounts]]
 === Section accounts
 

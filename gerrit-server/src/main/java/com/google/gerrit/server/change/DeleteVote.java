@@ -40,7 +40,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -72,6 +74,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
   private final NotifyUtil notifyUtil;
+  private final RemoveReviewerControl removeReviewerControl;
 
   @Inject
   DeleteVote(
@@ -83,7 +86,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      RemoveReviewerControl removeReviewerControl) {
     super(retryHelper);
     this.db = db;
     this.approvalsUtil = approvalsUtil;
@@ -93,6 +97,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
     this.notifyUtil = notifyUtil;
+    this.removeReviewerControl = removeReviewerControl;
   }
 
   @Override
@@ -143,7 +148,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, AuthException, ResourceNotFoundException, IOException {
+        throws OrmException, AuthException, ResourceNotFoundException, IOException,
+            PermissionBackendException {
       ChangeControl ctl = ctx.getControl();
       change = ctl.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
@@ -166,8 +172,12 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           // Populate map for non-matching labels, needed by VoteDeleted.
           newApprovals.put(a.getLabel(), a.getValue());
           continue;
-        } else if (!ctl.canRemoveReviewer(a)) {
-          throw new AuthException("delete vote not permitted");
+        } else {
+          try {
+            removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
+          } catch (AuthException e) {
+            throw new AuthException("delete vote not permitted", e);
+          }
         }
         // Set the approval to 0 if vote is being removed.
         newApprovals.put(a.getLabel(), (short) 0);

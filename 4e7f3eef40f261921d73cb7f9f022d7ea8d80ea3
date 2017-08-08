@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "4f30fac2_6807f154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/EmailsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-08T11:59:04Z",
+      "side": 1,
+      "message": "Looks indeed like a bug, but this change only renamed this class, so it should be fixed separately.",
+      "parentUuid": "9aa17b95_7acc9baf",
+      "revId": "4e7f3eef40f261921d73cb7f9f022d7ea8d80ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56dea0f6_f117d1d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
         "patchSetId": 2

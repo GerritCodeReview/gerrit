@@ -16,11 +16,13 @@ package com.google.gerrit.server.query;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexCollection;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexCollection;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import java.util.List;
 import java.util.Set;

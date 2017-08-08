@@ -140,6 +140,30 @@
       "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba52dc2a_384be98d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SchemaUpgradeTestEnvironment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-08T14:54:53Z",
+      "side": 1,
+      "message": "That\u0027s still missing in patch set 7.",
+      "parentUuid": "1fef2e78_36a80cb3",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 36
+      },
+      "revId": "1455bce1fa6cd155fa39b53308c074b9a2d82bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

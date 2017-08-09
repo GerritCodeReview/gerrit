@@ -53,6 +53,9 @@ limitations under the License.
         border: groove;
         width: 100%;
       }
+      .warning {
+        color: red;
+      }
     </style>
     <gr-confirm-dialog
         confirm-label="Move Change"
@@ -60,6 +63,9 @@ limitations under the License.
         on-cancel="_handleCancelTap">
       <div class="header">Move Change to Another Branch</div>
       <div class="main">
+        <p class="warning">
+          Warning: moving a change will not change its parents.
+        </p>
         <label for="branchInput">
           Move change to branch
         </label>

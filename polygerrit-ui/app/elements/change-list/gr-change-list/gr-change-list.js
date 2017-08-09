@@ -86,6 +86,7 @@
         value() { return document.body; },
       },
       changeTableColumns: Array,
+      visibleChangeTableColumns: Array,
     },
 
     behaviors: [

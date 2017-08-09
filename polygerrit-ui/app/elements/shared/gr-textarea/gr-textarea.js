@@ -82,6 +82,7 @@
         type: Boolean,
         value: false,
       },
+      /** @type(?number) */
       _colonIndex: Number,
       _currentSearchString: {
         type: String,
@@ -193,7 +194,7 @@
     },
 
     _getText(value) {
-      return this.text.substr(0, this._colonIndex) +
+      return this.text.substr(0, this._colonIndex || 0) +
           value + this.text.substr(this.$.textarea.selectionStart) + ' ';
     },
 
@@ -272,7 +273,7 @@
             this._currentSearchString.length + this._colonIndex + 1 ||
             this._currentSearchString === ' ' ||
             this._currentSearchString === '\n' ||
-            !e.detail.value[this._colonIndex] === ':' ||
+            !(e.detail.value[this._colonIndex] === ':') ||
             !this._suggestions.length) {
           this._resetEmojiDropdown();
         // Otherwise open the dropdown and set the position to be just below the

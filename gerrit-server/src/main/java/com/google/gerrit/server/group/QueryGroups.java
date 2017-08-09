@@ -119,7 +119,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     }
 
     if (limit != 0) {
-      queryProcessor.setLimit(limit);
+      queryProcessor.setUserProvidedLimit(limit);
     }
 
     try {

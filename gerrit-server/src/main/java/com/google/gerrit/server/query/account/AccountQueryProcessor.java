@@ -39,14 +39,14 @@ import com.google.inject.Provider;
  * holding on to a single instance.
  */
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
-  private final AccountControl.Factory accountControlFactory;
-
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
         !AccountIsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
         "AccountQueryProcessor assumes visibleto is not used by the index rewriter.");
   }
+
+  private final AccountControl.Factory accountControlFactory;
 
   @Inject
   protected AccountQueryProcessor(
@@ -57,16 +57,9 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory) {
-    super(
-        userProvider,
-        limitsFactory,
-        metrics,
-        AccountSchemaDefinitions.INSTANCE,
-        indexConfig,
-        indexes,
-        rewriter,
-        FIELD_LIMIT);
+    super(metrics, AccountSchemaDefinitions.INSTANCE, indexConfig, indexes, rewriter, FIELD_LIMIT);
     this.accountControlFactory = accountControlFactory;
+    limitsFactory.updateQueryLimit(userProvider.get(), this);
   }
 
   @Override

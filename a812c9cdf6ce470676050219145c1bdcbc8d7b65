@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3878e51_8f8220ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:32:52Z",
+      "side": 1,
+      "message": "I absolutely agree. I only added this line to let folks know that screenshots were under consideration. I\u0027ll amend this to say: \"This topic may eventually need screenshots...\"",
+      "parentUuid": "7c52ba9a_a350fced",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd8af03c_14d2f311",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 6
@@ -119,6 +143,54 @@
     },
     {
       "key": {
+        "uuid": "39d99e21_1a8fc570",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:32:52Z",
+      "side": 1,
+      "message": "How about just \"contains a change id?\n\nAlso added a link to the Changes topic.",
+      "parentUuid": "0a842bbd_b9d538b1",
+      "range": {
+        "startLine": 4,
+        "startChar": 53,
+        "endLine": 4,
+        "endChar": 62
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b96efdfa_f484011d",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:32:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "496eaaee_987780dd",
+      "range": {
+        "startLine": 4,
+        "startChar": 36,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f56b718c_c0ef5512",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 6
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "82931015_7b3c1561",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:32:52Z",
+      "side": 1,
+      "message": "Serves me right for turning off spellcheck.",
+      "parentUuid": "f56b718c_c0ef5512",
+      "range": {
+        "startLine": 8,
+        "startChar": 33,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "389926ca_13ac8c38",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 6
@@ -156,6 +252,24 @@
       "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af7cd41_5c93c6bb",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "389926ca_13ac8c38",
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

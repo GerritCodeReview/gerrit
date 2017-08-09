@@ -286,9 +286,6 @@ public class ChangeData {
     ChangeData create(ReviewDb db, ChangeNotes cn);
 
     ChangeData create(ReviewDb db, ChangeControl c);
-
-    // TODO(dborowitz): Remove when deleting index schemas <27.
-    ChangeData createOnlyWhenNoteDbDisabled(ReviewDb db, Change.Id id);
   }
 
   /**
@@ -548,52 +545,6 @@ public class ChangeData {
     changeControl = c;
     notes = c.getNotes();
     project = notes.getProjectName();
-  }
-
-  @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted Change.Id id) {
-    checkState(
-        !notesMigration.readChanges(),
-        "do not call createOnlyWhenNoteDbDisabled when NoteDb is enabled");
-    this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
-    this.legacyId = id;
-    this.project = null;
   }
 
   public ChangeData setLazyLoad(boolean load) {

@@ -178,10 +178,6 @@ limitations under the License.
 
     computeLatestPatchNum(allPatchSets) {
       if (!allPatchSets || !allPatchSets.length) { return undefined; }
-      if (allPatchSets[allPatchSets.length - 1].num ===
-          PatchSetBehavior.EDIT_NAME) {
-        return allPatchSets[allPatchSets.length - 2].num;
-      }
       return allPatchSets[allPatchSets.length - 1].num;
     },
 

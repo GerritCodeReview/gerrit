@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -21,9 +22,9 @@ import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 
@@ -41,9 +43,49 @@ public class RetryHelper {
     T call(BatchUpdate.Factory updateFactory) throws Exception;
   }
 
+  /**
+   * Options for retrying a single operation.
+   *
+   * <p>This class is similar in function to upstream's {@link RetryerBuilder}, but it exists as its
+   * own class in Gerrit for several reasons:
+   *
+   * <ul>
+   *   <li>Gerrit needs to support defaults for some of the options, such as a default timeout.
+   *       {@code RetryerBuilder} doesn't support calling the same setter multiple times, so doing
+   *       this with {@code RetryerBuilder} directly would not be easy.
+   *   <li>Gerrit explicitly does not want callers to have full control over all possible options,
+   *       so this class exposes a curated subset.
+   * </ul>
+   */
+  @AutoValue
+  public abstract static class Options {
+    @Nullable
+    abstract RetryListener listener();
+
+    @Nullable
+    abstract Duration timeout();
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder listener(RetryListener listener);
+
+      public abstract Builder timeout(Duration timeout);
+
+      public abstract Options build();
+    }
+  }
+
+  public static Options.Builder options() {
+    return new AutoValue_RetryHelper_Options.Builder();
+  }
+
+  public static Options defaults() {
+    return options().build();
+  }
+
   private final NotesMigration migration;
   private final BatchUpdate.Factory updateFactory;
-  private final StopStrategy stopStrategy;
+  private final Duration defaultTimeout;
   private final WaitStrategy waitStrategy;
 
   @Inject
@@ -55,33 +97,37 @@ public class RetryHelper {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
-    this.stopStrategy =
-        StopStrategies.stopAfterDelay(
-            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(5), MILLISECONDS),
-            MILLISECONDS);
+    this.defaultTimeout =
+        Duration.ofMillis(
+            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS));
     this.waitStrategy =
         WaitStrategies.join(
             WaitStrategies.exponentialWait(
-                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(20), MILLISECONDS),
+                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(5), MILLISECONDS),
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
   }
 
-  public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
-    return execute(action, null);
+  public Duration getDefaultTimeout() {
+    return defaultTimeout;
   }
 
-  public <T> T execute(Action<T> action, @Nullable RetryListener listener)
-      throws RestApiException, UpdateException {
+  public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
+    return execute(action, defaults());
+  }
+
+  public <T> T execute(Action<T> action, Options opts) throws RestApiException, UpdateException {
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb()) {
         builder
-            .withStopStrategy(stopStrategy)
+            .withStopStrategy(
+                StopStrategies.stopAfterDelay(
+                    firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
             .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
-        if (listener != null) {
-          builder.withRetryListener(listener);
+        if (opts.listener() != null) {
+          builder.withRetryListener(opts.listener());
         }
       } else {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic

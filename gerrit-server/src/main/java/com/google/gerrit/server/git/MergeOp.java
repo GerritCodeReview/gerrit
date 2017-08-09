@@ -491,7 +491,12 @@ public class MergeOp implements AutoCloseable {
             }
             return null;
           },
-          retryTracker);
+          RetryHelper.options()
+              .listener(retryTracker)
+              // Up to the entire submit operation is retried, including possibly many projects.
+              // Multiply the timeout by the number of projects we're actually attempting to submit.
+              .timeout(retryHelper.getDefaultTimeout().multipliedBy(cs.projects().size()))
+              .build());
 
       if (projects > 1) {
         topicMetrics.topicSubmissionsCompleted.increment();

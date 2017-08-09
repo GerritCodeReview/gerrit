@@ -14,37 +14,25 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import java.util.List;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TrackingIdPredicate extends ChangeIndexPredicate {
   private static final Logger log = LoggerFactory.getLogger(TrackingIdPredicate.class);
 
-  protected final TrackingFooters trackingFooters;
-
-  public TrackingIdPredicate(TrackingFooters trackingFooters, String trackingId) {
+  public TrackingIdPredicate(String trackingId) {
     super(ChangeField.TR, trackingId);
-    this.trackingFooters = trackingFooters;
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
-    Change c = object.change();
-    if (c != null) {
-      try {
-        List<FooterLine> footers = object.commitFooters();
-        return footers != null
-            && trackingFooters.extract(object.commitFooters()).values().contains(getValue());
-      } catch (IOException e) {
-        log.warn("Cannot extract footers from " + c.getChangeId(), e);
-      }
+  public boolean match(ChangeData cd) throws OrmException {
+    try {
+      return cd.trackingFooters().containsValue(getValue());
+    } catch (IOException e) {
+      log.warn("Cannot extract footers from " + cd.getId(), e);
     }
     return false;
   }

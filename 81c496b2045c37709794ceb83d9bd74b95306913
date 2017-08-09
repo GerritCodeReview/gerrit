@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7543ef2e_bc65d6d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t have the return type, but I\u0027m not sure if adding one wouldn\u0027t trigger a cascade of compilation warnings.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9dce905_f4412b33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "?Array\u003c!Array\u003c?Object\u003e\u003e\n\nWould be great if we could do ?Array\u003c!Array\u003c!Object\u003e\u003e\n\nIn other words, either a null, or an array of arrays that may be empty but may not contain nulls.",
+      "range": {
+        "startLine": 647,
+        "startChar": 32,
+        "endLine": 647,
+        "endChar": 37
+      },
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd934b7_c4e216e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30e3d7a9_7e0416e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6676f837_91a92d6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a27474_6ecd1577",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f79bf2d5_b3237db0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9df0e0_34120cf6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e84fe69b_267605ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "{?string|number|Object\u003d}",
+      "range": {
+        "startLine": 1195,
+        "startChar": 15,
+        "endLine": 1195,
+        "endChar": 39
+      },
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a468675_bcb956f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1406,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "I guess in this case\n{!Promise\u003cundefined\u003e}",
+      "range": {
+        "startLine": 1406,
+        "startChar": 18,
+        "endLine": 1406,
+        "endChar": 25
+      },
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d824e2c2_5e2392af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T18:24:30Z",
+      "side": 1,
+      "message": "{!Promise\u003cstring|undefined\u003e}",
+      "range": {
+        "startLine": 1669,
+        "startChar": 17,
+        "endLine": 1669,
+        "endChar": 24
+      },
+      "revId": "81c496b2045c37709794ceb83d9bd74b95306913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

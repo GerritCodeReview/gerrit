@@ -38,8 +38,6 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -53,11 +51,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * holding on to a single instance.
  */
 public abstract class QueryProcessor<T> {
-  @Singleton
   protected static class Metrics {
     final Timer1<String> executionTime;
 
-    @Inject
     Metrics(MetricMaker metricMaker) {
       Field<String> index = Field.ofString("index", "index name");
       executionTime =
@@ -89,13 +85,13 @@ public abstract class QueryProcessor<T> {
   private Set<String> requestedFields;
 
   protected QueryProcessor(
-      Metrics metrics,
+      MetricMaker metricMaker,
       SchemaDefinitions<T> schemaDef,
       IndexConfig indexConfig,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
       IndexRewriter<T> rewriter,
       String limitField) {
-    this.metrics = metrics;
+    this.metrics = new Metrics(metricMaker);
     this.schemaDef = schemaDef;
     this.indexConfig = indexConfig;
     this.indexes = indexes;

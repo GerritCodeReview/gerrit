@@ -17,6 +17,24 @@
       "revId": "31d2fd0025699251620ca2a448b60791dcfe76a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b57911_65c9d3a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T15:10:37Z",
+      "side": 1,
+      "message": "Yeah, I think that\u0027s a better idea, thanks.",
+      "parentUuid": "d6333162_dc116ae9",
+      "revId": "31d2fd0025699251620ca2a448b60791dcfe76a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,6 +32,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -120,7 +121,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
-      throws ResourceNotFoundException, IOException, BadRequestException {
+      throws ResourceNotFoundException, IOException, BadRequestException,
+          PermissionBackendException {
     return new RefFilter<BranchInfo>(Constants.R_HEADS)
         .subString(matchSubstring)
         .regex(matchRegex)
@@ -129,7 +131,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
         .filter(allBranches(rsrc));
   }
 
-  BranchInfo toBranchInfo(BranchResource rsrc) throws IOException, ResourceNotFoundException {
+  BranchInfo toBranchInfo(BranchResource rsrc)
+      throws IOException, ResourceNotFoundException, PermissionBackendException {
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       Ref r = db.exactRef(rsrc.getRef());
       if (r == null) {
@@ -142,7 +145,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   private List<BranchInfo> allBranches(ProjectResource rsrc)
-      throws IOException, ResourceNotFoundException {
+      throws IOException, ResourceNotFoundException, PermissionBackendException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       Collection<Ref> heads = db.getRefDatabase().getRefs(Constants.R_HEADS).values();
@@ -158,7 +161,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
     return toBranchInfo(rsrc, refs);
   }
 
-  private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs) {
+  private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs)
+      throws PermissionBackendException {
     Set<String> targets = Sets.newHashSetWithExpectedSize(1);
     for (Ref ref : refs) {
       if (ref.isSymbolic()) {
@@ -175,8 +179,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
         // showing the resolved value, show the name it references.
         //
         String target = ref.getTarget().getName();
-        RefControl targetRefControl = pctl.controlForRef(target);
-        if (!targetRefControl.isVisible()) {
+        if (!perm.ref(target).test(RefPermission.READ)) {
           continue;
         }
         if (target.startsWith(Constants.R_HEADS)) {
@@ -194,7 +197,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
         continue;
       }
 
-      if (pctl.controlForRef(ref.getName()).isVisible()) {
+      if (perm.ref(ref.getName()).test(RefPermission.READ)) {
         branches.add(createBranchInfo(perm.ref(ref.getName()), ref, pctl, targets));
       }
     }

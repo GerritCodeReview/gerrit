@@ -41,8 +41,9 @@ public interface EventDispatcher {
    *
    * @param branchName The branch that the event is related to
    * @param event The event to post
+   * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(Branch.NameKey branchName, RefEvent event);
+  void postEvent(Branch.NameKey branchName, RefEvent event) throws PermissionBackendException;
 
   /**
    * Post a stream event that is related to a project.

@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -32,7 +33,8 @@ public class GetBranch implements RestReadView<BranchResource> {
   }
 
   @Override
-  public BranchInfo apply(BranchResource rsrc) throws ResourceNotFoundException, IOException {
+  public BranchInfo apply(BranchResource rsrc)
+      throws ResourceNotFoundException, IOException, PermissionBackendException {
     return list.get().toBranchInfo(rsrc);
   }
 }

@@ -56,8 +56,10 @@
       },
       _accountNameMutable: Boolean,
       _accountInfoChanged: Boolean,
+      /** @type {?} */
       _diffPrefs: Object,
       _changeTableColumnsNotDisplayed: Array,
+      /** @type {?} */
       _localPrefs: {
         type: Object,
         value() { return {}; },
@@ -107,8 +109,11 @@
         type: String,
         value: null,
       },
+      /** @type {?} */
       _serverConfig: Object,
+      /** @type {?string} */
       _docsBaseUrl: String,
+      _emailsChanged: Boolean,
 
       /**
        * For testing purposes.

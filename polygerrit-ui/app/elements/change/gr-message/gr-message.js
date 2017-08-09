@@ -39,6 +39,7 @@
 
     properties: {
       changeNum: Number,
+      /** @type {?} */
       message: Object,
       author: {
         type: Object,
@@ -79,6 +80,10 @@
         observer: '_projectNameChanged',
       },
       _commentLinks: Object,
+      /**
+       * @type {{ commentlinks: Array }}
+       */
+      projectConfig: Object,
       // Computed property needed to trigger Polymer value observing.
       _expanded: {
         type: Object,

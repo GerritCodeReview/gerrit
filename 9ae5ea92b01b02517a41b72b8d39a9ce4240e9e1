@@ -46,6 +46,30 @@
       "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb8ce16_e7b259cc",
+        "filename": "gerrit-index/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T16:38:53Z",
+      "side": 1,
+      "message": "Yeah, good point, this has the potential to slow down incremental builds. I haven\u0027t looked into this yet; it might be quite simple.",
+      "parentUuid": "0e0cc2e3_5e384329",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

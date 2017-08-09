@@ -49,6 +49,7 @@
         type: Object,
         value() { return {}; },
       },
+      /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
       params: {
         type: Object,

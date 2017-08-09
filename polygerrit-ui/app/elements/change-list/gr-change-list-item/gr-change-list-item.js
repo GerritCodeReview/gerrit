@@ -22,6 +22,8 @@
       labelNames: {
         type: Array,
       },
+
+      /** @type {?} */
       change: Object,
       changeURL: {
         type: String,
@@ -31,6 +33,7 @@
         type: Boolean,
         value: false,
       },
+      showNumber: Boolean,
     },
 
     behaviors: [

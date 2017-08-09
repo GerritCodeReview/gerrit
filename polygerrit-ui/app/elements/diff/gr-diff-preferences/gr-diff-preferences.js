@@ -32,6 +32,7 @@
         reflectToAttribute: true,
       },
 
+      /** @type {?} */
       _newPrefs: Object,
       _newLocalPrefs: Object,
     },

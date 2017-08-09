@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f4ae3a9_85d5d26b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-09T09:11:37Z",
+      "side": 1,
+      "message": "Isn\u0027t this is also true if there was a bug-fix for functionality that is used by the plugin? E.g. the plugin may depend on a buggy behavior.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "eda53eb08efb343ef6ea7eccd076eb9d63aa5935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

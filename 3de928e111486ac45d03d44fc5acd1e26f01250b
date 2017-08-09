@@ -52,6 +52,24 @@
       "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3ae4a5_a7c8762a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-09T18:52:56Z",
+      "side": 1,
+      "message": "I\u0027m okay with that if you are. I know that this is a rather heavy API call, though.",
+      "parentUuid": "587f3186_aba78f48",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -601,10 +601,10 @@
 
     getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const options = this.listChangesOptionsToHex(
+          this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS,
           this.ListChangesOption.CHANGE_ACTIONS,
           this.ListChangesOption.CURRENT_ACTIONS,
-          this.ListChangesOption.CURRENT_COMMIT,
           this.ListChangesOption.DOWNLOAD_COMMANDS,
           this.ListChangesOption.SUBMITTABLE,
           this.ListChangesOption.WEB_LINKS

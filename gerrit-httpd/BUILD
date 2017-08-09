@@ -26,6 +26,7 @@ java_library(
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
         "//gerrit-reviewdb:server",
+        "//gerrit-server:metrics",
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-util-cli:cli",

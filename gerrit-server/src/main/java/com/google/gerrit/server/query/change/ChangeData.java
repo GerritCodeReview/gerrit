@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -296,6 +297,7 @@ public class ChangeData {
     @Nullable final StarredChangesUtil starredChangesUtil;
     final AccountCache accountCache;
     final Accounts accounts;
+    final AllUsersName allUsersName;
     final ApprovalsUtil approvalsUtil;
     final ChangeControl.GenericFactory changeControlFactory;
     final ChangeMessagesUtil cmUtil;
@@ -317,6 +319,7 @@ public class ChangeData {
         @Nullable StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         Accounts accounts,
+        AllUsersName allUsersName,
         ApprovalsUtil approvalsUtil,
         ChangeControl.GenericFactory changeControlFactory,
         ChangeMessagesUtil cmUtil,
@@ -334,6 +337,7 @@ public class ChangeData {
         TrackingFooters trackingFooters) {
       this.accountCache = accountCache;
       this.accounts = accounts;
+      this.allUsersName = allUsersName;
       this.approvalsUtil = approvalsUtil;
       this.changeControlFactory = changeControlFactory;
       this.cmUtil = cmUtil;
@@ -463,6 +467,10 @@ public class ChangeData {
 
   public ReviewDb db() {
     return db;
+  }
+
+  public AllUsersName getAllUsersNameForIndexing() {
+    return a.allUsersName;
   }
 
   private Map<Integer, List<String>> initFiles() {

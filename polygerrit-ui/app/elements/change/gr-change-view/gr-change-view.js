@@ -924,6 +924,15 @@
               return '';
             }
             this._upgradeUrl(change, this.params);
+            // Edit is converted to a regular revision (with number = 0) and
+            // added to the list of revisions. Additionally under certain
+            // circumstances change edit is assigned to be the current revision
+            // and is selected to be shown on the change screen.
+            // We have two different strategies to assign edit to the current ps:
+            // 1. revision == null: no revision is selected, so use the edit only
+            //    if it is based on the latest patch set
+            // 2. edit was selected explicitly from ps drop down:
+            //    use the edit regardless of which patch set it is based on
             if (edit) {
               change.revisions[edit.commit.commit] = {
                 _number: this.EDIT_NAME,
@@ -931,6 +940,9 @@
                 commit: edit.commit,
                 fetch: edit.fetch,
               };
+              if (change.current_revision === edit.base_revision) {
+                change.current_revision = edit.commit.commit;
+              }
             }
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }

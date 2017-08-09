@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55477c81_cad57798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-09T06:46:47Z",
+      "side": 1,
+      "message": "It may be used by external callers via REST. I admit it\u0027s unlikely that someone is using it, but we should mention here that the support for the format option is removed from the REST endpoint.",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "1e9eb3a6a52a36e93fb8ef3d0a2f1c7e942e83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af5d063f_1e6c4da8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-09T06:46:47Z",
+      "side": 1,
+      "message": "[optional] remove this method now and let PluginLsCommand call apply(TopLevelResource.INSTANCE)",
+      "revId": "1e9eb3a6a52a36e93fb8ef3d0a2f1c7e942e83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

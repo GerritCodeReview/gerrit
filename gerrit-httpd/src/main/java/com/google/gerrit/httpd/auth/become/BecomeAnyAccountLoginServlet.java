@@ -38,6 +38,7 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,7 +64,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
-  private final InternalAccountQuery accountQuery;
+  private final Provider<InternalAccountQuery> queryProvider;
 
   @Inject
   BecomeAnyAccountLoginServlet(
@@ -73,14 +74,14 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       AccountCache ac,
       AccountManager am,
       SiteHeaderFooter shf,
-      InternalAccountQuery aq) {
+      Provider<InternalAccountQuery> qp) {
     webSession = ws;
     schema = sf;
     accounts = a;
     accountCache = ac;
     accountManager = am;
     headers = shf;
-    accountQuery = aq;
+    queryProvider = qp;
   }
 
   @Override
@@ -198,7 +199,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byUserName(String userName) {
     try {
-      List<AccountState> accountStates = accountQuery.byExternalId(SCHEME_USERNAME, userName);
+      List<AccountState> accountStates =
+          queryProvider.get().byExternalId(SCHEME_USERNAME, userName);
       if (accountStates.isEmpty()) {
         getServletContext().log("No accounts with username " + userName + " found");
         return null;
@@ -217,7 +219,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private AuthResult byPreferredEmail(String email) {
     try (ReviewDb db = schema.open()) {
       Optional<Account> match =
-          accountQuery
+          queryProvider
+              .get()
               .byPreferredEmail(email)
               .stream()
               // the index query also matches prefixes, filter those out

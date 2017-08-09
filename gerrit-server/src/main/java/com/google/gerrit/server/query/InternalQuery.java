@@ -33,6 +33,9 @@ import java.util.Set;
  * <p>By default, visibility of returned entities is not enforced (unlike in {@link
  * QueryProcessor}). The methods in this class are not typically used by user-facing paths, but
  * rather by internal callers that need to process all matching results.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
  */
 public class InternalQuery<T> {
   private final QueryProcessor<T> queryProcessor;

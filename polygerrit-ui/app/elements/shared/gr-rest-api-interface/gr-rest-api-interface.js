@@ -589,7 +589,7 @@
 
     /**
      * Inserts a change into _projectLookup iff it has a valid structure.
-     * @param {!Object} change
+     * @param {?} change
      */
     _maybeInsertInLookup(change) {
       if (change && change.project && change._number) {
@@ -747,6 +747,14 @@
           'PUT', `/projects/${encodeURIComponent(project)}/HEAD`, {ref});
     },
 
+    /**
+     * @param {string} filter
+     * @param {string} project
+     * @param {number} projectsBranchesPerPage
+     * @param {number=} opt_offset
+     *
+     * @return {Array}
+     */
     getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
@@ -1395,7 +1403,7 @@
      * _projectLookup with the project for that change, and returns the project.
      *
      * @param {string|number} changeNum
-     * @return {Promise<string>}
+     * @return {Promise}
      */
     _getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];

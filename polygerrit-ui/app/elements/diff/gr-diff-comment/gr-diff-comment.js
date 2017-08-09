@@ -53,6 +53,7 @@
 
     properties: {
       changeNum: String,
+      /** @type {?} */
       comment: {
         type: Object,
         notify: true,
@@ -88,6 +89,7 @@
         value: true,
         observer: '_toggleCollapseClass',
       },
+      /** @type {?} */
       projectConfig: Object,
       robotButtonDisabled: Boolean,
       _isAdmin: {
@@ -215,6 +217,11 @@
       }
     },
 
+    /**
+     * @param {Object=} opt_mixin
+     *
+     * @return {!Object}
+     */
     _getEventPayload(opt_mixin) {
       return Object.assign({}, opt_mixin, {
         comment: this.comment,

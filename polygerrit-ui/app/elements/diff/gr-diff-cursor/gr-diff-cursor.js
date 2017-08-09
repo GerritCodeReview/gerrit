@@ -43,6 +43,7 @@
         type: String,
         value: DiffSides.RIGHT,
       },
+      /** @type {HTMLElement|undefined} */
       diffRow: {
         type: Object,
         notify: true,
@@ -61,6 +62,8 @@
        * If set, the cursor will attempt to move to the line number (instead of
        * the first chunk) the next time the diff renders. It is set back to null
        * when used.
+       *
+       * @type (?number)
        */
       initialLineNumber: {
         type: Number,
@@ -147,6 +150,11 @@
       this._fixSide();
     },
 
+    /**
+     * @param {number} number
+     * @param {string} side
+     * @param {string=} opt_path
+     */
     moveToLineNumber(number, side, opt_path) {
       const row = this._findRowByNumberAndFile(number, side, opt_path);
       if (row) {
@@ -157,7 +165,7 @@
 
     /**
      * Get the line number element targeted by the cursor row and side.
-     * @return {DOMElement}
+     * @return {Element|undefined}
      */
     getTargetLineElement() {
       let lineElSelector = '.lineNum';
@@ -221,7 +229,7 @@
      * Get a short address for the location of the cursor. Such as '123' for
      * line 123 of the revision, or 'b321' for line 321 of the base patch.
      * Returns an empty string if an address is not available.
-     * @return {String}
+     * @return {string}
      */
     getAddress() {
       if (!this.diffRow) { return ''; }

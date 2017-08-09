@@ -30,6 +30,7 @@
       changeNum: Number,
       comments: Object,
       patchNum: Number,
+      /** @type {?} */
       projectConfig: Object,
     },
 

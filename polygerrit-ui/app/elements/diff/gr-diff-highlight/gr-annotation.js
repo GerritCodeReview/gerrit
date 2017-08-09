@@ -28,8 +28,8 @@
     /**
      * The DOM API textContent.length calculation is broken when the text
      * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
-     * @param  {Text} A text node.
-     * @return {Number} The length of the text.
+     * @param  {Text} node text node.
+     * @return {number} The length of the text.
      */
     getLength(node) {
       return this.getStringLength(node.textContent);

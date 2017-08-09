@@ -72,6 +72,7 @@
         notify: true,
       },
 
+      /** @type {Object} */
       _account: Object,
       _adminLinks: {
         type: Array,

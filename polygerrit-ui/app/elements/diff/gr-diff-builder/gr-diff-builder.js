@@ -153,9 +153,9 @@
   /**
    * Find line elements or line objects by a range of line numbers and a side.
    *
-   * @param {Number} start The first line number
-   * @param {Number} end The last line number
-   * @param {String} opt_side The side of the range. Either 'left' or 'right'.
+   * @param {number} start The first line number
+   * @param {number} end The last line number
+   * @param {string} opt_side The side of the range. Either 'left' or 'right'.
    * @param {Array<GrDiffLine>} out_lines The output list of line objects. Use
    *     null if not desired.
    * @param  {Array<HTMLElement>} out_elements The output list of line elements.
@@ -443,7 +443,7 @@
 
   /**
    * Returns the text length after normalizing unicode and tabs.
-   * @return {Number} The normalized length of the text.
+   * @return {number} The normalized length of the text.
    */
   GrDiffBuilder.prototype._textLength = function(text, tabSize) {
     text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
@@ -536,9 +536,9 @@
    * elements in place of tab characters. In each case tab elements are given
    * the width needed to reach the next tab-stop.
    *
-   * @param {String} A line of text potentially containing tab characters.
-   * @param {Number} The width for tabs.
-   * @return {String} An HTML string potentially containing tab elements.
+   * @param {string} A line of text potentially containing tab characters.
+   * @param {number} The width for tabs.
+   * @return {string} An HTML string potentially containing tab elements.
    */
   GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
     if (!line.length) { return ''; }
@@ -600,7 +600,7 @@
    * Finds the next DIV.contentText element following the given element, and on
    * the same side. Will only search within a group.
    * @param {HTMLElement} content
-   * @param {String} side Either 'left' or 'right'
+   * @param {string} side Either 'left' or 'right'
    * @return {HTMLElement}
    */
   GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
@@ -610,8 +610,8 @@
   /**
    * Determines whether the given group is either totally an addition or totally
    * a removal.
-   * @param {GrDiffGroup} group
-   * @return {Boolean}
+   * @param {Object} group (GrDiffGroup)
+   * @return {boolean}
    */
   GrDiffBuilder.prototype._isTotal = function(group) {
     return group.type === GrDiffGroup.Type.DELTA &&

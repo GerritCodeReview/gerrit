@@ -18,7 +18,7 @@
   const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
   const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
   /**
-   * @enum {number}
+   * @enum {string}
    */
   const LabelStatus = {
     /**
@@ -44,6 +44,7 @@
      * project owner or site administrator.
      */
     IMPOSSIBLE: 'IMPOSSIBLE',
+    OPTIONAL: 'OPTIONAL',
   };
 
   // TODO(davido): Add the rest of the change actions.
@@ -139,6 +140,7 @@
      */
 
     properties: {
+      /** @type {{ branch: string, project: string }} */
       change: Object,
       actions: {
         type: Object,
@@ -169,6 +171,7 @@
         type: String,
         value: '',
       },
+      /** @type {?} */
       revisionActions: {
         type: Object,
         value() { return {}; },
@@ -180,7 +183,7 @@
       },
       _actionLoadingMessage: {
         type: String,
-        value: null,
+        value: '',
       },
       _allActionValues: {
         type: Array,
@@ -417,7 +420,7 @@
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
           this._keyCount(revisionActionsChangeRecord) === 0 &&
               additionalActions.length === 0;
-      this._actionLoadingMessage = null;
+      this._actionLoadingMessage = '';
       this._disabledMenuActions = [];
 
       const revisionActions = revisionActionsChangeRecord.base || {};
@@ -449,7 +452,7 @@
      * Get highest score for last missing permitted label for current change.
      * Returns null if no labels permitted or more than one label missing.
      *
-     * @return {{label: string, score: string}}
+     * @return {{label: string, score: string}|null}
      */
     _getTopMissingApproval() {
       if (!this.change ||
@@ -668,9 +671,8 @@
     },
 
     /**
-     * Returns true if hasParent is defined (can be either true or false).
-     * returns false otherwise.
-     * @return {boolean} hasParent
+     * _hasKnownChainState set to true true if hasParent is defined (can be
+     * either true or false). set to false otherwise.
      */
     _computeChainState(hasParent) {
       this._hasKnownChainState = true;
@@ -778,7 +780,7 @@
       if (this._getActionOverflowIndex(type, key) !== -1) {
         this.push('_disabledMenuActions', key === '/' ? 'delete' : key);
         return function() {
-          this._actionLoadingMessage = null;
+          this._actionLoadingMessage = '';
           this._disabledMenuActions = [];
         }.bind(this);
       }
@@ -788,12 +790,18 @@
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;
       return function() {
-        this._actionLoadingMessage = null;
+        this._actionLoadingMessage = '';
         buttonEl.removeAttribute('loading');
         buttonEl.disabled = false;
       }.bind(this);
     },
 
+    /**
+     * @param {string} endpoint
+     * @param {Object|undefined} action
+     * @param {boolean} revAction
+     * @param {Object|string=} opt_payload
+     */
     _fireAction(endpoint, action, revAction, opt_payload) {
       const cleanupFn =
           this._setLoadingOnButtonWithKey(action.__type, action.__key);
@@ -861,6 +869,14 @@
       });
     },
 
+    /**
+     * @param {string} method
+     * @param {string|Object|undefined} payload
+     * @param {string} actionEndpoint
+     * @param {boolean} revisionAction
+     * @param {Function} cleanupFn
+     * @param {Function=} opt_errorFn
+     */
     _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
         opt_errorFn) {
       return this.fetchIsLatestKnown(this.change, this.$.restAPI)
@@ -919,10 +935,10 @@
     /**
      * Merge sources of change actions into a single ordered array of action
      * values.
-     * @param {splices} changeActionsRecord
-     * @param {splices} revisionActionsRecord
-     * @param {splices} primariesRecord
-     * @param {splices} additionalActionsRecord
+     * @param {Array} changeActionsRecord
+     * @param {Array} revisionActionsRecord
+     * @param {Array} primariesRecord
+     * @param {Array} additionalActionsRecord
      * @param {Object} change The change object.
      * @return {Array}
      */
@@ -931,7 +947,7 @@
       const revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       const changeActionValues = this._getActionValues(changeActionsRecord,
-          primariesRecord, additionalActionsRecord, ActionType.CHANGE, change);
+          primariesRecord, additionalActionsRecord, ActionType.CHANGE);
       const quickApprove = this._getQuickApproveAction();
       if (quickApprove) {
         changeActionValues.unshift(quickApprove);

@@ -24,8 +24,10 @@
      */
 
     properties: {
+      /** @type {{ revisions: Array }} */
       change: Object,
       patchNum: String,
+      /** @type {?} */
       config: Object,
 
       _schemes: {
@@ -82,28 +84,55 @@
       return commands;
     },
 
+    /**
+     * @param {Object} change
+     * @param {number|string} patchNum
+     *
+     * @return {string}
+     */
     _computeZipDownloadLink(change, patchNum) {
       return this._computeDownloadLink(change, patchNum, true);
     },
 
+    /**
+     * @param {Object} change
+     * @param {number|string} patchNum
+     *
+     * @return {string}
+     */
     _computeZipDownloadFilename(change, patchNum) {
       return this._computeDownloadFilename(change, patchNum, true);
     },
 
-    _computeDownloadLink(change, patchNum, zip) {
+    /**
+     * @param {Object} change
+     * @param {number|string} patchNum
+     * @param {boolean=} opt_zip
+     *
+     * @return {string} Not sure why there was a mismatch
+     */
+    _computeDownloadLink(change, patchNum, opt_zip) {
       return this.changeBaseURL(change._number, patchNum) + '/patch?' +
-          (zip ? 'zip' : 'download');
+          (opt_zip ? 'zip' : 'download');
     },
 
-    _computeDownloadFilename(change, patchNum, zip) {
-      let shortRev;
+
+    /**
+     * @param {Object} change
+     * @param {number|string} patchNum
+     * @param {boolean=} opt_zip
+     *
+     * @return {string}
+     */
+    _computeDownloadFilename(change, patchNum, opt_zip) {
+      let shortRev = '';
       for (const rev in change.revisions) {
         if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
           shortRev = rev.substr(0, 7);
           break;
         }
       }
-      return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
+      return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {

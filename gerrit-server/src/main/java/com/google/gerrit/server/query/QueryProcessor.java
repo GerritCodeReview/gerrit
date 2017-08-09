@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -123,6 +125,8 @@ public abstract class QueryProcessor<T> {
   /**
    * Query for entities that match a structured query.
    *
+   * <p>Callers must check {@link #isDisabled()} and not call if disabled.
+   *
    * @see #query(List)
    * @param query the query.
    * @return results of the query.
@@ -133,6 +137,8 @@ public abstract class QueryProcessor<T> {
 
   /**
    * Perform multiple queries in parallel.
+   *
+   * <p>Callers must check {@link #isDisabled()} and not call if disabled.
    *
    * @param queries list of queries.
    * @return results of the queries, one QueryResult per input query, in the same order as the
@@ -154,6 +160,7 @@ public abstract class QueryProcessor<T> {
 
   private List<QueryResult<T>> query(List<String> queryStrings, List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
+    checkState(!isDisabled(), "%s is disabled", getClass().getSimpleName());
     long startNanos = System.nanoTime();
 
     int cnt = queries.size();
@@ -254,11 +261,17 @@ public abstract class QueryProcessor<T> {
 
   private int getEffectiveLimit(Predicate<T> p) {
     List<Integer> possibleLimits = new ArrayList<>(4);
+
     possibleLimits.add(getBackendSupportedLimit());
-    possibleLimits.add(getPermittedLimit());
+
+    int permittedLimit = getPermittedLimit();
+    checkState(permittedLimit > 0, "permitted limit should have been positive");
+    possibleLimits.add(permittedLimit);
+
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);
     }
+
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);
       if (limitFromPredicate != null) {

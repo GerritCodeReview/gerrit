@@ -316,6 +316,24 @@
       "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b06a6bac_c1c745b9",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:47:00Z",
+      "side": 1,
+      "message": "\u003e If it\u0027s going to get turned off, is the preceding information still relevant?\n\nGood point, maybe not. It\u0027s definitely still used as the storage format on the server, but when it\u0027s turned off, it will no longer be exposed to end users, so even if it\u0027s mentioned somewhere, maybe this doc won\u0027t be the right place.\n\n\u003e I\u0027d advocate for leaving the text as it is, since it appears to be accurate for now.\n\nSGTM",
+      "parentUuid": "1be727d5_a56015e8",
+      "revId": "2449fd1fb10cb457e7fb163c8a5266b94815a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

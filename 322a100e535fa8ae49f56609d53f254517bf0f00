@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a9e80e2_05c135cd",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:37:49Z",
+      "side": 1,
+      "message": "does acct.email or !!acct.email work instead?",
+      "range": {
+        "startLine": 180,
+        "startChar": 18,
+        "endLine": 180,
+        "endChar": 42
+      },
+      "revId": "322a100e535fa8ae49f56609d53f254517bf0f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee7d89c_49b65f9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:37:49Z",
+      "side": 1,
+      "message": "How about (something like... please test this)\n\nreturn accounts.map(acct \u003d\u003e {\n  predicate + \u0027:\"\u0027 + acct.name;\n  if (acct.email) {\n    predicate + \u0027 \u003c\u0027 + acct.email + \u0027\u003e\"\u0027;\n  }\n});",
+      "range": {
+        "startLine": 179,
+        "startChar": 12,
+        "endLine": 185,
+        "endChar": 15
+      },
+      "revId": "322a100e535fa8ae49f56609d53f254517bf0f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

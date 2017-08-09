@@ -16,6 +16,23 @@
       "revId": "addc791ed926151c196919c424d22a4f6decca3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff5dba10_f97c970d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T15:13:22Z",
+      "side": 1,
+      "message": "Can we add this class to, say, \u003cheader?\nWrapping makes code more complex and probably can be avoided here.",
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

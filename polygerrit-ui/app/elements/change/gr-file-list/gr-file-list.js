@@ -662,9 +662,8 @@
       return status || 'M';
     },
 
-    _computeDiffURL(change, patchRange, path) {
-      return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
-          patchRange.basePatchNum);
+    _computeDiffURL(change, patchNum, basePatchNum, path) {
+      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
     },
 
     _computeFileDisplayName(path) {

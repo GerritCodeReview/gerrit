@@ -109,8 +109,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) throws IOException {
     try {
-      // No parts of FillArgs are currently required, just use null.
-      replace(idTerm(as), toDocument(as, null)).get();
+      replace(idTerm(as), toDocument(as)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }

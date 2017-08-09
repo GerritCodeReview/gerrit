@@ -52,7 +52,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -205,7 +204,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ConflictsCache conflictsCache;
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final DynamicMap<ChangeOperatorFactory> opFactories;
-    final FieldDef.FillArgs fillArgs;
     final GitRepositoryManager repoManager;
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
@@ -237,7 +235,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
-        FieldDef.FillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -268,7 +265,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
-          fillArgs,
           commentsUtil,
           accountResolver,
           groupBackend,
@@ -301,7 +297,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
-        FieldDef.FillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -330,7 +325,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.notesFactory = notesFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
-      this.fillArgs = fillArgs;
       this.commentsUtil = commentsUtil;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
@@ -365,7 +359,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
-          fillArgs,
           commentsUtil,
           accountResolver,
           groupBackend,
@@ -573,7 +566,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("reviewer".equalsIgnoreCase(value)) {
       if (args.getSchema().hasField(ChangeField.WIP)) {
         return Predicate.and(
-            Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
+            Predicate.not(new BooleanPredicate(ChangeField.WIP)),
             ReviewerPredicate.reviewer(args, self()));
       }
       return ReviewerPredicate.reviewer(args, self());
@@ -584,12 +577,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.MERGEABLE, args.fillArgs);
+      return new BooleanPredicate(ChangeField.MERGEABLE);
     }
 
     if ("private".equalsIgnoreCase(value)) {
       if (args.getSchema().hasField(ChangeField.PRIVATE)) {
-        return new BooleanPredicate(ChangeField.PRIVATE, args.fillArgs);
+        return new BooleanPredicate(ChangeField.PRIVATE);
       }
       throw new QueryParseException(
           "'is:private' operator is not supported by change index version");
@@ -613,7 +606,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("started".equalsIgnoreCase(value)) {
       if (args.getSchema().hasField(ChangeField.STARTED)) {
-        return new BooleanPredicate(ChangeField.STARTED, args.fillArgs);
+        return new BooleanPredicate(ChangeField.STARTED);
       }
       throw new QueryParseException(
           "'is:started' operator is not supported by change index version");
@@ -621,7 +614,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("wip".equalsIgnoreCase(value)) {
       if (args.getSchema().hasField(ChangeField.WIP)) {
-        return new BooleanPredicate(ChangeField.WIP, args.fillArgs);
+        return new BooleanPredicate(ChangeField.WIP);
       }
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
     }
@@ -1023,8 +1016,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return Predicate.any();
     }
     if (args.getSchema().hasField(ChangeField.WIP)) {
-      return Predicate.and(
-          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)), byState);
+      return Predicate.and(Predicate.not(new BooleanPredicate(ChangeField.WIP)), byState);
     }
     return byState;
   }

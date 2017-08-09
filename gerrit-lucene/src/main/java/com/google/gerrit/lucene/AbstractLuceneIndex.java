@@ -27,7 +27,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
@@ -285,9 +284,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     searcherManager.release(searcher);
   }
 
-  Document toDocument(V obj, FillArgs fillArgs) {
+  Document toDocument(V obj) {
     Document result = new Document();
-    for (Values<V> vs : schema.buildFields(obj, fillArgs)) {
+    for (Values<V> vs : schema.buildFields(obj)) {
       if (vs.getValues() != null) {
         add(result, vs);
       }

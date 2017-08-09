@@ -29,6 +29,6 @@ public class IsUnresolvedPredicate extends IntegerRangeChangePredicate {
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData, null);
+    return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData);
   }
 }

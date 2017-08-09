@@ -25,7 +25,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
@@ -60,7 +59,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   private final Schema<V> schema;
-  private final FillArgs fillArgs;
   private final SitePaths sitePaths;
 
   protected final String indexName;
@@ -70,12 +68,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   AbstractElasticIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       Schema<V> schema,
       JestClientBuilder clientBuilder,
       String indexName) {
-    this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -160,7 +156,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private String toDoc(V v) throws IOException {
     XContentBuilder builder = jsonBuilder().startObject();
-    for (Values<V> values : schema.buildFields(v, fillArgs)) {
+    for (Values<V> values : schema.buildFields(v)) {
       String name = values.getField().getName();
       if (values.getField().isRepeatable()) {
         builder.field(

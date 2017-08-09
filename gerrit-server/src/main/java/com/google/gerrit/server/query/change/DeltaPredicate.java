@@ -25,6 +25,6 @@ public class DeltaPredicate extends IntegerRangeChangePredicate {
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.DELTA.get(changeData, null);
+    return ChangeField.DELTA.get(changeData);
   }
 }

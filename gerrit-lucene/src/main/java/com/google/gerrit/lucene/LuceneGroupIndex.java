@@ -108,8 +108,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Acc
   @Override
   public void replace(AccountGroup group) throws IOException {
     try {
-      // No parts of FillArgs are currently required, just use null.
-      replace(idTerm(group), toDocument(group, null)).get();
+      replace(idTerm(group), toDocument(group)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }

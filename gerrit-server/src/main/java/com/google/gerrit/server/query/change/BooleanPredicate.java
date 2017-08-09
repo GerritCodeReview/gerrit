@@ -15,20 +15,16 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 
 public class BooleanPredicate extends ChangeIndexPredicate {
-  protected final FillArgs args;
-
-  public BooleanPredicate(FieldDef<ChangeData, String> field, FillArgs args) {
+  public BooleanPredicate(FieldDef<ChangeData, String> field) {
     super(field, "1");
-    this.args = args;
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    return getValue().equals(getField().get(object, args));
+    return getValue().equals(getField().get(object));
   }
 
   @Override

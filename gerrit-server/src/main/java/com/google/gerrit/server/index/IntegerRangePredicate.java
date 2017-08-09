@@ -15,8 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.util.RangeUtil;
-import com.google.gerrit.server.util.RangeUtil.Range;
+import com.google.gerrit.server.index.RangeUtil.Range;
 import com.google.gwtorm.server.OrmException;
 
 public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {

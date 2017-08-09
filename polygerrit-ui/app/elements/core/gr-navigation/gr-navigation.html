@@ -85,6 +85,10 @@ limitations under the License.
        */
       _upgradeUrl: uninitialized,
 
+      /**
+       * @param {number=} patchNum
+       * @param {number|string=} basePatchNum
+       */
       _checkPatchRange(patchNum, basePatchNum) {
         if (basePatchNum && !patchNum) {
           throw new Error('Cannot use base patch number without patch number.');
@@ -195,7 +199,6 @@ limitations under the License.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
-       * @return {string}
        */
       navigateToChange(change, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForChange(change, opt_patchNum,
@@ -203,8 +206,8 @@ limitations under the License.
       },
 
       /**
-       * @param {!Object} change The change object.
-       * @param {!string} path The file path.
+       * @param {{ _number: number, project: string }} change The change object.
+       * @param {string} path The file path.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
@@ -216,9 +219,9 @@ limitations under the License.
       },
 
       /**
-       * @param {!number} change The change object.
-       * @param {!string} project The name of the project.
-       * @param {!string} path The file path.
+       * @param {number} changeNum
+       * @param {string} projectName The name of the project.
+       * @param {string} path The file path.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
@@ -247,7 +250,7 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {!string} path The file path.
+       * @param {string} path The file path.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
@@ -270,7 +273,7 @@ limitations under the License.
 
       /**
        * Navigate to an arbitrary relative URL.
-       * @param {!string} relativeUrl
+       * @param {string} relativeUrl
        */
       navigateToRelativeUrl(relativeUrl) {
         if (!relativeUrl.startsWith('/')) {

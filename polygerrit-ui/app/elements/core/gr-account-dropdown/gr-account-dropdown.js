@@ -47,7 +47,7 @@
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {
           this._switchAccountUrl = cfg.auth.switch_account_url;
         } else {
-          this._switchAccountUrl = null;
+          this._switchAccountUrl = '';
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       });

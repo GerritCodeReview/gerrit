@@ -40,7 +40,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.group.ServerInitiated;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -93,8 +92,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected ThreadLocalRequestContext requestContext;
 
   @Inject protected OneOffRequestContext oneOffRequestContext;
-
-  @Inject protected InternalAccountQuery internalAccountQuery;
 
   @Inject protected AllProjectsName allProjects;
 

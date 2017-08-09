@@ -80,7 +80,7 @@ public class ReviewerRecommender {
   private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
-  private final InternalChangeQuery internalChangeQuery;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final WorkQueue workQueue;
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -89,7 +89,7 @@ public class ReviewerRecommender {
   ReviewerRecommender(
       ChangeQueryBuilder changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
-      InternalChangeQuery internalChangeQuery,
+      Provider<InternalChangeQuery> queryProvider,
       WorkQueue workQueue,
       Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
@@ -98,7 +98,7 @@ public class ReviewerRecommender {
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.changeQueryBuilder = changeQueryBuilder;
     this.config = config;
-    this.internalChangeQuery = internalChangeQuery;
+    this.queryProvider = queryProvider;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
     this.workQueue = workQueue;
     this.dbProvider = dbProvider;
@@ -202,7 +202,8 @@ public class ReviewerRecommender {
     // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result =
-          internalChangeQuery
+          queryProvider
+              .get()
               .setLimit(25)
               .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
               .query(changeQueryBuilder.owner("self"));
@@ -268,7 +269,7 @@ public class ReviewerRecommender {
     }
 
     List<List<ChangeData>> result =
-        internalChangeQuery.setLimit(25).setRequestedFields(ImmutableSet.of()).query(predicates);
+        queryProvider.get().setLimit(25).setRequestedFields(ImmutableSet.of()).query(predicates);
 
     Iterator<List<ChangeData>> queryResultIterator = result.iterator();
     Iterator<Account.Id> reviewersIterator = reviewers.keySet().iterator();

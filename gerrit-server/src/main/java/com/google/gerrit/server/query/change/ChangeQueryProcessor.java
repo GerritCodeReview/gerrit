@@ -40,6 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Query processor for the change index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     implements PluginDefinedAttributesFactory {
   /**

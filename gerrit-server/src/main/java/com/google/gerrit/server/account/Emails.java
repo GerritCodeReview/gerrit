@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -32,12 +33,12 @@ import java.util.List;
 @Singleton
 public class Emails {
   private final ExternalIds externalIds;
-  private final InternalAccountQuery accountQuery;
+  private final Provider<InternalAccountQuery> queryProvider;
 
   @Inject
-  public Emails(ExternalIds externalIds, InternalAccountQuery accountQuery) {
+  public Emails(ExternalIds externalIds, Provider<InternalAccountQuery> queryProvider) {
     this.externalIds = externalIds;
-    this.accountQuery = accountQuery;
+    this.queryProvider = queryProvider;
   }
 
   /**
@@ -60,7 +61,7 @@ public class Emails {
    * @see #getAccountsFor(String...)
    */
   public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
-    List<AccountState> byPreferredEmail = accountQuery.byPreferredEmail(email);
+    List<AccountState> byPreferredEmail = queryProvider.get().byPreferredEmail(email);
     return Streams.concat(
             externalIds.byEmail(email).stream().map(e -> e.accountId()),
             byPreferredEmail
@@ -85,7 +86,8 @@ public class Emails {
         .entries()
         .stream()
         .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
-    accountQuery
+    queryProvider
+        .get()
         .byPreferredEmail(emails)
         .entries()
         .stream()

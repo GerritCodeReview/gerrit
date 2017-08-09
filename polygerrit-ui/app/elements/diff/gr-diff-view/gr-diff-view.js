@@ -55,6 +55,9 @@
         type: Object,
         value() { return document.body; },
       },
+      /**
+       * @type {{ diffMode: (string|undefined) }}
+       */
       changeViewState: {
         type: Object,
         notify: true,
@@ -63,6 +66,13 @@
       },
 
       _patchRange: Object,
+      /**
+       * @type {{
+       *  subject: string,
+       *  project: string,
+       *  revisions: string,
+       * }}
+       */
       _change: Object,
       _changeNum: String,
       _diff: Object,
@@ -391,7 +401,7 @@
 
     /**
      * @param {?string} path The path of the current file being shown.
-     * @param {Array.<string>} fileList The list of files in this change and
+     * @param {!Array<string>} fileList The list of files in this change and
      *     patch range.
      * @param {number} direction Either 1 (next file) or -1 (prev file).
      * @param {(number|boolean)} opt_noUp Whether to return to the change view
@@ -424,12 +434,12 @@
      *   * null - When no navigation is possible for the given direction.
      *
      * @param {?string} path The path of the current file being shown.
-     * @param {Array.<string>} fileList The list of files in this change and
+     * @param {!Array<string>} fileList The list of files in this change and
      *     patch range.
      * @param {number} direction Either 1 (next file) or -1 (prev file).
-     * @param {(number|boolean)} opt_noUp Whether to return to the change view
+     * @param {?number|boolean=} opt_noUp Whether to return to the change view
      *     when advancing the file goes outside the bounds of fileList.
-     * @return {Object}
+     * @return {!Object}
      */
     _getNavLinkPath(path, fileList, direction, opt_noUp) {
       if (!path || fileList.length === 0) { return null; }
@@ -575,6 +585,10 @@
      * When the latest patch of the change is selected (and there is no base
      * patch) then the patch range need not appear in the URL. Return a patch
      * range object with undefined values when a range is not needed.
+     *
+     * @param {!Object} patchRange
+     * @param {!Object} revisions
+     * @return {!Object}
      */
     _getChangeUrlRange(patchRange, revisions) {
       let patchNum = undefined;
@@ -688,7 +702,7 @@
      *
      * Use side-by-side if the user is not logged in.
      *
-     * @return {String}
+     * @return {string}
      */
     _getDiffViewMode() {
       if (this.changeViewState.diffMode) {
@@ -707,7 +721,7 @@
 
     _onLineSelected(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
-      history.replaceState(null, null, '#' + this.$.cursor.getAddress());
+      history.replaceState(null, '', '#' + this.$.cursor.getAddress());
     },
 
     _computeDownloadLink(changeNum, patchRange, path) {

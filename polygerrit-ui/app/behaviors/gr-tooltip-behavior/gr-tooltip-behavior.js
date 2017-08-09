@@ -31,7 +31,7 @@
           return 'ontouchstart' in document.documentElement;
         },
       },
-      _tooltip: Element,
+      _tooltip: Object,
       _titleText: String,
       _hasSetupTooltipListeners: {
         type: Boolean,

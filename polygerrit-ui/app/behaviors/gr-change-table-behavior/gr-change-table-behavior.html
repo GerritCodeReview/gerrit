@@ -38,6 +38,7 @@ limitations under the License.
     /**
      * Returns the complement to the given column array
      * @param {Array} columns
+     * @return {!Array}
      */
     getComplementColumns(columns) {
       return this.columnNames.filter(column => {
@@ -45,6 +46,11 @@ limitations under the License.
       });
     },
 
+    /**
+     * @param {string} columnToCheck
+     * @param {!Array} columnsToDisplay
+     * @return {boolean}
+     */
     isColumnHidden(columnToCheck, columnsToDisplay) {
       return !columnsToDisplay.includes(columnToCheck);
     },

@@ -171,7 +171,9 @@
             if (inParagraph) {
               // Add the finished paragraph block to the result.
               inParagraph = false;
-              out.push(block);
+              if (block !== null) {
+                out.push(block);
+              }
             }
             inList = true;
             block = {type: 'list', items: []};
@@ -193,7 +195,7 @@
         }
         block.items.push(line);
       }
-      if (block != null) {
+      if (block !== null) {
         out.push(block);
       }
     },
@@ -223,12 +225,16 @@
           p.startsWith('- ') || p.startsWith('* ');
     },
 
-    _makeLinkedText(content, isPre) {
+    /**
+     * @param {string} content
+     * @param {boolean=} opt_isPre
+     */
+    _makeLinkedText(content, opt_isPre) {
       const text = document.createElement('gr-linked-text');
       text.config = this.config;
       text.content = content;
       text.pre = true;
-      if (isPre) {
+      if (opt_isPre) {
         text.classList.add('pre');
       }
       return text;

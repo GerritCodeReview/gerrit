@@ -23,6 +23,7 @@
         value: false,
         observer: '_loggedInChanged',
       },
+      schemes: Array,
       selectedScheme: {
         type: String,
         notify: true,

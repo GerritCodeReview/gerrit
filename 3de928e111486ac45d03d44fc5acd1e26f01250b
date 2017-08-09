@@ -92,6 +92,24 @@
     },
     {
       "key": {
+        "uuid": "5dc332f0_b0981139",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-09T20:21:51Z",
+      "side": 1,
+      "message": "LOL. I missed that.",
+      "parentUuid": "920715a1_d8df99de",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37e6f989_64e44e15",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7

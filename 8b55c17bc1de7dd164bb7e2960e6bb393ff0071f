@@ -22,6 +22,30 @@
       "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06639f7_dd1126f0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:48:58Z",
+      "side": 1,
+      "message": "We doin\u0027t want accountId to show if it\u0027s for .member, so this will be true or \u0027\u0027 for false. then below it overwrite it if it is true.\n\nThis is what gwtui does.",
+      "parentUuid": "7d211681_72af3767",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

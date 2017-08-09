@@ -29,6 +29,7 @@ BASE_JETTY_DEPS = [
 
 DEPS = BASE_JETTY_DEPS + [
     "//gerrit-reviewdb:server",
+    "//gerrit-server:metrics",
     "//gerrit-server:module",
     "//gerrit-server:receive",
     "//lib:gwtorm",

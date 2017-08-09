@@ -16,13 +16,17 @@
 
   const DEFAULT_SECTIONS = [
     {
+      name: 'Work in progress',
+      query: 'is:open owner:self is:wip',
+    },
+    {
       name: 'Outgoing reviews',
-      query: 'is:open owner:self',
+      query: 'is:open owner:self -is:wip',
     },
     {
       name: 'Incoming reviews',
       query: 'is:open ((reviewer:self -owner:self -is:ignored) OR ' +
-          'assignee:self)',
+          'assignee:self) -is:wip',
     },
     {
       name: 'Recently closed',

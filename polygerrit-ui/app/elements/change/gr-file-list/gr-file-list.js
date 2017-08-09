@@ -415,6 +415,7 @@
     },
 
     _getReviewedFiles() {
+      if (this.editLoaded) { return Promise.resolve([]); }
       return this.$.restAPI.getReviewedFiles(this.changeNum,
           this.patchRange.patchNum);
     },

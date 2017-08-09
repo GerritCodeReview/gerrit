@@ -1305,6 +1305,15 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isTrue(alertStub.called);
       });
+
+      test('_getReviewedFiles does not call API', () => {
+        const apiSpy = sandbox.spy(element.$.restAPI, 'getReviewedFiles');
+        element.editLoaded = true;
+        return element._getReviewedFiles().then(files => {
+          assert.equal(files.length, 0);
+          assert.isFalse(apiSpy.called);
+        });
+      });
     });
   });
   a11ySuite('basic');

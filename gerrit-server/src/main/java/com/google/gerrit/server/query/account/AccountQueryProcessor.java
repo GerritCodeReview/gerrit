@@ -21,6 +21,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountLimits;
@@ -52,12 +53,18 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   protected AccountQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      Metrics metrics,
+      MetricMaker metricMaker,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory) {
-    super(metrics, AccountSchemaDefinitions.INSTANCE, indexConfig, indexes, rewriter, FIELD_LIMIT);
+    super(
+        metricMaker,
+        AccountSchemaDefinitions.INSTANCE,
+        indexConfig,
+        indexes,
+        rewriter,
+        FIELD_LIMIT);
     this.accountControlFactory = accountControlFactory;
     limitsFactory.updateQueryLimit(userProvider.get(), this);
   }

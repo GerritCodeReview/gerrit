@@ -21,6 +21,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
@@ -53,12 +54,13 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   protected GroupQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      Metrics metrics,
+      MetricMaker metricMaker,
       IndexConfig indexConfig,
       GroupIndexCollection indexes,
       GroupIndexRewriter rewriter,
       GroupControl.GenericFactory groupControlFactory) {
-    super(metrics, GroupSchemaDefinitions.INSTANCE, indexConfig, indexes, rewriter, FIELD_LIMIT);
+    super(
+        metricMaker, GroupSchemaDefinitions.INSTANCE, indexConfig, indexes, rewriter, FIELD_LIMIT);
     this.userProvider = userProvider;
     this.groupControlFactory = groupControlFactory;
     limitsFactory.updateQueryLimit(userProvider.get(), this);

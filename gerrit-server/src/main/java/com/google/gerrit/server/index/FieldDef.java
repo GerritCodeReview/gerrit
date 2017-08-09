@@ -18,9 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 
@@ -71,14 +69,7 @@ public final class FieldDef<I, T> {
   }
 
   /** Arguments needed to fill in missing data in the input object. */
-  public static class FillArgs {
-    public final AllUsersName allUsers;
-
-    @Inject
-    FillArgs(AllUsersName allUsers) {
-      this.allUsers = allUsers;
-    }
-  }
+  public static class FillArgs {}
 
   public static class Builder<T> {
     private final FieldType<T> type;

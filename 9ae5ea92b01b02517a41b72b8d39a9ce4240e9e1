@@ -70,6 +70,30 @@
       "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b012c52b_575b5a5c",
+        "filename": "gerrit-index/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-09T19:35:36Z",
+      "side": 1,
+      "message": "Indeed, inheritance from GerritBaseTests and dependency on gerrit-server:testutil is easily avoidable: [1]. Should be resolved before submitting.\n\n* [1] http://paste.openstack.org/show/617978",
+      "parentUuid": "5fb8ce16_e7b259cc",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

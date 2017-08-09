@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86d7d006_af2162c6",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9eab4eb6_2fa704d6",
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "433e5388_97a98466",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 11
@@ -39,6 +57,30 @@
       "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5820c0a3_e4f51ed7",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:33:19Z",
+      "side": 1,
+      "message": "Agreed. I removed the custom labels and added a sentence or two after the table, with a link the Review Labels topic.",
+      "parentUuid": "433e5388_97a98466",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0d81def1_6bc8c33a",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:33:19Z",
+      "side": 1,
+      "message": "I see! I have rewritten this section a bit, because I thought everything fell under the \"relation chain\", which is incorrect. Let me know what you think.",
+      "parentUuid": "06a4b4bb_8125ed8c",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 20
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df5edd0b_02f6cc70",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 11
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "3adedd87_a0c1a88f",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df5edd0b_02f6cc70",
+      "range": {
+        "startLine": 131,
+        "startChar": 18,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bb6d6a3_9941d0f7",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 11
@@ -108,6 +198,30 @@
       "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1463e90_a660d199",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-09T18:33:19Z",
+      "side": 1,
+      "message": "This is great info. It seems strange  to just say \"done\", but...Done!",
+      "parentUuid": "6bb6d6a3_9941d0f7",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 39
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

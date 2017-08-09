@@ -53,7 +53,7 @@ public class InternalQuery<T> {
   }
 
   public InternalQuery<T> setLimit(int n) {
-    queryProcessor.setLimit(n);
+    queryProcessor.setUserProvidedLimit(n);
     return this;
   }
 

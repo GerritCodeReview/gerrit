@@ -310,6 +310,30 @@
     },
     {
       "key": {
+        "uuid": "b4a6b8c0_11e6c046",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T15:10:34Z",
+      "side": 1,
+      "message": "{Object\u003d} is Object|null|undefined, since Object is nullable and \u003d} mean optional ie undefined\n\nThis message essentially says there\u0027s something that\u0027s typed as * (anything) that\u0027s being passed into send as a context.\n\nI suggest using {?} everywhere there\u0027s a {*} or {*\u003d} or {?*\u003d}. This shouldn\u0027t force a type, and would make future refactoring a bit easier.",
+      "parentUuid": "a3f8b9d1_48ae3146",
+      "range": {
+        "startLine": 1050,
+        "startChar": 15,
+        "endLine": 1050,
+        "endChar": 18
+      },
+      "revId": "d1286297aecf38fe066a3856ecb6070b37551403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61f8f64f_f6413415",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1

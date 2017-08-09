@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea51516f_a497aa03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-09T15:10:34Z",
+      "side": 1,
+      "message": "Apparently, all but primitive types(string, number, function, etc) should have ? or ! for nullable and non-nullable cases respectively.\nI think I suggested the opposite in the earlier reviews, sorry about that.\n\nSo it should be either {!Object or {?Object, {!Response or {?Response etc everywhere.\n\nI\u0027ve compiled here a list of replacements to be done:\n{?function \u003d\u003e {function\n{Object \u003d\u003e {?Object\n(Response \u003d\u003e (?Response\n{Array \u003d\u003e {?Array\n{Promise \u003d\u003e {?Promise\n\u003cObject \u003d\u003e \u003c?Object",
+      "revId": "9d2896f47452512732460e3359104fd07c6cda41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

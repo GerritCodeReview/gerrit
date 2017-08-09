@@ -111,6 +111,8 @@
        * been bypassed. If the value is null, then the safety has not been
        * bypassed. If the value is a number, then that number represents the
        * context preference to use when rendering the bypassed diff.
+       *
+       * @type (number|null)
        */
       _safetyBypass: {
         type: Number,
@@ -140,6 +142,7 @@
       }
     },
 
+    /** @return {Promise} */
     reload() {
       this.$.diffBuilder.cancel();
       this._safetyBypass = null;
@@ -161,6 +164,7 @@
       });
     },
 
+    /** @return {Array<HTMLElement>} */
     getCursorStops() {
       if (this.hidden && this.noAutoRender) {
         return [];
@@ -190,6 +194,7 @@
       });
     },
 
+    /** @return {boolean} */
     isRangeSelected() {
       return this.$.highlights.isRangeSelected();
     },
@@ -198,15 +203,18 @@
       this.toggleClass('no-left');
     },
 
+    /** @return {boolean}} */
     _canRender() {
       return this.changeNum && this.patchRange && this.path &&
           !this.noAutoRender;
     },
 
+    /** @return {Array<HTMLElement>} */
     _getCommentThreads() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
     },
 
+    /** @return {string} */
     _computeContainerClass(loggedIn, viewMode, displayLine) {
       const classes = ['diffContainer'];
       switch (viewMode) {
@@ -270,6 +278,10 @@
       threadEl.addOrEditDraft(line, range);
     },
 
+    /**
+     * @param {!Object} lineEl
+     * @param {number=} opt_lineNum
+     */
     _addDraft(lineEl, opt_lineNum) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
@@ -292,14 +304,21 @@
       return contentEl.querySelector('gr-diff-comment-thread-group');
     },
 
+    /**
+     * @param {!Object} contentEl
+     * @param {number} patchNum
+     * @param {string} commentSide
+     * @param {boolean} isOnParent
+     * @param {Object=} opt_range
+     */
     _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
-        isOnParent, range) {
-      const rangeToCheck = range ?
+        isOnParent, opt_range) {
+      const rangeToCheck = opt_range ?
           'range-' +
-          range.startLine + '-' +
-          range.startChar + '-' +
-          range.endLine + '-' +
-          range.endChar + '-' +
+          opt_range.startLine + '-' +
+          opt_range.startChar + '-' +
+          opt_range.endLine + '-' +
+          opt_range.endChar + '-' +
           commentSide : 'line-' + commentSide;
 
       // Check if thread group exists.
@@ -321,6 +340,7 @@
       return threadEl;
     },
 
+    /** @return {number|string} */
     _getPatchNumByLineAndContent(lineEl, contentEl) {
       let patchNum = this.patchRange.patchNum;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
@@ -331,6 +351,7 @@
       return patchNum;
     },
 
+    /** @return {boolean} */
     _getIsParentCommentByLineAndContent(lineEl, contentEl) {
       let isOnParent = false;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
@@ -341,6 +362,7 @@
       return isOnParent;
     },
 
+    /** @return {string} */
     _getCommentSideByLineAndContent(lineEl, contentEl) {
       let side = 'right';
       if (lineEl.classList.contains(DiffSide.LEFT) ||
@@ -357,7 +379,7 @@
 
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
-      this._removeComment(comment, e.detail.patchNum);
+      this._removeComment(comment);
     },
 
     _removeComment(comment) {
@@ -372,6 +394,12 @@
       this.set(['comments', side, idx], comment);
     },
 
+    /**
+     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
+     * https://github.com/Polymer/polymer/pull/4776
+     * but for not supressing annotations.
+     *
+     * @suppress {checkTypes} */
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
       const side = e.detail.comment.__commentSide;
@@ -396,6 +424,7 @@
       }
     },
 
+    /** @return {number} */
     _findCommentIndex(comment, side) {
       if (!comment.id || !this.comments[side]) {
         return -1;
@@ -405,6 +434,7 @@
       });
     },
 
+    /** @return {number} */
     _findDraftIndex(comment, side) {
       if (!comment.__draftID || !this.comments[side]) {
         return -1;
@@ -500,6 +530,7 @@
       this.fire('page-error', {response});
     },
 
+    /** @return {Promise<Object>} */
     _getDiff() {
       return this.$.restAPI.getDiff(
           this.changeNum,
@@ -515,10 +546,12 @@
           });
     },
 
+    /** @return {Promise} */
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
 
+    /** @return {boolean} */
     _computeIsImageDiff() {
       if (!this._diff) { return false; }
 
@@ -530,6 +563,7 @@
       return this._diff.binary && (isA || isB);
     },
 
+    /** @return {Promise} */
     _loadDiffAssets() {
       if (this.isImageDiff) {
         return this._getImages().then(images => {
@@ -543,6 +577,7 @@
       }
     },
 
+    /** @return {Promise} */
     _getImages() {
       return this.$.restAPI.getImagesForDiff(this.changeNum, this._diff,
           this.patchRange);
@@ -555,6 +590,7 @@
       }
     },
 
+    /** @return {Array} */
     _computeDiffHeaderItems(diffInfoRecord) {
       const diffInfo = diffInfoRecord.base;
       if (!diffInfo || !diffInfo.diff_header || diffInfo.binary) { return []; }
@@ -566,6 +602,7 @@
       });
     },
 
+    /** @return {boolean} */
     _computeDiffHeaderHidden(items) {
       return items.length === 0;
     },
@@ -574,7 +611,7 @@
      * The number of lines in the diff. For delta chunks that are different
      * sizes on the left and the right, the longer side is used.
      * @param {!Object} diff
-     * @return {Number}
+     * @return {number}
      */
     _diffLength(diff) {
       return diff.content.reduce((sum, sec) => {
@@ -599,6 +636,7 @@
       this._renderDiffTable();
     },
 
+    /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
     },

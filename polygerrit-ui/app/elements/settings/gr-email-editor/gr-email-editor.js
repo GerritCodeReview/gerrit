@@ -29,6 +29,7 @@
         type: Array,
         value() { return []; },
       },
+      /** @type {string|null} */
       _newPreferred: {
         type: String,
         value: null,
@@ -61,7 +62,7 @@
     },
 
     _handleDeleteButton(e) {
-      const index = parseInt(e.target.getAttribute('data-index'));
+      const index = parseInt(e.target.getAttribute('data-index'), 10);
       const email = this._emails[index];
       this.push('_emailsToRemove', email);
       this.splice('_emails', index, 1);

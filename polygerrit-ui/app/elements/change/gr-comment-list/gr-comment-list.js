@@ -32,6 +32,8 @@
       patchNum: Number,
       commentLinks: Object,
       projectName: String,
+      /** @type {?} */
+      projectConfig: Object,
     },
 
     _computeFilesFromComments(comments) {

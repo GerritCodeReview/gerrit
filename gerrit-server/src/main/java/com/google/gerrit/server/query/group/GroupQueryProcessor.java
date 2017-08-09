@@ -21,6 +21,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

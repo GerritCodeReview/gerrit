@@ -21,6 +21,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

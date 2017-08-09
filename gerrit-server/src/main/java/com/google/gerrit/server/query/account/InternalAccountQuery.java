@@ -34,6 +34,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Query wrapper for the account index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class InternalAccountQuery extends InternalQuery<AccountState> {
   private static final Logger log = LoggerFactory.getLogger(InternalAccountQuery.class);
 

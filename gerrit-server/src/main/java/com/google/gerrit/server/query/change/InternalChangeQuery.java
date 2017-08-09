@@ -46,6 +46,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
+/**
+ * Query wrapper for the change index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class InternalChangeQuery extends InternalQuery<ChangeData> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());

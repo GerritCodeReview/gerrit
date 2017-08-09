@@ -152,7 +152,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private Sequences seq;
 
-  @Inject private InternalAccountQuery accountQuery;
+  @Inject private Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject protected Emails emails;
 
@@ -1033,7 +1033,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     assertThat(accountCache.getOrNull(admin.id)).isNull();
-    assertThat(accountQuery.byDefault(admin.id.toString())).isEmpty();
+    assertThat(accountQueryProvider.get().byDefault(admin.id.toString())).isEmpty();
   }
 
   @Test
@@ -1257,7 +1257,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void internalQueryFindActiveAndInactiveAccounts() throws Exception {
     String name = name("foo");
-    assertThat(accountQuery.byDefault(name)).isEmpty();
+    assertThat(accountQueryProvider.get().byDefault(name)).isEmpty();
 
     TestAccount foo1 = accountCreator.create(name + "-1");
     assertThat(gApi.accounts().id(foo1.username).getActive()).isTrue();
@@ -1266,7 +1266,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(foo2.username).setActive(false);
     assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
 
-    assertThat(accountQuery.byDefault(name)).hasSize(2);
+    assertThat(accountQueryProvider.get().byDefault(name)).hasSize(2);
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

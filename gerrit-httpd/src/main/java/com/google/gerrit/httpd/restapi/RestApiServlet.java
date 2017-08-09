@@ -1147,13 +1147,15 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
-      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
       throw new AuthException(
           "Invalid authentication method. In order to authenticate, "
               + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
+    }
+    if (user.isIdentifiedUser()) {
+      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     }
   }
 

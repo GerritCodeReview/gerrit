@@ -70,6 +70,30 @@
       "revId": "f7b58513084b0782e9b239a4e05f081bdb83d840",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a85b305_d2299755",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T21:35:37Z",
+      "side": 1,
+      "message": "No worries :).",
+      "parentUuid": "569b8d2e_33397ba3",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 30
+      },
+      "revId": "f7b58513084b0782e9b239a4e05f081bdb83d840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

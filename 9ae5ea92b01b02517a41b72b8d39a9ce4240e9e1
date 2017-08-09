@@ -94,6 +94,30 @@
       "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f32fcf1_984c1405",
+        "filename": "gerrit-index/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T19:37:14Z",
+      "side": 1,
+      "message": "Thanks for checking. I agree if it\u0027s just GerritBaseTests then it should block this change :)",
+      "parentUuid": "b012c52b_575b5a5c",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "9ae5ea92b01b02517a41b72b8d39a9ce4240e9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

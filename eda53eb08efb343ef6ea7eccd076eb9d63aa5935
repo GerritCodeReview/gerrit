@@ -22,6 +22,30 @@
       "revId": "eda53eb08efb343ef6ea7eccd076eb9d63aa5935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7940d1_c637bd81",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-09T10:05:09Z",
+      "side": 1,
+      "message": "A bug-fix in a patch-release would just need revalidation, a new API interface would need a rebuild as well.",
+      "parentUuid": "7f4ae3a9_85d5d26b",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "eda53eb08efb343ef6ea7eccd076eb9d63aa5935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

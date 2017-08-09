@@ -22,6 +22,7 @@
       hasParent: {
         type: Boolean,
         notify: true,
+        value: false,
       },
       patchNum: String,
       parentChange: Object,
@@ -39,6 +40,9 @@
         computed: '_computeConnectedRevisions(change, patchNum, ' +
             '_relatedResponse.changes)',
       },
+      /**
+       * @type {{ changes: Object }}
+       */
       _relatedResponse: {
         type: Object,
         value() { return {changes: []}; },
@@ -126,7 +130,7 @@
      * relation chain, there is a parent.
      * @param  {Number} currentChangeId
      * @param  {Array} relatedChanges
-     * @return {Boolean}
+     * @return {boolean}
      */
     _calculateHasParent(currentChangeId, relatedChanges) {
       return relatedChanges.length > 0 &&

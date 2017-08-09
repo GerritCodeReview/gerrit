@@ -9,11 +9,14 @@ GERRIT_GLOBAL_MODULE_SRC = [
     "src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
 ]
 
+# Non-recursive glob; dropwizard implementation is in a subpackage.
+METRICS_SRCS = glob(["src/main/java/com/google/gerrit/metrics/*.java"])
+
 RECEIVE_SRCS = glob(["src/main/java/com/google/gerrit/server/git/receive/**/*.java"])
 
 SRCS = glob(
     ["src/main/java/**/*.java"],
-    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + RECEIVE_SRCS,
+    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + METRICS_SRCS + RECEIVE_SRCS,
 )
 
 RESOURCES = glob(["src/main/resources/**/*"])
@@ -44,6 +47,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
+        ":metrics",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
@@ -143,6 +147,16 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
+    ],
+)
+
+java_library(
+    name = "metrics",
+    srcs = METRICS_SRCS,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-extension-api:api",
+        "//lib:guava",
     ],
 )
 

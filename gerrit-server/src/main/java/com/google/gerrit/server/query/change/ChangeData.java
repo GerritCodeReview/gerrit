@@ -61,6 +61,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -334,7 +335,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, project, id, null, null, null);
+            null, null, null, null, null, null, project, id, null, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -343,6 +344,7 @@ public class ChangeData {
   private @Nullable final StarredChangesUtil starredChangesUtil;
   private final AccountCache accountCache;
   private final Accounts accounts;
+  private final AllUsersName allUsersName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -413,6 +415,7 @@ public class ChangeData {
       AccountCache accountCache,
       Accounts accounts,
       ApprovalsUtil approvalsUtil,
+      AllUsersName allUsersName,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
@@ -436,6 +439,7 @@ public class ChangeData {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.approvalsUtil = approvalsUtil;
+    this.allUsersName = allUsersName;
     this.changeControlFactory = changeControlFactory;
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
@@ -472,6 +476,10 @@ public class ChangeData {
 
   public ReviewDb db() {
     return db;
+  }
+
+  public AllUsersName getAllUsersNameForIndexing() {
+    return allUsersName;
   }
 
   private Map<Integer, List<String>> initFiles() {

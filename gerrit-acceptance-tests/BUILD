@@ -19,6 +19,7 @@ java_library(
         "//gerrit-pgm:pgm",
         "//gerrit-pgm:util",
         "//gerrit-reviewdb:server",
+        "//gerrit-server:metrics",
         "//gerrit-server:prolog-common",
         "//gerrit-server:receive",
         "//gerrit-server:server",

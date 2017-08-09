@@ -125,7 +125,7 @@ public class OutputStreamQuery {
   }
 
   void setLimit(int n) {
-    queryProcessor.setLimit(n);
+    queryProcessor.setUserProvidedLimit(n);
   }
 
   public void setStart(int n) {

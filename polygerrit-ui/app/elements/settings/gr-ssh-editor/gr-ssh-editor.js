@@ -24,6 +24,7 @@
         notify: true,
       },
       _keys: Array,
+      /** @type {?} */
       _keyToView: Object,
       _newKey: {
         type: String,

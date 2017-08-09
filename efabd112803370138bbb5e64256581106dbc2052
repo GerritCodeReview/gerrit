@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dcce8910_1039990e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:56:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e0f977b4_bb35c6ea",
+      "range": {
+        "startLine": 59,
+        "startChar": 19,
+        "endLine": 59,
+        "endChar": 45
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e279d49_ebd445a0",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-09T18:52:25Z",
       "side": 1,
       "message": "Is this used?",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e63fd2b_d89fdcde",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:56:56Z",
+      "side": 1,
+      "message": "Can be removed. Thanks, done.",
+      "parentUuid": "5e279d49_ebd445a0",
       "range": {
         "startLine": 55,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2b354a82_dc7863a1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:56:56Z",
+      "side": 1,
+      "message": "Woops, will remove this. Thanks, done.",
+      "parentUuid": "810b2534_ab7d5292",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 24
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ceced32_98346c88",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
         "patchSetId": 22
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-09T18:52:25Z",
       "side": 1,
       "message": "this does not appear to be used her. It looks like there is duplication between this function and the return statement. I\u0027m guessing you didn\u0027t finish editing something here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 40
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81e90c8c_6672ed1c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:56:56Z",
+      "side": 1,
+      "message": "Nope this is correct.",
+      "parentUuid": "5ceced32_98346c88",
       "range": {
         "startLine": 115,
         "startChar": 6,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5fc121b_f4195026",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T19:06:45Z",
+      "side": 1,
+      "message": "Will display:none prevent any errors showing in the console though?\n\nAlso we are trying to get true and false and also it will also require a new function to allow us to do display: none.",
+      "parentUuid": "cfccd18e_d9172f27",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 60
+      },
+      "revId": "fcc0424b581d9bae2ca50c278fc737e4860344de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "851d4d2d_c6acb190",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 17

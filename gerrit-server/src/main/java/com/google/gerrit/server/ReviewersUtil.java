@@ -200,7 +200,7 @@ public class ReviewersUtil {
       try {
         QueryResult<AccountState> result =
             accountQueryProcessor
-                .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
+                .setUserProvidedLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
                 .query(
                     AccountPredicates.andActive(
                         accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())));

@@ -33,14 +33,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
-  private final GroupControl.GenericFactory groupControlFactory;
-
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
         !GroupIsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
         "GroupQueryProcessor assumes visibleto is not used by the index rewriter.");
   }
+
+  private final Provider<CurrentUser> userProvider;
+  private final GroupControl.GenericFactory groupControlFactory;
 
   @Inject
   protected GroupQueryProcessor(
@@ -52,15 +53,15 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
       GroupIndexRewriter rewriter,
       GroupControl.GenericFactory groupControlFactory) {
     super(
-        userProvider,
-        limitsFactory,
         metrics,
         GroupSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
         FIELD_LIMIT);
+    this.userProvider = userProvider;
     this.groupControlFactory = groupControlFactory;
+    limitsFactory.updateQueryLimit(userProvider.get(), this);
   }
 
   @Override

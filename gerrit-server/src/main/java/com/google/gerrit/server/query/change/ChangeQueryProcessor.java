@@ -53,6 +53,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   }
 
   private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
@@ -79,8 +80,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend) {
     super(
-        userProvider,
-        limitsFactory,
         metrics,
         ChangeSchemaDefinitions.INSTANCE,
         indexConfig,
@@ -88,10 +87,12 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         rewriter,
         FIELD_LIMIT);
     this.db = db;
+    this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;
     this.permissionBackend = permissionBackend;
+    limitsFactory.updateQueryLimit(userProvider.get(), this);
   }
 
   @Override

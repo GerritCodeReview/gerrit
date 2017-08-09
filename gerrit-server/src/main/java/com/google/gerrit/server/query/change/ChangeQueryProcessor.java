@@ -23,6 +23,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
@@ -76,7 +77,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   ChangeQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      Metrics metrics,
+      MetricMaker metricMaker,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
@@ -86,7 +87,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend) {
     super(
-        metrics,
+        metricMaker,
         ChangeSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,

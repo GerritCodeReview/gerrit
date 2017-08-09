@@ -19,12 +19,15 @@ import static com.google.gerrit.server.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.server.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.gerrit.testutil.GerritBaseTests;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-public class SchemaUtilTest extends GerritBaseTests {
+public class SchemaUtilTest {
+  @Rule public ExpectedException exception = ExpectedException.none();
+
   static class TestSchemas {
     static final Schema<String> V1 = schema();
     static final Schema<String> V2 = schema();

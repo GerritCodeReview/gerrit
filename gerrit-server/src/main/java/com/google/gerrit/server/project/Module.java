@@ -96,7 +96,7 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
-
+    put(PROJECT_KIND, "config:review").to(CreateAccessChange.class);
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
 
     factory(DeleteRef.Factory.class);

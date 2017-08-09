@@ -21,12 +21,15 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -84,6 +87,44 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         p.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  public void createAccessChangeBasic() throws Exception {
+    Project.NameKey p = new Project.NameKey(newProjectName);
+
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createAccessSectionInfoDenyAll();
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    setApiUser(user);
+    ChangeInfo out = pApi.accessChange(accessInput);
+
+    assertThat(out.project).isEqualTo(newProjectName);
+    assertThat(out.branch).isEqualTo(RefNames.REFS_CONFIG);
+    assertThat(out.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(out.submitted).isNull();
+
+    gApi.changes().id(out._number).current().submit();
+
+    // check that the change took effect.
+    setApiUser(user);
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(newProjectName).access();
+
+    // restore.
+    accessSectionInfo = createDefaultAccessSectionInfo();
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    exception.expect(PermissionDeniedException.class); //?
+    pApi.accessChange(accessInput);
+
+    setApiUser(admin);
+    out = pApi.accessChange(accessInput);
+    gApi.changes().id(out._number).current().submit();
+
+    // Now it works again.
+    gApi.projects().name(newProjectName).access();
+
   }
 
   @Test

@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -35,6 +36,8 @@ public interface ProjectApi {
   ProjectAccessInfo access() throws RestApiException;
 
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
+
+  ChangeInfo accessChange(ProjectAccessInput p) throws RestApiException;
 
   ConfigInfo config() throws RestApiException;
 
@@ -159,6 +162,11 @@ public interface ProjectApi {
 
     @Override
     public ProjectAccessInfo access() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo accessChange(ProjectAccessInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

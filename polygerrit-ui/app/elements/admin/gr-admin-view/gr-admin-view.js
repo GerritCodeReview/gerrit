@@ -40,6 +40,7 @@
     is: 'gr-admin-view',
 
     properties: {
+      /** @type {?} */
       params: Object,
       path: String,
       adminView: String,
@@ -122,14 +123,14 @@
           linkCopy.subsection = {
             name: this._groupName,
             view: 'gr-group',
-            url: `/admin/groups/${this.encodeURL(this._groupId, true)}`,
+            url: `/admin/groups/${this.encodeURL(this._groupId + '', true)}`,
             children: [
               {
                 name: 'Audit Log',
                 detailType: 'audit-log',
                 view: 'gr-group-audit-log',
-                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
-                      ',audit-log',
+                url: '/admin/groups/' +
+                      `${this.encodeURL(this._groupId + '', true)},audit-log`,
               },
             ],
           };
@@ -191,6 +192,11 @@
       return this._computeRelativeURL(link.url);
     },
 
+    /**
+     * @param {string} itemView
+     * @param {Object} params
+     * @param {string=} opt_detailType
+     */
     _computeSelectedClass(itemView, params, opt_detailType) {
       if (params.detailType && params.detailType !== opt_detailType) {
         return '';

@@ -27,8 +27,8 @@
      * highlighting, the containers are remapped to the .contentText divs that
      * contain the entire line of code.
      *
-     * @param {Object} range - the standard DOM selector range.
-     * @return {Object} A modified version of the range that correctly accounts
+     * @param {!Object} range - the standard DOM selector range.
+     * @return {!Object} A modified version of the range that correctly accounts
      *     for syntax highlighting.
      */
     normalize(range) {
@@ -94,8 +94,8 @@
     /**
      * The DOM API textContent.length calculation is broken when the text
      * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
-     * @param {Text} A text node.
-     * @return {Number} The length of the text.
+     * @param {text} node A text node.
+     * @return {number} The length of the text.
      */
     _getLength(node) {
       return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;

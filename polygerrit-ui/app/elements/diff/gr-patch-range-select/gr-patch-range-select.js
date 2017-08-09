@@ -23,6 +23,7 @@
     properties: {
       availablePatches: Array,
       changeNum: String,
+      /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
       path: String,
       patchRange: {

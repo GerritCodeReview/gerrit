@@ -20,6 +20,11 @@
     properties: {
       comments: Object,
       loggedIn: Boolean,
+      /**
+       * querySelector can return null, so needs to be nullable.
+       *
+       * @type {?HTMLElement}
+       * */
       _cachedDiffBuilder: Object,
       isAttached: Boolean,
     },
@@ -99,7 +104,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
-     * @return {{
+     * @return {({
      *   start: {
      *     node: Node,
      *     side: string,
@@ -112,7 +117,7 @@
      *     line: Number,
      *     column: Number
      *   }
-     * }}
+     * })|null|!Object}
      */
     _getNormalizedRange() {
       const selection = window.getSelection();
@@ -134,6 +139,7 @@
 
     /**
      * Normalize a specific DOM Range.
+     * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {
       const range = GrRangeNormalizer.normalize(domRange);
@@ -195,12 +201,12 @@
      *
      * @param {Node} node td.content child
      * @param {number} offset offset within node
-     * @return {{
+     * @return {({
      *   node: Node,
      *   side: string,
      *   line: Number,
      *   column: Number
-     * }}
+     * }|undefined)}
      */
     _normalizeSelectionSide(node, offset) {
       let column;
@@ -251,6 +257,7 @@
         return;
       }
       const domRange = window.getSelection().getRangeAt(0);
+      /** @type {?} */
       const start = normalizedRange.start;
       if (!start) {
         return;
@@ -280,7 +287,9 @@
       if (start.line === end.line) {
         actionBox.placeAbove(domRange);
       } else if (start.node instanceof Text) {
-        actionBox.placeAbove(start.node.splitText(start.column));
+        if (start.column) {
+          actionBox.placeAbove(start.node.splitText(start.column));
+        }
         start.node.parentElement.normalize(); // Undo splitText from above.
       } else if (start.node.classList.contains('content') &&
                  start.node.firstChild) {
@@ -325,7 +334,7 @@
      * Traverse Element from right to left, call callback for each node.
      * Stops if callback returns true.
      *
-     * @param {!Node} startNode
+     * @param {!Element} startNode
      * @param {function(Node):boolean} callback
      * @param {Object=} opt_flags If flags.left is true, traverse left.
      */
@@ -350,7 +359,7 @@
      * Get length of a node. If the node is a content node, then only give the
      * length of its .contentText child.
      *
-     * @param {!Node} node
+     * @param {?Element} node this is sometimes passed as null.
      * @return {number}
      */
     _getLength(node) {

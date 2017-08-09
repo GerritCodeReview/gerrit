@@ -101,6 +101,9 @@ limitations under the License.
       return v.toString(16);
     },
 
+    /**
+     *  @return {string}
+     */
     changeBaseURL(changeNum, patchNum) {
       let v = this.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {

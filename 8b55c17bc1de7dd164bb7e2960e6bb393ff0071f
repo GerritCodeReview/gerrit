@@ -46,6 +46,30 @@
       "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ad77e2_7004b2c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:53:52Z",
+      "side": 1,
+      "message": "Ok you can update it, my point was that you don\u0027t need the second param here.",
+      "parentUuid": "c06639f7_dd1126f0",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

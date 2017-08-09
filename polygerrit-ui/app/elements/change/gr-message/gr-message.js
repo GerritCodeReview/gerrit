@@ -39,6 +39,7 @@
 
     properties: {
       changeNum: Number,
+      /** @type {?} */
       message: Object,
       author: {
         type: Object,
@@ -74,6 +75,9 @@
         type: Boolean,
         computed: '_computeShowReplyButton(message, _loggedIn)',
       },
+      /**
+       * @type {{ commentlinks: Array }}
+       */
       projectConfig: Object,
       // Computed property needed to trigger Polymer value observing.
       _expanded: {

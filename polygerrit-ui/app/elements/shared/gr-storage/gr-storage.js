@@ -25,6 +25,7 @@
 
     properties: {
       _lastCleanup: Number,
+      /** @type {Storage} */
       _storage: {
         type: Object,
         value() {

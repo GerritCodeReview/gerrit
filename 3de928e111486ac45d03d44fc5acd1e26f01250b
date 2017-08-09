@@ -70,6 +70,75 @@
       "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37e6f989_64e44e15",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:57:03Z",
+      "side": 1,
+      "message": "{!Promise\u003cstring\u003e} (unless it\u0027s nullable than {?Promise\u003cstring\u003e}\n\nWe realized it\u0027s in the style guide with Object so always include either \u0027!\u0027 or \u0027?\u0027",
+      "range": {
+        "startLine": 1243,
+        "startChar": 15,
+        "endLine": 1243,
+        "endChar": 32
+      },
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a0685ba_b3b56878",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:57:03Z",
+      "side": 1,
+      "message": "!Promise\u003c!Object\u003e",
+      "range": {
+        "startLine": 1416,
+        "startChar": 16,
+        "endLine": 1416,
+        "endChar": 31
+      },
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd5b91fb_b82302e9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:57:03Z",
+      "side": 1,
+      "message": "!Promise\u003c!Object\u003e",
+      "range": {
+        "startLine": 1436,
+        "startChar": 14,
+        "endLine": 1436,
+        "endChar": 30
+      },
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

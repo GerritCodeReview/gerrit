@@ -92,7 +92,7 @@ public class ChangeSet {
     return changeData.values();
   }
 
-  public ImmutableSet<Project.NameKey> projects() throws OrmException {
+  public ImmutableSet<Project.NameKey> projects() {
     ImmutableSet.Builder<Project.NameKey> ret = ImmutableSet.builder();
     for (ChangeData cd : changeData.values()) {
       ret.add(cd.project());

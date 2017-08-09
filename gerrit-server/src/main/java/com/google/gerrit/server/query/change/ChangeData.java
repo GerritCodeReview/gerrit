@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -76,8 +75,8 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -278,14 +277,46 @@ public class ChangeData {
     }
   }
 
-  public interface Factory {
-    ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
+  public static class Factory {
+    private final AssistedFactory assistedFactory;
 
-    ChangeData create(ReviewDb db, Change c);
+    @Inject
+    Factory(AssistedFactory assistedFactory) {
+      this.assistedFactory = assistedFactory;
+    }
 
-    ChangeData create(ReviewDb db, ChangeNotes cn);
+    public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
+      return assistedFactory.create(db, project, id, null, null, null);
+    }
 
-    ChangeData create(ReviewDb db, ChangeControl c);
+    public ChangeData create(ReviewDb db, Change change) {
+      return assistedFactory.create(db, change.getProject(), change.getId(), change, null, null);
+    }
+
+    public ChangeData create(ReviewDb db, ChangeNotes notes) {
+      return assistedFactory.create(
+          db, notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes, null);
+    }
+
+    public ChangeData create(ReviewDb db, ChangeControl control) {
+      return assistedFactory.create(
+          db,
+          control.getChange().getProject(),
+          control.getId(),
+          control.getChange(),
+          control.getNotes(),
+          control);
+    }
+  }
+
+  public interface AssistedFactory {
+    ChangeData create(
+        ReviewDb db,
+        Project.NameKey project,
+        Change.Id id,
+        @Nullable Change change,
+        @Nullable ChangeNotes notes,
+        @Nullable ChangeControl control);
   }
 
   /**
@@ -302,35 +333,41 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, project, id);
+            null, null, null, null, project, id, null, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
 
-  private boolean lazyLoad = true;
-  private final ReviewDb db;
-  private final GitRepositoryManager repoManager;
-  private final ChangeControl.GenericFactory changeControlFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
+  // Injected fields.
+  private @Nullable final StarredChangesUtil starredChangesUtil;
   private final AccountCache accountCache;
   private final Accounts accounts;
-  private final Emails emails;
-  private final ProjectCache projectCache;
-  private final MergeUtil.Factory mergeUtilFactory;
-  private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
-  private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
-  private final NotesMigration notesMigration;
+  private final Emails emails;
+  private final GitRepositoryManager repoManager;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final MergeUtil.Factory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
-  private final StarredChangesUtil starredChangesUtil;
+  private final NotesMigration notesMigration;
+  private final PatchListCache patchListCache;
+  private final PatchSetUtil psUtil;
+  private final ProjectCache projectCache;
+
+  // Required assisted injected fields.
+  private final ReviewDb db;
+  private final Project.NameKey project;
   private final Change.Id legacyId;
+
+  // Lazily populated fields, including optional assisted injected fields.
+
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
-  private Project.NameKey project;
+  private boolean lazyLoad = true;
   private Change change;
   private ChangeNotes notes;
   private String commitMessage;
@@ -368,183 +405,60 @@ public class ChangeData {
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
-  @AssistedInject
+  @Inject
   private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
+      @Nullable StarredChangesUtil starredChangesUtil,
       AccountCache accountCache,
       Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeMessagesUtil cmUtil,
+      ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
+      Emails emails,
+      GitRepositoryManager repoManager,
+      IdentifiedUser.GenericFactory userFactory,
+      MergeUtil.Factory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
+      NotesMigration notesMigration,
+      PatchListCache patchListCache,
+      PatchSetUtil psUtil,
+      ProjectCache projectCache,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id) {
-    this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
+      @Assisted Change.Id id,
+      @Assisted @Nullable Change change,
+      @Assisted @Nullable ChangeNotes notes,
+      @Assisted @Nullable ChangeControl control) {
     this.accountCache = accountCache;
     this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
+    this.changeControlFactory = changeControlFactory;
     this.cmUtil = cmUtil;
+    this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
+    this.emails = emails;
+    this.repoManager = repoManager;
+    this.userFactory = userFactory;
+    this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
+    this.notesMigration = notesMigration;
+    this.patchListCache = patchListCache;
+    this.psUtil = psUtil;
+    this.projectCache = projectCache;
     this.starredChangesUtil = starredChangesUtil;
+
+    // May be null in tests when created via createForTest above, in which case lazy-loading will
+    // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
+    // using Guice to pass a non-null value.
+    this.db = db;
+
     this.project = project;
     this.legacyId = id;
-  }
 
-  @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted Change c) {
-    this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
-    legacyId = c.getId();
-    change = c;
-    project = c.getProject();
-  }
-
-  @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted ChangeNotes cn) {
-    this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
-    legacyId = cn.getChangeId();
-    change = cn.getChange();
-    project = cn.getProjectName();
-    notes = cn;
-  }
-
-  @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted ChangeControl c) {
-    this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
-    legacyId = c.getId();
-    change = c.getChange();
-    changeControl = c;
-    notes = c.getNotes();
-    project = notes.getProjectName();
+    this.change = change;
+    this.notes = notes;
+    this.changeControl = control;
   }
 
   public ChangeData setLazyLoad(boolean load) {
@@ -657,13 +571,7 @@ public class ChangeData {
     return legacyId;
   }
 
-  public Project.NameKey project() throws OrmException {
-    if (project == null) {
-      checkState(
-          !notesMigration.readChanges(),
-          "should not have created  ChangeData without a project when NoteDb is enabled");
-      project = change().getProject();
-    }
+  public Project.NameKey project() {
     return project;
   }
 

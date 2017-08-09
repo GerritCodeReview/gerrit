@@ -429,14 +429,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
       Change.Id id = new Change.Id(f.numericValue().intValue());
-      IndexableField project = Iterables.getFirst(doc.get(PROJECT.getName()), null);
-      if (project == null) {
-        // Old schema without project field: we can safely assume NoteDb is
-        // disabled.
-        cd = changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), id);
-      } else {
-        cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
-      }
+      // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
+      IndexableField project = doc.get(PROJECT.getName()).iterator().next();
+      cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
     }
 
     if (fields.contains(PATCH_SET_FIELD)) {

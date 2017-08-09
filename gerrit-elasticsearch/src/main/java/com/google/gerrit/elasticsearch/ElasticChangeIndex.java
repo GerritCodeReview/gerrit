@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
@@ -272,10 +273,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       if (c == null) {
         int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
-        String projectName = source.get(ChangeField.PROJECT.getName()).getAsString();
-        if (projectName == null) {
-          return changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), new Change.Id(id));
-        }
+        // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
+        String projectName = checkNotNull(source.get(ChangeField.PROJECT.getName()).getAsString());
         return changeDataFactory.create(
             db.get(), new Project.NameKey(projectName), new Change.Id(id));
       }

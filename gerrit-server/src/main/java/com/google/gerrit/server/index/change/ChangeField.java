@@ -47,6 +47,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.StalenessChecker.RefState;
@@ -698,7 +699,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
-              (cd, a) -> {
+              cd -> {
                 List<byte[]> result = new ArrayList<>();
                 Project.NameKey project = cd.change().getProject();
 
@@ -707,7 +708,7 @@ public class ChangeField {
                     .forEach(r -> result.add(RefState.of(r).toByteArray(project)));
                 cd.starRefs()
                     .values()
-                    .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(a.allUsers)));
+                    .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(allUsers(cd))));
 
                 if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
                   ChangeNotes notes = cd.notes();
@@ -720,7 +721,7 @@ public class ChangeField {
                           .toByteArray(project));
                   cd.draftRefs()
                       .values()
-                      .forEach(r -> result.add(RefState.of(r).toByteArray(a.allUsers)));
+                      .forEach(r -> result.add(RefState.of(r).toByteArray(allUsers(cd))));
                 }
 
                 return result;
@@ -735,7 +736,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
       storedOnly("ref_state_pattern")
           .buildRepeatable(
-              (cd, a) -> {
+              cd -> {
                 Change.Id id = cd.getId();
                 Project.NameKey project = cd.change().getProject();
                 List<byte[]> result = new ArrayList<>(3);
@@ -745,11 +746,11 @@ public class ChangeField {
                         .toByteArray(project));
                 result.add(
                     RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
-                        .toByteArray(a.allUsers));
+                        .toByteArray(allUsers(cd)));
                 if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
                   result.add(
                       RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
-                          .toByteArray(a.allUsers));
+                          .toByteArray(allUsers(cd)));
                 }
                 return result;
               });
@@ -782,5 +783,9 @@ public class ChangeField {
 
   private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
     return in -> in.change() != null ? func.apply(in.change()) : null;
+  }
+
+  private static AllUsersName allUsers(ChangeData cd) {
+    return cd.getAllUsersNameForIndexing();
   }
 }

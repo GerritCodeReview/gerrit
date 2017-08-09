@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query;
+package com.google.gerrit.index.query;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -20,9 +20,6 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import java.util.List;
 import java.util.Set;

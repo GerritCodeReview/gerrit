@@ -554,6 +554,7 @@ public class RestApiServlet extends HttpServlet {
       }
       res.addHeader(VARY, ORIGIN);
       res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+      res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     } else if (!Strings.isNullOrEmpty(origin)) {
       // All other requests must be processed, but conditionally set CORS headers.
       if (globals.allowOrigin != null) {

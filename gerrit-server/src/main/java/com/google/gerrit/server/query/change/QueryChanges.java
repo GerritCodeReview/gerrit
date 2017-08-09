@@ -60,7 +60,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     usage = "Maximum number of results to return"
   )
   public void setLimit(int limit) {
-    imp.setLimit(limit);
+    imp.setUserProvidedLimit(limit);
   }
 
   @Option(name = "-o", usage = "Output options per change")

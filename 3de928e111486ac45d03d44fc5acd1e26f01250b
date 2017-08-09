@@ -16,6 +16,24 @@
       "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1dc414_187da9bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-09T18:36:47Z",
+      "side": 1,
+      "message": "Good question, I dunno how I didn\u0027t catch that.\n\n+Patrick, maybe he can shed some light?",
+      "parentUuid": "fe03a28d_24c543e2",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

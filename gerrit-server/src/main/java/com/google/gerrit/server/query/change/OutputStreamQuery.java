@@ -247,7 +247,7 @@ public class OutputStreamQuery {
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {
-      eventFactory.addTrackingIds(c, trackingFooters.extract(d.commitFooters()));
+      eventFactory.addTrackingIds(c, d.trackingFooters());
     }
 
     if (includeAllReviewers) {

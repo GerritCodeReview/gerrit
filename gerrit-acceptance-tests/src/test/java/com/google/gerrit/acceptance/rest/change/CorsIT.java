@@ -212,6 +212,11 @@ public class CorsIT extends AbstractDaemonTest {
     Header allowOrigin = r.getFirstHeader(ACCESS_CONTROL_ALLOW_ORIGIN);
     assertThat(allowOrigin).named(ACCESS_CONTROL_ALLOW_ORIGIN).isNotNull();
     assertThat(allowOrigin.getValue()).named(ACCESS_CONTROL_ALLOW_ORIGIN).isEqualTo(origin);
+
+    Header allowAuth = r.getFirstHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS);
+    assertThat(allowAuth).named(ACCESS_CONTROL_ALLOW_CREDENTIALS).isNotNull();
+    assertThat(allowAuth.getValue()).named(ACCESS_CONTROL_ALLOW_CREDENTIALS).isEqualTo("true");
+
     checkTopic(change, "test-xd");
   }
 

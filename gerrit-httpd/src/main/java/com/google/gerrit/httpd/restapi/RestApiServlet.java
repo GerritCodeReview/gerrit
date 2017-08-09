@@ -554,6 +554,7 @@ public class RestApiServlet extends HttpServlet {
       }
       res.addHeader(VARY, ORIGIN);
       res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+      res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     } else if (!Strings.isNullOrEmpty(origin)) {
       // All other requests must be processed, but conditionally set CORS headers.
       if (globals.allowOrigin != null) {
@@ -591,7 +592,6 @@ public class RestApiServlet extends HttpServlet {
 
     String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
     if (headers != null) {
-      res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
       for (String reqHdr : Splitter.on(',').trimResults().split(headers)) {
         if (!ALLOWED_CORS_REQUEST_HEADERS.contains(reqHdr.toLowerCase(Locale.US))) {
           throw new BadRequestException(reqHdr + " not allowed in CORS");
@@ -1148,13 +1148,15 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
-      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
       throw new AuthException(
           "Invalid authentication method. In order to authenticate, "
               + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
+    }
+    if (user.isIdentifiedUser()) {
+      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     }
   }
 

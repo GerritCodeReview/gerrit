@@ -19,12 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -74,12 +72,10 @@ public final class FieldDef<I, T> {
 
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
-    public final boolean allowsDrafts;
     public final AllUsersName allUsers;
 
     @Inject
-    FillArgs(@GerritServerConfig Config cfg, AllUsersName allUsers) {
-      this.allowsDrafts = cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true);
+    FillArgs(AllUsersName allUsers) {
       this.allUsers = allUsers;
     }
   }

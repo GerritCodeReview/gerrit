@@ -30,7 +30,8 @@
       changeNum: Number,
       comments: Object,
       patchNum: Number,
-      projectConfig: Object,
+      commentLinks: Object,
+      projectName: String,
     },
 
     _computeFilesFromComments(comments) {
@@ -39,8 +40,8 @@
     },
 
     _computeFileDiffURL(file, changeNum, patchNum) {
-      return this.getBaseUrl() + '/c/' + changeNum + '/' + patchNum + '/' +
-          this.encodeURL(file);
+      return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
+          file, patchNum);
     },
 
     _computeFileDisplayName(path) {
@@ -57,13 +58,8 @@
     },
 
     _computeDiffLineURL(file, changeNum, patchNum, comment) {
-      let diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
-      if (comment.line) {
-        diffURL += '#';
-        if (this._isOnParent(comment)) { diffURL += 'b'; }
-        diffURL += comment.line;
-      }
-      return diffURL;
+      return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
+          file, patchNum, null, comment.line, this._isOnParent(comment));
     },
 
     _computeCommentsForFile(comments, file) {

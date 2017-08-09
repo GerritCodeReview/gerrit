@@ -43,6 +43,10 @@ limitations under the License.
     //    - `basePatchNum`, optional, Number, the patch for the left-hand-side
     //        of the diff. If `basePatchNum` is provided, then `patchNum` must
     //        also be provided.
+    //    - `lineNum`, optional, Number, the line number to be selected on load.
+    //    - `leftSide`, optional, Boolean, if a `lineNum` is provided, a value
+    //        of true selects the line from base of the patch range. False by
+    //        default.
 
     window.Gerrit = window.Gerrit || {};
 
@@ -166,9 +170,9 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {number} opt_patchNum
-       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
-       *     for none.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
        * @return {string}
        */
       getUrlForChange(change, opt_patchNum, opt_basePatchNum) {
@@ -187,9 +191,9 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {number} opt_patchNum
-       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
-       *     for none.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
        * @return {string}
        */
       navigateToChange(change, opt_patchNum, opt_basePatchNum) {
@@ -199,13 +203,30 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {!String} path The file path.
-       * @param {number} opt_patchNum
-       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
-       *     for none.
+       * @param {!string} path The file path.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
        * @return {string}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+        return this.getUrlForDiffById(change._number, change.project, path,
+            opt_patchNum, opt_basePatchNum);
+      },
+
+      /**
+       * @param {!number} change The change object.
+       * @param {!string} projectName The name of the project.
+       * @param {!string} path The file path.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
+       * @param {number=} opt_lineNum
+       * @param {boolean=} opt_leftSide
+       * @return {string}
+       */
+      getUrlForDiffById(changeNum, projectName, path, opt_patchNum,
+          opt_basePatchNum, opt_lineNum, opt_leftSide) {
         if (opt_basePatchNum === PARENT_PATCHNUM) {
           opt_basePatchNum = undefined;
         }
@@ -213,19 +234,22 @@ limitations under the License.
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.DIFF,
-          changeNum: change._number,
+          changeNum,
+          projectName,
           path,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,
+          lineNum: opt_lineNum,
+          leftSide: opt_leftSide,
         });
       },
 
       /**
        * @param {!Object} change The change object.
-       * @param {!String} path The file path.
-       * @param {number} opt_patchNum
-       * @param {number|string} opt_basePatchNum The string 'PARENT' can be used
-       *     for none.
+       * @param {!string} path The file path.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
        */
       navigateToDiff(change, path, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForDiff(change, path, opt_patchNum,

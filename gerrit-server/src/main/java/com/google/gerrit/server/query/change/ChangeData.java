@@ -76,6 +76,8 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -121,7 +123,7 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
+    } else if (first.a.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
         cd.change();
       }
@@ -137,7 +139,7 @@ public class ChangeData {
     if (missing.isEmpty()) {
       return;
     }
-    for (ChangeNotes notes : first.notesFactory.create(first.db, missing.keySet())) {
+    for (ChangeNotes notes : first.a.notesFactory.create(first.db, missing.keySet())) {
       missing.get(notes.getChangeId()).change = notes.getChange();
     }
   }
@@ -146,7 +148,7 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
+    } else if (first.a.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
         cd.patchSets();
       }
@@ -176,7 +178,7 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
+    } else if (first.a.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
         cd.currentPatchSet();
       }
@@ -202,7 +204,7 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
+    } else if (first.a.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
         cd.currentApprovals();
       }
@@ -233,7 +235,7 @@ public class ChangeData {
     ChangeData first = Iterables.getFirst(changes, null);
     if (first == null) {
       return;
-    } else if (first.notesMigration.readChanges()) {
+    } else if (first.a.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
         cd.messages();
       }
@@ -288,6 +290,65 @@ public class ChangeData {
     ChangeData create(ReviewDb db, ChangeControl c);
   }
 
+  @Singleton
+  private class Arguments {
+    @Nullable final StarredChangesUtil starredChangesUtil;
+    final AccountCache accountCache;
+    final Accounts accounts;
+    final ApprovalsUtil approvalsUtil;
+    final ChangeControl.GenericFactory changeControlFactory;
+    final ChangeMessagesUtil cmUtil;
+    final ChangeNotes.Factory notesFactory;
+    final CommentsUtil commentsUtil;
+    final Emails emails;
+    final GitRepositoryManager repoManager;
+    final IdentifiedUser.GenericFactory userFactory;
+    final MergeUtil.Factory mergeUtilFactory;
+    final MergeabilityCache mergeabilityCache;
+    final NotesMigration notesMigration;
+    final PatchListCache patchListCache;
+    final PatchSetUtil psUtil;
+    final ProjectCache projectCache;
+
+    @Inject
+    Arguments(
+        @Nullable StarredChangesUtil starredChangesUtil,
+        AccountCache accountCache,
+        Accounts accounts,
+        ApprovalsUtil approvalsUtil,
+        ChangeControl.GenericFactory changeControlFactory,
+        ChangeMessagesUtil cmUtil,
+        ChangeNotes.Factory notesFactory,
+        CommentsUtil commentsUtil,
+        Emails emails,
+        GitRepositoryManager repoManager,
+        IdentifiedUser.GenericFactory userFactory,
+        MergeUtil.Factory mergeUtilFactory,
+        MergeabilityCache mergeabilityCache,
+        NotesMigration notesMigration,
+        PatchListCache patchListCache,
+        PatchSetUtil psUtil,
+        ProjectCache projectCache) {
+      this.accountCache = accountCache;
+      this.accounts = accounts;
+      this.approvalsUtil = approvalsUtil;
+      this.changeControlFactory = changeControlFactory;
+      this.cmUtil = cmUtil;
+      this.notesFactory = notesFactory;
+      this.commentsUtil = commentsUtil;
+      this.emails = emails;
+      this.repoManager = repoManager;
+      this.userFactory = userFactory;
+      this.mergeUtilFactory = mergeUtilFactory;
+      this.mergeabilityCache = mergeabilityCache;
+      this.notesMigration = notesMigration;
+      this.patchListCache = patchListCache;
+      this.psUtil = psUtil;
+      this.projectCache = projectCache;
+      this.starredChangesUtil = starredChangesUtil;
+    }
+  }
+
   /**
    * Create an instance for testing only.
    *
@@ -299,37 +360,18 @@ public class ChangeData {
    */
   public static ChangeData createForTest(
       Project.NameKey project, Change.Id id, int currentPatchSetId) {
-    ChangeData cd =
-        new ChangeData(
-            null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, project, id);
+    ChangeData cd = new ChangeData(null, null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
 
-  private boolean lazyLoad = true;
+  private final Arguments a;
   private final ReviewDb db;
-  private final GitRepositoryManager repoManager;
-  private final ChangeControl.GenericFactory changeControlFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
-  private final ProjectCache projectCache;
-  private final MergeUtil.Factory mergeUtilFactory;
-  private final ChangeNotes.Factory notesFactory;
-  private final ApprovalsUtil approvalsUtil;
-  private final ChangeMessagesUtil cmUtil;
-  private final CommentsUtil commentsUtil;
-  private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
-  private final NotesMigration notesMigration;
-  private final MergeabilityCache mergeabilityCache;
-  private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
+  private boolean lazyLoad = true;
   private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
@@ -370,131 +412,29 @@ public class ChangeData {
 
   @AssistedInject
   private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
+      Arguments a,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) {
+    this.a = a;
     this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
     this.project = project;
     this.legacyId = id;
   }
 
   @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted Change c) {
+  private ChangeData(Arguments a, @Assisted ReviewDb db, @Assisted Change c) {
+    this.a = a;
     this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
     legacyId = c.getId();
     change = c;
     project = c.getProject();
   }
 
   @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted ChangeNotes cn) {
+  private ChangeData(Arguments a, @Assisted ReviewDb db, @Assisted ChangeNotes cn) {
+    this.a = a;
     this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
     legacyId = cn.getChangeId();
     change = cn.getChange();
     project = cn.getProjectName();
@@ -502,44 +442,9 @@ public class ChangeData {
   }
 
   @AssistedInject
-  private ChangeData(
-      GitRepositoryManager repoManager,
-      ChangeControl.GenericFactory changeControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache,
-      NotesMigration notesMigration,
-      MergeabilityCache mergeabilityCache,
-      @Nullable StarredChangesUtil starredChangesUtil,
-      @Assisted ReviewDb db,
-      @Assisted ChangeControl c) {
+  private ChangeData(Arguments a, @Assisted ReviewDb db, @Assisted ChangeControl c) {
+    this.a = a;
     this.db = db;
-    this.repoManager = repoManager;
-    this.changeControlFactory = changeControlFactory;
-    this.userFactory = userFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
-    this.notesMigration = notesMigration;
-    this.mergeabilityCache = mergeabilityCache;
-    this.starredChangesUtil = starredChangesUtil;
     legacyId = c.getId();
     change = c.getChange();
     changeControl = c;
@@ -610,7 +515,7 @@ public class ChangeData {
         return Optional.empty();
       }
       try {
-        r = Optional.of(patchListCache.getDiffSummary(c, ps));
+        r = Optional.of(a.patchListCache.getDiffSummary(c, ps));
       } catch (PatchListNotAvailableException e) {
         r = Optional.empty();
       }
@@ -660,7 +565,7 @@ public class ChangeData {
   public Project.NameKey project() throws OrmException {
     if (project == null) {
       checkState(
-          !notesMigration.readChanges(),
+          !a.notesMigration.readChanges(),
           "should not have created  ChangeData without a project when NoteDb is enabled");
       project = change().getProject();
     }
@@ -679,7 +584,8 @@ public class ChangeData {
     if (changeControl == null) {
       Change c = change();
       try {
-        changeControl = changeControlFactory.controlFor(db, c, userFactory.create(c.getOwner()));
+        changeControl =
+            a.changeControlFactory.controlFor(db, c, a.userFactory.create(c.getOwner()));
       } catch (NoSuchChangeException e) {
         throw new OrmException(e);
       }
@@ -697,9 +603,9 @@ public class ChangeData {
     }
     try {
       if (change != null) {
-        changeControl = changeControlFactory.controlFor(db, change, user);
+        changeControl = a.changeControlFactory.controlFor(db, change, user);
       } else {
-        changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
+        changeControl = a.changeControlFactory.controlFor(db, project(), legacyId, user);
       }
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
@@ -738,7 +644,7 @@ public class ChangeData {
 
   public Change reloadChange() throws OrmException {
     try {
-      notes = notesFactory.createChecked(db, project, legacyId);
+      notes = a.notesFactory.createChecked(db, project, legacyId);
     } catch (NoSuchChangeException e) {
       throw new OrmException("Unable to load change " + legacyId, e);
     }
@@ -756,7 +662,7 @@ public class ChangeData {
       if (!lazyLoad) {
         throw new OrmException("ChangeNotes not available, lazyLoad = false");
       }
-      notes = notesFactory.create(db, project(), legacyId);
+      notes = a.notesFactory.create(db, project(), legacyId);
     }
     return notes;
   }
@@ -789,7 +695,8 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(db, changeControl(), c.currentPatchSetId(), null, null));
+                  a.approvalsUtil.byPatchSet(
+                      db, changeControl(), c.currentPatchSetId(), null, null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
@@ -850,7 +757,7 @@ public class ChangeData {
       return false;
     }
     String sha1 = ps.getRevision().get();
-    try (Repository repo = repoManager.openRepository(project());
+    try (Repository repo = a.repoManager.openRepository(project());
         RevWalk walk = new RevWalk(repo)) {
       RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
       commitMessage = c.getFullMessage();
@@ -867,7 +774,7 @@ public class ChangeData {
    */
   public Collection<PatchSet> patchSets() throws OrmException {
     if (patchSets == null) {
-      patchSets = psUtil.byChange(db, notes());
+      patchSets = a.psUtil.byChange(db, notes());
     }
     return patchSets;
   }
@@ -919,7 +826,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableListMultimap.of();
       }
-      allApprovals = approvalsUtil.byChange(db, notes());
+      allApprovals = a.approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
   }
@@ -937,7 +844,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ReviewerSet.empty();
       }
-      reviewers = approvalsUtil.getReviewers(notes(), approvals().values());
+      reviewers = a.approvalsUtil.getReviewers(notes(), approvals().values());
     }
     return reviewers;
   }
@@ -1009,7 +916,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      reviewerUpdates = approvalsUtil.getReviewerUpdates(notes());
+      reviewerUpdates = a.approvalsUtil.getReviewerUpdates(notes());
     }
     return reviewerUpdates;
   }
@@ -1027,7 +934,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      publishedComments = commentsUtil.publishedByChange(db, notes());
+      publishedComments = a.commentsUtil.publishedByChange(db, notes());
     }
     return publishedComments;
   }
@@ -1037,7 +944,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      robotComments = commentsUtil.robotCommentsByChange(notes());
+      robotComments = a.commentsUtil.robotCommentsByChange(notes());
     }
     return robotComments;
   }
@@ -1068,7 +975,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      messages = cmUtil.byChange(db, notes());
+      messages = a.cmUtil.byChange(db, notes());
     }
     return messages;
   }
@@ -1080,7 +987,7 @@ public class ChangeData {
         return Collections.emptyList();
       }
       records =
-          new SubmitRuleEvaluator(accountCache, accounts, emails, this)
+          new SubmitRuleEvaluator(a.accountCache, a.accounts, a.emails, this)
               .setOptions(options)
               .evaluate();
       submitRecords.put(options, records);
@@ -1100,7 +1007,7 @@ public class ChangeData {
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
       submitTypeRecord =
-          new SubmitRuleEvaluator(accountCache, accounts, emails, this).getSubmitType();
+          new SubmitRuleEvaluator(a.accountCache, a.accounts, a.emails, this).getSubmitType();
     }
     return submitTypeRecord;
   }
@@ -1137,7 +1044,7 @@ public class ChangeData {
           throw e;
         }
 
-        try (Repository repo = repoManager.openRepository(project())) {
+        try (Repository repo = a.repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord str = submitTypeRecord();
           if (!str.isOk()) {
@@ -1146,9 +1053,9 @@ public class ChangeData {
             return false;
           }
           String mergeStrategy =
-              mergeUtilFactory.create(projectCache.get(project())).mergeStrategyName();
+              a.mergeUtilFactory.create(a.projectCache.get(project())).mergeStrategyName();
           mergeable =
-              mergeabilityCache.get(
+              a.mergeabilityCache.get(
                   ObjectId.fromString(ps.getRevision().get()),
                   ref,
                   str.type,
@@ -1178,7 +1085,7 @@ public class ChangeData {
       }
       editsByUser = new HashMap<>();
       Change.Id id = checkNotNull(change.getId());
-      try (Repository repo = repoManager.openRepository(project())) {
+      try (Repository repo = a.repoManager.openRepository(project())) {
         for (Map.Entry<String, Ref> e :
             repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
           if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
@@ -1207,8 +1114,8 @@ public class ChangeData {
       }
 
       draftsByUser = new HashMap<>();
-      if (notesMigration.readChanges()) {
-        for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
+      if (a.notesMigration.readChanges()) {
+        for (Ref ref : a.commentsUtil.getDraftRefs(notes.getChangeId())) {
           Account.Id account = Account.Id.fromRefSuffix(ref.getName());
           if (account != null
               // Double-check that any drafts exist for this user after
@@ -1222,7 +1129,7 @@ public class ChangeData {
           }
         }
       } else {
-        for (Comment sc : commentsUtil.draftByChange(db, notes())) {
+        for (Comment sc : a.commentsUtil.draftByChange(db, notes())) {
           draftsByUser.put(sc.author.getId(), null);
         }
       }
@@ -1299,7 +1206,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return ImmutableMap.of();
       }
-      starRefs = checkNotNull(starredChangesUtil).byChange(legacyId);
+      starRefs = checkNotNull(a.starredChangesUtil).byChange(legacyId);
     }
     return starRefs;
   }
@@ -1317,7 +1224,7 @@ public class ChangeData {
         if (!lazyLoad) {
           return ImmutableSet.of();
         }
-        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+        starsOf = StarsOf.create(accountId, a.starredChangesUtil.getLabels(accountId, legacyId));
       }
     }
     return starsOf.stars();

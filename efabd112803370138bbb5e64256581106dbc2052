@@ -187,6 +187,30 @@
       "revId": "efabd112803370138bbb5e64256581106dbc2052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7f05b4_0e0608bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T19:05:42Z",
+      "side": 1,
+      "message": "You aren\u0027t using it for anything though? you are returning something entirely separate, which is the path and the function description.",
+      "parentUuid": "81e90c8c_6672ed1c",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 40
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

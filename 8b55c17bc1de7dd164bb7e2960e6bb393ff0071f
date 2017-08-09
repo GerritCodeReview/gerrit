@@ -70,6 +70,30 @@
       "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27330b0_7123ed7b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T18:59:27Z",
+      "side": 1,
+      "message": "Oh, but i doint see anyway possible since member can contain the _account_id variable some times not all the times.\n\nI will remove it for now. Just to fix the undefined behavour.",
+      "parentUuid": "69ad77e2_7004b2c2",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

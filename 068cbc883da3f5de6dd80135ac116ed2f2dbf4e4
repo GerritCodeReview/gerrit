@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5cdb31ac_4aaf2365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:20:06Z",
+      "side": 1,
+      "message": "The behaviors have to get transferred to a javascript file (I copy everything inside of the \u003cscript\u003e\u003c/script\u003e tags. When running the tool, it looks at the assignment literally and doesn\u0027t understand copy the value of the object to the variable.\n\nlet BehaviorX \u003d {..stuff}\n\nGerrit.BehaviorX \u003d BehaviorX\n\nit is unaware that Gerrit.BehaviorX is {..stuff}",
+      "parentUuid": "f9585ceb_879a3c53",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9fcd681_603165a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -68,6 +92,30 @@
       "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f890776_2f05e9b8",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:20:06Z",
+      "side": 1,
+      "message": "I tried changing it, but resulted in this CI failure:\n\nCannot read property \u0027patchNumEquals\u0027 of undefined\n\nhttps://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/26018/console",
+      "parentUuid": "006b103e_515d3171",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

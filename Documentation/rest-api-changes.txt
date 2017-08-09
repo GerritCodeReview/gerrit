@@ -1312,6 +1312,9 @@ describes the moved change.
   }
 ----
 
+Note that this endpoint will not update the change's parents, which is
+different from the link:#cherry-pick[cherry-pick] endpoint.
+
 If the change cannot be moved because the change state doesn't
 allow moving the change, the response is "`409 Conflict`" and
 the error message is contained in the response body.

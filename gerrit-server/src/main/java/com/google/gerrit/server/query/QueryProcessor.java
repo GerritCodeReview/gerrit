@@ -48,7 +48,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Lower-level implementation for executing a single query over a secondary index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public abstract class QueryProcessor<T> {
   @Singleton
   protected static class Metrics {
@@ -77,6 +84,10 @@ public abstract class QueryProcessor<T> {
   private final IndexRewriter<T> rewriter;
   private final String limitField;
 
+  // This class is not generally thread-safe, but programmer error may result in it being shared
+  // across threads. At least ensure the bit for checking if it's been used is threadsafe.
+  private final AtomicBoolean used;
+
   protected int start;
 
   private boolean enforceVisibility = true;
@@ -100,6 +111,7 @@ public abstract class QueryProcessor<T> {
     this.indexes = indexes;
     this.rewriter = rewriter;
     this.limitField = limitField;
+    this.used = new AtomicBoolean(false);
   }
 
   public QueryProcessor<T> setStart(int n) {
@@ -161,6 +173,7 @@ public abstract class QueryProcessor<T> {
   private List<QueryResult<T>> query(List<String> queryStrings, List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
     checkState(!isDisabled(), "%s is disabled", getClass().getSimpleName());
+    checkState(!used.getAndSet(true), "%s has already been used", getClass().getSimpleName());
     long startNanos = System.nanoTime();
 
     int cnt = queries.size();

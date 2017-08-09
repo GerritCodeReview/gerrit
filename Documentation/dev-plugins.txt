@@ -13,6 +13,11 @@ are tightly coupled to a specific major.minor server version and
 may require source code changes to compile against a different
 server version.
 
+Plugins may require a specific major.minor.patch server version
+and may need rebuild and revalidation across different
+patch levels. A different patch server level may only add new
+API interfaces and never change or extend existing ones.
+
 [[extension]]
 An `extension` in Gerrit runs inside of the same JVM as Gerrit
 in the same way as a plugin, but has limited visibility to the

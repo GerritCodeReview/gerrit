@@ -22,7 +22,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -173,10 +172,9 @@ public class Schema<T> {
    * <p>Null values are omitted, as are fields which cause errors, which are logged.
    *
    * @param obj input object.
-   * @param fillArgs arguments for filling fields.
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(T obj, FillArgs fillArgs) {
+  public final Iterable<Values<T>> buildFields(T obj) {
     return FluentIterable.from(fields.values())
         .transform(
             new Function<FieldDef<T, ?>, Values<T>>() {
@@ -184,7 +182,7 @@ public class Schema<T> {
               public Values<T> apply(FieldDef<T, ?> f) {
                 Object v;
                 try {
-                  v = f.get(obj, fillArgs);
+                  v = f.get(obj);
                 } catch (OrmException e) {
                   log.error(String.format("error getting field %s of %s", f.getName(), obj), e);
                   return null;

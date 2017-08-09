@@ -63,14 +63,6 @@ public final class FieldDef<I, T> {
     T get(I input) throws OrmException, IOException;
   }
 
-  @FunctionalInterface
-  public interface GetterWithArgs<I, T> {
-    T get(I input, FillArgs args) throws OrmException, IOException;
-  }
-
-  /** Arguments needed to fill in missing data in the input object. */
-  public static class FillArgs {}
-
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;
@@ -87,18 +79,10 @@ public final class FieldDef<I, T> {
     }
 
     public <I> FieldDef<I, T> build(Getter<I, T> getter) {
-      return build((in, a) -> getter.get(in));
-    }
-
-    public <I> FieldDef<I, T> build(GetterWithArgs<I, T> getter) {
       return new FieldDef<>(name, type, stored, false, getter);
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
-      return buildRepeatable((in, a) -> getter.get(in));
-    }
-
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(GetterWithArgs<I, Iterable<T>> getter) {
       return new FieldDef<>(name, type, stored, true, getter);
     }
   }
@@ -107,14 +91,10 @@ public final class FieldDef<I, T> {
   private final FieldType<?> type;
   private final boolean stored;
   private final boolean repeatable;
-  private final GetterWithArgs<I, T> getter;
+  private final Getter<I, T> getter;
 
   private FieldDef(
-      String name,
-      FieldType<?> type,
-      boolean stored,
-      boolean repeatable,
-      GetterWithArgs<I, T> getter) {
+      String name, FieldType<?> type, boolean stored, boolean repeatable, Getter<I, T> getter) {
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
@@ -150,13 +130,12 @@ public final class FieldDef<I, T> {
    * Get the field contents from the input object.
    *
    * @param input input object.
-   * @param args arbitrary arguments needed to fill in indexable fields of the input object.
    * @return the field value(s) to index.
    * @throws OrmException
    */
-  public T get(I input, FillArgs args) throws OrmException {
+  public T get(I input) throws OrmException {
     try {
-      return getter.get(input, args);
+      return getter.get(input);
     } catch (IOException e) {
       throw new OrmException(e);
     }

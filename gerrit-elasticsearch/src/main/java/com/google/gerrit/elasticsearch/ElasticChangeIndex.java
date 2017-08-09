@@ -39,7 +39,6 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
@@ -106,11 +105,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       JestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);

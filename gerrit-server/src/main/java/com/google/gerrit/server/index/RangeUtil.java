@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.util;
+package com.google.gerrit.server.index;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;

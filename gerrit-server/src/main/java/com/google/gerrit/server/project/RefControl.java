@@ -113,7 +113,7 @@ public class RefControl {
   }
 
   /** Can this user see this reference exists? */
-  public boolean isVisible() {
+  boolean isVisible() {
     if (isVisible == null) {
       isVisible =
           (getUser().isInternalUser() || canPerform(Permission.READ))

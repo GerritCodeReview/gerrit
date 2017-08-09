@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -100,13 +101,15 @@ class ListDashboards implements RestReadView<ProjectResource> {
   }
 
   private List<DashboardInfo> scan(ProjectControl ctl, String project, boolean setDefault)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, PermissionBackendException {
     Project.NameKey projectName = ctl.getProject().getNameKey();
+    PermissionBackend.ForProject perm =
+        permissionBackend.user(user).project(ctl.getProject().getNameKey());
     try (Repository git = gitManager.openRepository(projectName);
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
-        if (ctl.controlForRef(ref.getName()).isVisible()) {
+        if (perm.ref(ref.getName()).test(RefPermission.READ)) {
           all.addAll(scanDashboards(ctl.getProject(), git, rw, ref, project, setDefault));
         }
       }

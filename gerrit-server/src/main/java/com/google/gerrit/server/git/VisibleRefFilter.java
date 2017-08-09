@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -147,8 +148,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
         // Account ref is visible only to corresponding account.
-        if (viewMetadata
-            || (accountId.equals(userId) && projectCtl.controlForRef(name).isVisible())) {
+        if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
           result.put(name, ref);
         }
       } else if (isTag(ref)) {
@@ -166,7 +166,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         if (viewMetadata) {
           result.put(name, ref);
         }
-      } else if (projectCtl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+      } else if (canReadRef(ref.getLeaf().getName())) {
         // Use the leaf to lookup the control data. If the reference is
         // symbolic we want the control around the final target. If its
         // not symbolic then getLeaf() is a no-op returning ref itself.
@@ -196,7 +196,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {
-    if (refs.containsKey(REFS_CONFIG) && !projectCtl.controlForRef(REFS_CONFIG).isVisible()) {
+    if (refs.containsKey(REFS_CONFIG) && !canReadRef(REFS_CONFIG)) {
       Map<String, Ref> r = new HashMap<>(refs);
       r.remove(REFS_CONFIG);
       return r;
@@ -308,5 +308,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
   private static boolean isTag(Ref ref) {
     return ref.getLeaf().getName().startsWith(Constants.R_TAGS);
+  }
+
+  private boolean canReadRef(String ref) {
+    try {
+      return permissionBackend
+          .user(user)
+          .project(projectCtl.getProject().getNameKey())
+          .ref(ref)
+          .test(RefPermission.READ);
+    } catch (PermissionBackendException e) {
+      log.error("unable to check permissions", e);
+      return false;
+    }
   }
 }

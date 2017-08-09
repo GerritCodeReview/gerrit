@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,7 +40,8 @@ class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboard.
   @Override
   public Response<DashboardInfo> apply(DashboardResource resource, SetDashboard.Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-          ResourceNotFoundException, MethodNotAllowedException, IOException {
+          ResourceNotFoundException, MethodNotAllowedException, IOException,
+          PermissionBackendException {
     if (resource.isProjectDefault()) {
       SetDashboard.Input in = new SetDashboard.Input();
       in.commitMessage = input != null ? input.commitMessage : null;

@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -34,6 +35,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,17 +61,20 @@ class DashboardsCollection
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
   private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   DashboardsCollection(
       GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
-      Provider<SetDefaultDashboard.CreateDefault> createDefault) {
+      Provider<SetDefaultDashboard.CreateDefault> createDefault,
+      PermissionBackend permissionBackend) {
     this.gitManager = gitManager;
     this.views = views;
     this.list = list;
     this.createDefault = createDefault;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -87,7 +94,8 @@ class DashboardsCollection
 
   @Override
   public DashboardResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     ProjectControl myCtl = parent.getControl();
     if (id.toString().equals("default")) {
       return DashboardResource.projectDefault(myCtl);
@@ -115,12 +123,22 @@ class DashboardsCollection
 
   private DashboardResource parse(ProjectControl ctl, String ref, String path, ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
-          IncorrectObjectTypeException, ConfigInvalidException {
+          IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
     String id = ref + ":" + path;
     if (!ref.startsWith(REFS_DASHBOARDS)) {
       ref = REFS_DASHBOARDS + ref;
     }
-    if (!Repository.isValidRefName(ref) || !ctl.controlForRef(ref).isVisible()) {
+    try {
+      permissionBackend
+          .user(ctl.getUser())
+          .project(ctl.getProject().getNameKey())
+          .ref(ref)
+          .check(RefPermission.READ);
+    } catch (AuthException e) {
+      // Don't leak the project's existence
+      throw new ResourceNotFoundException(id);
+    }
+    if (!Repository.isValidRefName(ref)) {
       throw new ResourceNotFoundException(id);
     }
 

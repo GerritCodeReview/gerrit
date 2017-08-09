@@ -33,9 +33,9 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -93,7 +93,8 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, RefEvent event) {
+  public void postEvent(Branch.NameKey branchName, RefEvent event)
+      throws PermissionBackendException {
     fireEvent(branchName, event);
   }
 
@@ -132,7 +133,8 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Branch.NameKey branchName, RefEvent event) {
+  protected void fireEvent(Branch.NameKey branchName, RefEvent event)
+      throws PermissionBackendException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(branchName, listener.getUser())) {
         listener.onEvent(event);
@@ -176,13 +178,13 @@ public class EventBroker implements EventDispatcher {
         .test(ChangePermission.READ);
   }
 
-  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
+  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
+      throws PermissionBackendException {
     ProjectState pe = projectCache.get(branchName.getParentKey());
     if (pe == null) {
       return false;
     }
-    ProjectControl pc = pe.controlFor(user);
-    return pc.controlForRef(branchName).isVisible();
+    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user)

@@ -18,6 +18,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -34,26 +37,33 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class GetHead implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final CommitsCollection commits;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  GetHead(GitRepositoryManager repoManager, CommitsCollection commits) {
+  GetHead(
+      GitRepositoryManager repoManager,
+      CommitsCollection commits,
+      PermissionBackend permissionBackend) {
     this.repoManager = repoManager;
     this.commits = commits;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
   public String apply(ProjectResource rsrc)
-      throws AuthException, ResourceNotFoundException, IOException {
+      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {
         throw new ResourceNotFoundException(Constants.HEAD);
       } else if (head.isSymbolic()) {
         String n = head.getTarget().getName();
-        if (rsrc.getControl().controlForRef(n).isVisible()) {
-          return n;
-        }
-        throw new AuthException("not allowed to see HEAD");
+        permissionBackend
+            .user(rsrc.getControl().getUser())
+            .project(rsrc.getNameKey())
+            .ref(n)
+            .check(RefPermission.READ);
+        return n;
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());

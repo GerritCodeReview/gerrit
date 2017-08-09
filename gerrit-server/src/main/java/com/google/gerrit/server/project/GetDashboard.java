@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -44,7 +45,8 @@ class GetDashboard implements RestReadView<DashboardResource> {
 
   @Override
   public DashboardInfo apply(DashboardResource resource)
-      throws ResourceNotFoundException, ResourceConflictException, IOException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException,
+          PermissionBackendException {
     if (inherited && !resource.isProjectDefault()) {
       // inherited flag can only be used with default.
       throw new ResourceNotFoundException("inherited");
@@ -70,7 +72,8 @@ class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource defaultOf(ProjectControl ctl)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     String id = ctl.getProject().getLocalDefaultDashboard();
     if (Strings.isNullOrEmpty(id)) {
       id = ctl.getProject().getDefaultDashboard();
@@ -96,7 +99,8 @@ class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource parse(ProjectControl ctl, String id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));

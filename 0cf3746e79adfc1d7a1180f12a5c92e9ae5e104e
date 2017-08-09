@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eab4eb6_2fa704d6",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:44:57Z",
+      "side": 1,
+      "message": "Link to the later section?",
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "433e5388_97a98466",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:44:57Z",
+      "side": 1,
+      "message": "This label is not configured by default, gerrit-review has added it specially. Actually only Code-Review is there by default, and there is a y/n question during init (defaulting to n) to add Verified.\n\nWould it make sense to only list Code-Review, and then link to the documentation on adding more labels? Or just say \"and other labels that may have been configured by your administrator\"?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a4b4bb_8125ed8c",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:44:57Z",
+      "side": 1,
+      "message": "ITYM Submitted Together\n\nRelation Chain is for changes in the same project that are related by parent-child relationships, regardless of topic.\n\n(Submitted Together is actually more than just the set of changes that exactly share the same topic, it\u0027s the transitive closure you get when you walk history and search for each new topic you discover. But it is the definitely the place on the change screen where you see changes of the same topic.)",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 20
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df5edd0b_02f6cc70",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:44:57Z",
+      "side": 1,
+      "message": "--ff",
+      "range": {
+        "startLine": 131,
+        "startChar": 18,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bb6d6a3_9941d0f7",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:44:57Z",
+      "side": 1,
+      "message": "I see that you\u0027re mostly copying old text, so you don\u0027t have to do this now, but I think this paragraph could use some reworking. It\u0027s not really clear, and it doesn\u0027t really belong in this place.\n\nI think when it says \"by default\" it\u0027s referring to the \"allow content merges setting, , which controls whether to merge the *contents* of files when both sides of the merge modify the same file, or whether to bail. With useContentMerge\u003dfalse, if both sides modify a file, the merge will fail, *even if* it would be trivial to merge the contents. With useContentMerge\u003dtrue, it will merge the contents, but it is still possible for there to be conflicts (i.e. changes to the same range of lines) that must be resolved manually.\n\n(It\u0027s also flat wrong that the default is to have useContentMerge\u003dfalse, the default has been true for quite a while (and sorry we never updated the docs))\n\nAs written, since you don\u0027t define \"path conflict\", this paragraph makes it sound like there is some setting you can change that will allow it to submit even if there is a conflict that would otherwise require human resolution. That\u0027s not true; Gerrit will never \n\nFinally, it makes no sense to have this paragraph interleaved in between two different submit strategy sections, as it applies to all strategies equally. Looking back, it looks like https://gerrit-review.googlesource.com/c/88472 just inserted the block about Rebase Always in the wrong place.\n\nSorry, that was rambling.\n\nI think for this change you can just omit this paragraph and the paragraph about \"Allow content merges\" below. Link to the project config doc if you want. Or don\u0027t, I\u0027m not sure whether it\u0027s totally necessary at this point.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 39
+      },
+      "revId": "0cf3746e79adfc1d7a1180f12a5c92e9ae5e104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

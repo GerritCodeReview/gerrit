@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d349c84_a6fdde57",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T22:56:53Z",
+      "side": 1,
+      "message": "displays",
+      "range": {
+        "startLine": 65,
+        "startChar": 20,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95400373_448d6af4",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T22:56:53Z",
+      "side": 1,
+      "message": "label",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4373f894_9230bd0a",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T22:56:53Z",
+      "side": 1,
+      "message": "Confusingly, what is called Relation Chain in the new UI is called Related Changes in the old UI. There is no umbrella term used in the UI for the sidebar with related changes. I suppose since the old UI is going away soon enough, calling them related changes is not *too* bad.",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af6cf5e_9e788c5b",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T22:56:53Z",
+      "side": 1,
+      "message": "More precisely, Submitted Together is the list of changes that clicking \"Submit including ancestors\" would submit.\n\nThat includes the current change, its ancestors, changes in the same topic, their ancestors, changes in the same topic as those, their ancestors, ...",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

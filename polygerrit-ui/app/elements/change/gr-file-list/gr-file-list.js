@@ -33,6 +33,7 @@
     is: 'gr-file-list',
 
     properties: {
+      /** @type {?} */
       patchRange: {
         type: Object,
         observer: '_updateSelected',
@@ -51,6 +52,7 @@
         type: Object,
         value() { return document.body; },
       },
+      /** @type {?} */
       change: Object,
       diffViewMode: {
         type: String,
@@ -76,6 +78,7 @@
         notify: true,
         observer: '_updateDiffPreferences',
       },
+      /** @type {?} */
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
@@ -83,6 +86,7 @@
         type: Number,
         notify: true,
       },
+      /** @type {?} */
       _patchChange: {
         type: Object,
         computed: '_calculatePatchChange(_files)',
@@ -277,7 +281,7 @@
       }
     },
 
-    _expandAllDiffs(e) {
+    _expandAllDiffs() {
       this._showInlineDiffs = true;
 
       // Find the list of paths that are in the file list, but not in the
@@ -294,7 +298,7 @@
       this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
     },
 
-    _collapseAllDiffs(e) {
+    _collapseAllDiffs() {
       this._showInlineDiffs = false;
       this._expandedFilePaths = [];
       this.$.diffCursor.handleDiffUpdate();
@@ -324,6 +328,12 @@
       });
     },
 
+    /**
+     * @param {!Array} comments
+     * @param {number} patchNum
+     * @param {string} path
+     * @param {string=} opt_noun
+     */
     _computeCountString(comments, patchNum, path, opt_noun) {
       if (!comments) { return ''; }
 
@@ -339,8 +349,8 @@
      * Computes a string counting the number of unresolved comment threads in a
      * given file and path.
      *
-     * @param {Object} comments
-     * @param {Object} drafts
+     * @param {!Object} comments
+     * @param {!Object} drafts
      * @param {number} patchNum
      * @param {string} path
      * @return {string}
@@ -631,6 +641,9 @@
           diff.patchRange.patchNum, this.patchRange.basePatchNum);
     },
 
+    /**
+     * @param {number=} opt_index
+     */
     _openSelectedFile(opt_index) {
       if (opt_index != null) {
         this.$.fileCursor.setCursorAtIndex(opt_index);
@@ -806,7 +819,7 @@
      *
      * Use side-by-side if there is no view mode or preferences.
      *
-     * @return {String}
+     * @return {string}
      */
     _getDiffViewMode(diffViewMode, userPrefs) {
       if (diffViewMode) {
@@ -848,7 +861,7 @@
      * entries in the expanded list, then render each diff corresponding in
      * order by waiting for the previous diff to finish before starting the next
      * one.
-     * @param  {splice} record The splice record in the expanded paths list.
+     * @param {!Array} record The splice record in the expanded paths list.
      */
     _expandedPathsChanged(record) {
       if (!record) { return; }
@@ -880,9 +893,9 @@
      * Given an array of paths and a NodeList of diff elements, render the diff
      * for each path in order, awaiting the previous render to complete before
      * continung.
-     * @param  {!Array<!String>} paths
-     * @param  {!NodeList<!GrDiffElement>} diffElements
-     * @param  {Number} initialCount The total number of paths in the pass. This
+     * @param  {!Array<string>} paths
+     * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
+     * @param  {number} initialCount The total number of paths in the pass. This
      *   is used to generate log messages.
      * @return {!Promise}
      */
@@ -908,9 +921,9 @@
 
     /**
      * In the given NodeList of diff elements, find the diff for the given path.
-     * @param  {!String} path
-     * @param  {!NodeList<!GrDiffElement>} diffElements
-     * @return {!GrDiffElement}
+     * @param  {string} path
+     * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
+     * @return {!Object|undefined} (GrDiffElement)
      */
     _findDiffByPath(path, diffElements) {
       for (let i = 0; i < diffElements.length; i++) {
@@ -931,13 +944,13 @@
      * Update the loading class for the file list rows. The update is inside a
      * debouncer so that the file list doesn't flash gray when the API requests
      * are reasonably fast.
-     * @param {string} loading
+     * @param {boolean} loading
      */
     _loadingChanged(loading) {
       this.debounce('loading-change', () => {
         // Only show set the loading if there have been files loaded to show. In
         // this way, the gray loading style is not shown on initial loads.
-        this.classList.toggle('loading', loading && this._files.length);
+        this.classList.toggle('loading', loading && !!this._files.length);
       }, LOADING_DEBOUNCE_INTERVAL);
     },
   });

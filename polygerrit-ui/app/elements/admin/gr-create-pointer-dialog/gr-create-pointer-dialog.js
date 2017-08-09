@@ -68,7 +68,7 @@
                 page.show(this._computeItemUrl(this.itemDetail));
               }
             });
-      } else if (this.itemDetail === DETAIL_TYPES.tag) {
+      } else if (this.itemDetail === DETAIL_TYPES.tags) {
         return this.$.restAPI.createProjectTag(this.projectName,
             this._itemName, {revision: USE_HEAD})
             .then(itemRegistered => {

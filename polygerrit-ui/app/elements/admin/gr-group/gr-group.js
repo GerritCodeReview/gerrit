@@ -61,6 +61,7 @@
         value: false,
         observer: '_loggedInChanged',
       },
+      /** @type {?} */
       _groupConfig: Object,
       _groupName: Object,
       _groupOwner: {

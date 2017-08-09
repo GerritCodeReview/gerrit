@@ -73,7 +73,6 @@ limitations under the License.
 
       /** @type {Function} */
       _navigate: uninitialized,
-
       /** @type {Function} */
       _generateUrl: uninitialized,
 
@@ -85,6 +84,10 @@ limitations under the License.
        */
       _upgradeUrl: uninitialized,
 
+      /**
+       * @param {number=} patchNum
+       * @param {number|string=} basePatchNum
+       */
       _checkPatchRange(patchNum, basePatchNum) {
         if (basePatchNum && !patchNum) {
           throw new Error('Cannot use base patch number without patch number.');
@@ -202,11 +205,11 @@ limitations under the License.
       },
 
       /**
-       * @param {!Object} change The change object.
-       * @param {!string} path The file path.
+       * @param {{ _number: number }} change The change object.
+       * @param {string} path The file path.
        * @param {number=} opt_patchNum
-       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-       *     used for none.
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be used
+       *     for none.
        * @return {string}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
@@ -246,7 +249,7 @@ limitations under the License.
 
       /**
        * @param {!Object} change The change object.
-       * @param {!string} path The file path.
+       * @param {string} path The file path.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.

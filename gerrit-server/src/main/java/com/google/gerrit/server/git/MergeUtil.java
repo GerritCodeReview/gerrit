@@ -689,9 +689,9 @@ public class MergeUtil {
     }
 
     if (topics.size() == 1) {
-      return String.format("Merge changes from topic '%s'", Iterables.getFirst(topics, null));
+      return String.format("Merge changes from topic \"%s\"", Iterables.getFirst(topics, null));
     } else if (topics.size() > 1) {
-      return String.format("Merge changes from topics '%s'", Joiner.on("', '").join(topics));
+      return String.format("Merge changes from topics \"%s\"", Joiner.on("\", \"").join(topics));
     } else {
       return String.format(
           "Merge changes %s%s",

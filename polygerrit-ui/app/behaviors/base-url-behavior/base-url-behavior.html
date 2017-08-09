@@ -22,6 +22,7 @@ limitations under the License.
 
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
   Gerrit.BaseUrlBehavior = {
+    /** @return {string} */
     getBaseUrl() {
       return window.CANONICAL_PATH || '';
     },

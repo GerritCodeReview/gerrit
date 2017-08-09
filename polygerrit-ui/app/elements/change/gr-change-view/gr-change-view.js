@@ -68,6 +68,7 @@
         type: Object,
         observer: '_paramsChanged',
       },
+      /** @type {?} */
       viewState: {
         type: Object,
         notify: true,
@@ -80,6 +81,7 @@
         type: Object,
         value() { return document.body; },
       },
+      /** @type {?} */
       _serverConfig: {
         type: Object,
         observer: '_startUpdateCheckTimer',
@@ -99,10 +101,12 @@
         computed: '_computeCanStartReview(_loggedIn, _change, _account)',
       },
       _comments: Object,
+      /** @type {?} */
       _change: {
         type: Object,
         observer: '_changeChanged',
       },
+      /** @type {?} */
       _commitInfo: Object,
       _files: Object,
       _changeNum: String,
@@ -119,6 +123,7 @@
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
             '_editingCommitMessage, _change)',
       },
+      /** @type {?string} */
       _latestCommitMessage: {
         type: String,
         value: '',
@@ -129,6 +134,7 @@
         computed:
           '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
       },
+        /** @type {?} */
       _patchRange: {
         type: Object,
         observer: '_updateSelected',
@@ -147,6 +153,7 @@
         value: false,
       },
       _loading: Boolean,
+      /** @type {?} */
       _projectConfig: Object,
       _rebaseOnCurrent: Boolean,
       _replyButtonLabel: {
@@ -180,6 +187,7 @@
         type: Boolean,
         value: true,
       },
+      /** @type {?number} */
       _updateCheckTimerHandle: Number,
       _sortedRevisions: Array,
       _editLoaded: {
@@ -715,7 +723,7 @@
       const t = labels[labelName];
       if (!t) { return result; }
       const approvals = t.all || [];
-      for (label of approvals) {
+      for (const label of approvals) {
         if (label.value && label.value != labels[labelName].default_value) {
           let labelClassName;
           let labelValPrefix = '';
@@ -853,6 +861,9 @@
       });
     },
 
+    /**
+     * @param {string=} opt_section
+     */
     _openReplyDialog(opt_section) {
       this.$.replyOverlay.open().then(() => {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
@@ -946,7 +957,10 @@
               this._latestCommitMessage = null;
             }
             const lineHeight = getComputedStyle(this).lineHeight;
-            this._lineHeight = lineHeight.slice(0, lineHeight.length - 2);
+
+            // Slice returns a number as a string, convert to an int.
+            this._lineHeight =
+                parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
             this._change = change;
             if (!this._patchRange || !this._patchRange.patchNum ||
@@ -1122,9 +1136,9 @@
 
 
     /**
-     * @param {Object} revisions The revisions object keyed by revision hashes
-     * @param {Object} patchSet A revision already fetched from {revisions}
-     * @return {string} the SHA hash corresponding to the revision.
+     * @param {!Object} revisions The revisions object keyed by revision hashes
+     * @param {!Object} patchSet A revision already fetched from {revisions}
+     * @return {string|undefined} the SHA hash corresponding to the revision.
      */
     _getPatchsetHash(revisions, patchSet) {
       for (const rev in revisions) {
@@ -1304,7 +1318,9 @@
     },
 
     _cancelUpdateCheckTimer() {
-      this.cancelAsync(this._updateCheckTimerHandle);
+      if (this._updateCheckTimerHandle) {
+        this.cancelAsync(this._updateCheckTimerHandle);
+      }
       this._updateCheckTimerHandle = null;
     },
 

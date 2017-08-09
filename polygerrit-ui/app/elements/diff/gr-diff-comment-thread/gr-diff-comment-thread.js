@@ -213,6 +213,9 @@
       return !!comment.__draft;
     },
 
+    /**
+     * @param {boolean=} opt_quote
+     */
     _processCommentReply(opt_quote) {
       const comment = this._lastComment;
       let quoteStr;
@@ -273,6 +276,10 @@
       return d;
     },
 
+    /**
+     * @param {number=} opt_lineNum
+     * @param {!Object=} opt_range
+     */
     _newDraft(opt_lineNum, opt_range) {
       const d = {
         __draft: true,

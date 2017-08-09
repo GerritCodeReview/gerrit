@@ -30,6 +30,9 @@
         },
         observer: '_updateIndex',
       },
+      /**
+       * @type (?Object)
+       */
       target: {
         type: Object,
         notify: true,
@@ -37,6 +40,7 @@
       },
       /**
        * The height of content intended to be included with the target.
+       * @type (?number)
        */
       _targetHeight: Number,
 
@@ -61,6 +65,8 @@
        * The scroll behavior for the cursor. Values are 'never' and
        * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
        * the viewport.
+       * TODO (beckysiegel) figure out why it can be undefined
+       * @type (string|undefined)
        */
       scrollBehavior: {
         type: String,
@@ -90,8 +96,8 @@
 
     /**
      * Set the cursor to an arbitrary element.
-     * @param {DOMElement} element
-     * @param {boolean} opt_noScroll prevent any potential scrolling in response
+     * @param {!HTMLElement} element
+     * @param {boolean=} opt_noScroll prevent any potential scrolling in response
      *   setting the cursor.
      */
     setCursor(element, opt_noScroll) {
@@ -137,11 +143,11 @@
     /**
      * Move the cursor forward or backward by delta. Noop if moving past either
      * end of the stop list.
-     * @param {Number} delta either -1 or 1.
-     * @param {Function} opt_condition Optional stop condition. If a condition
+     * @param {number} delta either -1 or 1.
+     * @param {!Function=} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
      *    until the condition is met.
-     * @param {Function} opt_getTargetHeight Optional function to calculate the
+     * @param {!Function=} opt_getTargetHeight Optional function to calculate the
      *    height of the target's 'section'. The height of the target itself is
      *    sometimes different, used by the diff cursor.
      * @private
@@ -191,9 +197,9 @@
 
     /**
      * Get the next stop index indicated by the delta direction.
-     * @param {Number} delta either -1 or 1.
-     * @param {Function} opt_condition Optional stop condition.
-     * @return {Number} the new index.
+     * @param {number} delta either -1 or 1.
+     * @param {!Function=} opt_condition Optional stop condition.
+     * @return {number} the new index.
      * @private
      */
     _getNextindex(delta, opt_condition) {
@@ -239,7 +245,7 @@
 
     /**
      * Calculate where the element is relative to the window.
-     * @param {object} target Target to scroll to.
+     * @param {!Object} target Target to scroll to.
      * @return {number} Distance to top of the target.
      */
     _getTop(target) {

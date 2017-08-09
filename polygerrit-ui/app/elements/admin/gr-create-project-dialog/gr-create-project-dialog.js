@@ -25,12 +25,13 @@
         value: false,
       },
 
+      /** @type {?} */
       _projectConfig: {
         type: Object,
         value: () => { return {}; },
       },
       _projectCreated: {
-        type: Object,
+        type: Boolean,
         value: false,
       },
 

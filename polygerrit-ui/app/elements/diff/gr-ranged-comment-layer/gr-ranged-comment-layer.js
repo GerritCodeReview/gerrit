@@ -43,9 +43,9 @@
 
     /**
      * Layer method to add annotations to a line.
-     * @param {HTMLElement} el The DIV.contentText element to apply the
+     * @param {!HTMLElement} el The DIV.contentText element to apply the
      *     annotation to.
-     * @param {GrDiffLine} line The line object.
+     * @param {!Object} line The line object. (GrDiffLine)
      */
     annotate(el, line) {
       let ranges = [];
@@ -79,9 +79,9 @@
 
     /**
      * Notify Layer listeners of changes to annotations.
-     * @param {Number} start The line where the update starts.
-     * @param {Number} end The line where the update ends.
-     * @param {String} side The side of the update. ('left' or 'right')
+     * @param {number} start The line where the update starts.
+     * @param {number} end The line where the update ends.
+     * @param {string} side The side of the update. ('left' or 'right')
      */
     _notifyUpdateRange(start, end, side) {
       for (const listener of this._listeners) {
@@ -133,8 +133,9 @@
      * Take a list of comments and return a sparse list mapping line numbers to
      * partial ranges. Uses an end-character-index of -1 to indicate the end of
      * the line.
-     * @param {Array<Object>} commentList The list of comments.
-     * @return {Object} The sparse list.
+     * @param {?} commentList The list of comments.
+     *    Getting this param to match closure requirements caused problems.
+     * @return {!Object} The sparse list.
      */
     _computeCommentMap(commentList) {
       const result = {};

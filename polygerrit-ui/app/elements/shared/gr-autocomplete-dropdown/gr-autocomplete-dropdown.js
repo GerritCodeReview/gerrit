@@ -102,13 +102,13 @@
       }
     },
 
-    cursorDown(e) {
+    cursorDown() {
       if (!this.hidden) {
         this.$.cursor.next();
       }
     },
 
-    cursorUp(e) {
+    cursorUp() {
       if (!this.hidden) {
         this.$.cursor.previous();
       }

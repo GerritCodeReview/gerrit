@@ -38,7 +38,9 @@ limitations under the License.
      * this function checks for patchNum equality.
      *
      * @param {string|number} a
-     * @param {string|number} b
+     * @param {string|number|undefined} b Undefined sometimes because
+     *    computeLatestPatchNum can return undefined.
+     * @return {boolean}
      */
     patchNumEquals(a, b) {
       return a + '' === b + '';
@@ -122,6 +124,7 @@ limitations under the License.
       return patchNums;
     },
 
+    /** @return {number|undefined} */
     computeLatestPatchNum(allPatchSets) {
       if (!allPatchSets || !allPatchSets.length) { return undefined; }
       return allPatchSets[allPatchSets.length - 1].num;

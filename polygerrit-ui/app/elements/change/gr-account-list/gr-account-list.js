@@ -34,6 +34,9 @@
       change: Object,
       filter: Function,
       placeholder: String,
+      /**
+       * Needed for template checking since value is initially set to null.
+       * @type {?Object} */
       pendingConfirmation: {
         type: Object,
         value: null,

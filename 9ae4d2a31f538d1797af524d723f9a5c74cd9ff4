@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3346a56_40b73918",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-09T18:08:10Z",
+      "side": 1,
+      "message": "Looks like we support generating legacy URLs if the project isn\u0027t provided, but now we only test non-legacy URLs where it is provided.\n\nCan we add a separate test for the legacy URL generation?",
+      "revId": "9ae4d2a31f538d1797af524d723f9a5c74cd9ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

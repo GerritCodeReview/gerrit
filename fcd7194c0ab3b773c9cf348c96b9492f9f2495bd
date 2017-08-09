@@ -17,6 +17,24 @@
       "revId": "fcd7194c0ab3b773c9cf348c96b9492f9f2495bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "043bb434_7ff6360c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T18:19:04Z",
+      "side": 1,
+      "message": "Ah, not true. It\u0027s ok for AccountLimits to do work in its constructor, because *QueryProcessor are non-singletons that are supposed to be used only once. The problem in this case is that Emails, which is a singleton, is holding onto a single InternalAccountQuery instance, rather than creating them on-demand.",
+      "parentUuid": "99de039b_ccc819bb",
+      "revId": "fcd7194c0ab3b773c9cf348c96b9492f9f2495bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

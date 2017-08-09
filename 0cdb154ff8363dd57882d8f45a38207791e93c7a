@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ce3f8a3_fe1eda1e",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Copied forward to avoid losing this comment.",
+      "parentUuid": "1fe6408e_1ae7703f",
+      "range": {
+        "startLine": 8,
+        "startChar": 9,
+        "endLine": 8,
+        "endChar": 10
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a239d0f0_bd664dc2",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d94b068b_7cf0c102",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Copied forward.",
+      "parentUuid": "a239d0f0_bd664dc2",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9cc46814_52b12c3c",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Still applies. Copied forward.",
+      "parentUuid": "90d531e2_470e5c07",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaccca15_ac46ee19",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc9c4ab9_d361d324",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaccca15_ac46ee19",
+      "range": {
+        "startLine": 47,
+        "startChar": 35,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "fdd7f5b8_3768489b",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Copied forward.",
+      "parentUuid": "890835be_c8f5033f",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 66
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c953d519_01095898",
         "filename": "Documentation/concept-refs-for-namespace.txt",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c339cddb_da7eabc9",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Copied forward.",
+      "parentUuid": "c953d519_01095898",
+      "range": {
+        "startLine": 65,
+        "startChar": 59,
+        "endLine": 65,
+        "endChar": 65
+      },
+      "revId": "0cdb154ff8363dd57882d8f45a38207791e93c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "db22c5718e4722415860e7d98f17b491447b68ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1ef1a0_66a0c3be",
+        "filename": "Documentation/concept-refs-for-namespace.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T23:39:47Z",
+      "side": 1,
+      "message": "Copied forward.",
+      "parentUuid": "2d9cd7e1_0d842556",
+      "range": {
+        "startLine": 4,
+        "startChar": 9,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "db22c5718e4722415860e7d98f17b491447b68ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

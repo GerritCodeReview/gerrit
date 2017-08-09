@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12916996_2ae13ef0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexDefinition.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T15:11:36Z",
+      "side": 1,
+      "message": "While we\u0027re here, it\u0027s probably worth it to mark this and the constructor arg as @Nullable",
+      "revId": "81d4350e33c725152e166cc5e42dfcd74b9a8a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

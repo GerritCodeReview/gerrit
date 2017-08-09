@@ -913,6 +913,30 @@
       return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
     },
 
+    /**
+     * Utility function to make the necessary modifications to a change in the
+     * case an edit exists.
+     *
+     * @param {!Object} change
+     * @param {?Object} edit
+     */
+    _processEdit(change, edit) {
+      if (edit) {
+        change.revisions[edit.commit.commit] = {
+          _number: this.EDIT_NAME,
+          basePatchNum: edit.base_patch_set_number,
+          commit: edit.commit,
+          fetch: edit.fetch,
+        };
+        // If the edit is based on the most recent patchset, load it by
+        // default.
+        if (change.current_revision === edit.base_revision) {
+          change.current_revision = edit.commit.commit;
+          this._patchRange.patchNum = this.EDIT_NAME;
+        }
+      }
+    },
+
     _getChangeDetail() {
       const detailCompletes = this.$.restAPI.getChangeDetail(
           this._changeNum, this._handleGetChangeDetailError.bind(this));
@@ -924,14 +948,7 @@
               return '';
             }
             this._upgradeUrl(change, this.params);
-            if (edit) {
-              change.revisions[edit.commit.commit] = {
-                _number: this.EDIT_NAME,
-                basePatchNum: edit.base_patch_set_number,
-                commit: edit.commit,
-                fetch: edit.fetch,
-              };
-            }
+            this._processEdit(change, edit);
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }
             if (!change.reviewer_updates) {

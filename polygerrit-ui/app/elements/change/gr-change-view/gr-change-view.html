@@ -464,7 +464,7 @@ limitations under the License.
                       disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum, _sortedRevisions)]]">
                     [[patchNum.num]]
                     /
-                    [[computeLatestPatchNum(_allPatchSets)]]
+                    [[_allPatchSets.length]]
                     [[_computePatchSetCommentsString(_comments, patchNum.num)]]
                     [[_computePatchSetDescription(_change, patchNum.num)]]
                   </option>

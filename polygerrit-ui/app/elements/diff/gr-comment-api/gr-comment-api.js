@@ -122,6 +122,24 @@
     },
 
     /**
+     * Get an object mapping file paths to comments (including drafts and robot
+     * comments) for that path.
+     * @param {!Object} patchRange The patch-range object containing patchNum
+     *     and basePatchNum properties to represent the range.
+     * @param {Object} opt_projectConfig Optional project config object to
+     *     include in the meta sub-object.
+     * @return {Object}
+     */
+    getCommentsForAllPaths(patchRange, opt_projectConfig) {
+      const map = {};
+      Object.keys(this.getPaths(patchRange)).forEach(path => {
+        map[path] = this.getCommentsForPath(path, patchRange,
+            opt_projectConfig);
+      });
+      return map;
+    },
+
+    /**
      * Whether the given comment should be included in the base side of the
      * given patch range.
      * @param {!Object} comment

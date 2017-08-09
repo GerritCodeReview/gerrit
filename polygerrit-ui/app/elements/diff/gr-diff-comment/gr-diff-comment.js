@@ -165,32 +165,21 @@
     save() {
       this.comment.message = this._messageText;
 
-      this.disabled = true;
+      // this.disabled = true;
 
       this._eraseDraftComment();
 
-      this._xhrPromise = this._saveDraft(this.comment).then(response => {
-        this.disabled = false;
-        if (!response.ok) { return response; }
-
-        return this.$.restAPI.getResponseObject(response).then(obj => {
-          const comment = obj;
-          comment.__draft = true;
-          // Maintain the ephemeral draft ID for identification by other
-          // elements.
-          if (this.comment.__draftID) {
-            comment.__draftID = this.comment.__draftID;
-          }
-          comment.__commentSide = this.commentSide;
-          this.comment = comment;
-          this.editing = false;
-          this._fireSave();
-          return obj;
-        });
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+      this._xhrPromise = this.$.draftApi.saveDraft(this.changeNum,
+          this.patchNum, this.comment).then(obj => {
+            this.disabled = false;
+            obj.__commentSide = this.commentSide;
+            this.comment = obj;
+            this.editing = false;
+            this._fireSave();
+          }).catch(err => {
+            this.disabled = false;
+            throw err;
+          });
     },
 
     _eraseDraftComment() {
@@ -406,24 +395,16 @@
         return;
       }
 
-      this._xhrPromise = this._deleteDraft(this.comment).then(response => {
-        this.disabled = false;
-        if (!response.ok) { return response; }
+      this._xhrPromise = this.$.draftApi.discardDraft(this.changeNum,
+          this.patchNum, this.comment).then(response => {
+            this.disabled = false;
+            if (!response.ok) { return response; }
 
-        this._fireDiscard();
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-    },
-
-    _saveDraft(draft) {
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
-    },
-
-    _deleteDraft(draft) {
-      return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
-          draft);
+            this._fireDiscard();
+          }).catch(err => {
+            this.disabled = false;
+            throw err;
+          });
     },
 
     _getPatchNum() {

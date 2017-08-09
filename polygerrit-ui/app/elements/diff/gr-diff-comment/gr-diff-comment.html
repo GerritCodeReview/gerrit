@@ -28,6 +28,8 @@ limitations under the License.
 <link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
+<link rel="import" href="../gr-draft-api/gr-draft-api.html">
+
 <script src="../../../scripts/rootElement.js"></script>
 
 <dom-module id="gr-diff-comment">
@@ -300,6 +302,7 @@ limitations under the License.
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
+    <gr-draft-api id="draftApi"></gr-draft-api>
   </template>
   <script src="gr-diff-comment.js"></script>
 </dom-module>

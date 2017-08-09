@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ace82f7_338d2b62",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-09T23:11:56Z",
+      "side": 1,
+      "message": "what is fried-twinkie?",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "6aac7a033f0cb55939191b11e906cd3980db54a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

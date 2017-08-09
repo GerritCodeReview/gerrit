@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.query;
 
-import com.google.gerrit.testutil.GerritBaseTests;
 import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.TestName;
 
 @Ignore
-public abstract class PredicateTest extends GerritBaseTests {
+public abstract class PredicateTest {
+  @Rule public ExpectedException exception = ExpectedException.none();
+  @Rule public final TestName testName = new TestName();
+
   protected static final class TestPredicate extends OperatorPredicate<String> {
     protected TestPredicate(String name, String value) {
       super(name, value);

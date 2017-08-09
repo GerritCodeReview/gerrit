@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d47be17a_76ca323a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T22:51:10Z",
+      "side": 1,
+      "message": "I\u0027m surprised to find this at `config:review`, since it looks like a variant of `POST /projects/{project-name}/access` and the different name makes it less discoverable. Would it work for this to *be* `POST /projects/{project-name}/access`, just with some field in ProjectAccessInput to indicate that it is for review instead of for immediate application?",
+      "revId": "6ed54afa778cc4cd40859bfc90a733c30d1b05bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f56b718c_c0ef5512",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-09T00:51:04Z",
+      "side": 1,
+      "message": "referred",
+      "range": {
+        "startLine": 8,
+        "startChar": 33,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d211681_72af3767",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-09T18:47:03Z",
+      "side": 1,
+      "message": "_account_id is part of the account object, why not just check for it instead of adding an optional param?\n\nSomething like.... (please test and tweak if needed)\n\nlet accountId \u003d account._account_id ? \u0027 (\u0027 + account._account_id + \u0027)\u0027 : \u0027\u0027;\n\nif (account.username) {\n  return account.username + accountId;\n} else if (account.name) {\n  return account.name + accountId;\n}",
+      "range": {
+        "startLine": 76,
+        "startChar": 22,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "8b55c17bc1de7dd164bb7e2960e6bb393ff0071f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

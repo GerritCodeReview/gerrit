@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
@@ -39,19 +38,17 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountLimits;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 
 /**
@@ -78,15 +75,13 @@ public abstract class QueryProcessor<T> {
     }
   }
 
-  protected final Provider<CurrentUser> userProvider;
-
-  private final AccountLimits.Factory limitsFactory;
   private final Metrics metrics;
   private final SchemaDefinitions<T> schemaDef;
   private final IndexConfig indexConfig;
   private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
   private final IndexRewriter<T> rewriter;
   private final String limitField;
+  private final IntSupplier permittedLimit;
 
   // This class is not generally thread-safe, but programmer error may result in it being shared
   // across threads. At least ensure the bit for checking if it's been used is threadsafe.
@@ -95,26 +90,24 @@ public abstract class QueryProcessor<T> {
   protected int start;
 
   private boolean enforceVisibility = true;
-  private int limitFromCaller;
+  private int userProvidedLimit;
   private Set<String> requestedFields;
 
   protected QueryProcessor(
-      Provider<CurrentUser> userProvider,
-      AccountLimits.Factory limitsFactory,
       Metrics metrics,
       SchemaDefinitions<T> schemaDef,
       IndexConfig indexConfig,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
       IndexRewriter<T> rewriter,
-      String limitField) {
-    this.userProvider = userProvider;
-    this.limitsFactory = limitsFactory;
+      String limitField,
+      IntSupplier permittedLimit) {
     this.metrics = metrics;
     this.schemaDef = schemaDef;
     this.indexConfig = indexConfig;
     this.indexes = indexes;
     this.rewriter = rewriter;
     this.limitField = limitField;
+    this.permittedLimit = permittedLimit;
     this.used = new AtomicBoolean(false);
   }
 
@@ -142,8 +135,18 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
-  public QueryProcessor<T> setLimit(int n) {
-    limitFromCaller = n;
+  /**
+   * Set an end-user-provided limit on the number of results returned.
+   *
+   * <p>Since this limit is provided by an end user, it may exceed the limit that they are
+   * authorized to use. This is allowed; the processor will take multiple possible limits into
+   * account and choose the one that makes the most sense.
+   *
+   * @param n limit; zero or negative means no limit.
+   * @return this.
+   */
+  public QueryProcessor<T> setUserProvidedLimit(int n) {
+    userProvidedLimit = n;
     return this;
   }
 
@@ -311,17 +314,11 @@ public abstract class QueryProcessor<T> {
    * @return true if querying should be disabled.
    */
   public boolean isDisabled() {
-    return getPermittedLimit() <= 0;
+    return enforceVisibility && getPermittedLimit() <= 0;
   }
 
   private int getPermittedLimit() {
-    if (enforceVisibility) {
-      return limitsFactory
-          .create(userProvider.get())
-          .getRange(GlobalCapability.QUERY_LIMIT)
-          .getMax();
-    }
-    return Integer.MAX_VALUE;
+    return enforceVisibility ? permittedLimit.getAsInt() : Integer.MAX_VALUE;
   }
 
   private int getBackendSupportedLimit() {
@@ -332,8 +329,8 @@ public abstract class QueryProcessor<T> {
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
-    if (limitFromCaller > 0) {
-      possibleLimits.add(limitFromCaller);
+    if (userProvidedLimit > 0) {
+      possibleLimits.add(userProvidedLimit);
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);

@@ -39,6 +39,7 @@ import com.google.inject.Provider;
  * holding on to a single instance.
  */
 public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
+  private final Provider<CurrentUser> userProvider;
   private final GroupControl.GenericFactory groupControlFactory;
 
   static {
@@ -58,14 +59,14 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
       GroupIndexRewriter rewriter,
       GroupControl.GenericFactory groupControlFactory) {
     super(
-        userProvider,
-        limitsFactory,
         metrics,
         GroupSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
-        FIELD_LIMIT);
+        FIELD_LIMIT,
+        () -> limitsFactory.getQueryLimit(userProvider));
+    this.userProvider = userProvider;
     this.groupControlFactory = groupControlFactory;
   }
 

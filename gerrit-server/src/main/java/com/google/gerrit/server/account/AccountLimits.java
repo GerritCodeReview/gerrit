@@ -21,7 +21,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,16 @@ public class AccountLimits {
 
     public AccountLimits create(CurrentUser user) {
       return new AccountLimits(projectCache, user);
+    }
+
+    /**
+     * Helper method to get the limit on a {@link QueryProcessor} for a given user.
+     *
+     * @param userProvider user to check limits for.
+     * @return limit according to {@link GlobalCapability#QUERY_LIMIT}.
+     */
+    public int getQueryLimit(Provider<CurrentUser> userProvider) {
+      return create(userProvider.get()).getRange(GlobalCapability.QUERY_LIMIT).getMax();
     }
   }
 

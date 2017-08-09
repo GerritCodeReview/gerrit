@@ -58,14 +58,13 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory) {
     super(
-        userProvider,
-        limitsFactory,
         metrics,
         AccountSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
-        FIELD_LIMIT);
+        FIELD_LIMIT,
+        () -> limitsFactory.getQueryLimit(userProvider));
     this.accountControlFactory = accountControlFactory;
   }
 

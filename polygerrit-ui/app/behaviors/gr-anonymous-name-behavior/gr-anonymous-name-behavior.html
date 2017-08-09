@@ -20,8 +20,10 @@ limitations under the License.
 
   const ANONYMOUS_NAME = 'Anonymous';
 
+  window.Gerrit = window.Gerrit || {};
+
   /** @polymerBehavior Gerrit.AnonymousNameBehavior */
-  const AnonymousNameBehavior = {
+  Gerrit.AnonymousNameBehavior = {
     getAnonymousName(config) {
       if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
@@ -31,8 +33,5 @@ limitations under the License.
       return ANONYMOUS_NAME;
     },
   };
-
-  window.Gerrit = window.Gerrit || {};
-  window.Gerrit.AnonymousNameBehavior = AnonymousNameBehavior;
 })(window);
 </script>

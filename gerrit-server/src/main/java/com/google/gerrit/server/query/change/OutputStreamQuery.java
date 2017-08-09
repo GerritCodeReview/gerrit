@@ -59,7 +59,12 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Change query implementation that outputs to a stream in the style of an SSH command. */
+/**
+ * Change query implementation that outputs to a stream in the style of an SSH command.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class OutputStreamQuery {
   private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
 

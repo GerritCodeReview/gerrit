@@ -25,6 +25,6 @@ public class DeletedPredicate extends IntegerRangeChangePredicate {
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.DELETED.get(changeData, null);
+    return ChangeField.DELETED.get(changeData);
   }
 }

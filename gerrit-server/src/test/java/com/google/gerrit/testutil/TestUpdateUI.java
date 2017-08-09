@@ -18,21 +18,34 @@ import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import java.util.List;
+import java.util.Set;
 
 public class TestUpdateUI implements UpdateUI {
   @Override
-  public void message(String msg) {}
+  public void message(String message) {}
 
   @Override
-  public boolean yesno(boolean def, String msg) {
-    return false;
+  public boolean yesno(boolean defaultValue, String message) {
+    return defaultValue;
+  }
+
+  @Override
+  public void waitForUser() {}
+
+  @Override
+  public String readString(String defaultValue, Set<String> allowedValues, String message) {
+    return defaultValue;
   }
 
   @Override
   public boolean isBatch() {
-    return false;
+    return true;
   }
 
   @Override
-  public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {}
+  public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {
+    for (String sql : pruneList) {
+      e.execute(sql);
+    }
+  }
 }

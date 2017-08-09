@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3064a03_649b3225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-09T06:13:52Z",
+      "side": 1,
+      "message": "With this and other change, reviewed checkbox is hidden on both change and diff views. What about avoiding loading reviewed bits from the server for edits?\n\n  GET /changes/\u003cchange-id\u003e/revisions/rev-id/files/?reviewed\n\nIOW, the output of:\n\n  $ git grep -5 getReviewedFiles\n\n? Is this going to be disabled for edits in a follow up change as well?",
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

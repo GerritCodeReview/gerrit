@@ -61,6 +61,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -333,7 +334,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, project, id, null, null, null);
+            null, null, null, null, null, project, id, null, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -356,6 +357,7 @@ public class ChangeData {
   private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
+  private final TrackingFooters trackingFooters;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -424,6 +426,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
+      TrackingFooters trackingFooters,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -447,6 +450,7 @@ public class ChangeData {
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.trackingFooters = trackingFooters;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
@@ -730,6 +734,10 @@ public class ChangeData {
       }
     }
     return commitFooters;
+  }
+
+  public ListMultimap<String, String> trackingFooters() throws IOException, OrmException {
+    return trackingFooters.extract(commitFooters());
   }
 
   public PersonIdent getAuthor() throws IOException, OrmException {

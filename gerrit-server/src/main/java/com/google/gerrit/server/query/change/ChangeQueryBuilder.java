@@ -49,7 +49,6 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
@@ -220,7 +219,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
-    final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
@@ -252,7 +250,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeIndexCollection indexes,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
-        TrackingFooters trackingFooters,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
@@ -283,7 +280,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listChildProjects,
           submitDryRun,
           conflictsCache,
-          trackingFooters,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig,
           listMembers,
@@ -317,7 +313,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListChildProjects> listChildProjects,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
-        TrackingFooters trackingFooters,
         ChangeIndex index,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
@@ -347,7 +342,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.listChildProjects = listChildProjects;
       this.submitDryRun = submitDryRun;
       this.conflictsCache = conflictsCache;
-      this.trackingFooters = trackingFooters;
       this.index = index;
       this.indexConfig = indexConfig;
       this.listMembers = listMembers;
@@ -383,7 +377,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listChildProjects,
           submitDryRun,
           conflictsCache,
-          trackingFooters,
           index,
           indexConfig,
           listMembers,
@@ -1053,7 +1046,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(args.trackingFooters, trackingId);
+    return new TrackingIdPredicate(trackingId);
   }
 
   @Operator

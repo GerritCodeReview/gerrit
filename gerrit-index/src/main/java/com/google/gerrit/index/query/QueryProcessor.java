@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query;
+package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -26,11 +26,6 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.SchemaDefinitions;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.LimitPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;

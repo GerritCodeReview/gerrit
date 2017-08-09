@@ -17,11 +17,16 @@ package com.google.gerrit.server.schema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import java.util.List;
+import java.util.Set;
 
 public interface UpdateUI {
   void message(String msg);
 
   boolean yesno(boolean def, String msg);
+
+  void waitForUser();
+
+  String readString(String def, Set<String> allowedValues, String fmt);
 
   boolean isBatch();
 

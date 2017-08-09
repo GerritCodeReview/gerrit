@@ -34,9 +34,9 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.ProvisionException;
@@ -45,7 +45,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -133,28 +132,7 @@ public class SchemaUpdaterTest {
       }
     }
 
-    u.update(
-        new UpdateUI() {
-          @Override
-          public void message(String msg) {}
-
-          @Override
-          public boolean yesno(boolean def, String msg) {
-            return def;
-          }
-
-          @Override
-          public boolean isBatch() {
-            return true;
-          }
-
-          @Override
-          public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {
-            for (String sql : pruneList) {
-              e.execute(sql);
-            }
-          }
-        });
+    u.update(new TestUpdateUI());
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();

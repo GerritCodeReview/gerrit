@@ -34,7 +34,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -49,7 +48,6 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.StalenessChecker.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
@@ -80,7 +78,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
  * Fields indexed on change documents.
@@ -309,14 +306,7 @@ public class ChangeField {
   /** Tracking id extracted from a footer. */
   public static final FieldDef<ChangeData, Iterable<String>> TR =
       exact(ChangeQueryBuilder.FIELD_TR)
-          .buildRepeatable(
-              (ChangeData cd, FillArgs a) -> {
-                List<FooterLine> footers = cd.commitFooters();
-                if (footers == null) {
-                  return ImmutableSet.of();
-                }
-                return Sets.newHashSet(a.trackingFooters.extract(footers).values());
-              });
+          .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
 
   /** List of labels on the current patch set including change owner votes. */
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =

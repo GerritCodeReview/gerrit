@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -309,6 +310,7 @@ public class ChangeData {
     final PatchListCache patchListCache;
     final PatchSetUtil psUtil;
     final ProjectCache projectCache;
+    final TrackingFooters trackingFooters;
 
     @Inject
     Arguments(
@@ -328,7 +330,8 @@ public class ChangeData {
         NotesMigration notesMigration,
         PatchListCache patchListCache,
         PatchSetUtil psUtil,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        TrackingFooters trackingFooters) {
       this.accountCache = accountCache;
       this.accounts = accounts;
       this.approvalsUtil = approvalsUtil;
@@ -346,6 +349,7 @@ public class ChangeData {
       this.psUtil = psUtil;
       this.projectCache = projectCache;
       this.starredChangesUtil = starredChangesUtil;
+      this.trackingFooters = trackingFooters;
     }
   }
 
@@ -729,6 +733,10 @@ public class ChangeData {
       }
     }
     return commitFooters;
+  }
+
+  public ListMultimap<String, String> trackingFooters() throws IOException, OrmException {
+    return a.trackingFooters.extract(commitFooters());
   }
 
   public PersonIdent getAuthor() throws IOException, OrmException {

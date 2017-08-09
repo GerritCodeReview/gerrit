@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  const ERR_EDIT_LOADED = 'You cannot change the review status of an edit.';
+
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
   const WARN_SHOW_ALL_THRESHOLD = 1000;
@@ -58,6 +60,7 @@
         notify: true,
         observer: '_updateDiffPreferences',
       },
+      editLoaded: Boolean,
       _files: {
         type: Array,
         observer: '_filesChanged',
@@ -387,6 +390,10 @@
     },
 
     _reviewFile(path) {
+      if (this.editLoaded) {
+        this.fire('show-alert', {message: ERR_EDIT_LOADED});
+        return;
+      }
       const index = this._reviewed.indexOf(path);
       const reviewed = index !== -1;
       if (reviewed) {
@@ -941,6 +948,10 @@
         // this way, the gray loading style is not shown on initial loads.
         this.classList.toggle('loading', loading && this._files.length);
       }, LOADING_DEBOUNCE_INTERVAL);
+    },
+
+    _computeContainerClass(editLoaded) {
+      return editLoaded ? 'editLoaded' : '';
     },
   });
 })();

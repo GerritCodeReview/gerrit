@@ -168,6 +168,9 @@ limitations under the License.
       .mobile {
         display: none;
       }
+      #container.editLoaded .hideOnEdit {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -245,7 +248,10 @@ limitations under the License.
         </label>
       </div>
     </header>
-    <div on-tap="_handleFileListTap">
+    <div
+        id="container"
+        class$="[[_computeContainerClass(editLoaded)]]"
+        on-tap="_handleFileListTap">
       <template is="dom-repeat"
           items="[[_shownFiles]]"
           id="files"
@@ -253,7 +259,7 @@ limitations under the License.
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
         <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
-          <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
+          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
             <input
                 type="checkbox"
                 checked="[[file.isReviewed]]"

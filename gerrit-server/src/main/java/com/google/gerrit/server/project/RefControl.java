@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
@@ -125,28 +124,6 @@ public class RefControl {
   /** Can this user see other users change edits? */
   public boolean isEditVisible() {
     return canViewPrivateChanges();
-  }
-
-  /** True if this reference is visible by all REGISTERED_USERS */
-  public boolean isVisibleByRegisteredUsers() {
-    List<PermissionRule> access = relevant.getPermission(Permission.READ);
-    List<PermissionRule> overridden = relevant.getOverridden(Permission.READ);
-    Set<ProjectRef> allows = new HashSet<>();
-    Set<ProjectRef> blocks = new HashSet<>();
-    for (PermissionRule rule : access) {
-      if (rule.isBlock()) {
-        blocks.add(relevant.getRuleProps(rule));
-      } else if (SystemGroupBackend.isAnonymousOrRegistered(rule.getGroup())) {
-        allows.add(relevant.getRuleProps(rule));
-      }
-    }
-    for (PermissionRule rule : overridden) {
-      if (SystemGroupBackend.isAnonymousOrRegistered(rule.getGroup())) {
-        blocks.remove(relevant.getRuleProps(rule));
-      }
-    }
-    blocks.removeAll(allows);
-    return blocks.isEmpty() && !allows.isEmpty();
   }
 
   private boolean canUpload() {

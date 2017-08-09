@@ -720,28 +720,6 @@ public class RefControlTest {
   }
 
   @Test
-  public void unblockVisibilityByRegisteredUsers() {
-    block(local, READ, ANONYMOUS_USERS, "refs/heads/*");
-    allow(local, READ, REGISTERED_USERS, "refs/heads/*");
-
-    ProjectControl u = user(local, REGISTERED_USERS);
-    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
-        .named("u can read")
-        .isTrue();
-  }
-
-  @Test
-  public void unblockInLocalVisibilityByRegisteredUsers_Fails() {
-    block(parent, READ, ANONYMOUS_USERS, "refs/heads/*");
-    allow(local, READ, REGISTERED_USERS, "refs/heads/*");
-
-    ProjectControl u = user(local, REGISTERED_USERS);
-    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
-        .named("u can't read")
-        .isFalse();
-  }
-
-  @Test
   public void unblockForceEditTopicName() {
     block(local, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);

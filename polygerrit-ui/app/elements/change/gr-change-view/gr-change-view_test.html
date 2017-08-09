@@ -1296,6 +1296,37 @@ limitations under the License.
       assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
     });
 
+    test('_processEdit', () => {
+      element._patchRange = {};
+      const change = {
+        current_revision: 'foo',
+        revisions: {foo: {commit: {}}},
+      };
+      let mockChange;
+
+      // With no edit, mockChange should be unmodified.
+      element._processEdit(mockChange = _.cloneDeep(change), null);
+      assert.deepEqual(mockChange, change);
+
+      // When edit is not based on the latest PS, current_revision should be
+      // unmodified.
+      const edit = {
+        base_patch_set_number: 1,
+        commit: {commit: 'bar'},
+        fetch: true,
+      };
+      element._processEdit(mockChange = _.cloneDeep(change), edit);
+      assert.notDeepEqual(mockChange, change);
+      assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
+      assert.equal(mockChange.current_revision, change.current_revision);
+      assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
+
+      edit.base_revision = 'foo';
+      element._processEdit(mockChange = _.cloneDeep(change), edit);
+      assert.notDeepEqual(mockChange, change);
+      assert.equal(mockChange.current_revision, 'bar');
+    });
+
     suite('_upgradeUrl calls', () => {
       let upgradeStub;
       const mockChange = {project: 'test'};

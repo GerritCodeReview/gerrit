@@ -46,6 +46,7 @@ java_library(
         ":query_parser",
         "//gerrit-common:annotations",
         "//gerrit-extension-api:api",
+        "//gerrit-server:metrics",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",

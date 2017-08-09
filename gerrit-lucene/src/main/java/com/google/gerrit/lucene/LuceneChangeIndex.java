@@ -44,7 +44,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
@@ -142,7 +141,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
-  private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
@@ -158,10 +156,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema)
       throws IOException {
-    this.fillArgs = fillArgs;
     this.executor = executor;
     this.db = db;
     this.changeDataFactory = changeDataFactory;
@@ -215,7 +211,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = LuceneChangeIndex.idTerm(cd);
     // toDocument is essentially static and doesn't depend on the specific
     // sub-index, so just pick one.
-    Document doc = openIndex.toDocument(cd, fillArgs);
+    Document doc = openIndex.toDocument(cd);
     try {
       if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(closedIndex.delete(id), openIndex.replace(id, doc)).get();

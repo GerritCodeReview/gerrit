@@ -25,6 +25,6 @@ public class AddedPredicate extends IntegerRangeChangePredicate {
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.ADDED.get(changeData, null);
+    return ChangeField.ADDED.get(changeData);
   }
 }

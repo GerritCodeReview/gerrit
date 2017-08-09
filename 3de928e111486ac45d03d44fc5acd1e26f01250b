@@ -34,6 +34,24 @@
       "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587f3186_aba78f48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-09T18:41:10Z",
+      "side": 1,
+      "message": "Would it work to just upgrade that call in a follow-up?\n\nI think this call not working should block this change but, this call not being upgraded to the non-working version would not block this change.",
+      "parentUuid": "8e1dc414_187da9bf",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

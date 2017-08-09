@@ -32,6 +32,12 @@ import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+/**
+ * Query processor for the group index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   private final GroupControl.GenericFactory groupControlFactory;
 

@@ -228,7 +228,7 @@ public class MergeOp implements AutoCloseable {
   private final InternalUser.Factory internalUserFactory;
   private final MergeSuperSet mergeSuperSet;
   private final MergeValidators.Factory mergeValidatorsFactory;
-  private final InternalChangeQuery internalChangeQuery;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
@@ -255,7 +255,7 @@ public class MergeOp implements AutoCloseable {
       InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
-      InternalChangeQuery internalChangeQuery,
+      Provider<InternalChangeQuery> queryProvider,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
@@ -267,7 +267,7 @@ public class MergeOp implements AutoCloseable {
     this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
-    this.internalChangeQuery = internalChangeQuery;
+    this.queryProvider = queryProvider;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
@@ -860,7 +860,7 @@ public class MergeOp implements AutoCloseable {
 
   private void abandonAllOpenChangeForDeletedProject(Project.NameKey destProject) {
     try {
-      for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
+      for (ChangeData cd : queryProvider.get().byProjectOpen(destProject)) {
         try (BatchUpdate bu =
             batchUpdateFactory.create(db, destProject, internalUserFactory.create(), ts)) {
           bu.setRequestId(submissionId);

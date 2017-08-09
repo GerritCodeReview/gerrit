@@ -71,7 +71,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     usage = "maximum number of users to return"
   )
   public void setLimit(int n) {
-    queryProcessor.setLimit(n);
+    queryProcessor.setUserProvidedLimit(n);
 
     if (n < 0) {
       suggestLimit = 10;
@@ -177,7 +177,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       Predicate<AccountState> queryPred;
       if (suggest) {
         queryPred = queryBuilder.defaultQuery(query);
-        queryProcessor.setLimit(suggestLimit);
+        queryProcessor.setUserProvidedLimit(suggestLimit);
       } else {
         queryPred = queryBuilder.parse(query);
       }

@@ -21,6 +21,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -39,6 +40,19 @@ public class AccountLimits {
 
     public AccountLimits create(CurrentUser user) {
       return new AccountLimits(projectCache, user);
+    }
+
+    /**
+     * Helper method to update the limit on a {@link QueryProcessor} for a given user.
+     *
+     * <p>Generally speaking, {@code QueryProcessor} subclasses should call this method from their
+     * constructor; users of specific subclasses should not have to call this method.
+     *
+     * @param user user to check limits for.
+     * @param qp query processor.
+     */
+    public <T> void updateQueryLimit(CurrentUser user, QueryProcessor<T> qp) {
+      qp.setPermittedLimit(create(user).getRange(GlobalCapability.QUERY_LIMIT).getMax());
     }
   }
 

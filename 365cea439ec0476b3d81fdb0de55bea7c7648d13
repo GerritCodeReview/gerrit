@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b4ce822_0ac07bb1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestUpdateUI.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-09T12:27:02Z",
+      "side": 1,
+      "message": "It should default to def, right?",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 13
+      },
+      "revId": "365cea439ec0476b3d81fdb0de55bea7c7648d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

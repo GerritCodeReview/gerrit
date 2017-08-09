@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe03a28d_24c543e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-09T18:34:54Z",
+      "side": 1,
+      "message": "When I test, this call fails consistently with the new URL style. Is this a known problem with the API? Should we hold off on upgrading this one?\n\nIt looks like the GWT UI\u0027s approach to this function also includes the revision SHA (as well as the project). This might be useful too.",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

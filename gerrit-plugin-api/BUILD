@@ -19,6 +19,7 @@ EXPORTS = [
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
     "//gerrit-gwtexpui:server",
+    "//gerrit-server:metrics",
     "//gerrit-reviewdb:server",
     "//gerrit-server:prolog-common",
     "//lib/commons:dbcp",

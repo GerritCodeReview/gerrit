@@ -11,6 +11,7 @@ PROVIDED = [
     "//gerrit-lucene:lucene",
     "//gerrit-pgm:init",
     "//gerrit-reviewdb:server",
+    "//gerrit-server:metrics",
     "//gerrit-server:receive",
     "//gerrit-server:server",
     "//lib:gson",

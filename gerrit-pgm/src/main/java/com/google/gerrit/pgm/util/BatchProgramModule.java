@@ -165,7 +165,7 @@ public class BatchProgramModule extends FactoryModule {
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
     factory(CapabilityCollection.Factory.class);
-    factory(ChangeData.Factory.class);
+    factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));

@@ -247,7 +247,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);
     factory(CapabilityCollection.Factory.class);
-    factory(ChangeData.Factory.class);
+    factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);

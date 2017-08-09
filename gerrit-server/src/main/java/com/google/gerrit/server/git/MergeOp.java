@@ -906,13 +906,7 @@ public class MergeOp implements AutoCloseable {
     if (c == 1) {
       return "Error submitting change";
     }
-    int p;
-    try {
-      p = cs.projects().size();
-    } catch (OrmException e) {
-      log.debug("Error looking up projects for " + cs, e);
-      return "Error submitting changes";
-    }
+    int p = cs.projects().size();
     if (p == 1) {
       // Fused updates: it's correct to say that none of the n changes were submitted.
       return "Error submitting " + c + " changes";

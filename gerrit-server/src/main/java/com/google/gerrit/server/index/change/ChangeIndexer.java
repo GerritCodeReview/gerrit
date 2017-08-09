@@ -310,12 +310,8 @@ public class ChangeIndexer {
     return submit(new ReindexIfStaleTask(project, id), batchExecutor);
   }
 
-  private void autoReindexIfStale(ChangeData cd) throws IOException {
-    try {
-      autoReindexIfStale(cd.project(), cd.getId());
-    } catch (OrmException e) {
-      throw new IOException(e);
-    }
+  private void autoReindexIfStale(ChangeData cd) {
+    autoReindexIfStale(cd.project(), cd.getId());
   }
 
   private void autoReindexIfStale(Project.NameKey project, Change.Id id) {

@@ -591,7 +591,6 @@ public class RestApiServlet extends HttpServlet {
 
     String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
     if (headers != null) {
-      res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
       for (String reqHdr : Splitter.on(',').trimResults().split(headers)) {
         if (!ALLOWED_CORS_REQUEST_HEADERS.contains(reqHdr.toLowerCase(Locale.US))) {
           throw new BadRequestException(reqHdr + " not allowed in CORS");

@@ -73,6 +73,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -387,14 +388,25 @@ public class BaseInit extends SiteProgram {
       schemaUpdater.update(
           new UpdateUI() {
             @Override
-            public void message(String msg) {
-              System.err.println(msg);
+            public void message(String message) {
+              System.err.println(message);
               System.err.flush();
             }
 
             @Override
-            public boolean yesno(boolean def, String msg) {
-              return ui.yesno(def, msg);
+            public boolean yesno(boolean defaultValue, String message) {
+              return ui.yesno(defaultValue, message);
+            }
+
+            @Override
+            public void waitForUser() {
+              ui.waitForUser();
+            }
+
+            @Override
+            public String readString(
+                String defaultValue, Set<String> allowedValues, String message) {
+              return ui.readString(defaultValue, allowedValues, message);
             }
 
             @Override

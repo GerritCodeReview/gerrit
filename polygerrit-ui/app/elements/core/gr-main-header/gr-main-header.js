@@ -72,6 +72,7 @@
         notify: true,
       },
 
+      /** @type {?Object} */
       _account: Object,
       _adminLinks: {
         type: Array,
@@ -125,11 +126,12 @@
     },
 
     _handleLocationChange(e) {
-      if (this.getBaseUrl()) {
+      const baseUrl = this.getBaseUrl();
+      if (baseUrl) {
         // Strip the canonical path from the path since needing canonical in
         // the path is uneeded and breaks the url.
-        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
-            '/' + window.location.pathname.substring(this.getBaseUrl().length) +
+        this._loginURL = baseUrl + '/login/' + encodeURIComponent(
+            '/' + window.location.pathname.substring(baseUrl.length) +
             window.location.search +
             window.location.hash);
       } else {

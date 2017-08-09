@@ -18,6 +18,7 @@
     is: 'gr-change-star',
 
     properties: {
+      /** @type {?} */
       change: {
         type: Object,
         notify: true,

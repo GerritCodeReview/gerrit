@@ -36,16 +36,26 @@ limitations under the License.
 <script>
   suite('gr-patch-range-select tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
     });
+
+    teardown(() => sandbox.restore());
 
     test('enabled/disabled options', () => {
       const patchRange = {
         basePatchNum: 'PARENT',
         patchNum: '3',
       };
+      element._sortedRevisions = [
+        {_number: 1},
+        {_number: 2},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 3},
+      ];
       for (const patchNum of ['1', '2', '3']) {
         assert.isFalse(element._computeRightDisabled(patchNum, patchRange));
       }
@@ -54,18 +64,21 @@ limitations under the License.
       }
       assert.isTrue(element._computeLeftDisabled('3', patchRange));
 
-      patchRange.basePatchNum = '2';
+      patchRange.basePatchNum = element.EDIT_NAME;
       assert.isTrue(element._computeLeftDisabled('3', patchRange));
       assert.isTrue(element._computeRightDisabled('1', patchRange));
       assert.isTrue(element._computeRightDisabled('2', patchRange));
       assert.isFalse(element._computeRightDisabled('3', patchRange));
+      assert.isTrue(element._computeRightDisabled(element.EDIT_NAME, patchRange));
     });
 
     test('navigation', done => {
-      const showStub = sinon.stub(page, 'show');
+      sandbox.stub(element, '_computeLeftDisabled').returns(false);
+      sandbox.stub(element, '_computeRightDisabled').returns(false);
+      const showStub = sandbox.stub(page, 'show');
       const leftSelectEl = element.$.leftPatchSelect;
       const rightSelectEl = element.$.rightPatchSelect;
-      const blurSpy = sinon.spy(leftSelectEl, 'blur');
+      const blurSpy = sandbox.spy(leftSelectEl, 'blur');
       element.changeNum = '42';
       element.path = 'path/to/file.txt';
       element.availablePatches = ['1', '2', '3'];
@@ -89,7 +102,6 @@ limitations under the License.
           assert(showStub.lastCall.calledWithExactly(
               '/c/42/1..3/path/to/file.txt'),
               'Should navigate to /c/42/1..3/path/to/file.txt');
-          showStub.restore();
           done();
         }
       });

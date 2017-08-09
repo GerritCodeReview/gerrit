@@ -41,7 +41,8 @@
       changeNum: String,
       comments: Object,
       drafts: Object,
-      revisions: Object,
+      // Already sorted by the change-view.
+      revisions: Array,
       projectConfig: Object,
       selectedIndex: {
         type: Number,
@@ -116,6 +117,7 @@
         type: Boolean,
         observer: '_loadingChanged',
       },
+      _sortedRevisions: Array,
     },
 
     behaviors: [
@@ -231,7 +233,8 @@
     },
 
     _computePatchSetDisabled(patchNum, currentPatchNum) {
-      return parseInt(patchNum, 10) >= parseInt(currentPatchNum, 10);
+      return this.findSortedIndex(patchNum, this.revisions) >=
+          this.findSortedIndex(currentPatchNum, this.revisions);
     },
 
     _togglePathExpanded(path) {

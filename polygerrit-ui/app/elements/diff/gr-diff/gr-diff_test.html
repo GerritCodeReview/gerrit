@@ -713,6 +713,7 @@ limitations under the License.
     });
 
     suite('logged in', () => {
+      let fakeLineEl;
       setup(() => {
         stub('gr-rest-api-interface', {
           getLoggedIn() { return Promise.resolve(true); },
@@ -721,18 +722,43 @@ limitations under the License.
           },
         });
         element = fixture('basic');
+        element.patchRange = {};
+
+        fakeLineEl = {
+          getAttribute: sandbox.stub().returns(42),
+          classList: {
+            contains: sandbox.stub().returns(true),
+          },
+        };
       });
 
       test('addDraftAtLine', done => {
-        const fakeLineEl = {getAttribute: sandbox.stub().returns(42)};
         sandbox.stub(element, '_selectLine');
-        sandbox.stub(element, '_addDraft');
+        sandbox.stub(element, '_createComment');
         const loggedInErrorSpy = sandbox.spy();
         element.addEventListener('show-auth-required', loggedInErrorSpy);
         element.addDraftAtLine(fakeLineEl);
         flush(() => {
           assert.isFalse(loggedInErrorSpy.called);
-          assert.isTrue(element._addDraft.calledWithExactly(fakeLineEl, 42));
+          assert.isTrue(element._createComment
+              .calledWithExactly(fakeLineEl, 42));
+          done();
+        });
+      });
+
+      test.only('addDraftAtLine on an edit', done => {
+        element.patchRange.basePatchNum = element.EDIT_NAME;
+        sandbox.stub(element, '_selectLine');
+        sandbox.stub(element, '_createComment');
+        const loggedInErrorSpy = sandbox.spy();
+        const alertSpy = sandbox.spy();
+        element.addEventListener('show-auth-required', loggedInErrorSpy);
+        element.addEventListener('show-alert', alertSpy);
+        element.addDraftAtLine(fakeLineEl);
+        flush(() => {
+          assert.isFalse(loggedInErrorSpy.called);
+          assert.isTrue(alertSpy.called);
+          assert.isFalse(element._createComment.called);
           done();
         });
       });

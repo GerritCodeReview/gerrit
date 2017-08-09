@@ -459,8 +459,9 @@ limitations under the License.
               <select>
                 <template is="dom-repeat" items="[[_allPatchSets]]"
                     as="patchNum">
-                  <option value$="[[patchNum.num]]"
-                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
+                  <option
+                      value$="[[patchNum.num]]"
+                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum, _sortedRevisions)]]">
                     [[patchNum.num]]
                     /
                     [[computeLatestPatchNum(_allPatchSets)]]
@@ -511,7 +512,7 @@ limitations under the License.
             patch-range="{{_patchRange}}"
             comments="[[_comments]]"
             drafts="[[_diffDrafts]]"
-            revisions="[[_change.revisions]]"
+            revisions="[[_sortedRevisions]]"
             project-config="[[_projectConfig]]"
             selected-index="{{viewState.selectedFileIndex}}"
             diff-view-mode="{{viewState.diffMode}}"

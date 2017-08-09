@@ -176,6 +176,10 @@
       }
     },
 
+    _getChangeEdit(changeNum) {
+      return this.$.restAPI.getChangeEdit(this._changeNum);
+    },
+
     _getFiles(changeNum, patchRangeRecord) {
       const patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
@@ -495,7 +499,17 @@
 
       promises.push(this._loadComments());
 
-      Promise.all(promises).then(() => {
+      promises.push(this._getChangeEdit(this._changeNum));
+
+      Promise.all(promises).then(r => {
+        const edit = r[4];
+        if (edit) {
+          this.set('_change.revisions.' + edit.commit.commit, {
+            _number: this.EDIT_NAME,
+            basePatchNum: edit.base_patch_set_number,
+            commit: edit.commit,
+          });
+        }
         this._loading = false;
         this.$.diff.comments = this._commentsForDiff;
         this.$.diff.reload();
@@ -562,13 +576,8 @@
       return patchStr;
     },
 
-    _computeAvailablePatches(revisions) {
-      const patchNums = [];
-      if (!revisions) { return patchNums; }
-      for (const rev of Object.values(revisions)) {
-        patchNums.push(rev._number);
-      }
-      return patchNums.sort((a, b) => { return a - b; });
+    _computeAvailablePatches(revs) {
+      return this.sortRevisions(Object.values(revs)).map(e => e._number);
     },
 
     /**

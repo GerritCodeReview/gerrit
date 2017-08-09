@@ -39,6 +39,7 @@
 
   const encode = window.Gerrit.URLEncodingBehavior.encodeURL;
   const patchNumEquals = window.Gerrit.PatchSetBehavior.patchNumEquals;
+  const EDIT_NAME = window.Gerrit.PatchSetBehavior.EDIT_NAME;
 
   function startRouter(generateUrl) {
     const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
@@ -419,18 +420,27 @@
       if (params.basePatchNum &&
           patchNumEquals(params.basePatchNum, params.patchNum)) {
         params.basePatchNum = null;
-        upgradeUrl(params);
       } else if (params.basePatchNum && !params.patchNum) {
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
       }
+      // In GWTUI, edits are represented in URLs with either 0 or 'edit'.
+      // TODO(kaspern): Remove this normalization when GWT UI is gone.
+      if (patchNumEquals(params.basePatchNum, 0)) {
+        params.basePatchNum = EDIT_NAME;
+      }
+      if (patchNumEquals(params.patchNum, 0)) {
+        params.patchNum = EDIT_NAME;
+      }
+      upgradeUrl(params);
     };
 
     // Matches
-    // /c/<project>/+/<changeNum>/[<basePatchNum>..][<patchNum>]/[path].
+    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    page(/^\/c\/(.+)\/\+\/(\d+)(\/?((\d+)(\.\.(\d+))?(\/(.+))?))?\/?$/,
+    // eslint-disable-next-line max-len
+    page(/^\/c\/(.+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
         ctx => {
           // Parameter order is based on the regex group number matched.
           const params = {
@@ -448,7 +458,7 @@
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?\/?$/, ctx => {
+    page(/^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/, ctx => {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
@@ -462,7 +472,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, ctx => {
+    page(/^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/, ctx => {
       // Check if path has an '@' which indicates it was using GWT style line
       // numbers. Even if the filename had an '@' in it, it would have already
       // been URI encoded. Redirect to hash version of path.

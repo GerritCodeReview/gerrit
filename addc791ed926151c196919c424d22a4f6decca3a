@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "4a8144c4_12c7853a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-09T21:33:43Z",
+      "side": 1,
+      "message": "Yes. I have re-written all this 4 times, by that I mean 4 major re-writes:\n\n* 1. Very old change screen\n* 2. Adaptation to the new change screen\n* 3. Restricting to only one single change edit with rebase support, compared to change edit per patch set\n* 4. De-coupling edit load form GET /changes/\u003cid\u003e/detail request and refactoring change edit internals\n\nSo yes, the way to go for me from this point would be:\n\n* a) disable fetch of reviewed bit as suggested in the comment above\n* b) exposing change edits actions: create new change, publish, delete, download, optionally rebase\n* c) think of first steps to edit a file, may be a very basic one: restrict to the ability to edit only existing files in the change, and postpone the adding of new files to the later.\n* d) as editing option, I would suggest a basic popup dialog with text area as first step, later move to full screen view and only later, consider any further complication like syntax highlighting, not to mention something similar to CodeMirror with merge view support.\n\nOf course these are just my point of view. I am open to communicate in any ways, but if possible would prefer the communication to be open and accessible for others. So issue tracker sounds like a right place?",
+      "parentUuid": "7fa27e3d_3e305b8f",
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff5dba10_f97c970d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 1

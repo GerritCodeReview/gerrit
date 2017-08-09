@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502290870 -0400\nnonce AHIDc+Nw5WFHAiRCEhq01BOpnGKKsja3P7GqdTejcErp+/+iaIExF0z24NMNcsbHdiDAZ6WJ9PJO\n\n0000000000000000000000000000000000000000 31d2fd0025699251620ca2a448b60791dcfe76a4 refs/for/master%topic\u003dgerrit-index-package,r\u003daliceks,r\u003ddavid.ostrovsky@gmail.com,cc\u003dxisun@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZiyO2AAoJEF/XxZqaEoiMzcEP/1vF1npKCW8ls/VNdnHcegn6\nhdpmcJFY+42G+XSRfTKl9OTByP0bR0sB2noqyf1/czlFlChcqZHNFGVcQqOnGQso\nsVBhWKkQ6rWkG9+kK7pt+lOe186n1VQBo4in1+f6wVEMqBIoAGb42tC3WrFJIepD\nIv0Ti52v8bAVn9JtU83Se7Elqa3PYyhTRP5AuZTkWDeT2lo+YwAbCT/Sx8yxTTAE\nutRxoanEYYxKkcUPTpZmhi383x/HRH2NP4hKDtCFEb3Xk0N2Jzs6ut+MmS1hiNEC\nrGxEZO144Cyr3O2i3nr82UcsLNHphptLDjz//a87NE/3I4EoODLEn4le1wWibtHq\nxxbHQkicov0OBXQ0L2RGyrdROZYYt50ozQY7I447GoUogBHsN+LbrnzarAJ8TuNS\n1mvmg8Tt3ImJN6qMlW3OMRW6ARNyUv/iXwTUhKtP53RXZPhuXW2HXw02y4Q5sh8E\n3guDJw/xe0UrL8e3wHrDpdQaHN17qdotN3vCsgrq74zUzQ5tyXPvRwwkk2LjxKEx\n4G7GB4PzCG6K8sxKjC98xfI6UHB8D32cjQOotVSyBk7kvFdbkQG1XI19/q97uT9+\n+ymyEardAU7HpeGy0Smn56eTR0brCfv8eGaRCcdxJHsIH7yNypWtxJX3Vhx6c8hQ\nK7w1ojyzKOXhdeG9aZJX\n\u003d/WzE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6333162_dc116ae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-09T15:08:02Z",
+      "side": 1,
+      "message": "Why don\u0027t we use it directly? In which case we can just rebase this: [1].\n\n* https://gerrit-review.googlesource.com/c/110418",
+      "revId": "31d2fd0025699251620ca2a448b60791dcfe76a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -18,7 +18,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
 public class GroupIndexDefinition
     extends IndexDefinition<AccountGroup.UUID, AccountGroup, GroupIndex> {
@@ -32,6 +31,6 @@ public class GroupIndexDefinition
         GroupSchemaDefinitions.INSTANCE,
         indexCollection,
         indexFactory,
-        Providers.of(allGroupsIndexer));
+        () -> allGroupsIndexer);
   }
 }

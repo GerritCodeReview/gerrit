@@ -51,7 +51,6 @@ java_library(
         "//lib:gwtorm",
         "//lib/antlr:java_runtime",
         "//lib/auto:auto-value",
-        "//lib/guice",  # TODO(dborowitz): Replace Provider with Supplier.
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],

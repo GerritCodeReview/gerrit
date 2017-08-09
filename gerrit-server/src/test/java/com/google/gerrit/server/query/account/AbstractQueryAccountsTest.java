@@ -104,7 +104,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected OneOffRequestContext oneOffRequestContext;
 
-  @Inject protected InternalAccountQuery internalAccountQuery;
+  @Inject protected Provider<InternalAccountQuery> queryProvider;
 
   @Inject protected AllProjectsName allProjects;
 
@@ -294,19 +294,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
     AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
 
-    assertThat(internalAccountQuery.byWatchedProject(p)).isEmpty();
+    assertThat(queryProvider.get().byWatchedProject(p)).isEmpty();
 
     watch(user1, p, null);
-    assertAccounts(internalAccountQuery.byWatchedProject(p), user1);
+    assertAccounts(queryProvider.get().byWatchedProject(p), user1);
 
     watch(user2, p, "keyword");
-    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
+    assertAccounts(queryProvider.get().byWatchedProject(p), user1, user2);
 
     watch(user3, p2, "keyword");
     watch(user3, allProjects, "keyword");
-    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
-    assertAccounts(internalAccountQuery.byWatchedProject(p2), user3);
-    assertAccounts(internalAccountQuery.byWatchedProject(allProjects), user3);
+    assertAccounts(queryProvider.get().byWatchedProject(p), user1, user2);
+    assertAccounts(queryProvider.get().byWatchedProject(p2), user3);
+    assertAccounts(queryProvider.get().byWatchedProject(allProjects), user3);
   }
 
   @Test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56d2e566_b1381b6d",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-09T20:44:00Z",
+      "side": 0,
+      "message": "This is still needed: [1].\n\n* [1] http://paste.openstack.org/show/617986.",
+      "range": {
+        "startLine": 281,
+        "startChar": 8,
+        "endLine": 281,
+        "endChar": 25
+      },
+      "revId": "a9616970ff0c76c2de5f3e84ca651a3394929dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

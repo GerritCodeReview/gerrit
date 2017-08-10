@@ -29,8 +29,9 @@
     ],
 
     _configChanged(config) {
-      const jsPlugins = config.js_resource_paths || [];
-      const htmlPlugins = config.html_resource_paths || [];
+      const plugins = config.plugin;
+      const jsPlugins = plugins.js_resource_paths || [];
+      const htmlPlugins = plugins.html_resource_paths || [];
       const defaultTheme = config.default_theme;
       if (defaultTheme) {
         // Make theme first to be first to load.

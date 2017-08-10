@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a35dee88_a4f47d06",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-10T01:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d349c84_a6fdde57",
+      "range": {
+        "startLine": 65,
+        "startChar": 20,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95400373_448d6af4",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8a9d8a39_786abc29",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-10T01:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95400373_448d6af4",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4373f894_9230bd0a",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 12
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "49506927_96258e95",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-10T01:55:40Z",
+      "side": 1,
+      "message": "I didn\u0027t realize that about the old UI. Thanks for point it out.\n\nI suppose we could call this section \"Associated Changes\", but I feel like we are playing with semantics. However, what I think we can mitigate this by:\n\n1. Keeping the title as Related Changes.\n2. Changing this section so we don\u0027t \"name\" this part of the UI \"Related Changes.\" Instead, we can just say: \"These changes are listed next to the change message.\" \n\nThis plan should not only help avoid confusion, but it may even help folks moving from the old UI find the corresponding section in the new UI. \n\nTake a look and let me know what you think.",
+      "parentUuid": "4373f894_9230bd0a",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af6cf5e_9e788c5b",
         "filename": "Documentation/concept-changes.txt",
         "patchSetId": 12
@@ -79,6 +145,24 @@
       "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0e8b570_a6533636",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-10T01:55:40Z",
+      "side": 1,
+      "message": "Okay. But can a user choose \"submit including ancestors\"?\n\nI hate doing this, but I\u0027m going to just acknowledge this one, because I\u0027m not sure how to modify the text without making things confusing for the user. Happy to take suggestions!",
+      "parentUuid": "9af6cf5e_9e788c5b",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

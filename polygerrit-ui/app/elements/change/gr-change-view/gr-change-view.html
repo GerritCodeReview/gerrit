@@ -37,6 +37,7 @@ limitations under the License.
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
+<link rel="import" href="../gr-more-info-dialog/gr-more-info-dialog.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -442,6 +443,7 @@ limitations under the License.
             revisions="[[_sortedRevisions]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
+            on-open-more-info-dialog="_handleMoreInfoTap"
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
         </gr-file-list-header>
@@ -478,6 +480,13 @@ limitations under the License.
           patch-num="[[_patchRange.patchNum]]"
           config="[[_serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
+    <gr-overlay id="moreInfoOverlay" with-backdrop>
+      <gr-more-info-dialog
+          id="moreInfoDialog"
+          change="[[_change]]"
+          commit-info="[[_commitInfo]]"
+          on-close="_handleMoreInfoDialogClose"></gr-more-info-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
         class="scrollable"

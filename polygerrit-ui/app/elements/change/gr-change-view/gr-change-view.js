@@ -410,6 +410,14 @@
       this.$.downloadOverlay.close();
     },
 
+    _handleMoreInfoTap() {
+      this.$.moreInfoOverlay.open();
+    },
+
+    _handleMoreInfoDialogClose(e) {
+      this.$.moreInfoOverlay.close();
+    },
+
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(

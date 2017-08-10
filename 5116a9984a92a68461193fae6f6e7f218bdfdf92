@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38f41ef8_3ac2727c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T18:24:27Z",
+      "side": 1,
+      "message": "This catch block needs to continue to enclose the controlFor call, since that can throw NSCE as well.",
+      "revId": "5116a9984a92a68461193fae6f6e7f218bdfdf92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

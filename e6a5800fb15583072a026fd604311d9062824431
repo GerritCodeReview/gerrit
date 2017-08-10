@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa909cb2_633b67ed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "It looks like this property is used for the list of groups included in the current group, but it has type \"String\".\n\nAlso, if this is a list of (potentially) multiple groups, it should have a plural name.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab81bec6_f6279d43",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "This says it\u0027s done loading when the config is loaded but it has yet load ownership, membership or included groups. Should we set `_loading` to false after these have loaded?",
+      "range": {
+        "startLine": 68,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 34
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589f9366_83cd8b23",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "The same applies here as in [1], something like ..\n\n if (configs.hasOwnProperty(group.name)) {\n\n.. should suffice here.\n\nOptional: We may also consider making a rest-api-interface method to avoid repeating the group ownership logic. Something like ..\n\n/**\n * @param {!string} groupName\n * @returns {!Promise\u003cboolean\u003e}\n */\nuserIsGroupOwner(groupName) {\n  return this.getIsGroupOwner(groupName)\n      .then(configs \u003d\u003e configs.hasOwnProperty(groupName));\n},\n\n[1] https://gerrit-review.googlesource.com/c/118071/9/polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js#216",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 72,
+        "endChar": 52
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b132862_9a77f44f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "When I try adding a new group, it doesn\u0027t appear in the table until I reload. Maybe this is related to my comment on the _includedGroup property\u0027s type.",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 31
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb3752a_ab9486e9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "Nit: use \"2017\".",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f286b3a_13573ddb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T20:50:54Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

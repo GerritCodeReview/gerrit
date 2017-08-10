@@ -101,6 +101,12 @@ public abstract class CurrentUser {
         getClass().getSimpleName() + " is not an IdentifiedUser");
   }
 
+  /** Cast to InternalUser if possible. */
+  public InternalUser asInternalUser() {
+    throw new UnsupportedOperationException(
+        getClass().getSimpleName() + " is not an IdentifiedUser");
+  }
+
   /**
    * Return account ID if {@link #isIdentifiedUser} is true.
    *

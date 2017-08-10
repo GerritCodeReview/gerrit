@@ -804,6 +804,9 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       if (ctx.getUser().isIdentifiedUser()) {
         updateManager.setRefLogIdent(
             ctx.getUser().asIdentifiedUser().newRefLogIdent(ctx.getWhen(), tz));
+      } else if (ctx.getUser().isInternalUser()) {
+        updateManager.setRefLogIdent(
+            ctx.getUser().asInternalUser().newRefLogIdent(ctx.getWhen(), tz));
       }
       for (ChangeUpdate u : ctx.updates.values()) {
         updateManager.add(u);

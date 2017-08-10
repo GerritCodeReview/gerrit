@@ -402,6 +402,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
             dryrun);
     if (user.isIdentifiedUser()) {
       handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+    } else if (user.isInternalUser()) {
+      handle.manager.setRefLogIdent(user.asInternalUser().newRefLogIdent(when, tz));
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

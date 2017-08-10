@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0bf8b2cd_9562cc98",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "This is the only way i got it to work, without the quotes it actually thinks true is a variable but as it is not defined it makes it false.",
+      "parentUuid": "ee220a0a_2e1737ac",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44bb1844_a776bc0f",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-10T18:11:33Z",
       "side": 1,
       "message": "lets not pass any value here",
+      "range": {
+        "startLine": 53,
+        "startChar": 51,
+        "endLine": 53,
+        "endChar": 59
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61c793e8_eaef7f2b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "44bb1844_a776bc0f",
       "range": {
         "startLine": 53,
         "startChar": 51,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e2a9dbe4_94dd22d3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "76b3e792_b3885575",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 7
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c48e86ce_3bfd7bcb",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
         "patchSetId": 10
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "3dcf106f_2564b3be",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c48e86ce_3bfd7bcb",
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c3e9403_8549788d",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
         "patchSetId": 10
@@ -99,6 +189,30 @@
       "writtenOn": "2017-08-10T18:11:33Z",
       "side": 1,
       "message": "let account \u003d {",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd0d84e2_e0227a67",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "ah, thanks, done.",
+      "parentUuid": "7c3e9403_8549788d",
       "range": {
         "startLine": 43,
         "startChar": 5,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "69346e15_aa12467c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ed8c0ed1_6eac47a1",
+      "range": {
+        "startLine": 49,
+        "startChar": 49,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61c1cec3_1963276b",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
         "patchSetId": 10
@@ -145,6 +283,30 @@
       "writtenOn": "2017-08-10T18:11:33Z",
       "side": 1,
       "message": "let account \u003d {",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 17
+      },
+      "revId": "4a27c7bc4f755adaa83ea7004481ebb3bdbfeef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60d9d2eb_fb6199fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:30:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "61c1cec3_1963276b",
       "range": {
         "startLine": 59,
         "startChar": 6,

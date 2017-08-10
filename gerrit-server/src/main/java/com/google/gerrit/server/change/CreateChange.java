@@ -109,7 +109,6 @@ public class CreateChange
   private final ChangeFinder changeFinder;
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
-  private final boolean privateByDefault;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
@@ -150,7 +149,6 @@ public class CreateChange
     this.changeFinder = changeFinder;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
-    this.privateByDefault = config.getBoolean("change", "privateByDefault", false);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
@@ -261,6 +259,7 @@ public class CreateChange
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
+      boolean privateByDefault = rsrc.getProjectState().isPrivateByDefault();
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));

@@ -57,6 +57,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo rejectImplicitMerges()
       /*-{ return this.reject_implicit_merges; }-*/ ;
 
+  public final native InheritedBooleanInfo privateByDefault()
+      /*-{ return this.private_by_default; }-*/ ;
+
   public final native InheritedBooleanInfo enableReviewerByEmail()
       /*-{ return this.enable_reviewer_by_email; }-*/ ;
 

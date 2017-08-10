@@ -31,6 +31,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
   public InheritedBooleanInfo rejectImplicitMerges;
+  public InheritedBooleanInfo privateByDefault;
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;

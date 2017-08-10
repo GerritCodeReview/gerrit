@@ -86,6 +86,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox enableSignedPush;
   private ListBox requireSignedPush;
   private ListBox rejectImplicitMerges;
+  private ListBox privateByDefault;
   private ListBox enableReviewerByEmail;
   private ListBox matchAuthorToCommitterDate;
   private NpTextBox maxObjectSizeLimit;
@@ -192,6 +193,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
+    privateByDefault.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
     enableReviewerByEmail.setEnabled(isOwner);
     matchAuthorToCommitterDate.setEnabled(isOwner);
@@ -267,6 +269,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     rejectImplicitMerges = newInheritedBooleanBox();
     saveEnabler.listenTo(rejectImplicitMerges);
     grid.addHtml(AdminConstants.I.rejectImplicitMerges(), rejectImplicitMerges);
+
+    privateByDefault = newInheritedBooleanBox();
+    saveEnabler.listenTo(privateByDefault);
+    grid.addHtml(AdminConstants.I.privateByDefault(), privateByDefault);
 
     enableReviewerByEmail = newInheritedBooleanBox();
     saveEnabler.listenTo(enableReviewerByEmail);
@@ -407,6 +413,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       setBool(requireSignedPush, result.requireSignedPush());
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
+    setBool(privateByDefault, result.privateByDefault());
     setBool(enableReviewerByEmail, result.enableReviewerByEmail());
     setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
     setSubmitType(result.submitType());
@@ -679,6 +686,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         esp,
         rsp,
         getBool(rejectImplicitMerges),
+        getBool(privateByDefault),
         getBool(enableReviewerByEmail),
         getBool(matchAuthorToCommitterDate),
         maxObjectSizeLimit.getText().trim(),

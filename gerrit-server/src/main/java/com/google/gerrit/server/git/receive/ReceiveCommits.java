@@ -2093,14 +2093,14 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
+      boolean privateByDefault = projectCache.get(project.getNameKey()).isPrivateByDefault();
+
       changeId = new Change.Id(id);
       ins =
           changeInserterFactory
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
-              .setPrivate(
-                  magicBranch.isPrivate
-                      || (receiveConfig.privateByDefault && !magicBranch.removePrivate))
+              .setPrivate(magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate))
               .setWorkInProgress(magicBranch.workInProgress)
               // Changes already validated in validateNewCommits.
               .setValidate(false);

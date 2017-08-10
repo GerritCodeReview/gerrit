@@ -199,6 +199,17 @@ the implicit merge check.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[receive.privateByDefault]]receive.privateByDefault::
++
+Controls whether all new changes in the project are set as private by default.
++
+Note that the new change will be public if the `is_private` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+or the `remove-private` link:user-upload.html#private[PushOption] is used in the push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

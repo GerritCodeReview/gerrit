@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf7f8777_433be0ee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T22:32:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7a511b7e_1852fb9a",
+      "range": {
+        "startLine": 87,
+        "startChar": 28,
+        "endLine": 87,
+        "endChar": 29
+      },
+      "revId": "8eb40f0420b5c1a28c6ce244dbdeb25aa9da1a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af7647bc_81d2517c",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
         "patchSetId": 32
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3b14c4fb_af5254b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T22:32:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "af7647bc_81d2517c",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "8eb40f0420b5c1a28c6ce244dbdeb25aa9da1a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cf3a7e9_f3ebbf2b",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 32
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-10T22:07:33Z",
       "side": 1,
       "message": "Now that I see these two next to each other (with such similar names) I wonder if we only need this version. It looks like it\u0027s only ever used in this one way.\n\nCan we combine these two into just one method?",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 20
+      },
+      "revId": "8eb40f0420b5c1a28c6ce244dbdeb25aa9da1a6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db1572e_e536762a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T22:32:17Z",
+      "side": 1,
+      "message": "I guess we can. Thanks, done.",
+      "parentUuid": "4cf3a7e9_f3ebbf2b",
       "range": {
         "startLine": 322,
         "startChar": 4,

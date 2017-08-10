@@ -140,6 +140,30 @@
       "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "795120a7_0ad1b9ae",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T17:57:22Z",
+      "side": 1,
+      "message": "Maybe there are call sites for these functions that don\u0027t use them like instance methods.",
+      "parentUuid": "3b89f48b_313e3ce8",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -128,6 +128,24 @@
     },
     {
       "key": {
+        "uuid": "33362776_e3f37f5b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-10T07:03:59Z",
+      "side": 1,
+      "message": "\u003e Is this a known problem with the API?\n\nUh mild shock.\n\n\u003e This is just a syntax error.\n\nAh relief :)",
+      "parentUuid": "7350ae4d_32037d77",
+      "revId": "3de928e111486ac45d03d44fc5acd1e26f01250b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37e6f989_64e44e15",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7

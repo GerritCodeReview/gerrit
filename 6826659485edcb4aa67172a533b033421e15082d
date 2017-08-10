@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d03b83f5_4d656340",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-10T07:03:59Z",
+      "side": 1,
+      "message": "Not strictly necessary, but it might be worth to add some tests for project names that include slashes in the long run. This might not be the right spot for such a test (rather the place where the URL is split up), though.",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "6826659485edcb4aa67172a533b033421e15082d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046a685f_244915e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-10T07:03:59Z",
+      "side": 1,
+      "message": "nit: The open source world doesn\u0027t know what this is :) Just call it URL migration.",
+      "range": {
+        "startLine": 1253,
+        "startChar": 33,
+        "endLine": 1253,
+        "endChar": 39
+      },
+      "revId": "6826659485edcb4aa67172a533b033421e15082d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

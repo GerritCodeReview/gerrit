@@ -102,12 +102,12 @@ limitations under the License.
     suite('_computeName', () => {
       test('not showing anonymous', () => {
         const account = {name: 'Wyatt'};
-        assert.deepEqual(element._computeName(account, null), 'Wyatt');
+        assert.deepEqual(element._computeAccount(account, null), 'Wyatt', false);
       });
 
       test('showing anonymous but no config', () => {
         const account = {};
-        assert.deepEqual(element._computeName(account, null),
+        assert.deepEqual(element._computeAccount(account, null, false),
             'Anonymous');
       });
 
@@ -118,7 +118,7 @@ limitations under the License.
           },
         };
         const account = {};
-        assert.deepEqual(element._computeName(account, config),
+        assert.deepEqual(element._computeAccount(account, config, false),
             'Anonymous');
       });
 
@@ -129,7 +129,7 @@ limitations under the License.
           },
         };
         const account = {};
-        assert.deepEqual(element._computeName(account, config),
+        assert.deepEqual(element._computeAccount(account, config, false),
             'TestAnon');
       });
     });

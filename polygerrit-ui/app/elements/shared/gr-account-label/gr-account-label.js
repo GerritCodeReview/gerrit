@@ -45,6 +45,10 @@
         type: Object,
         value: null,
       },
+      showEmailWithArrow: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -58,15 +62,20 @@
           .then(config => { this._serverConfig = config; });
     },
 
-    _computeName(account, config) {
-      return this.getUserName(config, account, false);
+    _computeAccount(account, config, emailWithArrors) {
+      if (!account) { return; }
+      let email = '';
+      if (emailWithArrors && account && account.email) {
+        email = ' <' + account.email + '>';
+      }
+      return this.getUserName(config, account, false) + email;
     },
 
     _computeAccountTitle(account, tooltip) {
       if (!account) { return; }
       let result = '';
-      if (this._computeName(account, this._serverConfig)) {
-        result += this._computeName(account, this._serverConfig);
+      if (this._computeAccount(account, this._serverConfig, false)) {
+        result += this._computeAccount(account, this._serverConfig, false);
       }
       if (account.email) {
         result += ' <' + account.email + '>';

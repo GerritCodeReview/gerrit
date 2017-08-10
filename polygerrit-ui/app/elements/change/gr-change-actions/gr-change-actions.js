@@ -118,6 +118,9 @@
     __type: 'revision',
   };
 
+  const AWAIT_CHANGE_ATTEMPTS = 5;
+  const AWAIT_CHANGE_TIMEOUT_MS = 1000;
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -838,7 +841,9 @@
             this._setLabelValuesOnRevert(obj.change_id);
             /* falls through */
           case RevisionActions.CHERRYPICK:
-            page.show(this.changePath(obj._number));
+            this._waitForChangeReachable(obj._number).then(() => {
+              Gerrit.Nav.navigateToChange(obj);
+            });
             break;
           case ChangeActions.DELETE:
           case RevisionActions.DELETE:
@@ -1013,6 +1018,39 @@
           id: `${key}-${action.__type}`,
           action,
         };
+      });
+    },
+
+    /**
+     * Occasionally, a change created by a change action is not yet knwon to the
+     * API for a brief time. Wait for the given change number to be recognized.
+     *
+     * Returns a promise that resolves with true if a request is recognized, or
+     * false if the change was never recognized after all attempts.
+     *
+     * @param  {number} changeNum
+     * @return {Promise<boolean>}
+     */
+    _waitForChangeReachable(changeNum) {
+      let attempsRemaining = AWAIT_CHANGE_ATTEMPTS;
+      return new Promise(resolve => {
+        const check = () => {
+          attempsRemaining--;
+          this.$.restAPI.getChange(changeNum).then(response => {
+            // If the response is 404, the response will be undefined.
+            if (response) {
+              resolve(true);
+              return;
+            }
+
+            if (attempsRemaining) {
+              this.async(check, AWAIT_CHANGE_TIMEOUT_MS);
+            } else {
+              resolve(false);
+            }
+          });
+        };
+        check();
       });
     },
   });

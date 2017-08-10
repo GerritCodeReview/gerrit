@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "83ce00be_c79818c7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T21:34:43Z",
+      "side": 1,
+      "message": "Fixed it now :)",
+      "parentUuid": "89b063ad_e7ae2cf1",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 31
+      },
+      "revId": "e6a5800fb15583072a026fd604311d9062824431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcb3752a_ab9486e9",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
         "patchSetId": 30

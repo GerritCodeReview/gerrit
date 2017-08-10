@@ -34,6 +34,24 @@
       "revId": "6ed54afa778cc4cd40859bfc90a733c30d1b05bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79da758_a8ad5a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T15:26:05Z",
+      "side": 1,
+      "message": "There are three ways to handle that:\n\nA. return ProjectAccessInfo, like today. Add any relevant extra values as new fields to that class. E.g. add a \u0027ChangeInfo change;\u0027 field to ProjectAccessInfo and only set it in the for-review case.\n\nB. return Object and pick the actual return type based on arguments.\n\nC. name the endpoint /projects/{project-name}/access:review\n\nB is ugly so I wouldn\u0027t encourage doing it. A or C seems fine. I think I prefer A over C, but it\u0027s not a strong preference. What was particularly confusing to me was that this was called config:review instead of access:review.",
+      "parentUuid": "ce4e5a78_9bf53cb6",
+      "revId": "6ed54afa778cc4cd40859bfc90a733c30d1b05bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

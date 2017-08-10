@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9310c5c_e1e1ee1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:33:03Z",
+      "side": 1,
+      "message": "Can be removed now. getSuggestedAccounts can be used instead as it is now required a query to get accounts.",
+      "range": {
+        "startLine": 1453,
+        "startChar": 0,
+        "endLine": 1462,
+        "endChar": 6
+      },
+      "revId": "c3275952eb9e8b4af90993b45f7d557ddbc99975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

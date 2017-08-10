@@ -16,6 +16,24 @@
       "revId": "6ed54afa778cc4cd40859bfc90a733c30d1b05bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4e5a78_9bf53cb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-10T15:09:13Z",
+      "side": 1,
+      "message": "what would the signature of the apply() method be in that case? In particular, what will the return value look like?",
+      "parentUuid": "d47be17a_76ca323a",
+      "revId": "6ed54afa778cc4cd40859bfc90a733c30d1b05bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

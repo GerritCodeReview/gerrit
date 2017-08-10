@@ -35,6 +35,24 @@
       "revId": "89902ab6ef1bb03bd3406d9218bc335b8dd7debc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2aacd0c_7e85c149",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T20:12:38Z",
+      "side": 1,
+      "message": "Pushed the minimal breakage POC to https://gerrit-review.googlesource.com/119230",
+      "parentUuid": "7e7255f2_5dfab737",
+      "revId": "89902ab6ef1bb03bd3406d9218bc335b8dd7debc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

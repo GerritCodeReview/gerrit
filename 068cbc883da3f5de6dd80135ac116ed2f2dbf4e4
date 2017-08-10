@@ -116,6 +116,30 @@
       "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b89f48b_313e3ce8",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T17:10:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure exactly what\u0027s going on, but changing all references to Gerrit.PatchSetBehavior causes some tests to fail, they end up not having the context of what \u0027this\u0027 is. I think it may be the way that tests define functions..  Switched everything back to Gerrit.PatchSetBehavior rather than this in order to get the tests passing, unless you have another idea of how to address this?",
+      "parentUuid": "2f890776_2f05e9b8",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "068cbc883da3f5de6dd80135ac116ed2f2dbf4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

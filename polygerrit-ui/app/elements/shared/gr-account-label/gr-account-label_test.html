@@ -89,5 +89,39 @@ limitations under the License.
           element._computeEmailStr({name: 'test', email: 'test'}), '(test)');
       assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
     });
+
+    suite('_computeName', () => {
+      test('not showing anonymous', () => {
+        const account = {name: 'Wyatt'};
+        assert.deepEqual(element._computeName(account, null, false), 'Wyatt');
+      });
+
+      test('showing anonymous but no config', () => {
+        const account = {};
+        assert.deepEqual(element._computeName(account, null, true), 'Anonymous');
+      });
+
+      test('test for Anonymous Coward user and replace with Anonymous', () => {
+        const config = {
+          user: {
+            anonymous_coward_name: 'Anonymous Coward',
+          },
+        };
+        const account = {};
+        assert.deepEqual(element._computeName(account, config, true),
+            'Anonymous');
+      });
+
+      test('test for anonymous_coward_name', () => {
+        const config = {
+          user: {
+            anonymous_coward_name: 'TestAnon',
+          },
+        };
+        const account = {};
+        assert.deepEqual(element._computeName(account, config, true),
+            'TestAnon');
+      });
+    });
   });
 </script>

@@ -23,6 +23,52 @@
       "revId": "fbc4dac28ab816d807d880246e40f6279ac3aba3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2407186_ce03d591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-10T11:32:48Z",
+      "side": 1,
+      "message": "Could we please call the field \u0027args\u0027 instead? \u0027a\u0027 is a bit too meaningless.",
+      "range": {
+        "startLine": 368,
+        "startChar": 26,
+        "endLine": 368,
+        "endChar": 27
+      },
+      "revId": "fbc4dac28ab816d807d880246e40f6279ac3aba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d99806d3_413447eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-10T11:32:48Z",
+      "side": 1,
+      "message": "Instead of adding a class for all common fields, could we unify the rest of the parameters?\n\nMy suggestion would be to have one constructor with all fields of Arguments and some other fields which are marked with @Assisted. The latter fields are of types: Change.Id, Project.NameKey, Change, ChangeNotes, and ChangeControl. All of them except Change.Id and Project.NameKey may be null. In ChangeData.Factory, we would have a create() method which matches that signature. In addition, we would specify four default create() methods which have the signature of the current create() methods.",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 84
+      },
+      "revId": "fbc4dac28ab816d807d880246e40f6279ac3aba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

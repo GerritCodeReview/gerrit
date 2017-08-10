@@ -67,6 +67,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
         FIELD_LIMIT,
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.accountControlFactory = accountControlFactory;
+    userProvider.get();
   }
 
   @Override

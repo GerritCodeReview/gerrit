@@ -46,6 +46,30 @@
       "revId": "a9616970ff0c76c2de5f3e84ca651a3394929dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44418a10_d49fd1eb",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-10T12:51:07Z",
+      "side": 0,
+      "message": "\u003e Yeah, I will stop trying to sneak extra BUILD cleanup into this\n\u003e series.\n\nI wouldn\u0027t call it like this, or to put it differently not all changes in this file are BUILD cleanup. You moved partially the code out of the sub-tree, thus the dependencies, that were previously strictly needed are unused now.\n\n \u003e But actually what this tells us is that prolog-common belongs in\n \u003e runtime_deps, since it is clearly not needed at compile time.\n\nRight. We should clean that up later.",
+      "parentUuid": "f3ccd097_c0170d20",
+      "range": {
+        "startLine": 281,
+        "startChar": 8,
+        "endLine": 281,
+        "endChar": 25
+      },
+      "revId": "a9616970ff0c76c2de5f3e84ca651a3394929dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

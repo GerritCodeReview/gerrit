@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c4aadb6d_c188542d",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T16:35:04Z",
+      "side": 1,
+      "message": "There are lots of ways to improve the situation; I started an email discussion at https://groups.google.com/d/topic/repo-discuss/TcvEkD-KO_c/discussion\n\nI would rather keep this particular change as-is since it gives us what we need without moving any files around.",
+      "parentUuid": "0f4b2812_2c4d8d0d",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "517093a2e8485eb2861dcdbfd4b64502e57ebfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ba06bdc_15a2a832",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 8

@@ -129,6 +129,11 @@ limitations under the License.
       if (change.work_in_progress) { states.push('WIP'); }
       if (change.is_private) { states.push('Private'); }
       if (change.status === this.ChangeStatus.DRAFT) { states.push('Draft'); }
+      if (change.current_revision) {
+        if (change.revisions[change.current_revision]._number === 'edit') {
+          states.push('Change Edit');
+        }
+      }
       return states.join(', ');
     },
   };

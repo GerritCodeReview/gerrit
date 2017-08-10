@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf463b21_e77c9e75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "Please remove the empty line.",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd1088e9_8445dbce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "I believe returned array may not contain nulls, can it?\n?Array\u003c!Object\u003e then I guess.",
+      "range": {
+        "startLine": 645,
+        "startChar": 24,
+        "endLine": 645,
+        "endChar": 30
+      },
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be62f31_4cff107f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "_fetchSharedCacheURL returns a Promise, so {!Promise\u003c?Object\u003e}",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd35e40_e3069e64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "_fetchSharedCacheURL returns a Promise, so {!Promise\u003c?Object\u003e}",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "829792b4_74a38af4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "fetchJSON returns a Promise, so {!Promise\u003c?Object\u003e}",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bdc868e_8d9b9ef1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "fetchJSON returns a Promise, so {!Promise\u003c?Object\u003e}",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1848c9aa_b5f379b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "fetchJSON returns a Promise, so {!Promise\u003c?Object\u003e}",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d183785c_c9444fc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "Why this change?\nMaybe this was intended?\n\noptions.headers \u003d options.headers || new Headers();?",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e52732_41f7b8f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "I guess .set is more appropriate here since Content-Type doesn\u0027t accept multiple values.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 24,
+        "endLine": 1199,
+        "endChar": 30
+      },
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8284d41f_e434d034",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:41:20Z",
+      "side": 1,
+      "message": "{!Promise\u003c?Object\u003e}, since null is never returned.",
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

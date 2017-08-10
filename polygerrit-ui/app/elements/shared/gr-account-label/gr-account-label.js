@@ -27,6 +27,50 @@
         type: Boolean,
         value: false,
       },
+      title: {
+        type: String,
+        reflectToAttribute: true,
+        computed: '_computeAccountTitle(account)',
+      },
+      hasTooltip: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '_computeHasTooltip(account)',
+      },
+      hideAvatar: {
+        type: Boolean,
+        value: false,
+      },
+      showAnonymous: {
+        type: Boolean,
+        value: false,
+      },
+      _serverConfig: {
+        type: Object,
+        value: null,
+      },
+    },
+
+    behaviors: [
+      Gerrit.AnonymousNameBehavior,
+      Gerrit.TooltipBehavior,
+    ],
+
+    ready() {
+      if (this.showAnonymous) {
+        this.$.restAPI.getConfig()
+            .then(config => { this._serverConfig = config; });
+      }
+    },
+
+    _computeName(account, config, showAnonymous) {
+      if (account && account.name) {
+        return account.name;
+      }
+      if (showAnonymous) {
+        return this.getAnonymousName(config);
+      }
+      return '';
     },
 
     _computeAccountTitle(account) {
@@ -53,6 +97,11 @@
         return '(' + account.email + ')';
       }
       return account.email;
+    },
+
+    _computeHasTooltip(account) {
+      // If an account has loaded to fire this method, then set to true.
+      return !!account;
     },
   });
 })();

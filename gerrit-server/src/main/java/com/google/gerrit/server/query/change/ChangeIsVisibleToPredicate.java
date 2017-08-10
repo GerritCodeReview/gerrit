@@ -30,7 +30,7 @@ import com.google.inject.Provider;
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
-  protected final ChangeControl.GenericFactory changeControl;
+  protected final ChangeControl.GenericFactory changeControlFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
 
@@ -43,7 +43,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
-    this.changeControl = changeControlFactory;
+    this.changeControlFactory = changeControlFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
   }
@@ -53,19 +53,20 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }
-    Change change;
+    Change change = cd.change();
+    if (change == null) {
+      return false;
+    }
+
+    ChangeControl changeControl;
+    ChangeNotes notes = notesFactory.createFromIndexedChange(change);
     try {
-      change = cd.change();
-      if (change == null) {
-        return false;
-      }
+      changeControl = changeControlFactory.controlFor(notes, user);
     } catch (NoSuchChangeException e) {
       // Ignored
       return false;
     }
 
-    ChangeNotes notes = notesFactory.createFromIndexedChange(change);
-    ChangeControl cc = changeControl.controlFor(notes, user);
     boolean visible;
     try {
       visible =
@@ -78,10 +79,9 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       throw new OrmException("unable to check permissions", e);
     }
     if (visible) {
-      cd.cacheVisibleTo(cc);
+      cd.cacheVisibleTo(changeControl);
       return true;
     }
-
     return false;
   }
 

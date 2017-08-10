@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "423b2558_f24d219e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T19:09:36Z",
+      "side": 1,
+      "message": "Not done, here\u0027s the full type:\n{?Array\u003c!Object\u003e|?Array\u003c!Array\u003c!Object\u003e\u003e}",
+      "parentUuid": "2bf9ac2d_ac4c8501",
+      "range": {
+        "startLine": 645,
+        "startChar": 24,
+        "endLine": 645,
+        "endChar": 30
+      },
+      "revId": "62a42fd7bc62001a570eebbfca6dc66995f30881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3be62f31_4cff107f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 8

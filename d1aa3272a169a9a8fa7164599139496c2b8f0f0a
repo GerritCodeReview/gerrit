@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a7310c7_ff6d166a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T19:09:36Z",
+      "side": 1,
+      "message": "Doh...\n{!Promise\u003c?Object\u003e}",
+      "range": {
+        "startLine": 785,
+        "startChar": 16,
+        "endLine": 785,
+        "endChar": 22
+      },
+      "revId": "d1aa3272a169a9a8fa7164599139496c2b8f0f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ff3d727_e4210c9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T19:09:36Z",
+      "side": 1,
+      "message": "Sorry that I\u0027ve missed it earlier - looks like this should be application/json.\n\nopt_contentType should be used too if provided.",
+      "revId": "d1aa3272a169a9a8fa7164599139496c2b8f0f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

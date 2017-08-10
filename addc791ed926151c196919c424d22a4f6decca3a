@@ -174,6 +174,30 @@
       "revId": "addc791ed926151c196919c424d22a4f6decca3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d6a5fb_c6ce41ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T21:32:20Z",
+      "side": 1,
+      "message": "Yes. Sorry, I was wrong.\nIt appears that as per style guide, {? or {! are required for all non-primitive (string, number, function, etc) types.",
+      "parentUuid": "e0213e17_b042f852",
+      "range": {
+        "startLine": 777,
+        "startChar": 15,
+        "endLine": 777,
+        "endChar": 21
+      },
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

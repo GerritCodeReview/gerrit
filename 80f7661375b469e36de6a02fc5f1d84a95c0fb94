@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "870c524c_2b25e431",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:13:53Z",
+      "side": 1,
+      "message": "is this still true with page.redirect? I forget how page works..",
+      "range": {
+        "startLine": 52,
+        "startChar": 21,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "80f7661375b469e36de6a02fc5f1d84a95c0fb94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

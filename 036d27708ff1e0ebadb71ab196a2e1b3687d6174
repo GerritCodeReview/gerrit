@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5da278b9_ab830212",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T23:40:47Z",
+      "side": 1,
+      "message": "missing trailing comma",
+      "range": {
+        "startLine": 266,
+        "startChar": 24,
+        "endLine": 266,
+        "endChar": 28
+      },
+      "revId": "036d27708ff1e0ebadb71ab196a2e1b3687d6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "275fb4ab_c862a0c7",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T23:40:47Z",
+      "side": 1,
+      "message": "missing corresponding closing brace",
+      "range": {
+        "startLine": 267,
+        "startChar": 16,
+        "endLine": 267,
+        "endChar": 17
+      },
+      "revId": "036d27708ff1e0ebadb71ab196a2e1b3687d6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2a0f792_1ac5fcdc",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T23:40:47Z",
+      "side": 1,
+      "message": "Should be indented two more spaces (and likewise the rest of the map).",
+      "revId": "036d27708ff1e0ebadb71ab196a2e1b3687d6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

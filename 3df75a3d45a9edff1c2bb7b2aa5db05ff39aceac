@@ -181,6 +181,24 @@
       "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "340cb8d1_eefbf2cd",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T02:09:33Z",
+      "side": 1,
+      "message": "Happy to leave this for later to get the change unblocked. Filed https://crbug.com/gerrit/6989 to track this.",
+      "parentUuid": "d5267118_28257682",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -163,6 +163,24 @@
       "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5267118_28257682",
+        "filename": "Documentation/concept-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-10T02:01:03Z",
+      "side": 1,
+      "message": "Ah, sorry for the confusion. The user doesn\u0027t get a choice between \"Submit\" and \"Submit including ancestors\". There\u0027s only one Submit button, whose label is just longer when it\u0027s going to submit more than one change.\n\nSubmitted Together shows the list of changes that would be submitted when you click the submit button.",
+      "parentUuid": "f0e8b570_a6533636",
+      "revId": "3df75a3d45a9edff1c2bb7b2aa5db05ff39aceac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "e4783cfa_f5d13f96",
+        "filename": "Documentation/concept-patch-sets.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-08-10T02:08:16Z",
+      "side": 1,
+      "message": "I like assigned by. That seems suitably vague, and gets the main point across--that a change has a change-id.",
+      "parentUuid": "8e120919_da65efef",
+      "range": {
+        "startLine": 4,
+        "startChar": 53,
+        "endLine": 4,
+        "endChar": 62
+      },
+      "revId": "a812c9cdf6ce470676050219145c1bdcbc8d7b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f56b718c_c0ef5512",
         "filename": "Documentation/concept-patch-sets.txt",
         "patchSetId": 6

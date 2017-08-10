@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1a2689f_400102c9",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T18:03:58Z",
+      "side": 1,
+      "message": "This was change.privateByDefault the global level.",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 9
+      },
+      "revId": "ec85e4ab7bf4b03b4f1332256467a995d23acf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

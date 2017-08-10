@@ -612,7 +612,9 @@ public class CommitValidators {
         try {
           perm.check(RefPermission.FORGE_SERVER);
         } catch (AuthException denied) {
-          throw new CommitValidationException("do not amend merges not made by you");
+          throw new CommitValidationException(
+              String.format("amending merges from others requires '%s' permission",
+                  RefPermission.FORGE_SERVER.name()));
         } catch (PermissionBackendException e) {
           log.error("cannot check FORGE_SERVER", e);
           throw new CommitValidationException("internal auth error");

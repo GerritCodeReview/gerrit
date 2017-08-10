@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "ee26c36e_073e179b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:53:19Z",
+      "side": 1,
+      "message": "Issue tracker sounds good. A better option, even if it\u0027s not so common, would be to write a short design document - essentially a one-pager describing objective, background, restrictions, and ideas, so all the comment could be collected, shared, and retained for future generations.\nClearly, not a hard requirement, just an attempt to avoid yet another rewrite.\n\nAnd btw, thanks David for pushing this forward! This is greatly appreciated.",
+      "parentUuid": "4a8144c4_12c7853a",
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff5dba10_f97c970d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 1
@@ -89,6 +107,29 @@
       "revId": "addc791ed926151c196919c424d22a4f6decca3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27485967_7fe19541",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:53:19Z",
+      "side": 1,
+      "message": "Please use either {?Object or {!Object if it\u0027s nullable or non-nullable respectively.",
+      "range": {
+        "startLine": 777,
+        "startChar": 15,
+        "endLine": 777,
+        "endChar": 21
+      },
+      "revId": "addc791ed926151c196919c424d22a4f6decca3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

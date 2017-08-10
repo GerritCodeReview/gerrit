@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b7a8b14_da538e29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:53:19Z",
+      "side": 1,
+      "message": "It\u0027s actually a header container. And `container` is ambiguous.\n\nAnd it probably doesn\u0027t need an id - either class-name or tag name selector would be sufficient.\nBut that\u0027s super nit, so up to you.",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 16
+      },
+      "revId": "6335ccecc70b3148c3fafab824a0ddee0ffeeff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbed4342_0a8c282e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-10T16:53:19Z",
+      "side": 1,
+      "message": "Either ?Object or !Object depending on may it return null or not, accordingly.",
+      "range": {
+        "startLine": 777,
+        "startChar": 15,
+        "endLine": 777,
+        "endChar": 21
+      },
+      "revId": "6335ccecc70b3148c3fafab824a0ddee0ffeeff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

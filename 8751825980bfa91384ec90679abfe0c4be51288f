@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "efabec0b_e894ad62",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-10T07:23:37Z",
+      "side": 1,
+      "message": "Right, because if is empty it would fail the URI creation below. Will do it now.",
+      "parentUuid": "6af086e9_02b54f95",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "8751825980bfa91384ec90679abfe0c4be51288f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96ae9a81_27f8fb83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-10T07:19:10Z",
       "side": 1,
       "message": "Change it to Strings.isNullOrEmpty(canonicalWebUrl), to be consequent with the check on line 153 above.",
+      "range": {
+        "startLine": 584,
+        "startChar": 8,
+        "endLine": 584,
+        "endChar": 31
+      },
+      "revId": "8751825980bfa91384ec90679abfe0c4be51288f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9a1b414_12402a30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-10T07:23:37Z",
+      "side": 1,
+      "message": "Yes, same reason as the other change.",
+      "parentUuid": "96ae9a81_27f8fb83",
       "range": {
         "startLine": 584,
         "startChar": 8,

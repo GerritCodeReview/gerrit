@@ -22,6 +22,30 @@
       "revId": "a9616970ff0c76c2de5f3e84ca651a3394929dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3ccd097_c0170d20",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T12:17:50Z",
+      "side": 0,
+      "message": "Yeah, I will stop trying to sneak extra BUILD cleanup into this series.\n\nBut actually what this tells us is that prolog-common belongs in runtime_deps, since it is clearly not needed at compile time.",
+      "parentUuid": "56d2e566_b1381b6d",
+      "range": {
+        "startLine": 281,
+        "startChar": 8,
+        "endLine": 281,
+        "endChar": 25
+      },
+      "revId": "a9616970ff0c76c2de5f3e84ca651a3394929dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

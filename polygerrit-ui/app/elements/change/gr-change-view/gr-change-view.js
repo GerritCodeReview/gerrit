@@ -170,7 +170,7 @@
       },
       _changeStatus: {
         type: String,
-        computed: 'changeStatusString(_change)',
+        computed: 'changeStatusString(_change, _patchRange.*)',
       },
       _commitCollapsed: {
         type: Boolean,

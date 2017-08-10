@@ -494,6 +494,17 @@ limitations under the License.
       });
     });
 
+    test('file review status with edit loaded', () => {
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState');
+
+      element._patchRange = {patchNum: element.EDIT_NAME};
+      flushAsynchronousOperations();
+
+      assert.isTrue(element._editLoaded);
+      element._setReviewed();
+      assert.isFalse(saveReviewedStub.called);
+    });
+
     test('hash is determined from params', done => {
       stub('gr-rest-api-interface', {
         getDiffComments() { return Promise.resolve({}); },
@@ -744,6 +755,35 @@ limitations under the License.
       test('app.params.project === change.project', () => {
         element._upgradeUrl(mockChange, {project: 'test'});
         assert.isFalse(upgradeStub.called);
+      });
+    });
+
+    test('_computeEditLoaded', () => {
+      const callCompute = range => element._computeEditLoaded({base: range});
+      assert.isFalse(callCompute({}));
+      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
+      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
+      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
+    });
+
+    suite('editLoaded behavior', () => {
+      setup(() => {
+        element._loggedIn = true;
+      });
+
+      const isVisible = el => {
+        assert.ok(el);
+        return getComputedStyle(el).getPropertyValue('display') !== 'none';
+      };
+
+      test('reviewed checkbox', () => {
+        element._patchRange = {patchNum: '1'};
+        // Reviewed checkbox should be shown.
+        assert.isTrue(isVisible(element.$.reviewed));
+        element.set('_patchRange.patchNum', element.EDIT_NAME);
+        flushAsynchronousOperations();
+
+        assert.isFalse(isVisible(element.$.reviewed));
       });
     });
   });

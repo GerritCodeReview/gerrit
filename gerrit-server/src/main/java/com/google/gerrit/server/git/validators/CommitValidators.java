@@ -610,9 +610,15 @@ public class CommitValidators {
           && author.getName().equals(gerritIdent.getName())
           && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
         try {
+          // Stop authors from amending the merge commits that Gerrit itself creates.
           perm.check(RefPermission.FORGE_SERVER);
         } catch (AuthException denied) {
-          throw new CommitValidationException("do not amend merges not made by you");
+          throw new CommitValidationException(
+              String.format(
+                  "pushing changed merge commit %s by %s requires '%s' permission",
+                  receiveEvent.commit.getId(),
+                  gerritIdent.getEmailAddress(),
+                  RefPermission.FORGE_SERVER.name()));
         } catch (PermissionBackendException e) {
           log.error("cannot check FORGE_SERVER", e);
           throw new CommitValidationException("internal auth error");

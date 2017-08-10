@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f7b5942_f0199816",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:26:39Z",
+      "side": 0,
+      "message": "Since there are a bunch of assertions in a promise chain, the done is necessary. This should be added back (and the done() from l.280)",
+      "range": {
+        "startLine": 223,
+        "startChar": 47,
+        "endLine": 223,
+        "endChar": 51
+      },
+      "revId": "378b9b3c7cd8f3f6b45810f4b7511bdb52bc2f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

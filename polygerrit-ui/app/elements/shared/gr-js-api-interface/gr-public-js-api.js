@@ -67,7 +67,9 @@
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
 
     this._url = new URL(opt_url);
-    if (!this._url.pathname.startsWith(base + '/plugins')) {
+    if (this._url.pathname === '/static/gerrit-theme.html') {
+      this._name = 'gerrit-theme';
+    } else if (!this._url.pathname.startsWith(base + '/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;

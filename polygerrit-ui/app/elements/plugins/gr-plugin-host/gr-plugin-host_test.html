@@ -48,15 +48,17 @@ limitations under the License.
     test('counts plugins', () => {
       sandbox.stub(Gerrit, '_setPluginsCount');
       element.config = {
-        html_resource_paths: ['foo/bar', 'baz'],
-        js_resource_paths: ['42'],
+        plugin: {
+          html_resource_paths: ['foo/bar', 'baz'],
+          js_resource_paths: ['42'],
+        },
       };
       assert.isTrue(Gerrit._setPluginsCount.calledWith(3));
     });
 
     test('imports relative html plugins from config', () => {
       element.config = {
-        html_resource_paths: ['foo/bar', 'baz'],
+        plugin: {html_resource_paths: ['foo/bar', 'baz']},
       };
       assert.isTrue(element.importHref.calledWith(
           '/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
@@ -67,8 +69,7 @@ limitations under the License.
     test('imports relative html plugins from config with a base url', () => {
       sandbox.stub(element, 'getBaseUrl').returns('/the-base');
       element.config = {
-        html_resource_paths: ['foo/bar', 'baz'],
-      };
+        plugin: {html_resource_paths: ['foo/bar', 'baz']}};
       assert.isTrue(element.importHref.calledWith(
           '/the-base/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled,
           true));
@@ -79,10 +80,12 @@ limitations under the License.
 
     test('imports absolute html plugins from config', () => {
       element.config = {
-        html_resource_paths: [
-          'http://example.com/foo/bar',
-          'https://example.com/baz',
-        ],
+        plugin: {
+          html_resource_paths: [
+            'http://example.com/foo/bar',
+            'https://example.com/baz',
+          ],
+        },
       };
       assert.isTrue(element.importHref.calledWith(
           'http://example.com/foo/bar', Gerrit._pluginInstalled,
@@ -93,17 +96,13 @@ limitations under the License.
     });
 
     test('adds js plugins from config to the body', () => {
-      element.config = {
-        js_resource_paths: ['foo/bar', 'baz'],
-      };
+      element.config = {plugin: {js_resource_paths: ['foo/bar', 'baz']}};
       assert.isTrue(document.body.appendChild.calledTwice);
     });
 
     test('imports relative js plugins from config', () => {
       sandbox.stub(element, '_createScriptTag');
-      element.config = {
-        js_resource_paths: ['foo/bar', 'baz'],
-      };
+      element.config = {plugin: {js_resource_paths: ['foo/bar', 'baz']}};
       assert.isTrue(element._createScriptTag.calledWith('/foo/bar'));
       assert.isTrue(element._createScriptTag.calledWith('/baz'));
     });
@@ -111,9 +110,7 @@ limitations under the License.
     test('imports relative html plugins from config with a base url', () => {
       sandbox.stub(element, '_createScriptTag');
       sandbox.stub(element, 'getBaseUrl').returns('/the-base');
-      element.config = {
-        js_resource_paths: ['foo/bar', 'baz'],
-      };
+      element.config = {plugin: {js_resource_paths: ['foo/bar', 'baz']}};
       assert.isTrue(element._createScriptTag.calledWith('/the-base/foo/bar'));
       assert.isTrue(element._createScriptTag.calledWith('/the-base/baz'));
     });
@@ -121,10 +118,12 @@ limitations under the License.
     test('imports absolute html plugins from config', () => {
       sandbox.stub(element, '_createScriptTag');
       element.config = {
-        js_resource_paths: [
-          'http://example.com/foo/bar',
-          'https://example.com/baz',
-        ],
+        plugin: {
+          js_resource_paths: [
+            'http://example.com/foo/bar',
+            'https://example.com/baz',
+          ],
+        },
       };
       assert.isTrue(element._createScriptTag.calledWith(
           'http://example.com/foo/bar'));
@@ -135,7 +134,9 @@ limitations under the License.
     test('default theme is loaded with html plugins', () => {
       element.config = {
         default_theme: '/oof',
-        html_resource_paths: ['some'],
+        plugin: {
+          html_resource_paths: ['some'],
+        },
       };
       assert.isTrue(element.importHref.calledWith(
           '/oof', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));

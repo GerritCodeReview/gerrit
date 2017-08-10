@@ -50,7 +50,7 @@ limitations under the License.
         getConfig() {
           return Promise.resolve({
             gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
-            plugin: {js_resource_paths: []},
+            plugin: {plugin: {js_resource_paths: []}},
           });
         },
         getPreferences() { return Promise.resolve({my: []}); },
@@ -100,11 +100,9 @@ limitations under the License.
       });
     });
 
-    test('passes config to gr-plugin-host', done => {
-      element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
-        const pluginConfig = config.plugin;
-        assert.deepEqual(element.$.plugins.config, pluginConfig);
-        done();
+    test('passes config to gr-plugin-host', () => {
+      return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
+        assert.deepEqual(element.$.plugins.config, config);
       });
     });
   });

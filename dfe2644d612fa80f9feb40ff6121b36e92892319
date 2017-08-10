@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "604d1c51_d3f4e60f",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "You could replace this with -o to make it a a single test command, but no big deal.",
+      "range": {
+        "startLine": 19,
+        "startChar": 19,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7073cfbe_a97dd623",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "\"echo $(some command)\" can just be \"some command\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 15
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5390ab_702d9029",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Ideally we would be consistent with string quoting (using \u0027) but we don\u0027t have so much python where I care.",
+      "range": {
+        "startLine": 10,
+        "startChar": 82,
+        "endLine": 10,
+        "endChar": 86
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5019c013_57eeea43",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Missing space after comma.",
+      "range": {
+        "startLine": 26,
+        "startChar": 39,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdd86a8d_9797acc3",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Rather than building new with expensive string concatenations, why not put this under the with statement on the file and write directly?",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aecb26cd_c93daeca",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Unnecessary parentheses.",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc63a8b6_debbad80",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "This is equivalent to .",
+      "range": {
+        "startLine": 55,
+        "startChar": 47,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deeb7b4d_9dbb2f83",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "This also matches any character.",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71601a42_02139d93",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Using root as a global in the helper functions above is confusing. Pass it to these functions instead.",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e68f765_bd0770bd",
+        "filename": "polygerrit-ui/app/template_test_srcs/remove_goog_modules.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "This script doesn\u0027t appear to be used.",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9fd4cd4_5b6fc43e",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "Should you be checking err?",
+      "range": {
+        "startLine": 3,
+        "startChar": 47,
+        "endLine": 3,
+        "endChar": 50
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1e3abb_0804bc36",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T19:06:08Z",
+      "side": 1,
+      "message": "If you foresee having to modify this occasionally, consider extracting the externed names into a simple list of strings, and construct the value from src from that.",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

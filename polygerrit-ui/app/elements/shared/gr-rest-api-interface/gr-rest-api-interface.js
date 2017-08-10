@@ -1738,11 +1738,12 @@
      * Given a changeNum, gets the change.
      *
      * @param {number|string} changeNum
+     * @param {function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>} The change
      */
-    getChange(changeNum) {
+    getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this.fetchJSON(`/changes/${changeNum}`);
+      return this.fetchJSON(`/changes/${changeNum}`, opt_errFn);
     },
 
     /**

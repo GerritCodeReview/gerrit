@@ -118,6 +118,9 @@
     __type: 'revision',
   };
 
+  const AWAIT_CHANGE_ATTEMPTS = 5;
+  const AWAIT_CHANGE_TIMEOUT_MS = 1000;
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -824,10 +827,9 @@
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
     _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
-      if (labels) {
-        this.$.restAPI.getChangeURLAndSend(newChangeId,
-            this.actions.revert.method, 'current', '/review', {labels});
-      }
+      if (!labels) { return Promise.resolve(); }
+      return this.$.restAPI.getChangeURLAndSend(newChangeId,
+          this.actions.revert.method, 'current', '/review', {labels});
     },
 
     _handleResponse(action, response) {
@@ -835,10 +837,16 @@
       return this.$.restAPI.getResponseObject(response).then(obj => {
         switch (action.__key) {
           case ChangeActions.REVERT:
-            this._setLabelValuesOnRevert(obj.change_id);
-            /* falls through */
+            this._waitForChangeReachable(obj._number)
+                .then(() =>  this._setLabelValuesOnRevert(obj._number))
+                .then(() => {
+                  Gerrit.Nav.navigateToChange(obj);
+                });
+            break;
           case RevisionActions.CHERRYPICK:
-            page.show(this.changePath(obj._number));
+            this._waitForChangeReachable(obj._number).then(() => {
+              Gerrit.Nav.navigateToChange(obj);
+            });
             break;
           case ChangeActions.DELETE:
           case RevisionActions.DELETE:
@@ -1013,6 +1021,40 @@
           id: `${key}-${action.__type}`,
           action,
         };
+      });
+    },
+
+    /**
+     * Occasionally, a change created by a change action is not yet knwon to the
+     * API for a brief time. Wait for the given change number to be recognized.
+     *
+     * Returns a promise that resolves with true if a request is recognized, or
+     * false if the change was never recognized after all attempts.
+     *
+     * @param  {number} changeNum
+     * @return {Promise<boolean>}
+     */
+    _waitForChangeReachable(changeNum) {
+      let attempsRemaining = AWAIT_CHANGE_ATTEMPTS;
+      return new Promise(resolve => {
+        const check = () => {
+          attempsRemaining--;
+          // Pass a no-op error handler to avoid the "not found" error toast.
+          this.$.restAPI.getChange(changeNum, () => {}).then(response => {
+            // If the response is 404, the response will be undefined.
+            if (response) {
+              resolve(true);
+              return;
+            }
+
+            if (attempsRemaining) {
+              this.async(check, AWAIT_CHANGE_TIMEOUT_MS);
+            } else {
+              resolve(false);
+            }
+          });
+        };
+        check();
       });
     },
   });

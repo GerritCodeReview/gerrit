@@ -46,6 +46,30 @@
       "revId": "378b9b3c7cd8f3f6b45810f4b7511bdb52bc2f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e988e4a_b1a2c03b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T19:12:15Z",
+      "side": 0,
+      "message": "Removing done fixed it.",
+      "parentUuid": "796fd120_3fd85049",
+      "range": {
+        "startLine": 223,
+        "startChar": 47,
+        "endLine": 223,
+        "endChar": 51
+      },
+      "revId": "378b9b3c7cd8f3f6b45810f4b7511bdb52bc2f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

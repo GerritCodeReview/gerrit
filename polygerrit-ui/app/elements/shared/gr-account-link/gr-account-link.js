@@ -23,6 +23,10 @@
         type: Number,
         value: 32,
       },
+      showEmailWithArrow: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19c51d28_c7b3ccee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-10T20:35:01Z",
+      "side": 1,
+      "message": "This is no longer true.\n\nOn #938, we set \"_number\" for an edit to EDIT_NAME, which is just \u0027edit\u0027. I decided that referring to an edit by multiple numbers/URL entries (\"edit\"/0) was avoidable.",
+      "range": {
+        "startLine": 927,
+        "startChar": 15,
+        "endLine": 927,
+        "endChar": 72
+      },
+      "revId": "d00c309dfbcfed6c2ae1259f68f7acc06d5b3338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502378938 -0400\nnonce AHIDc+Nr/MvIAdXNUW9WtRNPAnVoNkgyyRq4jhXM77syTXyXtXPmxWa2d/oyLIchbrS6D/pzHbvX\n\n0000000000000000000000000000000000000000 a26b9e925f7072de5d3b4915f66308c82de5faf6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZjHu6AAoJEF/XxZqaEoiMqPUP+gJI8uNixO3xkwnruYYYmk/m\nXsRlb030k4t/CujDbiKCN5vlSDIZgT72TxKgbGfhgNiYFqQN7Sykpnv9Ow8AZhBc\n21tIDZH3MniSkr3l8eHUS1m1KKUHJyKGA0Bmkw4tj4iwtgfryVPJtPt1WPlof/9S\nVa7e486PHvMNTiOIUtR9rFygrm8ke4MsAaOuRVOhLth5j49ar9Gw1RJklXdn3o3b\n0DYDsaAKnNZ56tPq2cxvuHx/yeXhpArohfhf33ayn5x2OjnxIIVjAQj5plwM2GbH\nSOaall+svbX8gfykkDVu8wjj2pgDINmNZwit1fZzlp3pWhVi0VD74JRl2U0LLTeh\nnJU5LZ7CHicaGKnt7MC34DKdSTtvoxC/n73Q/D+pYtNK770Gqs2uKV10C7bzmMW1\n2L+IdmyrJHGcA9OvgO7p+toHXtv6e5CUCEzUo7xupS+3wydEx5DMdeGkOhw54s4/\nf/9hevMtmYqhpU/gAEYvE/TLRUL8dHH0fvdkc7KPc+bj9oArx83N6K3cA0WigKHC\nYqRUgGfqrQX56hK5VbXk6QGQ3wSuf+H0iPmTeuYFPuvbJ2pVwuQO5RS5qvnFGylq\n7MGBoX+QzWS1O5ZKCu++hBur0kGRL0yBuVihc+hWrVbRtatKOzLVs3aHF/9ZuRIU\nxh06LlHk/UCjw0+i0oYE\n\u003dTF8N\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f165af66_f3269db2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-10T15:56:32Z",
+      "side": 1,
+      "message": "+1. As the metric-interfaces package only depends on gerrit-extension and guava, it can be easily move to whatever other location.",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 71
+      },
+      "revId": "a26b9e925f7072de5d3b4915f66308c82de5faf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e2a8283_44e3a98f",
+        "filename": "gerrit-index/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-10T15:56:32Z",
+      "side": 1,
+      "message": "Add a TODO to re-locate metrics and consume it not from gerrit-server.",
+      "revId": "a26b9e925f7072de5d3b4915f66308c82de5faf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

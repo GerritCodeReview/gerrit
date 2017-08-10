@@ -573,26 +573,18 @@
       } else if (params.view === Gerrit.Nav.View.CHANGE) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${range}`;
-        } else {
-          url = `/c/${params.changeNum}${range}`;
-        }
+
+        url = `/c/${params.changeNum}${range}`;
       } else if (params.view === Gerrit.Nav.View.DIFF) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
 
-        let suffix = `${range}/${encode(params.path, true)}`;
-        if (params.lineNum) {
-          suffix += '#';
-          if (params.leftSide) { suffix += 'b'; }
-          suffix += params.lineNum;
-        }
+        url = `/c/${params.changeNum}${range}/${encode(params.path, true)}`;
 
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
-        } else {
-          url = `/c/${params.changeNum}${suffix}`;
+        if (params.lineNum) {
+          url += '#';
+          if (params.leftSide) { url += 'b'; }
+          url += params.lineNum;
         }
       } else {
         throw new Error('Can\'t generate');

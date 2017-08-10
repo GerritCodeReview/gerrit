@@ -81,6 +81,30 @@
       "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01b2023e_4c2fb512",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-10T18:29:48Z",
+      "side": 1,
+      "message": "I personally don\u0027t see anything wrong with this.\n\nYou could make the directory in the shell script instead if you prefer.\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/wct_test.sh#5",
+      "parentUuid": "4049f658_cbbc4362",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

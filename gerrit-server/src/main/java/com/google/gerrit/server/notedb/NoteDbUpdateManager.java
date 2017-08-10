@@ -24,10 +24,12 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -41,6 +43,7 @@ import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.update.RefUpdateUtil;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -76,6 +79,12 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  */
 public class NoteDbUpdateManager implements AutoCloseable {
   public static final String CHANGES_READ_ONLY = "NoteDb changes are read-only";
+
+  private static final ImmutableList<String> PACKAGE_PREFIXES =
+      ImmutableList.of("com.google.gerrit.server.", "com.google.gerrit.");
+  private static final ImmutableSet<String> SERVLET_NAMES =
+      ImmutableSet.of(
+          "com.google.gerrit.httpd.restapi.RestApiServlet", RetryingRestModifyView.class.getName());
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
@@ -539,7 +548,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
     bru.setPushCertificate(pushCert);
-    bru.setRefLogMessage(firstNonNull(refLogMessage, "Update NoteDb refs"), false);
+    if (refLogMessage != null) {
+      bru.setRefLogMessage(refLogMessage, false);
+    } else {
+      bru.setRefLogMessage(firstNonNull(guessRestApiHandler(), "Update NoteDb refs"), false);
+    }
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
@@ -548,6 +561,45 @@ public class NoteDbUpdateManager implements AutoCloseable {
       RefUpdateUtil.executeChecked(bru, or.rw);
     }
     return bru;
+  }
+
+  private static String guessRestApiHandler() {
+    StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+    int i = findRestApiServlet(trace);
+    if (i < 0) {
+      return null;
+    }
+    try {
+      for (i--; i >= 0; i--) {
+        String cn = trace[i].getClassName();
+        Class<?> cls = Class.forName(cn);
+        if (RestModifyView.class.isAssignableFrom(cls) && cls != RetryingRestModifyView.class) {
+          return viewName(cn);
+        }
+      }
+      return null;
+    } catch (ClassNotFoundException e) {
+      return null;
+    }
+  }
+
+  private static String viewName(String cn) {
+    String impl = cn.replace('$', '.');
+    for (String p : PACKAGE_PREFIXES) {
+      if (impl.startsWith(p)) {
+        return impl.substring(p.length());
+      }
+    }
+    return impl;
+  }
+
+  private static int findRestApiServlet(StackTraceElement[] trace) {
+    for (int i = 0; i < trace.length; i++) {
+      if (SERVLET_NAMES.contains(trace[i].getClassName())) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   private void addCommands() throws OrmException, IOException {

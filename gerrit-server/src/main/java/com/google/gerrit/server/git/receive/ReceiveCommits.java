@@ -128,7 +128,9 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -320,6 +322,7 @@ class ReceiveCommits {
   private final String canonicalWebUrl;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
+  private final CreateRefControl createRefControl;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -402,6 +405,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      CreateRefControl createRefControl,
       @Assisted ProjectControl projectControl,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
@@ -440,6 +444,7 @@ class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
+    this.createRefControl = createRefControl;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -524,7 +529,7 @@ class ReceiveCommits {
 
     try {
       parseCommands(commands);
-    } catch (PermissionBackendException err) {
+    } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
       for (ReceiveCommand cmd : actualCommands) {
         if (cmd.getResult() == NOT_ATTEMPTED) {
           cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
@@ -772,7 +777,7 @@ class ReceiveCommits {
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands)
-      throws PermissionBackendException {
+      throws PermissionBackendException, NoSuchProjectException, IOException {
     List<String> optionList = rp.getPushOptions();
     if (optionList != null) {
       for (String option : optionList) {
@@ -977,7 +982,8 @@ class ReceiveCommits {
     }
   }
 
-  private void parseCreate(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseCreate(ReceiveCommand cmd)
+      throws PermissionBackendException, NoSuchProjectException, IOException {
     RevObject obj;
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
@@ -994,8 +1000,8 @@ class ReceiveCommits {
       return;
     }
 
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    String rejectReason = ctl.canCreate(rp.getRepository(), obj);
+    Branch.NameKey branch = new Branch.NameKey(project.getName(), cmd.getRefName());
+    String rejectReason = createRefControl.canCreateRef(rp.getRepository(), obj, user, branch);
     if (rejectReason != null) {
       reject(cmd, "prohibited by Gerrit: " + rejectReason);
       return;
@@ -1006,6 +1012,7 @@ class ReceiveCommits {
       return;
     }
 
+    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     validateNewCommits(ctl, cmd);
     actualCommands.add(cmd);
   }

@@ -65,15 +65,14 @@ limitations under the License.
         const params = {
           view: Gerrit.Nav.View.CHANGE,
           changeNum: '1234',
-          project: 'test',
         };
-        assert.equal(element._generateUrl(params), '/c/test/+/1234');
+        assert.equal(element._generateUrl(params), '/c/1234');
 
         params.patchNum = 10;
-        assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
+        assert.equal(element._generateUrl(params), '/c/1234/10');
 
         params.basePatchNum = 5;
-        assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
+        assert.equal(element._generateUrl(params), '/c/1234/5..10');
       });
 
       test('diff', () => {
@@ -83,31 +82,24 @@ limitations under the License.
           path: 'x+y/path.cpp',
           patchNum: 12,
         };
-        assert.equal(element._generateUrl(params),
-            '/c/42/12/x%252By/path.cpp');
-
-        params.project = 'test';
-        assert.equal(element._generateUrl(params),
-            '/c/test/+/42/12/x%252By/path.cpp');
+        assert.equal(element._generateUrl(params), '/c/42/12/x%252By/path.cpp');
 
         params.basePatchNum = 6;
         assert.equal(element._generateUrl(params),
-            '/c/test/+/42/6..12/x%252By/path.cpp');
+            '/c/42/6..12/x%252By/path.cpp');
 
         params.path = 'foo bar/my+file.txt%';
         params.patchNum = 2;
         delete params.basePatchNum;
         assert.equal(element._generateUrl(params),
-            '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525');
+            '/c/42/2/foo+bar/my%252Bfile.txt%2525');
 
         params.path = 'file.cpp';
         params.lineNum = 123;
-        assert.equal(element._generateUrl(params),
-            '/c/test/+/42/2/file.cpp#123');
+        assert.equal(element._generateUrl(params), '/c/42/2/file.cpp#123');
 
         params.leftSide = true;
-        assert.equal(element._generateUrl(params),
-            '/c/test/+/42/2/file.cpp#b123');
+        assert.equal(element._generateUrl(params), '/c/42/2/file.cpp#b123');
       });
     });
   });

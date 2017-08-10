@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10e3f6ce_a30232d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:16:17Z",
+      "side": 1,
+      "message": "There won\u0027t be any console errors because it\u0027s the same function being called both as the if condition and in the element itself. We are ok with needing an additional function because: https://meowni.ca/hidden.is.a.lie.html",
+      "parentUuid": "a5fc121b_f4195026",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 60
+      },
+      "revId": "fcc0424b581d9bae2ca50c278fc737e4860344de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "851d4d2d_c6acb190",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 17

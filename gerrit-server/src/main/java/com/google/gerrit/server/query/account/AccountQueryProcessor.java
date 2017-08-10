@@ -61,6 +61,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
         rewriter,
         FIELD_LIMIT);
     this.accountControlFactory = accountControlFactory;
+    userProvider.get();
   }
 
   @Override

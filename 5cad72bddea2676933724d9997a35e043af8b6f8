@@ -105,6 +105,30 @@
       "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "560a7df7_47cb408e",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:31:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure how bazel cleanup works (If I need to run the cleanup script or not..)\n\nI don\u0027t want old elements lingering around if they don\u0027t exist anymore/are rewritten. @Logan mentioned that there is some kind of automatic temp directory created... but I don\u0027t really know about it.",
+      "parentUuid": "01b2023e_4c2fb512",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

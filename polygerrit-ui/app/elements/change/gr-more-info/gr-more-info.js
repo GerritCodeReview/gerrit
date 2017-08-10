@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,30 +15,31 @@
   'use strict';
 
   Polymer({
-    is: 'gr-account-link',
+    is: 'gr-more-info',
 
     properties: {
-      additionalText: String,
-      account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
+      /** @type {?} */
+      change: Object,
+      /** @type {?} */
+      commitInfo: Object,
       showEmailWithArrow: {
         type: Boolean,
-        value: false,
+        value: true,
       },
     },
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.PatchSetBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
-    _computeOwnerLink(account) {
-      if (!account) { return; }
-      return Gerrit.Nav.getUrlForOwner(
-          account.email || account.username || account.name ||
-          account._account_id);
+    _commitWebLink(link) {
+      if (!link.web_links) {
+        return '';
+      }
+      const webLinks = link.web_links;
+      return webLinks.length ? webLinks : null;
     },
   });
 })();

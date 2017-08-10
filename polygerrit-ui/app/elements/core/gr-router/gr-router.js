@@ -57,7 +57,7 @@
     const upgradeUrl = params => {
       const url = generateUrl(params);
       if (url !== window.location.pathname) {
-        history.replaceState(null, null, url);
+        page.redirect(url);
         app.params = params;
       }
     };

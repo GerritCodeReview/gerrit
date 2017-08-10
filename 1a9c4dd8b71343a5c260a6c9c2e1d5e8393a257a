@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "752023c7_1a86cb5c",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T22:39:25Z",
+      "side": 1,
+      "message": "There\u0027s an extra whitespace and it\u0027s more verbose than needed. How about:\n\n    EXTERN_NAMES.map(name \u003d\u003e `var ${name};`).join(\u0027 \u0027)",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "1a9c4dd8b71343a5c260a6c9c2e1d5e8393a257a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

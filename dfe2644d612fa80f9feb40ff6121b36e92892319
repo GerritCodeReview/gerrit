@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "7f022e82_007f3b0b",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-10T22:39:25Z",
+      "side": 1,
+      "message": "Looks good.",
+      "parentUuid": "8c4d926e_0f37eefe",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aecb26cd_c93daeca",
         "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
         "patchSetId": 9

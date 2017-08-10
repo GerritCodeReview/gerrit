@@ -92,6 +92,9 @@
 == Concepts
 . link:config-labels.html[Review Labels]
 . link:access-control.html[Access Controls]
+. link:concept-changes.html[Changes]
+. link:concept-refs-for-namespace.html[The refs/for Namespace]
+. link:concept-patch-sets.html[Patch Sets]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

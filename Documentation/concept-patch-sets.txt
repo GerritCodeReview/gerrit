@@ -1,0 +1,99 @@
+= Patch Sets
+
+As described in link:concept-changes.html[Changes], a change represents a single
+commit under review. Each change is assigned a
+link:concept-changes.html#change-id[Change-Id].
+
+It is very common to amend a commit during the code review process. Gerrit uses
+the Change-Id to associate each iteration of the commit with the same change.
+These iterations of a commit are referred to as _patch sets_. When a change is
+approved, only the latest version of a commit is submitted to the repository.
+
+NOTE: It is also possible to copy a Change-Id to a completely new commit. This
+is useful in situations where you want to keep the discussion around a change,
+but also need to completely modify your approach.
+
+== File List
+
+When you open a change in Gerrit, a list of affected files appears in the
+file list, located in the middle of the Review screen. This table displays
+the following information for each file:
+
+* A checkbox, indicating the file has been reviewed
+* The type of modification
+* The path and name of the file
+* The number of added lines and or deleted lines
+
+[[file-modifications]]
+== File modifications
+
+Each file in a patch set has a letter next to it, indicating the type of
+modification for that file. The following table lists the types of
+modifications.
+
+.Types of file modifications
+|===
+|Letter|Modification Type|Definition
+
+|M
+|Modification
+|The file existed before this change and is modified.
+
+|A
+|Added
+|The file is newly added.
+
+|D
+|Deleted
+|The file is deleted.
+
+|R
+|Renamed
+|The file is renamed.
+
+|C
+|Copied
+|The file is new and is copied from an existing file.
+
+|===
+
+If the status is *R* (Renamed) or *C* (Copied), the file list also displays the
+original name of the file below the patch set file.
+
+== Views
+
+By default, Gerrit displays the latest patch set for a given change. You can
+view previous versions of a patch set by selecting from the *Patch Set*
+drop-down list.
+
+== Diffs
+
+Clicking a file in the file list opens the Diff screen. By default, this
+screen displays a diff between the latest patch set's version of a file and the
+current version of that file in the repository. You can also open a diff within
+the Review screen by clicking the blue triangle located in the same row as the
+file. To show the diffs of all files in the Review screen, click the *Show
+Diffs* link, located at the top of the file list.
+
+You can diff between other patch sets by selecting a patch set number from the
+*Diff Against* drop-down list.
+
+== Description
+
+Each change in Gerrit must have a change description. This change description
+comes from the commit message and becomes part of the history of the project.
+
+In addition to the change description, you can add a description for a specific
+patch set. This description is intended to help guide reviewers as a change
+evolves, such as "Added more unit tests." Unlike the change description, a patch
+set description does not become a part of the project's history.
+
+To add a patch set description, click *Add a patch set description*, located in
+the file list.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

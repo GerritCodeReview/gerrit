@@ -28,7 +28,6 @@ class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
   final boolean allowDrafts;
-  final boolean privateByDefault;
   private final int systemMaxBatchChanges;
   private final AccountLimits.Factory limitsFactory;
 
@@ -38,7 +37,6 @@ class ReceiveConfig {
     checkReferencedObjectsAreReachable =
         config.getBoolean("receive", null, "checkReferencedObjectsAreReachable", true);
     allowDrafts = config.getBoolean("change", null, "allowDrafts", true);
-    privateByDefault = config.getBoolean("change", null, "privateByDefault", false);
     systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
     this.limitsFactory = limitsFactory;
   }

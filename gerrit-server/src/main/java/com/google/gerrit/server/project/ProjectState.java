@@ -394,6 +394,10 @@ public class ProjectState {
     return getInheritableBoolean(Project::getRejectImplicitMerges);
   }
 
+  public boolean isPrivateByDefault() {
+    return getInheritableBoolean(Project::getPrivateByDefault);
+  }
+
   public boolean isEnableReviewerByEmail() {
     return getInheritableBoolean(Project::getEnableReviewerByEmail);
   }

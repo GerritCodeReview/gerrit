@@ -1146,16 +1146,6 @@ Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1024kB.
 
-[[change.privateByDefault]]change.privateByDefault::
-+
-If set to true, every change created will be private by default.
-+
-Note that the newly created change will be public if the `is_private` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-or the `remove-private` link:user-upload.html#private[PushOption] is used in the push.
-+
-The default is false.
-
 [[changeCleanup]]
 === Section changeCleanup
 

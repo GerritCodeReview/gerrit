@@ -75,6 +75,8 @@ public interface AdminConstants extends Constants {
 
   String rejectImplicitMerges();
 
+  String privateByDefault();
+
   String enableReviewerByEmail();
 
   String matchAuthorToCommitterDate();

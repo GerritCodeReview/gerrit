@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d2540ce_2b041b1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T16:57:01Z",
+      "side": 1,
+      "message": "I believe this should be check rather than test.\n\nTest may sacrifice accuracy for speed. In the case of advertising refs, we prefer accuracy, because it\u0027s a bad user experience for us to advertise a ref and then their subsequent fetch request for that ref fails.\n\nI know that we have said elsewhere that test may be used as an approximation to determine whether to display UI elements, and this feels kind of like that. The difference is that when a user runs \"git clone\", their client transparently lists refs and then attempts to fetch all branches/tags immediately without informing the user. Thus if this test was inaccurate, the user is unable to clone the repo, and unable to do anything to fix it.",
+      "revId": "35c7c0944e23e1f22a143cee254a70f47fe9291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c027e03f_985cf47a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T16:57:01Z",
+      "side": 1,
+      "message": "It\u0027s too bad we can\u0027t bulk check permissions across multiple refs. In this case I think we can live with it, there aren\u0027t that many dashboards and listing them is not a very frequent operation.",
+      "revId": "35c7c0944e23e1f22a143cee254a70f47fe9291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c1ce66_6fce2a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T16:57:01Z",
+      "side": 1,
+      "message": "check?",
+      "range": {
+        "startLine": 603,
+        "startChar": 53,
+        "endLine": 603,
+        "endChar": 57
+      },
+      "revId": "35c7c0944e23e1f22a143cee254a70f47fe9291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

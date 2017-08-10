@@ -17,6 +17,24 @@
       "revId": "89902ab6ef1bb03bd3406d9218bc335b8dd7debc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e7255f2_5dfab737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T20:09:45Z",
+      "side": 1,
+      "message": "\u003e Removing the call to updateQueryLimit and leaving only \"userProvider.get()\" is enough to trigger the bug.\n\nIn fact, checking out origin/master and adding \"userProvider.get()\" on this line causes the same failure, completely unrelated to this series. So we have this potential problem today, with anything in the account cache path that inadvertently tries to invoke a Provider\u003cCurrentUser\u003e. I\u0027m not sure how to solve this problem in general, but hey, at least we know our tests will catch it.\n\nI do have an idea how to avoid this call in this series, so I will fix that and reroll.",
+      "parentUuid": "f916c57e_dcb59252",
+      "revId": "89902ab6ef1bb03bd3406d9218bc335b8dd7debc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

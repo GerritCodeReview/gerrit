@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1b1a0072_67b0d4eb",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7073cfbe_a97dd623",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 15
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a5390ab_702d9029",
         "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
         "patchSetId": 9
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "8f6472a9_bcd6034c",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5019c013_57eeea43",
+      "range": {
+        "startLine": 26,
+        "startChar": 39,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd86a8d_9797acc3",
         "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
         "patchSetId": 9
@@ -105,6 +153,24 @@
       "writtenOn": "2017-08-10T19:06:08Z",
       "side": 1,
       "message": "Rather than building new with expensive string concatenations, why not put this under the with statement on the file and write directly?",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4d926e_0f37eefe",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Not sure if what I did is exactly what you mean... let me know.",
+      "parentUuid": "bdd86a8d_9797acc3",
       "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -134,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "5e8888df_069cfaeb",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aecb26cd_c93daeca",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc63a8b6_debbad80",
         "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
         "patchSetId": 9
@@ -154,6 +244,30 @@
       "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c436f4_4a9d889f",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc63a8b6_debbad80",
+      "range": {
+        "startLine": 55,
+        "startChar": 47,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "a7cba491_7a36e793",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deeb7b4d_9dbb2f83",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71601a42_02139d93",
         "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
         "patchSetId": 9
@@ -197,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "b307c8bb_23038159",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71601a42_02139d93",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e68f765_bd0770bd",
         "filename": "polygerrit-ui/app/template_test_srcs/remove_goog_modules.py",
         "patchSetId": 9
@@ -208,6 +364,24 @@
       "writtenOn": "2017-08-10T19:06:08Z",
       "side": 1,
       "message": "This script doesn\u0027t appear to be used.",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a665c1f_6363dc06",
+        "filename": "polygerrit-ui/app/template_test_srcs/remove_goog_modules.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Yeah... I wasn\u0027t sure if I needed to use it for cleanup. removed for now at least.",
+      "parentUuid": "9e68f765_bd0770bd",
       "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -237,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "e2f1e9cc_f1ab225a",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Don\u0027t forsee an issue, but added a catch for it.",
+      "parentUuid": "c9fd4cd4_5b6fc43e",
+      "range": {
+        "startLine": 3,
+        "startChar": 47,
+        "endLine": 3,
+        "endChar": 50
+      },
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d1e3abb_0804bc36",
         "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
         "patchSetId": 9
@@ -251,6 +449,24 @@
       "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7b7349_4f18cd4b",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T22:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1e3abb_0804bc36",
+      "revId": "dfe2644d612fa80f9feb40ff6121b36e92892319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

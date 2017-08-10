@@ -42,6 +42,7 @@ limitations under the License.
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
+<link rel="import" href="../gr-more-info/gr-more-info.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 
@@ -296,6 +297,9 @@ limitations under the License.
           flex: initial;
           margin-right: 0;
         }
+        .moreInfo {
+          overflow: auto;
+        }
         /* Change actions are the only thing thant need to remain visible due
         to the fact that they may have the currently visible overlay open. */
         #mainContent.overlayOpen .hideOnMobileOverlay {
@@ -420,6 +424,12 @@ limitations under the License.
                   [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
+              <hr/>
+              <gr-more-info
+                  id="moreInfo"
+                  change="[[_change]]"
+                  commit-info="[[_commitInfo]]">
+              </gr-more-info>
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"

@@ -1187,6 +1187,7 @@ limitations under the License.
       let nextChunkStub;
       let fileRows;
       setup(() => {
+        sandbox.stub(element, '_renderInOrder').returns(Promise.resolve());
         nKeySpy = sandbox.spy(element, '_handleNKey');
         nextCommentStub = sandbox.stub(element.$.diffCursor,
             'moveToNextCommentThread');

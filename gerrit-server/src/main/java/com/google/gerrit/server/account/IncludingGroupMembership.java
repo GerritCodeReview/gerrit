@@ -40,13 +40,16 @@ public class IncludingGroupMembership implements GroupMembership {
     IncludingGroupMembership create(IdentifiedUser user);
   }
 
+  private final GroupCache groupCache;
   private final GroupIncludeCache includeCache;
   private final IdentifiedUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
   private Set<AccountGroup.UUID> knownGroups;
 
   @Inject
-  IncludingGroupMembership(GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
+  IncludingGroupMembership(
+      GroupCache groupCache, GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
+    this.groupCache = groupCache;
     this.includeCache = includeCache;
     this.user = user;
 
@@ -88,6 +91,10 @@ public class IncludingGroupMembership implements GroupMembership {
         }
 
         memberOf.put(id, false);
+        AccountGroup group = groupCache.get(id);
+        if (group == null) {
+          continue;
+        }
         if (search(includeCache.subgroupsOf(id))) {
           memberOf.put(id, true);
           return true;

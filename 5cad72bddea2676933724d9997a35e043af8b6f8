@@ -57,6 +57,30 @@
       "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4049f658_cbbc4362",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-10T18:21:28Z",
+      "side": 1,
+      "message": "Im not sure if im correct but see rules.py \n\npolygerrit-ui/app/rules.bzl (near to bottom).",
+      "parentUuid": "c8d73319_725c1c87",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

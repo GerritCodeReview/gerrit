@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1267d772_2a664dc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T19:56:51Z",
+      "side": 1,
+      "message": "Basically +1 to what Russ said: s/amending/pushing/, and this should be gerritIdent.getEmailAddress(), since the check on line 611 is explicitly about this identity.\n\nA comment kind of about why the behavior exists would be nice, but not strictly necessary.",
+      "range": {
+        "startLine": 616,
+        "startChar": 50,
+        "endLine": 616,
+        "endChar": 56
+      },
+      "revId": "a115dbabf536875b1fa3eb280ed4e1d68ae63c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

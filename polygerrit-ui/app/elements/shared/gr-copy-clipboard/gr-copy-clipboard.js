@@ -26,6 +26,7 @@
         type: Boolean,
         value: false,
       },
+      hideLabel: Boolean,
     },
 
     focusOnCopy() {

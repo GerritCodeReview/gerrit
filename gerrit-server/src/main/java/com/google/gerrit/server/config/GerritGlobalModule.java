@@ -162,6 +162,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNode;
@@ -250,6 +251,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.Factory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
+    factory(CreateRefControl.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);

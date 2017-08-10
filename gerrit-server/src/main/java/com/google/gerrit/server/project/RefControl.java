@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,19 +43,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
-  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
-
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -231,7 +219,7 @@ public class RefControl {
     }
   }
 
-  private boolean isProjectStatePermittingWrite() {
+  boolean isProjectStatePermittingWrite() {
     return getProjectControl().getProject().getState().equals(ProjectState.ACTIVE);
   }
 
@@ -251,108 +239,6 @@ public class RefControl {
       return false;
     }
     return canForcePerform(Permission.PUSH);
-  }
-
-  /**
-   * Determines whether the user can create a new Git ref.
-   *
-   * @param repo repository on which user want to create
-   * @param object the object the user will start the reference with.
-   * @return {@code null} if the user specified can create a new Git ref, or a String describing why
-   *     the creation is not allowed.
-   */
-  @Nullable
-  public String canCreate(Repository repo, RevObject object) {
-    if (!isProjectStatePermittingWrite()) {
-      return "project state does not permit write";
-    }
-
-    String userId =
-        getUser().isIdentifiedUser() ? "account " + getUser().getAccountId() : "anonymous user";
-
-    if (object instanceof RevCommit) {
-      if (!canPerform(Permission.CREATE)) {
-        return userId + " lacks permission: " + Permission.CREATE;
-      }
-      return canCreateCommit(repo, (RevCommit) object, userId);
-    } else if (object instanceof RevTag) {
-      final RevTag tag = (RevTag) object;
-      try (RevWalk rw = new RevWalk(repo)) {
-        rw.parseBody(tag);
-      } catch (IOException e) {
-        String msg =
-            String.format(
-                "RevWalk(%s) for pushing tag %s:",
-                projectControl.getProject().getNameKey(), tag.name());
-        log.error(msg, e);
-
-        return "I/O exception for revwalk";
-      }
-
-      // If tagger is present, require it matches the user's email.
-      //
-      final PersonIdent tagger = tag.getTaggerIdent();
-      if (tagger != null) {
-        boolean valid;
-        if (getUser().isIdentifiedUser()) {
-          final String addr = tagger.getEmailAddress();
-          valid = getUser().asIdentifiedUser().hasEmailAddress(addr);
-        } else {
-          valid = false;
-        }
-        if (!valid && !canForgeCommitter()) {
-          return userId + " lacks permission: " + Permission.FORGE_COMMITTER;
-        }
-      }
-
-      RevObject tagObject = tag.getObject();
-      if (tagObject instanceof RevCommit) {
-        String rejectReason = canCreateCommit(repo, (RevCommit) tagObject, userId);
-        if (rejectReason != null) {
-          return rejectReason;
-        }
-      } else {
-        String rejectReason = canCreate(repo, tagObject);
-        if (rejectReason != null) {
-          return rejectReason;
-        }
-      }
-
-      // If the tag has a PGP signature, allow a lower level of permission
-      // than if it doesn't have a PGP signature.
-      //
-      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return canPerform(Permission.CREATE_SIGNED_TAG)
-            ? null
-            : userId + " lacks permission: " + Permission.CREATE_SIGNED_TAG;
-      }
-      return canPerform(Permission.CREATE_TAG)
-          ? null
-          : userId + " lacks permission " + Permission.CREATE_TAG;
-    }
-
-    return null;
-  }
-
-  /**
-   * Check if the user is allowed to create a new commit object if this introduces a new commit to
-   * the project. If not allowed, returns a string describing why it's not allowed. The userId
-   * argument is only used for the error message.
-   */
-  @Nullable
-  private String canCreateCommit(Repository repo, RevCommit commit, String userId) {
-    if (canUpdate()) {
-      // If the user has push permissions, they can create the ref regardless
-      // of whether they are pushing any new objects along with the create.
-      return null;
-    } else if (projectControl.isReachableFromHeadsOrTags(repo, commit)) {
-      // If the user has no push permissions, check whether the object is
-      // merged into a branch or tag readable by this user. If so, they are
-      // not effectively "pushing" more objects, so they can create the ref
-      // even if they don't have push permission.
-      return null;
-    }
-    return userId + " lacks permission " + Permission.PUSH + " for creating new commit object";
   }
 
   /**

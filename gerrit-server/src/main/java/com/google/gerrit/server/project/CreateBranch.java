@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -55,6 +56,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
+  private final CreateRefControl.Factory createRefControlFactory;
   private String ref;
 
   @Inject
@@ -64,18 +66,21 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
+      CreateRefControl.Factory createRefControlFactory,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
+    this.createRefControlFactory = createRefControlFactory;
     this.ref = ref;
   }
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException, IOException {
+      throws BadRequestException, AuthException, ResourceConflictException, IOException,
+          PermissionBackendException {
     if (input == null) {
       input = new BranchInput();
     }
@@ -117,7 +122,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      String rejectReason = refControl.canCreate(repo, object);
+      String rejectReason = createRefControlFactory.create(refControl).canCreateRef(repo, object);
       if (rejectReason != null) {
         throw new AuthException("Cannot create \"" + ref + "\": " + rejectReason);
       }

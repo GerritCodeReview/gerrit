@@ -128,6 +128,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -320,6 +321,7 @@ class ReceiveCommits {
   private final String canonicalWebUrl;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
+  private final CreateRefControl.Factory createRefControlFactory;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -402,6 +404,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      CreateRefControl.Factory createRefControlFactory,
       @Assisted ProjectControl projectControl,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
@@ -440,6 +443,7 @@ class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
+    this.createRefControlFactory = createRefControlFactory;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -995,7 +999,7 @@ class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    String rejectReason = ctl.canCreate(rp.getRepository(), obj);
+    String rejectReason = createRefControlFactory.create(ctl).canCreateRef(rp.getRepository(), obj);
     if (rejectReason != null) {
       reject(cmd, "prohibited by Gerrit: " + rejectReason);
       return;

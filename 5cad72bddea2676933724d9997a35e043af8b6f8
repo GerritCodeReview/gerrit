@@ -16,6 +16,47 @@
       "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47dd44d_300e4e8a",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:19:49Z",
+      "side": 1,
+      "message": "Ah, yes",
+      "parentUuid": "b5f42710_5d071813",
+      "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d73319_725c1c87",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_to_goog_module.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T18:19:49Z",
+      "side": 1,
+      "message": "I hear there is a bazel-y way to do this instead of creating my own temp directory. If someone can help point me in the right direction, that would be great.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "5cad72bddea2676933724d9997a35e043af8b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

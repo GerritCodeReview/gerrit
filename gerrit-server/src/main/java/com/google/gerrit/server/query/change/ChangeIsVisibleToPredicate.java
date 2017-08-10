@@ -59,27 +59,27 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       if (change == null) {
         return false;
       }
+
+      ChangeNotes notes = notesFactory.createFromIndexedChange(change);
+      ChangeControl cc = changeControl.controlFor(notes, user);
+      boolean visible;
+      try {
+        visible =
+            permissionBackend
+                .user(user)
+                .indexedChange(cd, notes)
+                .database(db)
+                .test(ChangePermission.READ);
+      } catch (PermissionBackendException e) {
+        throw new OrmException("unable to check permissions", e);
+      }
+      if (visible) {
+        cd.cacheVisibleTo(cc);
+        return true;
+      }
     } catch (NoSuchChangeException e) {
       // Ignored
       return false;
-    }
-
-    ChangeNotes notes = notesFactory.createFromIndexedChange(change);
-    ChangeControl cc = changeControl.controlFor(notes, user);
-    boolean visible;
-    try {
-      visible =
-          permissionBackend
-              .user(user)
-              .indexedChange(cd, notes)
-              .database(db)
-              .test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
-      throw new OrmException("unable to check permissions", e);
-    }
-    if (visible) {
-      cd.cacheVisibleTo(cc);
-      return true;
     }
 
     return false;

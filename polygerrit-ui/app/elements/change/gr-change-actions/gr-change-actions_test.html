@@ -1038,6 +1038,37 @@ limitations under the License.
         assert.strictEqual(
             element.$.moreActions.items[4].id, 'submit-revision');
       });
+
+      suite('_waitForChangeReachable', () => {
+        setup(() => {
+          sandbox.stub(element, 'async', fn => fn());
+        });
+
+        const makeGetChange = numTries => {
+          return () => {
+            if (numTries === 1) {
+              return Promise.resolve({_number: 123});
+            } else {
+              numTries--;
+              return Promise.resolve(undefined);
+            }
+          }
+        };
+
+        test('succeed', () => {
+          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(5));
+          return element._waitForChangeReachable(123).then(success => {
+            assert.isTrue(success);
+          });
+        });
+
+        test('fail', () => {
+          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(6));
+          return element._waitForChangeReachable(123).then(success => {
+            assert.isFalse(success);
+          });
+        });
+      });
     });
   });
 </script>

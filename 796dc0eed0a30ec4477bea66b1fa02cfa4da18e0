@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "b1e54635_fe0d6f5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-10T19:45:51Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why it would fail with this. The `_config` property has been defined on the component. Can you investigate further? Maybe it was a flake.\n\nAt any rate, if the `_accountOrAnon` method uses the config, then it should be passed from here in some way.",
+      "parentUuid": "7e00b086_e32985cf",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf631af8_eb782e1c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 21

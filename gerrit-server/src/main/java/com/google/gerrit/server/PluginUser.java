@@ -16,6 +16,9 @@ package com.google.gerrit.server;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Date;
+import java.util.TimeZone;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /** User identity for plugin code that needs an identity. */
 public class PluginUser extends InternalUser {
@@ -28,6 +31,13 @@ public class PluginUser extends InternalUser {
   @Inject
   protected PluginUser(@Assisted String pluginName) {
     this.pluginName = pluginName;
+  }
+
+  @Override
+  public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
+    String name = pluginName;
+    String email = pluginName + "@gerrit.plugin";
+    return new PersonIdent(name, email, when, tz);
   }
 
   @Override

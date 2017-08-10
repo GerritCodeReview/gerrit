@@ -15,6 +15,9 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.server.account.GroupMembership;
+import java.util.Date;
+import java.util.TimeZone;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * User identity for plugin code that needs an identity.
@@ -38,6 +41,17 @@ public class InternalUser extends CurrentUser {
   @Override
   public boolean isInternalUser() {
     return true;
+  }
+
+  @Override
+  public InternalUser asInternalUser() {
+    return this;
+  }
+
+  public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
+    String name = toString();
+    String email = name + "@gerrit";
+    return new PersonIdent(name, email, when, tz);
   }
 
   @Override

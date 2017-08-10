@@ -14,40 +14,47 @@
 (function() {
   'use strict';
 
-  const COPY_TIMEOUT_MS = 1000;
-
   Polymer({
-    is: 'gr-copy-clipboard',
+    is: 'gr-more-info-dialog',
+
+    /**
+     * Fired when the user presses the close button.
+     *
+     * @event close
+     */
 
     properties: {
-      text: String,
-      title: String,
-      hideInput: {
+      /** @type {?} */
+      change: Object,
+      /** @type {?} */
+      commitInfo: Object,
+      showEmailWithArrow: {
         type: Boolean,
-        value: false,
+        value: true,
       },
-      hideLabel: Boolean,
     },
 
-    focusOnCopy() {
-      this.$.button.focus();
+    hostAttributes: {
+      role: 'dialog',
     },
 
-    _computeInputClass(hideInput) {
-      return hideInput ? 'hideInput' : '';
-    },
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.PatchSetBehavior,
+      Gerrit.URLEncodingBehavior,
+    ],
 
-    _handleInputTap(e) {
+    _handleCloseTap(e) {
       e.preventDefault();
-      Polymer.dom(e).rootTarget.select();
+      this.fire('close', null, {bubbles: false});
     },
 
-    _copyToClipboard(e) {
-      this.$.input.select();
-      document.execCommand('copy');
-      window.getSelection().removeAllRanges();
-      e.target.textContent = 'done';
-      this.async(() => { e.target.textContent = 'copy'; }, COPY_TIMEOUT_MS);
+    _commitWebLink(link) {
+      if (!link.web_links) {
+        return '';
+      }
+      const webLinks = link.web_links;
+      return webLinks.length ? webLinks : null;
     },
   });
 })();

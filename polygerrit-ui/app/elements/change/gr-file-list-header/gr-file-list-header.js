@@ -245,6 +245,15 @@
       this.fire('open-download-dialog');
     },
 
+    _handleMoreInfoTap(e) {
+      e.preventDefault();
+      this.fire('open-more-info-dialog');
+    },
+
+    _handleMoreInfoDialogClose(e) {
+      this.$.moreInfoOverlay.close();
+    },
+
     _computeEditLoadedClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
     },

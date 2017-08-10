@@ -49,7 +49,7 @@ limitations under the License.
             image-size="[[avatarImageSize]]"></gr-avatar>
       </template>
       <span class="text">
-        <span>[[_computeName(account, _serverConfig)]]</span>
+        <span>[[_computeAccount(account, _serverConfig, showEmailWithArrow)]]</span>
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           [[_computeEmailStr(account)]]
         </span>

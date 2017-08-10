@@ -38,6 +38,7 @@ limitations under the License.
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
+<link rel="import" href="../gr-more-info-dialog/gr-more-info-dialog.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -486,6 +487,12 @@ limitations under the License.
                   class="download"
                   on-tap="_handleDownloadTap">Download</gr-button>
             </span>
+            <span class="moreInfoContainer desktop">
+              /
+              <gr-button link
+                  class="moreInfo"
+                  on-tap="_handleMoreInfoTap">More Info</gr-button>
+            </span>
             <span class="descriptionContainer">
               /
               <gr-editable-label
@@ -536,6 +543,13 @@ limitations under the License.
           patch-num="[[_patchRange.patchNum]]"
           config="[[_serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
+    <gr-overlay id="moreInfoOverlay" with-backdrop>
+      <gr-more-info-dialog
+          id="moreInfoDialog"
+          change="[[_change]]"
+          commit-info="[[_commitInfo]]"
+          on-close="_handleMoreInfoDialogClose"></gr-more-info-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
         class="scrollable"

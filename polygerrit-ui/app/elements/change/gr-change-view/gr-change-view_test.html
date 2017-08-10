@@ -833,7 +833,7 @@ limitations under the License.
           element._computeChangeIdClass(changeIdCommitMessageError), 'warning');
     });
 
-    test('topic is coalesced to null', done => {
+    test('topic is coalesced to null', () => {
       sandbox.stub(element, '_changeChanged');
       sandbox.stub(element, '_upgradeUrl');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
@@ -847,11 +847,10 @@ limitations under the License.
 
       element._getChangeDetail().then(() => {
         assert.isNull(element._change.topic);
-        done();
       });
     });
 
-    test('commit sha is populated from getChangeDetail', done => {
+    test('commit sha is populated from getChangeDetail', () => {
       sandbox.stub(element, '_changeChanged');
       sandbox.stub(element, '_upgradeUrl');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', () => {
@@ -865,7 +864,6 @@ limitations under the License.
 
       element._getChangeDetail().then(() => {
         assert.equal('foo', element._commitInfo.commit);
-        done();
       });
     });
 

@@ -22,6 +22,30 @@
       "revId": "6aac7a033f0cb55939191b11e906cd3980db54a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "376a3893_1738d3ce",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-10T00:56:54Z",
+      "side": 1,
+      "message": "https://github.com/samccone/fried-twinkie",
+      "parentUuid": "9ace82f7_338d2b62",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "6aac7a033f0cb55939191b11e906cd3980db54a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

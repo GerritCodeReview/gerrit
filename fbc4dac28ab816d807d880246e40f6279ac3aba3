@@ -69,6 +69,30 @@
       "revId": "fbc4dac28ab816d807d880246e40f6279ac3aba3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "435f4bf4_f4a70411",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-10T12:14:53Z",
+      "side": 1,
+      "message": "\u003e we would specify four default create() methods which have the signature of the current create() methods.\n\nUnfortunately, Guice doesn\u0027t yet support default methods on assisted factories; it will complain that I don\u0027t have matching constructors for each of the default methods.\n\nI can instead use the approach we use elsewhere of having a separate package-private AssistedFactory with a single method, and a hand-written Factory wrapping that. I will try that out and see how it works.\n\n(Another minor problem with this approach is that we end up with an interface method that takes 3 @Nullable arguments, but it\u0027s not actually valid to pass all possible combinations of null/non-null args. This is addressable by using checkArguments so I don\u0027t think it\u0027s a blocker on its own.)",
+      "parentUuid": "d99806d3_413447eb",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 84
+      },
+      "revId": "fbc4dac28ab816d807d880246e40f6279ac3aba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -164,6 +164,30 @@
       "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b354f0e1_0b86ecb0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-11T20:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e9f30f_95d519b2",
+      "range": {
+        "startLine": 1726,
+        "startChar": 44,
+        "endLine": 1726,
+        "endChar": 64
+      },
+      "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

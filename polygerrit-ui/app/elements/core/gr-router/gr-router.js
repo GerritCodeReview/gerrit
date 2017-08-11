@@ -274,12 +274,22 @@
       });
 
       page('/dashboard/(.*)', loadUser, data => {
+        if (!data.params[0]) {
+          page.redirect('/dashboard/self');
+          return;
+        }
         this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            data.params.view = Gerrit.Nav.View.DASHBOARD;
-            this._setParams(data.params);
+          if (!loggedIn) {
+            if (data.params[0].toLowerCase() === 'self') {
+              this._redirectToLogin(data.canonicalPath);
+            } else {
+              this._redirect('/q/owner:' + data.params[0]);
+            }
           } else {
-            this._redirectToLogin(data.canonicalPath);
+            this._setParams({
+              view: Gerrit.Nav.View.DASHBOARD,
+              user: data.params[0],
+            });
           }
         });
       });

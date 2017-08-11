@@ -130,14 +130,34 @@
     }
 
     page('/dashboard/(.*)', loadUser, data => {
+      if (!data.params[0]) {
+        page.redirect('/dashboard/self');
+        return;
+      }
       restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          data.params.view = Gerrit.Nav.View.DASHBOARD;
-          app.params = data.params;
+        if (!loggedIn) {
+          if (data.params[0].toLowerCase() === 'self') {
+            redirectToLogin(data.canonicalPath);
+          } else {
+            page.redirect('/q/owner:' + data.params[0]);
+          }
         } else {
-          redirectToLogin(data.canonicalPath);
+          app.params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          };
         }
       });
+
+      if (data.params[0].toLowerCase() === 'self') {
+        p.then(() => {
+          restAPI.getLoggedIn().then(loggedIn => {
+            if (!loggedIn) {
+              redirectToLogin(data.canonicalPath);
+            }
+          });
+        });
+      }
     });
 
     // Matches /admin/groups/<group>,info (backwords compat with gwtui)

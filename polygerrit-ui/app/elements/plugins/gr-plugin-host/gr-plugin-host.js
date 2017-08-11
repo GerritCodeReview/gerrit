@@ -41,11 +41,17 @@
       this._importHtmlPlugins(htmlPlugins);
     },
 
+    /**
+     * @suppress {checkTypes}
+     * States that it expects no more than 3 parameters, but that's not true.
+     * @todo (beckysiegel) check Polymer annotations and submit change.
+     */
+
     _importHtmlPlugins(plugins) {
       for (const url of plugins) {
         this.importHref(
-            this._urlFor(url), Gerrit._pluginInstalled, Gerrit._pluginInstalled,
-            true);
+          this._urlFor(url), Gerrit._pluginInstalled, Gerrit._pluginInstalled,
+          true);
       }
     },
 

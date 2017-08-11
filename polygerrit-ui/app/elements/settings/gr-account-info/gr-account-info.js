@@ -51,6 +51,7 @@
         type: Boolean,
         value: false,
       },
+      /** @type {?} */
       _account: Object,
       _serverConfig: Object,
     },

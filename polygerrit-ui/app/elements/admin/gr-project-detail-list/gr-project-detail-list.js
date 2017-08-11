@@ -73,6 +73,8 @@
       _filter: String,
       _refName: String,
       _hasNewItemName: Boolean,
+      _isEditing: Boolean,
+      _revisedRef: String,
     },
 
     behaviors: [

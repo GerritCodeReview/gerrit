@@ -1698,7 +1698,7 @@
 
     /**
      * Alias for _changeBaseURL.then(send).
-     * @TODO(beckysiegel) clean up comments
+     * @todo(beckysiegel) clean up comments
      * @param {string|number} changeNum
      * @param {string} method
      * @param {?string|number} patchNum gets passed as null.
@@ -1720,7 +1720,7 @@
 
    /**
     * Alias for _changeBaseURL.then(fetchJSON).
-     * @TODO(beckysiegel) clean up comments
+     * @todo(beckysiegel) clean up comments
     * @param {string|number} changeNum
     * @param {string} endpoint
     * @param {?string|number=} opt_patchNum gets passed as null.

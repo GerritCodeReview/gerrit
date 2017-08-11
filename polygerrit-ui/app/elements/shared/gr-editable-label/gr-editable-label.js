@@ -96,6 +96,11 @@
       this._inputText = this.value;
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Closure doesn't think 'e' is an Event.
+     * TODO(beckysiegel) figure out why.
+     */
     _handleEnter(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
@@ -105,6 +110,11 @@
       }
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Closure doesn't think 'e' is an Event.
+     * TODO(beckysiegel) figure out why.
+     */
     _handleEsc(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;

@@ -17,6 +17,9 @@
   Polymer({
     is: 'gr-label-score-row',
     properties: {
+      /**
+       * @type {{ name: string }}
+       */
       label: Object,
       labels: Object,
       name: {
@@ -54,12 +57,12 @@
     _computeBlankItems(permittedLabels, label, side) {
       if (!permittedLabels || !permittedLabels[label]) { return []; }
       const startPosition = this.labelValues[parseInt(
-          permittedLabels[label][0])];
+          permittedLabels[label][0], 10)];
       if (side === 'start') {
         return new Array(startPosition);
       }
       const endPosition = this.labelValues[parseInt(
-          permittedLabels[label][permittedLabels[label].length - 1])];
+          permittedLabels[label][permittedLabels[label].length - 1], 10)];
       return new Array(Object.keys(this.labelValues).length - endPosition - 1);
     },
 

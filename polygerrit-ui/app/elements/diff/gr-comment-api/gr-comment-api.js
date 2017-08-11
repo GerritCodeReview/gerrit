@@ -20,9 +20,13 @@
     is: 'gr-comment-api',
 
     properties: {
+      /** @type {number} */
       _changeNum: Number,
+      /** @type {!Object|undefined} */
       _comments: Object,
+      /** @type {!Object|undefined} */
       _drafts: Object,
+      /** @type {!Object|undefined} */
       _robotComments: Object,
     },
 
@@ -35,7 +39,7 @@
      * number. The returned promise resolves when the comments have loaded, but
      * does not yield the comment data.
      *
-     * @param {!number} changeNum
+     * @param {number} changeNum
      * @return {!Promise}
      */
     loadAll(changeNum) {
@@ -91,7 +95,7 @@
      * @param {!string} path
      * @param {!Object} patchRange The patch-range object containing patchNum
      *     and basePatchNum properties to represent the range.
-     * @param {Object} opt_projectConfig Optional project config object to
+     * @param {Object=} opt_projectConfig Optional project config object to
      *     include in the meta sub-object.
      * @return {Object}
      */
@@ -160,7 +164,7 @@
      * Whether the given comment should be included in the given patch range.
      * @param {!Object} comment
      * @param {!Object} range
-     * @return {boolean}
+     * @return {boolean|undefined}
      */
     _isInPatchRange(comment, range) {
       return this._isInBaseOfPatchRange(comment, range) ||

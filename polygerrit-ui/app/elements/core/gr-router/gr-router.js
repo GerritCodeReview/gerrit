@@ -132,8 +132,10 @@
     page('/dashboard/(.*)', loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          data.params.view = Gerrit.Nav.View.DASHBOARD;
-          app.params = data.params;
+          app.params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          };
         } else {
           redirectToLogin(data.canonicalPath);
         }

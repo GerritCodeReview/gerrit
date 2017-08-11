@@ -45,24 +45,39 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('content is refreshed with same dropdown selected twice', () => {
+    test('content is refreshed when user param is defined', () => {
       const getChangesStub = sandbox.stub(element, '_getChanges',
           () => Promise.resolve());
 
-      element.params = {view: Gerrit.Nav.View.DASHBOARD};
+      function setUser(user) {
+        element.params = {user};
+        flushAsynchronousOperations();
+      }
 
+      setUser();
+      assert.equal(getChangesStub.callCount, 0);
+      setUser('self');
       assert.equal(getChangesStub.callCount, 1);
-      element.params = {view: Gerrit.Nav.View.DASHBOARD};
+      setUser('test');
       assert.equal(getChangesStub.callCount, 2);
+      setUser('self');
+      assert.equal(getChangesStub.callCount, 3);
+      setUser(null);
+      assert.equal(getChangesStub.callCount, 3);
+      setUser('self');
+      assert.equal(getChangesStub.callCount, 4);
     });
 
     test('_dashboardQueryForSection', () => {
-      const query = 'query';
-      const suffixForDashboard = 'suffix';
-      assert.equal(element._dashboardQueryForSection({query}), 'query');
+      const query = 'query for ${user}';
+      const suffixForDashboard = 'suffix for ${user}';
       assert.equal(
-          element._dashboardQueryForSection({query, suffixForDashboard}),
-          'query suffix');
+          element._dashboardQueryForSection({query}, 'user'),
+          'query for user');
+      assert.equal(
+          element._dashboardQueryForSection(
+              {query, suffixForDashboard}, 'user'),
+          'query for user suffix for user');
     });
   });
 </script>

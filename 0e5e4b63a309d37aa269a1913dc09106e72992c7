@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "61c33658_1a010856",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:15:09Z",
+      "side": 1,
+      "message": "\u003e Can not opposed\n\nGarbled words. I mean, \"I\u0027m not opposed\".",
+      "parentUuid": "9ebe2661_d477e3ac",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f00a3dd0_8c2b2f6a",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 3

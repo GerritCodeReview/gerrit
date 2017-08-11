@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0d6b6c_fd79c123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-11T11:25:10Z",
+      "side": 1,
+      "message": "optional: if (groupCache.get(id) !\u003d null)",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 28
+      },
+      "revId": "834fe7bebddd0c92f4621b7dcb21ea973210204f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

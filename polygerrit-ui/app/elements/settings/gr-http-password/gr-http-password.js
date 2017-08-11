@@ -50,7 +50,7 @@
     },
 
     _generatedPasswordOverlayClosed() {
-      this._generatedPassword = null;
+      this._generatedPassword = '';
     },
   });
 })();

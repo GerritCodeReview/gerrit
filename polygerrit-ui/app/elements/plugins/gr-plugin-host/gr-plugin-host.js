@@ -44,8 +44,8 @@
     _importHtmlPlugins(plugins) {
       for (const url of plugins) {
         this.importHref(
-            this._urlFor(url), Gerrit._pluginInstalled, Gerrit._pluginInstalled,
-            true);
+            this._urlFor(url),
+            Gerrit._pluginInstalled, Gerrit._pluginInstalled);
       }
     },
 

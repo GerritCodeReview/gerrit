@@ -74,6 +74,9 @@
      */
 
     properties: {
+      /**
+       * @type {{ _number: number, removable_reviewers: Array }}
+       */
       change: Object,
       patchNum: String,
       canBeStarted: {
@@ -95,12 +98,14 @@
         value: '',
       },
       diffDrafts: Object,
+      /** @type {!Function} */
       filterReviewerSuggestion: {
         type: Function,
         value() {
           return this._filterReviewerSuggestionGenerator(false);
         },
       },
+      /** @type {!Function} */
       filterCCSuggestion: {
         type: Function,
         value() {
@@ -108,7 +113,13 @@
         },
       },
       permittedLabels: Object,
+      /**
+       * @type {{ note_db_enabled: boolean }}
+       */
       serverConfig: Object,
+      /**
+       * @type {{ commentlinks: Array }}
+       */
       projectConfig: Object,
       knownLatestState: String,
       underReview: {
@@ -118,6 +129,7 @@
 
       _account: Object,
       _ccs: Array,
+      /** @type {?Object} */
       _ccPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
@@ -127,12 +139,14 @@
         computed: '_computeMessagePlaceholder(canBeStarted)',
       },
       _owner: Object,
+      /** @type {?} */
       _pendingConfirmationDetails: Object,
       _includeComments: {
         type: Boolean,
         value: true,
       },
       _reviewers: Array,
+      /** @type {?Object} */
       _reviewerPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
@@ -296,8 +310,8 @@
      * Resets the state of the _reviewersPendingRemove object, and removes
      * accounts if necessary.
      *
-     * @param {Boolean} isCancel true if the action is a cancel.
-     * @param {Object} opt_accountIdsTransferred map of account IDs that must
+     * @param {boolean} isCancel true if the action is a cancel.
+     * @param {Object=} opt_accountIdsTransferred map of account IDs that must
      *     not be removed, because they have been readded in another state.
      */
     _purgeReviewersPendingRemove(isCancel, opt_accountIdsTransferred) {
@@ -322,8 +336,11 @@
      * Removes an account from the change, both on the backend and the client.
      * Does nothing if the account is a pending addition.
      *
-     * @param {Object} account
-     * @param {ReviewerTypes} type
+     * @param {!Object} account
+     * @param {string} type
+     *
+     * * TODO(beckysiegel) submit Polymer PR
+     * @suppress {checkTypes}
      */
     _removeAccount(account, type) {
       if (account._pendingAdd) { return; }
@@ -605,8 +622,8 @@
      * Generates a function to filter out reviewer/CC entries. When isCCs is
      * truthy, the function filters out entries that already exist in this._ccs.
      * When falsy, the function filters entries that exist in this._reviewers.
-     * @param {Boolean} isCCs
-     * @return {Function}
+     * @param {boolean} isCCs
+     * @return {!Function}
      */
     _filterReviewerSuggestionGenerator(isCCs) {
       return suggestion => {

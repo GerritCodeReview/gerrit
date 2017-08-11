@@ -77,6 +77,7 @@
         value: 64,
       },
 
+      /** @type {number|undefined} */
       _nextStepHandle: Number,
       _isScrolling: Boolean,
     },
@@ -225,14 +226,14 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
-     * @param {Array<String>} rows
-     * @param {Number} context
-     * @param {Number} startLineNumLeft
-     * @param {Number} startLineNumRight
-     * @param {String} opt_sectionEnd String representing whether this is the
+     * @param {!Array<string>} rows
+     * @param {number} context
+     * @param {number} startLineNumLeft
+     * @param {number} startLineNumRight
+     * @param {?string=} opt_sectionEnd String representing whether this is the
      *     first section or the last section or neither. Use the values 'first',
      *     'last' and null respectively.
-     * @return {Array<GrDiffGroup>}
+     * @return {!Array<!Object>} Array of GrDiffGroup
      */
     _sharedGroupsFromRows(rows, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
@@ -288,11 +289,11 @@
     /**
      * Take the rows of a delta diff section and produce the corresponding
      * group.
-     * @param {Array<String>} rowsAdded
-     * @param {Array<String>} rowsRemoved
-     * @param {Number} startLineNumLeft
-     * @param {Number} startLineNumRight
-     * @return {GrDiffGroup}
+     * @param {!Array<string>} rowsAdded
+     * @param {!Array<string>} rowsRemoved
+     * @param {number} startLineNumLeft
+     * @param {number} startLineNumRight
+     * @return {!Object} (Gr-Diff-Group)
      */
     _deltaGroupFromRows(rowsAdded, rowsRemoved, startLineNumLeft,
         startLineNumRight, highlights) {
@@ -309,7 +310,7 @@
     },
 
     /**
-     * @return {Array<GrDiffLine>}
+     * @return {!Array<!Object>} Array of GrDiffLines
      */
     _deltaLinesFromRows(lineType, rows, startLineNum,
         opt_highlights) {
@@ -348,8 +349,8 @@
      * In order to show comments out of the bounds of the selected context,
      * treat them as separate chunks within the model so that the content (and
      * context surrounding it) renders correctly.
-     * @param {Object} content The diff content object.
-     * @return {Object} A new diff content object with regions split up.
+     * @param {?} content The diff content object. (has to be iterable)
+     * @return {!Object} A new diff content object with regions split up.
      */
     _splitCommonGroupsWithComments(content) {
       const result = [];
@@ -492,7 +493,7 @@
      * If a group is an addition or a removal, break it down into smaller groups
      * of that type using the MAX_GROUP_SIZE. If the group is a shared section
      * or a delta it is returned as the single element of the result array.
-     * @param {!Object} A raw chunk from a diff response.
+     * @param {!Object} group A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
     _breakdownGroup(group) {

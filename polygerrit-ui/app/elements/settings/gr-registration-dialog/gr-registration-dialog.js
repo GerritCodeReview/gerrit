@@ -30,6 +30,7 @@
      */
 
     properties: {
+      /** @type {?} */
       _account: Object,
       _saving: Boolean,
     },

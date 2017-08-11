@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "53f11f98_86dca3ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-11T18:34:10Z",
+      "side": 1,
+      "message": "I see.\nGenerally, we shouldn\u0027t have those, but if it helps in transition period, that\u0027s probably ok.\nPlease add a TODO to function to clean this once closure validates it for you.\nThanks!",
+      "parentUuid": "f21bcd17_dc88b830",
+      "range": {
+        "startLine": 1704,
+        "startChar": 45,
+        "endLine": 1704,
+        "endChar": 65
+      },
+      "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "712b0f42_7321cc71",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -83,6 +107,30 @@
       "writtenOn": "2017-08-11T16:53:55Z",
       "side": 1,
       "message": "I\u0027m not sure this adds value, since param type declaration already has it.\nSame for next 4 params.",
+      "range": {
+        "startLine": 1726,
+        "startChar": 44,
+        "endLine": 1726,
+        "endChar": 64
+      },
+      "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e9f30f_95d519b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-11T18:34:10Z",
+      "side": 1,
+      "message": "Same as above - please add a TODO to the function definition to clean this up.",
+      "parentUuid": "3989367c_9bd1844d",
       "range": {
         "startLine": 1726,
         "startChar": 44,

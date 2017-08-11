@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b1c1baa_39904f0c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T22:27:32Z",
+      "side": 1,
+      "message": "this should be true, no quotes.",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "a6e9970032276e47056bfbe424c6327503995d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58d7e670_8835a9c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T22:27:32Z",
+      "side": 1,
+      "message": "Since we are only passing \u0027true\u0027 in the app, let\u0027s do that here (and below) too.",
+      "range": {
+        "startLine": 92,
+        "startChar": 43,
+        "endLine": 92,
+        "endChar": 48
+      },
+      "revId": "a6e9970032276e47056bfbe424c6327503995d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

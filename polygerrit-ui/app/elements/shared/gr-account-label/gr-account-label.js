@@ -18,6 +18,9 @@
     is: 'gr-account-label',
 
     properties: {
+      /**
+       * @type {{ name: string, status: string }}
+       */
       account: Object,
       avatarImageSize: {
         type: Number,

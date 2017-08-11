@@ -22,6 +22,7 @@
       hasParent: {
         type: Boolean,
         notify: true,
+        value: false,
       },
       patchNum: String,
       parentChange: Object,
@@ -39,6 +40,7 @@
         computed: '_computeConnectedRevisions(change, patchNum, ' +
             '_relatedResponse.changes)',
       },
+      /** @type {?} */
       _relatedResponse: {
         type: Object,
         value() { return {changes: []}; },
@@ -124,9 +126,9 @@
      * Determines whether or not the given change has a parent change. If there
      * is a relation chain, and the change id is not the last item of the
      * relation chain, there is a parent.
-     * @param  {Number} currentChangeId
-     * @param  {Array} relatedChanges
-     * @return {Boolean}
+     * @param  {number} currentChangeId
+     * @param  {!Array} relatedChanges
+     * @return {boolean}
      */
     _calculateHasParent(currentChangeId, relatedChanges) {
       return relatedChanges.length > 0 &&

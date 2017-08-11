@@ -47,7 +47,7 @@
    * Example
    * // returns 'text.html'
    * util.truncatePath.('text.html');
-   * @return {String} Returns the truncated value of a URL.
+   * @return {string} Returns the truncated value of a URL.
    */
   util.truncatePath = function(path) {
     const pathPieces = path.split('/');

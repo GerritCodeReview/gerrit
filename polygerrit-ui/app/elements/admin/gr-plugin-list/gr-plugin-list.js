@@ -28,7 +28,10 @@
       /**
        * Offset of currently visible query results.
        */
-      _offset: Number,
+      _offset: {
+        type: Number,
+        value: 0,
+      },
       _path: {
         type: String,
         readOnly: true,
@@ -51,7 +54,10 @@
         type: Boolean,
         value: true,
       },
-      _filter: String,
+      _filter: {
+        type: String,
+        value: '',
+      },
     },
 
     behaviors: [

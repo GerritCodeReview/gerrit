@@ -67,6 +67,7 @@
         value: false,
         observer: '_loggedInChanged',
       },
+      /** @type {?} */
       _projectConfig: Object,
       _readOnly: {
         type: Boolean,

@@ -22,6 +22,30 @@
       "revId": "ec85e4ab7bf4b03b4f1332256467a995d23acf85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b613c3bd_1afbcdf6",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-08-11T12:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1a2689f_400102c9",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 9
+      },
+      "revId": "ec85e4ab7bf4b03b4f1332256467a995d23acf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "a0906cf7c8612f14d2d96ccd1c6f91b2779be49b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02f9a15a_339ee33e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-11T18:22:06Z",
+      "side": 1,
+      "message": "They were failing before when i did my change, was not sure why so i just followed what the tests failed on.",
+      "parentUuid": "fa09dbf1_51d985b1",
+      "range": {
+        "startLine": 836,
+        "startChar": 4,
+        "endLine": 868,
+        "endChar": 7
+      },
+      "revId": "a0906cf7c8612f14d2d96ccd1c6f91b2779be49b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

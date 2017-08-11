@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f21bcd17_dc88b830",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T18:12:48Z",
+      "side": 1,
+      "message": "I added the text to ones that specifically made the compiler fail without it, so that they don\u0027t accidentally get removed. More of a reminder if we are going through these later that.. no really they need to be refactored or they have to accept a null. I can still remove if you think that is unnecessary.",
+      "parentUuid": "680658c9_bf48bc9e",
+      "range": {
+        "startLine": 1704,
+        "startChar": 45,
+        "endLine": 1704,
+        "endChar": 65
+      },
+      "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "712b0f42_7321cc71",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b86bea27_89f6ed75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T13:02:58Z",
+      "side": 1,
+      "message": "I actually meant to drop that part. It sounds strange and is unnecessary given the \u0027return\u0027 tag.",
+      "range": {
+        "startLine": 33,
+        "startChar": 56,
+        "endLine": 33,
+        "endChar": 78
+      },
+      "revId": "fa2f7c082b57afea1c8510dfc44b87fa6e539795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

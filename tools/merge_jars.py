@@ -17,7 +17,7 @@ from __future__ import print_function
 import collections
 import sys
 import zipfile
-
+import io
 
 if len(sys.argv) < 3:
   print('usage: %s <out.zip> <in.zip>...' % sys.argv[0], file=sys.stderr)
@@ -39,12 +39,14 @@ try:
             continue
           elif n.startswith(SERVICES):
             # Concatenate all provider configuration files.
-            services[n] += inzip.read(n)
+            myfile = inzip.open(n, 'r')
+            myfile = io.TextIOWrapper(myfile, encoding='iso-8859-1', newline='')
+            services[n] += myfile.read()
             continue
           outzip.writestr(info, inzip.read(n))
           seen.add(n)
 
-    for n, v in services.iteritems():
+    for n, v in services.items():
       outzip.writestr(n, v)
 except Exception as err:
   exit('Failed to merge jars: %s' % err)

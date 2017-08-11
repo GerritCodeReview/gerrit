@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d47b8535_5a8fd8ac",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-11T20:37:47Z",
+      "side": 1,
+      "message": "Good catch. Looks like in this test config reply is treated as empty and only the fact of config being passed in is validated.\nUpdated the test to reflect his better.",
+      "parentUuid": "7323a7a5_f69b9a8c",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "e2360d6c5121233b9051cd0fb58aa06938fa8a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6a6afe3_81f417ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "e2360d6c5121233b9051cd0fb58aa06938fa8a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64167364_89d51421",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-11T20:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6a6afe3_81f417ed",
+      "range": {
+        "startLine": 70,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 34
+      },
+      "revId": "e2360d6c5121233b9051cd0fb58aa06938fa8a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

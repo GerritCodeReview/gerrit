@@ -88,8 +88,11 @@
       );
     },
 
-    attached() {
-      this.fire('title-change', {title: 'My Reviews'});
+    _computeTitle(user) {
+      if (user === 'self') {
+        return 'My Reviews';
+      }
+      return 'Dashboard for ' + user;
     },
 
     /**
@@ -97,6 +100,12 @@
      */
     _userChanged(user) {
       if (!user) { return; }
+
+      // NOTE: This method may be called before attachment. Fire title-change
+      // in an async so that attachment to the DOM can take place first.
+      this.async(
+          () => this.fire('title-change', {title: this._computeTitle(user)}));
+
       this._loading = true;
       const sections = this._sectionMetadata.filter(
           section => (user === 'self' || !section.selfOnly));

@@ -638,6 +638,8 @@
         } else {
           url = `/c/${params.changeNum}${range}`;
         }
+      } else if (params.view === Gerrit.Nav.View.DASHBOARD) {
+        url = `/dashboard/${params.user || 'self'}`;
       } else if (params.view === Gerrit.Nav.View.DIFF) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }

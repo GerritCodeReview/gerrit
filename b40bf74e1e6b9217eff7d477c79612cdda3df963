@@ -23,6 +23,29 @@
       "revId": "b40bf74e1e6b9217eff7d477c79612cdda3df963",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83263c33_2bad51f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T08:39:33Z",
+      "side": 1,
+      "message": "Actually, only this line can throw a NoSuchChangeException. ChangeData#change internally catches a NoSuchChangeException and maps it to an OrmException. Shouldn\u0027t we limit the try-catch statement to only this line to avoid confusion?",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "b40bf74e1e6b9217eff7d477c79612cdda3df963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

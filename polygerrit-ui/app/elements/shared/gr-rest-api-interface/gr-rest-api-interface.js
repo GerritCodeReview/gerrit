@@ -94,7 +94,7 @@
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
      * @param {string} url
-     * @param {?function(?Response, string)=} opt_errFn
+     * @param {?function(?Response, string=)=} opt_errFn
      *    passed as null sometimes.
      * @param {?function()=} opt_cancelCondition
      *    passed as null sometimes.
@@ -181,6 +181,10 @@
       return this.getBaseUrl() + url + '?' + params.join('&');
     },
 
+    /**
+     * @param {!Object} response
+     * @return {?}
+     */
     getResponseObject(response) {
       return response.text().then(text => {
         let result;
@@ -699,7 +703,7 @@
      * @param {number|string} changeNum
      * @param {?number|string=} opt_patchNum passed as null sometimes.
      * @param {?=} endpoint
-     * @return {string}
+     * @return {!Promise<string>}
      */
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
       return this._changeBaseURL(changeNum, opt_patchNum)
@@ -845,7 +849,6 @@
      * @param {number|string} changeNum
      * @param {string} inputVal
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
       const params = {n: 10};
@@ -1310,11 +1313,11 @@
        * Fetches the comments for a given patchNum.
        * Helper function to make promises more legible.
        *
-       * @param {string|number} patchNum
+       * @param {string|number=} opt_patchNum
        * @return {!Object} Diff comments response.
        */
-      const fetchComments = patchNum => {
-        return this._getChangeURLAndFetch(changeNum, endpoint, patchNum);
+      const fetchComments = opt_patchNum => {
+        return this._getChangeURLAndFetch(changeNum, endpoint, opt_patchNum);
       };
 
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
@@ -1517,12 +1520,22 @@
       });
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Resulted in error: Promise.prototype.then does not match formal
+     * parameter.
+     */
     setChangeTopic(changeNum, topic) {
       const p = {topic};
       return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
           .then(this.getResponseObject);
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Resulted in error: Promise.prototype.then does not match formal
+     * parameter.
+     */
     setChangeHashtag(changeNum, hashtag) {
       return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
           hashtag).then(this.getResponseObject);
@@ -1532,6 +1545,11 @@
       return this.send('DELETE', '/accounts/self/password.http');
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Resulted in error: Promise.prototype.then does not match formal
+     * parameter.
+     */
     generateAccountHttpPassword() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
           .then(this.getResponseObject);
@@ -1624,6 +1642,11 @@
           opt_body, opt_errFn);
     },
 
+    /**
+     * @suppress {checkTypes}
+     * Resulted in error: Promise.prototype.then does not match formal
+     * parameter.
+     */
     deleteComment(changeNum, patchNum, commentID, reason) {
       const endpoint = `/comments/${commentID}/delete`;
       const payload = {reason};
@@ -1678,10 +1701,13 @@
      *
      * @param {string|number} changeNum
      * @param {string} method
-     * @param {string} endpoint
-     * @param {string|number=} opt_patchNum
-     * @param {!Object=} opt_payload
-     * @param {function(?Response, string)=} opt_errFn
+     * @param {?string|number=} opt_patchNum gets passed as null.
+     * @param {?string=} endpoint gets passed as null.
+     * @param {?Object|number|string=} opt_payload gets passed as null, string,
+     *    Object, or number.
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?=} opt_ctx
+     * @param {?=} opt_contentType
      * @return {!Promise<!Object>}
      */
     getChangeURLAndSend(changeNum, method, opt_patchNum, endpoint, opt_payload,
@@ -1697,10 +1723,10 @@
     *
     * @param {string|number} changeNum
     * @param {string} endpoint
-    * @param {string|number=} opt_patchNum
-    * @param {function(?Response, string)=} opt_errFn
-    * @param {!function()=} opt_cancelCondition
-    * @param {!Object=} opt_params
+    * @param {?string|number=} opt_patchNum gets passed as null.
+    * @param {?function(?Response, string=)=} opt_errFn gets passed as null.
+    * @param {?function()=} opt_cancelCondition gets passed as null.
+    * @param {?Object=} opt_params gets passed as null.
     * @param {!Object=} opt_options
     * @return {!Promise<!Object>}
     */

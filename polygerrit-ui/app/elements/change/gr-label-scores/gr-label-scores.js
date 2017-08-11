@@ -25,6 +25,7 @@
         type: Object,
         observer: '_computeColumns',
       },
+      /** @type {?} */
       change: Object,
       _labelValues: Object,
     },

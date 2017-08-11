@@ -114,6 +114,7 @@
         type: Array,
         value() { return []; },
       },
+      /** @type {?number} */
       _processHandle: Number,
       _hljs: Object,
     },
@@ -126,7 +127,7 @@
      * Annotation layer method to add syntax annotations to the given element
      * for the given line.
      * @param {!HTMLElement} el
-     * @param {!GrDiffLine} line
+     * @param {!Object} line (GrDiffLine)
      */
     annotate(el, line) {
       if (!this.enabled) { return; }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "186a93ff_2acde627",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-11T18:21:28Z",
+      "side": 1,
+      "message": "Why did you modify this test?",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec9a9fd3_f3b48016",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-11T18:21:28Z",
+      "side": 1,
+      "message": "Asynchronous tests need to call \"done\" -- or you need to return the promise.",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

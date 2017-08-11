@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8070480c_b1ab4c56",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "This can be renamed to `isOwner`, since it\u0027s a boolean now.",
+      "range": {
+        "startLine": 224,
+        "startChar": 12,
+        "endLine": 224,
+        "endChar": 19
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fff1eb1_f0ef8507",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Nit: this `$` is not needed since `disabled` is a declared property.",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4a1e65_e642f996",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Optional: Instead of just disabling them, we might just hide the autocomplete and [Add] button if a user can\u0027t edit anything anyway. The same goes for the included-group controls below.",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7c8ceb3_347d4a09",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Nit: this `$` is not needed since `disabled` is a declared property.",
+      "range": {
+        "startLine": 135,
+        "startChar": 28,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "669de336_c51dbf56",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Nit: this `$` is not needed since `disabled` is a declared property.",
+      "range": {
+        "startLine": 141,
+        "startChar": 26,
+        "endLine": 141,
+        "endChar": 27
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa43a845_59ff71bb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Since `getIsGroupOwner` now returns a boolean, we shouldn\u0027t name it `configs`. This can be simplified to ..\n\n .then(isOwner \u003d\u003e { this._groupOwner \u003d isOwner; });",
+      "range": {
+        "startLine": 72,
+        "startChar": 69,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d587f5b0_6f30f9cc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Nit: this `$` is not needed since `disabled` is a declared property. The same is true for the other modifications in this file.",
+      "range": {
+        "startLine": 74,
+        "startChar": 28,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d8b70a_3e33b6b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:17:13Z",
+      "side": 1,
+      "message": "Like with the instance above, this can become ..\n\n .then(isOwner \u003d\u003e { this._groupOwner \u003d isOwner; });",
+      "range": {
+        "startLine": 104,
+        "startChar": 55,
+        "endLine": 109,
+        "endChar": 19
+      },
+      "revId": "22d51447000103cb3bf05672e92cc9b9d225aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

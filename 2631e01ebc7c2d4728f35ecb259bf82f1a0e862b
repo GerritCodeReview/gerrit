@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8acb7531_33c4df50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T08:57:16Z",
+      "side": 1,
+      "message": "optional: We should try to be consistent. The same parameter is called \u0027msg\u0027 for yesno().",
+      "range": {
+        "startLine": 29,
+        "startChar": 66,
+        "endLine": 29,
+        "endChar": 69
+      },
+      "revId": "2631e01ebc7c2d4728f35ecb259bf82f1a0e862b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c91c897_0f17d7dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T08:57:16Z",
+      "side": 1,
+      "message": "optional: At some point in time, we should add Javadoc comments to this interface. Not all of the methods are totally self explanatory (especially with parameter names like \u0027fmt\u0027).",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "2631e01ebc7c2d4728f35ecb259bf82f1a0e862b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

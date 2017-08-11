@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "cdd64d90_3dc703eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-11T18:15:17Z",
+      "side": 1,
+      "message": "/shruggie\n\nOn the one hand, I like following existing patterns... On the other hand, I like small and uncomplicated files. This seems to work just fine, we can always refactor later.",
+      "parentUuid": "61c33658_1a010856",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f00a3dd0_8c2b2f6a",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 3

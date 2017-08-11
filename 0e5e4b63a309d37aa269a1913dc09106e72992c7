@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ccd8169_cb20f695",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-11T00:48:18Z",
+      "side": 1,
+      "message": "What\u0027s an example of a case in which we wouldn\u0027t want to show anonymous?",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00a3dd0_8c2b2f6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-11T00:48:18Z",
+      "side": 1,
+      "message": "This is dangerous, considering the impending move to Polymer 2.\n\nTo be safe, maybe wrap in an if (account) ?",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

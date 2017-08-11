@@ -74,18 +74,17 @@ limitations under the License.
       </tr>
       <template is="dom-repeat" items="[[sections]]" as="changeSection"
           index-as="sectionIndex">
-        <template is="dom-if" if="[[_sectionTitle(sectionIndex)]]">
+        <template is="dom-if" if="[[changeSection.sectionName]]">
           <tr class="groupHeader">
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-              <a
-                  href$="[[_sectionHref(sectionIndex)]]">
-                [[_sectionTitle(sectionIndex)]]
+              <a href$="[[_sectionHref(changeSection.query)]]">
+                [[changeSection.sectionName]]
               </a>
             </td>
           </tr>
         </template>
-        <template is="dom-if" if="[[!changeSection.length]]">
+        <template is="dom-if" if="[[!changeSection.results.length]]">
           <tr class="noChanges">
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
@@ -93,7 +92,7 @@ limitations under the License.
             </td>
           </tr>
         </template>
-        <template is="dom-repeat" items="[[changeSection]]" as="change">
+        <template is="dom-repeat" items="[[changeSection.results]]" as="change">
           <gr-change-list-item
               selected$="[[_computeItemSelected(index, sectionIndex, selectedIndex)]]"
               assigned$="[[_computeItemAssigned(account, change)]]"

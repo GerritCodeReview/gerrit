@@ -107,14 +107,26 @@ limitations under the License.
 
     test('computed fields', () => {
       assert.equal(element._computeLabelNames(
-          [[{_number: 0, labels: {}}]]).length, 0);
-      assert.equal(element._computeLabelNames([[
-            {_number: 0, labels: {Verified: {approved: {}}}},
-        {_number: 1, labels: {
-          'Verified': {approved: {}}, 'Code-Review': {approved: {}}}},
-        {_number: 2, labels: {
-          'Verified': {approved: {}}, 'Library-Compliance': {approved: {}}}},
-      ]]).length, 3);
+            [{results: [{_number: 0, labels: {}}]}]).length, 0);
+      assert.equal(element._computeLabelNames([
+        {results: [
+          {_number: 0, labels: {Verified: {approved: {}}}},
+          {
+            _number: 1,
+            labels: {
+              'Verified': {approved: {}},
+              'Code-Review': {approved: {}},
+            },
+          },
+          {
+            _number: 2,
+            labels: {
+              'Verified': {approved: {}},
+              'Library-Compliance': {approved: {}},
+            },
+          },
+        ]},
+      ]).length, 3);
 
       assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
       assert.equal(element._computeLabelShortcut('Verified'), 'V');
@@ -244,7 +256,7 @@ limitations under the License.
     });
 
     test('empty sections', () => {
-      element.sections = [[], []];
+      element.sections = [{results: []}, {results: []}];
       flushAsynchronousOperations();
       const listItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
@@ -382,31 +394,26 @@ limitations under the License.
     test('keyboard shortcuts', () => {
       element.selectedIndex = 0;
       element.sections = [
-        [
-          {_number: 0},
-          {_number: 1},
-          {_number: 2},
-        ],
-        [
-          {_number: 3},
-          {_number: 4},
-          {_number: 5},
-        ],
-        [
-          {_number: 6},
-          {_number: 7},
-          {_number: 8},
-        ],
-      ];
-      element.sectionMetadata = [
         {
-          name: 'Group 1',
+          results: [
+            {_number: 0},
+            {_number: 1},
+            {_number: 2},
+          ],
         },
         {
-          name: 'Group 2',
+          results: [
+            {_number: 3},
+            {_number: 4},
+            {_number: 5},
+          ],
         },
         {
-          name: 'Group 3',
+          results: [
+            {_number: 6},
+            {_number: 7},
+            {_number: 8},
+          ],
         },
       ];
       flushAsynchronousOperations();
@@ -469,14 +476,12 @@ limitations under the License.
     });
 
     test('_sectionHref', () => {
-      element.sectionMetadata = [
-        {query: 'is:open owner:self'},
-        {query: 'is:open ((reviewer:self -is:ignored) OR assignee:self)'},
-      ];
-
-      assert.equal(element._sectionHref(10), null);
-      assert.equal(element._sectionHref(0), '/q/is:open+owner:self');
-      assert.equal(element._sectionHref(1),
+      assert.equal(
+          element._sectionHref('is:open owner:self'),
+          '/q/is:open+owner:self');
+      assert.equal(
+          element._sectionHref(
+              'is:open ((reviewer:self -is:ignored) OR assignee:self)'),
           '/q/is:open+((reviewer:self+-is:ignored)+OR+assignee:self)');
     });
   });

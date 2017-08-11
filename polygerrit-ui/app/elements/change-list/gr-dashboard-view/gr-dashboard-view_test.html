@@ -39,30 +39,57 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
+      getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
+          () => Promise.resolve());
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    test('content is refreshed with same dropdown selected twice', () => {
-      const getChangesStub = sandbox.stub(element, '_getChanges',
-          () => Promise.resolve());
+    test('nothing happens when user param is falsy', () => {
+      element.params = {};
+      flushAsynchronousOperations();
+      assert.equal(getChangesStub.callCount, 0);
 
-      element.params = {view: Gerrit.Nav.View.DASHBOARD};
+      element.params = {user: ''};
+      flushAsynchronousOperations();
+      assert.equal(getChangesStub.callCount, 0);
+    });
 
+    test('content is refreshed when user param is updated', () => {
+      element.params = {user: 'self'};
+      flushAsynchronousOperations();
       assert.equal(getChangesStub.callCount, 1);
-      element.params = {view: Gerrit.Nav.View.DASHBOARD};
-      assert.equal(getChangesStub.callCount, 2);
+    });
+
+    test('viewing another user\'s dashboard omits selfOnly sections', () => {
+      element._sectionMetadata = [
+        {query: '1'},
+        {query: '2', selfOnly: true},
+      ];
+
+      element.params = {user: 'self'};
+      flushAsynchronousOperations();
+      assert.isTrue(
+          getChangesStub.calledWith(null, ['1', '2'], null, element.options));
+
+      element.params = {user: 'user'};
+      flushAsynchronousOperations();
+      assert.isTrue(
+          getChangesStub.calledWith(null, ['1'], null, element.options));
     });
 
     test('_dashboardQueryForSection', () => {
-      const query = 'query';
-      const suffixForDashboard = 'suffix';
-      assert.equal(element._dashboardQueryForSection({query}), 'query');
+      const query = 'query for ${user}';
+      const suffixForDashboard = 'suffix for ${user}';
       assert.equal(
-          element._dashboardQueryForSection({query, suffixForDashboard}),
-          'query suffix');
+          element._dashboardQueryForSection({query}, 'user'),
+          'query for user');
+      assert.equal(
+          element._dashboardQueryForSection(
+              {query, suffixForDashboard}, 'user'),
+          'query for user suffix for user');
     });
   });
 </script>

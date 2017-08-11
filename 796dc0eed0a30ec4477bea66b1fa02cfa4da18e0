@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "08863d46_cceb77ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-11T14:06:37Z",
+      "side": 1,
+      "message": "I\u0027ve investedgated this furthur and found that you have to do something like lowerUppercase for _ to work ie _config wont work but config will (even if it has a prefixed in the property) _serverConfig will work. (it was one of the errors that suggested that putting _config here would fail as it did something like _[properties].) Anyways fixed now :)",
+      "parentUuid": "c4e2bf1a_4a2a60e2",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "796dc0eed0a30ec4477bea66b1fa02cfa4da18e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf631af8_eb782e1c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 21

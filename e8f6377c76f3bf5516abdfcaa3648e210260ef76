@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3083ef_b640672f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T12:40:42Z",
+      "side": 1,
+      "message": "Requests",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 13
+      },
+      "revId": "e8f6377c76f3bf5516abdfcaa3648e210260ef76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ba118a_41476907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T12:40:42Z",
+      "side": 1,
+      "message": "Prints",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "e8f6377c76f3bf5516abdfcaa3648e210260ef76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3b5e12_49d24116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T12:40:42Z",
+      "side": 1,
+      "message": "Prompts",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 12
+      },
+      "revId": "e8f6377c76f3bf5516abdfcaa3648e210260ef76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8165c476_c1a49d18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/UpdateUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-11T12:40:42Z",
+      "side": 1,
+      "message": "It would be better to add a \u0027return\u0027 tag instead:\n\n @return the chosen string from the list of allowed values",
+      "range": {
+        "startLine": 32,
+        "startChar": 56,
+        "endLine": 32,
+        "endChar": 78
+      },
+      "revId": "e8f6377c76f3bf5516abdfcaa3648e210260ef76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

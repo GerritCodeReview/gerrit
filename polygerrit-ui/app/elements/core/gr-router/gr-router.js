@@ -130,13 +130,25 @@
     }
 
     page('/dashboard/(.*)', loadUser, data => {
-      restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          data.params.view = Gerrit.Nav.View.DASHBOARD;
-          app.params = data.params;
-        } else {
-          redirectToLogin(data.canonicalPath);
-        }
+      if (!data.params[0]) {
+        page.redirect('/dashboard/self');
+        return;
+      }
+      const p = Promise.resolve();
+      if (data.params[0].toLowerCase() === 'self') {
+        p.then(() => {
+          restAPI.getLoggedIn().then(loggedIn => {
+            if (!loggedIn) {
+              redirectToLogin(data.canonicalPath);
+            }
+          });
+        });
+      }
+      p.then(() => {
+        app.params = {
+          view: Gerrit.Nav.View.DASHBOARD,
+          user: data.params[0],
+        };
       });
     });
 

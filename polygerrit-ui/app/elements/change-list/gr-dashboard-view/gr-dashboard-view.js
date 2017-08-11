@@ -17,20 +17,20 @@
   const DEFAULT_SECTIONS = [
     {
       name: 'Work in progress',
-      query: 'is:open owner:self is:wip',
+      query: 'is:open owner:${user} is:wip',
     },
     {
       name: 'Outgoing reviews',
-      query: 'is:open owner:self -is:wip',
+      query: 'is:open owner:${user} -is:wip',
     },
     {
       name: 'Incoming reviews',
-      query: 'is:open ((reviewer:self -owner:self -is:ignored) OR ' +
-          'assignee:self) -is:wip',
+      query: 'is:open ((reviewer:${user} -owner:${user} -is:ignored) OR ' +
+          'assignee:${user}) -is:wip',
     },
     {
       name: 'Recently closed',
-      query: 'is:closed (owner:self OR reviewer:self OR assignee:self)',
+      query: 'is:closed (owner:${user} OR reviewer:${user} OR assignee:${user})',
       suffixForDashboard: '-age:4w limit:10',
     },
   ];
@@ -52,7 +52,6 @@
       viewState: Object,
       params: {
         type: Object,
-        observer: '_paramsChanged',
       },
 
       _results: Array,
@@ -69,6 +68,10 @@
         value: true,
       },
     },
+
+    observers: [
+      '_userChanged(params.user)',
+    ],
 
     behaviors: [
       Gerrit.RESTClientBehavior,
@@ -89,9 +92,10 @@
     /**
      * Allows a refresh if menu item is selected again.
      */
-    _paramsChanged() {
+    _userChanged(user) {
+      if (!user) { return; }
       this._loading = true;
-      this._getChanges().then(results => {
+      this._getChanges(user).then(results => {
         this._results = results;
         this._loading = false;
       }).catch(err => {
@@ -100,20 +104,21 @@
       });
     },
 
-    _getChanges() {
+    _getChanges(user) {
       return this.$.restAPI.getChanges(
           null,
           this.sectionMetadata.map(
-              section => this._dashboardQueryForSection(section)),
+              section => this._dashboardQueryForSection(section, user)),
           null,
           this.options);
     },
 
-    _dashboardQueryForSection(section) {
-      if (section.suffixForDashboard) {
-        return section.query + ' ' + section.suffixForDashboard;
-      }
-      return section.query;
+    _dashboardQueryForSection(section, user) {
+      const query =
+          section.suffixForDashboard ?
+          section.query + ' ' + section.suffixForDashboard :
+          section.query;
+      return query.replace(/\$\{user\}/g, user);
     },
   });
 })();

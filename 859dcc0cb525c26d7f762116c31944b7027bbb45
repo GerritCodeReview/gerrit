@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "5222cf3a_0f31e837",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1705,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T18:53:05Z",
+      "side": 1,
+      "message": "As discussed, instead changed opt_patchNum to not be optional.",
+      "parentUuid": "712b0f42_7321cc71",
+      "range": {
+        "startLine": 1705,
+        "startChar": 25,
+        "endLine": 1705,
+        "endChar": 33
+      },
+      "revId": "859dcc0cb525c26d7f762116c31944b7027bbb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3989367c_9bd1844d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

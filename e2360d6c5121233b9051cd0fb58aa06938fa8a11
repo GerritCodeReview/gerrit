@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7323a7a5_f69b9a8c",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T18:10:44Z",
+      "side": 1,
+      "message": "I\u0027m confused why plugin is here twice, I thought the main change was that the entire config was passed to gr-plugin-host, but why would that change the rest API structure?",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "e2360d6c5121233b9051cd0fb58aa06938fa8a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a6afe3_81f417ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-11T18:10:44Z",
+      "side": 1,
+      "message": "This seems unrelated to what is described in the commit message? Maybe add a sentence?",
+      "range": {
+        "startLine": 70,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 34
+      },
+      "revId": "e2360d6c5121233b9051cd0fb58aa06938fa8a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

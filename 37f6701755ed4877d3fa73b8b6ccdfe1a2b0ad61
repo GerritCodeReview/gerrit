@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7a6111d_a7748957",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-11T18:23:38Z",
+      "side": 1,
+      "message": "They failed before.",
+      "parentUuid": "186a93ff_2acde627",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec9a9fd3_f3b48016",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-11T18:21:28Z",
       "side": 1,
       "message": "Asynchronous tests need to call \"done\" -- or you need to return the promise.",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d1c14cc_7700bb9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-11T18:23:38Z",
+      "side": 1,
+      "message": "I am guessing i will need to try the return promise. How do i do that. \n\nAlso same as above calling done() here seems to have failed after i did this change without modifying the tests. I am unsure why.",
+      "parentUuid": "ec9a9fd3_f3b48016",
       "range": {
         "startLine": 239,
         "startChar": 6,

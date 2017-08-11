@@ -52,15 +52,18 @@
         type: Array,
         observer: '_changesChanged',
       },
+
       /**
        * ChangeInfo objects grouped into arrays. The sections and changes
        * properties should not be used together.
+       *
+       * @type {Array<{
+       *   sectionName: string,
+       *   query: string,
+       *   results: Array<ChangeInfo>
+       * }>}
        */
       sections: {
-        type: Array,
-        value() { return []; },
-      },
-      sectionMetadata: {
         type: Array,
         value() { return []; },
       },
@@ -152,10 +155,8 @@
       const nonExistingLabel = function(item) {
         return !labels.includes(item);
       };
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        for (let j = 0; j < section.length; j++) {
-          const change = section[j];
+      for (const section of sections) {
+        for (const change of section.results) {
           if (!change.labels) { continue; }
           const currentLabels = Object.keys(change.labels);
           labels = labels.concat(currentLabels.filter(nonExistingLabel));
@@ -171,17 +172,10 @@
     },
 
     _changesChanged(changes) {
-      this.sections = changes ? [changes] : [];
+      this.sections = changes ? [{results: changes}] : [];
     },
 
-    _sectionTitle(sectionIndex) {
-      if (sectionIndex > this.sectionMetadata.length - 1) { return null; }
-      return this.sectionMetadata[sectionIndex].name;
-    },
-
-    _sectionHref(sectionIndex) {
-      if (sectionIndex > this.sectionMetadata.length - 1) { return null; }
-      const query = this.sectionMetadata[sectionIndex].query;
+    _sectionHref(query) {
       return `${this.getBaseUrl()}/q/${this.encodeURL(query, true)}`;
     },
 

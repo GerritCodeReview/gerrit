@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ebe2661_d477e3ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:14:06Z",
+      "side": 1,
+      "message": "Good question. Perhaps never, but in this case, I added the option to match the current behavior. Can not opposed to removing this option if you think it\u0027s needed though.",
+      "parentUuid": "9ccd8169_cb20f695",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f00a3dd0_8c2b2f6a",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c93ab91_22c5fe0e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-11T01:14:06Z",
+      "side": 1,
+      "message": "Super good point. Done",
+      "parentUuid": "f00a3dd0_8c2b2f6a",
+      "revId": "0e5e4b63a309d37aa269a1913dc09106e72992c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

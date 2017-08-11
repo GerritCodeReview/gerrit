@@ -90,10 +90,6 @@
       },
     },
 
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-    ],
-
     observers: [
       '_updateExpandedClass(message.expanded)',
     ],
@@ -233,16 +229,6 @@
     _handleReplyTap(e) {
       e.preventDefault();
       this.fire('reply', {message: this.message});
-    },
-
-    _authorOrAnon(author) {
-      if (author && author.name) {
-        return author.name;
-      } else if (author && author.email) {
-        return author.email;
-      }
-
-      return this.getAnonymousName(this.config);
     },
 
     _projectNameChanged(name) {

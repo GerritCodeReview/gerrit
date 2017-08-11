@@ -91,5 +91,10 @@ limitations under the License.
               {query, suffixForDashboard}, 'user'),
           'query for user suffix for user');
     });
+
+    test('_computeTitle', () => {
+      assert.equal(element._computeTitle('self'), 'My Reviews');
+      assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+    });
   });
 </script>

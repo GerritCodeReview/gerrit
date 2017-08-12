@@ -95,6 +95,24 @@ public abstract class PermissionBackend {
     return user(checkNotNull(user, "Provider<CurrentUser>").get());
   }
 
+  /**
+   * Bulk evaluate a collection of {@link PermissionBackendCondition} for view handling.
+   *
+   * <p>Overridden implementations should call {@link PermissionBackendCondition#set(boolean)} to
+   * cache the result of {@code testOrFalse} in the condition for later evaluation. Caching the
+   * result will bypass the usual invocation of {@code testOrFalse}.
+   *
+   * <p>{@code conds} may contain duplicate entries (such as same user, resource, permission
+   * triplet). When duplicates exist, implementations should set a result into all instances to
+   * ensure {@code testOrFalse} does not get invoked during evaluation of the containing condition.
+   *
+   * @param conds conditions to consider.
+   */
+  public void bulkEvaluateTest(Collection<PermissionBackendCondition> conds) {
+    // Do nothing by default. The default implementation of PermissionBackendCondition
+    // delegates to the appropriate testOrFalse method in PermissionBackend.
+  }
+
   /** PermissionBackend with an optional per-request ReviewDb handle. */
   public abstract static class AcceptsReviewDb<T> {
     protected Provider<ReviewDb> db;

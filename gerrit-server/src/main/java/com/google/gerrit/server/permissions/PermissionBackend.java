@@ -226,6 +226,23 @@ public abstract class PermissionBackend {
       }
       return allowed;
     }
+
+    /**
+     * Bulk evaluate a collection of {@link PermissionBackendCondition} for view handling.
+     *
+     * <p>Implementations should call {@link PermissionBackendCondition#set(boolean)} to cache the
+     * result of {@code testOrFalse} in the condition for later evaluation. Caching the result will
+     * bypass the usual invocation of {@code testOrFalse}.
+     *
+     * <p>{@code conds} may contain duplicate entries. When duplicates present implementations
+     * should set a result into all instances to ensure {@code testOrFalse} does not get invoked.
+     *
+     * @param conds conditions to consider.
+     */
+    public void bulkEvaluateTest(Iterable<PermissionBackendCondition> conds) {
+      // Do nothing by default. The default implementation of PermissionBackendCondition
+      // delegates to the appropriate testOrFalse method in PermissionBackend.
+    }
   }
 
   /** PermissionBackend scoped to a user and project. */

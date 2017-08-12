@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.extensions.webui;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -35,6 +38,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -110,22 +114,27 @@ public class UiActions {
       return null;
     }
 
+    UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
+    if (dsc == null) {
+      return null;
+    }
+
+    Set<GlobalOrPluginPermission> globalRequired;
     try {
-      Set<GlobalOrPluginPermission> need =
-          GlobalPermission.fromAnnotation(e.getPluginName(), view.getClass());
-      if (!need.isEmpty() && permissionBackend.user(userProvider).test(need).isEmpty()) {
-        // A permission is required, but test returned no candidates.
-        return null;
-      }
+      globalRequired = GlobalPermission.fromAnnotation(e.getPluginName(), view.getClass());
     } catch (PermissionBackendException err) {
       log.error(
           String.format("exception testing view %s.%s", e.getPluginName(), e.getExportName()), err);
       return null;
     }
-
-    UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
-    if (dsc == null) {
-      return null;
+    if (!globalRequired.isEmpty()) {
+      PermissionBackend.WithUser withUser = permissionBackend.user(userProvider);
+      Iterator<GlobalOrPluginPermission> i = globalRequired.iterator();
+      BooleanCondition p = withUser.testCond(i.next());
+      while (i.hasNext()) {
+        p = or(p, withUser.testCond(i.next()));
+      }
+      dsc.setVisible(and(p, dsc.getVisibleCondition()));
     }
 
     String name = e.getExportName().substring(d + 1);

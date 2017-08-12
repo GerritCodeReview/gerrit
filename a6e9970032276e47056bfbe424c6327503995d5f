@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1223ec9_13de5ae2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-12T23:25:26Z",
+      "side": 1,
+      "message": "Dosen\u0027t work without quotes. Tested loclly and found it causes it to not show anything in this column. It\u0027s because it thinks it\u0027s a variable which it is not.",
+      "parentUuid": "8b1c1baa_39904f0c",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "a6e9970032276e47056bfbe424c6327503995d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58d7e670_8835a9c1",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
         "patchSetId": 14

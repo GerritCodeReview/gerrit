@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.extensions.webui;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,13 +27,16 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.extensions.webui.UiAction.Description;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -53,16 +59,35 @@ public class UiActions {
     this.userProvider = userProvider;
   }
 
-  public <R extends RestResource> FluentIterable<UiAction.Description> from(
+  public <R extends RestResource> Iterable<UiAction.Description> from(
       RestCollection<?, R> collection, R resource) {
     return from(collection.views(), resource);
   }
 
-  public <R extends RestResource> FluentIterable<UiAction.Description> from(
+  public <R extends RestResource> Iterable<UiAction.Description> from(
       DynamicMap<RestView<R>> views, R resource) {
-    return FluentIterable.from(views)
-        .transform((e) -> describe(e, resource))
-        .filter(Objects::nonNull);
+    List<UiAction.Description> descs =
+        Streams.stream(views)
+            .map(e -> describe(e, resource))
+            .filter(Objects::nonNull)
+            .collect(toList());
+
+    Set<PermissionBackendCondition> conds =
+        Streams.concat(
+                descs.stream().flatMap(u -> Streams.stream(visibleCondition(u))),
+                descs.stream().flatMap(u -> Streams.stream(enabledCondition(u))))
+            .collect(toSet());
+    permissionBackend.user(userProvider).bulkEvaluateTest(conds);
+
+    return descs.stream().filter(u -> u.isVisible()).collect(toList());
+  }
+
+  private static Iterable<PermissionBackendCondition> visibleCondition(Description u) {
+    return u.getVisibleCondition().children(PermissionBackendCondition.class);
+  }
+
+  private static Iterable<PermissionBackendCondition> enabledCondition(Description u) {
+    return u.getEnabledCondition().children(PermissionBackendCondition.class);
   }
 
   @Nullable
@@ -100,7 +125,7 @@ public class UiActions {
     }
 
     UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
-    if (dsc == null || !dsc.isVisible()) {
+    if (dsc == null) {
       return null;
     }
 

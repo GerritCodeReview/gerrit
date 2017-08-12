@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -106,10 +108,11 @@ public class CherryPick
         .setLabel("Cherry Pick")
         .setTitle("Cherry pick change to a different branch")
         .setVisible(
-            rsrc.isCurrent()
-                && permissionBackend
+            and(
+                rsrc.isCurrent(),
+                permissionBackend
                     .user(user)
                     .project(rsrc.getProject())
-                    .testOrFalse(ProjectPermission.CREATE_CHANGE));
+                    .testCond(ProjectPermission.CREATE_CHANGE)));
   }
 }

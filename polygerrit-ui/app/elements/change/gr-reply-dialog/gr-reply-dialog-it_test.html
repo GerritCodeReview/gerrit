@@ -132,10 +132,12 @@ limitations under the License.
     test('lgtm plugin', done => {
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
-        js_resource_paths: [],
-        html_resource_paths: [
-          new URL('test/plugin.html', window.location.href).toString(),
-        ],
+        plugin: {
+          js_resource_paths: [],
+          html_resource_paths: [
+            new URL('test/plugin.html', window.location.href).toString(),
+          ],
+        },
       };
       element = fixture('basic');
       setupElement(element);

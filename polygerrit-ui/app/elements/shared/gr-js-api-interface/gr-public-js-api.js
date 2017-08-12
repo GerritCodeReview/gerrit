@@ -67,12 +67,16 @@
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
 
     this._url = new URL(opt_url);
-    if (!this._url.pathname.startsWith(base + '/plugins')) {
+    const pathname = this._url.pathname.replace(base, '');
+    // Site theme is server from predefined path.
+    if (pathname === '/static/gerrit-theme.html') {
+      this._name = 'gerrit-theme';
+    } else if (!pathname.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
     }
-    this._name = this._url.pathname.replace(base, '').split('/')[2];
+    this._name = pathname.split('/')[2];
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');

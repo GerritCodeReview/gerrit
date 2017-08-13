@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ba7c0abc_90eb4519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-13T14:17:38Z",
+      "side": 1,
+      "message": "I think this comment addresses this question: https://gerrit-review.googlesource.com/c/119030/7/gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java#141",
+      "parentUuid": "6ae35629_7202ccfa",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "e4e1626c3996514a5d21cf2647308595902a289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70425f15_7e557920",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 7

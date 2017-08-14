@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ac6532a_3b9a76fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-08-14T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa5e4b78_df1139f3",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d342949d_8eeadb88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "00427444_886f8d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-08-14T10:52:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d342949d_8eeadb88",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 9
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8471cd59_2f50b198",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-14T06:59:52Z",
       "side": 1,
       "message": "All this is done in ThreadSettingsConfig. Can\u0027t you just inject it and ask: threadSettingsConfig.getDatabasePoolLimit()?",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e73f536_9cdcf675",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-08-14T10:52:55Z",
+      "side": 1,
+      "message": "Yeah, that was the idea but I found some problems because of the way the objects are built in the hierarchy and the fact there is a static \"builder\" (line 88) called from the schema migration class and the account migration program.\nI\u0027ll take another look at how this can be done as I agree is the cleanest thing to do.",
+      "parentUuid": "8471cd59_2f50b198",
       "range": {
         "startLine": 159,
         "startChar": 2,

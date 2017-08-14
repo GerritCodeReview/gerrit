@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c5f3814_ec474450",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T22:48:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e46744e2_61cfc8cc",
+      "revId": "252abf5cc4441c74e5f58265b732fe97b9c25ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd999bb5_a9def358",
         "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.js",
         "patchSetId": 16
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5a14bdbd_ce165ddb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T22:48:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cd999bb5_a9def358",
+      "range": {
+        "startLine": 255,
+        "startChar": 6,
+        "endLine": 258,
+        "endChar": 16
+      },
+      "revId": "252abf5cc4441c74e5f58265b732fe97b9c25ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c26ecd1_04bf8b35",
         "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project_test.html",
         "patchSetId": 16
@@ -53,6 +95,30 @@
       "writtenOn": "2017-08-14T21:52:24Z",
       "side": 1,
       "message": "the opposite should also be checked (that it is hidden when it\u0027s supposed to be).",
+      "range": {
+        "startLine": 253,
+        "startChar": 7,
+        "endLine": 254,
+        "endChar": 0
+      },
+      "revId": "252abf5cc4441c74e5f58265b732fe97b9c25ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e546b17a_2c7f4044",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T22:48:01Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6c26ecd1_04bf8b35",
       "range": {
         "startLine": 253,
         "startChar": 7,

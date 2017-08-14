@@ -161,4 +161,25 @@ To run polylint, execute the following command.
 ```sh
 bazel test //polygerrit-ui/app:polylint_test
 ```
+## Template Type Safety
+Polymer elements are not type checked against the element definition, making it trivial to break the display when refactoring or moving code. We now run additional tests to help ensure that template types are checked.
 
+A few notes to ensure that these tests pass
+- Any functions with optional parameters will need closure annotations.
+- Any Polymer parameters that are nullable or can be multiple types (other than the one explicitly delared) will need type annotations.
+
+A few dependencies are necessary to run these tests:
+``` sh
+npm install -g typescript fried-twinkie
+```
+
+To run on all files, execute the following command:
+
+```sh
+bazel test //polygerrit-ui/app:template_test
+```
+
+To run on a specific file (ex: gr-list-view), execute the following command:
+```sh
+bazel test //polygerrit-ui/app:template_test --test_arg=gr-list-view
+```

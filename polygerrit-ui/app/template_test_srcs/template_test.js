@@ -42,8 +42,20 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     });
   }
 
-  const mappings = JSON.parse(fs.readFileSync(
+  let mappings = JSON.parse(fs.readFileSync(
       `./polygerrit-ui/temp/map.json`, 'utf-8'));
+
+  // If a particular file was passed by the user, don't test everything.
+  const file = process.argv[2];
+  if (file) {
+    const mappingSpecificFile = {};
+    for (key of Object.keys(mappings)) {
+      if (key.includes(file)) {
+        mappingSpecificFile[key] = mappings[key];
+      }
+    }
+    mappings = mappingSpecificFile;
+  }
 
   externs.push({
     path: 'custom-externs.js',

@@ -47,6 +47,30 @@
       "revId": "c811d42bc6971084ba247bf3d58f0e617d681a2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32c91357_942313bd",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-14T14:45:53Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "70e8f25d_df2cba28",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 21
+      },
+      "revId": "c811d42bc6971084ba247bf3d58f0e617d681a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

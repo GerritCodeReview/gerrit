@@ -23,6 +23,30 @@
       "revId": "c811d42bc6971084ba247bf3d58f0e617d681a2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70e8f25d_df2cba28",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-14T14:41:40Z",
+      "side": 1,
+      "message": "Yes, this is basically the same discussion as in https://gerrit-review.googlesource.com/c/119033/8/gerrit-server/BUILD#12\n\nIf we move this to a different top-level directory, it should probably be called \"gerrit-metrics\", especially because the class names are com.google.gerrit.metrics.* (without .server). But that\u0027s what got me thinking that it may not worth having such a profusion of top-level directories in the first place.\n\nSo, I would prefer to keep this particular change as-is since it\u0027s just a BUILD change with no additional rearranging of source files.",
+      "parentUuid": "1609e4c8_fcf19060",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 21
+      },
+      "revId": "c811d42bc6971084ba247bf3d58f0e617d681a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

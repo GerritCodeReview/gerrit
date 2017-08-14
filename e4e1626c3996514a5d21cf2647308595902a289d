@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "96f7b850_f35a8d7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-14T12:18:14Z",
+      "side": 1,
+      "message": "No, this byProjectCommit call is the kind of programmer error we want to catch. After this change, it would throw ISE.\n\nI think after tracing through the code more thoroughly, prior to this change, incorrect usage would still result in some sort of unchecked exception before attempting to actually execute a query. I was initially worried that it might result in an unlimited query, but now I don\u0027t think that is the case.\n\nSuppose a user has the maximum of their Query Limit capability set to 0 (or a negative number). This is what an admin does when they want to completely disable querying for a user.\n\nBefore: getPermittedLimit() call on line 258 returns 0, which is the minimum of all possible limits, so getEffectiveLimit() returns 0. This results in ArithmeticException on line 172. Or, if the limit is negative, QueryOptions#create throws ISE from line 188; but this exception message is not especially useful.\n\nAfter: query() throws ISE with a useful error message because isDisabled() returned false. (The additional checkState on line 268 never throws, unless there is a bug within this file.)\n\nLike I said in the commit message, this change is about making this assumptions explicit within this file.",
+      "parentUuid": "e0f435c0_082f4e00",
+      "revId": "e4e1626c3996514a5d21cf2647308595902a289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f92ac65d_66db5233",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 7

@@ -116,6 +116,30 @@
       "revId": "36bdef173abf9d2308cb2654295ca137e34a4fe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96112b48_9ab31c9b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T19:03:32Z",
+      "side": 1,
+      "message": "But then it would cause all of the styles to be display blocked if i was to use a propertie to do this.",
+      "parentUuid": "fc4b5875_af0d807f",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "36bdef173abf9d2308cb2654295ca137e34a4fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

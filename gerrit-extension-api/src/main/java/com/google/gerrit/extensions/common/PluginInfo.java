@@ -18,12 +18,14 @@ public class PluginInfo {
   public final String id;
   public final String version;
   public final String indexUrl;
+  public final String filename;
   public final Boolean disabled;
 
-  public PluginInfo(String id, String version, String indexUrl, Boolean disabled) {
+  public PluginInfo(String id, String version, String indexUrl, String filename, Boolean disabled) {
     this.id = id;
     this.version = version;
     this.indexUrl = indexUrl;
+    this.filename = filename;
     this.disabled = disabled;
   }
 }

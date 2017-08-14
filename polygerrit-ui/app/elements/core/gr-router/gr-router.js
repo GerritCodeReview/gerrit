@@ -460,6 +460,7 @@
             patchNum: ctx.params[6],
             path: ctx.params[8],
             view: ctx.params[8] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
+            hash: ctx.hash,
           };
           normalizePatchRangeParams(params);
           app.params = params;

@@ -22,6 +22,30 @@
       "revId": "614347617b34040d54bfedb3b8559731ad74057d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d6ff21a_d433f54e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-14T17:35:44Z",
+      "side": 1,
+      "message": "Good catch. I\u0027ve modified your fix slightly.",
+      "parentUuid": "df788194_b63af2cc",
+      "range": {
+        "startLine": 931,
+        "startChar": 8,
+        "endLine": 932,
+        "endChar": 19
+      },
+      "revId": "614347617b34040d54bfedb3b8559731ad74057d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2bacc9dd_05d1dca5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-14T21:11:06Z",
+      "side": 1,
+      "message": "That\u0027s true, but there\u0027s also no reason _not_ to, and we use sandbox everywhere else in all of our tests.",
+      "parentUuid": "1816f212_f473814b",
+      "range": {
+        "startLine": 807,
+        "startChar": 32,
+        "endLine": 807,
+        "endChar": 37
+      },
+      "revId": "f54771aac31fcd4b335cb31f003b616b9ef12fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3fdba7_ac206d27",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "16cc9f60_7633406d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T19:05:12Z",
+      "side": 1,
+      "message": "\"it would open everything if i named it one thing\" I\u0027m not sure what you mean by this? \n\nstyle\u003ddisplay:none is an inline style\nhttps://www.w3schools.com/css/css_howto.asp",
+      "parentUuid": "d5d56ee7_07940843",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "36bdef173abf9d2308cb2654295ca137e34a4fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc4b5875_af0d807f",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 27

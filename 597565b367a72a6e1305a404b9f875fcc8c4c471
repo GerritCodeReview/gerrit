@@ -88,6 +88,29 @@
       "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "974e687e_dcc0e903",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-14T21:21:01Z",
+      "side": 1,
+      "message": "In a follow up change, I think a JSDoc describing what goes in here (and why) would be good for code health.",
+      "range": {
+        "startLine": 4,
+        "startChar": 6,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

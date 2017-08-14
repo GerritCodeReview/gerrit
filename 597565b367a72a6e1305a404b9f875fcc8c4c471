@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3a97f0e_76ef50aa",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-14T17:07:02Z",
+      "side": 1,
+      "message": "Should we add it to the dependencies at some point?",
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df788194_b63af2cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-14T06:36:52Z",
+      "side": 1,
+      "message": "This looks wrong. It is a necessary, but not sufficient condition for replacement of current revision. You dropped important comment from my previous revision:\n\n  // 1. revision \u003d\u003d null: no revision is selected,\n  // so use the edit only if it is based on the latest patch set\n  // 2. edit was selected explicitly from ps drop down:\n  // use the edit regardless of which patch set it is based on\n\nThe problem now is: if a specific revision is selected, and there is an edit, that is base on the latest patch set, you would erroneously switch to the change edit, even so, you should stay on the explicitly selected revision.\n\nConsider the following situation for a test change: 1,2,3,edit. So change edit is based on the latest patch set 3. Before this change, navigating to to all these URLs:\n\n* http://localhost:8080/c/test_project/+/3192/1\n* http://localhost:8080/c/test_project/+/3192/2\n* http://localhost:8080/c/test_project/+/3192/3\n\nwould correctly load the specified patch set on change load. The only problem was, that not specifying explicitly the patch set number, with:\n\n* http://localhost:8080/c/test_project/+/3192\n\nwould erroneously load patch set 3 instead of the change edit. That was fixed, but broke the cases above. The missing condition for the current revision replacement is not only that:\n\n* If the edit is based on the most recent patch set, load it by default\n\nthe missing part is:\n\n* Unless another patch set to load was specified in the URL\n\nI proposed a fix. Still tests should be adjusted to reflect that this breakage wasn\u0027t covered by the existing tests.",
+      "range": {
+        "startLine": 931,
+        "startChar": 8,
+        "endLine": 932,
+        "endChar": 19
+      },
+      "revId": "614347617b34040d54bfedb3b8559731ad74057d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

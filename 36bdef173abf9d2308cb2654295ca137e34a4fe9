@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9ae0004_cc9a6f21",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T19:00:27Z",
+      "side": 1,
+      "message": "Yep, though that\u0027s the ending so i need to do\n\n/^\\/settings\\/agreements(\\/)?/",
+      "parentUuid": "29bb0661_ce58879b",
+      "range": {
+        "startLine": 498,
+        "startChar": 33,
+        "endLine": 498,
+        "endChar": 34
+      },
+      "revId": "36bdef173abf9d2308cb2654295ca137e34a4fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b71c7fe3_76b7f8d8",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
         "patchSetId": 27

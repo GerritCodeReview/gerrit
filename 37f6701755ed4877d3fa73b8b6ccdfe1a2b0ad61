@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "68701a41_f323e8cb",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T17:16:18Z",
+      "side": 1,
+      "message": "Fixed it by using return.",
+      "parentUuid": "a7a6111d_a7748957",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec9a9fd3_f3b48016",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 13
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I am guessing i will need to try the return promise. How do i do that. \n\nAlso same as above calling done() here seems to have failed after i did this change without modifying the tests. I am unsure why.",
       "parentUuid": "ec9a9fd3_f3b48016",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 9
+      },
+      "revId": "37f6701755ed4877d3fa73b8b6ccdfe1a2b0ad61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c194dd7_26b423a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T17:16:18Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1d1c14cc_7700bb9c",
       "range": {
         "startLine": 239,
         "startChar": 6,

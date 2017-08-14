@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bd2999f_823b3a3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-14T21:23:50Z",
+      "side": 1,
+      "message": "Nit: you can split this into multiple lines to stay within max column length.",
+      "revId": "2926a817b5aa5c638cc0ec389f54913e0098e7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

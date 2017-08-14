@@ -48,7 +48,7 @@
        * suggestion entry. The "value" property will be emitted if that
        * suggestion is selected.
        *
-       * @type {function(String): Promise<Array<Object>>}
+       * @type {function(string): Promise<?>}
        */
       query: {
         type: Function,
@@ -95,7 +95,7 @@
         value: false,
       },
 
-      value: Object,
+      value: String,
 
       /**
        * Multi mode appends autocompleted entries to the value.
@@ -115,6 +115,7 @@
         value: false,
       },
 
+      /** @type {?} */
       _suggestions: {
         type: Array,
         value() { return []; },
@@ -170,7 +171,7 @@
 
     /**
      * Set the text of the input without triggering the suggestion dropdown.
-     * @param {String} text The new text for the input.
+     * @param {string} text The new text for the input.
      */
     setText(text) {
       this._disableSuggestions = true;
@@ -270,6 +271,9 @@
       }
     },
 
+    /**
+     * @param {boolean=} opt_tabComplete
+     */
     _handleInputCommit(opt_tabComplete) {
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);
@@ -308,11 +312,11 @@
     /**
      * Commits the suggestion, optionally firing the commit event.
      *
-     * @param {Boolean} silent Allows for silent committing of an autocomplete
-     *     suggestion in order to handle cases like tab-to-complete without
-     *     firing the commit event.
+     * @param {boolean=} opt_silent Allows for silent committing of an
+     *     autocomplete suggestion in order to handle cases like tab-to-complete
+     *     without firing the commit event.
      */
-    _commit(silent) {
+    _commit(opt_silent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
         this._updateValue(this._selected, this._suggestions);
@@ -334,7 +338,7 @@
       }
 
       this._suggestions = [];
-      if (!silent) {
+      if (!opt_silent) {
         this.fire('commit', {value});
       }
     },

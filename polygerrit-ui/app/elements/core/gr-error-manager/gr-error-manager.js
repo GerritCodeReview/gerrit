@@ -36,7 +36,9 @@
        */
       knownAccountId: Number,
 
-      _alertElement: Element,
+      /** @type {?Object} */
+      _alertElement: Object,
+      /** @type {?number} */
       _hideAlertHandle: Number,
       _refreshingCredentials: {
         type: Boolean,
@@ -116,12 +118,18 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    /**
+     * @param {string} text
+     * @param {?string=} opt_actionText
+     * @param {?Function=} opt_actionCallback
+     * @param {?boolean=} opt_dismissOnNavigation
+     */
     _showAlert(text, opt_actionText, opt_actionCallback,
-        dismissOnNavigation) {
+        opt_dismissOnNavigation) {
       if (this._alertElement) { return; }
 
       this._clearHideAlertHandle();
-      if (dismissOnNavigation) {
+      if (opt_dismissOnNavigation) {
         // Persist alert until navigation.
         this.listen(document, 'location-change', '_hideAlert');
       } else {

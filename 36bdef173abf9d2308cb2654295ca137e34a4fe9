@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d5d56ee7_07940843",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-14T19:02:16Z",
+      "side": 1,
+      "message": "Oh, but i need a way for the radio button to work as it would open everything if i named it one thing. This was the only way i could find that would work. Also what do you mean by \"Hiding/showing should not be done inline. \"",
+      "parentUuid": "b71c7fe3_76b7f8d8",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 18
+      },
+      "revId": "36bdef173abf9d2308cb2654295ca137e34a4fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc4b5875_af0d807f",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 27

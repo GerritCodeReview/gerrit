@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1870b3c1_4d66bd33",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-14T21:17:34Z",
+      "side": 1,
+      "message": "\u003e That\u0027s true, but there\u0027s also no reason _not_ to, [..]\n\nAlthough I don\u0027t think it\u0027s needed, I concede that it doesn\u0027t hurt.\n\n\u003e [..] and we use sandbox everywhere else in all of our tests.\n\nFWIW, I don\u0027t use sandbox when the restore is a noop, and there are currently quite a few instances of `sinon.stub()` when binding to an event in tests.",
+      "parentUuid": "2bacc9dd_05d1dca5",
+      "range": {
+        "startLine": 807,
+        "startChar": 32,
+        "endLine": 807,
+        "endChar": 37
+      },
+      "revId": "f54771aac31fcd4b335cb31f003b616b9ef12fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3fdba7_ac206d27",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1

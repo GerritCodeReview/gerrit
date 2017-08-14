@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b9a4b37_d056170c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-14T19:56:10Z",
+      "side": 1,
+      "message": "Sandbox?",
+      "range": {
+        "startLine": 807,
+        "startChar": 32,
+        "endLine": 807,
+        "endChar": 37
+      },
+      "revId": "f54771aac31fcd4b335cb31f003b616b9ef12fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3fdba7_ac206d27",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-14T19:56:10Z",
+      "side": 1,
+      "message": "Optional: a comment here to explain why multiple flushes are needed would probably help prevent future regressions if this test ever needs to be modified.",
+      "range": {
+        "startLine": 806,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 21
+      },
+      "revId": "f54771aac31fcd4b335cb31f003b616b9ef12fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

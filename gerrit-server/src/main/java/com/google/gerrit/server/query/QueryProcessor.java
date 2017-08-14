@@ -14,10 +14,15 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
@@ -46,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 public abstract class QueryProcessor<T> {
   @Singleton
@@ -105,6 +111,20 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  /**
+   * Specify whether to enforce visibility by filtering out results that are not visible to the
+   * user.
+   *
+   * <p>Enforcing visibility may have performance consequences, as the index system may need to
+   * post-filter a large number of results to fill even a modest limit.
+   *
+   * <p>If visibility is enforced, the user's {@code queryLimit} global capability is also used to
+   * bound the total number of results. If this capability is non-positive, this results in the
+   * entire query processor being {@link #isDisabled() disabled}.
+   *
+   * @param enforce whether to enforce visibility.
+   * @return this.
+   */
   public QueryProcessor<T> enforceVisibility(boolean enforce) {
     enforceVisibility = enforce;
     return this;
@@ -134,6 +154,10 @@ public abstract class QueryProcessor<T> {
   /**
    * Perform multiple queries in parallel.
    *
+   * <p>If querying is disabled, short-circuits the index and returns empty results. Callers that
+   * wish to distinguish this case from a query returning no results from the index may call {@link
+   * #isDisabled()} themselves.
+   *
    * @param queries list of queries.
    * @return results of the queries, one QueryResult per input query, in the same order as the
    *     input.
@@ -152,11 +176,22 @@ public abstract class QueryProcessor<T> {
     }
   }
 
-  private List<QueryResult<T>> query(List<String> queryStrings, List<Predicate<T>> queries)
+  private List<QueryResult<T>> query(
+      @Nullable List<String> queryStrings, List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
-    long startNanos = System.nanoTime();
-
     int cnt = queries.size();
+    if (queryStrings != null) {
+      int qs = queryStrings.size();
+      checkArgument(qs == cnt, "got %s query strings but %s predicates", qs, cnt);
+    }
+
+    long startNanos = System.nanoTime();
+    if (isDisabled()) {
+      List<QueryResult<T>> out = disabledResults(queryStrings, queries);
+      recordSuccessfulQuery(startNanos);
+      return out;
+    }
+
     // Parse and rewrite all queries.
     List<Integer> limits = new ArrayList<>(cnt);
     List<Predicate<T>> predicates = new ArrayList<>(cnt);
@@ -205,11 +240,26 @@ public abstract class QueryProcessor<T> {
               limits.get(i),
               matches.get(i).toList()));
     }
+    recordSuccessfulQuery(startNanos);
+    return out;
+  }
 
-    // only measure successful queries
+  private void recordSuccessfulQuery(long startNanos) {
     metrics.executionTime.record(
         schemaDef.getName(), System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-    return out;
+  }
+
+  private static <T> ImmutableList<QueryResult<T>> disabledResults(
+      List<String> queryStrings, List<Predicate<T>> queries) {
+    return IntStream.range(0, queries.size())
+        .mapToObj(
+            i ->
+                QueryResult.create(
+                    queryStrings != null ? queryStrings.get(i) : null,
+                    queries.get(i),
+                    0,
+                    ImmutableList.of()))
+        .collect(toImmutableList());
   }
 
   protected QueryOptions createOptions(
@@ -234,6 +284,19 @@ public abstract class QueryProcessor<T> {
     return index != null ? index.getSchema().getStoredFields().keySet() : ImmutableSet.<String>of();
   }
 
+  /**
+   * Check whether querying should be disabled.
+   *
+   * <p>Currently, the only condition that can disable the whole query processor is if both {@link
+   * #enforceVisibility(boolean) visibility is enforced} and the user has a non-positive maximum
+   * value for the {@code queryLimit} capability.
+   *
+   * <p>If querying is disabled, all calls to {@link #query(Predicate)} and {@link #query(List)}
+   * will return empty results. This method can be used if callers wish to distinguish this case
+   * from a query returning no results from the index.
+   *
+   * @return true if querying should be disabled.
+   */
   public boolean isDisabled() {
     return getPermittedLimit() <= 0;
   }
@@ -265,6 +328,9 @@ public abstract class QueryProcessor<T> {
         possibleLimits.add(limitFromPredicate);
       }
     }
-    return Ordering.natural().min(possibleLimits);
+    int result = Ordering.natural().min(possibleLimits);
+    // Should have short-circuited from #query or thrown some other exception before getting here.
+    checkState(result > 0, "effective limit should be positive");
+    return result;
   }
 }

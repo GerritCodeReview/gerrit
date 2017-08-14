@@ -70,6 +70,24 @@
       "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a24f36a_a9189ecb",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T21:17:45Z",
+      "side": 1,
+      "message": "Then in that case, is it ok to merge this and iterate as needed?",
+      "parentUuid": "10e673e6_0d808203",
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

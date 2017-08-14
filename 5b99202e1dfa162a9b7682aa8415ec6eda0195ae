@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8f0b94f_21198a18",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T22:23:02Z",
+      "side": 1,
+      "message": "would edit be null or undefined? This notation states that is is nullable but not able to be undefined.",
+      "range": {
+        "startLine": 921,
+        "startChar": 7,
+        "endLine": 921,
+        "endChar": 28
+      },
+      "revId": "5b99202e1dfa162a9b7682aa8415ec6eda0195ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd2ab003_8612da95",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T22:23:02Z",
+      "side": 1,
+      "message": "Nit: this would be slightly more readable if the function started with\n\nif (!edit) { return; }",
+      "range": {
+        "startLine": 924,
+        "startChar": 6,
+        "endLine": 924,
+        "endChar": 17
+      },
+      "revId": "5b99202e1dfa162a9b7682aa8415ec6eda0195ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

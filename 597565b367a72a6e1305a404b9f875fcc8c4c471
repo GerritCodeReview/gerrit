@@ -111,6 +111,30 @@
       "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2685e7b_17d9c530",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T21:26:35Z",
+      "side": 1,
+      "message": "Filed https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7022 so I don\u0027t forget",
+      "parentUuid": "974e687e_dcc0e903",
+      "range": {
+        "startLine": 4,
+        "startChar": 6,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

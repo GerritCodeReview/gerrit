@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba50b44a_70df0c24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T17:31:21Z",
+      "side": 1,
+      "message": "Please use a class instead of hidden$",
+      "range": {
+        "startLine": 170,
+        "startChar": 37,
+        "endLine": 170,
+        "endChar": 65
+      },
+      "revId": "ab7dd089862e29509a7020a4daaf7545df7f3cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4e37548_976f366d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-14T17:31:21Z",
+      "side": 1,
+      "message": "how about noteDbSettings",
+      "range": {
+        "startLine": 170,
+        "startChar": 27,
+        "endLine": 170,
+        "endChar": 35
+      },
+      "revId": "ab7dd089862e29509a7020a4daaf7545df7f3cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

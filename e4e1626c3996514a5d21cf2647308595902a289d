@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "d58bb394_eee11621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-14T12:19:22Z",
+      "side": 1,
+      "message": "\u003e After this change, it would throw ISE.\n\n(Only if the current user has a non-positive Query Limit capability.)",
+      "parentUuid": "96f7b850_f35a8d7c",
+      "revId": "e4e1626c3996514a5d21cf2647308595902a289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f92ac65d_66db5233",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 7

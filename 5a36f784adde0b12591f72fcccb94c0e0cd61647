@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5e4b78_df1139f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-14T06:59:52Z",
+      "side": 1,
+      "message": "Nit: no finals for local vars in new code; see contribution documentation for more infos.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d342949d_8eeadb88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-14T06:59:52Z",
+      "side": 1,
+      "message": "No final.",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 9
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8471cd59_2f50b198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-14T06:59:52Z",
+      "side": 1,
+      "message": "All this is done in ThreadSettingsConfig. Can\u0027t you just inject it and ask: threadSettingsConfig.getDatabasePoolLimit()?",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "5a36f784adde0b12591f72fcccb94c0e0cd61647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

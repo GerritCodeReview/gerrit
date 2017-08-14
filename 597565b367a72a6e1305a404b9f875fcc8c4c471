@@ -34,6 +34,24 @@
       "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f0526b_9851c547",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-14T20:03:03Z",
+      "side": 1,
+      "message": "/me took a look at how eslint is integrated and looks like it requires manual setup as well.\nI was under impression that we used bower for similar external dependencies, for example web-component-tester.\nCarry on then, I guess.",
+      "parentUuid": "b1a043c5_ea11a249",
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

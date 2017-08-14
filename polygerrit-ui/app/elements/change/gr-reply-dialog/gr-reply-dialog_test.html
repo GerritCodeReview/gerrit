@@ -802,6 +802,18 @@ limitations under the License.
       element._handle400Error(response);
     });
 
+    test('fires height change when the drafts load', done => {
+      flush(() => {
+        const autoGrowHandler = sinon.stub();
+        element.addEventListener('autogrow', autoGrowHandler);
+        element.diffDrafts = {};
+        flush(() => {
+          assert.isTrue(autoGrowHandler.called);
+          done();
+        });
+      });
+    });
+
     suite('post review API', () => {
       let startReviewStub;
 

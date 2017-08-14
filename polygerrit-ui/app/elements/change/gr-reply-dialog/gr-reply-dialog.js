@@ -97,7 +97,10 @@
         type: String,
         value: '',
       },
-      diffDrafts: Object,
+      diffDrafts: {
+        type: Object,
+        observer: '_handleHeightChanged',
+      },
       /** @type {!Function} */
       filterReviewerSuggestion: {
         type: Function,

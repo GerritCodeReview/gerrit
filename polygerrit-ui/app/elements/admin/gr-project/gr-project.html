@@ -168,6 +168,22 @@ limitations under the License.
                 </span>
               </section>
               <section>
+                <span class="title">
+                  Set all new changes private by default</span>
+                <span class="value">
+                  <gr-select
+                      id="setAllnewChangesPrivateByDefaultSelect"
+                      bind-value="{{_projectConfig.private_by_default.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.private_by_default)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
                 <span class="title">Maximum Git object size limit</span>
                 <span class="value">
                   <input

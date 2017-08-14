@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "9956c9d7_668bf250",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-14T21:27:35Z",
+      "side": 1,
+      "message": "Yep, no issues here I guess. (sad)",
+      "parentUuid": "6a24f36a_a9189ecb",
+      "revId": "597565b367a72a6e1305a404b9f875fcc8c4c471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "974e687e_dcc0e903",
         "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
         "patchSetId": 20

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b424e6b0_06bda66a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-15T20:31:44Z",
+      "side": 1,
+      "message": "Should this be removed?",
+      "range": {
+        "startLine": 490,
+        "startChar": 6,
+        "endLine": 491,
+        "endChar": 29
+      },
+      "revId": "0a092bd75b5b945c8f2e9e1bc321b550fdc7dd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e306560c_9e9d14d9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-15T20:31:44Z",
+      "side": 1,
+      "message": "Should this be removed?",
+      "range": {
+        "startLine": 515,
+        "startChar": 6,
+        "endLine": 516,
+        "endChar": 29
+      },
+      "revId": "0a092bd75b5b945c8f2e9e1bc321b550fdc7dd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

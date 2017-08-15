@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27e2a07b_a12a5e4d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T23:21:26Z",
+      "side": 1,
+      "message": "The display block was added in [1] to improve the click target, but with the separate topic link, block anchors would be arranged vertically. With inline-block it gets the best of both worlds.\n\n* [1] https://gerrit-review.googlesource.com/c/93970/2/polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+      "parentUuid": "c07bf90b_014d5e73",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "2121090bcd2f469187a69b34d1bee2c9c5766a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e37b17dc_2638053d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "2121090bcd2f469187a69b34d1bee2c9c5766a49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0ef9f37_2ff1eefb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T23:21:26Z",
+      "side": 1,
+      "message": "Formerly the branch and topic link were combined and would link to a search for the tuple\n\n project × branch × topic\n\nwhich usually would only link to the one change (since topic changes often span branches or projects). I\u0027d have to create a new navigation URL generator method for this, and it wouldn\u0027t even be all that useful.\n\nIn this change, the topic link is separate from the branch link and it works the same way as the topic link in the change metadata.\n\nIt does deviate from the GWT UI\u0027s change list a little, but this seems both simpler and more useful. I\u0027ve updated the commit message to reflect this.",
+      "parentUuid": "e37b17dc_2638053d",
+      "range": {
+        "startLine": 146,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 17
+      },
+      "revId": "2121090bcd2f469187a69b34d1bee2c9c5766a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

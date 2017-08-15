@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d93e71c_19bd81a2",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-15T18:55:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure how/if this can be line wrapped.",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 104
+      },
+      "revId": "896080d8f30d387c39f7a1ce128d479292d93926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

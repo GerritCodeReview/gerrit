@@ -176,10 +176,19 @@ npm install -g typescript fried-twinkie
 To run on all files, execute the following command:
 
 ```sh
-bazel test //polygerrit-ui/app:template_test
+bazel test //polygerrit-ui/app:all --test_tag_filters=template --test_output errors
 ```
 
-To run on a specific file (ex: gr-list-view), execute the following command:
+To run on a specific top level directory (ex: change-list)
 ```sh
-bazel test //polygerrit-ui/app:template_test --test_arg=gr-list-view
+bazel test //polygerrit-ui/app:template_test_change-list --test_output errors
+```
+
+To run on a specific file (ex: gr-change-list-view), execute the following command:
+```sh
+bazel test //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME> --test_output errors
+```
+
+```sh
+bazel test //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view  --test_output errors
 ```

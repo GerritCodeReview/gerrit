@@ -49,7 +49,7 @@
 
   GrChangeReplyInterface.prototype.addReplyTextChangedCallback =
     function(handler) {
-      this.plugin.getDomHook('reply-text').onAttached(el => {
+      this.plugin.hook('reply-text').onAttached(el => {
         if (!el.content) { return; }
         el.content.addEventListener('value-changed', e => {
           handler(e.detail.value);

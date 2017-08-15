@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf35f997_ce2c18fe",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:12:22Z",
+      "side": 1,
+      "message": "I\u0027m not saying you should drop everything and do this, but a possible alternative approach would be:\n\n* create a polygerrit_template_test rule macro\n* put a BUILD file in each of these directories with a single polygerrit_template_test rule\n\nThat would certainly screw with the existing polygerrit_ui rule (globs cannot cross package boundaries), so would probably only make sense if we were also committing to other BUILD file refactoring.",
+      "revId": "888716b1ca5532733a38236b6e1c1251b1bf5ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cddafd2_819fa450",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:12:22Z",
+      "side": 1,
+      "message": "While we\u0027re here, can you move this comment to the \"local\" line, which is what it\u0027s applying to?",
+      "revId": "888716b1ca5532733a38236b6e1c1251b1bf5ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

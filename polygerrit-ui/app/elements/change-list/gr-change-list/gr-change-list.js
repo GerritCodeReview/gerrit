@@ -238,7 +238,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      page.show(this._changeURLForIndex(this.selectedIndex));
+      Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
     },
 
     _handleNKey(e) {
@@ -285,12 +285,12 @@
       this.$.restAPI.saveChangeStarred(change._number, newVal);
     },
 
-    _changeURLForIndex(index) {
+    _changeForIndex(index) {
       const changeEls = this._getListItems();
       if (index < changeEls.length && changeEls[index]) {
-        return changeEls[index].changeURL;
+        return changeEls[index].change;
       }
-      return '';
+      return null;
     },
 
     _getListItems() {

@@ -112,23 +112,6 @@ limitations under the License.
           {labels: {Verified: {approved: true}}}, 'Verified'), '✓');
       assert.equal(element._computeLabelValue(
           {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
-
-      assert.equal(element._computeProjectURL('combustible/stuff'),
-          '/q/status:open+project:combustible%252Fstuff');
-
-      const change = {project: 'combustible-stuff', branch: 'le/mons'};
-      assert.equal(element._computeProjectBranchURL(change),
-          '/q/status:open+project:combustible-stuff+branch:le%252Fmons');
-
-      change.topic = 'test/test';
-      assert.equal(element._computeProjectBranchURL(change),
-          '/q/status:open+project:combustible-stuff+branch:le%252Fmons' +
-              '+topic:test%252Ftest');
-
-      element.change = {_number: 42};
-      assert.equal(element.changeURL, '/c/42/');
-      element.change = {_number: 43};
-      assert.equal(element.changeURL, '/c/43/');
     });
 
     test('no hidden columns', () => {

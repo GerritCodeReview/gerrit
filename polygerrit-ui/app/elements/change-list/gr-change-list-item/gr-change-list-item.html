@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -72,7 +73,8 @@ limitations under the License.
       }
       a {
         color: var(--default-text-color);
-        display: block;
+        cursor: pointer;
+        display: inline-block;
         text-decoration: none;
       }
       a:hover {
@@ -141,8 +143,11 @@ limitations under the License.
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
       <a href$="[[_computeProjectBranchURL(change)]]">
-        [[_computeBranchText(change)]]
+        [[change.branch]]
       </a>
+      <template is="dom-if" if="[[change.topic]]">
+        (<a href$="[[_computeTopicURL(change)]]">[[change.topic]]</a>)
+      </template>
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">

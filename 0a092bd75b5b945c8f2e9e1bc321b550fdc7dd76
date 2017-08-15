@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "38ffe58e_652ed66e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T20:41:56Z",
+      "side": 1,
+      "message": "But only for legacy routes, right?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "0a092bd75b5b945c8f2e9e1bc321b550fdc7dd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74a093d1_23d2b5bc",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T20:41:56Z",
+      "side": 1,
+      "message": "Please add a JSDoc describing this function. It\u0027s named like a getter, but returns neither a value nor a promise.\n\nMaybe, since it adds functionality to `normalizePatchRangeParams`, it can be called `normalizeChangeViewParams`.",
+      "revId": "0a092bd75b5b945c8f2e9e1bc321b550fdc7dd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b424e6b0_06bda66a",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1

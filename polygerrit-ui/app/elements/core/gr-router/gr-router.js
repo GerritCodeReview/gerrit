@@ -67,6 +67,15 @@
 
     Gerrit.Nav.setup(url => { page.show(url); }, generateUrl, upgradeUrl);
 
+    const getProjectAndRedirect = params => {
+      if (!params.changeNum) { return; }
+
+      restAPI.getFromProjectLookup(params.changeNum).then(project => {
+        params.project = project;
+        normalizePatchRangeParams(params);
+      });
+    };
+
     // Middleware
     page((ctx, next) => {
       document.body.scrollTop = 0;
@@ -464,7 +473,6 @@
           };
           normalizePatchRangeParams(params);
           app.params = params;
-          upgradeUrl(params);
           restAPI.setInProjectLookup(params.changeNum, params.project);
         });
 
@@ -478,8 +486,9 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
-      normalizePatchRangeParams(params);
-      app.params = params;
+      getProjectAndRedirect(params);
+      // normalizePatchRangeParams(params);
+      // app.params = params;
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
@@ -502,8 +511,9 @@
         view: Gerrit.Nav.View.DIFF,
       };
 
-      normalizePatchRangeParams(params);
-      app.params = params;
+      getProjectAndRedirect(params);
+      // normalizePatchRangeParams(params);
+      // app.params = params;
     });
 
     page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {

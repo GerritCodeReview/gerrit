@@ -228,7 +228,7 @@ limitations under the License.
     });
 
     test('submit change', done => {
-      sandbox.stub(element.$.restAPI, '_getFromProjectLookup')
+      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchIsLatestKnown',
           () => { return Promise.resolve(true); });

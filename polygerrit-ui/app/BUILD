@@ -125,10 +125,22 @@ sh_test(
     ],
 )
 
-sh_test(
-    name = "template_test",
+DIRECTORIES = [
+    "change",
+    "change-list",
+    "core",
+    "diff",
+    "plugins",
+    "settings",
+    "shared",
+    "gr-app",
+]
+
+[sh_test(
+    name = "template_test_" + directory,
     size = "large",
     srcs = ["template_test.sh"],
+    args = [directory],
     data = [
         ":pg_code",
         ":template_test_srcs",
@@ -137,9 +149,9 @@ sh_test(
     # Should not run sandboxed.
     tags = [
         "local",
-        "manual",
+        "template",
     ],
-)
+) for directory in DIRECTORIES]
 
 # Embed bundle
 polygerrit_bundle(

@@ -45,8 +45,21 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
   let mappings = JSON.parse(fs.readFileSync(
       `./polygerrit-ui/temp/map.json`, 'utf-8'));
 
+  // The directory is passed as arg2 by the test target.
+  const directory = process.argv[2];
+  if (directory) {
+    const mappingSpecificDirectory = {};
+
+    for (key of Object.keys(mappings)) {
+      if (directory === mappings[key].directory) {
+        mappingSpecificDirectory[key] = mappings[key];
+      }
+    }
+    mappings = mappingSpecificDirectory;
+  }
+
   // If a particular file was passed by the user, don't test everything.
-  const file = process.argv[2];
+  const file = process.argv[3];
   if (file) {
     const mappingSpecificFile = {};
     for (key of Object.keys(mappings)) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b948dd9d_54e6d4b1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T20:53:35Z",
+      "side": 0,
+      "message": "We remove the assignment to app.params in two places, but I don\u0027t see what it\u0027s replaced with. Does app.params get assigned somewhere else?",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 506,
+        "endChar": 26
+      },
+      "revId": "966363f3732252a5748b572bd9ef5778951c45cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

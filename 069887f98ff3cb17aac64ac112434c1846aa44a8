@@ -22,6 +22,30 @@
       "revId": "069887f98ff3cb17aac64ac112434c1846aa44a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68a8d4d8_3d694aef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-15T08:49:03Z",
+      "side": 1,
+      "message": "Because in gwtui it does not show the account id as it is not always there for members. So sometimes a member has one and other times it does not. This makes it consistent as it would look ugly with the account id in the member column :)",
+      "parentUuid": "fc3e38c3_b125588e",
+      "range": {
+        "startLine": 83,
+        "startChar": 22,
+        "endLine": 83,
+        "endChar": 35
+      },
+      "revId": "069887f98ff3cb17aac64ac112434c1846aa44a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

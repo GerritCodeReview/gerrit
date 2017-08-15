@@ -34,6 +34,24 @@
       "revId": "b43e9957b392af4341ecbb190904993454e68646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6038ca48_47456f6a",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-15T23:29:58Z",
+      "side": 1,
+      "message": "Is it possible to create a rule that validates one directory, and then pass a list of directories into it?",
+      "parentUuid": "c1fd06cf_03d09e61",
+      "revId": "b43e9957b392af4341ecbb190904993454e68646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

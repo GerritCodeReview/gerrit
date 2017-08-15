@@ -1556,7 +1556,7 @@
       // stack every time _changeBaseURL is called without a project.
       const projectPromise = opt_project ?
           Promise.resolve(opt_project) :
-          this._getFromProjectLookup(changeNum);
+          this.getFromProjectLookup(changeNum);
       return projectPromise.then(project => {
         let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
         if (opt_patchNum) {
@@ -1732,7 +1732,7 @@
      * @param {string|number} changeNum
      * @return {!Promise<string|undefined>}
      */
-    _getFromProjectLookup(changeNum) {
+    getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];
       if (project) { return Promise.resolve(project); }
       return this.getChange(changeNum).then(change => {

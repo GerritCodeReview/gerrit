@@ -179,15 +179,7 @@
     _getChangeDetail(changeNum) {
       return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
-        this._upgradeUrl(change, this.params);
       });
-    },
-
-    _upgradeUrl(change, params) {
-      const project = change.project;
-      if (!params.project || project !== params.project) {
-        Gerrit.Nav.upgradeUrl(Object.assign({}, params, {project}));
-      }
     },
 
     _getChangeEdit(changeNum) {

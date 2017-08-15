@@ -55,8 +55,7 @@
   window.$wnd = window;
 
   function Plugin(opt_url) {
-    this._generatedHookNames = [];
-    this._domHooks = new GrDomHooks(this);
+    this._domHooks = new GrDomHooksManager(this);
 
     if (!opt_url) {
       console.warn('Plugin not being loaded from /plugins base path.',
@@ -93,11 +92,22 @@
   };
 
   Plugin.prototype.registerCustomComponent = function(
-      endpointName, moduleName, opt_options) {
+      endpointName, opt_moduleName, opt_options) {
     const type = opt_options && opt_options.replace ?
           EndpointType.REPLACE : EndpointType.DECORATE;
+    const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
+    const moduleName = opt_moduleName || hook.getModuleName();
     Gerrit._endpoints.registerModule(
-        this, endpointName, type, moduleName);
+        this, endpointName, type, moduleName, hook);
+    return hook.getPublicAPI();
+  };
+
+  /**
+   * Returns instance of DOM hook API for endpoint. Creates a placeholder
+   * element for the first call.
+   */
+  Plugin.prototype.hook = function(endpointName, opt_options) {
+    return this.registerCustomComponent(endpointName, undefined, opt_options);
   };
 
   Plugin.prototype.getServerInfo = function() {
@@ -164,14 +174,6 @@
 
   Plugin.prototype.attributeHelper = function(element) {
     return new GrAttributeHelper(element);
-  };
-
-  Plugin.prototype.getDomHook = function(endpointName, opt_options) {
-    const hook = this._domHooks.getDomHook(endpointName);
-    const moduleName = hook.getModuleName();
-    const type = opt_options && opt_options.type || EndpointType.DECORATE;
-    Gerrit._endpoints.registerModule(this, endpointName, type, moduleName);
-    return hook;
   };
 
   const Gerrit = window.Gerrit || {};

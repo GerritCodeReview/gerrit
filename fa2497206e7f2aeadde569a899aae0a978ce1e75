@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce268dd_51479b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:52:34Z",
+      "side": 1,
+      "message": "Nit: I prefer ImmutableList here, because arrays are technically not constant.",
+      "revId": "fa2497206e7f2aeadde569a899aae0a978ce1e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6151c7a1_6d00778d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:52:34Z",
+      "side": 1,
+      "message": "Thread.currentThread().getStackTrace()",
+      "range": {
+        "startLine": 592,
+        "startChar": 2,
+        "endLine": 598,
+        "endChar": 3
+      },
+      "revId": "fa2497206e7f2aeadde569a899aae0a978ce1e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ca5b7e_70978e0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:52:34Z",
+      "side": 1,
+      "message": "Probably these should go in a class-level ImmutableSet constant. I don\u0027t care too much, but it\u0027s odd that PKGS is a constant and this isn\u0027t.",
+      "range": {
+        "startLine": 603,
+        "startChar": 20,
+        "endLine": 603,
+        "endChar": 76
+      },
+      "revId": "fa2497206e7f2aeadde569a899aae0a978ce1e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f726e54a_d5f3e599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-15T20:52:34Z",
+      "side": 1,
+      "message": "I am somewhat worried about refactoring breaking this, since I have been moving a ton of classes around recently.\n\nOne way to make it more robust would be to use RetryingRestModifyView.class.getName(). But that won\u0027t work for RestApiServlet, since we certainly can\u0027t have a dep on httpd here. (A separate question is whether we want a source-level dependency if we want to break up targets later, but I am willing to punt on that.)\n\nSo I dunno, maybe just hope that RestApiServlet gets renamed? And add a warning comment in RestApiServlet.java?",
+      "revId": "fa2497206e7f2aeadde569a899aae0a978ce1e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

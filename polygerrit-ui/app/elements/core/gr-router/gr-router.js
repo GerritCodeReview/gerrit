@@ -224,7 +224,7 @@
     });
 
     // Matches /admin/groups/<group>
-    page(/^\/admin\/groups\/(.+)$/, loadUser, data => {
+    page(/^\/admin\/groups\/([^,]+)$/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
@@ -336,7 +336,7 @@
     });
 
     // Matches /admin/projects/<project>
-    page(/^\/admin\/projects\/(.+)$/, loadUser, data => {
+    page(/^\/admin\/projects\/([^,]+)$/, loadUser, data => {
       app.params = {
         view: Gerrit.Nav.View.ADMIN,
         project: data.params[0],

@@ -22,6 +22,30 @@
       "revId": "896080d8f30d387c39f7a1ce128d479292d93926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3db0b9_3648d203",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T19:04:33Z",
+      "side": 1,
+      "message": "Is it according to Python rules? Would ..\n\nfor directory in [\"change\", \"change-list\", \"core\", \"diff\", \"plugins\", \" \n                  \"settings\", \"shared\", \"gr-app\"]\n\n.. work?\n\nIf possible, it may also be nice to just put the directory list in a separate constant.\n\n DIRECTORIES \u003d [\"change\", \"change-list\", ..]",
+      "parentUuid": "4d93e71c_19bd81a2",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 104
+      },
+      "revId": "896080d8f30d387c39f7a1ce128d479292d93926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

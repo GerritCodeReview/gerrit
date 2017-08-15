@@ -16,6 +16,24 @@
       "revId": "b43e9957b392af4341ecbb190904993454e68646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1fd06cf_03d09e61",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-15T20:56:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it can? @dborowitz said that it could not be its own target (if that\u0027s what you mean).",
+      "parentUuid": "33582c36_6fc2fee1",
+      "revId": "b43e9957b392af4341ecbb190904993454e68646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

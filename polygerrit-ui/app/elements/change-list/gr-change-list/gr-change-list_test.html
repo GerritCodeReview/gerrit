@@ -42,10 +42,14 @@ limitations under the License.
 <script>
   suite('gr-change-list basic tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
+
+    teardown(() => { sandbox.restore(); });
 
     function stubRestAPI(preferences) {
       const loggedInPromise = Promise.resolve(preferences !== null);
@@ -149,16 +153,16 @@ limitations under the License.
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
-        const showStub = sinon.stub(page, 'show');
+        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
         assert.equal(element.selectedIndex, 2);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-        assert(showStub.lastCall.calledWithExactly('/c/2/'),
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
             'Should navigate to /c/2/');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-        assert(showStub.lastCall.calledWithExactly('/c/1/'),
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
             'Should navigate to /c/1/');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -166,7 +170,6 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 0);
 
-        showStub.restore();
         done();
       });
     });
@@ -367,10 +370,14 @@ limitations under the License.
 
   suite('gr-change-list sections', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
+
+    teardown(() => { sandbox.restore(); })
 
     test('keyboard shortcuts', () => {
       element.selectedIndex = 0;
@@ -411,16 +418,17 @@ limitations under the License.
       assert.equal(element.selectedIndex, 1);
       MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
-      const showStub = sinon.stub(page, 'show');
+      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       assert.equal(element.selectedIndex, 2);
+
       MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert(showStub.lastCall.calledWithExactly('/c/2/'),
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
           'Should navigate to /c/2/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
       assert.equal(element.selectedIndex, 1);
       MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert(showStub.lastCall.calledWithExactly('/c/1/'),
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
           'Should navigate to /c/1/');
 
       MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
@@ -428,9 +436,8 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
       assert.equal(element.selectedIndex, 4);
       MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert(showStub.lastCall.calledWithExactly('/c/4/'),
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
           'Should navigate to /c/4/');
-      showStub.restore();
     });
 
     test('assigned attribute set in each item', () => {

@@ -27,7 +27,7 @@
       change: Object,
       changeURL: {
         type: String,
-        computed: '_computeChangeURL(change._number)',
+        computed: '_computeChangeURL(change)',
       },
       showStar: {
         type: Boolean,
@@ -43,9 +43,8 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    _computeChangeURL(changeNum) {
-      if (!changeNum) { return ''; }
-      return this.getBaseUrl() + '/c/' + changeNum + '/';
+    _computeChangeURL(change) {
+      return Gerrit.Nav.getUrlForChange(change);
     },
 
     _computeLabelTitle(change, labelName) {
@@ -105,24 +104,16 @@
     },
 
     _computeProjectURL(project) {
-      return this.getBaseUrl() + '/q/status:open+project:' +
-          this.encodeURL(project, false);
+      return Gerrit.Nav.getUrlForProject(project, true);
     },
 
     _computeProjectBranchURL(change) {
-      // @see Issue 4255, Issue 6195.
-      let output = this._computeProjectURL(change.project);
-      output += '+branch:' + this.encodeURL(change.branch, false);
-      if (change.topic) {
-        output += '+topic:' + this.encodeURL(change.topic, false);
-      }
-      return output;
+      return Gerrit.Nav.getUrlForBranch(change.branch, change.project);
     },
 
-    _computeBranchText(change) {
-      let output = change.branch;
-      if (change.topic) { output += ` (${change.topic})`; }
-      return output;
+    _computeTopicURL(change) {
+      if (!change.topic) { return ''; }
+      return Gerrit.Nav.getUrlForTopic(change.topic);
     },
   });
 })();

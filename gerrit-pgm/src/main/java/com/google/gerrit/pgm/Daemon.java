@@ -170,7 +170,7 @@ public class Daemon extends SiteProgram {
 
   @Option(
     name = "--migrate-to-note-db",
-    usage = "(EXPERIMENTAL) Automatically migrate changes to NoteDb",
+    usage = "Automatically migrate changes to NoteDb",
     handler = ExplicitBooleanOptionHandler.class
   )
   private boolean migrateToNoteDb;

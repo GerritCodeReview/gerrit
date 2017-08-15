@@ -55,7 +55,8 @@ def writeTempFile(file, root):
   if "gr-reporting" in file:
     return
   if not root in elements:
-    elements[root] = {}
+    # gr-app doesn't have an additional level
+    elements[root] = {"directory":  'gr-app' if len(root.split("/")) < 4 else root.split("/")[3]}
   if file.endswith(".html") and not file.endswith("_test.html"):
     # gr-navigation is treated like a behavior rather than a standard element
     # because of the way it added to the Gerrit object.

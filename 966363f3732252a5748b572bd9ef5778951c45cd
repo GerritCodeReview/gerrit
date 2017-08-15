@@ -46,6 +46,30 @@
       "revId": "966363f3732252a5748b572bd9ef5778951c45cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa31b0f4_a9b9cd14",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T21:06:20Z",
+      "side": 0,
+      "message": "I see. Does that mean it was unnecessary here in the first place?",
+      "parentUuid": "699badae_cea4a614",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 506,
+        "endChar": 26
+      },
+      "revId": "966363f3732252a5748b572bd9ef5778951c45cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

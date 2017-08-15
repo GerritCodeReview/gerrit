@@ -22,6 +22,30 @@
       "revId": "966363f3732252a5748b572bd9ef5778951c45cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699badae_cea4a614",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-15T20:55:03Z",
+      "side": 0,
+      "message": "normalizePatchRangeParams calls upgradeUrl, which conditionally (but definitely every time it\u0027s called from normalizeLegacyRouteParams) sets app.params.",
+      "parentUuid": "b948dd9d_54e6d4b1",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 506,
+        "endChar": 26
+      },
+      "revId": "966363f3732252a5748b572bd9ef5778951c45cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -458,6 +458,10 @@
           (this._patchRange.patchNum !== value.patchNum ||
           this._patchRange.basePatchNum !== value.basePatchNum);
 
+      // If the parameter change points to the same change and patch range (e.g.
+      // coming from upgradeUrl) then there is no need to reload.
+      if (value.changeNum === this._changeNum && !patchChanged) { return; }
+
       if (this._changeNum !== value.changeNum) {
         this._initialLoadComplete = false;
       }

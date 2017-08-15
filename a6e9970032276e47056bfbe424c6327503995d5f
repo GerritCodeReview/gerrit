@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "94629213_98d1a03b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-15T00:25:22Z",
+      "side": 1,
+      "message": "It seems `true` by itself doesn\u0027t work. Instead of `opt_is_member` this can be avoided by getting rid of the optional param and using a different method, for example,\n\n [[getNameForMember(item.member)]]",
+      "parentUuid": "c1223ec9_13de5ae2",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "a6e9970032276e47056bfbe424c6327503995d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58d7e670_8835a9c1",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
         "patchSetId": 14

@@ -269,7 +269,7 @@ limitations under the License.
     });
 
     test('differing patch diff comments are properly grouped', done => {
-      sandbox.stub(element, '_getFromProjectLookup')
+      sandbox.stub(element, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchJSON', url => {
         if (url === '/changes/test~42/revisions/1') {
@@ -780,11 +780,11 @@ limitations under the License.
       assert.deepEqual(element._projectLookup, {test: 'project'});
     });
 
-    suite('_getFromProjectLookup', () => {
+    suite('getFromProjectLookup', () => {
       test('getChange fails', () => {
         sandbox.stub(element, 'getChange')
             .returns(Promise.resolve());
-        return element._getFromProjectLookup().then(val => {
+        return element.getFromProjectLookup().then(val => {
           assert.strictEqual(val, undefined);
           assert.deepEqual(element._projectLookup, {});
         });
@@ -793,7 +793,7 @@ limitations under the License.
       test('getChange succeeds, no project', () => {
         sandbox.stub(element, 'getChange')
             .returns(Promise.resolve({}));
-        return element._getFromProjectLookup().then(val => {
+        return element.getFromProjectLookup().then(val => {
           assert.strictEqual(val, undefined);
           assert.deepEqual(element._projectLookup, {});
         });
@@ -802,7 +802,7 @@ limitations under the License.
       test('getChange succeeds with project', () => {
         sandbox.stub(element, 'getChange')
             .returns(Promise.resolve({project: 'project'}));
-        return element._getFromProjectLookup('test').then(val => {
+        return element.getFromProjectLookup('test').then(val => {
           assert.equal(val, 'project');
           assert.deepEqual(element._projectLookup, {test: 'project'});
         });

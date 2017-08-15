@@ -958,7 +958,6 @@
             if (!change) {
               return '';
             }
-            this._upgradeUrl(change, this.params);
             this._processEdit(change, edit);
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }
@@ -993,13 +992,6 @@
                   // TODO: Fetch and process files.
             }
           });
-    },
-
-    _upgradeUrl(change, params) {
-      const project = change.project;
-      if (!params.project || project !== params.project) {
-        Gerrit.Nav.upgradeUrl(Object.assign({}, params, {project}));
-      }
     },
 
     _getComments() {

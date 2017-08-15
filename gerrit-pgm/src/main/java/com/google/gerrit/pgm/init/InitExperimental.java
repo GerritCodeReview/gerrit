@@ -58,9 +58,8 @@ class InitExperimental implements InitStep {
 
   private void initNoteDb() {
     ui.message(
-        "Use experimental NoteDb for change metadata?\n"
-            + "  NoteDb is not recommended for production servers."
-            + "  Please familiarize yourself with the documentation:\n"
+        "Use NoteDb for change metadata?\n"
+            + "  See documentation:\n"
             + "  https://gerrit-review.googlesource.com/Documentation/dev-note-db.html\n");
     if (!ui.yesno(false, "Enable")) {
       return;

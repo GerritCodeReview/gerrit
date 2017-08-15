@@ -22,7 +22,7 @@
   }
 
   GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
-    this.plugin.getDomHook('header-title', {replace: true}).onAttached(
+    this.plugin.hook('header-title', {replace: true}).onAttached(
         element => {
           const customHeader =
                 document.createElement('gr-custom-plugin-header');

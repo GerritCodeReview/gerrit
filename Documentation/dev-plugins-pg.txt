@@ -45,14 +45,14 @@ hook is a custom element that is instantiated for the plugin endpoint. In the
 decoration case, a hook is set with a `content` attribute that points to the DOM
 element.
 
-1. Get the DOM hook API instance via `plugin.getDomHook(endpointName)`
+1. Get the DOM hook API instance via `plugin.hook(endpointName)`
 2. Set up an `onAttached` callback
 3. Callback is called when the hook element is created and inserted into DOM
 4. Use element.content to get UI element
 
 ``` js
 Gerrit.install(function(plugin) {
-  const domHook = plugin.getDomHook('reply-text');
+  const domHook = plugin.hook('reply-text');
   domHook.onAttached(element => {
     if (!element.content) { return; }
     // element.content is a reply dialog text area.
@@ -70,7 +70,7 @@ NOTE: TODO: Insert link to the full endpoints API.
 
 ``` js
 Gerrit.install(function(plugin) {
-  const domHook = plugin.getDomHook('reply-text');
+  const domHook = plugin.hook('reply-text');
   domHook.onAttached(element => {
     if (!element.content) { return; }
     element.content.style.border = '1px red dashed';
@@ -86,7 +86,7 @@ option.
 
 ``` js
 Gerrit.install(function(plugin) {
-  const domHook = plugin.getDomHook('header-title', {replace: true});
+  const domHook = plugin.hook('header-title', {replace: true});
   domHook.onAttached(element => {
     element.appendChild(document.createElement('my-site-header'));
   });

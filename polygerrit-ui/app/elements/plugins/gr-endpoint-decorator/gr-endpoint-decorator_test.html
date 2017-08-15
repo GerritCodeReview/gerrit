@@ -34,9 +34,19 @@ limitations under the License.
     let sandbox;
     let element;
     let plugin;
+    let domHookStub;
 
     setup(done => {
+      Gerrit._endpoints = new GrPluginEndpoints();
+
       sandbox = sinon.sandbox.create();
+
+      domHookStub = {
+        handleInstanceAttached: sandbox.stub(),
+        handleInstanceDetached: sandbox.stub(),
+      };
+      sandbox.stub(
+          GrDomHooksManager.prototype, 'getDomHook').returns(domHookStub);
 
       // NB: Order is important.
       Gerrit.install(p => {
@@ -45,11 +55,12 @@ limitations under the License.
         plugin.registerCustomComponent('foo', 'other-module', {replace: true});
       }, '0.1', 'http://some/plugin/url.html');
 
+      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');
-      sandbox.stub(element, '_initDecoration');
-      sandbox.stub(element, '_initReplacement');
+      sandbox.stub(element, '_initDecoration').returns({});
+      sandbox.stub(element, '_initReplacement').returns({});
       sandbox.stub(element, 'importHref', (url, resolve) => resolve());
 
       flush(done);
@@ -65,13 +76,39 @@ limitations under the License.
     });
 
     test('inits decoration dom hook', () => {
-      assert.isTrue(
-          element._initDecoration.calledWith('some-module', plugin));
+      assert.strictEqual(
+          element._initDecoration.lastCall.args[0], 'some-module');
+      assert.strictEqual(
+          element._initDecoration.lastCall.args[1], plugin);
     });
 
     test('inits replacement dom hook', () => {
-      assert.isTrue(
-          element._initReplacement.calledWith('other-module', plugin));
+      assert.strictEqual(
+          element._initReplacement.lastCall.args[0], 'other-module');
+      assert.strictEqual(
+          element._initReplacement.lastCall.args[1], plugin);
+    });
+
+    test('calls dom hook handleInstanceAttached', () => {
+      assert.equal(domHookStub.handleInstanceAttached.callCount, 2);
+    });
+
+    test('calls dom hook handleInstanceDetached', () => {
+      element.detached();
+      assert.equal(domHookStub.handleInstanceDetached.callCount, 2);
+    });
+
+    test('installs modules on late registration', done => {
+      domHookStub.handleInstanceAttached.reset();
+      plugin.registerCustomComponent('foo', 'noob-noob');
+      flush(() => {
+        assert.equal(domHookStub.handleInstanceAttached.callCount, 1);
+        assert.strictEqual(
+            element._initDecoration.lastCall.args[0], 'noob-noob');
+        assert.strictEqual(
+            element._initDecoration.lastCall.args[1], plugin);
+        done();
+      });
     });
   });
 </script>
